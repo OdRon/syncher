@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Sample extends Model
+class Sample extends BaseModel
 {
 
     public function patient()

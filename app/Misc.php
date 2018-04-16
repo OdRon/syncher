@@ -89,8 +89,6 @@ class Misc
 	    return $workingDays;
 	}
 
-
-
 	public static function get_days($start, $finish, $holidays){
 
 		$workingdays= self::getWorkingDays($start, $finish);
@@ -102,5 +100,13 @@ class Misc
 		}
 		return $totaldays;
 
+	}
+
+	public static function get_new_id($samples_array, $parent_id)
+	{
+		foreach ($samples_array as $key => $value) {
+			if($parent_id == $value['original_id']) return $value['national_sample_id'];
+		}
+		return 1;
 	}
 }

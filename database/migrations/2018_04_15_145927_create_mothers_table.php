@@ -15,8 +15,9 @@ class CreateMothersTable extends Migration
     {
         Schema::create('mothers', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('original_mother_id')->unsigned()->index();
             $table->string('ccc_no', 50)->nullable()->index();
-            $table->integer('fcode')->unsigned()->nullable();
+            // $table->integer('fcode')->unsigned()->nullable();
             $table->integer('facility_id')->unsigned()->index();
             $table->integer('hiv_status')->unsigned();
             $table->tinyInteger('synched')->default(0);

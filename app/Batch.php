@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Batch extends Model
+class Batch extends BaseModel
 {
   
-	   public function sample()
+	public function sample()
     {
         return $this->hasMany('App\Sample');
     }
@@ -15,5 +15,10 @@ class Batch extends Model
     public function lab()
     {
         return $this->belongsTo('App\Lab');
+    }
+
+    public function scopeExisting($query, $original_id, $lab)
+    {
+        return $query->where(['original_batch_id' => $original_id, 'lab_id' => $lab]);
     }
 }

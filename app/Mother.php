@@ -2,10 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Mother extends Model
+class Mother extends BaseModel
 {
+
     public function patient()
     {
     	return $this->hasMany('App\Patient');
