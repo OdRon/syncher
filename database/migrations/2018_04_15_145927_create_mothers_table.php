@@ -14,12 +14,12 @@ class CreateMothersTable extends Migration
     public function up()
     {
         Schema::create('mothers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('original_mother_id')->unsigned()->index();
+            $table->bigIncrements('id');
+            $table->bigInteger('original_mother_id')->unsigned()->index();
             $table->string('ccc_no', 50)->nullable()->index();
             // $table->integer('fcode')->unsigned()->nullable();
             $table->integer('facility_id')->unsigned()->index();
-            $table->integer('hiv_status')->unsigned();
+            $table->tinyInteger('hiv_status')->unsigned();
             $table->tinyInteger('synched')->default(0);
             $table->date('datesynched')->nullable();
             $table->timestamps();

@@ -14,9 +14,10 @@ class CreateViralsamplesTable extends Migration
     public function up()
     {
         Schema::create('viralsamples', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('patient_id')->unsigned()->index();
-            $table->integer('batch_id')->unsigned()->index();
+            $table->bigIncrements('id');
+            $table->bigInteger('original_sample_id')->unsigned()->index();
+            $table->bigInteger('patient_id')->unsigned()->index();
+            $table->bigInteger('batch_id')->unsigned()->index();
             $table->tinyInteger('amrs_location')->nullable();
             $table->string('provider_identifier', 50)->nullable();
             $table->string('order_no', 30)->nullable();
@@ -25,9 +26,9 @@ class CreateViralsamplesTable extends Migration
 
             // This will be used instead
             $table->double('age', 5, 2)->unsigned()->nullable();
-            $table->tinyInteger('agecategory')->unsigned()->default(0)->index();
+            $table->tinyInteger('age_category')->unsigned()->default(0)->index();
             $table->tinyInteger('justification')->unsigned()->nullable()->index();
-            $table->string('other_justification')->nullable();
+            $table->string('other_justification', 50)->nullable();
             $table->tinyInteger('sampletype')->unsigned()->nullable()->index();
             $table->tinyInteger('prophylaxis')->unsigned()->index();
             $table->tinyInteger('regimenline')->unsigned()->index();
@@ -36,12 +37,12 @@ class CreateViralsamplesTable extends Migration
             $table->tinyInteger('dilutionfactor')->unsigned()->nullable();
             $table->tinyInteger('dilutiontype')->unsigned()->nullable();
 
-            $table->string('comments', 100)->nullable();
+            $table->string('comments', 30)->nullable();
             $table->string('labcomment', 100)->nullable();
-            $table->integer('parentid')->unsigned()->default(0);
+            $table->bigInteger('parentid')->unsigned()->default(0);
             // $table->tinyInteger('spots')->unsigned()->nullable();
             $table->tinyInteger('rejectedreason')->unsigned()->nullable();
-            $table->string('reason_for_repeat')->nullable();
+            $table->string('reason_for_repeat', 50)->nullable();
             $table->tinyInteger('rcategory')->unsigned()->nullable()->index();
 
             $table->string('result', 50)->nullable()->index();
@@ -53,7 +54,7 @@ class CreateViralsamplesTable extends Migration
 
             $table->tinyInteger('flag')->unsigned()->nullable();
             $table->tinyInteger('run')->unsigned()->default(1);
-            $table->tinyInteger('repeatt')->unsigned()->nullable();
+            $table->tinyInteger('repeatt')->unsigned()->default(0);
             $table->tinyInteger('eqa')->unsigned()->nullable();
 
             $table->integer('approvedby')->unsigned()->nullable();
@@ -65,10 +66,10 @@ class CreateViralsamplesTable extends Migration
             $table->date('dateapproved')->nullable();
             $table->date('dateapproved2')->nullable();
 
-            $table->tinyInteger('tat1')->unsigned()->nullable();
-            $table->tinyInteger('tat2')->unsigned()->nullable();
-            $table->tinyInteger('tat3')->unsigned()->nullable();
-            $table->tinyInteger('tat4')->unsigned()->nullable();
+            $table->tinyInteger('tat1')->unsigned()->default(0);
+            $table->tinyInteger('tat2')->unsigned()->default(0);
+            $table->tinyInteger('tat3')->unsigned()->default(0);
+            $table->tinyInteger('tat4')->unsigned()->default(0);
 
             $table->tinyInteger('synched')->default(0);
             $table->date('datesynched')->nullable();

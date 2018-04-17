@@ -14,8 +14,8 @@ class CreateBatchesTable extends Migration
     public function up()
     {
         Schema::create('batches', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('original_batch_id')->unsigned()->index();
+            $table->bigIncrements('id');
+            $table->bigInteger('original_batch_id')->unsigned()->index();
             $table->boolean('high_priority')->default(false);
             $table->boolean('input_complete')->default(false);
             $table->boolean('batch_full')->default(false);
@@ -24,7 +24,7 @@ class CreateBatchesTable extends Migration
             // 1 is dispatched
             // 2 is staging i.e. all samples are ready, batch awaiting dispatch
             $table->tinyInteger('batch_complete')->default(0);
-            $table->tinyInteger('site_entry')->unsigned()->default(0);
+            $table->tinyInteger('site_entry')->unsigned()->default(0)->index();
 
             $table->boolean('sent_email')->default(false);
 
