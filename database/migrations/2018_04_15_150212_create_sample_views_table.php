@@ -16,7 +16,7 @@ class CreateSampleViewsTable extends Migration
         DB::statement("
         CREATE OR REPLACE VIEW samples_view AS
         (
-          SELECT s.*, b.original_batch_id, b.high_priority, b.datereceived, b.datedispatched, b.site_entry, b.lab_id, b.facility_id,
+          SELECT s.*, b.original_batch_id, b.highpriority, b.datereceived, b.datedispatched, b.site_entry, b.lab_id, b.facility_id,
           p.original_patient_id, p.patient, p.sex, p.dob, p.mother_id, p.entry_point
 
           FROM samples s

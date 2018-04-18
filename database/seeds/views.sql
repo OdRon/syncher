@@ -1,6 +1,6 @@
 # s.regimen found, ask meaning
-# s.receivedby not found. 
-# s.receivedby as received_by
+# s.receivedby not found 
+# s.receivedby as received_by 
 CREATE OR REPLACE VIEW old_samples_view AS
 (
     SELECT s.id, s.originalid as original_sample_id,  

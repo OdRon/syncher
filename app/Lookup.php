@@ -43,6 +43,29 @@ class Lookup
     	return $dc->toDateString();
     }
 
+    public static function resolve_gender($value)
+    {
+        $value = trim($value);
+        $value = strtolower($value);
+        if(str_contains($value, ['m', '1'])){
+            return 1;
+        }
+        else if(str_contains($value, ['f', '2'])){
+            return 2;
+        }
+        // else if($value == 'No Data' || $value == 'no data'){
+        //     return 3;
+        // }
+        // else if (is_numeric($value)){
+        //     $value = (int) $value;
+        //     if($value < 3) return $value;
+        //     return $value;
+        // }
+        else{
+            return 3;
+        }
+    }
+
 
     public static function samples_arrays()
     {
