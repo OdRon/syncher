@@ -17,10 +17,11 @@ use App\Viralsample;
 
 class Synch
 {
-	private static $limit = 1000;
+	private static $limit = 10000;
 
 	public static function synch_eid()
 	{
+		ini_set("memory_limit", "-1");
 		$fields = Lookup::samples_arrays();	
 		$offset_value = 0;
 		while(true)
@@ -53,12 +54,14 @@ class Synch
 				$sample->save();
 			}
 			$offset_value += self::$limit;
+			echo "Completed eid {$offset_value} \n";
 		}
 	}
 
 
 	public static function synch_vl()
 	{
+		ini_set("memory_limit", "-1");
 		$fields = Lookup::viralsamples_arrays();	
 		$offset_value = 0;
 		while(true)
@@ -88,6 +91,7 @@ class Synch
 				$sample->save();
 			}
 			$offset_value += self::$limit;
+			echo "Completed vl {$offset_value} \n";
 		}
 	}
 }
