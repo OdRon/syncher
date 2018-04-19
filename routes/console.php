@@ -28,9 +28,11 @@ Artisan::command('synch:test {limit}', function () {
 })->describe('Test synch limit.');
 
 Artisan::command('synch:eid', function () {
-    \App\Synch::synch_eid();
+    $str = \App\Synch::synch_eid();
+    $this->info($str);
 })->describe('Synch Eid results.');
 
 Artisan::command('synch:vl', function () {
-    \App\Synch::synch_eid();
+    $str = \App\Synch::synch_eid();
+    $this->info($str);
 })->describe('Synch Vl results.');
