@@ -17,7 +17,7 @@ use App\Viralsample;
 
 class Synch
 {
-	private static $limit = 500;
+	private static $limit = 1000;
 
 	public static function synch_eid()
 	{
