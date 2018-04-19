@@ -17,6 +17,13 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
+Artisan::command('synch:test {limit}', function () {
+	$limit = $this->argument('limit');
+    $this->info($limit);
+    $samples = \App\OldSampleView::limit($limit)->offset(0)->get();
+    $viralsamples = \App\OldViralsampleView::limit($limit)->offset(0)->get();
+})->describe('Test synch limit.');
+
 Artisan::command('synch:eid', function () {
     \App\Synch::synch_eid();
 })->describe('Synch Eid results.');
