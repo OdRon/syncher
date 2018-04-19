@@ -18,10 +18,13 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 Artisan::command('synch:test {limit}', function () {
+	ini_set("memory_limit", "-1");
 	$limit = $this->argument('limit');
     $this->info($limit);
     $samples = \App\OldSampleView::limit($limit)->offset(0)->get();
     $viralsamples = \App\OldViralsampleView::limit($limit)->offset(0)->get();
+    $this->info($samples->first());
+    $this->info($viralsamples->first());
 })->describe('Test synch limit.');
 
 Artisan::command('synch:eid', function () {
