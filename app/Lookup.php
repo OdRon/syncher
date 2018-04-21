@@ -37,10 +37,13 @@ class Lookup
     public static function calculate_dob($date_collected, $years, $months)
     {
     	if(!$years && !$months) return null;
-    	$dc = Carbon::createFromFormat('Y-m-d', $date_collected);
-    	$dc->subYears($years);
-    	$dc->subMonths($months);
-    	return $dc->toDateString();
+        if(Carbon::createFromFormat('Y-m-d', $date_collected) !== false){            
+            $dc = Carbon::createFromFormat('Y-m-d', $date_collected);
+            $dc->subYears($years);
+            $dc->subMonths($months);
+            return $dc->toDateString();
+        }
+        return null;
     }
 
     public static function resolve_gender($value)
