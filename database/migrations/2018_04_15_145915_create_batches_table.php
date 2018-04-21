@@ -16,17 +16,17 @@ class CreateBatchesTable extends Migration
         Schema::create('batches', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('original_batch_id')->unsigned()->index();
-            $table->boolean('highpriority')->default(false);
-            $table->boolean('input_complete')->default(false);
-            $table->boolean('batch_full')->default(false);
+            $table->boolean('highpriority')->default(false)->nullable();
+            $table->boolean('input_complete')->default(false)->nullable();
+            $table->boolean('batch_full')->default(false)->nullable();
 
             // 0 is default i.e. new
             // 1 is dispatched
             // 2 is staging i.e. all samples are ready, batch awaiting dispatch
-            $table->tinyInteger('batch_complete')->default(0);
-            $table->tinyInteger('site_entry')->unsigned()->default(0)->index();
+            $table->tinyInteger('batch_complete')->default(0)->nullable();
+            $table->tinyInteger('site_entry')->unsigned()->default(0)->nullable()->index();
 
-            $table->boolean('sent_email')->default(false);
+            $table->boolean('sent_email')->default(false)->nullable();
 
             $table->integer('printedby')->unsigned()->nullable();
             $table->integer('user_id')->unsigned()->nullable()->index();

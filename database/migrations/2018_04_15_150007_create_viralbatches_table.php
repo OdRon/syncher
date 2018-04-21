@@ -16,13 +16,13 @@ class CreateViralbatchesTable extends Migration
         Schema::create('viralbatches', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('original_batch_id')->unsigned()->index();
-            $table->boolean('highpriority')->default(false);
-            $table->boolean('input_complete')->default(false);
-            $table->boolean('batch_full')->default(false);
-            $table->boolean('batch_complete')->default(false);
-            $table->tinyInteger('site_entry')->unsigned()->default(0)->index();
+            $table->boolean('highpriority')->default(false)->nullable();
+            $table->boolean('input_complete')->default(false)->nullable();
+            $table->boolean('batch_full')->default(false)->nullable();
+            $table->tinyInteger('site_entry')->unsigned()->default(0)->nullable()->index();
 
-            $table->boolean('sent_email')->default(false);
+            $table->tinyInteger('batch_complete')->default(0)->nullable();
+            $table->boolean('sent_email')->default(false)->nullable();
 
             $table->integer('printedby')->unsigned()->nullable();
             $table->integer('user_id')->unsigned()->nullable()->index();
