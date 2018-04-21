@@ -14,7 +14,7 @@ CREATE OR REPLACE VIEW old_samples_view AS
     s.tat1, s.tat2, s.tat3, s.tat4, s.synched, s.datesynched, s.previous_positive,
 
 
-    s.batchno as original_batch_id, s.highpriority, s.inputcomplete, s.batchcomplete as 
+    s.batchno as original_batch_id, s.highpriority, s.inputcomplete as input_complete, s.batchcomplete as 
     batch_complete, s.siteentry as site_entry, s.sentemail as sent_email, s.printedby, s.userid as user_id, 
     s.labtestedin as lab_id, s.facility as facility_id, 
     s.datedispatchedfromfacility, s.datereceived, s.datebatchprinted, s.datedispatched, 
@@ -40,7 +40,7 @@ CREATE OR REPLACE VIEW old_viralsamples_view AS
     s.approvedby2, s.datecollected, s.datetested, s.datemodified, s.dateapproved, s.dateapproved2, s.tat1,
     s.tat2, s.tat3, s.tat4, s.synched, s.datesynched, s.previous_nonsuppressed,
 
-    s.batchno as original_batch_id, s.highpriority, s.inputcomplete, s.batchcomplete as 
+    s.batchno as original_batch_id, s.highpriority, s.inputcomplete as input_complete, s.batchcomplete as 
     batch_complete, s.siteentry as site_entry, s.sentemail as sent_email, s.printedby, s.userid as user_id, 
     s.labtestedin as lab_id, s.facility as facility_id, 
     s.datedispatchedfromfacility, s.datereceived, s.datebatchprinted, s.datedispatched, 
