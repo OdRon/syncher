@@ -37,7 +37,7 @@ CREATE OR REPLACE VIEW old_viralsamples_view AS
     s.otherjustification as other_justification, s.sampletype, s.prophylaxis, s.regimenline, p.pmtct,
     s.dilutionfactor, s.dilutiontype, s.comments, s.labcomment, s.parentid, s.rejectedreason, s.reason_for_repeat,
     s.rcategory, s.result, s.units, s.interpretation, s.worksheet as worksheet_id, s.flag, s.run, s.repeatt, s.approvedby,
-    s.approvedby2, s.datecollected, s.datetested, s.datemodified, s.dateapproved, s.dateapproved2, s.tat1,
+    s.approved2by as approvedby2, s.datecollected, s.datetested, s.datemodified, s.dateapproved, s.dateapproved2, s.tat1,
     s.tat2, s.tat3, s.tat4, s.synched, s.datesynched, s.previous_nonsuppressed,
 
     s.batchno as original_batch_id, s.highpriority, s.inputcomplete as input_complete, s.batchcomplete as 
