@@ -24,7 +24,7 @@ CREATE OR REPLACE VIEW old_samples_view AS
     caregiver_phone, p.gender, m.entry_point,  s.dateinitiatedontreatment
 
     FROM samples s
-    JOIN patients p ON p.autoID=s.patientAUTOid
+    LEFT JOIN patients p ON p.autoID=s.patientAUTOid
     LEFT JOIN mothers m ON m.id=p.mother
 
 ); 
@@ -50,6 +50,6 @@ CREATE OR REPLACE VIEW old_viralsamples_view AS
     caregiver_phone, p.gender, p.initiationdate as initiation_date
 
     FROM viralsamples s
-    JOIN viralpatients p ON p.AutoID=s.patientid
+    LEFT JOIN viralpatients p ON p.AutoID=s.patientid
 
 );
