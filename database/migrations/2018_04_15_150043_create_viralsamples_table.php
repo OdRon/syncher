@@ -39,7 +39,7 @@ class CreateViralsamplesTable extends Migration
 
             $table->string('comments', 30)->nullable();
             $table->string('labcomment', 100)->nullable();
-            $table->bigInteger('parentid')->unsigned()->default(0);
+            $table->bigInteger('parentid')->unsigned()->nullable()->default(0);
             // $table->tinyInteger('spots')->unsigned()->nullable();
             $table->tinyInteger('rejectedreason')->unsigned()->nullable();
             $table->string('reason_for_repeat', 50)->nullable();
@@ -66,12 +66,12 @@ class CreateViralsamplesTable extends Migration
             $table->date('dateapproved')->nullable();
             $table->date('dateapproved2')->nullable();
 
-            $table->tinyInteger('tat1')->unsigned()->default(0);
-            $table->tinyInteger('tat2')->unsigned()->default(0);
-            $table->tinyInteger('tat3')->unsigned()->default(0);
-            $table->tinyInteger('tat4')->unsigned()->default(0);
+            $table->tinyInteger('tat1')->unsigned()->default(0)->nullable();
+            $table->tinyInteger('tat2')->unsigned()->default(0)->nullable();
+            $table->tinyInteger('tat3')->unsigned()->default(0)->nullable();
+            $table->tinyInteger('tat4')->unsigned()->default(0)->nullable();
 
-            $table->tinyInteger('previous_nonsuppressed')->default(0);
+            $table->tinyInteger('previous_nonsuppressed')->default(0)->nullable();
 
             $table->tinyInteger('synched')->default(0);
             $table->date('datesynched')->nullable();

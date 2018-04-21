@@ -32,7 +32,7 @@ class CreateSamplesTable extends Migration
             $table->tinyInteger('spots')->unsigned()->nullable();
             $table->string('comments', 100)->nullable();
             $table->string('labcomment', 100)->nullable();
-            $table->bigInteger('parentid')->unsigned()->default(0);
+            $table->bigInteger('parentid')->unsigned()->nullable()->default(0);
             $table->tinyInteger('rejectedreason')->unsigned()->nullable();
             $table->tinyInteger('reason_for_repeat')->unsigned()->nullable();
             $table->string('interpretation', 50)->nullable();
@@ -41,16 +41,16 @@ class CreateSamplesTable extends Migration
             $table->bigInteger('worksheet_id')->unsigned()->nullable();
             // $table->boolean('inworksheet')->default(false);
 
-            $table->tinyInteger('hei_validation')->unsigned()->default(0)->index();
+            $table->tinyInteger('hei_validation')->unsigned()->default(0)->nullable()->index();
             $table->string('enrollment_ccc_no', 50)->nullable();
-            $table->tinyInteger('enrollment_status')->unsigned()->default(0)->index();
+            $table->tinyInteger('enrollment_status')->unsigned()->default(0)->nullable()->index();
             $table->tinyInteger('referredfromsite')->unsigned()->nullable();
             $table->string('otherreason', 70)->nullable(); 
 
-            $table->tinyInteger('flag')->unsigned()->default(1);
-            $table->tinyInteger('run')->unsigned()->default(1);
-            $table->tinyInteger('repeatt')->unsigned()->default(0);
-            $table->tinyInteger('eqa')->unsigned()->default(0);
+            $table->tinyInteger('flag')->unsigned()->default(1)->nullable();
+            $table->tinyInteger('run')->unsigned()->default(1)->nullable();
+            $table->tinyInteger('repeatt')->unsigned()->default(0)->nullable();
+            $table->tinyInteger('eqa')->unsigned()->default(0)->nullable();
 
             $table->integer('approvedby')->unsigned()->nullable();
             $table->integer('approvedby2')->unsigned()->nullable();
@@ -61,14 +61,14 @@ class CreateSamplesTable extends Migration
             $table->date('dateapproved')->nullable();
             $table->date('dateapproved2')->nullable();
 
-            $table->tinyInteger('tat1')->unsigned()->default(0);
-            $table->tinyInteger('tat2')->unsigned()->default(0);
-            $table->tinyInteger('tat3')->unsigned()->default(0);
-            $table->tinyInteger('tat4')->unsigned()->default(0);
+            $table->tinyInteger('tat1')->unsigned()->default(0)->nullable();
+            $table->tinyInteger('tat2')->unsigned()->default(0)->nullable();
+            $table->tinyInteger('tat3')->unsigned()->default(0)->nullable();
+            $table->tinyInteger('tat4')->unsigned()->default(0)->nullable();
 
-            $table->tinyInteger('previous_positive')->default(0);
+            $table->tinyInteger('previous_positive')->default(0)->nullable();
 
-            $table->tinyInteger('synched')->default(0);
+            $table->tinyInteger('synched')->default(0)->nullable();
             $table->date('datesynched')->nullable();
             $table->timestamps();
         });
