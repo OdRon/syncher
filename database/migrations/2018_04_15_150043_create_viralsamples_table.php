@@ -15,7 +15,7 @@ class CreateViralsamplesTable extends Migration
     {
         Schema::create('viralsamples', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('original_sample_id')->unsigned()->index();
+            $table->bigInteger('original_sample_id')->unsigned()->nullable()->index();
             $table->bigInteger('patient_id')->unsigned()->index();
             $table->bigInteger('batch_id')->unsigned()->index();
             $table->tinyInteger('amrs_location')->nullable();
@@ -32,7 +32,7 @@ class CreateViralsamplesTable extends Migration
             $table->tinyInteger('sampletype')->unsigned()->nullable()->index();
             $table->tinyInteger('prophylaxis')->unsigned()->nullable()->index();
             $table->tinyInteger('regimenline')->unsigned()->nullable()->index();
-            $table->tinyInteger('pmtct')->unsigned()->index()->default(3);
+            $table->tinyInteger('pmtct')->unsigned()->nullable()->default(3)->index();
 
             $table->tinyInteger('dilutionfactor')->unsigned()->nullable();
             $table->tinyInteger('dilutiontype')->unsigned()->nullable();
@@ -52,10 +52,10 @@ class CreateViralsamplesTable extends Migration
             $table->integer('worksheet_id')->unsigned()->nullable();
             // $table->boolean('inworksheet')->default(false);
 
-            $table->tinyInteger('flag')->unsigned()->nullable();
-            $table->tinyInteger('run')->unsigned()->default(1);
-            $table->tinyInteger('repeatt')->unsigned()->default(0);
-            // $table->tinyInteger('eqa')->unsigned()->nullable();
+            $table->tinyInteger('flag')->unsigned()->default(1)->nullable();
+            $table->tinyInteger('run')->unsigned()->default(1)->nullable();
+            $table->tinyInteger('repeatt')->unsigned()->default(0)->nullable();
+            // $table->tinyInteger('eqa')->unsigned()->default(0)->nullable();
 
             $table->integer('approvedby')->unsigned()->nullable();
             $table->integer('approvedby2')->unsigned()->nullable();
@@ -73,7 +73,7 @@ class CreateViralsamplesTable extends Migration
 
             $table->tinyInteger('previous_nonsuppressed')->default(0)->nullable();
 
-            $table->tinyInteger('synched')->default(0);
+            $table->tinyInteger('synched')->default(0)->nullable();
             $table->date('datesynched')->nullable();
             $table->timestamps();
         });

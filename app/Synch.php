@@ -54,7 +54,7 @@ class Synch
 				$sample->save();
 			}
 			$offset_value += self::$limit;
-			echo "Completed eid {$offset_value} \n";
+			echo "Completed eid {$offset_value} at " . date('d/m/Y h:i:s a', time()). "\n";
 		}
 	}
 
@@ -91,7 +91,7 @@ class Synch
 				$sample->save();
 			}
 			$offset_value += self::$limit;
-			echo "Completed vl {$offset_value} \n";
+			echo "Completed vl {$offset_value} at " . date('d/m/Y h:i:s a', time()). "\n";
 		}
 	}
 }
