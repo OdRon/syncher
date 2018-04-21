@@ -39,7 +39,7 @@ class Lookup
     	if(!$years && !$months) return null;
     	$dc = Carbon::createFromFormat('Y-m-d', $date_collected);
     	$dc->subYears($years);
-    	$dc->sumMonths($months);
+    	$dc->subMonths($months);
     	return $dc->toDateString();
     }
 
@@ -77,7 +77,7 @@ class Lookup
 
             'patient' => ['original_patient_id', 'patient', 'patient_name', 'sex', 'facility_id', 'caregiver_phone', 'dob', 'entry_point', 'dateinitiatedontreatment'],
 
-            'sample' => ['id', 'original_sample_id', 'amrs_location', 'provider_identifier', 'order_no', 'sample_type', 'receivedstatus', 'age', 'pcrtype', 'regimen', 'mother_prophylaxis', 'feeding', 'spots', 'comments', 'labcomment', 'parentid', 'rejectedreason', 'reason_for_repeat', 'interpretation', 'result', 'worksheet_id', 'hei_validation', 'enrollment_ccc_no', 'enrollmentstatus', 'referredfromsite', 'otherreason', 'flag', 'run', 'repeatt', 'eqa', 'approvedby', 'approvedby2', 'datecollected', 'datetested', 'datemodified', 'dateapproved', 'dateapproved2', 'tat1', 'tat2', 'tat3', 'tat4', 'previous_positive', 'synched', 'datesynched' ], 
+            'sample' => ['id', 'original_sample_id', 'amrs_location', 'provider_identifier', 'order_no', 'sample_type', 'receivedstatus', 'age', 'pcrtype', 'regimen', 'mother_prophylaxis', 'feeding', 'spots', 'comments', 'labcomment', 'parentid', 'rejectedreason', 'reason_for_repeat', 'interpretation', 'result', 'worksheet_id', 'hei_validation', 'enrollment_ccc_no', 'enrollment_status', 'referredfromsite', 'otherreason', 'flag', 'run', 'repeatt', 'eqa', 'approvedby', 'approvedby2', 'datecollected', 'datetested', 'datemodified', 'dateapproved', 'dateapproved2', 'tat1', 'tat2', 'tat3', 'tat4', 'previous_positive', 'synched', 'datesynched' ], 
         ];
     }
 

@@ -8,7 +8,7 @@ CREATE OR REPLACE VIEW old_samples_view AS
     s.sampletype as sample_type, s.receivedstatus, p.age,  s.pcrtype, p.prophylaxis as regimen, 
     m.prophylaxis as mother_prophylaxis, m.feeding, s.spots, s.comments, s.labcomment, s.parentid, 
     s.rejectedreason, s.reason_for_repeat, s.interpretation, s.result, s.worksheet as worksheet_id,
-    s.hei_validation, s.enrollmentCCCno as enrollment_ccc_no, s.enrollmentstatus, s.referredfromsite,
+    s.hei_validation, s.enrollmentCCCno as enrollment_ccc_no, s.enrollmentstatus as enrollment_status, s.referredfromsite,
     s.otherreason, s.flag, s.run, s.repeatt, s.eqa, s.approvedby, s.approved2by as approvedby2, 
     s.datecollected, s.datetested, s.datemodified, s.dateapproved, s.dateapproved2,
     s.tat1, s.tat2, s.tat3, s.tat4, s.synched, s.datesynched, s.previous_positive,
