@@ -36,7 +36,7 @@ class Lookup
 
     public static function calculate_dob($date_collected, $years, $months)
     {
-    	if(!$years && !$months) return null;
+    	if((!$years && !$months) || !$date_collected ) return null;
         if(Carbon::createFromFormat('Y-m-d', $date_collected) !== false){            
             $dc = Carbon::createFromFormat('Y-m-d', $date_collected);
             $dc->subYears($years);
