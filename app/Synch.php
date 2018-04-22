@@ -23,7 +23,7 @@ class Synch
 	{
 		ini_set("memory_limit", "-1");
 		$fields = Lookup::samples_arrays();	
-		$offset_value = 0;
+		$offset_value = 623861;
 		while(true)
 		{
 			$samples = OldSampleView::limit(self::$limit)->offset($offset_value)->get();
@@ -63,7 +63,7 @@ class Synch
 	{
 		ini_set("memory_limit", "-1");
 		$fields = Lookup::viralsamples_arrays();	
-		$offset_value = 0;
+		$offset_value = 1923229;
 		while(true)
 		{
 			$samples = OldViralsampleView::limit(self::$limit)->offset($offset_value)->get();
