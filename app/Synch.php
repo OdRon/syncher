@@ -51,6 +51,7 @@ class Synch
 
 				$sample = new Sample($value->only($fields['sample']));
 				$sample->batch_id = $batch->id;
+				$sample->patient_id = $patient->id;
 				$sample->save();
 			}
 			$offset_value += self::$limit;
@@ -88,6 +89,7 @@ class Synch
 
 				$sample = new Viralsample($value->only($fields['sample']));
 				$sample->batch_id = $batch->id;
+				$sample->patient_id = $patient->id;
 				$sample->save();
 			}
 			$offset_value += self::$limit;
