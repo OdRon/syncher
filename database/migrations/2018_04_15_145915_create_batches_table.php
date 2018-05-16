@@ -37,7 +37,7 @@ class CreateBatchesTable extends Migration
 
             $table->date('datedispatchedfromfacility')->nullable();
             $table->date('datereceived')->nullable()->index();
-            $table->date('datedispatched')->nullable()->index();
+            $table->date('datedispatched')->nullable();
             $table->date('dateindividualresultprinted')->nullable();
             $table->date('datebatchprinted')->nullable();
 
