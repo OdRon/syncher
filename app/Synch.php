@@ -39,6 +39,7 @@ class Synch
 					$patient->mother_id = $mother->id;
 					$patient->dob = Lookup::calculate_dob($value->datecollected, 0, $value->age);
 					$patient->sex = Lookup::resolve_gender($value->gender);
+					// $patient->ccc_no = $value->enrollment_ccc_no;
 					$patient->save();
 				}
 

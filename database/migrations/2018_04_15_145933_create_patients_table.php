@@ -16,10 +16,10 @@ class CreatePatientsTable extends Migration
         Schema::create('patients', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('original_patient_id')->unsigned()->index()->nullable();
-            $table->string('patient', 50);
+            $table->string('patient', 25); 
             $table->string('patient_name', 50)->nullable();
             $table->bigInteger('mother_id')->unsigned()->index();
-            $table->integer('entry_point')->unsigned()->nullable();
+            $table->tinyInteger('entry_point')->unsigned()->nullable();
             $table->integer('facility_id')->unsigned()->index();
             $table->string('caregiver_phone', 15)->nullable();
             $table->tinyInteger('sex')->unsigned();

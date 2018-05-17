@@ -18,7 +18,7 @@ class CreateViralbatchesTable extends Migration
             $table->bigInteger('original_batch_id')->unsigned()->index();
             $table->boolean('highpriority')->default(false)->nullable();
             $table->boolean('input_complete')->default(false)->nullable();
-            $table->boolean('batch_full')->default(false)->nullable();            
+            $table->boolean('batch_full')->default(false)->nullable();           
 
             $table->tinyInteger('batch_complete')->default(0)->nullable();
             $table->tinyInteger('site_entry')->unsigned()->default(0)->nullable()->index();
@@ -28,7 +28,7 @@ class CreateViralbatchesTable extends Migration
             $table->integer('user_id')->unsigned()->nullable()->index();
             $table->integer('received_by')->unsigned()->nullable();
 
-            $table->tinyInteger('lab_id')->unsigned()->index();
+            $table->integer('lab_id')->unsigned()->index();
             $table->integer('facility_id')->unsigned()->nullable()->index();
 
             $table->date('datedispatchedfromfacility')->nullable();

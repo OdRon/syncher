@@ -11,7 +11,8 @@ CREATE OR REPLACE VIEW old_samples_view AS
     s.hei_validation, s.enrollmentCCCno as enrollment_ccc_no, s.enrollmentstatus as enrollment_status, s.referredfromsite,
     s.otherreason, s.flag, s.run, s.repeatt, s.eqa, s.approvedby, s.approved2by as approvedby2, 
     s.datecollected, s.datetested, s.datemodified, s.dateapproved, s.dateapproved2,
-    s.tat1, s.tat2, s.tat3, s.tat4, s.synched, s.datesynched, s.previous_positive,
+    s.tat1, s.tat2, s.tat3, s.tat4, s.synched, s.datesynched, s.previous_positive, 
+    #m.lastvl as mother_last_result, m.age as mother_age,
 
 
     s.batchno as original_batch_id, s.highpriority, s.inputcomplete as input_complete, s.batchcomplete as 
@@ -21,7 +22,10 @@ CREATE OR REPLACE VIEW old_samples_view AS
     s.dateindividualresultprinted,  
 
     p.originalautoid as original_patient_id, s.patient, s.fullnames as patient_name, s.caregiverphoneno as 
-    caregiver_phone, p.gender, m.entry_point,  s.dateinitiatedontreatment
+    caregiver_phone, p.gender, m.entry_point,  s.dateinitiatedontreatment,
+
+    m.status as hiv_status
+    #, m.cccno as ccc_no
 
     FROM samples s
     LEFT JOIN patients p ON p.autoID=s.patientAUTOid

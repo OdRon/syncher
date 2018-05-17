@@ -24,8 +24,8 @@ class CreateViralsamplesTable extends Migration
             $table->tinyInteger('vl_test_request_no')->nullable();
             $table->tinyInteger('receivedstatus')->unsigned()->nullable();
 
-            // This will be used instead
-            $table->double('age', 5, 2)->unsigned()->nullable();
+            // This will be used instead 
+            $table->float('age', 5, 2)->unsigned()->nullable();
             $table->tinyInteger('age_category')->unsigned()->default(0);
             $table->tinyInteger('justification')->unsigned()->nullable();
             $table->string('other_justification', 50)->nullable();
@@ -38,7 +38,7 @@ class CreateViralsamplesTable extends Migration
             $table->tinyInteger('dilutiontype')->unsigned()->nullable();
 
             $table->string('comments', 30)->nullable();
-            $table->string('labcomment', 100)->nullable();
+            $table->string('labcomment', 50)->nullable();
             $table->bigInteger('parentid')->unsigned()->nullable()->default(0);
             // $table->tinyInteger('spots')->unsigned()->nullable();
             $table->tinyInteger('rejectedreason')->unsigned()->nullable();
@@ -46,8 +46,8 @@ class CreateViralsamplesTable extends Migration
             $table->tinyInteger('rcategory')->unsigned()->nullable();
 
             $table->string('result', 50)->nullable();
-            $table->string('units', 30)->nullable();
-            $table->string('interpretation', 50)->nullable();
+            $table->string('units', 20)->nullable();
+            $table->string('interpretation', 100)->nullable();
 
             $table->integer('worksheet_id')->unsigned()->nullable();
             // $table->boolean('inworksheet')->default(false);
@@ -61,7 +61,7 @@ class CreateViralsamplesTable extends Migration
             $table->integer('approvedby2')->unsigned()->nullable();
 
             $table->date('datecollected')->nullable();
-            $table->date('datetested')->nullable();
+            $table->date('datetested')->nullable()->index();
             $table->date('datemodified')->nullable();
             $table->date('dateapproved')->nullable();
             $table->date('dateapproved2')->nullable();
@@ -82,8 +82,6 @@ class CreateViralsamplesTable extends Migration
             $table->index(['datetested', 'age_category'], 'vl_sample_date_age_index');
             $table->index(['datetested', 'sampletype'], 'vl_sample_date_stype_index');
             $table->index(['datetested', 'prophylaxis'], 'vl_sample_date_proph_index');
-            // $table->index(['datetested', 'justification'], 'vl_sample_date_just_index');
-            // $table->index(['datetested', 'justification'], 'vl_sample_date_just_index');
             // $table->index(['datetested', 'justification'], 'vl_sample_date_just_index');
         });
     }

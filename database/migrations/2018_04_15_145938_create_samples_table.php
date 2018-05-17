@@ -21,31 +21,35 @@ class CreateSamplesTable extends Migration
             $table->tinyInteger('amrs_location')->nullable();
             $table->string('provider_identifier', 50)->nullable();
             $table->string('order_no', 30)->nullable();
-            $table->string('sample_type', 30)->nullable(); 
+            $table->string('sample_type', 30)->nullable();
+
+            $table->tinyInteger('mother_age')->unsigned()->nullable();
+            $table->string('mother_last_result', 30)->nullable();
+            $table->tinyInteger('mother_last_rcategory')->unsigned()->nullable();
 
             $table->tinyInteger('receivedstatus')->unsigned()->nullable();
-            $table->double('age', 7, 4)->unsigned()->nullable();
+            $table->float('age', 7, 4)->unsigned()->nullable();
             $table->tinyInteger('pcrtype')->unsigned()->nullable();
             $table->tinyInteger('regimen')->unsigned()->nullable();
             $table->tinyInteger('mother_prophylaxis')->unsigned()->nullable();
             $table->tinyInteger('feeding')->unsigned()->nullable();
             $table->tinyInteger('spots')->unsigned()->nullable();
-            $table->string('comments', 100)->nullable();
-            $table->string('labcomment', 100)->nullable();
+            $table->string('comments', 30)->nullable();
+            $table->string('labcomment', 50)->nullable();
             $table->bigInteger('parentid')->unsigned()->nullable()->default(0);
             $table->tinyInteger('rejectedreason')->unsigned()->nullable();
             $table->tinyInteger('reason_for_repeat')->unsigned()->nullable();
-            $table->string('interpretation', 50)->nullable();
-            $table->tinyInteger('result')->unsigned()->nullable()->index();
+            $table->string('interpretation', 100)->nullable();
+            $table->tinyInteger('result')->unsigned()->nullable();
 
             $table->bigInteger('worksheet_id')->unsigned()->nullable();
             // $table->boolean('inworksheet')->default(false);
 
             $table->tinyInteger('hei_validation')->unsigned()->default(0)->nullable();
-            $table->string('enrollment_ccc_no', 50)->nullable();
+            $table->string('enrollment_ccc_no', 25)->nullable();
             $table->tinyInteger('enrollment_status')->unsigned()->default(0)->nullable();
             $table->tinyInteger('referredfromsite')->unsigned()->nullable();
-            $table->string('otherreason', 70)->nullable(); 
+            $table->string('otherreason', 50)->nullable(); 
 
             $table->tinyInteger('flag')->unsigned()->default(1)->nullable();
             $table->tinyInteger('run')->unsigned()->default(1)->nullable();
@@ -56,7 +60,7 @@ class CreateSamplesTable extends Migration
             $table->integer('approvedby2')->unsigned()->nullable();
 
             $table->date('datecollected')->nullable();
-            $table->date('datetested')->nullable();
+            $table->date('datetested')->nullable()->index();
             $table->date('datemodified')->nullable();
             $table->date('dateapproved')->nullable();
             $table->date('dateapproved2')->nullable();
@@ -74,7 +78,7 @@ class CreateSamplesTable extends Migration
 
             // $table->index(['datetested', 'batch_id', 'result'], 'vl_patient_unq_index');
             // $table->index(['datetested', 'result'], 'eid_sample_date_res_index');
-            $table->index(['datetested', 'pcrtype', 'result'], 'eid_sample_date_pcr_res_index');
+            // $table->index(['datetested', 'pcrtype', 'result'], 'eid_sample_date_pcr_res_index');
         });
     }
 
