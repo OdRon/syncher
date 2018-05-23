@@ -17,5 +17,10 @@ class Mother extends BaseModel
         return $query->where(['facility_id' => $facility, 'ccc_no' => $ccc]);
     }
 
+    public function scopeLocate($query, $original)
+    {
+        return $query->where(['original_mother_id' => $original->id]);
+    }
+
     
 }

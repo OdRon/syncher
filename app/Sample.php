@@ -28,4 +28,9 @@ class Sample extends BaseModel
     {
         return $this->hasMany('App\Sample', 'parentid');
     }
+
+    public function scopeLocate($query, $original)
+    {
+        return $query->where(['original_sample_id' => $original->id]);
+    }
 }

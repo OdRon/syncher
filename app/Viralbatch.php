@@ -21,4 +21,9 @@ class Viralbatch extends BaseModel
     {
         return $query->where(['original_batch_id' => $original_id, 'lab_id' => $lab]);
     }
+
+    public function scopeLocate($query, $original)
+    {
+        return $query->where(['original_batch_id' => $original->id, 'lab_id' => $original->lab_id]);
+    }
 }

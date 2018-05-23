@@ -10,46 +10,37 @@ use App\Batch;
 use App\Patient;
 use App\Sample;
 use App\Mother;
+use App\Worksheet;
 
 class EidController extends Controller
 {
 
-    public function mothers(BlankRequest $request)
-    {
-      $mothers_array = [];
-      $mothers = $request->input('mothers');
-
-      foreach ($mothers as $key => $value) {
-
-      }
-    }
-
     public function patients(BlankRequest $request)
     {
-      $patients_array = [];
-      $mothers_array = [];
-      $patients = json_decode($request->input('patients'));
+        $patients_array = [];
+        $mothers_array = [];
+        $patients = json_decode($request->input('patients'));
 
-      foreach ($patients as $key => $value) {
-        $mother = new Mother;
-        $mother_data = get_object_vars($value->mother);
-        $mother->fill($mother_data);
-        $mother->original_mother_id = $mother->id;
-        unset($mother->id);
-        unset($mother->national_mother_id);
-        $mother->save();
-        $mothers_array[] = ['original_id' => $mother->original_mother_id, 'national_mother_id' => $mother->id ];
+        foreach ($patients as $key => $value) {
+            $mother = new Mother;
+            $mother_data = get_object_vars($value->mother);
+            $mother->fill($mother_data);
+            $mother->original_mother_id = $mother->id;
+            unset($mother->id);
+            unset($mother->national_mother_id);
+            $mother->save();
+            $mothers_array[] = ['original_id' => $mother->original_mother_id, 'national_mother_id' => $mother->id ];
 
-        unset($value->mother);
-        $patient = new Patient;
-        $patient->fill(get_object_vars($value));
-        $patient->mother_id = $mother->id;
-        $patient->original_patient_id = $patient->id;
-        unset($patient->id);
-        unset($patient->national_patient_id);
-        $patient->save();
-        $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
-      }
+            unset($value->mother);
+            $patient = new Patient;
+            $patient->fill(get_object_vars($value));
+            $patient->mother_id = $mother->id;
+            $patient->original_patient_id = $patient->id;
+            unset($patient->id);
+            unset($patient->national_patient_id);
+            $patient->save();
+            $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
+        }
 
         return response()->json([
           'status' => 'ok',
@@ -121,6 +112,97 @@ class EidController extends Controller
             'batches' => $batches_array,
             'samples' => $samples_array,
         ], 201);
+    }
+
+    public function worksheets(BlankRequest $request)
+    {
+        $worksheets_array = [];
+        $worksheets = json_decode($request->input('worksheets'));
+
+        foreach ($worksheets as $key => $value) {
+            $worksheet = new Worksheet;
+            $worksheet->fill(get_object_vars($value));
+            $worksheet->original_worksheet_id = $worksheet->id;
+            unset($worksheet->id);
+            unset($worksheet->national_worksheet_id);
+            $worksheet->save();
+            $worksheets_array[] = ['original_id' => $worksheet->original_worksheet_id, 'national_worksheet_id' => $worksheet->id ];
+        }
+
+        return response()->json([
+            'status' => 'ok',
+            'worksheets' => $worksheets_array,
+        ], 201);
+    }
+
+    public function update_patients(BlankRequest $request){
+        return $this->update_dash($request, Patient::class, 'patients', 'national_patient_id', 'original_patient_id');
+    }
+
+    public function update_mothers(BlankRequest $request){
+        return $this->update_dash($request, Mother::class, 'mothers', 'national_mother_id', 'original_mother_id');
+    }
+
+    public function update_samples(BlankRequest $request){
+        return $this->update_dash($request, Sample::class, 'samples', 'national_sample_id', 'original_sample_id');
+    }
+
+    public function update_worksheets(BlankRequest $request){
+        return $this->update_dash($request, Worksheet::class, 'worksheets', 'national_worksheet_id', 'original_worksheet_id');
+    }
+
+    public function update_dash(BlankRequest $request, $update_class, $input, $nat_column, $original_column)
+    {
+        $models_array = [];
+        $models = json_decode($request->input($input));
+        $lab_id = json_decode($request->input('lab_id'));
+
+        foreach ($data as $key => $value) {
+            if($value->$nat_column){
+                $new_model = $update_class::find($value->$nat_column);
+            }else{
+                $new_model = $update_class::locate($value)->get()->first();
+            }
+
+            if(!$new_model) continue;
+
+            $new_model->fill(get_object_vars($value));
+            $new_model->$original_column = $new_model->id;
+            unset($new_model->id);
+            unset($new_model->$nat_column);
+            $new_model->save();
+            $models_array[] = ['original_id' => $new_model->$original_column, $nat_column => $new_model->id ];
+        }
+
+        return response()->json([
+            'status' => 'ok',
+            $input => $models_array,
+        ], 201);        
+    }
+
+    public function delete_dash(BlankRequest $request, $update_class, $input, $nat_column, $original_column)
+    {
+        $models_array = [];
+        $models = json_decode($request->input($input));
+        $lab_id = json_decode($request->input('lab_id'));
+
+        foreach ($data as $key => $value) {
+            if($value->$nat_column){
+                $new_model = $update_class::find($value->$nat_column);
+            }else{
+                $new_model = $update_class::locate($value)->get()->first();
+            }
+
+            if(!$new_model) continue;
+            
+            $models_array[] = ['original_id' => $new_model->$original_column, $nat_column => $new_model->id];
+            $new_model->delete();
+        }
+
+        return response()->json([
+            'status' => 'ok',
+            $input => $models_array,
+        ], 201);        
     }
 
 }

@@ -21,4 +21,9 @@ class Patient extends BaseModel
     {
         return $query->where(['facility_id' => $facility_id, 'patient' => $hei_number]);
     }
+
+    public function scopeLocate($query, $original)
+    {
+        return $query->where(['original_patient_id' => $original->id, 'facility_id' => $original->facility_id]);
+    }
 }

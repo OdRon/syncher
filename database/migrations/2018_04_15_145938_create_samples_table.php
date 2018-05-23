@@ -29,6 +29,8 @@ class CreateSamplesTable extends Migration
 
             $table->tinyInteger('receivedstatus')->unsigned()->nullable();
             $table->float('age', 7, 4)->unsigned()->nullable();
+            
+            $table->boolean('redraw')->default(false)->nullable();
             $table->tinyInteger('pcrtype')->unsigned()->nullable();
             $table->tinyInteger('regimen')->unsigned()->nullable();
             $table->tinyInteger('mother_prophylaxis')->unsigned()->nullable();
@@ -42,7 +44,7 @@ class CreateSamplesTable extends Migration
             $table->string('interpretation', 100)->nullable();
             $table->tinyInteger('result')->unsigned()->nullable();
 
-            $table->bigInteger('worksheet_id')->unsigned()->nullable();
+            $table->integer('worksheet_id')->unsigned()->nullable();
             // $table->boolean('inworksheet')->default(false);
 
             $table->tinyInteger('hei_validation')->unsigned()->default(0)->nullable();

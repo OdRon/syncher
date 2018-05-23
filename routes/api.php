@@ -44,9 +44,11 @@ $api->version('v1', function (Router $api) {
 
         $api->post('synch/patients', 'EidController@patients');
         $api->post('synch/batches', 'EidController@batches');
+        $api->post('synch/worksheets', 'EidController@worksheets');
 
         $api->post('synch/viralpatients', 'VlController@patients');
         $api->post('synch/viralbatches', 'VlController@batches');
+        $api->post('synch/worksheets', 'VlController@worksheets');
 
     });
 });

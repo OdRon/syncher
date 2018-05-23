@@ -23,7 +23,7 @@ class CreateBatchesTable extends Migration
             // 0 is default i.e. new
             // 1 is dispatched
             // 2 is staging i.e. all samples are ready, batch awaiting dispatch
-            $table->tinyInteger('batch_complete')->default(0)->nullable();
+            $table->tinyInteger('batch_complete')->unsigned()->default(0)->nullable();
             $table->tinyInteger('site_entry')->unsigned()->default(0)->nullable();
 
             $table->boolean('sent_email')->default(false)->nullable();
