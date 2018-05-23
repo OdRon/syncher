@@ -42,13 +42,45 @@ $api->version('v1', function (Router $api) {
             ]);
         });
 
-        $api->post('synch/patients', 'EidController@patients');
-        $api->post('synch/batches', 'EidController@batches');
-        $api->post('synch/worksheets', 'EidController@worksheets');
+        $api->group(['prefix' => 'synch'], function(Router $api) {
 
-        $api->post('synch/viralpatients', 'VlController@patients');
-        $api->post('synch/viralbatches', 'VlController@batches');
-        $api->post('synch/worksheets', 'VlController@worksheets');
+            $api->post('patients', 'EidController@patients');
+            $api->post('batches', 'EidController@batches');
+            $api->post('worksheets', 'EidController@worksheets');
+
+            $api->post('viralpatients', 'VlController@patients');
+            $api->post('viralbatches', 'VlController@batches');
+            $api->post('viralworksheets', 'VlController@worksheets');
+
+        });
+
+        $api->group(['prefix' => 'update'], function(Router $api) {
+
+            $api->post('worksheets', 'EidController@update_worksheets');
+            $api->post('mothers', 'EidController@update_mothers');
+            $api->post('patients', 'EidController@update_patients');
+            $api->post('samples', 'EidController@update_samples');
+
+            $api->post('viralworksheets', 'VlController@update_worksheets');
+            $api->post('viralpatients', 'VlController@update_patients');
+            $api->post('viralsamples', 'VlController@update_samples');
+
+        });
+
+        $api->group(['prefix' => 'delete'], function(Router $api) {
+
+            $api->post('worksheets', 'EidController@delete_worksheets');
+            $api->post('mothers', 'EidController@delete_mothers');
+            $api->post('patients', 'EidController@delete_patients');
+            $api->post('samples', 'EidController@delete_samples');
+
+            $api->post('viralworksheets', 'VlController@delete_worksheets');
+            $api->post('viralpatients', 'VlController@delete_patients');
+            $api->post('viralsamples', 'VlController@delete_samples');
+
+        });
+
+
 
     });
 });
