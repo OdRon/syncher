@@ -31,6 +31,7 @@ class Synch
 				return $query->where('id', '>', $start)
 			})->limit(self::$limit)->offset($offset_value)->get();
 			if($samples->isEmpty()) break;
+			
 
 			foreach ($samples as $key => $value) {
 				$patient = Patient::existing($value->facility_id, $value->patient)->get()->first();
