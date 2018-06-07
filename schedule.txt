@@ -1,4 +1,4 @@
 # Being the crontab to be installed
 
-40 23 * * * php /usr/share/nginx/html/syncher/artisan synch:eid >> /usr/share/nginx/html/syncher/storage/app/copylog/eid.txt  2>&1 
-40 23 * * * php /usr/share/nginx/html/syncher/artisan synch:vl >> /usr/share/nginx/html/syncher/storage/app/copylog/vl.txt  2>&1 
+18 1 * * * php /usr/share/nginx/html/syncher/artisan synch:eid >> /usr/share/nginx/html/syncher/storage/app/copylog/eid.txt  2>&1 
+18 1 * * * php /usr/share/nginx/html/syncher/artisan synch:vl >> /usr/share/nginx/html/syncher/storage/app/copylog/vl.txt  2>&1 

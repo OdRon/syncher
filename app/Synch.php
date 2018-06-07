@@ -28,7 +28,7 @@ class Synch
 		while(true)
 		{
 			$samples = OldSampleView::when($start, function($query) use ($start){
-				return $query->where('id', '>', $start)
+				return $query->where('id', '>', $start);
 			})->limit(self::$limit)->offset($offset_value)->get();
 			if($samples->isEmpty()) break;
 			
@@ -75,7 +75,7 @@ class Synch
 		while(true)
 		{
 			$samples = OldViralsampleView::when($start, function($query) use ($start){
-				return $query->where('id', '>', $start)
+				return $query->where('id', '>', $start);
 			})->limit(self::$limit)->offset($offset_value)->get();
 			if($samples->isEmpty()) break;
 
