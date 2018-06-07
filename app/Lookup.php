@@ -2,14 +2,10 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\Cache;
-use DB;
-
 use Carbon\Carbon;
 
 class Lookup
 {
-
 
     public static function calculate_age($date_collected, $dob)
     {

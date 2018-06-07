@@ -17,7 +17,7 @@ class CreateSampleSynchViewsTable extends Migration
         CREATE OR REPLACE VIEW sample_synch_view AS
         (
           SELECT s.*, b.original_batch_id, b.highpriority, b.datereceived, b.datedispatched, b.site_entry, b.lab_id, b.lab_id as lab, b.facility_id, b.facility_id as facility, f.partner, f.district as subcounty, d.county, b.batch_complete,
-          p.original_patient_id, p.patient, p.sex, p.dob, p.mother_id 
+          p.original_patient_id, p.patient_status, p.patient, p.sex, p.dob, p.mother_id 
 
           FROM samples s
             JOIN batches b ON b.id=s.batch_id

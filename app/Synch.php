@@ -21,12 +21,15 @@ class Synch
 
 	public static function synch_eid()
 	{
+		$start = Sample::max('id');
 		ini_set("memory_limit", "-1");
 		$fields = Lookup::samples_arrays();	
 		$offset_value = 0;
 		while(true)
 		{
-			$samples = OldSampleView::limit(self::$limit)->offset($offset_value)->get();
+			$samples = OldSampleView::when($start, function($query) use ($start){
+				return $query->where('id', '>', $start)
+			})->limit(self::$limit)->offset($offset_value)->get();
 			if($samples->isEmpty()) break;
 
 			foreach ($samples as $key => $value) {
@@ -42,7 +45,8 @@ class Synch
 					// $patient->ccc_no = $value->enrollment_ccc_no;
 					$patient->save();
 				}
-
+				
+				$value->original_batch_id = self::set_batch_id($value->original_batch_id);
 				$batch = Batch::existing($value->original_batch_id, $value->lab_id)->get()->first();
 
 				if(!$batch){
@@ -63,12 +67,15 @@ class Synch
 
 	public static function synch_vl()
 	{
+		$start = Viralsample::max('id');
 		ini_set("memory_limit", "-1");
 		$fields = Lookup::viralsamples_arrays();	
 		$offset_value = 0;
 		while(true)
 		{
-			$samples = OldViralsampleView::limit(self::$limit)->offset($offset_value)->get();
+			$samples = OldViralsampleView::when($start, function($query) use ($start){
+				return $query->where('id', '>', $start)
+			})->limit(self::$limit)->offset($offset_value)->get();
 			if($samples->isEmpty()) break;
 
 			foreach ($samples as $key => $value) {
@@ -81,6 +88,7 @@ class Synch
 					$patient->save();
 				}
 
+				$value->original_batch_id = self::set_batch_id($value->original_batch_id);
 				$batch = Viralbatch::existing($value->original_batch_id, $value->lab_id)->get()->first();
 
 				if(!$batch){
@@ -97,4 +105,10 @@ class Synch
 			echo "Completed vl {$offset_value} at " . date('d/m/Y h:i:s a', time()). "\n";
 		}
 	}
+
+    private static function set_batch_id($batch_id)
+    {
+        if($batch_id == floor($batch_id)) return $batch_id;
+        return (floor($batch_id) + 0.5);
+    }
 }

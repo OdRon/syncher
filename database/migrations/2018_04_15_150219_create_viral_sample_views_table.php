@@ -17,7 +17,7 @@ class CreateViralSampleViewsTable extends Migration
         CREATE OR REPLACE VIEW viralsamples_view AS
         (
           SELECT s.*, b.original_batch_id, b.highpriority, b.datereceived, b.datedispatched, b.site_entry, b.lab_id, b.facility_id,
-          p.original_patient_id, p.patient, p.sex, p.dob
+          p.original_patient_id, p.patient_status, p.patient, p.sex, p.dob
 
           FROM viralsamples s
             JOIN viralbatches b ON b.id=s.batch_id

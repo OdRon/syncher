@@ -57,3 +57,13 @@ CREATE OR REPLACE VIEW old_viralsamples_view AS
     LEFT JOIN viralpatients p ON p.AutoID=s.patientid
 
 );
+
+#run by
+
+CREATE OR REPLACE VIEW worksheets AS
+(
+    SELECT id, worksheetno as original_worksheet_id, type as machine_type, lab as lab_id, status as status_id,
+        updatedby as uploaded_by, 
+
+    FROM worksheets_eid
+);

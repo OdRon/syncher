@@ -18,6 +18,7 @@ class CreateViralpatientsTable extends Migration
             $table->bigInteger('original_patient_id')->unsigned()->index()->nullable();
             $table->string('patient', 25);
             $table->string('patient_name', 50)->nullable();
+            $table->tinyInteger('patient_status')->unsigned()->nullable()->default(1);
             $table->integer('facility_id')->unsigned()->index();
             // $table->string('fullnames', 50)->nullable();
             $table->string('caregiver_phone', 15)->nullable();
