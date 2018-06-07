@@ -14,6 +14,51 @@ use App\Viralworksheet;
 class VlController extends Controller
 {
 
+
+    public function synch_patients(BlankRequest $request)
+    {
+        $patients_array = [];
+
+        $patients = json_decode($request->input('patients'));
+
+        foreach ($patients as $key => $value) {
+            $patient = Viralpatient::existing($value->facility_id, $value->patient)->get()->first();
+            if(!$patient) continue;
+            $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
+        }
+
+        return response()->json([
+            'status' => 'ok',
+            'patients' => $patients_array,
+        ], 200);
+    }
+
+    public function synch_batches(BlankRequest $request)
+    {
+        $batches_array = [];
+        $samples_array = [];
+        $batches = json_decode($request->input('batches'));
+
+        foreach ($batches as $key => $value) {
+            $batch = Viralbatch::existing($value->id, $value->lab_id)->get()->first();
+            if(!$batch) continue;
+
+            $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
+
+            foreach ($value->sample as $key2 => $value2) {
+                $sample = Viralsample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->get()->first();
+                if(!$sample) continue;
+                $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];
+            }
+
+        }
+        return response()->json([
+            'status' => 'ok',
+            'batches' => $batches_array,
+            'samples' => $samples_array,
+        ], 200);
+    }
+
     public function patients(BlankRequest $request)
     {
         $patients_array = [];

@@ -20,7 +20,6 @@ class BaseModel extends Model
             $this->synched = 3;
         }else{
             $this->delete();
-        }
-        
+        }        
     }
 }
