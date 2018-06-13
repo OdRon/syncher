@@ -36,6 +36,7 @@
                             <center>Please select Overall <strong>or Province or County or District or Facility & Period To generate the report based on your criteria.</strong></center>
                         </div>
                         {{ Form::open(['url'=>'/reports', 'method' => 'post', 'class'=>'form-horizontal', 'id' => 'reports_form']) }}
+                        <input type="hidden" name="testtype" value="{{ $testtype }}">
                         <div class="form-group">
                             <div class="row">
                                 <label class="col-sm-3 control-label">
@@ -50,7 +51,14 @@
                                     <input type="radio" name="category" value="county" class="i-checks">Select County
                                 </label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" id="report_county_search" name="county"></select>
+                                    <select class="form-control" name="county" id="county">
+                                        <option value="" selected disabled>Select County</option>
+                                    @forelse($countys as $county)
+                                        <option value="{{ $county->county_id }}">{{ $county->county }}</option>
+                                    @empty
+                                        <option value="" disabled>No County available</option>
+                                    @endforelse
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">
@@ -58,7 +66,14 @@
                                     <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
                                 </label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" id="report_district_search" name="district"></select>
+                                    <select class="form-control" name="district" id="district">
+                                        <option value="" selected disabled>Select Sub-County</option>
+                                    @forelse($subcountys as $subcounty)
+                                        <option value="{{ $subcounty->subcounty_id }}">{{ $subcounty->subcounty }}</option>
+                                    @empty
+                                        <option value="" disabled>No Sub-County available</option>
+                                    @endforelse
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">
@@ -66,7 +81,14 @@
                                     <input type="radio" name="category" value="facility" class="i-checks">Select Facility
                                 </label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" id="report_facility_search" name="facility"></select>
+                                    <select class="form-control" name="facility" id="facility">
+                                        <option value="" selected disabled>Select Facility</option>
+                                    @forelse($facilitys as $facility)
+                                        <option value="{{ $facility->id }}">{{ $facility->name }}</option>
+                                    @empty
+                                        <option value="" disabled>No Facility available</option>
+                                    @endforelse
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -189,8 +211,25 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Select Report Type</label>
                             <div class="col-sm-9">
-                                <label> <input type="radio" name="types" value="tested" class="i-checks"> Tested Samples </label>
-                                <label> <input type="radio" name="types" value="rejected" class="i-checks"> Rejected Samples </label>
+                            @if($testtype == 'EID')
+                                <label> <input type="radio" name="indicatortype" value="1" class="i-checks"> All Outcomes (+/-) </label>
+                                <label> <input type="radio" name="indicatortype" value="2" class="i-checks"> + Outcomes </label>
+                                <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
+                                <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes for Validation </label>
+                                <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
+                                <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <2M </label>
+                                <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
+                                <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label>
+                                <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>
+                                <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples </label>
+                            @elseif($testtype == 'VL')
+                                <label> <input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
+                                <label> <input type="radio" name="indicatortype" value="3" class="i-checks">Rejected</label>
+                                <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> Non Suppressed ( > 1000 cp/ml)</label>
+                                <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Pregnant & Lactating</label>
+                                <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> Dormant Sites ( Not Sent Samples)</label>
+                                <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples</label>
+                            @endif
                             </div>
                         </div>
 
@@ -235,10 +274,6 @@
             dateFormat: 'MM yy'
         });
 
-        set_select_facility("report_facility_search", "{{ url('facility/search') }}", 3, "Search for facility", false);
-        set_select_facility("report_district_search", "{{ url('district/search') }}", 3, "Search for Sub-County", false)
-        set_select_facility("report_county_search", "{{ url('county/search') }}", 1, "Search for County", false);
-
     @endcomponent
     <script type="text/javascript">
         $(document).ready(function(){
@@ -264,13 +299,13 @@
             $("#generate_report").click(function(e){
                 var selValue = $('input[name=category]:checked').val();
                 if (selValue == 'county') {
-                    category = $("#report_county_search").val();
+                    category = $("#county").val();
                     cat = 'County';
                 } else if (selValue == 'subcounty') {
-                    category = $("#report_district_search").val();
+                    category = $("#district").val();
                     cat = 'Sub-County';
                 } else if (selValue == 'facility') {
-                    category = $("#report_facility_search").val();
+                    category = $("#facility").val();
                     cat = 'Facility';
                 }
 

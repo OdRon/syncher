@@ -34,6 +34,14 @@
             </button>
             <div class="collapse mobile-navbar" id="mobile-collapse">
                 <ul class="nav navbar-nav">
+                    <li class="">
+                        <a href="{{ url('home') }}">Home</a>
+                    </li>
+                @if(Auth::user()->user_type_id == 1)
+                    <li class="">
+                        <a href="{{ url('users') }}">Users</a>
+                    </li>
+                @endif
                     <li>
                         <a class="" href="{{ url('/logout') }}"
                         onclick="event.preventDefault();
@@ -46,6 +54,14 @@
         <!-- Larger screens -->
         <div class="navbar-right">
             <ul class="nav navbar-nav no-borders">
+                <li class="">
+                    <a href="{{ url('home') }}">Home</a>
+                </li>
+            @if(Auth::user()->user_type_id == 1)
+                <li class="">
+                    <a href="{{ url('users') }}">Users</a>
+                </li>
+            @endif
                 <li class="dropdown">
                     <a href="{{ url('/logout') }}"
                         onclick="event.preventDefault();

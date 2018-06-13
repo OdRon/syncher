@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\UserType;
 use App\User;
 
+use DB;
+
 class UserController extends Controller
 {
     /**
@@ -18,7 +20,7 @@ class UserController extends Controller
         $columns = $this->_columnBuilder(['#','Full Names','Email Address','Account Type','Last Access','Action']);
         $row = "";
 
-        $users = User::select('users.*','user_types.user_type')->join('user_types', 'user_types.id', '=', 'users.user_type_id')->where('users.user_type_id', '<>', 5)->get();
+        $users = User::select('users.*','user_types.user_type')->join('user_types', 'user_types.id', '=', 'users.user_type_id')->where('users.user_type_id', '<>', 8)->get();
 
         foreach ($users as $key => $value) {
             $id = md5($value->id);
@@ -45,9 +47,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        $accounts = UserType::whereNull('deleted_at')->get();
+        $accounts = UserType::whereNull('deleted_at')->where('id', '<>', 8)->get();
+        $partners = DB::table('partners')->get();
 
-        return view('forms.users', compact('accounts'))->with('pageTitle', 'Add User');
+        return view('forms.users', compact('accounts','partners'))->with('pageTitle', 'Add User');
     }
 
     /**
@@ -62,16 +65,18 @@ class UserController extends Controller
             session(['toast_message'=>'User already exists', 'toast_error'=>1]);
             return redirect()->route('user.add');
         } else {
-            $user = factory(User::class, 1)->create([
-                        'user_type_id' => $request->user_type,
-                        'lab_id' => 0,
-                        'surname' => $request->surname,
-                        'oname' => $request->oname,
-                        'email' => $request->email,
-                        'password' => $request->password
-                        ,
-                        // 'telephone' => $request->telephone,
-                    ]);
+            $user = new User;
+            
+            $user->surname = $request->surname;
+            $user->oname = $request->oname;
+            $user->email = $request->email;
+            $user->user_type_id = $request->user_type;
+            $user->lab_id = 0;
+            $user->password = bcrypt($request->password);
+            $user->partner = $request->partner ?? NULL;
+            $user->telephone = $request->telephone;
+            $user->save();
+            
             session(['toast_message'=>'User created succesfully']);
 
             if ($request->submit_type == 'release')

@@ -1,3 +1,41 @@
+-- --------------------------------------------------------
+-- Host:                         192.168.10.10
+-- Server version:               5.7.20-0ubuntu0.16.04.1 - (Ubuntu)
+-- Server OS:                    Linux
+-- HeidiSQL Version:             9.5.0.5196
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+-- Dumping structure for table lab-nat.user_types
+CREATE TABLE IF NOT EXISTS `user_types` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `active` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table lab-nat.user_types: ~8 rows (approximately)
+/*!40000 ALTER TABLE `user_types` DISABLE KEYS */;
+INSERT INTO `user_types` (`id`, `user_type`, `deleted_at`, `created_at`, `updated_at`, `active`) VALUES
+	(1, 'System Administrator', NULL, NULL, NULL, 1),
+	(2, 'Program Officers', NULL, NULL, NULL, 1),
+	(3, 'Partner', NULL, NULL, NULL, 1),
+	(4, 'CASCOS/CHRIO', NULL, NULL, NULL, 1),
+	(5, 'Sub CASCO', NULL, NULL, NULL, 1),
+	(6, 'Super Counties', NULL, NULL, NULL, 1),
+	(7, 'Super Partner', NULL, NULL, NULL, 1),
+	(8, 'Facility Users', NULL, NULL, NULL, 1);
+/*!40000 ALTER TABLE `user_types` ENABLE KEYS */;
+
 
 DROP TABLE IF EXISTS `age_bands`;
 -- Dumping structure for table apidb.age_bands

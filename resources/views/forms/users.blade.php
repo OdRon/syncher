@@ -40,6 +40,21 @@
                                         </select>
                                     </div>
                                 </div>
+                                @isset($partners)
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Partner</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="partner" id="partner">
+                                            <option value="" selected disabled>Select Partner</option>
+                                        @forelse ($partners as $partner)
+                                            <option value="{{ $partner->id }}">{{ $partner->name }}</option>
+                                        @empty
+                                            <option value="" disabled="true">No Partners available</option>
+                                        @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+                                @endisset
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">Email</label>
                                     <div class="col-sm-8">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 
 class HomeController extends Controller
 {
@@ -23,9 +24,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->user_type_id == 2)
-            return view('dashboard.home')->with('pageTitle', 'Dashboard');
+        if (auth()->user()->user_type_id == 1)
+            return redirect('users');
+            // return view('dashboard.home')->with('pageTitle', 'Dashboard');
         
-        return view('reports.home')->with('pageTitle', 'Reports');
+        return redirect('reports/EID');
+    }
+
+    public function countysearch(Request $request)
+    {
+        $search = $request->input('search');
+        $county = DB::table('countys')->select('id', 'name', 'letter as facilitycode')
+            ->whereRaw("(name like '%" . $search . "%')")
+            ->paginate(10);
+        return $county;
     }
 }

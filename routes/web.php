@@ -26,9 +26,16 @@ Auth::routes();
 Route::post('facility/search/', 'FacilityController@search')->name('facility.search');
 
 Route::middleware(['web', 'auth'])->group(function(){
+	Route::get('followup', 'HEIController@index')->name('followup');
+	
 	Route::get('/home', 'HomeController@index')->name('home');
 
-	Route::post('reports', 'ReportController@generate')->name('reports');
+	Route::get('reports/{testtype?}', 'ReportController@index')->name('reports');
+	Route::post('reports', 'ReportController@generate');
+
+	// ------ Searches --------
+	Route::post('county/search/', 'HomeController@countysearch')->name('county.search');
+	// ------ Searches --------
 
 	Route::get('users', 'UserController@index')->name('users');
 	Route::get('user/add', 'UserController@create')->name('user.add');

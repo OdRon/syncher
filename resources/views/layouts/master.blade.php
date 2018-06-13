@@ -68,7 +68,7 @@
                 <h6 class="font-light pull-right" style="margin: 0px;">
                     <strong>
                         Welcome, 
-                        @if(Auth()->user()->user_type_id == 5)
+                        @if(Auth()->user()->user_type_id == 8)
                             {{ $user->name }}
                         @else
                             {{ Auth()->user()->surname }} {{ Auth()->user()->oname }}
@@ -77,7 +77,7 @@
                     <p style="margin-top: .5em;margin-bottom: 0px;">{{ @Date("l, d F Y") }}</p>
                 </h6>
                 <div class="row">
-                    @if (Auth()->user()->user_type_id == 5 || Auth()->user()->user_type_id == 2)
+                    @if (Auth()->user()->user_type_id == 8 || Auth()->user()->user_type_id == 1)
                         <div class="col-md-3" style="margin-top: .7em;margin-bottom: .7em;">
                             <h2 class="font-light m-b-xs">
                                 {{ $pageTitle ?? '' }}

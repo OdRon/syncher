@@ -16,17 +16,17 @@
 <aside id="menu">
     <div id="navigation">
         <ul class="nav" id="side-menu" style=" padding-top: 12px;padding-left: 8px;">
-        @if (Auth::user()->user_type_id == 2)
+        @if (Auth::user()->user_type_id == 1)
             <li><a href="{{ url('user/add') }}">Add Users</a></li>
             <hr />
             <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
             <hr />
         @else
-                <li><a href="{{ url('#') }}">EID Results/Reports</a></li>
+                <li><a href="{{ url('reports/EID') }}">EID Results/Reports</a></li>
                 <hr />
-                <li><a href="{{ url('#') }}">VL Results/Reports</a></li>
+                <li><a href="{{ url('reports/VL') }}">VL Results/Reports</a></li>
                 <hr />
-                <li><a href="{{ url('#') }}">HEI Patient Follow Up</a></li>
+                <li><a href="{{ url('followup') }}">HEI Patient Follow Up</a></li>
                 <hr />
                 <li><a href="{{ url('#') }}">HEI Validation Guide</a></li>
                 <hr />
