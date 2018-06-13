@@ -39,6 +39,7 @@ class NewFacility implements ShouldQueue
      */
     public function handle()
     {
+        
         $labs = Lab::all();
         foreach ($labs as $lab) {
             if(!$lab->base_url) continue;
