@@ -50,6 +50,7 @@ class ReportController extends Controller
 
     public static function __getDateData($request, &$dateString)
     {
+        // dd($request);
     	if ($request->testtype == 'VL') {
     		$table = 'viralsamples_view';
     		$model = ViralsampleView::select('viralsamples_view.id','viralsamples_view.patient','viralsamples_view.patient_name','viralsamples_view.provider_identifier', 'labs.labdesc', 'view_facilitys.county', 'view_facilitys.subcounty', 'view_facilitys.name as facility', 'view_facilitys.facilitycode', 'viralsamples_view.amrs_location', 'gender.gender', 'viralsamples_view.dob', 'viralsampletype.name as sampletype', 'viralsamples_view.datecollected', 'receivedstatus.name as receivedstatus', 'viralrejectedreasons.name as rejectedreason', 'viralprophylaxis.name as regimen', 'viralsamples_view.initiation_date', 'viraljustifications.name as justification', 'viralsamples_view.datereceived', 'viralsamples_view.datetested', 'viralsamples_view.datedispatched', 'viralsamples_view.result')
@@ -80,11 +81,11 @@ class ReportController extends Controller
     	}
 
         if ($request->category == 'county') {
-            $model = $model->where('view_facilitys.county', '=', $request->county);
+            $model = $model->where('view_facilitys.county_id', '=', $request->county);
         } else if ($request->category == 'subcounty') {
-            $model = $model->where('view_facilitys.county', '=', $request->district);
+            $model = $model->where('view_facilitys.subcounty_id', '=', $request->district);
         } else if ($request->category == 'facility') {
-            $model = $model->where('view_facilitys.county', '=', $request->facility);
+            $model = $model->where('view_facilitys.id', '=', $request->facility);
         }
 
     	if (isset($request->specificDate)) {
@@ -130,6 +131,7 @@ class ReportController extends Controller
             $model = $model->where("$table.receivedstatus", "=", '2');
         }
 
+        // dd($model->get());
     	return $model;
     }
 

@@ -26,9 +26,13 @@ Auth::routes();
 Route::post('facility/search/', 'FacilityController@search')->name('facility.search');
 
 Route::middleware(['web', 'auth'])->group(function(){
-	Route::get('followup', 'HEIController@index')->name('followup');
-	
 	Route::get('/home', 'HomeController@index')->name('home');
+
+	Route::prefix('hei')->name('hei.')->group(function(){
+		Route::get('validate/{year?}/{month?}', 'HEIController@index')->name('followup');
+		Route::get('followup/{level?}', 'HEIController@followup')->name('followup');
+		Route::post('followup', 'HEIController@followup');
+	});
 
 	Route::get('reports/{testtype?}', 'ReportController@index')->name('reports');
 	Route::post('reports', 'ReportController@generate');

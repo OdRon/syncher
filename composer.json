@@ -14,7 +14,8 @@
         "doctrine/dbal": "^2.7",
         "guzzlehttp/guzzle": "^6.3",
         "predis/predis": "^1.1",
-        "laravelcollective/html": "^5.4.0"
+        "laravelcollective/html": "^5.4.0",
+        "maatwebsite/excel": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

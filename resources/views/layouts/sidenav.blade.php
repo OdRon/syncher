@@ -26,7 +26,7 @@
                 <hr />
                 <li><a href="{{ url('reports/VL') }}">VL Results/Reports</a></li>
                 <hr />
-                <li><a href="{{ url('followup') }}">HEI Patient Follow Up</a></li>
+                <li><a href="{{ url('hei/validate') }}">HEI Patient Follow Up</a></li>
                 <hr />
                 <li><a href="{{ url('#') }}">HEI Validation Guide</a></li>
                 <hr />
