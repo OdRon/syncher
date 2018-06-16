@@ -88,7 +88,7 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->enrolled) }}
-                                    <strong>[{{ round((@($data->outcomes->enrolled/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{ round(@(($data->outcomes->enrolled/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
                                 </td>
                             </tr>
                             <tr>
@@ -97,7 +97,7 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->ltfu) }}
-                                    <strong>[{{ round((@($data->outcomes->ltfu/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{ round(@(($data->outcomes->ltfu/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
                                 </td>
                             </tr>
                             <tr>
@@ -106,7 +106,7 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->dead) }}
-                                    <strong>[{{ round((@($data->outcomes->dead/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{ round(@(($data->outcomes->dead/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
                                 </td>
                             </tr>
                             <!-- <tr>
@@ -115,7 +115,7 @@
                                 </th>
                                 <td>
                                     {{ $data->outcomes->enrolled }}
-                                    {{ round((@($data->outcomes->enrolled/$data->outcomes->positiveOutcomes)/100),1) }}
+                                    {{ round((@($data->outcomes->enrolled/$data->outcomes->positiveOutcomes)*100),1) }}
                                 </td>
                             </tr> -->
                             <tr>
@@ -124,7 +124,7 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->transferOut) }}
-                                    <strong>[{{ round((@($data->outcomes->transferOut/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{ round(@(($data->outcomes->transferOut/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
                                 </td>
                             </tr>
                             <tr>
@@ -133,7 +133,16 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->other) }}
-                                    <strong>[{{ round((@($data->outcomes->other/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{ round(@(($data->outcomes->other/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Infants with Other validations
+                                </th>
+                                <td>
+                                    {{ $data->outcomes->othervalidation }}
+                                    <strong>[{{ round(@(($data->outcomes->othervalidation/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
                                 </td>
                             </tr>
                             <tr>
@@ -145,7 +154,7 @@
                                 <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
                                     <div class="alert alert-warning">
                                         {{ number_format($data->outcomes->unknown) }}
-                                        <strong>[{{ round((@($data->outcomes->unknown/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
+                                        <strong>[{{ round(@(($data->outcomes->unknown/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
                                         @if($data->outcomes->unknown > 0)
                                             <a href="{{ url('hei/followup') }}" style="color: blue;">Click to View Full Listing</a>
                                         @endif
@@ -179,7 +188,7 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->cumulative->enrolled) }}
-                                    <strong>[{{ round((@($data->cumulative->enrolled/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{ round(@(($data->cumulative->enrolled/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
                                 </td>
                             </tr>
                             <tr>
@@ -206,7 +215,7 @@
                                 </th>
                                 <td>
                                     {{ $data->outcomes->enrolled }}
-                                    {{ round((@($data->outcomes->enrolled/$data->outcomes->positiveOutcomes)/100),1) }}
+                                    <strong>[{{ round(@(($data->outcomes->enrolled/$data->outcomes->positiveOutcomes)*100),1) }}%]</strong>
                                 </td>
                             </tr> -->
                             <tr>
@@ -215,7 +224,7 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->cumulative->transferOut) }}
-                                    <strong>[{{ round((@($data->cumulative->transferOut/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{ round(@(($data->cumulative->transferOut/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
                                 </td>
                             </tr>
                             <tr>
@@ -224,7 +233,16 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->cumulative->other) }}
-                                    <strong>[{{ round((@($data->cumulative->other/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{ round(@(($data->cumulative->other/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Infants with Other validations
+                                </th>
+                                <td>
+                                    {{ $data->cumulative->othervalidation }}
+                                    <strong>[{{ round(@(($data->cumulative->othervalidation/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
                                 </td>
                             </tr>
                             <tr>
@@ -233,7 +251,7 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->cumulative->unknown) }}
-                                    <strong>[{{ round((@($data->cumulative->unknown/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{ round(@(($data->cumulative->unknown/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
                                     @if($data->cumulative->unknown > 0)
                                         <a href="{{ url('hei/followup/cumulative') }}" style="color: blue;">Click to View Full Listing</a>
                                     @endif

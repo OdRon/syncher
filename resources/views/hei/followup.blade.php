@@ -68,7 +68,10 @@
                                         <td>{{ $sample->county }}</td>
                                         <td>{{ $sample->name }}</td>
                                         <td>{{ $sample->facilitycode }}</td>
-                                        <td>{{ $sample->patient }}</td>
+                                        <td>
+                                            {{ $sample->patient }}
+                                            <input type="hidden" name="patient{{ $count }}" value="{{ $sample->patient }}">
+                                        </td>
                                         <td>{{ $sample->datecollected }}</td>
                                         <td>{{ $sample->datetested }}</td>
                                         <td>
@@ -137,7 +140,7 @@
             forceParse: true,
             autoclose: true,
             endDate: new Date(),
-            dateFormat: 'MM yy'
+            format: "yyyy-mm-dd"
         });
 
         $('.data-table').dataTable({

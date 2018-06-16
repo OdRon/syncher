@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\SampleView;
+use App\Sample;
+use App\Patient;
 
 class HEIController extends Controller
 {
@@ -38,8 +40,28 @@ class HEIController extends Controller
     	$year = session('followupYear');
     	$month = session('followupMonth');
     	
-    	if ($request->method() == 'POST')
-    		dd($request->all());
+    	if ($request->method() == 'POST') {
+    		$data = [];
+    		$columns = [ 'id', 'patient', 'hei_validation', 'enrollment_status', 'dateinitiatedontreatment', 'enrollment_ccc_no', 'facility_id', 'other_reason'];
+    		$sampleCount = (int)$request->DataTables_Table_0_length ?? null;
+    		if (isset($sampleCount) || $sampleCount > 0) {
+    			for ($i=$sampleCount; $i > 0 ; $i--) { 
+    				foreach ($columns as $key => $value) {
+    					$name = $value.$i;
+    					$data[$i][$value] = $request->$name;
+    				}
+    			}
+    			$save = $this->saveHeis($data);
+    			session(['toast_message'=>'Follow up for the '.$sampleCount.' patients complete']);
+    			$unvalidated = self::__cumulativeOutcomes();
+    			if ($unvalidated->unknown > 0 ) {
+    				return redirect('hei/followup/cumulative');
+    			} else {
+    				return redirect('hei/validate');
+    			}
+    			
+    		}
+    	}
     	
     	$data['hei_categories'] = DB::table('hei_categories')->get();
     	$data['hei_validation'] = DB::table('hei_validation')->get();
@@ -53,6 +75,34 @@ class HEIController extends Controller
     	return view('hei.followup', compact('data'))->with('pageTitle', "HEI Folow Up:$year $monthName");
     }
 
+    public function saveHeis($data)
+    {
+    	foreach ($data as $key => $value) {
+    		$value = (object)$value;
+    		$sample = Sample::where('id', '=', $value->id)->get()->first();
+    		// dd($sample);
+    		$sample->hei_validation = $value->hei_validation;
+    		if ($value->hei_validation == 1) {
+    			$patient = Patient::where('patient', '=', $value->patient)->get()->first();
+    			$sample->enrollment_status = $value->enrollment_status;
+    			if ($value->enrollment_status == 1) {
+    				$patient->ccc_no = $value->enrollment_ccc_no;
+    				$patient->dateinitiatedontreatment = $value->dateinitiatedontreatment;
+    				$patient->save();
+    				$sample->enrollment_ccc_no = $value->enrollment_ccc_no;
+    			} else if ($value->enrollment_status == 5) {
+    				$patient->facility_id = $value->facility_id;
+    				$patient->save();
+    				$sample->referredfromsite = $value->facility_id;
+    			} else if ($value->enrollment_status == 6) {
+    				$sample->otherreason = $value->other_reason;
+    			}
+    		}
+    		$sample->save();
+    	}
+    	return true;
+    }
+// 191836
     public static function __outcomes($year=null, $month=null)
     {
     	$positiveOutcomes = self::__getOutcomes(null,$year,$month);
@@ -61,7 +111,8 @@ class HEIController extends Controller
     	$dead = self::__getOutcomes(3,$year,$month);
     	$transferOut = self::__getOutcomes(5,$year,$month);
     	$other = self::__getOutcomes(6,$year,$month);
-    	$unknown = ($positiveOutcomes - ($enrolled+$ltfu+$dead+$transferOut+$other));
+    	$othervalidation = self::__getOutcomes('others');
+    	$unknown = ($positiveOutcomes - ($enrolled+$ltfu+$dead+$transferOut+$other+$othervalidation));
 
     	return (object)['positiveOutcomes' => $positiveOutcomes,
 		    			'enrolled' => $enrolled,
@@ -69,6 +120,7 @@ class HEIController extends Controller
 		    			'dead' => $dead,
 		    			'transferOut' => $transferOut,
 		    			'other' => $other,
+		    			'othervalidation' => $othervalidation,
 		    			'unknown' => $unknown
 		    			];
     }
@@ -81,7 +133,8 @@ class HEIController extends Controller
     	$dead = self::__getOutcomes(3);
     	$transferOut = self::__getOutcomes(5);
     	$other = self::__getOutcomes(6);
-    	$unknown = ($positiveOutcomes - ($enrolled+$ltfu+$dead+$transferOut+$other));
+    	$othervalidation = self::__getOutcomes('others');
+    	$unknown = ($positiveOutcomes - ($enrolled+$ltfu+$dead+$transferOut+$other+$othervalidation));
 
     	return (object)['positiveOutcomes' => $positiveOutcomes,
 		    			'enrolled' => $enrolled,
@@ -89,6 +142,7 @@ class HEIController extends Controller
 		    			'dead' => $dead,
 		    			'transferOut' => $transferOut,
 		    			'other' => $other,
+		    			'othervalidation' => $othervalidation,
 		    			'unknown' => $unknown
 		    			];
     }
@@ -105,13 +159,18 @@ class HEIController extends Controller
 					->when($month, function($query) use ($month){
                         return $query->whereRaw("MONTH(datetested) = $month");
                     })->when($status, function($query) use ($status){
-                        return $query->where('samples_view.enrollment_status', '=', $status);
+                    	if ($status == 'others') {
+                    		return $query->where('samples_view.hei_validation', '<>', '0')->where('samples_view.hei_validation', '<>', '1');
+                    	} else {
+                        	return $query->where('samples_view.enrollment_status', '=', $status);
+                        }
                     })->get()->first()->totalPositives;
     }
 
     public static function __getSamples($level=null,$year=null,$month=null)
     {
-    	$model = SampleView::join('view_facilitys', 'view_facilitys.id', '=', 'samples_view.facility_id')
+    	$model = SampleView::select('samples_view.*')
+    				->join('view_facilitys', 'view_facilitys.id', '=', 'samples_view.facility_id')
 					->where('samples_view.result', '=', 2)->where('samples_view.pcrtype', '=', 1)
 					->where('samples_view.repeatt', '=', 0)->where('view_facilitys.partner_id', '=', auth()->user()->partner);
 
@@ -120,7 +179,7 @@ class HEIController extends Controller
 					return $query->whereRaw("YEAR(datetested) = $year");
 				})->when($month, function($query) use ($month){
 	                return $query->whereRaw("MONTH(datetested) = $month");
-	            })->where('samples_view.enrollment_status', '=', 0);
+	            })->where('samples_view.hei_validation', '=', 0);
 
     	return $model->get();
     }
