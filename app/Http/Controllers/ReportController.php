@@ -41,14 +41,15 @@ class ReportController extends Controller
         }
         // dd($request->all());
         $dateString = '';
+        $excelColumns = [];
         
-        $data = self::__getDateData($request,$dateString)->get();
-        $this->__getExcel($data, $dateString);
+        $data = self::__getDateData($request,$dateString, $excelColumns)->get();
+        $this->__getExcel($data, $dateString, $excelColumns);
         
         return back();
     }
 
-    public static function __getDateData($request, &$dateString)
+    public static function __getDateData($request, &$dateString, &$excelColumns)
     {
         // dd($request);
     	if ($request->testtype == 'VL') {
@@ -64,7 +65,17 @@ class ReportController extends Controller
     				->leftJoin('viraljustifications', 'viraljustifications.id', '=', 'viralsamples_view.justification');
     	} else if ($request->testtype == 'EID') {
     		$table = 'samples_view';
-    		$model = SampleView::select('samples_view.id','samples_view.patient', 'samples_view.batch_id', 'labs.labdesc', 'view_facilitys.county', 'view_facilitys.subcounty', 'view_facilitys.name as facility', 'view_facilitys.facilitycode', 'gender.gender', 'samples_view.dob', 'samples_view.age', 'ip.name as infantprophylaxis', 'samples_view.datecollected', 'pcrtype.alias as pcrtype', 'samples_view.spots', 'receivedstatus.name as receivedstatus', 'rejectedreasons.name as rejectedreason', 'mr.name as motherresult', 'mp.name as motherprophylaxis', 'feedings.feeding', 'entry_points.name as entrypoint', 'samples_view.datereceived', 'samples_view.datetested', 'samples_view.datedispatched', 'ir.name as infantresult')
+            $selectStr = "samples_view.id, samples_view.patient, samples_view.batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender, samples_view.dob, samples_view.age, pcrtype.alias as pcrtype, samples_view.datecollected, samples_view.datereceived, samples_view.datetested, samples_view.datedispatched";
+
+            if ($request->indicatortype == 1) {
+                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result'];
+                $selectStr .= ",ip.name as infantprophylaxis, receivedstatus.name as receivedstatus, samples_view.spots, feedings.feeding, entry_points.name as entrypoint, ir.name as infantresult, mp.name as motherprophylaxis, mr.name as motherresult";
+            } else if ($request->indicatortype == 2) {
+                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Validation (CP,A,VL,RT,UF)', 'Enrollment Status', 'Date Initiated on Treatment', 'Enrollment CCC #', 'Other Reasons'];
+                $selectStr .= ",hv.desc as hei_validation, hc.name as enrollment_status, samples_view.dateinitiatedontreatment, samples_view.enrollment_ccc_no, samples_view.otherreason";
+            }
+            
+    		$model = SampleView::selectRaw($selectStr)
     				->leftJoin('labs', 'labs.id', '=', 'samples_view.lab_id')
     				->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'samples_view.facility_id')
     				->leftJoin('gender', 'gender.id', '=', 'samples_view.sex')
@@ -77,7 +88,9 @@ class ReportController extends Controller
     				->leftJoin('entry_points', 'entry_points.id', '=', 'samples_view.entry_point')
     				->leftJoin('results as ir', 'ir.id', '=', 'samples_view.result')
     				->leftJoin('mothers', 'mothers.id', '=', 'samples_view.mother_id')
-    				->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status');
+    				->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status')
+                    ->leftJoin('hei_validation as hv', 'hv.id', '=', 'samples_view.hei_validation')
+                    ->leftJoin('hei_categories as hc', 'hc.id', '=', 'samples_view.enrollment_status');
     	}
 
         if ($request->category == 'county') {
@@ -135,20 +148,15 @@ class ReportController extends Controller
     	return $model;
     }
 
-    public static function __getExcel($data, $dateString)
+    public static function __getExcel($data, $dateString, $dataArray)
     {
-        $dataArray = []; 
-
-        $dataArray[] = (session('testingSystem') == 'Viralload') ?
-            ['Lab ID', 'Patient CCC No', 'Patient Names', 'Provider Identifier', 'Testing Lab', 'County', 'Sub County', 'Facility Name', 'MFL Code', 'AMRS location', 'Sex', 'Age', 'Sample Type', 'Collection Date', 'Received Status', 'Rejected Reason / Reason for Repeat', 'Current Regimen', 'ART Initiation Date', 'Justification',  'Date of Receiving', 'Date of Testing', 'Date of Dispatch', 'Viral Load'] :
-            ['Lab ID', 'Sample Code', 'Batch No', 'Testing Lab', 'County', 'Sub County', 'Facility Name', 'MFL Code', 'Sex',    'DOB', 'Age(m)', 'Infant Prophylaxis', 'Date of Collection', 'PCR Type', 'Spots', 'Received Status', 'Rejected Reason / Reason for Repeat', 'HIV Status of Mother', 'PMTCT Intervention', 'Breast Feeding', 'Entry Point',  'Date of Receiving', 'Date of Testing', 'Date of Dispatch', 'Test Result'];
-        
+        dd($dataArray);
         if($data->isNotEmpty()) {
             foreach ($data as $report) {
                 $dataArray[] = $report->toArray();
             }
             
-            $report = (session('testingSystem') == 'Viralload') ? 'VL '.$dateString : 'EID '.$dateString;
+            $report = 'Detailed Report';
             
             Excel::create($report, function($excel) use ($dataArray, $report) {
                 $excel->setTitle($report);
