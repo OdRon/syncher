@@ -194,7 +194,7 @@ class ReportController extends Controller
             foreach ($data as $report) {
                 $newdataArray[] = $report->toArray();
             }
-            dd($newdataArray);
+            // dd($newdataArray);
             $report = 'Detailed Report';
             
             Excel::create($report, function($excel) use ($newdataArray, $report) {
