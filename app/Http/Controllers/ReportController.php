@@ -65,14 +65,28 @@ class ReportController extends Controller
     				->leftJoin('viraljustifications', 'viraljustifications.id', '=', 'viralsamples_view.justification');
     	} else if ($request->testtype == 'EID') {
     		$table = 'samples_view';
-            $selectStr = "samples_view.id, samples_view.patient, samples_view.batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender, samples_view.dob, samples_view.age, pcrtype.alias as pcrtype, samples_view.datecollected, samples_view.datereceived, samples_view.datetested, samples_view.datedispatched";
+            $selectStr = "samples_view.id, samples_view.patient, samples_view.batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender, samples_view.dob, samples_view.age, pcrtype.alias as pcrtype, samples_view.datecollected, samples_view.datereceived, samples_view.datetested, samples_view.datedispatched";
 
-            if ($request->indicatortype == 1) {
-                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result'];
+            if ($request->indicatortype == 1 || $request->indicatortype == 6) {
+                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result'];
                 $selectStr .= ",ip.name as infantprophylaxis, receivedstatus.name as receivedstatus, samples_view.spots, feedings.feeding, entry_points.name as entrypoint, ir.name as infantresult, mp.name as motherprophylaxis, mr.name as motherresult";
-            } else if ($request->indicatortype == 2) {
-                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Validation (CP,A,VL,RT,UF)', 'Enrollment Status', 'Date Initiated on Treatment', 'Enrollment CCC #', 'Other Reasons'];
-                $selectStr .= ",hv.desc as hei_validation, hc.name as enrollment_status, samples_view.dateinitiatedontreatment, samples_view.enrollment_ccc_no, samples_view.otherreason";
+            } else if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
+                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result', 'Validation (CP,A,VL,RT,UF)', 'Enrollment Status', 'Date Initiated on Treatment', 'Enrollment CCC #', 'Other Reasons'];
+
+                $selectStr .= ", ir.name as infantresult, hv.desc as hei_validation, hc.name as enrollment_status, $table.dateinitiatedontreatment, $table.enrollment_ccc_no, $table.otherreason";
+            } else if ($request->indicatortype == 5) {
+                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Received Status', 'Rejected Reason'];
+                $selectStr .= ", receivedstatus.name as receivedstatus, rejectedreasons.name";
+            } else if ($request->indicatortype == 7) {
+                $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Total Positives'];
+                $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name , $table.facilitycode, COUNT($table.id) as totaltests";
+            } else if ($request->indicatortype == 8) {
+                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result'];
+                $selectStr .= ", ir.name as infantresult";
+            } else if ($request->indicatortype == 9) {
+
+            } else if ($request->indicatortype == 10) {
+
             }
             
     		$model = SampleView::selectRaw($selectStr)
@@ -99,6 +113,8 @@ class ReportController extends Controller
             $model = $model->where('view_facilitys.subcounty_id', '=', $request->district);
         } else if ($request->category == 'facility') {
             $model = $model->where('view_facilitys.id', '=', $request->facility);
+        } else if ($request->category == 'overall') {
+            $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->partner);
         }
 
     	if (isset($request->specificDate)) {
@@ -140,31 +156,54 @@ class ReportController extends Controller
 
         if ($request->types == 'tested') {
             $model = $model->where("$table.receivedstatus", "<>", '2');
-        } else {
-            $model = $model->where("$table.receivedstatus", "=", '2');
+        } else if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
+            $model = $model->where("$table.receivedstatus", "=", '2')->where("$table.pcrtype", '=', 1)
+                        ->where("$table.repeatt", '=', 0);
+            if ($request->indicatortype == 4) {
+                $model = $model->where("$table.result", '=', 2);
+            } else {
+                $model = $model->where("$table.result", '=', 2);
+            }
+            
+            if ($request->indicatortype == 3) 
+                $model->where("$table.hei_validation", "<>", 0);
+        } else if ($request->indicatortype == 5) {
+            $model = $model->where("$table.receivedstatus", "=", 2);
+        } else if ($request->indicatortype == 6) {
+            $model = $model->where("$table.age", "<=", 2);
+        } else if ($request->indicatortype == 7) {
+            $model = $model->where("$table.repeatt", '=', 0)->where("$table.result", '=', 2)
+                            ->groupBy('county')
+                            ->groupBy('subcounty')
+                            ->groupBy('partner')
+                            ->groupBy('facilitycode')
+                            ->groupBy('name')
+                            ->orderBy('totaltests', 'desc');
+        } else if ($request->indicatortype == 8) {
+            $model = $model->where("$table.repeatt", '=', 0);
         }
 
-        // dd($model->get());
+        // dd($model->toSql());
     	return $model;
     }
 
     public static function __getExcel($data, $dateString, $dataArray)
     {
-        dd($dataArray);
         if($data->isNotEmpty()) {
+            $newdataArray[] = $dataArray;
             foreach ($data as $report) {
-                $dataArray[] = $report->toArray();
+                $newdataArray[] = $report->toArray();
             }
-            
+            dd($newdataArray);
             $report = 'Detailed Report';
             
-            Excel::create($report, function($excel) use ($dataArray, $report) {
+            Excel::create($report, function($excel) use ($newdataArray, $report) {
                 $excel->setTitle($report);
                 $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('WJ Gilmore, LLC');
                 $excel->setDescription('TEST OUTCOME REPORT FOR '.$report);
 
-                $excel->sheet($report, function($sheet) use ($dataArray) {
-                    $sheet->fromArray($dataArray, null, 'A1', false, false);
+                $excel->sheet($report, function($sheet) use ($newdataArray) {
+                    $sheet->fromArray($newdataArray, null, 'A1', false, false);
                 });
 
             })->download('xlsx');
