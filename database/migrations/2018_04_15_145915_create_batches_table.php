@@ -27,7 +27,7 @@ class CreateBatchesTable extends Migration
             $table->tinyInteger('batch_complete')->unsigned()->default(0)->nullable();
             $table->tinyInteger('site_entry')->unsigned()->default(0)->nullable();
 
-            $table->boolean('sent_email')->default(false)->nullable();
+            $table->boolean('sent_email')->default(false)->nullable(); 
 
             $table->integer('printedby')->unsigned()->nullable();
             $table->integer('user_id')->unsigned()->nullable();
