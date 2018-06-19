@@ -54,7 +54,23 @@ class ReportController extends Controller
         // dd($request);
     	if ($request->testtype == 'VL') {
     		$table = 'viralsamples_view';
-    		$model = ViralsampleView::select('viralsamples_view.id','viralsamples_view.patient','viralsamples_view.patient_name','viralsamples_view.provider_identifier', 'labs.labdesc', 'view_facilitys.county', 'view_facilitys.subcounty', 'view_facilitys.name as facility', 'view_facilitys.facilitycode', 'viralsamples_view.amrs_location', 'gender.gender', 'viralsamples_view.dob', 'viralsampletype.name as sampletype', 'viralsamples_view.datecollected', 'receivedstatus.name as receivedstatus', 'viralrejectedreasons.name as rejectedreason', 'viralprophylaxis.name as regimen', 'viralsamples_view.initiation_date', 'viraljustifications.name as justification', 'viralsamples_view.datereceived', 'viralsamples_view.datetested', 'viralsamples_view.datedispatched', 'viralsamples_view.result')
+            $selectStr = "$table.id, $table.batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender, $table.dob, $table.age, viralsampletype.name as sampletype, $table.datecollected, viraljustifications.name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
+
+            if ($request->indicatortype == 2) {
+                $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Reasons for Repeat', 'Rejected Reason', 'Regimen', 'Regimen Line', 'PMTCT', 'Result'];
+                $selectStr .= ", receivedstatus.name as receivedstatus, $table.reason_for_repeat, viralrejectedreasons.name as rejectedreason, viralprophylaxis.name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
+            } else if ($request->indicatortype == 3) {
+                $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Rejected Reason', 'Lab Comment'];
+                $selectStr .= ", receivedstatus.name as receivedstatus, viralrejectedreasons.name as rejectedreason, $table.labcomment";
+            } else if ($request->indicatortype == 4) {
+                $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Regimen', 'Regimen Line', 'PMTCT', 'Result'];
+                $selectStr .= ", receivedstatus.name as receivedstatus, viralprophylaxis.name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
+            } else if ($request->indicatortype == 6) {
+                $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Regimen', 'Regimen Line', 'PMTCT', 'Result'];
+                $selectStr .= ", receivedstatus.name as receivedstatus, viralprophylaxis.name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
+            }
+
+    		$model = ViralsampleView::selectRaw($selectStr)
     				->leftJoin('labs', 'labs.id', '=', 'viralsamples_view.lab_id')
     				->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsamples_view.facility_id')
     				->leftJoin('gender', 'gender.id', '=', 'viralsamples_view.sex')
@@ -62,10 +78,20 @@ class ReportController extends Controller
     				->leftJoin('receivedstatus', 'receivedstatus.id', '=', 'viralsamples_view.receivedstatus')
     				->leftJoin('viralrejectedreasons', 'viralrejectedreasons.id', '=', 'viralsamples_view.rejectedreason')
     				->leftJoin('viralprophylaxis', 'viralprophylaxis.id', '=', 'viralsamples_view.prophylaxis')
-    				->leftJoin('viraljustifications', 'viraljustifications.id', '=', 'viralsamples_view.justification');
+    				->leftJoin('viraljustifications', 'viraljustifications.id', '=', 'viralsamples_view.justification')
+                    ->leftJoin('viralpmtcttype', 'viralpmtcttype.id', '=', 'viralsamples_view.pmtct')
+                    ->leftJoin('viralregimenline', 'viralregimenline.id', '=', 'viralsamples_view.regimenline');
+
+            if ($request->indicatortype == 3) {
+                $model = $model->where("$table.receivedstatus", "=", 2);
+            } else if ($request->indicatortype == 4) {
+                $model = $model->where("$table.rcategory", "=", 4);
+            } else if ($request->indicatortype == 6) {
+                $model = $model->where('pmtct', '=', 1)->whereOr('pmtct', '=', 2);
+            }
     	} else if ($request->testtype == 'EID') {
     		$table = 'samples_view';
-            $selectStr = "samples_view.id, samples_view.patient, samples_view.batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender, samples_view.dob, samples_view.age, pcrtype.alias as pcrtype, samples_view.datecollected, samples_view.datereceived, samples_view.datetested, samples_view.datedispatched";
+            $selectStr = "$table.id, $table.patient, $table.batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender, $table.dob, $table.age, pcrtype.alias as pcrtype, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
 
             if ($request->indicatortype == 1 || $request->indicatortype == 6) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result'];
@@ -105,6 +131,33 @@ class ReportController extends Controller
     				->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status')
                     ->leftJoin('hei_validation as hv', 'hv.id', '=', 'samples_view.hei_validation')
                     ->leftJoin('hei_categories as hc', 'hc.id', '=', 'samples_view.enrollment_status');
+
+            if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
+                $model = $model->where("$table.receivedstatus", "=", '2')->where("$table.pcrtype", '=', 1)
+                            ->where("$table.repeatt", '=', 0);
+                if ($request->indicatortype == 4) {
+                    $model = $model->where("$table.result", '=', 2);
+                } else {
+                    $model = $model->where("$table.result", '=', 2);
+                }
+                
+                if ($request->indicatortype == 3) 
+                    $model->where("$table.hei_validation", "<>", 0);
+            } else if ($request->indicatortype == 5) {
+                $model = $model->where("$table.receivedstatus", "=", 2);
+            } else if ($request->indicatortype == 6) {
+                $model = $model->where("$table.age", "<=", 2);
+            } else if ($request->indicatortype == 7) {
+                $model = $model->where("$table.repeatt", '=', 0)->where("$table.result", '=', 2)
+                                ->groupBy('county')
+                                ->groupBy('subcounty')
+                                ->groupBy('partner')
+                                ->groupBy('facilitycode')
+                                ->groupBy('name')
+                                ->orderBy('totaltests', 'desc');
+            } else if ($request->indicatortype == 8) {
+                $model = $model->where("$table.repeatt", '=', 0);
+            }
     	}
 
         if ($request->category == 'county') {
@@ -153,35 +206,6 @@ class ReportController extends Controller
                 $model = $model->whereRaw("YEAR($table.datetested) = '".$request->year."'");
             }
     	}
-
-        if ($request->types == 'tested') {
-            $model = $model->where("$table.receivedstatus", "<>", '2');
-        } else if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
-            $model = $model->where("$table.receivedstatus", "=", '2')->where("$table.pcrtype", '=', 1)
-                        ->where("$table.repeatt", '=', 0);
-            if ($request->indicatortype == 4) {
-                $model = $model->where("$table.result", '=', 2);
-            } else {
-                $model = $model->where("$table.result", '=', 2);
-            }
-            
-            if ($request->indicatortype == 3) 
-                $model->where("$table.hei_validation", "<>", 0);
-        } else if ($request->indicatortype == 5) {
-            $model = $model->where("$table.receivedstatus", "=", 2);
-        } else if ($request->indicatortype == 6) {
-            $model = $model->where("$table.age", "<=", 2);
-        } else if ($request->indicatortype == 7) {
-            $model = $model->where("$table.repeatt", '=', 0)->where("$table.result", '=', 2)
-                            ->groupBy('county')
-                            ->groupBy('subcounty')
-                            ->groupBy('partner')
-                            ->groupBy('facilitycode')
-                            ->groupBy('name')
-                            ->orderBy('totaltests', 'desc');
-        } else if ($request->indicatortype == 8) {
-            $model = $model->where("$table.repeatt", '=', 0);
-        }
 
         // dd($model->toSql());
     	return $model;

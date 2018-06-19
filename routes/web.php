@@ -41,6 +41,8 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::post('county/search/', 'HomeController@countysearch')->name('county.search');
 	// ------ Searches --------
 
+	Route::get('sites', 'SiteController@index')->name('sites');
+
 	Route::get('users', 'UserController@index')->name('users');
 	Route::get('user/add', 'UserController@create')->name('user.add');
 	Route::get('user/passwordReset/{user?}', 'UserController@passwordreset')->name('passwordReset');

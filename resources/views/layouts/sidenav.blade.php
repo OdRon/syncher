@@ -30,11 +30,11 @@
                 <hr />
                 <li><a href="{{ url('#') }}">HEI Validation Guide</a></li>
                 <hr />
-                <li><a href="{{ url('#') }}">Sites Listing</a></li>
+                <li><a href="{{ url('sites') }}">Sites Listing</a></li>
                 <hr />
                 <li><a href="https://eid.naascop.org">EID Summaries</a></li>
                 <hr />
-                <li><a href="https://viralload.naascop.org">VL SUmmaries</a></li>
+                <li><a href="https://viralload.naascop.org">VL Summaries</a></li>
                 <hr />
                 <li><a href="#">User Guide</a></li>
                 <hr />
