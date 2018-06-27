@@ -43,10 +43,16 @@
                                     <input type="radio" name="category" class="i-checks" value="overall">Overall
                                 </label>
                                 <div class="col-sm-9">
-                                    << For all samples tested in Lab >>
+                                    @if(Auth::user()->user_type_id == 3)
+                                        << For all Sites Under Partner >>
+                                    @elseif(Auth::user()->user_type_id == 4)
+                                        << For all Sites Under County >>
+                                    @elseif(Auth::user()->user_type_id == 5)
+                                        << For all Sites Under Sub-County >>
+                                    @endif
                                 </div>
                             </div>
-                            @if(Auth::user()->user_type_id == 3)
+                            @if(Auth::user()->user_type_id != 4 || Auth::user()->user_type_id != 5)
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" value="county" class="i-checks">Select County
@@ -63,6 +69,7 @@
                                 </div>
                             </div>
                             @endif
+                            @if(Auth::user()->user_type_id != 5)
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
@@ -78,6 +85,7 @@
                                     </select>
                                 </div>
                             </div>
+                            @endif
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" value="facility" class="i-checks">Select Facility

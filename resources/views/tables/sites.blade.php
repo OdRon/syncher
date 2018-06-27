@@ -24,14 +24,14 @@
                                 <th {{ $rowspan }}>County</th>
                                 <th {{ $rowspan }}>Sub-County</th>
                                 <th {{ $rowspan }}>Facility Name</th>
-                                @if(Auth::user()->user_type_id == 4)
+                                @if(Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 5)
                                 <th>Implementing Partner</th>
                                 @else
                                 <th colspan="2">SMS Printer</th>
                                 <th colspan="2">Date Last Result Sent</th>
                                 @endif
                             </tr>
-                            @if(Auth::user()->user_type_id != 4)
+                            @if(Auth::user()->user_type_id != 4 || Auth::user()->user_type_id != 5)
                             <tr>
                                 <th>Y/N</th>
                                 <th>#</th>
@@ -47,7 +47,7 @@
                                 <td>{{ $facility->county }}</td>
                                 <td>{{ $facility->subcounty }}</td>
                                 <td>{{ $facility->name }}</td>
-                                @if(Auth::user()->user_type_id == 4)
+                                @if(Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 5)
                                 <td>{{ $facility->partner ?? 'No Partner' }}</td>
                                 @else
                                 <td>

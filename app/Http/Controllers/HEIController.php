@@ -159,6 +159,8 @@ class HEIController extends Controller
                             return $query->where('view_facilitys.partner_id', '=', auth()->user()->level);
                         if ($usertype == 4) 
                             return $query->where('view_facilitys.county_id', '=', auth()->user()->level);
+                        if ($usertype == 5) 
+                            return $query->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
                     })
 					->when($year, function($query) use ($year){
 						return $query->whereRaw("YEAR(datetested) = $year");
@@ -186,6 +188,8 @@ class HEIController extends Controller
                             return $query->where('view_facilitys.partner_id', '=', auth()->user()->level);
                         if ($usertype == 4) 
                             return $query->where('view_facilitys.county_id', '=', auth()->user()->level);
+                        if ($usertype == 5) 
+                            return $query->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
                     });
 
 		if ($level != 'cumulative')

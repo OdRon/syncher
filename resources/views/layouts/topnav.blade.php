@@ -27,6 +27,11 @@
         <div class="small-logo">
             <span class="text-primary">EID - VL</span>
         </div>
+        <form role="search" class="navbar-form-custom" style="width: 400px;">
+            <div class="form-group">
+                <h4 style="margin-top:1em;">{{ $user->name ?? '' }}</h4>
+            </div>
+        </form>
         <!-- Mobile view -->
         <div class="mobile-menu">
             <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">
