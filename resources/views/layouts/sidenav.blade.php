@@ -30,20 +30,22 @@
                 <hr />
                 <li><a href="{{ url('#') }}">HEI Validation Guide</a></li>
                 <hr />
-                <li><a href="{{ url('sites') }}">Sites Listing</a></li>
-                <hr />
-                <li><a href="https://eid.naascop.org">EID Summaries</a></li>
-                <hr />
-                <li><a href="https://viralload.naascop.org">VL Summaries</a></li>
+                @if(Auth::user()->user_type_id == 4)
+                    <li><a href="{{ url('users') }}">Users</a></li>
+                    <hr />
+                @endif
+                <li><a href="{{ url('sites') }}">Facilities</a></li>
                 <hr />
                 <li><a href="#">User Guide</a></li>
                 <hr />
                 <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
                 <hr />
-                <li><a href="{{ url('downloads/VL') }}">Download VL Form</a></li>
-                <hr />
-                <li><a href="{{ url('downloads/EID') }}">Download EID Form</a></li>
-                <hr />
+                @if(Auth::user()->user_type_id ==3)
+                    <li><a href="{{ url('downloads/VL') }}">Download VL Form</a></li>
+                    <hr />
+                    <li><a href="{{ url('downloads/EID') }}">Download EID Form</a></li>
+                    <hr />
+                @endif
            @if(session('testingSystem') == 'Viralload')
                 <li><a href="#"><select class="form-control" id="sidebar_viralfacility_search"></select></a></li>
                 <li><a href="#"><select class="form-control" id="sidebar_viralbatch_search"></select></a></li>

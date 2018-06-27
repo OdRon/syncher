@@ -46,6 +46,7 @@
                                     << For all samples tested in Lab >>
                                 </div>
                             </div>
+                            @if(Auth::user()->user_type_id == 3)
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" value="county" class="i-checks">Select County
@@ -61,6 +62,7 @@
                                     </select>
                                 </div>
                             </div>
+                            @endif
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
@@ -215,20 +217,26 @@
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks"> All Outcomes (+/-) </label>
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks"> + Outcomes </label>
                                 <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
-                                <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes for Validation </label>
+                                @if(Auth::user()->user_type_id == 3)
+                                    <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes for Validation </label>
+                                @endif
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
                                 <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <2M </label>
                                 <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
-                                <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label>
-                                <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>
-                                <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples </label>
+                                @if(Auth::user()->user_type_id == 3)
+                                    <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label>
+                                    <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>
+                                    <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples </label>
+                                @endif
                             @elseif($testtype == 'VL')
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
                                 <label> <input type="radio" name="indicatortype" value="3" class="i-checks">Rejected</label>
-                                <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> Non Suppressed ( > 1000 cp/ml)</label>
-                                <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Pregnant & Lactating</label>
-                                <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> Dormant Sites ( Not Sent Samples)</label>
-                                <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples</label>
+                                @if(Auth::user()->user_type_id == 3)
+                                    <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> Non Suppressed ( > 1000 cp/ml)</label>
+                                    <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Pregnant & Lactating</label>
+                                    <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> Dormant Sites ( Not Sent Samples)</label>
+                                    <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples</label>
+                                @endif
                             @endif
                             </div>
                         </div>

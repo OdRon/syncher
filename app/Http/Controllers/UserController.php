@@ -20,7 +20,11 @@ class UserController extends Controller
         $columns = $this->_columnBuilder(['#','Full Names','Email Address','Account Type','Last Access','Action']);
         $row = "";
 
-        $users = User::select('users.*','user_types.user_type')->join('user_types', 'user_types.id', '=', 'users.user_type_id')->where('users.user_type_id', '<>', 8)->get();
+        $users = User::select('users.*','user_types.user_type')->join('user_types', 'user_types.id', '=', 'users.user_type_id')->where('users.user_type_id', '<>', 8);
+        if (auth()->user()->user_type_id == 4) 
+            $users = $users->where('user_type_id', '=', auth()->user()->user_type_id)->where('level', '=', auth()->user()->level);
+
+        $users = $users->get();
 
         foreach ($users as $key => $value) {
             $id = md5($value->id);

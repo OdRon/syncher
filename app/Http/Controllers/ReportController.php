@@ -16,9 +16,22 @@ class ReportController extends Controller
     {   
         if (NULL == $testtype) 
             $testtype = 'EID';
-        $facilitys = ViewFacility::where('partner_id', '=', auth()->user()->partner)->get();
-        $countys = ViewFacility::where('partner_id', '=', auth()->user()->partner)->groupBy('county_id')->get();
-        $subcountys = ViewFacility::where('partner_id', '=', auth()->user()->partner)->groupBy('subcounty_id')->get();
+        // dd(auth()->user());
+        $usertype = auth()->user()->user_type_id;
+
+        $facilitys = ViewFacility::when($usertype, function($query) use ($usertype){
+                                    if ($usertype == 3)
+                                        return $query->where('partner_id', '=', auth()->user()->level);
+                                    if ($usertype == 4)
+                                        return $query->where('county_id', '=', auth()->user()->level);
+                                })->get();
+        $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
+        $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
+                                    if ($usertype == 3)
+                                        return $query->where('partner_id', '=', auth()->user()->level);
+                                    if ($usertype == 4)
+                                        return $query->where('county_id', '=', auth()->user()->level);
+                                })->groupBy('subcounty_id')->get();
 
         return view('reports.home', compact('facilitys','countys','subcountys','testtype'))->with('pageTitle', 'Reports '.$testtype);
     }
@@ -167,7 +180,10 @@ class ReportController extends Controller
         } else if ($request->category == 'facility') {
             $model = $model->where('view_facilitys.id', '=', $request->facility);
         } else if ($request->category == 'overall') {
-            $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->partner);
+            if (auth()->user()->user_type_id == 3) 
+                $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->level);
+            if (auth()->user()->user_type_id == 4) 
+                $model = $model->where('view_facilitys.county_id', '=', auth()->user()->level);
         }
 
     	if (isset($request->specificDate)) {

@@ -149,10 +149,17 @@ class HEIController extends Controller
 
     public static function __getOutcomes($status,$year=null, $month=null)
     {
+        $usertype = auth()->user()->user_type_id;
     	return SampleView::selectRaw("COUNT(*) as totalPositives")
 					->join('view_facilitys', 'view_facilitys.id', '=', 'samples_view.facility_id')
 					->where('samples_view.result', '=', 2)->where('samples_view.pcrtype', '=', 1)
-					->where('samples_view.repeatt', '=', 0)->where('view_facilitys.partner_id', '=', auth()->user()->partner)
+                    ->where('samples_view.repeatt', '=', 0)
+                    ->when($usertype, function($query) use ($usertype){
+                        if($usertype == 3)
+                            return $query->where('view_facilitys.partner_id', '=', auth()->user()->level);
+                        if ($usertype == 4) 
+                            return $query->where('view_facilitys.county_id', '=', auth()->user()->level);
+                    })
 					->when($year, function($query) use ($year){
 						return $query->whereRaw("YEAR(datetested) = $year");
 					})
@@ -169,10 +176,17 @@ class HEIController extends Controller
 
     public static function __getSamples($level=null,$year=null,$month=null)
     {
-    	$model = SampleView::select('samples_view.*')
+    	$usertype = auth()->user()->user_type_id;
+        $model = SampleView::select('samples_view.*')
     				->join('view_facilitys', 'view_facilitys.id', '=', 'samples_view.facility_id')
 					->where('samples_view.result', '=', 2)->where('samples_view.pcrtype', '=', 1)
-					->where('samples_view.repeatt', '=', 0)->where('view_facilitys.partner_id', '=', auth()->user()->partner);
+					->where('samples_view.repeatt', '=', 0)
+                    ->when($usertype, function($query) use ($usertype){
+                        if($usertype == 3)
+                            return $query->where('view_facilitys.partner_id', '=', auth()->user()->level);
+                        if ($usertype == 4) 
+                            return $query->where('view_facilitys.county_id', '=', auth()->user()->level);
+                    });
 
 		if ($level != 'cumulative')
 			$model->when($year, function($query) use ($year){

@@ -93,17 +93,14 @@
                         </h2>
                     </div>
                     <div class="col-md-6">
-                        <div class="col-md-8" style="padding-top: 8px;">
+                        <div class="col-md-12">
                             <center>
-                                <p style="margin-top:6px;font-size: 14px;display: inline;">
-                                    <div id="systxt" style="display: inline;"><strong>EARLY INFANT DIAGNOSIS</strong></div> <strong>TESTING SYSTEM</strong>
-                                </p>
+                            @if(Auth::user()->user_type_id == 3)
+                                <a href="https://viralload.naascop.org/partners"><button class="btn btn-success" style="margin-top:.5em;">Switch to Partner Dashboard</button></a>
+                            @elseif(Auth::user()->user_type_id == 4)
+                                <a href="https://viralload.naascop.org/county"><button class="btn btn-success" style="margin-top:.5em;">Switch to County Dashboard</button></a>
+                            @endif
                             </center>
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-success" id="sysSwitch" value="Viralload" style="margin-top:.5em;">
-                            Switch to Viralload
-                        </button>
                         </div>
                     </div>
                     @endif
