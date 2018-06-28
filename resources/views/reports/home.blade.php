@@ -53,9 +53,10 @@
                                     @endif
                                 </div>
                             </div>
+                            @else
+
                             @endif
-                            @if(Auth::user()->user_type_id != 4)
-                            @if(Auth::user()->user_type_id != 5)
+                            @if(Auth::user()->user_type_id != (4 || 5 || 6))
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" value="county" class="i-checks">Select County
@@ -72,9 +73,7 @@
                                 </div>
                             </div>
                             @endif
-                            @endif
-                            @if(Auth::user()->user_type_id != 5)
-                            @if(Auth::user()->user_type_id != 6)
+                            @if(Auth::user()->user_type_id != (5 || 6))
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
@@ -91,8 +90,6 @@
                                 </div>
                             </div>
                             @endif
-                            @endif
-                            @if(Auth::user()->user_type_id != 6)
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" value="facility" class="i-checks">Select Facility
@@ -108,7 +105,6 @@
                                     </select>
                                 </div>
                             </div>
-                            @endif
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Select Period</label>
