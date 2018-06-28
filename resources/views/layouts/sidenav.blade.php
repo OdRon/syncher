@@ -48,6 +48,12 @@
                         <hr />
                     @endif
                 @endif
+                @if(Auth::user()->user_type_id == 6)
+                    <li><a href="https://eid.nascop.org">EID National</a></li>
+                    <hr />
+                    <li><a href="https://viralload.nascop.org">VL National</a></li>
+                    <hr />
+                @endif
 
             @if(Auth::user()->user_type_id != 6)
             @if(session('testingSystem') == 'Viralload')

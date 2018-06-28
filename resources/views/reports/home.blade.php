@@ -38,6 +38,7 @@
                         {{ Form::open(['url'=>'/reports', 'method' => 'post', 'class'=>'form-horizontal', 'id' => 'reports_form']) }}
                         <input type="hidden" name="testtype" value="{{ $testtype }}">
                         <div class="form-group">
+                            @if(Auth::user()->user_type_id != 6)
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" class="i-checks" value="overall">Overall
@@ -52,7 +53,9 @@
                                     @endif
                                 </div>
                             </div>
-                            @if(Auth::user()->user_type_id != 4 || Auth::user()->user_type_id != 5)
+                            @endif
+                            @if(Auth::user()->user_type_id != 4)
+                            @if(Auth::user()->user_type_id != 5)
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" value="county" class="i-checks">Select County
@@ -69,7 +72,9 @@
                                 </div>
                             </div>
                             @endif
+                            @endif
                             @if(Auth::user()->user_type_id != 5)
+                            @if(Auth::user()->user_type_id != 6)
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
@@ -86,6 +91,8 @@
                                 </div>
                             </div>
                             @endif
+                            @endif
+                            @if(Auth::user()->user_type_id != 6)
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" value="facility" class="i-checks">Select Facility
@@ -101,6 +108,7 @@
                                     </select>
                                 </div>
                             </div>
+                            @endif
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Select Period</label>
@@ -223,14 +231,18 @@
                             <div class="col-sm-9">
                             @if($testtype == 'EID')
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks"> All Outcomes (+/-) </label>
+                                @if(Auth::user()->user_type_id != 6)
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks"> + Outcomes </label>
                                 <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
+                                @endif
                                 @if(Auth::user()->user_type_id == 3)
                                     <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes for Validation </label>
                                 @endif
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
+                                @if(Auth::user()->user_type_id != 6)
                                 <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <2M </label>
                                 <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
+                                @endif
                                 @if(Auth::user()->user_type_id == 3)
                                     <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label>
                                     <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>

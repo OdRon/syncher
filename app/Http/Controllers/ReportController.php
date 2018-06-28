@@ -26,8 +26,11 @@ class ReportController extends Controller
                                         return $query->where('county_id', '=', auth()->user()->level);
                                     if ($usertype == 5)
                                         return $query->where('subcounty_id', '=', auth()->user()->level);
+                                    if ($usertype == 7)
+                                        return $query->where('partner_id', '=', auth()->user()->level);
                                 })->get();
         if ($usertype != 5) {
+        if ($usertype != 6) {
             if ($usertype != 5)
                 $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
             $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
@@ -36,6 +39,7 @@ class ReportController extends Controller
                                     if ($usertype == 4)
                                         return $query->where('county_id', '=', auth()->user()->level);
                                 })->groupBy('subcounty_id')->get();
+        }
         }
         // dd($countys);
         return view('reports.home', compact('facilitys','countys','subcountys','testtype'))->with('pageTitle', 'Reports '.$testtype);
