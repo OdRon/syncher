@@ -111,10 +111,15 @@ CREATE OR REPLACE
 VIEW view_facilitys AS
 SELECT  
 
-fac.id, fac.facilitycode, fac.name as name, dis.name as subcounty, countys.name as county, 
-labs.name as lab, partners.name as partner, fac.physicaladdress, fac.PostalAddress, fac.telephone, fac.telephone2, fac.fax, 
-fac.email, fac.contactperson, fac.ContactEmail, fac.contacttelephone, fac.contacttelephone2, 
-fac.sms_printer_phoneno, fac.G4Sbranchname, fac.G4Slocation, fac.G4Sphone1, fac.G4Sphone2, fac.G4Sphone3, fac.G4Sfax
+`fac`.`id` AS `id`,`fac`.`facilitycode` AS `facilitycode`,`fac`.`name` AS `name`,
+`dis`.`name` AS `subcounty`,`dis`.`id` AS `subcounty_id`,`countys`.`name` AS `county`,`countys`.`id` AS `county_id`,
+`labs`.`name` AS `lab`,`partners`.`name` AS `partner`,`partners`.`id` AS `partner_id`,
+`fac`.`physicaladdress` AS `physicaladdress`,`fac`.`PostalAddress` AS `PostalAddress`,`fac`.`telephone` AS `telephone`,
+`fac`.`telephone2` AS `telephone2`,`fac`.`fax` AS `fax`,`fac`.`email` AS `email`,`fac`.`contactperson` AS `contactperson`,
+`fac`.`ContactEmail` AS `ContactEmail`,`fac`.`contacttelephone` AS `contacttelephone`,
+`fac`.`contacttelephone2` AS `contacttelephone2`,`fac`.`SMS_printer_phoneNo` AS `sms_printer_phoneno`,
+`fac`.`G4Sbranchname` AS `G4Sbranchname`,`fac`.`G4Slocation` AS `G4Slocation`,`fac`.`G4Sphone1` AS `G4Sphone1`,
+`fac`.`G4Sphone2` AS `G4Sphone2`,`fac`.`G4Sphone3` AS `G4Sphone3`,`fac`.`G4Sfax` AS `G4Sfax`
 
 FROM facilitys fac
 LEFT JOIN districts dis ON fac.district=dis.id
