@@ -6,7 +6,14 @@ use App\BaseModel;
 
 class Batch extends BaseModel
 {
-  
+    public function outdated()
+    {
+        $now = \Carbon\Carbon::now();
+
+        if($now->diffInMonths($this->created_at) > 6) return true;
+        return false;
+    }
+
 	public function sample()
     {
         return $this->hasMany('App\Sample');

@@ -67,11 +67,8 @@
             <div class="panel-body" style="padding-top:.5em;padding-bottom:.1em;">
                 <h6 class="font-light pull-right" style="margin: 0px;">
                     <strong>
-                        Welcome, 
-                        @if(Auth()->user()->user_type_id == 8)
-                            {{ $user->name }}
-                        @else
-                            {{ Auth()->user()->surname }} {{ Auth()->user()->oname }}
+                        @if(Auth()->user()->user_type_id != 8)
+                           Welcome, {{ Auth()->user()->surname }} {{ Auth()->user()->oname }}
                         @endif
                     </strong>
                     <p style="margin-top: .5em;margin-bottom: 0px;">{{ @Date("l, d F Y") }}</p>
