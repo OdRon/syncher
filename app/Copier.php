@@ -15,11 +15,11 @@ use App\Viralpatient;
 use App\Viralbatch;
 use App\Viralsample;
 
-class Synch
+class Copier
 {
 	private static $limit = 10000;
 
-	public static function synch_eid()
+	public static function copy_eid()
 	{
 		$start = Sample::max('id');
 		ini_set("memory_limit", "-1");
@@ -46,6 +46,8 @@ class Synch
 					$patient->mother_id = $mother->id;
 					$patient->dob = Lookup::calculate_dob($value->datecollected, 0, $value->age, OldSampleView::class, $value->patient, $value->facility_id);
 					$patient->sex = Lookup::resolve_gender($value->gender, OldSampleView::class, $value->patient, $value->facility_id);
+					$enrollment_data = self::get_enrollment_data($value->patient, $value->facility_id);
+					if($enrollment_data) $patient->fill($enrollment_data);
 					// $patient->ccc_no = $value->enrollment_ccc_no;
 					$patient->save();
 				}
@@ -81,7 +83,7 @@ class Synch
 	}
 
 
-	public static function synch_vl()
+	public static function copy_vl()
 	{
 		$start = Viralsample::max('id');
 		ini_set("memory_limit", "-1");
@@ -139,5 +141,27 @@ class Synch
     {
         if($batch_id == floor($batch_id)) return $batch_id;
         return (floor($batch_id) + 0.5);
+    }
+
+    public static function get_enrollment_data($patient, $facility_id)
+    {
+    	$sample = OldSampleView::where('patient', $patient)
+    				->where('facility_id', $facility_id)
+    				->where('hei_validation', '>', 0)
+    				->get()
+    				->first();
+
+    	if($sample){
+    		return [
+    			'hei_validation' => $sample->hei_validation,
+    			'enrollment_ccc_no' => $sample->enrollment_ccc_no,
+    			'enrollment_status' => $sample->enrollment_status,
+    			'referredfromsite' => $sample->referredfromsite,
+    			'otherreason' => $sample->otherreason,
+    		];
+    	}
+    	else{
+    		return false;
+    	}
     }
 }

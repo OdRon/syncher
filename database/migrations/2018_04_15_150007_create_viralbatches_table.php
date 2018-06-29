@@ -37,6 +37,7 @@ class CreateViralbatchesTable extends Migration
             $table->date('datedispatched')->nullable();
             $table->date('dateindividualresultprinted')->nullable();
             $table->date('datebatchprinted')->nullable();
+            $table->date('dateemailsent')->nullable();
 
             $table->tinyInteger('synched')->default(0);
             $table->date('datesynched')->nullable();
