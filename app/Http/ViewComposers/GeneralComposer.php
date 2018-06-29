@@ -19,6 +19,7 @@ class GeneralComposer
      */
     public function compose(View $view)
     {
+        // dd(auth()->user());
         $usertype = auth()->user()->user_type_id;
         if ($usertype == 6) {
             $data = (object)['name'=>'National'];
@@ -30,6 +31,8 @@ class GeneralComposer
                                     return $query->where('county_id', '=', auth()->user()->level);
                                 if ($usertype == 5)
                                     return $query->where('subcounty_id', '=', auth()->user()->level);
+                                if ($usertype == 8)
+                                    return $query->where('id', '=', auth()->user()->facility_id);
                             })->get()->first();
             if ($usertype == 3) 
                 $data = (object)['name'=>$user->partner];
@@ -37,8 +40,10 @@ class GeneralComposer
                 $data = (object)['name'=>$user->county.' - County'];
             if ($usertype == 5) 
                 $data = (object)['name'=>$user->subcounty.' - Sub-County'];
+            if ($usertype == 8) 
+                $data = (object)['name'=>$user->name];
         }
-        
+        // dd($data);
         $view->with('user', $data);
     }
 
