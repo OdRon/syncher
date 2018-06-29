@@ -65,9 +65,10 @@ class LoginController extends Controller
         if($batch){
             if($batch->outdated()) return $this->failed_facility_login(); 
             if($batch->facility_id == $facility_id){
-                $user = User::where(['facility_id' => $facility_id, 'user_type_id' => 5])->get()->first();
+                $user = User::where(['facility_id' => $facility_id, 'user_type_id' => 8])->get()->first();
                 
                 if($user){
+                    session(['batcheLoggedInWith'=>['eid'=>$batch_no]]);
                     Auth::login($user);
                     return redirect('/home');
                 }
@@ -79,9 +80,10 @@ class LoginController extends Controller
         if($batch){
             if($batch->outdated()) return $this->failed_facility_login(); 
             if($batch->facility_id == $facility_id){
-                $user = User::where(['facility_id' => $facility_id, 'user_type_id' => 5])->get()->first();
+                $user = User::where(['facility_id' => $facility_id, 'user_type_id' => 8])->get()->first();
 
                 if($user){
+                    session(['batcheLoggedInWith'=>['vl'=>$batch_no]]);
                     Auth::login($user);
                     return redirect('/home');
                 }
