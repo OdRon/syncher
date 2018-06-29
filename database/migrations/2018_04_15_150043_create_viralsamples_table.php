@@ -60,7 +60,11 @@ class CreateViralsamplesTable extends Migration
             $table->integer('approvedby')->unsigned()->nullable();
             $table->integer('approvedby2')->unsigned()->nullable();
 
+            // startartdate
+            $table->date('dateinitiatedonregimen')->nullable();
+
             $table->date('datecollected')->nullable();
+            $table->date('dateseparated')->nullable();
             $table->date('datetested')->nullable()->index();
             $table->date('datemodified')->nullable();
             $table->date('dateapproved')->nullable();
