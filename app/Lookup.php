@@ -87,7 +87,7 @@ class Lookup
     public static function clean_date($mydate)
     {
         // $mydate = trim($mydate);
-        $mydate = preg_replace("/[^<0-9-]/", "", $mydate);
+        $mydate = preg_replace("/[^<0-9-\/]/", "", $mydate);
         if(!$mydate || $mydate == '0000-00-00' || $mydate == '(NULL)') return null;
 
         try {
