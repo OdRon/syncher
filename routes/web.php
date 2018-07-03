@@ -37,6 +37,9 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('reports/{testtype?}', 'ReportController@index')->name('reports');
 	Route::post('reports', 'ReportController@generate');
 
+	Route::get('results/{testtype?}', 'ResultController@index')->name('results');
+	Route::get('results/{id}/{testtype}/{type}', 'ResultController@specific')->name('specific.results');
+
 	// ------ Searches --------
 	Route::post('county/search/', 'HomeController@countysearch')->name('county.search');
 	// ------ Searches --------
