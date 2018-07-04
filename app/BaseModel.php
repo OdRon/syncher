@@ -8,6 +8,15 @@ class BaseModel extends Model
 {
 	protected $guarded = [];
 
+    
+
+    public function my_date_format($value=null)
+    {
+        if($this->$value) return date('d-M-Y', strtotime($this->$value));
+
+        return '';
+    }
+
     public function pre_update()
     {
         if($this->synched == 1 && $this->isDirty()) $this->synched = 2;

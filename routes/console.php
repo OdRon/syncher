@@ -17,7 +17,7 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
-Artisan::command('synch:test {limit}', function () {
+Artisan::command('copy:test {limit}', function () {
 	ini_set("memory_limit", "-1");
 	$limit = $this->argument('limit');
     $this->info($limit);
@@ -25,14 +25,14 @@ Artisan::command('synch:test {limit}', function () {
     $viralsamples = \App\OldViralsampleView::limit($limit)->offset(0)->get();
     $this->info($samples->first());
     $this->info($viralsamples->first());
-})->describe('Test synch limit.');
+})->describe('Test copy limit.');
 
-Artisan::command('synch:eid', function () {
-    $str = \App\Synch::synch_eid();
+Artisan::command('copy:eid', function () {
+    $str = \App\Copier::copy_eid();
     $this->info($str);
-})->describe('Synch Eid results.');
+})->describe('Copy Eid results.');
 
-Artisan::command('synch:vl', function () {
-    $str = \App\Synch::synch_vl();
+Artisan::command('copy:vl', function () {
+    $str = \App\Copier::copy_vl();
     $this->info($str);
-})->describe('Synch Vl results.');
+})->describe('Copy Vl results.');

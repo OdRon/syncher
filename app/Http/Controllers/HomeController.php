@@ -35,22 +35,21 @@ class HomeController extends Controller
         if (auth()->user()->user_type_id == 8) {
             $batch = session('batcheLoggedInWith');
             if (isset($batch['eid'])) {
-                $batch = $batch['eid'];
-                $data['batch'] = Batch::where('id', '=', $batch)->get()->first();
-                $data['samples'] = SampleView::where('batch_id', '=', $batch)->get();
-                // $data = Lookup::get_lookups();
-
+                $batchID = $batch['eid'];
+                $data = Lookup::get_eid_lookups();
+                $batch = Batch::where('id', '=', $batchID)->get()->first();
+                $batch = $batch->load(['sample.patient.mother','view_facility', 'receiver', 'creator.facility']);
                 $data = (object) $data;
-                // dd($data);
-                return view('tables.batch_details', compact('data'))->with('pageTitle', "EID Batch :: $batch");
+                return view('tables.batch_details', compact('data','batch'))->with('pageTitle', "EID Batch :: $batchID");
             } else {
-                $batch = $batch['vl'];
-                $samples = SampleView::where('batch_id', '=', $batch)->get();
-
-                return view()->with('pageTitle', "VIRAL LOAD Batch :: $batch");
+                $batchID = $batch['vl'];
+                $data = Lookup::get_viral_lookups();
+                $batch = Viralbatch::where('id', '=', $batchID)->get()->first();
+                $batch = $batch->load(['sample.patient','view_facility', 'receiver', 'creator.facility']);
+                $data = (object) $data;
+                // dd($batch);
+                return view('tables.viralbatch_details', compact('data','batch'))->with('pageTitle', "VIRAL LOAD Batch :: $batchID");
             }
-            
-            dd($samples);
         }
         
         return redirect('reports/EID');
