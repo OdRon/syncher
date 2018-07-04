@@ -14,14 +14,14 @@ class CreatePatientsTable extends Migration
     public function up()
     {
         Schema::create('patients', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('original_patient_id')->unsigned()->index()->nullable();
+            $table->increments('id');
+            $table->integer('original_patient_id')->unsigned()->index()->nullable();
             $table->string('patient', 25); 
 
             // This is when the patient is enrolled into ccc program
             $table->string('ccc_no', 25)->nullable();
             $table->string('patient_name', 30)->nullable();
-            $table->bigInteger('mother_id')->unsigned()->index();
+            $table->integer('mother_id')->unsigned()->index();
             $table->tinyInteger('entry_point')->unsigned()->nullable();
             $table->tinyInteger('patient_status')->unsigned()->nullable()->default(1);
             $table->integer('facility_id')->unsigned()->index();

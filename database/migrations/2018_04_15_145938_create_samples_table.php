@@ -14,10 +14,10 @@ class CreateSamplesTable extends Migration
     public function up()
     {
         Schema::create('samples', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('original_sample_id')->unsigned()->nullable()->index();
-            $table->bigInteger('patient_id')->unsigned()->index();
-            $table->bigInteger('batch_id')->unsigned()->index();
+            $table->increments('id');
+            $table->integer('original_sample_id')->unsigned()->nullable()->index();
+            $table->integer('patient_id')->unsigned()->index();
+            $table->integer('batch_id')->unsigned()->index();
             $table->tinyInteger('amrs_location')->nullable();
             $table->string('provider_identifier', 50)->nullable();
             $table->string('order_no', 30)->nullable();
@@ -38,7 +38,7 @@ class CreateSamplesTable extends Migration
             $table->tinyInteger('spots')->unsigned()->nullable();
             $table->string('comments', 30)->nullable();
             $table->string('labcomment', 50)->nullable();
-            $table->bigInteger('parentid')->unsigned()->nullable()->default(0);
+            $table->integer('parentid')->unsigned()->nullable()->default(0);
             $table->tinyInteger('rejectedreason')->unsigned()->nullable();
             $table->tinyInteger('reason_for_repeat')->unsigned()->nullable();
             $table->string('interpretation', 100)->nullable();
