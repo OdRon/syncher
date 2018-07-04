@@ -168,8 +168,8 @@ class Copier
     public static function assign_patient_statuses()
     {
     	print_r("==> Getting patient data at " . date('d/m/Y h:i:s a', time()). "\n");
-    	$patients = \App\Patient::whereNull('hiv_status')->get();
     	ini_set("memory_limit", "-1");
+    	$patients = \App\Patient::whereNull('hiv_status')->get();
         
         print_r("==> Started assigning patients` statuses at " . date('d/m/Y h:i:s a', time()). "\n");
         foreach ($patients as $key => $patient) {
