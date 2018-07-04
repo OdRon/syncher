@@ -65,7 +65,7 @@ class HEIController extends Controller
     	
     	$data['hei_categories'] = DB::table('hei_categories')->get();
     	$data['hei_validation'] = DB::table('hei_validation')->get();
-    	$data['samples'] = self::__getSamples($level,$year,$month);
+    	$data['samples'] = self::__getPatients($level,$year,$month);
 
     	$data = (object)$data;
     	$monthName = "";
@@ -150,10 +150,9 @@ class HEIController extends Controller
     public static function __getOutcomes($status,$year=null, $month=null)
     {
         $usertype = auth()->user()->user_type_id;
-    	return SampleView::selectRaw("COUNT(*) as totalPositives")
-					->join('view_facilitys', 'view_facilitys.id', '=', 'samples_view.facility_id')
-					->where('samples_view.result', '=', 2)->where('samples_view.pcrtype', '=', 1)
-                    ->where('samples_view.repeatt', '=', 0)
+    	return Patient::selectRaw("COUNT(*) as totalPositives")
+					->join('view_facilitys', 'view_facilitys.id', '=', 'patients.facility_id')
+					->where('patients.hiv_status', '=', 2)
                     ->when($usertype, function($query) use ($usertype){
                         if($usertype == 3)
                             return $query->where('view_facilitys.partner_id', '=', auth()->user()->level);
@@ -162,27 +161,21 @@ class HEIController extends Controller
                         if ($usertype == 5) 
                             return $query->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
                     })
-					->when($year, function($query) use ($year){
-						return $query->whereRaw("YEAR(datetested) = $year");
-					})
-					->when($month, function($query) use ($month){
-                        return $query->whereRaw("MONTH(datetested) = $month");
-                    })->when($status, function($query) use ($status){
+					->when($status, function($query) use ($status){
                     	if ($status == 'others') {
-                    		return $query->where('samples_view.hei_validation', '<>', '0')->where('samples_view.hei_validation', '<>', '1');
+                    		return $query->where('patients.hei_validation', '<>', '0')->where('patients.hei_validation', '<>', '1');
                     	} else {
-                        	return $query->where('samples_view.enrollment_status', '=', $status);
+                        	return $query->where('patients.enrollment_status', '=', $status);
                         }
                     })->get()->first()->totalPositives;
     }
 
-    public static function __getSamples($level=null,$year=null,$month=null)
+    public static function __getPatients($level=null,$year=null,$month=null)
     {
     	$usertype = auth()->user()->user_type_id;
-        $model = SampleView::select('samples_view.*')
-    				->join('view_facilitys', 'view_facilitys.id', '=', 'samples_view.facility_id')
-					->where('samples_view.result', '=', 2)->where('samples_view.pcrtype', '=', 1)
-					->where('samples_view.repeatt', '=', 0)
+        $model = Patient::select('patients.*')
+    				->join('view_facilitys', 'view_facilitys.id', '=', 'patients.facility_id')
+					->where('patients.hiv_status', '=', 2)
                     ->when($usertype, function($query) use ($usertype){
                         if($usertype == 3)
                             return $query->where('view_facilitys.partner_id', '=', auth()->user()->level);
@@ -190,35 +183,9 @@ class HEIController extends Controller
                             return $query->where('view_facilitys.county_id', '=', auth()->user()->level);
                         if ($usertype == 5) 
                             return $query->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
-                    });
-
-		if ($level != 'cumulative')
-			$model->when($year, function($query) use ($year){
-					return $query->whereRaw("YEAR(datetested) = $year");
-				})->when($month, function($query) use ($month){
-	                return $query->whereRaw("MONTH(datetested) = $month");
-	            })->where('samples_view.hei_validation', '=', 0);
+                    })->where('patients.hei_validation', '=', 0)
+                    ->orWhereNull('patients.hei_validation');
 
     	return $model->get();
-    }
-
-    public function placeResults()
-    {
-        $patients = Patient::whereNull('hiv_status')->get()->count();
-        $data = [];
-        foreach ($patients as $key => $patient) {
-            $samples = Sample::where('patient_id', '=', $patient->id)->get();
-            if ($samples->count() == 1){
-                $sample = $samples->first();
-                $patient->hiv_status = $sample->result;
-                $patient->save();
-            } else {
-                foreach ($samples as $key => $sample) {
-                    $data[$patient->id][] = ['datecollected'=>$sample->datecollected,'result'=>$sample->result];
-                }
-            }
-        }
-        dd($data);
-        echo('Complete');
     }
 }
