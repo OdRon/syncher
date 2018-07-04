@@ -20,9 +20,29 @@ class Viralbatch extends BaseModel
         return $this->hasMany('App\Viralsample', 'batch_id');
     }
 
+    public function facility()
+    {
+        return $this->belongsTo('App\Facility');
+    }
+
+    public function view_facility()
+    {
+        return $this->belongsTo('App\ViewFacility', 'facility_id');
+    }
+
     public function lab()
     {
         return $this->belongsTo('App\Lab');
+    }
+
+    public function receiver()
+    {
+        return $this->belongsTo('App\User', 'received_by');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     public function scopeExisting($query, $original_id, $lab)

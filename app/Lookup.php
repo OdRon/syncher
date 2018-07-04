@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Cache;
+use DB;
 use Carbon\Carbon;
 
 class Lookup
@@ -124,5 +126,149 @@ class Lookup
             'sample' => ['id', 'original_sample_id', 'amrs_location', 'provider_identifier', 'order_no', 'vl_test_request_no', 'receivedstatus', 'age', 'age_category', 'justification', 'other_justification', 'sampletype', 'prophylaxis', 'regimenline', 'pmtct', 'dilutionfactor', 'dilutiontype', 'comments', 'labcomment', 'parentid', 'rejectedreason', 'reason_for_repeat', 'interpretation', 'result', 'rcategory', 'units', 'worksheet_id', 'flag', 'run', 'repeatt', 'approvedby', 'approvedby2', 'datecollected', 'datetested', 'datemodified', 'dateapproved', 'dateapproved2', 'tat1', 'tat2', 'tat3', 'tat4', 'previous_nonsuppressed', 'synched', 'datesynched' ],
             
         ];
+    }
+
+    public static function get_eid_lookups()
+    {
+        self::cacher();
+        return [
+            'rejected_reasons' => Cache::get('rejected_reasons'),
+            'genders' => Cache::get('genders'),
+            'feedings' => Cache::get('feedings'),
+            'iprophylaxis' => Cache::get('iprophylaxis'),
+            'interventions' => Cache::get('interventions'),
+            'entry_points' => Cache::get('entry_points'),
+            'results' => Cache::get('results'),
+            'received_statuses' => Cache::get('received_statuses'),
+            'pcrtypes' => Cache::get('pcr_types'),
+        ];
+    }
+
+    
+
+    public static function get_viral_lookups()
+    {
+        self::cacher();
+        return [
+            'viral_rejected_reasons' => Cache::get('viral_rejected_reasons'),
+            'vl_result_guidelines' => Cache::get('vl_result_guidelines'),
+            'genders' => Cache::get('genders'),
+            'sample_types' => Cache::get('sample_types'),
+            'received_statuses' => Cache::get('received_statuses'),
+            'prophylaxis' => Cache::get('prophylaxis'),
+            'justifications' => Cache::get('justifications'),
+            'pmtct_types' => Cache::get('pmtct_types'),
+        ];        
+    }
+
+
+
+    public static function cacher()
+    {
+        
+        // Common Lookup Data
+        // $facilities = DB::table('facilitys')->select('id', 'name', 'facilitycode')->get();
+        $amrs_locations = DB::table('amrslocations')->get();
+        $genders = DB::table('gender')->where('id', '<', 3)->get();
+        $received_statuses = DB::table('receivedstatus')->where('id', '<', 3)->get();
+
+        $languages = [
+            '1' => 'English',
+            '2' => 'Kiswahili',
+        ];
+
+        // Eid Lookup Data
+        $rejected_reasons = DB::table('rejectedreasons')->get();
+        $feedings = DB::table('feedings')->get();
+        $iprophylaxis = DB::table('prophylaxis')->where(['ptype' => 2, 'flag' => 1])->where('rank', '>', 0)->orderBy('rank', 'asc')->get();
+        $interventions = DB::table('prophylaxis')->where(['ptype' => 1, 'flag' => 1])->where('rank', '>', 0)->orderBy('rank', 'asc')->get();
+        $entry_points = DB::table('entry_points')->get();
+        $hiv_statuses = DB::table('results')->whereNotIn('id', [3, 5])->get();
+        $pcr_types = DB::table('pcrtype')->get();
+        $results = DB::table('results')->get();
+
+        // Viralload Lookup Data
+        $viral_rejected_reasons = DB::table('viralrejectedreasons')->get();
+        $pmtct_types = DB::table('viralpmtcttype')->get();
+        $prophylaxis = DB::table('viralprophylaxis')->orderBy('category', 'asc')->get();
+        $justifications = DB::table('viraljustifications')->get();
+        $sample_types = DB::table('viralsampletype')->where('flag', 1)->get();
+        $regimen_lines = DB::table('viralregimenline')->where('flag', 1)->get();
+        $vl_result_guidelines = DB::table('vlresultsguidelines')->get();
+
+        // Drug Resistance Lookup Data
+        // $drug_resistance_reasons = DB::table('drug_resistance_reasons')->get();
+        // $dr_primers = DB::table('dr_primers')->get();
+        // $dr_patient_statuses = DB::table('dr_patient_statuses')->get();
+
+
+        $partners = DB::table('partners')->get();
+        $subcounties = DB::table('districts')->get();
+
+        // Cache::put('facilities', $facilities, 60);
+        Cache::put('amrs_locations', $amrs_locations, 60);
+        Cache::put('genders', $genders, 60);
+        Cache::put('received_statuses', $received_statuses, 60);
+        Cache::put('languages', $languages, 60);
+
+        Cache::put('rejected_reasons', $rejected_reasons, 60);
+        Cache::put('feedings', $feedings, 60);
+        Cache::put('iprophylaxis', $iprophylaxis, 60);
+        Cache::put('interventions', $interventions, 60);
+        Cache::put('entry_points', $entry_points, 60);
+        Cache::put('hiv_statuses', $hiv_statuses, 60);
+        Cache::put('pcr_types', $pcr_types, 60);
+        Cache::put('results', $results, 60);
+
+        Cache::put('viral_rejected_reasons', $viral_rejected_reasons, 60);
+        Cache::put('pmtct_types', $pmtct_types, 60);
+        Cache::put('prophylaxis', $prophylaxis, 60);
+        Cache::put('interventions', $interventions, 60);
+        Cache::put('justifications', $justifications, 60);
+        Cache::put('sample_types', $sample_types, 60);
+        Cache::put('regimen_lines', $regimen_lines, 60);
+        Cache::put('vl_result_guidelines', $vl_result_guidelines, 60);
+
+        // Cache::put('drug_resistance_reasons', $drug_resistance_reasons, 60);
+        // Cache::put('dr_primers', $dr_primers, 60);
+        // Cache::put('dr_patient_statuses', $dr_patient_statuses, 60);
+
+        Cache::put('partners', $partners, 60);
+        Cache::put('subcounties', $subcounties, 60);    
+    }
+
+    public static function clear_cache()
+    {
+        // Cache::forget('facilities');
+        Cache::forget('amrs_locations');
+        Cache::forget('genders');
+        Cache::forget('received_statuses');
+        Cache::forget('rejected_reasons');
+        Cache::forget('feedings');
+        Cache::forget('iprophylaxis');
+        Cache::forget('interventions');
+        Cache::forget('entry_points');
+        Cache::forget('pcr_types');
+        Cache::forget('results');
+        Cache::forget('viral_rejected_reasons');
+        Cache::forget('pmtct_types');
+        Cache::forget('prophylaxis');
+        Cache::forget('interventions');
+        Cache::forget('justifications');
+        Cache::forget('sample_types');
+        Cache::forget('regimen_lines');
+        Cache::forget('vl_result_guidelines');
+        // Cache::forget('drug_resistance_reasons');
+        // Cache::forget('dr_primers');
+        // Cache::forget('dr_patient_statuses');
+
+        Cache::forget('partners');
+        Cache::forget('subcounties');
+    }
+
+    public static function refresh_cache()
+    {
+        self::clear_cache();
+        self::cacher();
     }
 }

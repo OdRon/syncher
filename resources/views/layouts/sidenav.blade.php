@@ -23,9 +23,9 @@
             <hr />
         @else
             @if(Auth::user()->user_type_id == 8)
-                <li><a href="#">EID Batch Results</a></li>
+                <li><a href="{{ url('results/EID') }}">EID Batch Results</a></li>
                 <hr />
-                <li><a href="#">VL Batch Results</a></li>
+                <li><a href="{{ url('results/VL') }}">VL Batch Results</a></li>
                 <hr />
             @else
                 <li><a href="{{ url('reports/EID') }}">EID Results/Reports</a></li>
