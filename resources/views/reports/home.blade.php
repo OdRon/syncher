@@ -44,51 +44,57 @@
                                     <input type="radio" name="category" class="i-checks" value="overall">Overall
                                 </label>
                                 <div class="col-sm-9">
-                                    @if(Auth::user()->user_type_id == 3)
-                                        << For all Sites Under Partner >>
+                                    @if(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 3)
+                                        << For all Sites Under {{ $user->name }} >>
                                     @elseif(Auth::user()->user_type_id == 4)
-                                        << For all Sites Under County >>
+                                        << For all Sites Under {{ $user->name }} County >>
                                     @elseif(Auth::user()->user_type_id == 5)
-                                        << For all Sites Under Sub-County >>
+                                        << For all Sites Under {{ $user->name }} Sub-County >>
                                     @endif
                                 </div>
                             </div>
                             @else
 
                             @endif
-                            @if(Auth::user()->user_type_id != (4 || 5 || 6))
-                            <div class="row">
-                                <label class="col-sm-3 control-label">
-                                    <input type="radio" name="category" value="county" class="i-checks">Select County
-                                </label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="county" id="county">
-                                        <option value="" selected disabled>Select County</option>
-                                    @forelse($countys as $county)
-                                        <option value="{{ $county->county_id }}">{{ $county->county }}</option>
-                                    @empty
-                                        <option value="" disabled>No County available</option>
-                                    @endforelse
-                                    </select>
-                                </div>
-                            </div>
+                            @if(Auth::user()->user_type_id != 4)
+                                @if(Auth::user()->user_type_id != 5)
+                                    @if(Auth::user()->user_type_id != 6)
+                                    <div class="row">
+                                        <label class="col-sm-3 control-label">
+                                            <input type="radio" name="category" value="county" class="i-checks">Select County
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="county" id="county">
+                                                <option value="" selected disabled>Select County</option>
+                                            @forelse($countys as $county)
+                                                <option value="{{ $county->county_id }}">{{ $county->county }}</option>
+                                            @empty
+                                                <option value="" disabled>No County available</option>
+                                            @endforelse
+                                            </select>
+                                        </div>
+                                    </div>
+                                    @endif
+                                @endif
                             @endif
-                            @if(Auth::user()->user_type_id != (5 || 6))
-                            <div class="row">
-                                <label class="col-sm-3 control-label">
-                                    <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
-                                </label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="district" id="district">
-                                        <option value="" selected disabled>Select Sub-County</option>
-                                    @forelse($subcountys as $subcounty)
-                                        <option value="{{ $subcounty->subcounty_id }}">{{ $subcounty->subcounty }}</option>
-                                    @empty
-                                        <option value="" disabled>No Sub-County available</option>
-                                    @endforelse
-                                    </select>
+                            @if(Auth::user()->user_type_id != 5)
+                                @if(Auth::user()->user_type_id != 6)
+                                <div class="row">
+                                    <label class="col-sm-3 control-label">
+                                        <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="district" id="district">
+                                            <option value="" selected disabled>Select Sub-County</option>
+                                        @forelse($subcountys as $subcounty)
+                                            <option value="{{ $subcounty->subcounty_id }}">{{ $subcounty->subcounty }}</option>
+                                        @empty
+                                            <option value="" disabled>No Sub-County available</option>
+                                        @endforelse
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                                @endif
                             @endif
                             <div class="row">
                                 <label class="col-sm-3 control-label">

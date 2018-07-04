@@ -42,8 +42,6 @@
                                     <th>Facility</th>
                                     <th>MFL Code</th>
                                     <th>Sample/Patient ID</th>
-                                    <th>Date Collected</th>
-                                    <th>Date Tested</th>
                                     <th>Validation (CP,A,VL,RT,UF)</th>
                                     <th>Enrollment Status</th>
                                     <th>Date Initiated on Treatment</th>
@@ -56,7 +54,7 @@
                                 @php
                                     $count=0;
                                 @endphp
-                                @forelse($data->samples as $sample)
+                                @forelse($data->patients as $sample)
                                     @php
                                         $count += 1;
                                     @endphp
@@ -72,8 +70,6 @@
                                             {{ $sample->patient }}
                                             <input type="hidden" name="patient{{ $count }}" value="{{ $sample->patient }}">
                                         </td>
-                                        <td>{{ $sample->datecollected }}</td>
-                                        <td>{{ $sample->datetested }}</td>
                                         <td>
                                             <select class="form-control" name="hei_validation{{ $count }}" id="hei_validation{{ $count }}" required style="width: 150px;">
                                                 <option selected disabled value="">Select Validation</option>
@@ -108,7 +104,7 @@
                         </table>
                     </div>
                     @if($count > 0)
-                        <center><button class="btn btn-success" type="submit" name="submit">Save Initiation Dates</button></center>
+                        <center><button class="btn btn-success" type="submit" name="submit">Save Validations</button></center>
                     @endif
                     {{ Form::close() }}
                 </div>
@@ -161,7 +157,7 @@
         @php
             $count=0;
         @endphp
-        @foreach($data->samples as $sample)
+        @foreach($data->patients as $sample)
             @php
                 $count += 1;
             @endphp

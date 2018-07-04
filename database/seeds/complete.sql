@@ -454,7 +454,7 @@ CREATE TABLE IF NOT EXISTS `entry_points` (
   `id`  TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table apidb.entry_points: 7 rows
 /*!40000 ALTER TABLE `entry_points` DISABLE KEYS */;
@@ -499,7 +499,7 @@ CREATE TABLE IF NOT EXISTS `hei_categories` (
   `name` varchar(100) DEFAULT NULL,
   `active` int(10) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table apidb.hei_categories: 5 rows
 /*!40000 ALTER TABLE `hei_categories` DISABLE KEYS */;
@@ -518,7 +518,7 @@ CREATE TABLE IF NOT EXISTS `hei_validation` (
   `name` varchar(30) NOT NULL,
   `desc` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table apidb.hei_validation: 5 rows
 /*!40000 ALTER TABLE `hei_validation` DISABLE KEYS */;
@@ -848,7 +848,7 @@ CREATE TABLE IF NOT EXISTS `viraljustifications` (
   `flag` int(50) DEFAULT '1',
   `rank` int(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table apidb.viraljustifications: 9 rows
 /*!40000 ALTER TABLE `viraljustifications` DISABLE KEYS */;
@@ -895,7 +895,7 @@ CREATE TABLE IF NOT EXISTS `viralprophylaxis` (
   `ptype` int(14) NOT NULL DEFAULT '2',
   `category` int(14) NOT NULL DEFAULT '3',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table apidb.viralprophylaxis: 19 rows
 /*!40000 ALTER TABLE `viralprophylaxis` DISABLE KEYS */;
@@ -968,7 +968,7 @@ CREATE TABLE IF NOT EXISTS `viralsampletype` (
   `typecode` int(100) DEFAULT NULL,
   `flag` int(10) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table apidb.viralsampletype: 4 rows
 /*!40000 ALTER TABLE `viralsampletype` DISABLE KEYS */;

@@ -36,3 +36,8 @@ Artisan::command('copy:vl', function () {
     $str = \App\Copier::copy_vl();
     $this->info($str);
 })->describe('Copy Vl results.');
+
+Artisan::command('patient:assign', function(){
+    $str = \App\Copier::assign_patient_statuses();
+    $this->info($str);
+})->describe('Assign patient statuses');
