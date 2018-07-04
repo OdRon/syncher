@@ -201,4 +201,24 @@ class HEIController extends Controller
 
     	return $model->get();
     }
+
+    public function placeResults()
+    {
+        $patients = Patient::whereNull('hiv_status')->get()->count();
+        $data = [];
+        foreach ($patients as $key => $patient) {
+            $samples = Sample::where('patient_id', '=', $patient->id)->get();
+            if ($samples->count() == 1){
+                $sample = $samples->first();
+                $patient->hiv_status = $sample->result;
+                $patient->save();
+            } else {
+                foreach ($samples as $key => $sample) {
+                    $data[$patient->id][] = ['datecollected'=>$sample->datecollected,'result'=>$sample->result];
+                }
+            }
+        }
+        dd($data);
+        echo('Complete');
+    }
 }

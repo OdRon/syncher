@@ -52,3 +52,5 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::resource('user', 'UserController');
 });
 
+Route::get('patientstatus', 'HEIController@placeResults');
+
