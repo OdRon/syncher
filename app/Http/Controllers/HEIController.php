@@ -27,15 +27,14 @@ class HEIController extends Controller
             session(['followupMonth'=>(strlen($month)==1) ? '0'.$month : $month]);
         }
         // dd(session('followupYear'));
-    	$data['outcomes'] = self::__outcomes(session('followupYear'), session('followupMonth'));
-    	$data['cumulative'] = self::__cumulativeOutcomes();
+    	$data = self::__outcomes(session('followupYear'), session('followupMonth'));
 
     	$data = (object)$data;
 
     	return view('hei.validate', compact('data'))->with('pageTitle','HEI Follow Up');
     }
 
-    public function followup(Request $request, $level=null)
+    public function followup(Request $request)
     {
     	$year = session('followupYear');
     	$month = session('followupMonth');
@@ -53,21 +52,17 @@ class HEIController extends Controller
     			}
     			$save = $this->saveHeis($data);
     			session(['toast_message'=>'Follow up for the '.$sampleCount.' patients complete']);
-    			$unvalidated = self::__cumulativeOutcomes();
-    			if ($unvalidated->unknown > 0 ) {
-    				return redirect('hei/followup/cumulative');
-    			} else {
-    				return redirect('hei/validate');
-    			}
     			
+                return redirect('hei/followup');
     		}
     	}
     	
     	$data['hei_categories'] = DB::table('hei_categories')->get();
     	$data['hei_validation'] = DB::table('hei_validation')->get();
-    	$data['samples'] = self::__getPatients($level,$year,$month);
+    	$data['patients'] = self::__getPatients($year,$month);
 
     	$data = (object)$data;
+        // dd($data->patients);
     	$monthName = "";
     	if (null !== $month) 
     		$monthName = "- ".date("F", mktime(null, null, null, $month));
@@ -77,28 +72,25 @@ class HEIController extends Controller
 
     public function saveHeis($data)
     {
-    	foreach ($data as $key => $value) {
+        foreach ($data as $key => $value) {
     		$value = (object)$value;
-    		$sample = Sample::where('id', '=', $value->id)->get()->first();
-    		// dd($sample);
-    		$sample->hei_validation = $value->hei_validation;
+    		// dd($value);
+    		$patient = Patient::where('id', '=', $value->id)->get()->first();
+            $patient->hei_validation = $value->hei_validation;
     		if ($value->hei_validation == 1) {
-    			$patient = Patient::where('patient', '=', $value->patient)->get()->first();
-    			$sample->enrollment_status = $value->enrollment_status;
+    			$patient->enrollment_status = $value->enrollment_status;
     			if ($value->enrollment_status == 1) {
     				$patient->ccc_no = $value->enrollment_ccc_no;
     				$patient->dateinitiatedontreatment = $value->dateinitiatedontreatment;
-    				$patient->save();
-    				$sample->enrollment_ccc_no = $value->enrollment_ccc_no;
+    				$patient->enrollment_ccc_no = $value->enrollment_ccc_no;
     			} else if ($value->enrollment_status == 5) {
     				$patient->facility_id = $value->facility_id;
-    				$patient->save();
-    				$sample->referredfromsite = $value->facility_id;
+    				$patient->referredfromsite = $value->facility_id;
     			} else if ($value->enrollment_status == 6) {
-    				$sample->otherreason = $value->other_reason;
+    				$patient->otherreason = $value->other_reason;
     			}
     		}
-    		$sample->save();
+    		$patient->save();
     	}
     	return true;
     }
@@ -170,10 +162,10 @@ class HEIController extends Controller
                     })->get()->first()->totalPositives;
     }
 
-    public static function __getPatients($level=null,$year=null,$month=null)
+    public static function __getPatients($year=null,$month=null)
     {
     	$usertype = auth()->user()->user_type_id;
-        $model = Patient::select('patients.*')
+        $model = Patient::select('patients.*', 'view_facilitys.name', 'view_facilitys.county', 'view_facilitys.facilitycode')
     				->join('view_facilitys', 'view_facilitys.id', '=', 'patients.facility_id')
 					->where('patients.hiv_status', '=', 2)
                     ->when($usertype, function($query) use ($usertype){
@@ -186,6 +178,6 @@ class HEIController extends Controller
                     })->where('patients.hei_validation', '=', 0)
                     ->orWhereNull('patients.hei_validation');
 
-    	return $model->get();
+    	return $model->paginate(10);
     }
 }

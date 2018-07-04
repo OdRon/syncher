@@ -14,7 +14,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer(
-            'layouts.topnav','App\Http\ViewComposers\GeneralComposer'
+            ['layouts.topnav','reports.home'],'App\Http\ViewComposers\GeneralComposer'
         );
     }
 

@@ -21,9 +21,9 @@ class ReportController extends Controller
         $facilitys = (object)[];
         $countys = (object)[];
         $subcountys = (object)[];
-        
+        // dd($usertype);
         $facilitys = ViewFacility::when($usertype, function($query) use ($usertype){
-                                    if ($usertype == 3)
+                                    if ($usertype == 2 || $usertype == 3)
                                         return $query->where('partner_id', '=', auth()->user()->level);
                                     if ($usertype == 4)
                                         return $query->where('county_id', '=', auth()->user()->level);
@@ -32,15 +32,17 @@ class ReportController extends Controller
                                     if ($usertype == 7)
                                         return $query->where('partner_id', '=', auth()->user()->level);
                                 })->get();
-        if ($usertype != (5 || 6)) {
-            if ($usertype != 5)
-                $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
-            $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
-                                    if ($usertype == 3)
-                                        return $query->where('partner_id', '=', auth()->user()->level);
-                                    if ($usertype == 4)
-                                        return $query->where('county_id', '=', auth()->user()->level);
-                                })->groupBy('subcounty_id')->get();
+        if ($usertype != 5) {
+            if ($usertype != 6) {
+                if ($usertype != 5)
+                    $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
+                $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
+                                        if ($usertype == 2 || $usertype == 3)
+                                            return $query->where('partner_id', '=', auth()->user()->level);
+                                        if ($usertype == 4)
+                                            return $query->where('county_id', '=', auth()->user()->level);
+                                    })->groupBy('subcounty_id')->get();
+            }
         }
         
         return view('reports.home', compact('facilitys','countys','subcountys','testtype'))->with('pageTitle', 'Reports '.$testtype);
