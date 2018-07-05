@@ -33,12 +33,12 @@
                 <li><a href="{{ url('reports/VL') }}">VL Results/Reports</a></li>
                 <hr />
             @endif
-            @if(Auth::user()->user_type_id != 6)
+            @if(Auth::user()->user_type_id != (2 || 6))
                 <li><a href="{{ url('hei/validate') }}">HEI Patient Follow Up</a></li>
                 <hr />
                 <li><a href="{{ url('#') }}">HEI Validation Guide</a></li>
                 <hr />
-                @if(Auth::user()->user_type_id != 8)
+                @if(Auth::user()->user_type_id != (2 ||8))
                     @if(Auth::user()->user_type_id == 4)
                         <li><a href="{{ url('users') }}">Users</a></li>
                         <hr />
@@ -61,10 +61,10 @@
                     <hr />
                 @endif
             @endif
-            @if(Auth::user()->user_type_id == 6)
-                <li><a href="https://eid.nascop.org">EID National</a></li>
+            @if(Auth::user()->user_type_id == (2 || 6))
+                <li><a href="https://eid.nascop.org">EID Summaries</a></li>
                 <hr />
-                <li><a href="https://viralload.nascop.org">VL National</a></li>
+                <li><a href="https://viralload.nascop.org">VL Summaries</a></li>
                 <hr />
             @endif
             

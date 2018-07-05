@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\SampleView;
 use App\ViralsampleView;
 use App\ViewFacility;
+use App\Partner;
 use Excel;
 
 class ReportController extends Controller
@@ -21,6 +22,7 @@ class ReportController extends Controller
         $facilitys = (object)[];
         $countys = (object)[];
         $subcountys = (object)[];
+        $partners = (object)[];
         // dd($usertype);
         $facilitys = ViewFacility::when($usertype, function($query) use ($usertype){
                                     if ($usertype == 2 || $usertype == 3)
@@ -36,7 +38,12 @@ class ReportController extends Controller
             if ($usertype != 6) {
                 if ($usertype != 5)
                     $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
-                $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
+
+                if ($usertype == 2)
+                    $partners = Partner::where('orderno', '=', 2)->get();
+
+                if ($usertype != 2)
+                    $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
                                         if ($usertype == 2 || $usertype == 3)
                                             return $query->where('partner_id', '=', auth()->user()->level);
                                         if ($usertype == 4)
@@ -45,7 +52,7 @@ class ReportController extends Controller
             }
         }
         
-        return view('reports.home', compact('facilitys','countys','subcountys','testtype'))->with('pageTitle', 'Reports '.$testtype);
+        return view('reports.home', compact('facilitys','countys','subcountys','partners','testtype'))->with('pageTitle', 'Reports '.$testtype);
     }
 
     public function dateselect(Request $request)
@@ -174,6 +181,7 @@ class ReportController extends Controller
                 $model = $model->where("$table.age", "<=", 2);
             } else if ($request->indicatortype == 7) {
                 $model = $model->where("$table.repeatt", '=', 0)->where("$table.result", '=', 2)
+                                ->where('view_facilitys.burden', '=', 'High')
                                 ->groupBy('county')
                                 ->groupBy('subcounty')
                                 ->groupBy('partner')

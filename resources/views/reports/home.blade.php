@@ -44,7 +44,7 @@
                                     <input type="radio" name="category" class="i-checks" value="overall">Overall
                                 </label>
                                 <div class="col-sm-9">
-                                    @if(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 3)
+                                    @if(Auth::user()->user_type_id == 3)
                                         << For all Sites Under {{ $user->name }} >>
                                     @elseif(Auth::user()->user_type_id == 4)
                                         << For all Sites Under {{ $user->name }} County >>
@@ -55,6 +55,23 @@
                             </div>
                             @else
 
+                            @endif
+                            @if(Auth::user()->user_type_id == 2)
+                                <div class="row">
+                                    <label class="col-sm-3 control-label">
+                                        <input type="radio" name="category" value="partner" class="i-checks">Select Partner
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="partner" id="partner">
+                                            <option value="" selected disabled>Select Partner</option>
+                                        @forelse($partners as $partner)
+                                            <option value="{{ $partner->id }}">{{ $partner->name }}</option>
+                                        @empty
+                                            <option value="" disabled>No Partner available</option>
+                                        @endforelse
+                                        </select>
+                                    </div>
+                                </div>
                             @endif
                             @if(Auth::user()->user_type_id != 4)
                                 @if(Auth::user()->user_type_id != 5)
@@ -77,23 +94,25 @@
                                     @endif
                                 @endif
                             @endif
-                            @if(Auth::user()->user_type_id != 5)
-                                @if(Auth::user()->user_type_id != 6)
-                                <div class="row">
-                                    <label class="col-sm-3 control-label">
-                                        <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
-                                    </label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control" name="district" id="district">
-                                            <option value="" selected disabled>Select Sub-County</option>
-                                        @forelse($subcountys as $subcounty)
-                                            <option value="{{ $subcounty->subcounty_id }}">{{ $subcounty->subcounty }}</option>
-                                        @empty
-                                            <option value="" disabled>No Sub-County available</option>
-                                        @endforelse
-                                        </select>
+                            @if(Auth::user()->user_type_id != 2)
+                                @if(Auth::user()->user_type_id != 5)
+                                    @if(Auth::user()->user_type_id != 6)
+                                    <div class="row">
+                                        <label class="col-sm-3 control-label">
+                                            <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="district" id="district">
+                                                <option value="" selected disabled>Select Sub-County</option>
+                                            @forelse($subcountys as $subcounty)
+                                                <option value="{{ $subcounty->subcounty_id }}">{{ $subcounty->subcounty }}</option>
+                                            @empty
+                                                <option value="" disabled>No Sub-County available</option>
+                                            @endforelse
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                    @endif
                                 @endif
                             @endif
                             <div class="row">
@@ -235,20 +254,24 @@
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks"> All Outcomes (+/-) </label>
                                 @if(Auth::user()->user_type_id != 6)
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks"> + Outcomes </label>
-                                <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
+                                    @if(Auth::user()->user_type_id != 2)
+                                    <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
+                                    @endif
                                 @endif
                                 @if(Auth::user()->user_type_id == 3)
                                     <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes for Validation </label>
                                 @endif
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
-                                @if(Auth::user()->user_type_id != 6)
+                                @if(Auth::user()->user_type_id != (2 || 6))
                                 <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <2M </label>
                                 <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
                                 @endif
                                 @if(Auth::user()->user_type_id == 3)
-                                    <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label>
-                                    <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>
-                                    <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples </label>
+                                    @if(Auth::user()->user_type_id != 2)
+                                        <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label>
+                                        <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>
+                                        <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples </label>
+                                    @endif
                                 @endif
                             @elseif($testtype == 'VL')
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
@@ -337,6 +360,9 @@
                 } else if (selValue == 'facility') {
                     category = $("#facility").val();
                     cat = 'Facility';
+                } else if (selValue == 'partner') {
+                    category = $("#partner").val();
+                    cat = 'Partner';
                 }
 
                 if(category == '' || category == null || category == undefined) {
