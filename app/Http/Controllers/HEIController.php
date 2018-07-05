@@ -40,18 +40,23 @@ class HEIController extends Controller
     	$month = session('followupMonth');
     	
     	if ($request->method() == 'POST') {
-    		$data = [];
+            $data = [];
     		$columns = [ 'id', 'patient', 'hei_validation', 'enrollment_status', 'dateinitiatedontreatment', 'enrollment_ccc_no', 'facility_id', 'other_reason'];
     		$sampleCount = (int)$request->DataTables_Table_0_length ?? null;
+            $actualCount = 0;
     		if (isset($sampleCount) || $sampleCount > 0) {
     			for ($i=$sampleCount; $i > 0 ; $i--) { 
     				foreach ($columns as $key => $value) {
-    					$name = $value.$i;
-    					$data[$i][$value] = $request->$name;
+                        $name = $value.$i;
+                        if (isset($request->$name)) {
+                            $actualCount++;
+    					    $data[$i][$value] = $request->$name;
+                        }
     				}
     			}
+                
     			$save = $this->saveHeis($data);
-    			session(['toast_message'=>'Follow up for the '.$sampleCount.' patients complete']);
+    			session(['toast_message'=>'Follow up for the '.$actualCount.' patients complete']);
     			
                 return redirect('hei/followup');
     		}
@@ -74,7 +79,6 @@ class HEIController extends Controller
     {
         foreach ($data as $key => $value) {
     		$value = (object)$value;
-    		// dd($value);
     		$patient = Patient::where('id', '=', $value->id)->get()->first();
             $patient->hei_validation = $value->hei_validation;
     		if ($value->hei_validation == 1) {
