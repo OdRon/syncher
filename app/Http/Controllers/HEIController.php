@@ -152,6 +152,8 @@ class HEIController extends Controller
                             return $query->where('view_facilitys.county_id', '=', auth()->user()->level);
                         if ($usertype == 5) 
                             return $query->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
+                        if ($usertype == 8) 
+                            return $query->where('view_facilitys.id', '=', auth()->user()->facility_id);
                     })
 					->when($status, function($query) use ($status){
                     	if ($status == 'others') {
@@ -175,6 +177,8 @@ class HEIController extends Controller
                             return $query->where('view_facilitys.county_id', '=', auth()->user()->level);
                         if ($usertype == 5) 
                             return $query->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
+                        if ($usertype == 8) 
+                            return $query->where('view_facilitys.id', '=', auth()->user()->facility_id);
                     })->where('patients.hei_validation', '=', 0)
                     ->orWhereNull('patients.hei_validation');
 
