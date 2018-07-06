@@ -93,9 +93,9 @@
                         <div class="col-md-12">
                             <center>
                             @if(Auth::user()->user_type_id == 3)
-                                <a href="https://viralload.naascop.org/partners"><button class="btn btn-success" style="margin-top:.5em;">Switch to Partner Dashboard</button></a>
+                                <a href="https://viralload.nascop.org/partner"><button class="btn btn-success" style="margin-top:.5em;">Switch to Partner Dashboard</button></a>
                             @elseif(Auth::user()->user_type_id == 4)
-                                <a href="https://viralload.naascop.org/county"><button class="btn btn-success" style="margin-top:.5em;">Switch to County Dashboard</button></a>
+                                <a href="https://viralload.nascop.org/county"><button class="btn btn-success" style="margin-top:.5em;">Switch to County Dashboard</button></a>
                             @endif
                             </center>
                         </div>
