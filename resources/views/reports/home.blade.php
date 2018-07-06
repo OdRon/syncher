@@ -47,9 +47,9 @@
                                     @if(Auth::user()->user_type_id == 3)
                                         << For all Sites Under {{ $user->name }} >>
                                     @elseif(Auth::user()->user_type_id == 4)
-                                        << For all Sites Under {{ $user->name }} County >>
+                                        << For all Sites Under {{ $user->name }} >>
                                     @elseif(Auth::user()->user_type_id == 5)
-                                        << For all Sites Under {{ $user->name }} Sub-County >>
+                                        << For all Sites Under {{ $user->name }} >>
                                     @endif
                                 </div>
                             </div>
