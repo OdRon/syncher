@@ -19,9 +19,13 @@ class GeneralComposer
      */
     public function compose(View $view)
     {
-        // dd(auth()->user());
+        $data = [];
         $usertype = auth()->user()->user_type_id;
-        if ($usertype == 6) {
+        if ($usertype == 1) {
+            $data = (object)['name'=>'System Administrator'];
+        } else if ($usertype == 2) {
+            $data = (object)['name'=>'Program Officer'];
+        } else if ($usertype == 6) {
             $data = (object)['name'=>'National'];
         } else {
             $user = ViewFacility::when($usertype, function ($query) use ($usertype){

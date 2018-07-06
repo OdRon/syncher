@@ -164,4 +164,47 @@ class Copier
     		return false;
     	}
     }
+
+    public static function assign_patient_statuses()
+    {
+    	print_r("==> Getting patient data at " . date('d/m/Y h:i:s a', time()). "\n");
+    	ini_set("memory_limit", "-1");
+    	$patients = \App\Patient::whereNull('hiv_status')->get();
+        
+        print_r("==> Started assigning patients` statuses at " . date('d/m/Y h:i:s a', time()). "\n");
+        foreach ($patients as $key => $patient) {
+            $samples = Sample::select('samples.id','patient_id','parentid','samples.result as result_id','results.name as result','datetested')->join('results', 'results.id','=','samples.result')
+				->where('patient_id', '=', $patient->id)->orderBy('datetested','asc')->get();
+            if ($samples->count() == 1){
+            	$sample = $samples->first();
+	            if ($sample->result < 3) {
+	                $patient->hiv_status = $sample->result;
+	                $patient->save();
+	                // print_r("\tPatient $patient->patient save completed at " . date('d/m/Y h:i:s a', time()). "\n");
+                }
+            } else {
+            	$data = [];
+            	foreach ($samples as $key => $sample) {
+                    $data[] = ['id'=>$sample->id,'patient_id'=>$sample->patient_id,'result_id'=>$sample->result_id,'result'=>$sample->result,'datetested'=>$sample->datetested];
+                }
+                if (!empty($data)) {
+	                $length = sizeof($data)-1;
+	                $arr = $data[$length];
+	                if ($arr['result_id'] > 2) {
+	                	$length -= $length;
+	                	$arr = $data[$length];
+	                	$status = $arr['result_id'];
+	                } else {
+	                	$status = $arr['result_id'];
+	                }
+	                $patient->hiv_status = $status;
+	                $patient->save();
+	                // print_r("\tPatient $patient->patient save completed at " . date('d/m/Y h:i:s a', time()). "\n");
+	            }
+            }
+            // break;
+        }
+        // dd($data);
+        return "==> Completed assigning patients` statuses at " . date('d/m/Y h:i:s a', time()). "\n";
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\SampleView;
 use App\ViralsampleView;
 use App\ViewFacility;
+use App\Partner;
 use Excel;
 
 class ReportController extends Controller
@@ -21,9 +22,10 @@ class ReportController extends Controller
         $facilitys = (object)[];
         $countys = (object)[];
         $subcountys = (object)[];
+        $partners = (object)[];
         // dd($usertype);
         $facilitys = ViewFacility::when($usertype, function($query) use ($usertype){
-                                    if ($usertype == 3)
+                                    if ($usertype == 2 || $usertype == 3)
                                         return $query->where('partner_id', '=', auth()->user()->level);
                                     if ($usertype == 4)
                                         return $query->where('county_id', '=', auth()->user()->level);
@@ -32,20 +34,25 @@ class ReportController extends Controller
                                     if ($usertype == 7)
                                         return $query->where('partner_id', '=', auth()->user()->level);
                                 })->get();
-        if ($usertype != (5 || 6)) {
-            // if ($usertype != 6) {
-            if ($usertype != 5)
-                $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
-            $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
-                                    if ($usertype == 3)
-                                        return $query->where('partner_id', '=', auth()->user()->level);
-                                    if ($usertype == 4)
-                                        return $query->where('county_id', '=', auth()->user()->level);
-                                })->groupBy('subcounty_id')->get();
-            // }
+        if ($usertype != 5) {
+            if ($usertype != 6) {
+                if ($usertype != 5)
+                    $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
+
+                if ($usertype == 2)
+                    $partners = Partner::where('orderno', '=', 2)->get();
+
+                if ($usertype != 2)
+                    $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
+                                        if ($usertype == 2 || $usertype == 3)
+                                            return $query->where('partner_id', '=', auth()->user()->level);
+                                        if ($usertype == 4)
+                                            return $query->where('county_id', '=', auth()->user()->level);
+                                    })->groupBy('subcounty_id')->get();
+            }
         }
-        // dd($countys);
-        return view('reports.home', compact('facilitys','countys','subcountys','testtype'))->with('pageTitle', 'Reports '.$testtype);
+        
+        return view('reports.home', compact('facilitys','countys','subcountys','partners','testtype'))->with('pageTitle', 'Reports '.$testtype);
     }
 
     public function dateselect(Request $request)
@@ -174,6 +181,7 @@ class ReportController extends Controller
                 $model = $model->where("$table.age", "<=", 2);
             } else if ($request->indicatortype == 7) {
                 $model = $model->where("$table.repeatt", '=', 0)->where("$table.result", '=', 2)
+                                ->where('view_facilitys.burden', '=', 'High')
                                 ->groupBy('county')
                                 ->groupBy('subcounty')
                                 ->groupBy('partner')
