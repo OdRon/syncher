@@ -80,6 +80,8 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->positiveOutcomes) }}
+                                    &nbsp;&nbsp;
+                                    <a href="" style="color: blue;">Click to View</a>
                                 </td>
                             </tr>
                             <tr>
@@ -89,6 +91,8 @@
                                 <td>
                                     {{ number_format($data->enrolled) }}
                                     <strong>[{{ round(@(($data->enrolled/$data->positiveOutcomes)*100),1) }}%]</strong>
+                                    &nbsp;&nbsp;
+                                    <a href="" style="color: blue;">Click to View</a>
                                 </td>
                             </tr>
                             <tr>
@@ -98,6 +102,8 @@
                                 <td>
                                     {{ number_format($data->ltfu) }}
                                     <strong>[{{ round(@(($data->ltfu/$data->positiveOutcomes)*100),1) }}%]</strong>
+                                    &nbsp;&nbsp;
+                                    <a href="" style="color: blue;">Click to View</a>
                                 </td>
                             </tr>
                             <tr>
@@ -107,6 +113,8 @@
                                 <td>
                                     {{ number_format($data->dead) }}
                                     <strong>[{{ round(@(($data->dead/$data->positiveOutcomes)*100),1) }}%]</strong>
+                                    &nbsp;&nbsp;
+                                    <a href="" style="color: blue;">Click to View</a>
                                 </td>
                             </tr>
                             <!-- <tr>
@@ -125,6 +133,8 @@
                                 <td>
                                     {{ number_format($data->transferOut) }}
                                     <strong>[{{ round(@(($data->transferOut/$data->positiveOutcomes)*100),1) }}%]</strong>
+                                    &nbsp;&nbsp;
+                                    <a href="" style="color: blue;">Click to View</a>
                                 </td>
                             </tr>
                             <tr>
@@ -134,6 +144,8 @@
                                 <td>
                                     {{ number_format($data->other) }}
                                     <strong>[{{ round(@(($data->other/$data->positiveOutcomes)*100),1) }}%]</strong>
+                                    &nbsp;&nbsp;
+                                    <a href="" style="color: blue;">Click to View</a>
                                 </td>
                             </tr>
                             <tr>
@@ -143,6 +155,8 @@
                                 <td>
                                     {{ $data->othervalidation }}
                                     <strong>[{{ round(@(($data->othervalidation/$data->positiveOutcomes)*100),1) }}%]</strong>
+                                    &nbsp;&nbsp;
+                                    <a href="" style="color: blue;">Click to View</a>
                                 </td>
                             </tr>
                             <tr>

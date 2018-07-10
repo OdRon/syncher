@@ -9,7 +9,7 @@
 @endphp
 @if(Auth::user()->user_type_id == 3)
     @php
-        $rowspan = "rowspan='2'";
+        $rowspan = "rowspan=2";
     @endphp
 @endif
 <div class="content">
@@ -31,13 +31,15 @@
                                 <th colspan="2">Date Last Result Sent</th>
                                 @endif
                             </tr>
-                            @if(Auth::user()->user_type_id != 4 || Auth::user()->user_type_id != 5)
-                            <tr>
-                                <th>Y/N</th>
-                                <th>#</th>
-                                <th>EID</th>
-                                <th>VL</th>
-                            </tr>
+                            @if(Auth::user()->user_type_id != 4)
+                                @if(Auth::user()->user_type_id != 5)
+                                <tr>
+                                    <th>Y/N</th>
+                                    <th>#</th>
+                                    <th>EID</th>
+                                    <th>VL</th>
+                                </tr>
+                                @endif
                             @endif
                         </thead>
                         <tbody>
