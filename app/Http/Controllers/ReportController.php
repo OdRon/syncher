@@ -123,7 +123,7 @@ class ReportController extends Controller
             }
     	} else if ($request->testtype == 'EID') {
     		$table = 'samples_view';
-            $selectStr = "$table.id, $table.patient, $table.batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender, $table.dob, $table.age, pcrtype.alias as pcrtype, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
+            $selectStr = "$table.id, $table.patient, $table.batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
 
             if ($request->indicatortype == 1 || $request->indicatortype == 6) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result'];
