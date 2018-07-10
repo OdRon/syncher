@@ -83,7 +83,7 @@ class ReportController extends Controller
 
     public static function __getDateData($request, &$dateString, &$excelColumns)
     {
-        // dd($request);
+        ini_set("memory_limit", "-1");
     	if ($request->testtype == 'VL') {
     		$table = 'viralsamples_view';
             $selectStr = "$table.id, $table.batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender, $table.dob, $table.age, viralsampletype.name as sampletype, $table.datecollected, viraljustifications.name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
@@ -102,8 +102,7 @@ class ReportController extends Controller
                 $selectStr .= ", receivedstatus.name as receivedstatus, viralprophylaxis.name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
             }
 
-            ini_set("memory_limit", "-1");
-    		$model = ViralsampleView::selectRaw($selectStr)
+            $model = ViralsampleView::selectRaw($selectStr)
     				->leftJoin('labs', 'labs.id', '=', 'viralsamples_view.lab_id')
     				->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsamples_view.facility_id')
     				->leftJoin('gender', 'gender.id', '=', 'viralsamples_view.sex')
@@ -252,6 +251,7 @@ class ReportController extends Controller
 
     public static function __getExcel($data, $dateString, $dataArray)
     {
+        ini_set("memory_limit", "-1");
         if($data->isNotEmpty()) {
             $newdataArray[] = $dataArray;
             foreach ($data as $report) {
