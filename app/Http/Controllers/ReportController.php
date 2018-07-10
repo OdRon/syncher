@@ -245,7 +245,7 @@ class ReportController extends Controller
             }
     	}
 
-        // dd($model->toSql());
+        dd($model->toSql());
     	return $model;
     }
 
