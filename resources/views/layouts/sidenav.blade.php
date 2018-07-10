@@ -16,9 +16,11 @@
 <aside id="menu">
     <div id="navigation">
         <ul class="nav" id="side-menu" style=" padding-top: 12px;padding-left: 8px;">
-        @if (Auth::user()->user_type_id == 1)
+        @if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 4)
             <li><a href="{{ url('user/add') }}">Add Users</a></li>
             <hr />
+        @endif
+        @if (Auth::user()->user_type_id == 1)
             <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
             <hr />
         @else
@@ -41,10 +43,6 @@
                     <hr />
                     @if(Auth::user()->user_type_id != 2)
                         @if(Auth::user()->user_type_id != 8)
-                            @if(Auth::user()->user_type_id == 4)
-                                <li><a href="{{ url('users') }}">Users</a></li>
-                                <hr />
-                            @endif
                             <li><a href="{{ url('sites') }}">Facilities</a></li>
                             <hr />
                             <li><a href="#">User Guide</a></li>

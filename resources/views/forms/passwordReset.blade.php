@@ -73,7 +73,11 @@
                     <div class="form-group">
                         <center>
                             <div class="col-sm-10 col-sm-offset-1">
+                                @if($user != 'personal')
+                                    <button class="btn btn-success default" type="submit" name="submit_type" value="resetDefault">Reset to Default</button>
+                                @else
                                 <button class="btn btn-success submit" type="submit" name="submit_type" value="paswordreset">Save User</button>
+                                @endif
                                 <button class="btn btn-danger" type="reset" formnovalidate name="submit_type" value="cancel">Reset</button>
                             </div>
                         </center>
@@ -117,6 +121,11 @@
                     $("#confirm-password").val("");
                     $("#confirm-password").focus();
                 }
+            });
+            $(".default").click(function(e){
+                $("#password").val('123456');
+                $("#confirm-password").val('123456');
+                confirm("Reset Password to 123456");
             });
         });
     </script>

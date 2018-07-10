@@ -40,19 +40,37 @@
                                         </select>
                                     </div>
                                 </div>
-                                @isset($partners)
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">Partner</label>
-                                    <div class="col-sm-8">
-                                        <select class="form-control" name="partner" id="partner">
-                                            <option value="" selected disabled>Select Partner</option>
-                                        @forelse ($partners as $partner)
-                                            <option value="{{ $partner->id }}">{{ $partner->name }}</option>
-                                        @empty
-                                            <option value="" disabled="true">No Partners available</option>
-                                        @endforelse
-                                        </select>
-                                    </div>
+                                @isset($level)
+                                <div class="form-group" id="levels"
+                                @if(Auth::user()->user_type_id == 4)
+                                    style="display:none;"
+                                @endif
+                                >
+                                    @if(Auth::user()->user_type_id == 1)
+                                        <label class="col-sm-4 control-label">Partner</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" name="level" id="level">
+                                                <option value="" selected disabled>Select Partner</option>
+                                            @forelse ($level as $partner)
+                                                <option value="{{ $partner->id }}">{{ $partner->name }}</option>
+                                            @empty
+                                                <option value="" disabled="true">No Partners available</option>
+                                            @endforelse
+                                            </select>
+                                        </div>
+                                    @elseif(Auth::user()->user_type_id == 4)
+                                        <label class="col-sm-4 control-label">Sub-County</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" name="level" id="level" style="width: 100%;">
+                                                <option value="" selected disabled>Select Sub-County</option>
+                                            @forelse ($level as $subcounty)
+                                                <option value="{{ $subcounty->id }}">{{ $subcounty->name }}</option>
+                                            @empty
+                                                <option value="" disabled="true">No Sub-County available</option>
+                                            @endforelse
+                                            </select>
+                                        </div>
+                                    @endif
                                 </div>
                                 @endisset
                                 <div class="form-group">
@@ -153,6 +171,17 @@
                     $("#confirm-password").focus();
                 }
             });
+
+            @if(Auth::user()->user_type_id == 4)
+                $("#user_type").change(function(){
+                    val = $(this).val();
+                    if(val == 5) {
+                        $("#levels").show();
+                    } else {
+                        $("#levels").hide();
+                    }
+                });
+            @endif
         });
     </script>
 @endsection
