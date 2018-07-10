@@ -4,16 +4,24 @@ namespace App;
 
 use App\Lookup;
 
-use App\OldSampleView;
+use App\OldModels\WorksheetView;
+use App\OldModels\ViralworksheetView;
+
+use App\OldModels\SampleView;
+use App\OldModels\ViralsampleView;
+
 use App\Mother;
 use App\Patient;
 use App\Batch;
 use App\Sample;
 
-use App\OldViralsampleView;
 use App\Viralpatient;
 use App\Viralbatch;
 use App\Viralsample;
+
+
+use App\Worksheet;
+use App\Viralworksheet;
 
 class Copier
 {
@@ -30,7 +38,7 @@ class Copier
 		$offset_value = 0;
 		while(true)
 		{
-			$samples = OldSampleView::when($start, function($query) use ($start){
+			$samples = SampleView::when($start, function($query) use ($start){
 				return $query->where('id', '>', $start);
 			})->limit(self::$limit)->offset($offset_value)->get();
 			if($samples->isEmpty()) break;
@@ -44,8 +52,14 @@ class Copier
 					$mother->save();
 					$patient = new Patient($value->only($fields['patient']));
 					$patient->mother_id = $mother->id;
-					$patient->dob = Lookup::calculate_dob($value->datecollected, 0, $value->age, OldSampleView::class, $value->patient, $value->facility_id);
-					$patient->sex = Lookup::resolve_gender($value->gender, OldSampleView::class, $value->patient, $value->facility_id);
+
+                    if($patient->dob) $patient->dob = Lookup::clean_date($patient->dob);
+
+                    if(!$patient->dob){
+						$patient->dob = Lookup::calculate_dob($value->datecollected, 0, $value->age, SampleView::class, $value->patient, $value->facility_id);
+                    }
+
+					$patient->sex = Lookup::resolve_gender($value->gender, SampleView::class, $value->patient, $value->facility_id);
 					$enrollment_data = self::get_enrollment_data($value->patient, $value->facility_id);
 					if($enrollment_data) $patient->fill($enrollment_data);
 					// $patient->ccc_no = $value->enrollment_ccc_no;
@@ -93,7 +107,7 @@ class Copier
 		$offset_value = 0;
 		while(true)
 		{
-			$samples = OldViralsampleView::when($start, function($query) use ($start){
+			$samples = ViralsampleView::when($start, function($query) use ($start){
 				return $query->where('id', '>', $start);
 			})->limit(self::$limit)->offset($offset_value)->get();
 			if($samples->isEmpty()) break;
@@ -103,8 +117,13 @@ class Copier
 
 				if(!$patient){
 					$patient = new Viralpatient($value->only($fields['patient']));
-					$patient->dob = Lookup::calculate_dob($value->datecollected, $value->age, 0, OldViralsampleView::class, $value->patient, $value->facility_id);
-					$patient->sex = Lookup::resolve_gender($value->gender, OldViralsampleView::class, $value->patient, $value->facility_id);
+
+                    if($patient->dob) $patient->dob = Lookup::clean_date($patient->dob);
+                    if(!$patient->dob){
+						$patient->dob = Lookup::calculate_dob($value->datecollected, $value->age, 0, ViralsampleView::class, $value->patient, $value->facility_id);
+                    }
+
+					$patient->sex = Lookup::resolve_gender($value->gender, ViralsampleView::class, $value->patient, $value->facility_id);
 					$patient->save();
 				}
 
@@ -137,6 +156,49 @@ class Copier
 		}
 	}
 
+
+
+    public static function copy_worksheet()
+    {
+        $work_array = [
+            'eid' => ['model' => Worksheet::class, 'view' => WorksheetView::class],
+            'vl' => ['model' => Viralworksheet::class, 'view' => ViralworksheetView::class],
+        ];
+
+        $date_array = ['kitexpirydate', 'sampleprepexpirydate', 'bulklysisexpirydate', 'controlexpirydate', 'calibratorexpirydate', 'amplificationexpirydate', 'datecut', 'datereviewed', 'datereviewed2', 'datecancelled', 'daterun', 'created_at'];
+
+        ini_set("memory_limit", "-1");
+
+        foreach ($work_array as $key => $value) {
+            $model = $value['model'];
+            $view = $value['view'];
+
+            $start = $model::max('id');              
+
+            $offset_value = 0;
+            while(true)
+            {
+                $worksheets = $view::when($start, function($query) use ($start){
+                    return $query->where('id', '>', $start);
+                })->limit(self::$limit)->offset($offset_value)->get();
+                if($worksheets->isEmpty()) break;
+
+                foreach ($worksheets as $worksheet_key => $worksheet) {
+                    $duplicate = $worksheet->replicate();
+                    $work = new $model;                    
+                    $work->fill($duplicate->toArray());
+                    foreach ($date_array as $date_field) {
+                        $work->$date_field = self::clean_date($worksheet->$date_field);
+                    }
+                    $work->id = $worksheet->id;
+                    $work->save();
+                }
+                $offset_value += self::$limit;
+                echo "Completed {$key} worksheet {$offset_value} at " . date('d/m/Y h:i:s a', time()). "\n";
+            }
+        }
+    }
+
     private static function set_batch_id($batch_id)
     {
         if($batch_id == floor($batch_id)) return $batch_id;
@@ -145,7 +207,7 @@ class Copier
 
     public static function get_enrollment_data($patient, $facility_id)
     {
-    	$sample = OldSampleView::where('patient', $patient)
+    	$sample = SampleView::where('patient', $patient)
     				->where('facility_id', $facility_id)
     				->where('hei_validation', '>', 0)
     				->get()
