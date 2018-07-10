@@ -175,9 +175,9 @@
                                             <tr>
                                                 <td>Select Year and Month </td>
                                                 <td>
-                                                    <select class="form-control" id="year" name="year">
+                                                    <select class="form-control" id="year" name="year" style="width: 100%;">
                                                         <option selected="true" disabled="true">Select a Year</option>
-                                                        @for ($i = 6; $i >= 0; $i--)
+                                                        @for ($i = 0; $i <= 9; $i++)
                                                             @php
                                                                 $year=Date('Y')-$i
                                                             @endphp
@@ -186,7 +186,7 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select class="form-control" id="month" name="month">
+                                                    <select class="form-control" id="month" name="month" style="width: 100%;">
                                                         <option selected="true" disabled="true">Select a Month</option>
                                                         @for ($i = 1; $i <= 12; $i++)
                                                             <option value="{{ $i }}">{{ date("F", mktime(null, null, null, $i)) }}</option>
@@ -203,9 +203,9 @@
                                             <tr>
                                                 <td>Select Year and Quarter </td>
                                                 <td>
-                                                    <select class="form-control" id="year" name="year">
+                                                    <select class="form-control" id="year" name="year" style="width: 100%;">
                                                         <option selected="true" disabled="true">Select a Year</option>
-                                                        @for ($i = 6; $i >= 0; $i--)
+                                                        @for ($i = 0; $i <= 9; $i++)
                                                             @php
                                                                 $year=Date('Y')-$i
                                                             @endphp
@@ -214,10 +214,21 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select class="form-control" id="quarter" name="quarter">
+                                                    <select class="form-control" id="quarter" name="quarter" style="width: 100%;">
                                                         <option selected="true" disabled="true">Select a Quarter</option>
                                                         @for ($i = 1; $i <= 4; $i++)
-                                                            <option value="Q{{ $i }}">Q{{ $i }}</option>
+                                                            <option value="Q{{ $i }}">
+                                                                Q{{ $i }}
+                                                                @if($i==1)
+                                                                    &nbsp;(Jan - Mar)
+                                                                @elseif($i==2)
+                                                                    &nbsp;(Apr - Jun)
+                                                                @elseif($i==3)
+                                                                    &nbsp;(Jul - Sep)
+                                                                @else
+                                                                    &nbsp;(Oct - Dec)
+                                                                @endif
+                                                            </option>
                                                         @endfor
                                                     </select>
                                                 </td>
@@ -231,9 +242,9 @@
                                             <tr>
                                                 <td>Select Year </td>
                                                 <td>
-                                                    <select class="form-control" id="year" name="year">
+                                                    <select class="form-control" id="year" name="year" style="width: 70%;">
                                                         <option selected="true" disabled="true">Select a Year</option>
-                                                        @for ($i = 6; $i >= 0; $i--)
+                                                        @for ($i = 0; $i <= 6; $i++)
                                                             @php
                                                                 $year=Date('Y')-$i
                                                             @endphp
