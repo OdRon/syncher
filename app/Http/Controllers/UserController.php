@@ -19,12 +19,37 @@ class UserController extends Controller
     {
         $columns = $this->_columnBuilder(['#','Full Names','Email Address','Account Type','Last Access','Action']);
         $row = "";
+        $newUsers = [];
 
         $users = User::select('users.*','user_types.user_type')->join('user_types', 'user_types.id', '=', 'users.user_type_id')->where('users.user_type_id', '<>', 8);
-        if (auth()->user()->user_type_id == 4) 
+        if (auth()->user()->user_type_id == 4) {
             $users = $users->where('user_type_id', '=', auth()->user()->user_type_id)->where('level', '=', auth()->user()->level);
 
+            $subusers = User::selectRaw('distinct users.id, users.*,user_types.user_type')
+                                ->join('user_types', 'user_types.id', '=', 'users.user_type_id')
+                                ->join('view_facilitys', 'view_facilitys.subcounty_id', '=', 'users.level')
+                                ->where('view_facilitys.county_id', '=', auth()->user()->level)->get();
+        }
+        
         $users = $users->get();
+        foreach ($users as $key => $value) {
+            $newUsers[] = (object)[
+                            "id" => $value->id, "user_type_id" => $value->user_type_id,"surname" => $value->surname,
+                            "oname" => $value->oname, "email" => $value->email, "level" => $value->level, "telephone" => $value->telephone,
+                            "deleted_at" => $value->deleted_at, "created_at" => $value->created_at, "updated_at" => $value->updated_at,
+                            "user_type" => $value->user_type
+                        ];
+        }
+        foreach ($subusers as $key => $value) {
+            $newUsers[] = (object)[
+                            "id" => $value->id, "user_type_id" => $value->user_type_id,"surname" => $value->surname,
+                            "oname" => $value->oname, "email" => $value->email, "level" => $value->level, "telephone" => $value->telephone,
+                            "deleted_at" => $value->deleted_at, "created_at" => $value->created_at, "updated_at" => $value->updated_at,
+                            "user_type" => $value->user_type
+                        ];
+        }
+
+        $users = (object) $newUsers;
 
         foreach ($users as $key => $value) {
             $id = md5($value->id);
@@ -33,7 +58,7 @@ class UserController extends Controller
             $delete = url("user/delete/$id");
             $row .= '<tr>';
             $row .= '<td>'.($key+1).'</td>';
-            $row .= '<td>'.$value->getFullNameAttribute().'</td>';
+            $row .= '<td>'.$value->surname.' '.$value->oname.'</td>';
             $row .= '<td>'.$value->email.'</td>';
             $row .= '<td>'.$value->user_type.'</td>';
             $row .= '<td>'.$value->created_at.'</td>';
