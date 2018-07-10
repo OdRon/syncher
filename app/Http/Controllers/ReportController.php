@@ -86,7 +86,7 @@ class ReportController extends Controller
         ini_set("memory_limit", "-1");
     	if ($request->testtype == 'VL') {
     		$table = 'viralsamples_view';
-            $selectStr = "$table.id, $table.batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender, $table.dob, $table.age, viralsampletype.name as sampletype, $table.datecollected, viraljustifications.name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
+            $selectStr = "$table.id, $table.batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender_description, $table.dob, $table.age, viralsampletype.name as sampletype, $table.datecollected, viraljustifications.name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
 
             if ($request->indicatortype == 2) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Reasons for Repeat', 'Rejected Reason', 'Regimen', 'Regimen Line', 'PMTCT', 'Result'];
