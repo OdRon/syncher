@@ -51,10 +51,19 @@ class UserController extends Controller
      */
     public function create()
     {
-        $accounts = UserType::whereNull('deleted_at')->where('id', '<>', 8)->get();
-        $partners = DB::table('partners')->get();
+        $usertype = auth()->user()->user_type_id;
+        $accounts = UserType::whereNull('deleted_at')->where('id', '<>', 8)
+                                ->when($usertype,function($query) use ($usertype) {
+                                    return $query->where('id','=',4)->orWhere('id','=',5);
+                                })->get();
+        if (auth()->user()->user_type_id == 1) {
+            $level = DB::table('partners')->get();
+        } else if (auth()->user()->user_type_id == 4) {
+            $level = DB::table('districts')->where('county', '=', auth()->user()->level)->get();
+        }
 
-        return view('forms.users', compact('accounts','partners'))->with('pageTitle', 'Add User');
+
+        return view('forms.users', compact('accounts','level'))->with('pageTitle', 'Add User');
     }
 
     /**
@@ -77,7 +86,15 @@ class UserController extends Controller
             $user->user_type_id = $request->user_type;
             $user->lab_id = 0;
             $user->password = bcrypt($request->password);
-            $user->partner = $request->partner ?? NULL;
+            if (isset($request->partner)) {
+                $user->level = $request->level;
+            } else {
+                if ($request->user_type == auth()->user()->user_type_id) {
+                    $user->level = auth()->user()->level;
+                } else {
+                    $user->level = $request->level;
+                }
+            }
             $user->telephone = $request->telephone;
             $user->save();
             
