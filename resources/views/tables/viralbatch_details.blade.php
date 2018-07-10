@@ -76,19 +76,6 @@
                             </div>
                         @endif                        
                     </div>
-<<<<<<< HEAD
-                    @if(auth()->user()->user_type_id != 5)
-                        <div class="row">
-                            <div class="col-md-4 pull-right">
-                                <a href="{{ url('viralbatch/transfer/' . $batch->id) }} ">
-                                    <button class="btn btn-primary">Transfer Samples To Another Batch</button>
-                                </a>
-                            </div>
-                        </div>
-                        <br />
-                    @endif
-=======
->>>>>>> 5ac1971fe54e86743685d3c274c157db16da65ac
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover" >
                             <thead>
@@ -115,32 +102,6 @@
                                     <th>Current Regimen</th>
                                     <th>ART Initiation Date</th>
                                     <th>Justification</th>
-<<<<<<< HEAD
-                                    <th>Viral Load</th>
-                                    <th>Task</th>
-                                </tr>
-                            </thead>
-                            <tbody> 
-                                @foreach($samples as $key => $sample)
-                                    <tr>
-                                        <td> {{ $key+1 }} </td>
-                                        <td> {{ $sample->patient->patient }} </td>
-                                        <td> {{ $sample->patient->gender }} </td>
-                                        <td> {{ $sample->age }} </td>
-                                        <td> {{ $sample->patient->my_date_format('dob') }} </td>
-                                        <td>
-                                            @foreach($sample_types as $sample_type)
-                                                @if($sample->sampletype == $sample_type->id)
-                                                    {{ $sample_type->name }}
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        <td> {{ $sample->datecollected }} </td>
-                                        <td>
-                                            @foreach($received_statuses as $received_status)
-                                                @if($sample->receivedstatus == $received_status->id)
-                                                    {{ $received_status->name }}
-=======
                                     <th>Result</th>
                                 </tr>
                             </thead>
@@ -164,40 +125,11 @@
                                             @foreach($data->received_statuses as $received_status)
                                                 @if($sample->receivedstatus == $received_status->id)
                                                     {{ $received_status->name ?? '' }}
->>>>>>> 5ac1971fe54e86743685d3c274c157db16da65ac
                                                 @endif
                                             @endforeach
                                         </td>
                                         <td></td>
                                         <td>
-<<<<<<< HEAD
-                                            @foreach($prophylaxis as $proph)
-                                                @if($sample->prophylaxis == $proph->id)
-                                                    {{ $proph->name }}
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        <td> {{ $sample->patient->my_date_format('initiation_date') }} </td>
-                                        <td>
-                                            @foreach($justifications as $justification)
-                                                @if($sample->justification == $justification->id)
-                                                    {{ $justification->name }}
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                        <td> {{ $sample->result }} </td>
-                                        <td>
-                                            @if($batch->batch_complete == 1)
-                                                <a href="{{ url('/viralsample/print/' . $sample->id ) }} " target='_blank'>Print</a> |
-                                            @endif
-                                            <a href="{{ url('/viralsample/' . $sample->id . '/edit') }} ">View</a> |
-                                            <a href="{{ url('/viralsample/' . $sample->id . '/edit') }} ">Edit</a> |
-
-                                            {{ Form::open(['url' => 'viralsample/' . $sample->id, 'method' => 'delete', 'onSubmit' => "return confirm('Are you sure you want to delete the following sample?')"]) }}
-                                                <button type="submit" class="btn btn-xs btn-primary">Delete</button>
-                                            {{ Form::close() }}
-                                        </td>
-=======
                                             @foreach($data->prophylaxis as $proph)
                                                 @if($sample->prophylaxis == $proph->id)
                                                     {{ $proph->name ?? '' }}
@@ -213,7 +145,6 @@
                                             @endforeach
                                         </td>
                                         <td> {{ $sample->result ?? '' }} </td>
->>>>>>> 5ac1971fe54e86743685d3c274c157db16da65ac
                                     </tr>
                                 @endforeach
 
