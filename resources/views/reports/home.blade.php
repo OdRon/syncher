@@ -279,7 +279,7 @@
                                 @endif
                                 @if(Auth::user()->user_type_id == 3)
                                     @if(Auth::user()->user_type_id != 2)
-                                        <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label>
+                                        <!-- <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label> -->
                                         <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>
                                         <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples </label>
                                     @endif
