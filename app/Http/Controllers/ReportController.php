@@ -102,6 +102,7 @@ class ReportController extends Controller
                 $selectStr .= ", receivedstatus.name as receivedstatus, viralprophylaxis.name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
             }
 
+            ini_set("memory_limit", "-1");
     		$model = ViralsampleView::selectRaw($selectStr)
     				->leftJoin('labs', 'labs.id', '=', 'viralsamples_view.lab_id')
     				->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsamples_view.facility_id')
