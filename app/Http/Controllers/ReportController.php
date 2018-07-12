@@ -73,17 +73,19 @@ class ReportController extends Controller
         }
         // dd($request->all());
         $dateString = '';
+        $title = "";
         $excelColumns = [];
         
-        $data = self::__getDateData($request,$dateString, $excelColumns)->get();
-        $this->__getExcel($data, $dateString, $excelColumns);
+        $data = self::__getDateData($request,$dateString, $excelColumns, $title)->get();
+        $this->__getExcel($data, $title, $excelColumns);
         
         return back();
     }
 
-    public static function __getDateData($request, &$dateString, &$excelColumns)
+    public static function __getDateData($request, &$dateString, &$excelColumns, &$title)
     {
         ini_set("memory_limit", "-1");
+
     	if ($request->testtype == 'VL') {
     		$table = 'viralsamples_view';
             $selectStr = "$table.id, $table.batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender_description, $table.dob, $table.age, viralsampletype.name as sampletype, $table.datecollected, viraljustifications.name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
@@ -128,6 +130,10 @@ class ReportController extends Controller
             if ($request->indicatortype == 1 || $request->indicatortype == 6) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result'];
                 $selectStr .= ",ip.name as infantprophylaxis, receivedstatus.name as receivedstatus, samples_view.spots, feedings.feeding, entry_points.name as entrypoint, ir.name as infantresult, mp.name as motherprophylaxis, mr.name as motherresult";
+                if ($request->indicatortype == 1)
+                    $title = "TEST OUTCOMES FOR ";
+                if ($request->indicatortype == 6)
+                    $title = "";
             } else if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result', 'Validation (CP,A,VL,RT,UF)', 'Enrollment Status', 'Date Initiated on Treatment', 'Enrollment CCC #', 'Other Reasons'];
 
@@ -195,17 +201,32 @@ class ReportController extends Controller
 
         if ($request->category == 'county') {
             $model = $model->where('view_facilitys.county_id', '=', $request->county);
+            $county = ViewFacility::where('county_id', '=', $request->county)->get()->first();
+            $title .= $county->county;
         } else if ($request->category == 'subcounty') {
             $model = $model->where('view_facilitys.subcounty_id', '=', $request->district);
+            $subc = ViewFacility::where('subcounty_id', '=', $request->district)->get()->first();
+            $title .= $subc->subcounty;
         } else if ($request->category == 'facility') {
             $model = $model->where('view_facilitys.id', '=', $request->facility);
+            $facility = ViewFacility::where('id', '=', $request->facility)->get()->first();
+            $title .= $facility->name;
         } else if ($request->category == 'overall') {
-            if (auth()->user()->user_type_id == 3) 
+            if (auth()->user()->user_type_id == 3) {
                 $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->level);
-            if (auth()->user()->user_type_id == 4) 
+                $partner = ViewFacility::where('partner_id', '=', auth()->user()->level)->get()->first();
+                $title .= $partner->patner;
+            }
+            if (auth()->user()->user_type_id == 4) {
                 $model = $model->where('view_facilitys.county_id', '=', auth()->user()->level);
-            if (auth()->user()->user_type_id == 5) 
+                $county = ViewFacility::where('county_id', '=', $request->county)->get()->first();
+                $title .= $county->county;
+            }
+            if (auth()->user()->user_type_id == 5) {
                 $model = $model->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
+                $subc = ViewFacility::where('subcounty_id', '=', $request->district)->get()->first();
+                $title .= $subc->subcounty;
+            }
         }
 
     	if (isset($request->specificDate)) {
@@ -244,12 +265,12 @@ class ReportController extends Controller
                 $model = $model->whereRaw("YEAR($table.datetested) = '".$request->year."'");
             }
     	}
+        $title .= " FOR ".$dateString;
 
-        // dd($model->toSql());
     	return $model;
     }
 
-    public static function __getExcel($data, $dateString, $dataArray)
+    public static function __getExcel($data, $title, $dataArray)
     {
         ini_set("memory_limit", "-1");
         if($data->isNotEmpty()) {
@@ -257,18 +278,15 @@ class ReportController extends Controller
             foreach ($data as $report) {
                 $newdataArray[] = $report->toArray();
             }
-            // dd($newdataArray);
-            $report = 'Detailed Report';
             
-            Excel::create($report, function($excel) use ($newdataArray, $report) {
-                $excel->setTitle($report);
-                $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('WJ Gilmore, LLC');
-                $excel->setDescription('TEST OUTCOME REPORT FOR '.$report);
+            Excel::create($title, function($excel) use ($newdataArray, $title) {
+                $excel->setTitle($title);
+                $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('NASCOP.ORG');
+                $excel->setDescription($title);
 
-                $excel->sheet($report, function($sheet) use ($newdataArray) {
+                $excel->sheet($title, function($sheet) use ($newdataArray) {
                     $sheet->fromArray($newdataArray, null, 'A1', false, false);
                 });
-
             })->download('xlsx');
         } else {
             session(['toast_message' => 'No data available for the criteria provided']);
