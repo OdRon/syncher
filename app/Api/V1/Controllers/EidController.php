@@ -25,11 +25,17 @@ class EidController extends Controller
         foreach ($patients as $key => $value) {
             $patient = Patient::existing($value->facility_id, $value->patient)->get()->first();
             if(!$patient) continue;
-            $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
+            $patient->original_patient_id = $value->id;
+            $patient->save();
+            $patients_array[] = $patient->toArray();
+            // $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
 
             $mother = $patient->mother;
             if(!$mother) continue;
-            $mothers_array[] = ['original_id' => $mother->original_mother_id, 'national_mother_id' => $mother->id ];
+            $mother->original_mother_id = $value->id;
+            $mother->save();
+            $mothers_array[] = $mother->toArray();
+            // $mothers_array[] = ['original_id' => $mother->original_mother_id, 'national_mother_id' => $mother->id ];
         }
 
         return response()->json([

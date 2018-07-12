@@ -47,7 +47,7 @@ class Lookup
                 $mydate = self::clean_date($row->datecollected);
                 if(!$mydate) return null;
 
-                if($class_name == "App\OldViralsampleView"){ 
+                if($class_name == "App\OldModels\ViralsampleView"){ 
                     return self::calculate_dob($row->datecollected, $row->age, 0);
                 }
                 return self::calculate_dob($row->datecollected, 0, $row->age);

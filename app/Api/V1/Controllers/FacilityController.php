@@ -30,7 +30,7 @@ class FacilityController extends Controller
     public function store(BlankRequest $request)
     {
         $facility_data = json_decode($request->input('facility'));
-        $lab_id = $request->input('lab');
+        $lab_id = $request->input('lab_id');
         $facility = new Facility;
         $facility->fill($facility_data);
         unset($facility->id);

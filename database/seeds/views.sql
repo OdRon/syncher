@@ -58,12 +58,52 @@ CREATE OR REPLACE VIEW old_viralsamples_view AS
 
 );
 
-#run by
-
-CREATE OR REPLACE VIEW worksheets AS
+CREATE OR REPLACE VIEW old_worksheets_view AS
 (
-    SELECT id, worksheetno as original_worksheet_id, type as machine_type, lab as lab_id, status as status_id,
-        updatedby as uploaded_by, 
+    SELECT id, type as machine_type, lab as lab_id, status as status_id,
+    updatedby as uploadedby, reviewedby, review2by as reviewedby2, createdby, cancelledby,
+    #sortedby, alliquotedby, bulkedby, runby,
+    HIQCAPNo as hiqcap_no, Spekkitno as spekkit_no, Rackno as rack_no, Lotno as lot_no, samplepreplotno as
+    sample_prep_lot_no, bulklysislotno as bulklysis_lot_no, controllotno as control_lot_no, calibratorlotno as
+    calibrator_lot_no, amplificationkitlotno as amplification_kit_lot_no,
+
+    negcontrolresult as neg_control_result, poscontrolresult as pos_control_result,
+    negcontrolinterpretation as neg_control_interpretation, poscontrolinterpretation as pos_control_interpretation,
+    cdcworksheetno, 
+    kitexpirydate, sampleprepexpirydate, bulklysisexpirydate, controlexpirydate, calibratorexpirydate,
+    amplificationexpirydate,
+    datecut, datereviewed, review2date as datereviewed2, datecancelled, daterun, datecreated as created_at,
+    dateupdated as dateuploaded,
+    # datesynched,
+    synched
 
     FROM worksheets_eid
+);
+
+CREATE OR REPLACE VIEW old_viralworksheets_view AS
+(
+    SELECT id, type as machine_type, lab as lab_id, status as status_id, calibration,
+    updatedby as uploadedby, reviewedby, review2by as reviewedby2, createdby, cancelledby,
+    #sortedby, alliquotedby, bulkedby, runby, 
+    HIQCAPNo as hiqcap_no, Spekkitno as spekkit_no, Rackno as rack_no, Lotno as lot_no, samplepreplotno as
+    sample_prep_lot_no, bulklysislotno as bulklysis_lot_no, controllotno as control_lot_no, calibratorlotno as
+    calibrator_lot_no, amplificationkitlotno as amplification_kit_lot_no,
+
+    negcontrolresult as neg_control_result, highposcontrolresult as highpos_control_result, 
+    lowposcontrolresult as lowpos_control_result,
+
+    negcontrolinterpretation as neg_control_interpretation, highposcontrolinterpretation as 
+    highpos_control_interpretation, lowposcontrolinterpretation as lowpos_control_interpretation,
+
+    negunits as neg_units, hpcunits as hpc_units, lpcunits as lpc_units,
+
+    cdcworksheetno, 
+    kitexpirydate, sampleprepexpirydate, bulklysisexpirydate, controlexpirydate, calibratorexpirydate,
+    amplificationexpirydate,
+    datecut, datereviewed, review2date as datereviewed2, datecancelled, daterun, datecreated as created_at,
+    dateupdated as dateuploaded,
+    # datesynched,
+    synched
+
+    FROM worksheets_vl
 );
