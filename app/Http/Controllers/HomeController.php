@@ -40,6 +40,7 @@ class HomeController extends Controller
                 $batch = Batch::where('id', '=', $batchID)->get()->first();
                 $batch = $batch->load(['sample.patient.mother','view_facility', 'receiver', 'creator.facility']);
                 $data = (object) $data;
+                // dd($batch);
                 return view('tables.batch_details', compact('data','batch'))->with('pageTitle', "EID Batch :: $batchID");
             } else {
                 $batchID = $batch['vl'];
