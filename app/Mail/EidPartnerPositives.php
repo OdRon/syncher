@@ -91,6 +91,7 @@ class EidPartnerPositives extends Mailable
         }
         $this->summary = $data;
         $this->samples = $samples;
+        $this->name = $data[0]['partner'];
         $addendum = '';
         if($contact->split == 1) $addendum = " IN " . $data[0]['county'] . " COUNTY";
 
