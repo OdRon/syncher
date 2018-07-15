@@ -70,20 +70,20 @@
 		</thead>
 		<tbody>
 			@foreach($summary as $row)
-				<td> {{ $row->no }} </td>
-				<td> {{ $row->mfl }} </td>
-				<td> {{ $row->facility }} </td>
-				<td> {{ $row->county }} </td>
-				<td> {{ $row->subcounty }} </td>
-				<td> {{ $row->positives }} </td>
-				<td> {{ $row->treatment }} </td>
-				<td> {{ $row->ltfu }} </td>
-				<td> {{ $row->dead }} </td>
-				<td> {{ $row->adult }} </td>
-				<td> {{ $row->transfer }} </td>
-				<td> {{ $row->otherreasons }} </td>
-				<td> {{ $row->unknown }} </td>
-				<td> {{ $row->unknown_percentage }} </td>
+				<td> {{ $row['no'] }} </td>
+				<td> {{ $row['mfl'] }} </td>
+				<td> {{ $row['facility'] }} </td>
+				<td> {{ $row['county'] }} </td>
+				<td> {{ $row['subcounty'] }} </td>
+				<td> {{ $row['positives'] }} </td>
+				<td> {{ $row['treatment'] }} </td>
+				<td> {{ $row['ltfu'] }} </td>
+				<td> {{ $row['dead'] }} </td>
+				<td> {{ $row['adult'] }} </td>
+				<td> {{ $row['transfer'] }} </td>
+				<td> {{ $row['otherreasons'] }} </td>
+				<td> {{ $row['unknown'] }} </td>
+				<td> {{ $row['unknown_percentage'] }} </td>
 			@endforeach
 		</tbody>
 	</table>
