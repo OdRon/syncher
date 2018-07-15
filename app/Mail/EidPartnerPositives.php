@@ -79,7 +79,11 @@ class EidPartnerPositives extends Mailable implements ShouldQueue
 
             $data[$i]['unknown'] = $data[$i]['positives'] - ($data[$i]['treatment'] + $data[$i]['ltfu'] + $data[$i]['dead'] + $data[$i]['adult'] + $data[$i]['transfer'] + $data[$i]['otherreasons']);
 
-           $data[$i]['unknown_percentage'] =  (int) (($data[$i]['unknown'] / $data[$i]['positives']) * 100);
+           
+           if($data[$i]['positives'] == 0) $data[$i]['unknown_percentage'] = 0;
+           else{
+                $data[$i]['unknown_percentage'] = (int) (($data[$i]['unknown'] / $data[$i]['positives']) * 100); 
+           }
         }
         $this->summary = $data;
         $this->samples = $samples;
@@ -107,9 +111,6 @@ class EidPartnerPositives extends Mailable implements ShouldQueue
         $view_data = view('exports.hei_followup', $pdf_data)->render();
         $mpdf->WriteHTML($view_data);
         $mpdf->Output($path, \Mpdf\Output\Destination::FILE);
-
-
-
     }
 
     /**
