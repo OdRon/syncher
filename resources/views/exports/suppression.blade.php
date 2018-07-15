@@ -32,6 +32,12 @@
 	</style>
 </head>
 <body>
+	<div align='center' style='text-align: center; align-content: center;'>
+	    <img src=" . asset('img/naslogo.jpg') . " alt='NASCOP'>
+	    <h3>MINISTRY OF HEALTH</h3>
+	    <h3>NATIONAL AIDS AND STD CONTROL PROGRAM (NASCOP)</h3> 
+	</div>
+
 	<h3> {{ $title }} </h3>	
 
 	<table style="width: 100%;">
@@ -80,6 +86,12 @@
 	@if($adolescents)	
 		<p class="breakhere"></p>
 		<pagebreak sheet-size='A4-L'>
+			
+		<div align='center' style='text-align: center; align-content: center;'>
+		    <img src=" . asset('img/naslogo.jpg') . " alt='NASCOP'>
+		    <h3>MINISTRY OF HEALTH</h3>
+		    <h3>NATIONAL AIDS AND STD CONTROL PROGRAM (NASCOP)</h3> 
+		</div>
 
 		<h3>INDIVIDUAL ADOLESCENT PATIENTS [10-19 Yrs] WITH OUTCOMES >1000cp/ml (Not Suppressed) FOR FOLLOW UP BETWEEN {{ $range }} </h3>
 
@@ -133,6 +145,12 @@
 	@if($non_suppressed)	
 		<p class="breakhere"></p>
 		<pagebreak sheet-size='A4-L'>
+			
+		<div align='center' style='text-align: center; align-content: center;'>
+		    <img src=" . asset('img/naslogo.jpg') . " alt='NASCOP'>
+		    <h3>MINISTRY OF HEALTH</h3>
+		    <h3>NATIONAL AIDS AND STD CONTROL PROGRAM (NASCOP)</h3> 
+		</div>
 
 		<h3>INDIVIDUAL PATIENTS WITH OUTCOMES >1000cp/ml (Not Suppressed) FOR FOLLOW UP BETWEEN {{ $range }} </h3>
 
