@@ -109,6 +109,7 @@
 					<th>Facility Name</th>
 					<th>MFL</th>
 					<th>Sample/Patient ID</th>
+					<th>PCR</th>
 					<th>Date Collected</th>
 					<th>Date Tested</th>
 					<th>Validation(CP,A,VL,RT,UF)</th>
@@ -125,6 +126,7 @@
 						<td> {{ $sample->facility }} </td>
 						<td> {{ $sample->facilitycode }} </td>
 						<td> {{ $sample->patient }} </td>
+						<td> {{ $sample->pcrtype }} </td>
 						<td> {{ $sample->my_date_format('datecollected') }} </td>
 						<td> {{ $sample->my_date_format('datetested') }} </td>
 						<td></td>
