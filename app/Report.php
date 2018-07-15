@@ -57,16 +57,16 @@ class Report
             ->when($county_id, function($query) use ($county_id){
                 return $query->where('partner', $county_id);
             })->where(['flag' => 1, 'account' => 7, 'id' > 384])->get();
-        // $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
+        $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($county_contacts as $key => $contact) {
 
-	        $mail_array = [];
+	        // $mail_array = [];
 
-	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'email');
-	        	if($find && $value) $mail_array[] = $value;
-	        }
+	        // foreach ($contact as $column_name => $value) {
+	        // 	$find = strpos($column_name, 'email');
+	        // 	if($find && $value) $mail_array[] = $value;
+	        // }
 	        
 	        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
 	     	Mail::to($mail_array)->send(new EidCountyPositives($contact->id));
@@ -109,16 +109,16 @@ class Report
             ->when($county_id, function($query) use ($county_id){
                 return $query->where('partner', $county_id);
             })->where(['flag' => 1, 'account' => 7, 'id' > 384])->get();
-        // $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
+        $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($county_contacts as $key => $contact) {
 
-	        $mail_array = [];
+	        // $mail_array = [];
 
-	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'email');
-	        	if($find && $value) $mail_array[] = $value;
-	        }
+	        // foreach ($contact as $column_name => $value) {
+	        // 	$find = strpos($column_name, 'email');
+	        // 	if($find && $value) $mail_array[] = $value;
+	        // }
 	        
 	        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
 	     	Mail::to($mail_array)->send(new VlCountyNonsuppressed($contact->id));
