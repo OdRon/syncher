@@ -20,9 +20,9 @@ class Report
             ->when($partner_contact, function($query) use ($partner_contact){
                 return $query->where('id', $partner_contact);
             })->where('active', 1)->get();
+        $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($partner_contacts as $key => $contact) {
-	        $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 	        $cc_array = [];
 	        $bcc_array = [];
@@ -37,8 +37,9 @@ class Report
 	        	if($find && $value) $bcc_array[] = $value;
 	        }
 
-	        Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
-	        DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
+	        // Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
+	        // DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
+	     	Mail::to($mail_array)->send(new EidPartnerPositives($contact->id));
 		}
 
 
