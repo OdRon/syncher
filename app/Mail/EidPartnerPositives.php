@@ -10,8 +10,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Mpdf\Mpdf;
 
 use DB;
-use SampleView;
-use SampleAlertView;
+use \App\SampleView;
+use \App\SampleAlertView;
 
 class EidPartnerPositives extends Mailable implements ShouldQueue
 {
