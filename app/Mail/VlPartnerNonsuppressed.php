@@ -13,7 +13,7 @@ use DB;
 use \App\ViralsampleAlertView;
 use \App\Lookup;
 
-class VlPartnerNonsuppressed extends Mailable implements ShouldQueue
+class VlPartnerNonsuppressed extends Mailable
 {
     use Queueable, SerializesModels;
 
