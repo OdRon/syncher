@@ -52,3 +52,8 @@ Artisan::command('patient:assign', function(){
     $str = \App\Copier::assign_patient_statuses();
     $this->info($str);
 })->describe('Assign patient statuses');
+
+Artisan::command('test:email', function(){
+    $str = \App\Report::test_email();
+    $this->info($str);
+})->describe('Send test email.');
