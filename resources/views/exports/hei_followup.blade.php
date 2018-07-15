@@ -16,7 +16,7 @@
 		table, th, td {
 			border: 1px solid black;
 			border-style: solid;
-     		font-size: 8px;
+     		font-size: 12px;
      		text-align: center;
 		}
 
@@ -24,7 +24,7 @@
 			font-weight: bold;
 		}
 
-		h5 {
+		h3 {
 			margin-top: 6px;
 		    margin-bottom: 6px;
 		}
@@ -40,9 +40,9 @@
 </head>
 <body>
 
-	<div align="center">
+	<div align="center" style="text-align: center; align-content: center;">
 		<img src="{{ asset('img/naslogo.jpg') }}" alt="NASCOP">
-		<br />
+		<!-- <br /> -->
 		<h3>MINISTRY OF HEALTH</h3>
 		<h3>NATIONAL AIDS AND STD CONTROL PROGRAM (NASCOP)</h3>	
 		<h3> {{ $title }} </h3>	
