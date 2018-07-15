@@ -13,6 +13,7 @@
 
 
 -- Dumping structure for table lab-nat.user_types
+DROP TABLE IF EXISTS `user_types`;
 CREATE TABLE IF NOT EXISTS `user_types` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
