@@ -13,7 +13,7 @@ use DB;
 use \App\ViralsampleAlertView;
 use \App\Lookup;
 
-class VlPartnerNonsuppressed extends Mailable
+class VlPartnerNonsuppressed extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -97,7 +97,6 @@ class VlPartnerNonsuppressed extends Mailable
         }
         else{
             $this->title = "NOT SUPPRESSED (>1000cp/ml) OUTCOMES  FOR SAMPLES TESTED BETWEEN {$range} " . strtoupper($data[0]['partner']) . " SITES {$addendum}";
-
         }
 
         $header = "<div align='center' style='text-align: center; align-content: center;'>
