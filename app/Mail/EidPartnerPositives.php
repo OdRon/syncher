@@ -12,7 +12,7 @@ use Mpdf\Mpdf;
 use DB;
 use \App\SampleAlertView;
 
-class EidPartnerPositives extends Mailable
+class EidPartnerPositives extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -31,7 +31,7 @@ class EidPartnerPositives extends Mailable
      */
     public function __construct($partner_contact_id)
     {
-        ini_set("memory_limit", "-1");
+        // ini_set("memory_limit", "-1");
         $contact = DB::table('eid_partner_contacts_for_alerts')->where('id', $partner_contact_id)->get()->first();
         $samples = SampleAlertView::where('facility_id', '!=', 7148)
             ->whereIn('pcrtype', [1, 2, 3])
@@ -97,8 +97,14 @@ class EidPartnerPositives extends Mailable
         $this->summary = $data;
         $this->samples = $samples;
         $this->name = $data[0]['partner'];
+        $this->division = 'Partner';
+        
         $addendum = '';
         if($contact->split == 1) $addendum = " IN " . strtoupper($data[0]['county']) . " COUNTY";
+
+        $path = storage_path('app/hei/partner/' . $contact->id .   '.pdf');
+        $this->path = $path;
+        if(file_exists($path)) unlink($path);
 
         if($samples->isEmpty()){
             $this->title = date('Y') .  ' COMPLETED HEI FOLLOW UP SUMMARY FOR ' . strtoupper($data[0]['partner']) . ' SITES ' . $addendum; 
@@ -106,12 +112,6 @@ class EidPartnerPositives extends Mailable
         else{
             $this->title = date('Y') .  ' HEI FOR FOLLOW UP & ONLINE DOCUMENTATION FOR ' . strtoupper($data[0]['partner']) . ' SITES ' . $addendum;             
         }
-        $this->name = $data[0]['partner'];
-        $this->division = 'partner';
-
-        $path = storage_path('app/hei/partner/' . $contact->id .   '.pdf');
-        $this->path = $path;
-        if(file_exists($path)) unlink($path);
 
         $pdf_data['summary'] = $data;
         $pdf_data['samples'] = $samples;
@@ -132,6 +132,6 @@ class EidPartnerPositives extends Mailable
     {
         $this->attach($this->path, ['as' => $this->title]);
         $this->attach(public_path('attachments/HEIValidationToolGuide.pdf'));
-        return $this->view('mail.hei_validation');
+        return $this->subject($this->title)->view('mail.hei_validation');
     }
 }

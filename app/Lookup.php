@@ -161,6 +161,18 @@ class Lookup
         ];        
     }
 
+    public static function filler($sample, $i)
+    {
+        $filler =  ['total' => 0, 'non_sup' => 0, 'pregnant' => 0, 'breast_feeding' => 0, 'adolescents' => 0, 'children' => 0, 'adults' => 0, 'no_age' => 0];
+
+        $filler['no'] = $i+1;
+        $filler['mfl'] = $sample->facilitycode;
+        $filler['facility'] = $sample->facility;
+        $filler['county'] = $sample->county;
+        $filler['subcounty'] = $sample->subcounty;
+        $filler['partner'] = $sample->partner;
+        return $filler;
+    }
 
 
     public static function cacher()
