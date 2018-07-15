@@ -91,10 +91,10 @@ class EidPartnerPositives extends Mailable
         if($contact->split == 1) $addendum = " IN " . $data[0]['county'] . " COUNTY";
 
         if($samples->isEmpty()){
-            $this->$title = date('Y') .  ' COMPLETED HEI FOLLOW UP SUMMARY FOR ' . $data[0]['partner'] . ' SITES ' . $addendum; 
+            $this->title = date('Y') .  ' COMPLETED HEI FOLLOW UP SUMMARY FOR ' . $data[0]['partner'] . ' SITES ' . $addendum; 
         }
         else{
-            $this->$title = date('Y') .  ' HEI FOR FOLLOW UP & ONLINE DOCUMENTATION FOR ' . $data[0]['partner'] . ' SITES ' . $addendum;             
+            $this->title = date('Y') .  ' HEI FOR FOLLOW UP & ONLINE DOCUMENTATION FOR ' . $data[0]['partner'] . ' SITES ' . $addendum;             
         }
         $this->name = $data[0]['partner'];
         $this->division = 'partner';
