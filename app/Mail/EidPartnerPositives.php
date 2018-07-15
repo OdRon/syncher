@@ -51,20 +51,24 @@ class EidPartnerPositives extends Mailable
             ->when(($contact->split == 1), function($query) use ($contact){
                 return $query->where('county_id', $contact->county);
             })
-            ->get()->toArray();
+            ->get()->flatten();
 
         $totals = SampleAlertView::selectRaw("facility_id, enrollment_status, facilitycode, facility, county, subcounty, partner, count(id) as total")
             ->whereIn('pcrtype', [1, 2, 3])
-            ->where(['result' => 2, 'repeatt' => 0])
-            ->whereIn('facility_id', $facilities)
+            ->where(['result' => 2, 'repeatt' => 0, 'partner_id' => $contact->partner])
+            ->when(($contact->split == 1), function($query) use ($contact){
+                return $query->where('county_id', $contact->county);
+            })
+            // ->whereIn('facility_id', $facilities)
             ->whereYear('datetested', date('Y'))
             ->groupBy('facility_id', 'enrollment_status')
             ->orderBy('facility_id')
             ->get();
 
         $data;
+        $i=0;
 
-        foreach ($facilities as $i => $id) {
+        foreach ($facilities as $id) {
             $data[$i]['no'] = $i + 1;
             $data[$i]['mfl'] = $totals->where('facility_id', $id)->first()->facilitycode ?? '';
             $data[$i]['facility'] = $totals->where('facility_id', $id)->first()->facility ?? '';
@@ -88,6 +92,7 @@ class EidPartnerPositives extends Mailable
            else{
                 $data[$i]['unknown_percentage'] = (int) (($data[$i]['unknown'] / $data[$i]['positives']) * 100); 
            }
+           $i++;
         }
         $this->summary = $data;
         $this->samples = $samples;
