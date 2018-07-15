@@ -38,7 +38,7 @@ class VlPartnerNonsuppressed extends Mailable
         $displayfromdate=date("d-M-Y",strtotime($startdate));
         $displaytodate=date("d-M-Y",strtotime($enddate));
 
-        $range = strtoupper($displayfromdate . 'TO' . $displaytodate);
+        $range = strtoupper($displayfromdate . ' TO ' . $displaytodate);
 
         $samples = ViralsampleAlertView::where('facility_id', '!=', 7148)
             ->whereIn('rcategory', [1, 2, 3, 4])
