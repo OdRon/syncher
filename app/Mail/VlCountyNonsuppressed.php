@@ -83,14 +83,14 @@ class VlCountyNonsuppressed extends Mailable implements ShouldQueue
         }
 
         $this->nonsup_absent = $nonsup_absent;
-        $this->name = $data[0]['county'];
+        $this->name = $data[0]['county'] ?? '';
         $this->division = 'County';
 
         if($nonsup_absent){ 
             $this->title = "NO INDIVIDUAL PATIENTS WITH OUTCOMES >1000cp/ml (Not Suppressed) FOR FOLLOW UP BETWEEN {$range} ";
         }
         else{
-            $this->title = "NOT SUPPRESSED (>1000cp/ml) OUTCOMES  FOR SAMPLES TESTED BETWEEN {$range} " . strtoupper($data[0]['county']) . " COUNTY SITES";
+            $this->title = "NOT SUPPRESSED (>1000cp/ml) OUTCOMES  FOR SAMPLES TESTED BETWEEN {$range} " . strtoupper($this->name) . " COUNTY SITES";
         }
 
         $header = "<div align='center' style='text-align: center; align-content: center;'>

@@ -88,15 +88,16 @@ class VlPartnerNonsuppressed extends Mailable implements ShouldQueue
         $this->nonsup_absent = $nonsup_absent;
         $this->name = $data[0]['partner'];
         $this->division = 'Partner';
+        $county = $data[0]['county'] ?? '';
         
         $addendum = '';
-        if($contact->split == 1) $addendum = " IN " . strtoupper($data[0]['county']) . " COUNTY";
+        if($contact->split == 1) $addendum = " IN " . strtoupper($county) . " COUNTY";
 
         if($nonsup_absent){ 
             $this->title = "NO INDIVIDUAL PATIENTS WITH OUTCOMES >1000cp/ml (Not Suppressed) FOR FOLLOW UP BETWEEN {$range} ";
         }
         else{
-            $this->title = "NOT SUPPRESSED (>1000cp/ml) OUTCOMES  FOR SAMPLES TESTED BETWEEN {$range} " . strtoupper($data[0]['partner']) . " SITES {$addendum}";
+            $this->title = "NOT SUPPRESSED (>1000cp/ml) OUTCOMES  FOR SAMPLES TESTED BETWEEN {$range} " . strtoupper($this->name) . " SITES {$addendum}";
         }
 
         $header = "<div align='center' style='text-align: center; align-content: center;'>
