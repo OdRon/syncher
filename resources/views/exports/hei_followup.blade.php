@@ -1,4 +1,4 @@
- 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -138,6 +138,10 @@
 			
 		</table>
 	@endif
+
+	{{ print_r($summary) }}
 </body>
+
+
 
 </html>
