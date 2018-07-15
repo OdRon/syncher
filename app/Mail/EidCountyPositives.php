@@ -85,14 +85,14 @@ class EidCountyPositives extends Mailable implements ShouldQueue
         }
         $this->summary = $data;
         $this->samples = $samples;
-        $this->name = $data[0]['county'];
+        $this->name = $data[0]['county'] ?? '';
         $this->division = 'County';
 
         if($samples->isEmpty()){
-            $this->title = date('Y') .  ' COMPLETED HEI FOLLOW UP SUMMARY FOR ' . strtoupper($data[0]['county']) . ' COUNTY SITES '; 
+            $this->title = date('Y') .  ' COMPLETED HEI FOLLOW UP SUMMARY FOR ' . strtoupper($this->name) . ' COUNTY SITES '; 
         }
         else{
-            $this->title = date('Y') .  ' HEI FOR FOLLOW UP & ONLINE DOCUMENTATION FOR ' . strtoupper($data[0]['county']) . ' COUNTY SITES ';             
+            $this->title = date('Y') .  ' HEI FOR FOLLOW UP & ONLINE DOCUMENTATION FOR ' . strtoupper($this->name) . ' COUNTY SITES ';             
         }
 
         $path = storage_path('app/hei/county/' . $contact->id .   '.pdf');

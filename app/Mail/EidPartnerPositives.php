@@ -98,19 +98,20 @@ class EidPartnerPositives extends Mailable implements ShouldQueue
         $this->samples = $samples;
         $this->name = $data[0]['partner'];
         $this->division = 'Partner';
+        $county = $data[0]['county'] ?? '';
         
         $addendum = '';
-        if($contact->split == 1) $addendum = " IN " . strtoupper($data[0]['county']) . " COUNTY";
+        if($contact->split == 1) $addendum = " IN " . strtoupper($county) . " COUNTY";
 
         $path = storage_path('app/hei/partner/' . $contact->id .   '.pdf');
         $this->path = $path;
         if(file_exists($path)) unlink($path);
 
         if($samples->isEmpty()){
-            $this->title = date('Y') .  ' COMPLETED HEI FOLLOW UP SUMMARY FOR ' . strtoupper($data[0]['partner']) . ' SITES ' . $addendum; 
+            $this->title = date('Y') .  ' COMPLETED HEI FOLLOW UP SUMMARY FOR ' . strtoupper($this->name) . ' SITES ' . $addendum; 
         }
         else{
-            $this->title = date('Y') .  ' HEI FOR FOLLOW UP & ONLINE DOCUMENTATION FOR ' . strtoupper($data[0]['partner']) . ' SITES ' . $addendum;             
+            $this->title = date('Y') .  ' HEI FOR FOLLOW UP & ONLINE DOCUMENTATION FOR ' . strtoupper($this->name) . ' SITES ' . $addendum;             
         }
 
         $pdf_data['summary'] = $data;
