@@ -13,7 +13,7 @@ use DB;
 use \App\SampleView;
 use \App\SampleAlertView;
 
-class EidPartnerPositives extends Mailable implements ShouldQueue
+class EidPartnerPositives extends Mailable
 {
     use Queueable, SerializesModels;
 
