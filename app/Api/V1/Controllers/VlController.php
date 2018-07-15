@@ -103,7 +103,7 @@ class VlController extends Controller
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
 
             foreach ($value->sample as $key2 => $value2) {
-                if($value2->parentid != 0) continue;
+                // if($value2->parentid != 0) continue;
                 $sample = new Viralsample;
                 $sample->fill(get_object_vars($value2));
                 $sample->original_sample_id = $sample->id;
@@ -118,22 +118,22 @@ class VlController extends Controller
                 $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                
             }
 
-            foreach ($value->sample as $key2 => $value2) {
-                if($value2->parentid == 0) continue;
-                $sample = new Viralsample;
-                $sample->fill(get_object_vars($value2));
-                $sample->original_sample_id = $sample->id;
-                $sample->patient_id = $value2->patient->national_patient_id;
-                unset($sample->id);
-                unset($sample->patient);
-                unset($sample->national_sample_id);
+            // foreach ($value->sample as $key2 => $value2) {
+            //     if($value2->parentid == 0) continue;
+            //     $sample = new Viralsample;
+            //     $sample->fill(get_object_vars($value2));
+            //     $sample->original_sample_id = $sample->id;
+            //     $sample->patient_id = $value2->patient->national_patient_id;
+            //     unset($sample->id);
+            //     unset($sample->patient);
+            //     unset($sample->national_sample_id);
 
-                $sample->parentid = Misc::get_new_id($samples_array, $sample->parentid);
-                $sample->batch_id = $batch->id;
-                $sample->save();
+            //     $sample->parentid = Misc::get_new_id($samples_array, $sample->parentid);
+            //     $sample->batch_id = $batch->id;
+            //     $sample->save();
                 
-                $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                
-            }
+            //     $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                
+            // }
         }
         return response()->json([
             'status' => 'ok',
