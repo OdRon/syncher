@@ -70,20 +70,22 @@
 		</thead>
 		<tbody>
 			@foreach($summary as $row)
-				<td> {{ $row['no'] }} </td>
-				<td> {{ $row['mfl'] }} </td>
-				<td> {{ $row['facility'] }} </td>
-				<td> {{ $row['county'] }} </td>
-				<td> {{ $row['subcounty'] }} </td>
-				<td> {{ $row['positives'] }} </td>
-				<td> {{ $row['treatment'] }} </td>
-				<td> {{ $row['ltfu'] }} </td>
-				<td> {{ $row['dead'] }} </td>
-				<td> {{ $row['adult'] }} </td>
-				<td> {{ $row['transfer'] }} </td>
-				<td> {{ $row['otherreasons'] }} </td>
-				<td> {{ $row['unknown'] }} </td>
-				<td> {{ $row['unknown_percentage'] }} </td>
+				<tr>
+					<td> {{ $row['no'] }} </td>
+					<td> {{ $row['mfl'] }} </td>
+					<td> {{ $row['facility'] }} </td>
+					<td> {{ $row['county'] }} </td>
+					<td> {{ $row['subcounty'] }} </td>
+					<td> {{ $row['positives'] }} </td>
+					<td> {{ $row['treatment'] }} </td>
+					<td> {{ $row['ltfu'] }} </td>
+					<td> {{ $row['dead'] }} </td>
+					<td> {{ $row['adult'] }} </td>
+					<td> {{ $row['transfer'] }} </td>
+					<td> {{ $row['otherreasons'] }} </td>
+					<td> {{ $row['unknown'] }} </td>
+					<td> {{ $row['unknown_percentage'] }} </td>
+				</tr>
 			@endforeach
 		</tbody>
 	</table>
@@ -118,17 +120,19 @@
 			</thead>
 			<tbody>
 				@foreach($samples as $key => $sample)
-					<td> {{ $key+1 }} </td>
-					<td> {{ $sample->county }} </td>
-					<td> {{ $sample->facility }} </td>
-					<td> {{ $sample->facilitycode }} </td>
-					<td> {{ $sample->patient }} </td>
-					<td> {{ $sample->my_date_format('datecollected') }} </td>
-					<td> {{ $sample->my_date_format('datetested') }} </td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<tr>
+						<td> {{ $key+1 }} </td>
+						<td> {{ $sample->county }} </td>
+						<td> {{ $sample->facility }} </td>
+						<td> {{ $sample->facilitycode }} </td>
+						<td> {{ $sample->patient }} </td>
+						<td> {{ $sample->my_date_format('datecollected') }} </td>
+						<td> {{ $sample->my_date_format('datetested') }} </td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
 				@endforeach
 			</tbody>
 			
