@@ -54,7 +54,7 @@ class EidCountyPositives extends Mailable implements ShouldQueue
             ->orderBy('facility_id')
             ->get();
 
-        $data;
+        $data = [];
         $i=0;
 
         foreach ($facilities as $id) {
@@ -83,6 +83,7 @@ class EidCountyPositives extends Mailable implements ShouldQueue
            }
            $i++;
         }
+
         $this->summary = $data;
         $this->samples = $samples;
         $this->name = $data[0]['county'] ?? '';
