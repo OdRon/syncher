@@ -6,6 +6,8 @@ use DB;
 
 use Illuminate\Support\Facades\Mail;
 
+use App\Mail\TestMail;
+
 use App\Mail\EidPartnerPositives;
 use App\Mail\EidCountyPositives;
 use App\Mail\VlPartnerNonsuppressed;
@@ -13,6 +15,12 @@ use App\Mail\VlCountyNonsuppressed;
 
 class Report
 {
+
+
+    public static function test_email()
+    {
+        Mail::to(['joelkith@gmail.com'])->send(new TestMail());
+    }
 
 	public static function eid_partner($partner_contact=null)
 	{
