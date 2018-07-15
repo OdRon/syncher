@@ -103,7 +103,7 @@ class EidPartnerPositives extends Mailable
         $this->name = $data[0]['partner'];
         $this->division = 'partner';
 
-        $path = storage_path('app/hei/partner/' . $contact->id .   ' .pdf');
+        $path = storage_path('app/hei/partner/' . $contact->id .   '.pdf');
         $this->path = $path;
         if(file_exists($path)) unlink($path);
 
