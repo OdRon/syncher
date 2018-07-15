@@ -32,6 +32,11 @@ Artisan::command('report:suppression-partner {contact_id?}', function ($contact_
     $this->info($str);
 })->describe('Send suppression follow up report for partners.');
 
+Artisan::command('report:suppression-county {contact_id?}', function ($contact_id=null) {
+    $str = \App\Report::vl_county($contact_id);
+    $this->info($str);
+})->describe('Send suppression follow up report for counties.');
+
 
 Artisan::command('copy:test {limit}', function () {
 	ini_set("memory_limit", "-1");

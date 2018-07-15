@@ -105,6 +105,7 @@ class VlPartnerNonsuppressed extends Mailable
                         <h3>MINISTRY OF HEALTH</h3>
                         <h3>NATIONAL AIDS AND STD CONTROL PROGRAM (NASCOP)</h3> 
                     </div>";
+                    
 
         $path = storage_path('app/suppression/partner/' . $contact->id .   '.pdf');
         $this->path = $path;
@@ -119,7 +120,7 @@ class VlPartnerNonsuppressed extends Mailable
 
         $mpdf = new Mpdf(['format' => 'A4-L']);
         $view_data = view('exports.suppression', $pdf_data)->render();
-        $mpdf->SetHTMLHeader($header);
+        // $mpdf->SetHTMLHeader($header);
         $mpdf->WriteHTML($view_data);
         $mpdf->Output($path, \Mpdf\Output\Destination::FILE);
     }
