@@ -130,7 +130,7 @@ class EidPartnerPositives extends Mailable
      */
     public function build()
     {
-        $this->attach($this->path);
+        $this->attach($this->path, ['as' => $this->title]);
         $this->attach(public_path('attachments/HEIValidationToolGuide.pdf'));
         return $this->view('mail.hei_validation');
     }
