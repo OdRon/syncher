@@ -10,7 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Mpdf\Mpdf;
 
 use DB;
-use \App\SampleView;
 use \App\SampleAlertView;
 
 class EidPartnerPositives extends Mailable
@@ -32,6 +31,7 @@ class EidPartnerPositives extends Mailable
      */
     public function __construct($partner_contact_id)
     {
+        ini_set("memory_limit", "-1");
         $contact = DB::table('eid_partner_contacts_for_alerts')->where('id', $partner_contact_id)->get()->first();
         $samples = SampleAlertView::where('facility_id', '!=', 7148)
             ->whereIn('pcrtype', [1, 2, 3])
@@ -44,9 +44,13 @@ class EidPartnerPositives extends Mailable
             ->orderBy('datetested', 'ASC')
             ->get();
 
-        $facilities = SampleView::selectRaw("distinct facility_id")
+        $facilities = SampleAlertView::selectRaw("distinct facility_id")
             ->whereIn('pcrtype', [1, 2, 3])
-            ->where(['result' => 2, 'repeatt' => 0])
+            ->whereYear('datetested', date('Y'))
+            ->where(['result' => 2, 'repeatt' => 0, 'partner_id' => $contact->partner])
+            ->when(($contact->split == 1), function($query) use ($contact){
+                return $query->where('county_id', $contact->county);
+            })
             ->get()->toArray();
 
         $totals = SampleAlertView::selectRaw("facility_id, enrollment_status, facilitycode, facility, county, subcounty, partner, count(id) as total")
