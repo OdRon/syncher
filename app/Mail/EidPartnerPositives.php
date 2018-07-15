@@ -51,7 +51,7 @@ class EidPartnerPositives extends Mailable
             ->when(($contact->split == 1), function($query) use ($contact){
                 return $query->where('county_id', $contact->county);
             })
-            ->get()->flatten();
+            ->get()->pluck('facility_id')->toArray();
 
         $totals = SampleAlertView::selectRaw("facility_id, enrollment_status, facilitycode, facility, county, subcounty, partner, count(id) as total")
             ->whereIn('pcrtype', [1, 2, 3])

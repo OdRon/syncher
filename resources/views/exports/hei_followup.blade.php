@@ -138,8 +138,6 @@
 			
 		</table>
 	@endif
-
-	{{ print_r($summary) }}
 </body>
 
 
