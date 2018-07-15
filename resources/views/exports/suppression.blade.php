@@ -33,7 +33,7 @@
 </head>
 <body>
 	<div align='center' style='text-align: center; align-content: center;'>
-	    <img src=" . asset('img/naslogo.jpg') . " alt='NASCOP'>
+	    <img src="{{ asset('img/naslogo.jpg') }}" alt='NASCOP'>
 	    <h3>MINISTRY OF HEALTH</h3>
 	    <h3>NATIONAL AIDS AND STD CONTROL PROGRAM (NASCOP)</h3> 
 	</div>
@@ -88,7 +88,7 @@
 		<pagebreak sheet-size='A4-L'>
 			
 		<div align='center' style='text-align: center; align-content: center;'>
-		    <img src=" . asset('img/naslogo.jpg') . " alt='NASCOP'>
+		    <img src="{{ asset('img/naslogo.jpg') }}" alt='NASCOP'>
 		    <h3>MINISTRY OF HEALTH</h3>
 		    <h3>NATIONAL AIDS AND STD CONTROL PROGRAM (NASCOP)</h3> 
 		</div>
@@ -147,7 +147,7 @@
 		<pagebreak sheet-size='A4-L'>
 			
 		<div align='center' style='text-align: center; align-content: center;'>
-		    <img src=" . asset('img/naslogo.jpg') . " alt='NASCOP'>
+		    <img src="{{ asset('img/naslogo.jpg') }}" alt='NASCOP'>
 		    <h3>MINISTRY OF HEALTH</h3>
 		    <h3>NATIONAL AIDS AND STD CONTROL PROGRAM (NASCOP)</h3> 
 		</div>
