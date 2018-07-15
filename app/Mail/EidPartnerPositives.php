@@ -65,7 +65,7 @@ class EidPartnerPositives extends Mailable implements ShouldQueue
             ->orderBy('facility_id')
             ->get();
 
-        $data;
+        $data = [];
         $i=0;
 
         foreach ($facilities as $id) {
