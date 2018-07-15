@@ -105,7 +105,7 @@ class EidPartnerPositives extends Mailable
 
         $pdf_data['summary'] = $data;
         $pdf_data['samples'] = $samples;
-        $pdf_data['title'] = $title; 
+        $pdf_data['title'] = $this->title; 
 
         $mpdf = new Mpdf(['format' => 'A4-L']);
         $view_data = view('exports.hei_followup', $pdf_data)->render();
