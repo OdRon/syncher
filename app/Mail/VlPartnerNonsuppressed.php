@@ -30,7 +30,6 @@ class VlPartnerNonsuppressed extends Mailable
      */
     public function __construct($partner_contact_id)
     {
-
         $contact = DB::table('vl_partner_contacts_for_alerts')->where('id', $partner_contact_id)->get()->first();
 
         $startdate = date('Y-m-d', strtotime('-7 days'));
