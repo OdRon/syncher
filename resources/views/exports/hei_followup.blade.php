@@ -28,14 +28,6 @@
 			margin-top: 6px;
 		    margin-bottom: 6px;
 		}
-
-		p {
-			margin-top: 2px;
-     		font-size: 8px;
-		}
-		* {
-			font-size: 8px;
-		}
 	</style>
 </head>
 <body>
@@ -48,6 +40,7 @@
 		<h3> {{ $title }} </h3>	
 	</div>
 
+	<br />
 
 	<table style="width: 100%;">
 		<thead>
@@ -70,7 +63,11 @@
 		</thead>
 		<tbody>
 			@foreach($summary as $row)
-				<tr>
+				<tr
+					@if($row['positives'])
+						class='positive'
+					@endif 
+				>
 					<td> {{ $row['no'] }} </td>
 					<td> {{ $row['mfl'] }} </td>
 					<td> {{ $row['facility'] }} </td>
@@ -101,6 +98,8 @@
 			<h3> INDIVIDUAL HIV EXPOSED INFANTS FOR FOLLOW UP & ONLINE DOCUMENTATION IN {{ date('Y') }} </h3>	
 		</div>
 
+		<br />
+
 		<table>
 			<thead>
 				<tr>
@@ -112,10 +111,10 @@
 					<th>PCR</th>
 					<th>Date Collected</th>
 					<th>Date Tested</th>
-					<th>Validation(CP,A,VL,RT,UF)</th>
+					<th>Validation (CP,A,VL,RT,UF)</th>
 					<th>Status</th>
 					<th>Date Initiated on Tx</th>
-					<th>Enrolment CCC #</th>
+					<th>Enrollment CCC #</th>
 				</tr>
 			</thead>
 			<tbody>

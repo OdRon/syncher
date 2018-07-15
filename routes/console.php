@@ -22,6 +22,16 @@ Artisan::command('report:hei-partner {contact_id?}', function ($contact_id=null)
     $this->info($str);
 })->describe('Send hei follow up report for partners.');
 
+Artisan::command('report:hei-county {contact_id?}', function ($contact_id=null) {
+    $str = \App\Report::eid_county($contact_id);
+    $this->info($str);
+})->describe('Send hei follow up report for counties.');
+
+Artisan::command('report:suppression-partner {contact_id?}', function ($contact_id=null) {
+    $str = \App\Report::vl_partner($contact_id);
+    $this->info($str);
+})->describe('Send suppression follow up report for partners.');
+
 
 Artisan::command('copy:test {limit}', function () {
 	ini_set("memory_limit", "-1");
