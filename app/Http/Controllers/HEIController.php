@@ -42,6 +42,7 @@ class HEIController extends Controller
         $data['edit'] = false;
     	
     	if ($request->method() == 'POST') {
+            dd($request->all());
             $data = [];
     		$columns = [ 'id', 'patient', 'hei_validation', 'enrollment_status', 'dateinitiatedontreatment', 'enrollment_ccc_no', 'facility_id', 'other_reason'];
     		$sampleCount = (int)$request->DataTables_Table_0_length ?? null;

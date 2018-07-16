@@ -36,7 +36,7 @@
                         <table class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
-                                    <th id="check_all">Check All</th>
+                                    <th id="check_all">UnCheck All</th>
                                     <th>#</th>
                                     <th>County</th>
                                     <th>Facility</th>
@@ -60,7 +60,8 @@
                                     @endphp
                                     <tr>
                                         <td>
-                                            <input class="checks" type="checkbox" name="id{{ $count }}" id="id{{ $count }}" value="{{ $sample->id }}" checked>
+                                            <input class="checks" type="checkbox" id="check{{ $count }}" value="{{ $sample->patient_id }}" checked>
+                                            <input type="hidden" name="id{{ $count }}"  id="id{{ $count }}" value="{{ $sample->patient_id }}" >
                                         </td>
                                         <td>{{ $key+1 }}</td>
                                         <td>{{ $sample->county }}</td>
@@ -68,10 +69,10 @@
                                         <td>{{ $sample->facilitycode }}</td>
                                         <td>
                                             {{ $sample->patient }}
-                                            <input type="hidden" name="patient{{ $count }}" value="{{ $sample->patient }}">
+                                            <input type="hidden" name="patient{{ $count }}" id="patient{{ $count }}" value="{{ $sample->patient }}">
                                         </td>
                                         <td>
-                                            <select class="form-control" name="hei_validation{{ $count }}" id="hei_validation{{ $count }}" required style="width: 150px;">
+                                            <select class="form-control" name="hei_validation{{ $count }}" id="hei_validation{{ $count }}" style="width: 150px;">
                                                 @if($data->edit)
                                                     @forelse($data->hei_validation as $validation)
                                                         @if($sample->hei_validation = $validation->id)
@@ -157,6 +158,7 @@
             <script src="{{ asset('vendor/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
             <script src="{{ asset('vendor/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
             <script src="{{ asset('vendor/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
+            
         @endslot
 
         $(".date").datepicker({
@@ -192,15 +194,63 @@
             }
         });
 
-        $("#saveBtn").click(function(e){
-            e.preventDefault();
-            @foreach($data->patients as $sample)
+        @foreach($data->patients as $key => $sample)
+            @php
+                $key += 1;
+            @endphp
+            checklist = $("#check{{ $key }}:checked").val();
+            console.log(checklist);
+            if (checklist == undefined) {
+                $("#id{{ $key }}").attr('disabled', 'true');
+                $("#patient{{ $key }}").attr('disabled', 'true');
+                $("#hei_validation{{ $key }}").attr('disabled', 'true');
+            } else {
+                $("#id{{ $key }}").removeAttr('disabled');
+                $("#patient{{ $key }}").removeAttr('disabled');
+                $("#hei_validation{{ $key }}").removeAttr('disabled');
+                $("#hei_validation{{ $key }}").attr('required','true');
+                $("#enrollment_status{{ $key }}").removeAttr('disabled');
+                $("#enrollment_status{{ $key }}").attr('required','true');
+            }
+        @endforeach
+
+        $(".checks").click(function(){
+            @foreach($data->patients as $key => $sample)
                 @php
-                    $count += 1;
+                    $key += 1;
                 @endphp
-                checklist = $("#id{{ $count }}").val();
-                console.log(checklist);
+                checklist = $("#check{{ $key }}:checked").val();
+                if (checklist == undefined) {
+                    $("#id{{ $key }}").attr('disabled', 'true');
+                    $("#patient{{ $key }}").attr('disabled', 'true');
+                    $("#hei_validation{{ $key }}").attr('disabled', 'true');
+                } else {
+                    $("#id{{ $key }}").removeAttr('disabled');
+                    $("#patient{{ $key }}").removeAttr('disabled');
+                    $("#hei_validation{{ $key }}").removeAttr('disabled');
+                    $("#hei_validation{{ $key }}").attr('required','true');
+                }
             @endforeach
+        });
+
+        $("#saveBtn").click(function(e){
+            // e.preventDefault();
+            // var checkedValue = $('.checks:checked').val();
+            // console.log(checkedValue);
+            /*@foreach($data->patients as $key => $sample)
+                @php
+                    $key += 1;
+                @endphp
+                checklist = $("#id{{ $key }}:checked").val();
+                if (checklist == undefined) {
+                    $("#id{{ $key }}").attr('disabled', 'true');
+                    $("#patient{{ $key }}").attr('disabled', 'true');
+                    $("#hei_validation{{ $key }}").attr('disabled', 'true');
+                } else {
+                    $("#hei_validation{{ $key }}").attr('required','true');
+                }
+            @endforeach*/
+            // $(this).unbind('submit').submit();
         });
 
         @php
