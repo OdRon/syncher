@@ -30,7 +30,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 
 	Route::prefix('hei')->name('hei.')->group(function(){
 		Route::get('validate/{year?}/{month?}', 'HEIController@index')->name('followup');
-		Route::get('followup', 'HEIController@followup')->name('followup');
+		Route::get('followup/{duration?}/{validation?}', 'HEIController@followup')->name('followup');
 		Route::post('followup', 'HEIController@followup');
 	});
 

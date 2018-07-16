@@ -54,7 +54,7 @@
                                 @php
                                     $count=0;
                                 @endphp
-                                @forelse($data->patients as $sample)
+                                @forelse($data->patients as $key => $sample)
                                     @php
                                         $count += 1;
                                     @endphp
@@ -62,7 +62,7 @@
                                         <td>
                                             <input class="i-checks" type="checkbox" name="id{{ $count }}" id="id{{ $count }}" value="{{ $sample->id }}" checked>
                                         </td>
-                                        <td>{{ $count }}</td>
+                                        <td>{{ $key+1 }}</td>
                                         <td>{{ $sample->county }}</td>
                                         <td>{{ $sample->name }}</td>
                                         <td>{{ $sample->facilitycode }}</td>
@@ -72,30 +72,58 @@
                                         </td>
                                         <td>
                                             <select class="form-control" name="hei_validation{{ $count }}" id="hei_validation{{ $count }}" required style="width: 150px;">
-                                                <option selected disabled value="">Select Validation</option>
-                                                @forelse($data->hei_validation as $validation)
-                                                    <option value="{{ $validation->id }}">{{ $validation->desc }} - {{ $validation->name }}</option>
-                                                @empty
-                                                    <option disabled value="">No Validation</option>
-                                                @endforelse
+                                                @if($data->edit)
+                                                    @forelse($data->hei_validation as $validation)
+                                                        @if($sample->hei_validation = $validation->id)
+                                                            <option value="{{ $validation->id }}" selected>{{ $validation->desc }} - {{ $validation->name }}</option>
+                                                        @else
+                                                            <option value="{{ $validation->id }}">{{ $validation->desc }} - {{ $validation->name }}</option>
+                                                        @endif
+                                                    @empty
+                                                        <option disabled value="">No Validation</option>
+                                                    @endforelse
+                                                @else
+                                                    <option selected disabled value="">Select Validation</option>
+                                                    @forelse($data->hei_validation as $validation)
+                                                        <option value="{{ $validation->id }}">{{ $validation->desc }} - {{ $validation->name }}</option>
+                                                    @empty
+                                                        <option disabled value="">No Validation</option>
+                                                    @endforelse
+                                                @endif
                                             </select>
                                         </td>
                                         <td>
-                                            <select class="form-control" name="enrollment_status{{ $count }}" id="enrollment_status{{ $count }}" disabled style="width: 150px;"></select>
+                                            <select class="form-control" name="enrollment_status{{ $count }}" id="enrollment_status{{ $count }}" disabled style="width: 150px;">
+                                            @if($data->edit)
+                                                @forelse($data->hei_categories as $followup)
+                                                    @if($followup->id == $sample->enrollment_status)
+                                                        <option value="{{ $followup->id }}">{{ $followup->name }}</option>
+                                                    @endif
+                                                @empty
+                                                    <option value="">No Enrollment Status</option>
+                                                @endforelse
+                                            @endif 
+                                            </select>
                                         </td>
                                         <td>
                                             <div class="input-group date">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" class="form-control input-sm" value="" name="dateinitiatedontreatment{{ $count }}" id="dateinitiatedontreatment{{ $count }}" disabled  style="width: 150px;">
+                                                <input type="text" class="form-control input-sm" value="{{ $sample->dateinitiatedontreatment ?? '' }}" name="dateinitiatedontreatment{{ $count }}" id="dateinitiatedontreatment{{ $count }}" disabled  style="width: 150px;">
                                             </div>
                                         </td>
                                         <td>
-                                            <input class="form-control" type="text" name="enrollment_ccc_no{{ $count }}" id="enrollment_ccc_no{{ $count }}" disabled>
+                                            <input class="form-control" type="text" name="enrollment_ccc_no{{ $count }}" id="enrollment_ccc_no{{ $count }}" value="{{ $sample->enrollment_ccc_no ?? '' }}" disabled>
                                         </td>
                                         <td>
-                                            <select class="form-control" name="facility_id{{ $count }}" id="facility_id{{ $count }}" disabled style="width: 200px;"></select>
+                                            <select class="form-control" name="facility_id{{ $count }}" id="facility_id{{ $count }}" disabled style="width: 200px;">
+                                                @if($data->edit)
+                                                    @isset($data->facilitys[$key])
+                                                        <option value="{{ $data->facilitys[$key]->id }}">{{ $data->facilitys[$key]->name }}</option>
+                                                    @endisset
+                                                @endif
+                                            </select>
                                         </td>
-                                        <td><textarea  class="form-control" name="other_reason{{ $count }}" id="other_reason{{ $count }}" disabled></textarea></td>
+                                        <td><textarea  class="form-control" name="other_reason{{ $count }}" id="other_reason{{ $count }}" value="{{ $sample->otherreason ?? '' }}" disabled></textarea></td>
                                     </tr>
                                 @empty
                                     <tr><td><center>No Data available</center></td></tr>
@@ -104,7 +132,9 @@
                         </table>
                     </div>
                     @if($count > 0)
-                        <center><button class="btn btn-success" type="submit" name="submit">Save Validations</button></center>
+                        <center>
+                            <button class="btn btn-success" id="saveBtn" type="submit" name="submit" disabled="true">Save Validations</button>
+                        </center>
                     @endif
                     {{ Form::close() }}
                 </div>
@@ -177,6 +207,8 @@
                     $("#enrollment_status{{ $count }}").html("");
                     $("#enrollment_status{{ $count }}").val("");
                 }
+
+                $("#saveBtn").removeAttr('disabled');
             });
 
             $("#enrollment_status{{ $count }}").change(function(){
