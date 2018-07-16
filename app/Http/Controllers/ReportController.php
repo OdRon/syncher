@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\SampleView;
+use App\SampleCompleteView;
 use App\ViralsampleView;
 use App\ViewFacility;
 use App\Partner;
@@ -138,12 +139,12 @@ class ReportController extends Controller
                 $model = $model->where('pmtct', '=', 1)->whereOr('pmtct', '=', 2);
             }
     	} else if ($request->testtype == 'EID') {
-    		$table = 'samples_view';
-            $selectStr = "$table.id, $table.patient, $table.batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
+            $table = 'sample_complete_view';
+            $selectStr = "$table.id, $table.patient, $table.batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
 
             if ($request->indicatortype == 1 || $request->indicatortype == 6) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result'];
-                $selectStr .= ",ip.name as infantprophylaxis, receivedstatus.name as receivedstatus, samples_view.spots, feedings.feeding, entry_points.name as entrypoint, ir.name as infantresult, mp.name as motherprophylaxis, mr.name as motherresult";
+                $selectStr .= ",$table.regimen_name as infantprophylaxis, receivedstatus.name as receivedstatus, $table.spots, $table.feeding_name, entry_points.name as entrypoint, ir.name as infantresult, $table.mother_prophylaxis_name as motherprophylaxis, mr.name as motherresult";
                 if ($request->indicatortype == 1)
                     $title = "EID TEST OUTCOMES FOR ";
                 if ($request->indicatortype == 6)
@@ -160,7 +161,7 @@ class ReportController extends Controller
                     $title = "EID NEGATIVE TEST OUTCOMES FOR FOLLOW UP FOR ";
             } else if ($request->indicatortype == 5) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Received Status', 'Rejected Reason'];
-                $selectStr .= ", receivedstatus.name as receivedstatus, rejectedreasons.name";
+                $selectStr .= ", $table.receivedstatus_name as receivedstatus, rejectedreasons.name";
                 
                 $title = "EID REJECTED SAMPLES FOR ";
             } else if ($request->indicatortype == 7) {
@@ -179,22 +180,17 @@ class ReportController extends Controller
                 $title = "EID SITES DIONG REMOTE SAMPLE ENTRY FOR ";
             }
             
-    		$model = SampleView::selectRaw($selectStr)
-    				->leftJoin('labs', 'labs.id', '=', 'samples_view.lab_id')
-    				->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'samples_view.facility_id')
-    				->leftJoin('gender', 'gender.id', '=', 'samples_view.sex')
-    				->leftJoin('prophylaxis as ip', 'ip.id', '=', 'samples_view.regimen')
-    				->leftJoin('prophylaxis as mp', 'mp.id', '=', 'samples_view.mother_prophylaxis')
-    				->leftJoin('pcrtype', 'pcrtype.id', '=', 'samples_view.pcrtype')
-    				->leftJoin('receivedstatus', 'receivedstatus.id', '=', 'samples_view.receivedstatus')
-    				->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'samples_view.rejectedreason')
-    				->leftJoin('feedings', 'feedings.id', '=', 'samples_view.feeding')
-    				->leftJoin('entry_points', 'entry_points.id', '=', 'samples_view.entry_point')
-    				->leftJoin('results as ir', 'ir.id', '=', 'samples_view.result')
-    				->leftJoin('mothers', 'mothers.id', '=', 'samples_view.mother_id')
+    		$model = SampleCompleteView::selectRaw($selectStr)
+    				->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
+    				->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+    				->leftJoin('pcrtype', 'pcrtype.id', '=', "$table.pcrtype")
+    				->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', "$table.rejectedreason")
+    				->leftJoin('entry_points', 'entry_points.id', '=', "$table.entry_point")
+    				->leftJoin('results as ir', 'ir.id', '=', "$table.result")
+    				->leftJoin('mothers', 'mothers.id', '=', "$table.mother_id")
     				->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status')
-                    ->leftJoin('hei_validation as hv', 'hv.id', '=', 'samples_view.hei_validation')
-                    ->leftJoin('hei_categories as hc', 'hc.id', '=', 'samples_view.enrollment_status');
+                    ->leftJoin('hei_validation as hv', 'hv.id', '=', "$table.hei_validation")
+                    ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
                 $model = $model->where("$table.receivedstatus", "=", '2')->where("$table.pcrtype", '=', 1)
