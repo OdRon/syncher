@@ -18,7 +18,7 @@ class CreateViralsampleAlertViewsTable extends Migration
         (
           SELECT s.*, b.original_batch_id, b.highpriority, b.datereceived, b.datedispatched, b.site_entry, b.batch_complete,
           p.original_patient_id, p.patient_status, p.patient, p.sex, p.dob,
-           b.lab_id, b.facility_id, f.name as facility, 
+           b.lab_id, b.facility_id, f.name as facility, f.facilitycode,
            f.partner as partner_id, pa.name as partner, 
            f.district as subcounty_id, d.name as subcounty,
            d.county as county_id, c.name as county

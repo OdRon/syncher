@@ -17,6 +17,27 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
+Artisan::command('report:hei-partner {contact_id?}', function ($contact_id=null) {
+    $str = \App\Report::eid_partner($contact_id);
+    $this->info($str);
+})->describe('Send hei follow up report for partners.');
+
+Artisan::command('report:hei-county {contact_id?}', function ($contact_id=null) {
+    $str = \App\Report::eid_county($contact_id);
+    $this->info($str);
+})->describe('Send hei follow up report for counties.');
+
+Artisan::command('report:suppression-partner {contact_id?}', function ($contact_id=null) {
+    $str = \App\Report::vl_partner($contact_id);
+    $this->info($str);
+})->describe('Send suppression follow up report for partners.');
+
+Artisan::command('report:suppression-county {contact_id?}', function ($contact_id=null) {
+    $str = \App\Report::vl_county($contact_id);
+    $this->info($str);
+})->describe('Send suppression follow up report for counties.');
+
+
 Artisan::command('copy:test {limit}', function () {
 	ini_set("memory_limit", "-1");
 	$limit = $this->argument('limit');
@@ -37,7 +58,17 @@ Artisan::command('copy:vl', function () {
     $this->info($str);
 })->describe('Copy Vl results.');
 
+Artisan::command('copy:worksheet', function () {
+    $str = \App\Copier::copy_worksheet();
+    $this->info($str);
+})->describe('Copy worksheets.');
+
 Artisan::command('patient:assign', function(){
     $str = \App\Copier::assign_patient_statuses();
     $this->info($str);
 })->describe('Assign patient statuses');
+
+Artisan::command('test:email', function(){
+    $str = \App\Report::test_email();
+    $this->info($str);
+})->describe('Send test email.');

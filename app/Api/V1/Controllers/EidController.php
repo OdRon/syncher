@@ -25,11 +25,17 @@ class EidController extends Controller
         foreach ($patients as $key => $value) {
             $patient = Patient::existing($value->facility_id, $value->patient)->get()->first();
             if(!$patient) continue;
-            $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
+            $patient->original_patient_id = $value->id;
+            $patient->save();
+            $patients_array[] = $patient->toArray();
+            // $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
 
             $mother = $patient->mother;
             if(!$mother) continue;
-            $mothers_array[] = ['original_id' => $mother->original_mother_id, 'national_mother_id' => $mother->id ];
+            $mother->original_mother_id = $value->id;
+            $mother->save();
+            $mothers_array[] = $mother->toArray();
+            // $mothers_array[] = ['original_id' => $mother->original_mother_id, 'national_mother_id' => $mother->id ];
         }
 
         return response()->json([
@@ -118,7 +124,7 @@ class EidController extends Controller
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
 
             foreach ($value->sample as $key2 => $value2) {
-                if($value2->parentid != 0) continue;
+                // if($value2->parentid != 0) continue;
 
                 // $pat = json_decode($value2->patient);
 
@@ -138,23 +144,23 @@ class EidController extends Controller
                 $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                
             }
 
-            foreach ($value->sample as $key2 => $value2) {
-                if($value2->parentid == 0) continue;
+            // foreach ($value->sample as $key2 => $value2) {
+            //     if($value2->parentid == 0) continue;
 
-                $sample = new Sample;
-                $sample->fill(get_object_vars($value2));
-                $sample->original_sample_id = $sample->id;
-                $sample->patient_id = $value2->patient->national_patient_id;
-                unset($sample->id);
-                unset($sample->patient);
-                unset($sample->national_sample_id);
+            //     $sample = new Sample;
+            //     $sample->fill(get_object_vars($value2));
+            //     $sample->original_sample_id = $sample->id;
+            //     $sample->patient_id = $value2->patient->national_patient_id;
+            //     unset($sample->id);
+            //     unset($sample->patient);
+            //     unset($sample->national_sample_id);
 
-                $sample->parentid = Misc::get_new_id($samples_array, $sample->parentid);    
-                $sample->batch_id = $batch->id;
-                $sample->save();
+            //     $sample->parentid = Misc::get_new_id($samples_array, $sample->parentid);    
+            //     $sample->batch_id = $batch->id;
+            //     $sample->save();
 
-                $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                
-            }
+            //     $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                
+            // }
 
         }
         return response()->json([
