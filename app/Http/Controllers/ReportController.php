@@ -261,12 +261,19 @@ class ReportController extends Controller
     	}else {
             if (!isset($request->period) || $request->period == 'range') {
                 $dateString = date('d-M-Y', strtotime($request->fromDate))." & ".date('d-M-Y', strtotime($request->toDate));
-                if ($request->period) { $column = 'datetested'; } 
-                else { $column = 'datereceived'; }
+                if ($request->indicatortype == 5) {
+                    $column = 'datereceived';
+                } else {
+                    if ($request->period) { $column = 'datetested'; } 
+                    else { $column = 'datereceived'; }
+                }
                 $model = $model->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
             } else if ($request->period == 'monthly') {
                 $dateString = date("F", mktime(null, null, null, $request->month)).' - '.$request->year;
-                $model = $model->whereRaw("YEAR($table.datetested) = '".$request->year."' AND MONTH($table.datetested) = '".$request->month."'");
+                $column = 'datetested';
+                if ($request->indicatortype == 5) 
+                    $column = 'datereceived';
+                $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
             } else if ($request->period == 'quarterly') {
                 if ($request->quarter == 'Q1') {
                     $startQuarter = 1;
@@ -285,10 +292,16 @@ class ReportController extends Controller
                     $endQuarter = 0;
                 }
                 $dateString = $request->quarter.' - '.$request->year;
-                $model = $model->whereRaw("YEAR($table.datetested) = '".$request->year."' AND MONTH($table.datetested) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
+                $column = 'datetested';
+                if ($request->indicatortype == 5) 
+                    $column = 'datereceived';
+                $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
             } else if ($request->period == 'annually') {
                 $dateString = $request->year;
-                $model = $model->whereRaw("YEAR($table.datetested) = '".$request->year."'");
+                $column = 'datetested';
+                if ($request->indicatortype == 5) 
+                    $column = 'datereceived';
+                $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."'");
             }
     	}
         $title .= " FOR ".$dateString;

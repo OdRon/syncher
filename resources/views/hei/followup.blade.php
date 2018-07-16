@@ -36,7 +36,7 @@
                         <table class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
-                                    <th class="checklist">Check</th>
+                                    <th id="check_all">Check All</th>
                                     <th>#</th>
                                     <th>County</th>
                                     <th>Facility</th>
@@ -60,7 +60,7 @@
                                     @endphp
                                     <tr>
                                         <td>
-                                            <input class="i-checks" type="checkbox" name="id{{ $count }}" id="id{{ $count }}" value="{{ $sample->id }}" checked>
+                                            <input class="checks" type="checkbox" name="id{{ $count }}" id="id{{ $count }}" value="{{ $sample->id }}" checked>
                                         </td>
                                         <td>{{ $key+1 }}</td>
                                         <td>{{ $sample->county }}</td>
@@ -180,8 +180,27 @@
             ]
         });
 
-        $(".checklist").click(function(){
-            
+        $("#check_all").on('click', function(){
+            var str = $(this).html();
+            if(str == "Check All"){
+                $(".checks").prop('checked', true);
+                $(this).html("Uncheck All");
+            }
+            else{
+                $(".checks").prop('checked', false); 
+                $(this).html("Check All");           
+            }
+        });
+
+        $("#saveBtn").click(function(e){
+            e.preventDefault();
+            @foreach($data->patients as $sample)
+                @php
+                    $count += 1;
+                @endphp
+                checklist = $("#id{{ $count }}").val();
+                console.log(checklist);
+            @endforeach
         });
 
         @php
@@ -193,6 +212,7 @@
             @endphp
             $("#hei_validation{{ $count }}").change(function(){
                 val = $(this).val();
+                $("#enrollment_status{{ $count }}").html("");
                 html = "<option value='' disabled selected>Select Hei Categry</option>";
                 if (val == 1) {
                     $("#enrollment_status{{ $count }}").removeAttr('disabled');

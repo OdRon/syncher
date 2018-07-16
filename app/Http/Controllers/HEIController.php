@@ -16,8 +16,7 @@ class HEIController extends Controller
     public function index($year=null, $month = null)
     {
     	if ($year==null || $year=='null'){
-    		// dd(session('followupYear'));
-            if (session('followupYear')==null)
+    		if (session('followupYear')==null)
                 session(['followupYear' => Date('Y')]);
         } else {
             session(['followupYear'=>$year]);
@@ -28,13 +27,12 @@ class HEIController extends Controller
         } else {
             session(['followupMonth'=>(strlen($month)==1) ? '0'.$month : $month]);
         }
-        // dd(session('followupYear'));
+        
     	$data['outcomes'] = self::__outcomes(session('followupYear'), session('followupMonth'));
         $data['cumulative'] = self::__cumulativeOutcomes();
 
     	$data = (object)$data;
-        // dd($data->outcomes);
-    	return view('hei.validate', compact('data'))->with('pageTitle','HEI Follow Up');
+        return view('hei.validate', compact('data'))->with('pageTitle','HEI Follow Up');
     }
 
     public function followup(Request $request,$duration='outcomes',$validation=null)
@@ -79,7 +77,7 @@ class HEIController extends Controller
         }
         $data = (object)$data;
         $monthName = "";
-        // dd($data);
+        
     	if (null !== $month) 
     		$monthName = "- ".date("F", mktime(null, null, null, $month));
 
@@ -121,8 +119,7 @@ class HEIController extends Controller
     	$other = self::__getOutcomes(6,null,$year,$month);
     	$othervalidation = self::__getOutcomes('others',null);
     	$unknown = ($positiveOutcomes - ($enrolled+$ltfu+$dead+$transferOut+$other+$adult));
-        // $unknown = null;
-
+        
     	return (object)['positiveOutcomes' => $positiveOutcomes,
 		    			'enrolled' => $enrolled,
 		    			'ltfu' => $ltfu,
@@ -146,8 +143,7 @@ class HEIController extends Controller
     	$other = self::__getOutcomes(6,null);
     	$othervalidation = self::__getOutcomes('others',null);
     	$unknown = ($positiveOutcomes - ($enrolled+$ltfu+$dead+$transferOut+$other+$adult));
-        // $unknown = null;
-
+        
     	return (object)['positiveOutcomes' => $positiveOutcomes,
 		    			'enrolled' => $enrolled,
 		    			'ltfu' => $ltfu,
@@ -193,7 +189,6 @@ class HEIController extends Controller
                     	} else {
                         	return $query->where('sample_complete_view.enrollment_status', '=', $status);
                         }
-                    // })->toSql();
                     })->get()->first()->totalPositives;
     }
 
@@ -251,7 +246,6 @@ class HEIController extends Controller
             $model = $model->where('sample_complete_view.hei_validation', '=', 0)
                     ->orWhereNull('sample_complete_view.hei_validation');
         }
-        // dd($model->toSql());
-    	return $model->get();
+        return $model->get();
     }
 }
