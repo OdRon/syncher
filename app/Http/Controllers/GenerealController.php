@@ -61,7 +61,7 @@ class GenerealController extends Controller
 
     public function facilityresult($facility) {
     	$facility = ViewFacility::where('id', '=', $facility)->get()->first();
-    	session(['searchParams'=>['facility_id'=>$facility->id]);
+    	session(['searchParams'=>['facility_id'=>$facility->id]]);
     	return view('tables.searchresults')->with('pageTitle', "$facility->name");
     }
 
