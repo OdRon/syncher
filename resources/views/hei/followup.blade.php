@@ -30,6 +30,9 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="hpanel">
+                <div class="alert alert-danger">
+                    <center>* You can only update the HEIs of the infants in the present view. If you wish to increase the number, please increase the number from the drop down on the left below.</center>
+                </div>
                 <div class="panel-body">
                     {{ Form::open(['url' => '/hei/followup', 'method' => 'post', 'class'=>'form-horizontal']) }}
                     <div class="table-responsive">

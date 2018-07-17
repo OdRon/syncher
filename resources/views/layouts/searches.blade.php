@@ -1,32 +1,11 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-		set_select("batch_search", "{{ url('/batch/search') }}", 1, "Search for batch");
-		set_select("viralbatch_search", "{{ url('/viralbatch/search') }}", 1, "Search for batch");
-
 		set_select("sidebar_batch_search", "{{ url('/batch/search') }}", 1, "Search for batch");
-		set_select("sidebar_viralbatch_search", "{{ url('/viralbatch/search') }}", 1, "Search for batch");
-
-		set_select_patient("patient_search", "{{ url('/patient/search') }}", 2, "Search for patient");
-		set_select_patient("viralpatient_search", "{{ url('/viralpatient/search') }}", 2, "Search for patient");
-
-		set_select_patient("sidebar_patient_search", "{{ url('/patient/search') }}", 2, "Search for patient", true);
-		set_select_patient("sidebar_viralpatient_search", "{{ url('/viralpatient/search') }}", 2, "Search for patient", true);
-
-		set_select("worksheet_search", "{{ url('/worksheet/search') }}", 1, "Search for worksheet", true);
-		set_select("viralworksheet_search", "{{ url('/viralworksheet/search') }}", 1, "Search for worksheet", true);
-
-		set_select("sidebar_worksheet_search", "{{ url('/worksheet/search') }}", 1, "Search for worksheet", true);
-		set_select("sidebar_viralworksheet_search", "{{ url('/viralworksheet/search') }}", 1, "Search for worksheet", true);
-
-		set_select_facility("facility_search", "{{ url('/facility/search') }}", 3, "Search for facility", "{{ url('/batch/facility') }}");
-		set_select_facility("sidebar_facility_search", "{{ url('/facility/search') }}", 3, "Search for facility", "{{ url('/batch/facility') }}");
-		set_select_facility("sidebar_viralfacility_search", "{{ url('/facility/search') }}", 3, "Search for facility", "{{ url('/viralbatch/facility') }}");
-
-		set_select("sidebar_labID_search", "{{ url('sample/search') }}", 1, "Search by Lab ID");
-		set_select("sidebar_virallabID_search", "{{ url('viralsample/search') }}", 1, "Search by Lab ID");
-
 		
+		set_select_patient("sidebar_patient_search", "{{ url('/patient/search') }}", 2, "Search for patient", true);
+		
+		set_select_facility("sidebar_facility_search", "{{ url('/facility/search') }}", 3, "Search for facility", "{{ url('facilitysearchresult') }}");
 	});
 	
 	function set_select(div_name, url, minimum_length, placeholder, worksheet=false) {

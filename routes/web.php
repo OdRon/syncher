@@ -40,9 +40,18 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('results/{testtype?}', 'ResultController@index')->name('results');
 	Route::get('results/{id}/{testtype}/{type}', 'ResultController@specific')->name('specific.results');
 
-	// ------ Searches --------
-	Route::post('county/search/', 'HomeController@countysearch')->name('county.search');
-	// ------ Searches --------
+	// ----------- Searches -----------
+	// ---- Search Options ----
+	Route::post('patient/search/', 'GenerealController@patientSearch')->name('patient.search');
+	Route::post('batch/search/', 'GenerealController@batchSearch')->name('batch.search');
+	Route::post('county/search/', 'GenerealController@countySearch')->name('county.search');
+	Route::post('facility/search/', 'GenerealController@facilitySearch')->name('facility.search');
+	// ---- Search Options ----
+	// ---- Search Results ----
+	Route::get('facilitysearchresult/{facility}', 'GenerealController@facilityresult')->name('facilitysearchresult');
+	// ---- Search Results ----
+	Route::get('eidresults', 'GenerealController@eidresults')->name('eidresults');
+	// ----------- Searches -----------
 
 	Route::get('sites', 'SiteController@index')->name('sites');
 
@@ -50,6 +59,8 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('user/add', 'UserController@create')->name('user.add');
 	Route::get('user/passwordReset/{user?}', 'UserController@passwordreset')->name('passwordReset');
 	Route::resource('user', 'UserController');
+
+	Route::get('test', 'GenerealController@index');
 });
 
 Route::get('patientstatus', 'HEIController@placeResults');
