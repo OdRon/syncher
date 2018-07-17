@@ -17,7 +17,7 @@ class CreateSampleViewsTable extends Migration
         CREATE OR REPLACE VIEW samples_view AS
         (
           SELECT s.*, b.original_batch_id, b.highpriority, b.datereceived, b.datedispatched, b.site_entry, b.lab_id, b.facility_id,
-          p.original_patient_id, p.patient, p.patient_status, p.sex, p.dob, p.mother_id, p.entry_point,
+          p.original_patient_id, p.patient, p.patient_status, p.sex, p.dob, p.ccc_no, p.mother_id, p.entry_point,
           p.hei_validation, p.enrollment_ccc_no, p.enrollment_status, p.referredfromsite, p.otherreason
 
           FROM samples s

@@ -55,13 +55,4 @@ class HomeController extends Controller
         
         return redirect('reports/EID');
     }
-
-    public function countysearch(Request $request)
-    {
-        $search = $request->input('search');
-        $county = DB::table('countys')->select('id', 'name', 'letter as facilitycode')
-            ->whereRaw("(name like '%" . $search . "%')")
-            ->paginate(10);
-        return $county;
-    }
 }

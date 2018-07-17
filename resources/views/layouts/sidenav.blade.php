@@ -71,19 +71,9 @@
             @endif
             
             @if(Auth::user()->user_type_id != 6)
-                @if(session('testingSystem') == 'Viralload')
-                    <li><a href="#"><select class="form-control" id="sidebar_viralfacility_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_viralbatch_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_viralpatient_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_viralworksheet_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_virallabID_search"></select></a></li>
-                @else
-                    <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_batch_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_patient_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_worksheet_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_labID_search"></select></a></li>
-                @endif
+                <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
+                <li><a href="#"><select class="form-control" id="sidebar_batch_search"></select></a></li>
+                <li><a href="#"><select class="form-control" id="sidebar_patient_search"></select></a></li>
             @endif
         @endif
         </ul>
