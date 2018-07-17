@@ -74,22 +74,6 @@
                                             <th>Dispatched</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Joshua Bakasa</td>
-                                            <td>Joshua Bakasa</td>
-                                            <td>Joshua Bakasa</td>
-                                            <td>Joshua Bakasa</td>
-                                            <td>Joshua Bakasa</td>
-                                            <td>Joshua Bakasa</td>
-                                            <td>Joshua Bakasa</td>
-                                            <td>Joshua Bakasa</td>
-                                            <td>Joshua Bakasa</td>
-                                            <td>Joshua Bakasa</td>
-                                            <td>Joshua Bakasa</td>
-                                            <td>Joshua Bakasa</td>
-                                        </tr>
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -119,7 +103,7 @@
                     {extend: 'print',className: 'btn-sm'}
                 ],
                 "processing": true,
-                "serverSide": true,
+                "serverSide": false,
                 "ajax": "{{ route('eidresults') }}"
             });
         });
