@@ -86,7 +86,7 @@ class ReportController extends Controller
     public static function __getDateData($request, &$dateString, &$excelColumns, &$title)
     {
         ini_set("memory_limit", "-1");
-
+        // dd($request);
     	if ($request->testtype == 'VL') {
     		$table = 'viralsamples_view';
             $selectStr = "$table.id, $table.batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender_description, $table.dob, $table.age, viralsampletype.name as sampletype, $table.datecollected, viraljustifications.name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
@@ -144,7 +144,7 @@ class ReportController extends Controller
 
             if ($request->indicatortype == 1 || $request->indicatortype == 6) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result'];
-                $selectStr .= ",$table.regimen_name as infantprophylaxis, receivedstatus.name as receivedstatus, $table.spots, $table.feeding_name, entry_points.name as entrypoint, ir.name as infantresult, $table.mother_prophylaxis_name as motherprophylaxis, mr.name as motherresult";
+                $selectStr .= ",$table.regimen_name as infantprophylaxis, $table.receivedstatus_name as receivedstatus, $table.spots, $table.feeding_name, entry_points.name as entrypoint, ir.name as infantresult, $table.mother_prophylaxis_name as motherprophylaxis, mr.name as motherresult";
                 if ($request->indicatortype == 1)
                     $title = "EID TEST OUTCOMES FOR ";
                 if ($request->indicatortype == 6)
