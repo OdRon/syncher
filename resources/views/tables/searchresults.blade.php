@@ -108,32 +108,32 @@
                 "columns": [
                     {
                         "orderable":      false,
-                        "data":           "no"
+                        "name":           "no"
                     },
-                    { "data": "patient" },
-                    { "data": "facility" },
-                    { "data": "lab" },
-                    { "data": "batch" },
-                    { "data": "received_status" },
+                    { "name": "patient" },
+                    { "name": "facility" },
+                    { "name": "lab" },
+                    { "name": "batch" },
+                    { "name": "received_status" },
                     { 
-                        "data": "date_collected", 
+                        "name": "date_collected", 
                         "searchable":     false  
                     },
                     { 
-                        "data": "date_received", 
+                        "name": "date_received", 
                         "searchable":     false  
                     },
                     { 
-                        "data": "date_tested", 
+                        "name": "date_tested", 
                         "searchable":     false  
                     },
                     { 
-                        "data": "date_dispatched", 
+                        "name": "date_dispatched", 
                         "searchable":     false  
                     },
-                    { "data": "result" },
+                    { "name": "result" },
                     { 
-                        "data": "action",
+                        "name": "action",
                         "orderable":      false, 
                         "searchable":     false 
                     }
