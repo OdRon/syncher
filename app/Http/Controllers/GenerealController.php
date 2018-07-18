@@ -79,13 +79,15 @@ class GenerealController extends Controller
     }
 
     public function vlresults(Request $request) {
-    	$model = self::results('vl');
-    	$model = self::filter('vl',$model,$request);
+    	$recordsTotal = 0;
+    	$recordsFiltered = 0;
+    	$modelCount = null;
+    	$model = self::results('vl', $modelCount, $recordsTotal);
+    	$model = self::filter('vl',$model,$request,$modelCount,$recordsFiltered);
     	$model = self::order('vl',$model,$request);
     	$model = self::limit($model,$request);
-    	// $vlsamples = 
-    	// 					->orderBy('viralsample_complete_view.datetested', 'desc')
-    	// 					->get();
+    	$data = self::data_output($model,$request,$recordsTotal,$recordsFiltered);
+    	echo json_encode($data);
     }
 
     public static function results($testingSystem,&$modelCount, &$Total) {
