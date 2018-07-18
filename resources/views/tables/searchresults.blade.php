@@ -103,8 +103,42 @@
                     {extend: 'print',className: 'btn-sm'}
                 ],
                 "processing": true,
-                "serverSide": false,
-                "ajax": "{{ route('eidresults') }}"
+                "serverSide": true,
+                "ajax": "{{ route('eidresults') }}",
+                "columns": [
+                    {
+                        "orderable":      false,
+                        "data":           "no"
+                    },
+                    { "data": "patient" },
+                    { "data": "facility" },
+                    { "data": "lab" },
+                    { "data": "batch" },
+                    { "data": "received_status" },
+                    { 
+                        "data": "date_collected", 
+                        "searchable":     false  
+                    },
+                    { 
+                        "data": "date_received", 
+                        "searchable":     false  
+                    },
+                    { 
+                        "data": "date_tested", 
+                        "searchable":     false  
+                    },
+                    { 
+                        "data": "date_dispatched", 
+                        "searchable":     false  
+                    },
+                    { "data": "result" },
+                    { 
+                        "data": "action",
+                        "orderable":      false, 
+                        "searchable":     false 
+                    }
+                ],
+                "order": [[ 8, "desc" ]]
             });
         });
     </script>
