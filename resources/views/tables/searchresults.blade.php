@@ -108,13 +108,23 @@
                 "columns": [
                     {
                         "orderable":      false,
-                        "name":           "no"
+                        "name":           "no", 
+                        "searchable":     false
                     },
                     { "name": "patient" },
-                    { "name": "facility" },
-                    { "name": "lab" },
+                    { 
+                        "name": "facility", 
+                        "searchable":     false 
+                    },
+                    { 
+                        "name": "lab", 
+                        "searchable":     false 
+                    },
                     { "name": "batch" },
-                    { "name": "received_status" },
+                    { 
+                        "name": "received_status", 
+                        "searchable":     false 
+                    },
                     { 
                         "name": "date_collected", 
                         "searchable":     false  

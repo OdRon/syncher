@@ -91,7 +91,9 @@ class GenerealController extends Controller
     }
 
     public static function results($testingSystem,&$modelCount, &$Total) {
+    	$parameter = (object)session('searchParams');
     	if ($testingSystem == 'eid') {
+    		$table = "sample_complete_view";
     		$model = SampleCompleteView::select('sample_complete_view.id','sample_complete_view.batch_id','sample_complete_view.patient_id', 'sample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','sample_complete_view.datecollected','sample_complete_view.datereceived','sample_complete_view.datedispatched','sample_complete_view.datetested','results.name as result','sample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
     						->leftJoin('labs', 'labs.id', '=', 'sample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
@@ -103,6 +105,7 @@ class GenerealController extends Controller
     						->leftJoin('results', 'results.id', '=', 'sample_complete_view.facility_id')
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'sample_complete_view.rejectedreason');
     	} else if ($testingSystem == 'vl') {
+    		$table = "viralsample_complete_view";
     		$model = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','results.name as result','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
     						->leftJoin('labs', 'labs.id', '=', 'viralsample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsample_complete_view.facility_id')
@@ -115,6 +118,20 @@ class GenerealController extends Controller
     						->leftJoin('results', 'results.id', '=', 'viralsample_complete_view.facility_id')
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'viralsample_complete_view.rejectedreason');
     	}
+
+    	$model = $model->when($parameter, function($query, $parameter) use ($table){
+    						if($parameter->facility_id)
+    							return $query->where("$table.facility_id", '=', $parameter->facility_id);
+    					})
+    					->where("$table.repeatt", '=', 0)
+    					->where("$table.flag", '=', 1);
+    	$modelCount = $modelCount->when($parameter, function($query, $parameter) use ($table){
+    						if($parameter->facility_id)
+    							return $query->where("$table.facility_id", '=', $parameter->facility_id);
+    					})
+    					->where("$table.repeatt", '=', 0)
+    					->where("$table.flag", '=', 1);
+    	
     	$Total = $modelCount->get()->first()->totals;
 
     	return $model;
@@ -124,13 +141,14 @@ class GenerealController extends Controller
     	$data = [];
     	$count = 1;
     	$dataSet = $model->get();
+    	
     	foreach ($dataSet as $key => $value) {
     		$data[] = [
     					$count, $value->patient,
     					$value->facility, $value->lab,
     					$value->batch_id, $value->receivedstatus_name,
-    					$value->datecollected, $value->datereceived,
-    					$value->datetested, $value->datedispatched,
+    					date('d-M-Y', strtotime($value->datecollected)), date('d-M-Y', strtotime($value->datereceived)),
+    					date('d-M-Y', strtotime($value->datetested)), date('d-M-Y', strtotime($value->datedispatched)),
     					$value->result, "Action"
     				];
     		$count++;
@@ -149,10 +167,10 @@ class GenerealController extends Controller
     	$offset = (int) $request['start'];
     	$limit = (int) $request['length'];
     	
-    	if ( isset($start) && $length != -1 ) {
-			$model = $model->offset($offset)->limit($limit);
+    	if ( isset($offset) && $limit != -1 ) {
+    		$model = $model->offset($offset)->limit($limit);
 		}
-
+		
 		return $model;
     }
 
@@ -184,25 +202,12 @@ class GenerealController extends Controller
     	$search = $request['search'] ?? null;
     	$searchstr = $search['value'] ?? null;
     	$dtColumns = self::pluck($dbcolumns,'dt');
-    	$parameter = (object)session('searchParams');
 		
 		if ($testingSystem == 'eid')
     		$table = "sample_complete_view";
     	if ($testingSystem == 'vl')
     		$table = "viralsample_complete_view";
     	
-    	$model = $model->when($parameter, function($query, $parameter) use ($table){
-    						if($parameter->facility_id)
-    							return $query->where("$table.facility_id", '=', $parameter->facility_id);
-    					})
-    					->where("$table.repeatt", '=', 0)
-    					->where("$table.flag", '=', 1);
-		$modelCount = $modelCount->when($parameter, function($query, $parameter) use ($table){
-    						if($parameter->facility_id)
-    							return $query->where("$table.facility_id", '=', $parameter->facility_id);
-    					})
-    					->where("$table.repeatt", '=', 0)
-    					->where("$table.flag", '=', 1);    					
     	if (isset($search) && $search['value'] != '') {
     		$str = "%$searchstr%";
     		foreach ($requestColumns as $key => $value) {
@@ -239,6 +244,7 @@ class GenerealController extends Controller
 				}
     		}
     	}
+    	
     	$Total = $modelCount->get()->first()->totals;
     	
     	return $model;
