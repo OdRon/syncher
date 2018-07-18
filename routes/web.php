@@ -48,6 +48,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::post('facility/search/', 'GenerealController@facilitySearch')->name('facility.search');
 	// ---- Search Options ----
 	// ---- Search Results ----
+	Route::get('batchsearchresult/{testtype}/{batch}', 'GenerealController@batchresult')->name('batchsearchresult');
 	Route::get('facilitysearchresult/{facility}', 'GenerealController@facilityresult')->name('facilitysearchresult');
 	// ---- Search Results ----
 	Route::get('eidresults', 'GenerealController@eidresults')->name('eidresults');

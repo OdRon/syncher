@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\ViewFacility;
 use App\SampleCompleteView;
 use App\ViralsampleCompleteView;
+use App\Batch;
+use App\Viralbatch;
 
 class GenerealController extends Controller
 {
@@ -27,8 +29,56 @@ class GenerealController extends Controller
 
     }
 
-    public function batchSearch(){
+    public function batchSearch(Request $request){
+    	$usertype = auth()->user()->user_type_id;
+    	$level = auth()->user()->level;
+    	$search = $request->input('search');
+    	$returnData = [];
 
+    	$eidBatches = Batch::select('batches.id as id', 'view_facilitys.name', 'view_facilitys.facilitycode', 'view_facilitys.county')
+    			->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'batches.facility_id')
+            	->whereRaw("(batches.id like '%" . $search . "%')")
+    			->when($usertype, function($query) use ($usertype, $level){
+                    if ($usertype == 2 || $usertype == 3)
+                        return $query->where('view_facilitys.partner_id', '=', $level);
+                    if ($usertype == 4)
+                        return $query->where('view_facilitys.county_id', '=', $level);
+                    if ($usertype == 5)
+                        return $query->where('view_facilitys.subcounty_id', '=', $level);
+                    if ($usertype == 7)
+                        return $query->where('view_facilitys.partner_id', '=', $level);
+                })->paginate(10);
+
+        $vlBatches = Viralbatch::select('viralbatches.id as id', 'view_facilitys.name', 'view_facilitys.facilitycode', 'view_facilitys.county')
+    			->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralbatches.facility_id')
+            	->whereRaw("(viralbatches.id like '%" . $search . "%')")
+    			->when($usertype, function($query) use ($usertype, $level){
+                    if ($usertype == 2 || $usertype == 3)
+                        return $query->where('view_facilitys.partner_id', '=', $level);
+                    if ($usertype == 4)
+                        return $query->where('view_facilitys.county_id', '=', $level);
+                    if ($usertype == 5)
+                        return $query->where('view_facilitys.subcounty_id', '=', $level);
+                    if ($usertype == 7)
+                        return $query->where('view_facilitys.partner_id', '=', $level);
+                })->paginate(10);
+        foreach ($eidBatches as $key => $value) {
+        	$returnData[] = (object)[
+        						'type' => 'EID',
+        						'id' => $value->id,
+        						'name' => $value->name
+        					];
+        }
+
+        foreach ($vlBatches as $key => $value) {
+        	$returnData[] = (object)[
+        						'type' => 'VL',
+        						'id' => $value->id,
+        						'name' => $value->name
+        					];
+        }
+        
+    	return $returnData;
     }
 
     public function countySearch(Request $request)
@@ -59,6 +109,16 @@ class GenerealController extends Controller
                 })->paginate(10);
     }
 
+    public function batchresult($testtype,$batch) {
+    	$testingSystem = strtolower($testtype);
+    	if ($testingSystem == 'eid')
+    		$batch = Batch::where('id', '=', $batch)->get()->first();
+    	if ($testingSystem == 'vl')
+    		$batch = Viralbatch::where('id', '=', $batch)->get()->first();
+
+    	session(['searchParams'=>['batch_id'=>$batch->id]]);
+    	return view('tables.searchresults')->with('pageTitle', "$testingSystem batch : $batch->id");
+    }
 
     public function facilityresult($facility) {
     	$facility = ViewFacility::where('id', '=', $facility)->get()->first();
@@ -120,14 +180,18 @@ class GenerealController extends Controller
     	}
 
     	$model = $model->when($parameter, function($query, $parameter) use ($table){
-    						if($parameter->facility_id)
+    						if(isset($parameter->facility_id))
     							return $query->where("$table.facility_id", '=', $parameter->facility_id);
+    						if(isset($parameter->batch_id))
+    							return $query->where("$table.batch_id", '=', $parameter->batch_id);
     					})
     					->where("$table.repeatt", '=', 0)
     					->where("$table.flag", '=', 1);
     	$modelCount = $modelCount->when($parameter, function($query, $parameter) use ($table){
-    						if($parameter->facility_id)
+    						if(isset($parameter->facility_id))
     							return $query->where("$table.facility_id", '=', $parameter->facility_id);
+    						if(isset($parameter->batch_id))
+    							return $query->where("$table.batch_id", '=', $parameter->batch_id);
     					})
     					->where("$table.repeatt", '=', 0)
     					->where("$table.flag", '=', 1);
