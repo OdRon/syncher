@@ -147,39 +147,4 @@
 		});	
 	}
 
-
-	{{--
-		$('#batch_search').select2({
-			minimumInputLength: 1,
-			placeholder: 'Search for the batch',
-			ajax: {
-				delay	: 100,
-				type	: "POST",
-				dataType: 'json',
-				data	: function(params){
-					return {
-						search : params.term
-					}
-				},
-				url		: function(params){
-					params.page = params.page || 1;
-					return "{{ url('/batch/search') }}?page=" + params.page;
-				},
-				processResults: function(data, params){
-					console.log(data);
-					return {
-						results 	: $.map(data.data, function (row){
-							return {
-								text	: row.id,
-								id		: row.id		
-							};
-						}),
-						pagination	: {
-							more: data.to < data.total
-						}
-					};
-				}
-			}
-		});
-	--}}
 </script>

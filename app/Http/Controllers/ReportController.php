@@ -193,7 +193,7 @@ class ReportController extends Controller
                     ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
-                $model = $model->where("$table.receivedstatus", "=", '2')->where("$table.pcrtype", '=', 1)
+                $model = $model->where("$table.receivedstatus", "=", '1')->where("$table.pcrtype", '=', 1)
                             ->where("$table.repeatt", '=', 0);
                 if ($request->indicatortype == 4) {
                     $model = $model->where("$table.result", '=', 2);
@@ -241,12 +241,12 @@ class ReportController extends Controller
             }
             if (auth()->user()->user_type_id == 4) {
                 $model = $model->where('view_facilitys.county_id', '=', auth()->user()->level);
-                $county = ViewFacility::where('county_id', '=', $request->county)->get()->first();
+                $county = ViewFacility::where('county_id', '=', auth()->user()->level)->get()->first();
                 $title .= $county->county;
             }
             if (auth()->user()->user_type_id == 5) {
                 $model = $model->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
-                $subc = ViewFacility::where('subcounty_id', '=', $request->district)->get()->first();
+                $subc = ViewFacility::where('subcounty_id', '=', auth()->user()->level)->get()->first();
                 $title .= $subc->subcounty;
             }
         }
@@ -302,7 +302,7 @@ class ReportController extends Controller
     	}
         $title .= " FOR ".$dateString;
         $title = strtoupper($title);
-
+        // dd($model->toSql());
     	return $model;
     }
 

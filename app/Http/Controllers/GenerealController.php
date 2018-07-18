@@ -22,6 +22,7 @@ class GenerealController extends Controller
 				array( 'db' => 'datedispatched', 'dt' => 9),
 				array( 'db' => 'result', 'dt' => 10)
 			);
+	
 	public function patientSearch(){
 
     }
@@ -66,34 +67,191 @@ class GenerealController extends Controller
     }
 
     public function eidresults(Request $request) {
-    	$model = self::results();
-   		print_r($request->all());
+    	$recordsTotal = 0;
+    	$recordsFiltered = 0;
+    	$modelCount = null;
+    	$model = self::results('eid', $modelCount, $recordsTotal);
+    	$model = self::filter('eid',$model,$request,$modelCount,$recordsFiltered);
+    	$model = self::order('eid',$model,$request);
+    	$model = self::limit($model,$request);
+    	$data = self::data_output($model,$request,$recordsTotal,$recordsFiltered);
+    	echo json_encode($data);
     }
 
-    public function vlresults() {
-    	$vlsamples = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','results.name as result','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
-    						->leftJoin('labs', 'labs.id', '=', 'viralsample_complete_view.lab_id')
-    						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsample_complete_view.facility_id')
-    						->leftJoin('results', 'results.id', '=', 'viralsample_complete_view.facility_id')
-    						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'viralsample_complete_view.rejectedreason')
-    						->where('viralsample_complete_view.facility_id', '=', $facility)
-    						->where('viralsample_complete_view.repeatt', '=', 0)
-    						->where('viralsample_complete_view.flag', '=', 1)
-    						->orderBy('viralsample_complete_view.datetested', 'desc')
-    						->get();
+    public function vlresults(Request $request) {
+    	$recordsTotal = 0;
+    	$recordsFiltered = 0;
+    	$modelCount = null;
+    	$model = self::results('vl', $modelCount, $recordsTotal);
+    	$model = self::filter('vl',$model,$request,$modelCount,$recordsFiltered);
+    	$model = self::order('vl',$model,$request);
+    	$model = self::limit($model,$request);
+    	$data = self::data_output($model,$request,$recordsTotal,$recordsFiltered);
+    	echo json_encode($data);
     }
 
-    public function results() {
-    	print_r(self::$columns);die();
-    	$eidsamples = SampleCompleteView::select('sample_complete_view.id','sample_complete_view.batch_id','sample_complete_view.patient_id', 'sample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','sample_complete_view.datecollected','sample_complete_view.datereceived','sample_complete_view.datedispatched','sample_complete_view.datetested','results.name as result','sample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
+    public static function results($testingSystem,&$modelCount, &$Total) {
+    	if ($testingSystem == 'eid') {
+    		$model = SampleCompleteView::select('sample_complete_view.id','sample_complete_view.batch_id','sample_complete_view.patient_id', 'sample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','sample_complete_view.datecollected','sample_complete_view.datereceived','sample_complete_view.datedispatched','sample_complete_view.datetested','results.name as result','sample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
     						->leftJoin('labs', 'labs.id', '=', 'sample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
     						->leftJoin('results', 'results.id', '=', 'sample_complete_view.facility_id')
-    						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'sample_complete_view.rejectedreason')
-    						->where('sample_complete_view.facility_id', '=', $facility)
-    						->where('sample_complete_view.repeatt', '=', 0)
-    						->where('sample_complete_view.flag', '=', 1)
-    						->orderBy('sample_complete_view.datetested', 'desc')
-    						->get();
+    						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'sample_complete_view.rejectedreason');
+    		$modelCount = SampleCompleteView::selectRaw("count(*) as totals")
+    						->leftJoin('labs', 'labs.id', '=', 'sample_complete_view.lab_id')
+    						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
+    						->leftJoin('results', 'results.id', '=', 'sample_complete_view.facility_id')
+    						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'sample_complete_view.rejectedreason');
+    	} else if ($testingSystem == 'vl') {
+    		$model = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','results.name as result','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
+    						->leftJoin('labs', 'labs.id', '=', 'viralsample_complete_view.lab_id')
+    						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsample_complete_view.facility_id')
+    						->leftJoin('results', 'results.id', '=', 'viralsample_complete_view.facility_id')
+    						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'viralsample_complete_view.rejectedreason');
+
+    		$modelCount = ViralsampleCompleteView::selectRaw("count(*) as totals")
+    						->leftJoin('labs', 'labs.id', '=', 'viralsample_complete_view.lab_id')
+    						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsample_complete_view.facility_id')
+    						->leftJoin('results', 'results.id', '=', 'viralsample_complete_view.facility_id')
+    						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'viralsample_complete_view.rejectedreason');
+    	}
+    	$Total = $modelCount->get()->first()->totals;
+
+    	return $model;
     }
+
+    public static function data_output($model,$request,$recordsTotal,$recordsFiltered){
+    	$data = [];
+    	$count = 1;
+    	$dataSet = $model->get();
+    	foreach ($dataSet as $key => $value) {
+    		$data[] = [
+    					$count, $value->patient,
+    					$value->facility, $value->lab,
+    					$value->batch_id, $value->receivedstatus_name,
+    					$value->datecollected, $value->datereceived,
+    					$value->datetested, $value->datedispatched,
+    					$value->result, "Action"
+    				];
+    		$count++;
+    	}
+    	return array(
+					"draw"            => isset ( $request['draw'] ) ?
+						intval( $request['draw'] ) :
+						0,
+					"recordsTotal"    => intval( $recordsTotal ),
+					"recordsFiltered" => intval( $recordsFiltered ),
+					"data"            => $data
+				);
+    }
+
+    public static function limit($model,$request) {
+    	$offset = (int) $request['start'];
+    	$limit = (int) $request['length'];
+    	
+    	if ( isset($start) && $length != -1 ) {
+			$model = $model->offset($offset)->limit($limit);
+		}
+
+		return $model;
+    }
+
+    public static function order($testingSystem,$model,$request) {
+    	if ($testingSystem == 'eid')
+    		$table = "sample_complete_view";
+    	if ($testingSystem == 'vl')
+    		$table = "viralsample_complete_view";
+
+    	$order = $request['order'] ?? null;
+    	$dbcolumns = self::$columns;
+		$dtColumns = self::pluck($dbcolumns,'dt');
+		
+    	if (isset($order) && count($order)) {
+    		foreach ($order as $key => $value) {
+    			$columnIdx = array_search( $value['column'], $dtColumns );
+    			$dbcolumn = $dbcolumns[ $columnIdx ];
+    			$column = $dbcolumn['db'];
+    			$direction = $value['dir'];
+    			$model = $model->orderBy("$table.$column",$direction);
+    		}
+    	}
+    	return $model;
+    }
+
+    public static function filter($testingSystem,$model,$request,$modelCount,&$Total) {
+    	$dbcolumns = self::$columns;
+    	$requestColumns = $request['columns'];
+    	$search = $request['search'] ?? null;
+    	$searchstr = $search['value'] ?? null;
+    	$dtColumns = self::pluck($dbcolumns,'dt');
+    	$parameter = (object)session('searchParams');
+		
+		if ($testingSystem == 'eid')
+    		$table = "sample_complete_view";
+    	if ($testingSystem == 'vl')
+    		$table = "viralsample_complete_view";
+    	
+    	$model = $model->when($parameter, function($query, $parameter) use ($table){
+    						if($parameter->facility_id)
+    							return $query->where("$table.facility_id", '=', $parameter->facility_id);
+    					})
+    					->where("$table.repeatt", '=', 0)
+    					->where("$table.flag", '=', 1);
+		$modelCount = $modelCount->when($parameter, function($query, $parameter) use ($table){
+    						if($parameter->facility_id)
+    							return $query->where("$table.facility_id", '=', $parameter->facility_id);
+    					})
+    					->where("$table.repeatt", '=', 0)
+    					->where("$table.flag", '=', 1);    					
+    	if (isset($search) && $search['value'] != '') {
+    		$str = "%$searchstr%";
+    		foreach ($requestColumns as $key => $value) {
+    			$columnIdx = array_search( $value['data'], $dtColumns );
+    			$dbcolumn = $dbcolumns[ $columnIdx ];
+				$dbcol = [];
+				if ($value['searchable'] == 'true'){
+					$searchable = false;
+					$searchable = in_array($value['data'], $dtColumns);
+					if ($searchable) {
+						$columnIdx = array_search( $value['data'], $dtColumns );
+						$column = $dbcolumns[$columnIdx];
+						$column = $column['db'];
+						if ($column == 'facility'){
+							$table = "view_facilitys";
+							$column = "name";
+						}
+						if ($column == 'lab') {
+							$table = "labs";
+							$column = "name";
+						}
+						if($key == 1) {
+							$model = $model->where("$table.$column", 'like', $str);
+							$modelCount = $modelCount->where("$table.$column", 'like', $str);
+						} else {
+							$model = $model->orWhere("$table.$column", 'like', $str);
+							$modelCount = $modelCount->orWhere("$table.$column", 'like', $str);
+						}
+						if ($testingSystem == 'eid')
+				    		$table = "sample_complete_view";
+				    	if ($testingSystem == 'vl')
+				    		$table = "viralsample_complete_view";
+					}
+				}
+    		}
+    	}
+    	$Total = $modelCount->get()->first()->totals;
+    	
+    	return $model;
+    }
+
+    static function pluck ( $a, $prop )
+	{
+		$out = array();
+
+		for ( $i=0, $len=count($a) ; $i<$len ; $i++ ) {
+			$out[] = $a[$i][$prop];
+		}
+
+		return $out;
+	}
 }

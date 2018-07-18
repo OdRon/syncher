@@ -51,6 +51,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('facilitysearchresult/{facility}', 'GenerealController@facilityresult')->name('facilitysearchresult');
 	// ---- Search Results ----
 	Route::get('eidresults', 'GenerealController@eidresults')->name('eidresults');
+	Route::get('vlresults', 'GenerealController@vlresults')->name('vlresults');
 	// ----------- Searches -----------
 
 	Route::get('sites', 'SiteController@index')->name('sites');
