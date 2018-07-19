@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\SampleView;
 use App\SampleCompleteView;
 use App\ViralsampleView;
+use App\ViralsampleCompleteView;
 use App\ViewFacility;
 use App\Partner;
 use Excel;
@@ -88,7 +89,7 @@ class ReportController extends Controller
         ini_set("memory_limit", "-1");
         // dd($request);
     	if ($request->testtype == 'VL') {
-    		$table = 'viralsamples_view';
+            $table = 'viralsample_complete_view';
             $selectStr = "$table.id, $table.batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender_description, $table.dob, $table.age, viralsampletype.name as sampletype, $table.datecollected, viraljustifications.name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
 
             if ($request->indicatortype == 2) {
@@ -111,25 +112,29 @@ class ReportController extends Controller
                 $selectStr .= ", receivedstatus.name as receivedstatus, viralprophylaxis.name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
                 
                 $title = "VL PREGNANT & LACTATING MOTHERS FOR ";
-            } else if ($request->indicatortype == 7) {
-                
-                $title = "vl Non Suppressed ( > 1000 cp/ml) FOR ";
+            } else if ($request->indicatortype == 9) {
+                $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code'];
+                $selectStr = "distinct $table.facility_id";
+
+                $title = "VL DORMANT SITES FOR ";
             } else if ($request->indicatortype == 10) {
-                
-                $title = "VL PREGNANT & LACTATING MOTHERS FOR ";
+                $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Total Samples'];
+                $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT($table.id) as totaltests";
+
+                $title = "VL SITES DIONG REMOTE SAMPLE ENTRY FOR ";
             }
 
-            $model = ViralsampleView::selectRaw($selectStr)
-    				->leftJoin('labs', 'labs.id', '=', 'viralsamples_view.lab_id')
-    				->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsamples_view.facility_id')
-    				->leftJoin('gender', 'gender.id', '=', 'viralsamples_view.sex')
-    				->leftJoin('viralsampletype', 'viralsampletype.id', '=', 'viralsamples_view.sampletype')
-    				->leftJoin('receivedstatus', 'receivedstatus.id', '=', 'viralsamples_view.receivedstatus')
-    				->leftJoin('viralrejectedreasons', 'viralrejectedreasons.id', '=', 'viralsamples_view.rejectedreason')
-    				->leftJoin('viralprophylaxis', 'viralprophylaxis.id', '=', 'viralsamples_view.prophylaxis')
-    				->leftJoin('viraljustifications', 'viraljustifications.id', '=', 'viralsamples_view.justification')
-                    ->leftJoin('viralpmtcttype', 'viralpmtcttype.id', '=', 'viralsamples_view.pmtct')
-                    ->leftJoin('viralregimenline', 'viralregimenline.id', '=', 'viralsamples_view.regimenline');
+            $model = ViralsampleCompleteView::selectRaw($selectStr)
+				->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
+				->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+				->leftJoin('gender', 'gender.id', '=', "$table.sex")
+				->leftJoin('viralsampletype', 'viralsampletype.id', '=', "$table.sampletype")
+				->leftJoin('receivedstatus', 'receivedstatus.id', '=', "$table.receivedstatus")
+				->leftJoin('viralrejectedreasons', 'viralrejectedreasons.id', '=', "$table.rejectedreason")
+				->leftJoin('viralprophylaxis', 'viralprophylaxis.id', '=', "$table.prophylaxis")
+				->leftJoin('viraljustifications', 'viraljustifications.id', '=', "$table.justification")
+                ->leftJoin('viralpmtcttype', 'viralpmtcttype.id', '=', "$table.pmtct")
+                ->leftJoin('viralregimenline', 'viralregimenline.id', '=', "$table.regimenline");
 
             if ($request->indicatortype == 3) {
                 $model = $model->where("$table.receivedstatus", "=", 2);
@@ -137,6 +142,23 @@ class ReportController extends Controller
                 $model = $model->where("$table.rcategory", "=", 4);
             } else if ($request->indicatortype == 6) {
                 $model = $model->where('pmtct', '=', 1)->whereOr('pmtct', '=', 2);
+            } else if ($request->indicatortype == 9) {
+                if (auth()->user()->user_type_id == 3) {
+                    $parent = ViewFacility::select('county','subcounty','partner','name','facilitycode')->where('partner_id', '=', auth()->user()->level);
+                }
+                if (auth()->user()->user_type_id == 4) {
+                    $parent = ViewFacility::select('county','subcounty','partner','name','facilitycode')->where('county_id', '=', auth()->user()->level);
+                }
+                if (auth()->user()->user_type_id == 5) {
+                    $parent = ViewFacility::select('county','subcounty','partner','name','facilitycode')->where('subcounty_id', '=', auth()->user()->level);
+                }
+            } else if ($request->indicatortype == 10) {
+                $model = $model->where("$table.site_entry", '=', 1)
+                                ->groupBy('facility')
+                                ->groupBy('facilitycode')
+                                ->groupBy('subcounty')
+                                ->groupBy('county')
+                                ->orderBy('totaltests', 'desc');
             }
     	} else if ($request->testtype == 'EID') {
             $table = 'sample_complete_view';
@@ -172,6 +194,8 @@ class ReportController extends Controller
             } else if ($request->indicatortype == 8) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result'];
                 $selectStr .= ", ir.name as infantresult";
+
+                $title = "RHT TESTING";
             } else if ($request->indicatortype == 9) {
                 $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code'];
                 $selectStr = "distinct $table.facility_id";
@@ -187,15 +211,15 @@ class ReportController extends Controller
                 $model = SampleCompleteView::selectRaw($selectStr)
                             ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id");
             } else {
-        		$model = SampleCompleteView::selectRaw($selectStr)
-        				->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
-        				->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-        				->leftJoin('pcrtype', 'pcrtype.id', '=', "$table.pcrtype")
-        				->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', "$table.rejectedreason")
-        				->leftJoin('entry_points', 'entry_points.id', '=', "$table.entry_point")
-        				->leftJoin('results as ir', 'ir.id', '=', "$table.result")
-        				->leftJoin('mothers', 'mothers.id', '=', "$table.mother_id")
-        				->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status')
+                $model = SampleCompleteView::selectRaw($selectStr)
+                        ->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
+                        ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                        ->leftJoin('pcrtype', 'pcrtype.id', '=', "$table.pcrtype")
+                        ->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', "$table.rejectedreason")
+                        ->leftJoin('entry_points', 'entry_points.id', '=', "$table.entry_point")
+                        ->leftJoin('results as ir', 'ir.id', '=', "$table.result")
+                        ->leftJoin('mothers', 'mothers.id', '=', "$table.mother_id")
+                        ->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status')
                         ->leftJoin('hei_validation as hv', 'hv.id', '=', "$table.hei_validation")
                         ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
             }
@@ -235,7 +259,8 @@ class ReportController extends Controller
                     $parent = ViewFacility::select('county','subcounty','partner','name','facilitycode')->where('subcounty_id', '=', auth()->user()->level);
                 }
             } else if ($request->indicatortype == 10) {
-                $model = $model->groupBy('facility')
+                $model = $model->where("$table.site_entry", '=', 1)
+                                ->groupBy('facility')
                                 ->groupBy('facilitycode')
                                 ->groupBy('subcounty')
                                 ->groupBy('county')

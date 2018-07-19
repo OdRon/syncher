@@ -292,7 +292,7 @@
                                 @if(Auth::user()->user_type_id == 3)
                                     <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> Non Suppressed ( > 1000 cp/ml)</label>
                                     <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Pregnant & Lactating</label>
-                                    <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> Dormant Sites ( Not Sent Samples)</label>
+                                    <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples)</label>
                                     <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples</label>
                                 @endif
                             @endif
