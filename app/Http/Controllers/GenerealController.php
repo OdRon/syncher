@@ -169,7 +169,7 @@ class GenerealController extends Controller
     		$patient = Viralpatient::where('id', '=', $patient)->get()->first();
 
     	session(['searchParams'=>['patient_id'=>$patient->id]]);
-    	return view('tables.searchresults')->with('pageTitle', "$testingSystem patient : $patient->id");
+    	return view('tables.searchresults')->with('pageTitle', "$testingSystem patient : $patient->patient");
     }
 
     public function batchresult($testtype,$batch) {
