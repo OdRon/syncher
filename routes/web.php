@@ -50,6 +50,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 	// ---- Search Results ----
 	Route::get('batchsearchresult/{testtype}/{batch}', 'GenerealController@batchresult')->name('batchsearchresult');
 	Route::get('facilitysearchresult/{facility}', 'GenerealController@facilityresult')->name('facilitysearchresult');
+	Route::get('patientsearchresult/{testtype}/{batch}', 'GenerealController@patientresult')->name('patientsearchresult');
 	// ---- Search Results ----
 	Route::get('eidresults', 'GenerealController@eidresults')->name('eidresults');
 	Route::get('vlresults', 'GenerealController@vlresults')->name('vlresults');

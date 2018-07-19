@@ -9,6 +9,8 @@ use App\SampleCompleteView;
 use App\ViralsampleCompleteView;
 use App\Batch;
 use App\Viralbatch;
+use App\Patient;
+use App\Viralpatient;
 
 class GenerealController extends Controller
 {
@@ -25,8 +27,56 @@ class GenerealController extends Controller
 				array( 'db' => 'result', 'dt' => 10)
 			);
 	
-	public function patientSearch(){
+	public function patientSearch(Request $request) {
+		$usertype = auth()->user()->user_type_id;
+    	$level = auth()->user()->level;
+    	$search = $request->input('search');
+    	$returnData = [];
 
+    	$eidPatients = Patient::select('patients.id', 'patients.patient')
+    					->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'patients.facility_id')
+            			->whereRaw("(patients.patient like '%" . $search . "%')")
+		    			->when($usertype, function($query) use ($usertype, $level){
+		                    if ($usertype == 2 || $usertype == 3)
+		                        return $query->where('view_facilitys.partner_id', '=', $level);
+		                    if ($usertype == 4)
+		                        return $query->where('view_facilitys.county_id', '=', $level);
+		                    if ($usertype == 5)
+		                        return $query->where('view_facilitys.subcounty_id', '=', $level);
+		                    if ($usertype == 7)
+		                        return $query->where('view_facilitys.partner_id', '=', $level);
+		                })->paginate(10);
+
+		$vlPatients = Viralpatient::select('viralpatients.id', 'viralpatients.patient')
+    					->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralpatients.facility_id')
+            			->whereRaw("(viralpatients.patient like '%" . $search . "%')")
+		    			->when($usertype, function($query) use ($usertype, $level){
+		                    if ($usertype == 2 || $usertype == 3)
+		                        return $query->where('view_facilitys.partner_id', '=', $level);
+		                    if ($usertype == 4)
+		                        return $query->where('view_facilitys.county_id', '=', $level);
+		                    if ($usertype == 5)
+		                        return $query->where('view_facilitys.subcounty_id', '=', $level);
+		                    if ($usertype == 7)
+		                        return $query->where('view_facilitys.partner_id', '=', $level);
+		                })->paginate(10);
+		foreach ($eidPatients as $key => $patient) {
+        	$returnData[] = (object)[
+        						'type' => 'EID',
+        						'id' => $patient->id,
+        						'patient' => $patient->patient
+        					];
+        }
+
+        foreach ($vlPatients as $key => $patient) {
+        	$returnData[] = (object)[
+        						'type' => 'VL',
+        						'id' => $patient->id,
+        						'patient' => $patient->patient
+        					];
+        }
+        
+    	return $returnData;
     }
 
     public function batchSearch(Request $request){
@@ -109,7 +159,22 @@ class GenerealController extends Controller
                 })->paginate(10);
     }
 
+    public function patientresult($testtype,$patient) {
+    	if (null !== session('searchParams'))
+    		session(['searchParams'=>null]);
+    	$testingSystem = strtolower($testtype);
+    	if ($testingSystem == 'eid')
+    		$patient = Patient::where('id', '=', $patient)->get()->first();
+    	if ($testingSystem == 'vl')
+    		$patient = Viralpatient::where('id', '=', $patient)->get()->first();
+
+    	session(['searchParams'=>['patient_id'=>$patient->id]]);
+    	return view('tables.searchresults')->with('pageTitle', "$testingSystem patient : $patient->id");
+    }
+
     public function batchresult($testtype,$batch) {
+    	if (null !== session('searchParams'))
+    		session(['searchParams'=>null]);
     	$testingSystem = strtolower($testtype);
     	if ($testingSystem == 'eid')
     		$batch = Batch::where('id', '=', $batch)->get()->first();
@@ -121,6 +186,8 @@ class GenerealController extends Controller
     }
 
     public function facilityresult($facility) {
+    	if (null !== session('searchParams'))
+    		session(['searchParams'=>null]);
     	$facility = ViewFacility::where('id', '=', $facility)->get()->first();
     	session(['searchParams'=>['facility_id'=>$facility->id]]);
     	return view('tables.searchresults')->with('pageTitle', "$facility->name");
@@ -184,6 +251,8 @@ class GenerealController extends Controller
     							return $query->where("$table.facility_id", '=', $parameter->facility_id);
     						if(isset($parameter->batch_id))
     							return $query->where("$table.batch_id", '=', $parameter->batch_id);
+    						if(isset($parameter->patient_id))
+    							return $query->where("$table.patient_id", '=', $parameter->patient_id);
     					})
     					->where("$table.repeatt", '=', 0)
     					->where("$table.flag", '=', 1);
@@ -192,6 +261,8 @@ class GenerealController extends Controller
     							return $query->where("$table.facility_id", '=', $parameter->facility_id);
     						if(isset($parameter->batch_id))
     							return $query->where("$table.batch_id", '=', $parameter->batch_id);
+    						if(isset($parameter->patient_id))
+    							return $query->where("$table.patient_id", '=', $parameter->patient_id);
     					})
     					->where("$table.repeatt", '=', 0)
     					->where("$table.flag", '=', 1);

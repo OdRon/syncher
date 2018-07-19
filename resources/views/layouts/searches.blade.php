@@ -3,7 +3,7 @@
 
 		set_select("sidebar_batch_search", "{{ url('/batch/search') }}", 1, "Search for batch", "{{ url('batchsearchresult') }}");
 		
-		set_select_patient("sidebar_patient_search", "{{ url('/patient/search') }}", 2, "Search for patient", true);
+		set_select_patient("sidebar_patient_search", "{{ url('/patient/search') }}", 2, "Search for patient", "{{ url('patientsearchresult') }}");
 		
 		set_select_facility("sidebar_facility_search", "{{ url('/facility/search') }}", 3, "Search for facility", "{{ url('facilitysearchresult') }}");
 	});
@@ -67,10 +67,10 @@
 				},
 				processResults: function(data, params){
 					return {
-						results 	: $.map(data.data, function (row){
+						results 	: $.map(data, function (row){
 							return {
-								text	: row.patient,
-								id		: row.id		
+								text	: row.patient + ' - ' + row.type,
+								id		: row.type + '/' + row.id		
 							};
 						}),
 						pagination	: {
@@ -81,7 +81,7 @@
 			}
 		});
 		if(send_url != false)
-			set_change_listener(div_name, url);	
+			set_change_listener(div_name, send_url);	
 	}
 
 	function set_select_facility(div_name, url, minimum_length, placeholder, send_url=false) {
