@@ -165,75 +165,85 @@ class ReportController extends Controller
                 
                 $title = "EID REJECTED SAMPLES FOR ";
             } else if ($request->indicatortype == 7) {
-                $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Total Positives'];
-                $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name , $table.facilitycode, COUNT($table.id) as totaltests";
+                $excelColumns = ['County', 'Sub-County', 'Facilty', 'Facility Code', 'Total Positives'];
+                $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT($table.id) as totaltests";
                 
                 $title = "EID HIGH BURDEN SITES FOR ";
             } else if ($request->indicatortype == 8) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result'];
                 $selectStr .= ", ir.name as infantresult";
             } else if ($request->indicatortype == 9) {
-
+                $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code'];
+                $selectStr = "distinct $table.facility_id";
                 $title = "EID DORMANT SITES FOR ";
             } else if ($request->indicatortype == 10) {
+                $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Total Samples'];
+                $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT($table.id) as totaltests";
 
                 $title = "EID SITES DIONG REMOTE SAMPLE ENTRY FOR ";
             }
             
-    		$model = SampleCompleteView::selectRaw($selectStr)
-    				->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
-    				->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-    				->leftJoin('pcrtype', 'pcrtype.id', '=', "$table.pcrtype")
-    				->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', "$table.rejectedreason")
-    				->leftJoin('entry_points', 'entry_points.id', '=', "$table.entry_point")
-    				->leftJoin('results as ir', 'ir.id', '=', "$table.result")
-    				->leftJoin('mothers', 'mothers.id', '=', "$table.mother_id")
-    				->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status')
-                    ->leftJoin('hei_validation as hv', 'hv.id', '=', "$table.hei_validation")
-                    ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
+            if ($request->indicatortype == 7) {
+                $model = SampleCompleteView::selectRaw($selectStr)
+                            ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id");
+            } else {
+        		$model = SampleCompleteView::selectRaw($selectStr)
+        				->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
+        				->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+        				->leftJoin('pcrtype', 'pcrtype.id', '=', "$table.pcrtype")
+        				->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', "$table.rejectedreason")
+        				->leftJoin('entry_points', 'entry_points.id', '=', "$table.entry_point")
+        				->leftJoin('results as ir', 'ir.id', '=', "$table.result")
+        				->leftJoin('mothers', 'mothers.id', '=', "$table.mother_id")
+        				->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status')
+                        ->leftJoin('hei_validation as hv', 'hv.id', '=', "$table.hei_validation")
+                        ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
+            }
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
-                $model = $model->where("$table.receivedstatus", "=", '1')->where("$table.pcrtype", '=', 1)
+                $model = $model->where("$table.receivedstatus", "=", '1')->whereIn("$table.pcrtype", [1,2])
                             ->where("$table.repeatt", '=', 0);
                 if ($request->indicatortype == 4) {
-                    $model = $model->where("$table.result", '=', 2);
+                    $model = $model->where("$table.result", '=', 1);
                 } else {
                     $model = $model->where("$table.result", '=', 2);
                 }
                 
                 if ($request->indicatortype == 3) 
-                    $model->where("$table.hei_validation", "<>", 0);
+                    $model->whereRaw("($table.hei_validation = 0 or $table.hei_validation is null)");
             } else if ($request->indicatortype == 5) {
                 $model = $model->where("$table.receivedstatus", "=", 2);
             } else if ($request->indicatortype == 6) {
-                $model = $model->where("$table.age", "<=", 2);
+                $model = $model->where("$table.age", "<", 2);
             } else if ($request->indicatortype == 7) {
                 $model = $model->where("$table.repeatt", '=', 0)->where("$table.result", '=', 2)
-                                ->where('view_facilitys.burden', '=', 'High')
-                                ->groupBy('county')
-                                ->groupBy('subcounty')
-                                ->groupBy('partner')
+                                ->groupBy('facility')
                                 ->groupBy('facilitycode')
-                                ->groupBy('name')
+                                ->groupBy('subcounty')
+                                ->groupBy('county')
                                 ->orderBy('totaltests', 'desc');
             } else if ($request->indicatortype == 8) {
                 $model = $model->where("$table.repeatt", '=', 0);
+            } else if ($request->indicatortype == 9) {
+                if (auth()->user()->user_type_id == 3) {
+                    $parent = ViewFacility::select('county','subcounty','partner','name','facilitycode')->where('partner_id', '=', auth()->user()->level);
+                }
+                if (auth()->user()->user_type_id == 4) {
+                    $parent = ViewFacility::select('county','subcounty','partner','name','facilitycode')->where('county_id', '=', auth()->user()->level);
+                }
+                if (auth()->user()->user_type_id == 5) {
+                    $parent = ViewFacility::select('county','subcounty','partner','name','facilitycode')->where('subcounty_id', '=', auth()->user()->level);
+                }
+            } else if ($request->indicatortype == 10) {
+                $model = $model->groupBy('facility')
+                                ->groupBy('facilitycode')
+                                ->groupBy('subcounty')
+                                ->groupBy('county')
+                                ->orderBy('totaltests', 'desc');
             }
     	}
 
-        if ($request->category == 'county') {
-            $model = $model->where('view_facilitys.county_id', '=', $request->county);
-            $county = ViewFacility::where('county_id', '=', $request->county)->get()->first();
-            $title .= $county->county;
-        } else if ($request->category == 'subcounty') {
-            $model = $model->where('view_facilitys.subcounty_id', '=', $request->district);
-            $subc = ViewFacility::where('subcounty_id', '=', $request->district)->get()->first();
-            $title .= $subc->subcounty;
-        } else if ($request->category == 'facility') {
-            $model = $model->where('view_facilitys.id', '=', $request->facility);
-            $facility = ViewFacility::where('id', '=', $request->facility)->get()->first();
-            $title .= $facility->name;
-        } else if ($request->category == 'overall') {
+        if ($request->indicatortype == 7) {
             if (auth()->user()->user_type_id == 3) {
                 $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->level);
                 $partner = ViewFacility::where('partner_id', '=', auth()->user()->level)->get()->first();
@@ -249,6 +259,36 @@ class ReportController extends Controller
                 $subc = ViewFacility::where('subcounty_id', '=', auth()->user()->level)->get()->first();
                 $title .= $subc->subcounty;
             }
+        } else {
+            if ($request->category == 'county') {
+                $model = $model->where('view_facilitys.county_id', '=', $request->county);
+                $county = ViewFacility::where('county_id', '=', $request->county)->get()->first();
+                $title .= $county->county;
+            } else if ($request->category == 'subcounty') {
+                $model = $model->where('view_facilitys.subcounty_id', '=', $request->district);
+                $subc = ViewFacility::where('subcounty_id', '=', $request->district)->get()->first();
+                $title .= $subc->subcounty;
+            } else if ($request->category == 'facility') {
+                $model = $model->where('view_facilitys.id', '=', $request->facility);
+                $facility = ViewFacility::where('id', '=', $request->facility)->get()->first();
+                $title .= $facility->name;
+            } else if ($request->category == 'overall') {
+                if (auth()->user()->user_type_id == 3) {
+                    $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->level);
+                    $partner = ViewFacility::where('partner_id', '=', auth()->user()->level)->get()->first();
+                    $title .= $partner->patner;
+                }
+                if (auth()->user()->user_type_id == 4) {
+                    $model = $model->where('view_facilitys.county_id', '=', auth()->user()->level);
+                    $county = ViewFacility::where('county_id', '=', auth()->user()->level)->get()->first();
+                    $title .= $county->county;
+                }
+                if (auth()->user()->user_type_id == 5) {
+                    $model = $model->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
+                    $subc = ViewFacility::where('subcounty_id', '=', auth()->user()->level)->get()->first();
+                    $title .= $subc->subcounty;
+                }
+            }
         }
 
     	if (isset($request->specificDate)) {
@@ -257,7 +297,7 @@ class ReportController extends Controller
     	}else {
             if (!isset($request->period) || $request->period == 'range') {
                 $dateString = date('d-M-Y', strtotime($request->fromDate))." & ".date('d-M-Y', strtotime($request->toDate));
-                if ($request->indicatortype == 5) {
+                if ($request->indicatortype == 5 || $request->indicatortype == 9) {
                     $column = 'datereceived';
                 } else {
                     if ($request->period) { $column = 'datetested'; } 
@@ -267,7 +307,7 @@ class ReportController extends Controller
             } else if ($request->period == 'monthly') {
                 $dateString = date("F", mktime(null, null, null, $request->month)).' - '.$request->year;
                 $column = 'datetested';
-                if ($request->indicatortype == 5) 
+                if ($request->indicatortype == 5 || $request->indicatortype == 9) 
                     $column = 'datereceived';
                 $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
             } else if ($request->period == 'quarterly') {
@@ -289,17 +329,21 @@ class ReportController extends Controller
                 }
                 $dateString = $request->quarter.' - '.$request->year;
                 $column = 'datetested';
-                if ($request->indicatortype == 5) 
+                if ($request->indicatortype == 5 || $request->indicatortype == 9) 
                     $column = 'datereceived';
                 $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
             } else if ($request->period == 'annually') {
                 $dateString = $request->year;
                 $column = 'datetested';
-                if ($request->indicatortype == 5) 
+                if ($request->indicatortype == 5 || $request->indicatortype == 9) 
                     $column = 'datereceived';
                 $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."'");
             }
     	}
+
+        if ($request->indicatortype == 9) {
+            $model = $parent->whereNotIn('id',$model);
+        }
         $title .= " FOR ".$dateString;
         $title = strtoupper($title);
         // dd($model->toSql());
