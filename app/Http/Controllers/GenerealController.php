@@ -282,8 +282,10 @@ class GenerealController extends Controller
     					$count, $value->patient,
     					$value->facility, $value->lab,
     					$value->batch_id, $value->receivedstatus_name,
-    					date('d-M-Y', strtotime($value->datecollected)), date('d-M-Y', strtotime($value->datereceived)),
-    					date('d-M-Y', strtotime($value->datetested)), date('d-M-Y', strtotime($value->datedispatched)),
+    					($value->datecollected) ? date('d-M-Y', strtotime($value->datecollected)) : '', 
+                        ($value->datereceived) ? date('d-M-Y', strtotime($value->datereceived)) : '', 
+                        ($value->datetested) ? date('d-M-Y', strtotime($value->datetested)) : '', 
+                        ($value->datedispatched) ? date('d-M-Y', strtotime($value->datedispatched)) : '', 
     					$value->result, "Action"
     				];
     		$count++;
