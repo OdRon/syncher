@@ -144,7 +144,9 @@
                                 <label> <input type="radio" name="period" value="range"> Date Range </label>
                                 <label> <input type="radio" name="period" value="monthly"> Monthly </label>
                                 <label> <input type="radio" name="period" value="quarterly"> Quarterly </label>
+                                @if($testtype == 'EID')
                                 <label> <input type="radio" name="period" value="annually"> Annually </label>
+                                @endif
                             </div>
                             <div class="row" id="periodSelection" style="display: none;">
                                 <div class="col-md-12" id="rangeSelection">
@@ -236,6 +238,7 @@
                                         </tbody>
                                     </table>    
                                 </div>
+                                @if($testtype == 'EID')
                                 <div class="col-md-12" id="yearSelection">
                                     <table cellpadding="1" cellspacing="1" class="table table-condensed">
                                         <tbody>
@@ -256,6 +259,7 @@
                                         </tbody>
                                     </table>    
                                 </div>
+                                @endif
                             </div>
                         </div> 
                         <div class="form-group">
@@ -288,7 +292,7 @@
                                 @endif
                             @elseif($testtype == 'VL')
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
-                                <label> <input type="radio" name="indicatortype" value="3" class="i-checks">Rejected</label>
+                                <label> <input type="radio" name="indicatortype" value="5" class="i-checks">Rejected</label>
                                 @if(Auth::user()->user_type_id == 3)
                                     <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> Non Suppressed ( > 1000 cp/ml)</label>
                                     <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Pregnant & Lactating</label>

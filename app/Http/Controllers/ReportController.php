@@ -90,26 +90,26 @@ class ReportController extends Controller
         // dd($request);
     	if ($request->testtype == 'VL') {
             $table = 'viralsample_complete_view';
-            $selectStr = "$table.id, $table.batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, gender.gender_description, $table.dob, $table.age, viralsampletype.name as sampletype, $table.datecollected, viraljustifications.name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
+            $selectStr = "$table.id, $table.batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, $table.sampletype_name as sampletype, $table.datecollected, $table.justification_name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
 
             if ($request->indicatortype == 2) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Reasons for Repeat', 'Rejected Reason', 'Regimen', 'Regimen Line', 'PMTCT', 'Result'];
-                $selectStr .= ", receivedstatus.name as receivedstatus, $table.reason_for_repeat, viralrejectedreasons.name as rejectedreason, viralprophylaxis.name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
+                $selectStr .= ", $table.receivedstatus_name as receivedstatus, $table.reason_for_repeat, viralrejectedreasons.name as rejectedreason, $table.prophylaxis_name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
                 
                 $title = "vl TEST OUTCOMES FOR ";
-            } else if ($request->indicatortype == 3) {
+            } else if ($request->indicatortype == 5) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Rejected Reason', 'Lab Comment'];
-                $selectStr .= ", receivedstatus.name as receivedstatus, viralrejectedreasons.name as rejectedreason, $table.labcomment";
+                $selectStr .= ", $table.receivedstatus_name as receivedstatus, viralrejectedreasons.name as rejectedreason, $table.labcomment";
                 
                 $title = "vl rejected TEST OUTCOMES FOR ";
             } else if ($request->indicatortype == 4) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Regimen', 'Regimen Line', 'PMTCT', 'Result'];
-                $selectStr .= ", receivedstatus.name as receivedstatus, viralprophylaxis.name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
+                $selectStr .= ", $table.receivedstatus_name as receivedstatus, $table.prophylaxis_name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
                 
                 $title = "vl Non Suppressed ( > 1000 cp/ml) FOR ";
             } else if ($request->indicatortype == 6) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Regimen', 'Regimen Line', 'PMTCT', 'Result'];
-                $selectStr .= ", receivedstatus.name as receivedstatus, viralprophylaxis.name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
+                $selectStr .= ", $table.receivedstatus_name as receivedstatus, $table.prophylaxis_name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
                 
                 $title = "VL PREGNANT & LACTATING MOTHERS FOR ";
             } else if ($request->indicatortype == 9) {
@@ -127,21 +127,17 @@ class ReportController extends Controller
             $model = ViralsampleCompleteView::selectRaw($selectStr)
 				->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
 				->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-				->leftJoin('gender', 'gender.id', '=', "$table.sex")
-				->leftJoin('viralsampletype', 'viralsampletype.id', '=', "$table.sampletype")
-				->leftJoin('receivedstatus', 'receivedstatus.id', '=', "$table.receivedstatus")
 				->leftJoin('viralrejectedreasons', 'viralrejectedreasons.id', '=', "$table.rejectedreason")
-				->leftJoin('viralprophylaxis', 'viralprophylaxis.id', '=', "$table.prophylaxis")
-				->leftJoin('viraljustifications', 'viraljustifications.id', '=', "$table.justification")
                 ->leftJoin('viralpmtcttype', 'viralpmtcttype.id', '=', "$table.pmtct")
-                ->leftJoin('viralregimenline', 'viralregimenline.id', '=', "$table.regimenline");
+                ->leftJoin('viralregimenline', 'viralregimenline.id', '=', "$table.regimenline")
+                ->where("$table.repeatt", '=', 0)->where("$table.flag", '=', 1);
 
-            if ($request->indicatortype == 3) {
+            if ($request->indicatortype == 5) {
                 $model = $model->where("$table.receivedstatus", "=", 2);
             } else if ($request->indicatortype == 4) {
                 $model = $model->where("$table.rcategory", "=", 4);
             } else if ($request->indicatortype == 6) {
-                $model = $model->where('pmtct', '=', 1)->whereOr('pmtct', '=', 2);
+                $model = $model->whereIn('pmtct', [1, 2]);
             } else if ($request->indicatortype == 9) {
                 if (auth()->user()->user_type_id == 3) {
                     $parent = ViewFacility::select('county','subcounty','partner','name','facilitycode')->where('partner_id', '=', auth()->user()->level);
