@@ -52,8 +52,13 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('facilitysearchresult/{facility}', 'GenerealController@facilityresult')->name('facilitysearchresult');
 	Route::get('patientsearchresult/{testtype}/{batch}', 'GenerealController@patientresult')->name('patientsearchresult');
 	// ---- Search Results ----
+	// ---- Print Result ----
+	Route::get('printindividualresult/{testSysm}/{sample}', 'GenerealController@print_individual')->name('printindividualresult');
+	// ---- Print Result ----
+	// ---- Search AJAX ----
 	Route::get('eidresults', 'GenerealController@eidresults')->name('eidresults');
 	Route::get('vlresults', 'GenerealController@vlresults')->name('vlresults');
+	// ---- Search AJAX ----
 	// ----------- Searches -----------
 
 	Route::get('sites', 'SiteController@index')->name('sites');

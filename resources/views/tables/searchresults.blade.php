@@ -21,7 +21,11 @@
                     <div id="eid-results" class="tab-pane active">
                         <div class="panel-body">
                             <div class="alert alert-warning">
-                                EARLY INFANT DIAGNOSIS
+                                <center>
+                                    Click on Batch Number to View Results for Other Samples in that Batch.
+                                    <br />
+                                    * You can Download the Result by Clicking on the <img src="{{ asset('img/print.png') }}" /> (to Download/Print) Button Below
+                                </center>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="eidTable">
@@ -51,7 +55,11 @@
                     <div id="vl-results" class="tab-pane">
                         <div class="panel-body">
                             <div class="alert alert-warning">
-                                VIRAL LOAD
+                                <center>
+                                    Click on Batch Number to View Results for Other Samples in that Batch.
+                                    <br />
+                                    * You can Download the Result by Clicking on the <img src="{{ asset('img/print.png') }}" /> (to Download/Print) Button Below
+                                </center>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="vlTable" >
