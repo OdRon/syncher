@@ -11,6 +11,8 @@ use App\Batch;
 use App\Viralbatch;
 use App\Patient;
 use App\Viralpatient;
+use Mpdf\Mpdf;
+use App\Lookup;
 
 class GenerealController extends Controller
 {
@@ -193,6 +195,30 @@ class GenerealController extends Controller
     	return view('tables.searchresults')->with('pageTitle', "$facility->name");
     }
 
+    public function print_individual($testSysm,$id) {
+        $sampleid = intval($id);
+        $testSysm = strtoupper($testSysm);
+        if ($testSysm == 'VL') {
+            $samples = ViralsampleCompleteView::with(['facility','lab'])->where('id', '=', $sampleid)->get();
+            $data = Lookup::get_viral_lookups();
+        } else if ($testSysm == 'EID') {
+            $samples = SampleCompleteView::with(['facility','lab'])->where('id', '=', $sampleid)->get();
+            $data = Lookup::get_eid_lookups();
+        } else {
+            return back();
+        }
+        $data['samples'] = $samples;
+        $data['testSysm'] = $testSysm;
+        $data = (object)$data;
+        // dd($samples);
+        return view('reports.individualresult', compact('data'));
+        // $mpdf = new Mpdf(['format' => 'A4-L']);
+        // $view_data = view('reports.individualresult', $data)->render();
+        // $mpdf->WriteHTML($view_data);
+        // $mpdf->Output('summary.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+
+    }
+
     public function eidresults(Request $request) {
     	$recordsTotal = 0;
     	$recordsFiltered = 0;
@@ -201,7 +227,7 @@ class GenerealController extends Controller
     	$model = self::filter('eid',$model,$request,$modelCount,$recordsFiltered);
     	$model = self::order('eid',$model,$request);
     	$model = self::limit($model,$request);
-    	$data = self::data_output($model,$request,$recordsTotal,$recordsFiltered);
+    	$data = self::data_output('eid',$model,$request,$recordsTotal,$recordsFiltered);
     	echo json_encode($data);
     }
 
@@ -213,7 +239,7 @@ class GenerealController extends Controller
     	$model = self::filter('vl',$model,$request,$modelCount,$recordsFiltered);
     	$model = self::order('vl',$model,$request);
     	$model = self::limit($model,$request);
-    	$data = self::data_output($model,$request,$recordsTotal,$recordsFiltered);
+    	$data = self::data_output('vl',$model,$request,$recordsTotal,$recordsFiltered);
     	echo json_encode($data);
     }
 
@@ -272,7 +298,7 @@ class GenerealController extends Controller
     	return $model;
     }
 
-    public static function data_output($model,$request,$recordsTotal,$recordsFiltered){
+    public static function data_output($testingSystem,$model,$request,$recordsTotal,$recordsFiltered){
     	$data = [];
     	$count = 1;
     	$dataSet = $model->get();
@@ -281,15 +307,16 @@ class GenerealController extends Controller
     		$data[] = [
     					$count, $value->patient,
     					$value->facility, $value->lab,
-    					$value->batch_id, $value->receivedstatus_name,
+    					"<a href='#'>".$value->batch_id."</a>", $value->receivedstatus_name,
     					($value->datecollected) ? date('d-M-Y', strtotime($value->datecollected)) : '', 
                         ($value->datereceived) ? date('d-M-Y', strtotime($value->datereceived)) : '', 
                         ($value->datetested) ? date('d-M-Y', strtotime($value->datetested)) : '', 
                         ($value->datedispatched) ? date('d-M-Y', strtotime($value->datedispatched)) : '', 
-    					$value->result, "Action"
+    					$value->result, "<a href='". url("printindividualresult/$testingSystem/$value->id") ."'><img src='".asset('img/print.png')."' />&nbsp;Result</a>"
     				];
     		$count++;
     	}
+
     	return array(
 					"draw"            => isset ( $request['draw'] ) ?
 						intval( $request['draw'] ) :
