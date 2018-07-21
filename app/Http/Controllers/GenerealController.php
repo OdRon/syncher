@@ -199,23 +199,29 @@ class GenerealController extends Controller
         $sampleid = intval($id);
         $testSysm = strtoupper($testSysm);
         if ($testSysm == 'VL') {
-            $samples = ViralsampleCompleteView::with(['facility','lab'])->where('id', '=', $sampleid)->get();
+            $samples = ViralsampleCompleteView::with(['facility','lab'])->where('id', '=', $sampleid)->whereNotNull('datereceived')->get();
+            $patientSample = $samples->first();
+            $previousSamples = ViralsampleCompleteView::where('patient', '=', "$patientSample->patient")
+                                                    ->where('datereceived', '<', "$patientSample->datereceived")
+                                                    ->orderBy('datereceived', 'desc')->get();
             $data = Lookup::get_viral_lookups();
         } else if ($testSysm == 'EID') {
-            $samples = SampleCompleteView::with(['facility','lab'])->where('id', '=', $sampleid)->get();
+            $samples = SampleCompleteView::with(['facility','lab'])->where('id', '=', $sampleid)->whereNotNull('datereceived')->get();
             $data = Lookup::get_eid_lookups();
         } else {
             return back();
         }
         $data['samples'] = $samples;
+        $data['previousSamples'] = $previousSamples;
         $data['testSysm'] = $testSysm;
-        $data = (object)$data;
-        // dd($samples);
-        return view('reports.individualresult', compact('data'));
-        // $mpdf = new Mpdf(['format' => 'A4-L']);
-        // $view_data = view('reports.individualresult', $data)->render();
-        // $mpdf->WriteHTML($view_data);
-        // $mpdf->Output('summary.pdf', \Mpdf\Output\Destination::DOWNLOAD);
+        $facility = $samples->first()->facility->name;
+        $datereceived = date('d-M-Y', strtotime($samples->first()->datereceived));
+        $fileName = $testSysm. " Individual Samples Report for $facility Received on $datereceived";
+        
+        $mpdf = new Mpdf(['format' => 'A4-L']);
+        $view_data = view('reports.individualresult', $data)->render();
+        $mpdf->WriteHTML($view_data);
+        $mpdf->Output($fileName.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
 
     }
 

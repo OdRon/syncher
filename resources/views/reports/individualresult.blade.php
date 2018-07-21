@@ -12,7 +12,7 @@
 		table, th, td {
 			border: 1px solid black;
 			border-style: solid;
-     		/*font-size: 8px;*/
+     		font-size: 12px;
 		}
 
 		h5 {
@@ -27,10 +27,14 @@
      		/*font-size: 8px;*/
      		font-weight: bold;
 		}
+
+		p {
+			font-size: 12px;
+		}
 	</style>
 </head>
 <body>
-	@foreach($data->samples as $sample)
+	@foreach($samples as $sample)
 	<div>
 		<table>
 			<tr>
@@ -55,7 +59,7 @@
 				<th>Lab : {{ $sample->lab->name }}</th>
 			</tr>
 		</table>
-		@if($data->testSysm == 'EID')
+		@if($testSysm == 'EID')
 			<table class="table-bordered">
 				<thead>
 					<tr>
@@ -72,19 +76,19 @@
 					</tr>
 					<tr>
 						<th>Date Collected</th>
-						<td>{{ ($sample->datecollected) ? date($sample->datecollected) : '' }}</td>
+						<td>{{ ($sample->datecollected) ? date('d-M-Y', strtotime($sample->datecollected)) : '' }}</td>
 						<th>PMTCT Intervention</th>
 						<td>{{ $sample->mother_prophylaxis_name ?? '' }}</td>
 					</tr>
 					<tr>
 						<th>Date Received</th>
-						<td>{{ ($sample->datereceived) ? date($sample->datereceived) : '' }}</td>
+						<td>{{ ($sample->datereceived) ? date('d-M-Y', strtotime($sample->datereceived)) : '' }}</td>
 						<th>Infant Prophylaxis</th>
 						<td>{{ $sample->regimen_name ?? '' }}</td>
 					</tr>
 					<tr>
 						<th>Date Tested</th>
-						<td>{{ ($sample->datetested) ? date($sample->datetested) : '' }}</td>
+						<td>{{ ($sample->datetested) ? date('d-M-Y', strtotime($sample->datetested)) : '' }}</td>
 						<th>Infant Feeding</th>
 						<td>{{ $sample->feeding_description ?? '' }}</td>
 					</tr>
@@ -112,23 +116,95 @@
 					</tr>
 					<tr>
 						<th>Comment</th>
-						<td colspan="3">{{ $sample->comments ?? '' }}</td>
+						<td colspan="3">{{ $sample->labcomment ?? '' }}</td>
 					</tr>
 				</tbody>
 			</table>
-		@elseif($data->testSysm == 'VL')
+		@elseif($testSysm == 'VL')
+			@if($sample->receivedstatus == 1 || $sample->receivedstatus == 3)
+				@php
+					$outcome = $sample->result ." ". $sample->units;
+					$intresult = (intval($sample->result)) ? intval($sample->result) : $sample->result;
+				@endphp
+				@if(is_numeric($intresult))
+					@php
+						$log = round(log10((float)$intresult),1);
+					@endphp
+				@else
+					@php
+						$log = 'N/A';
+					@endphp
+				@endif
+			@elseif($sample->receivedstatus == 2)
+				@foreach($viral_rejected_reasons as $rejectedreason)
+					@if($rejectedreason->id == $sample->rejectedreason)
+						@php
+							$rejectreason = $rejectedreason->name;
+						@endphp
+					@endif
+				@endforeach
+				$outcome = "Sample ".$sample->receivedstatus_name . " Reason:  ".$rejectreason;
+			@endif
 			<table class="table-bordered">
 				<thead>
 					<tr>
-						<th colspan="2">DNA PCR Details</th>
-						<th colspan="2">Mother Information</th>
+						<th colspan="2">Viral Load Results</th>
+						<th colspan="2">Historical Information</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<th>Comment</th>
-						<td colspan="3">{{ $sample->comments ?? '' }}</td>
+						<th>Patient CC No</th>
+						<td>{{ $sample->patient ?? '' }}</td>
+						<th>Sample Type</th>
+						<td>{{ $sample->sampletype_name ?? '' }}</td>
 					</tr>
+					<tr>
+						<th>Date Collected</th>
+						<td>{{ ($sample->datecollected) ? date('d-M-Y', strtotime($sample->datecollected)) : '' }}</td>
+						<th>ART Initiation Date</th>
+						<td>{{ ($sample->initiation_date) ? (($sample->initiation_date != '0000-00-00') ? date('d-M-Y', strtotime($sample->initiation_date)) : '') : '' }}</td>
+					</tr>
+					<tr>
+						<th>Date Received</th>
+						<td>{{ ($sample->datereceived) ? date('d-M-Y', strtotime($sample->datereceived)) : '' }}</td>
+						<th>Current Regimen</th>
+						<td>{{ $sample->prophylaxis_name ?? '' }}</td>
+					</tr>
+					<tr>
+						<th>Date Tested</th>
+						<td>{{ ($sample->datetested) ? date('d-M-Y', strtotime($sample->datetested)) : '' }}</td>
+						<th>Justification</th>
+						<td>{{ $sample->justification_name ?? '' }}</td>
+					</tr>
+					<tr>
+						<th>Age</th>
+						<td colspan="3">{{ $sample->age ?? '' }}</td>
+					</tr>
+					<tr>
+						<th>Test Result</th>
+						<td colspan="2">
+							Viral Load : {{ $outcome ?? '' }}
+						</td>
+						<td>Log 10 : {{ $log ?? '' }}</td>
+					</tr>
+					<tr>
+						<th>Comment</th>
+						<td colspan="3">{{ $sample->labcomment ?? '' }}</td>
+					</tr>
+					@forelse($previousSamples as $previous)
+						<tr>
+							<th>Previous VL Result</th>
+							<td>Viral Load : {{ $previous->result ." ". $previous->units }}</td>
+							<th>Date Tested</th>
+							<td>{{ ($previous->datetested) ? date('d-M-Y', strtotime($previous->datetested)) : '' }}</td>
+						</tr>
+					@empty
+						<tr>
+							<th colspan="2">Previous VL Result</th>
+							<td colspan="2"><center>N/A</center></td>
+						</tr>
+					@endforelse
 				</tbody>
 			</table>
 		@endif
