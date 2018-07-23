@@ -45,7 +45,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::post('patient/search/', 'GenerealController@patientSearch')->name('patient.search');
 	Route::post('batch/search/', 'GenerealController@batchSearch')->name('batch.search');
 	Route::post('county/search/', 'GenerealController@countySearch')->name('county.search');
-	Route::post('facility/search/', 'GenerealController@facilitySearch')->name('facility.search');
+	Route::post('supportfacility/search/', 'GenerealController@facilitySearch')->name('supportfacility.search');
 	// ---- Search Options ----
 	// ---- Search Results ----
 	Route::get('batchsearchresult/{testtype}/{batch}', 'GenerealController@batchresult')->name('batchsearchresult');
@@ -68,9 +68,9 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('user/passwordReset/{user?}', 'UserController@passwordreset')->name('passwordReset');
 	Route::resource('user', 'UserController');
 
-	Route::get('test', function(){
-		echo md5('123456');
-	});
+	// Route::get('test', function(){
+	// 	echo md5('123456');
+	// });
 });
 
 Route::get('patientstatus', 'HEIController@placeResults');

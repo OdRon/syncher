@@ -71,7 +71,9 @@
             @endif
             
             @if(Auth::user()->user_type_id != 6)
+                @if(Auth::user()->user_type_id != 8)
                 <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
+                @endif
                 <li><a href="#"><select class="form-control" id="sidebar_batch_search"></select></a></li>
                 <li><a href="#"><select class="form-control" id="sidebar_patient_search"></select></a></li>
             @endif
