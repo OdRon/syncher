@@ -35,6 +35,7 @@ INSERT INTO `user_types` (`id`, `user_type`, `deleted_at`, `created_at`, `update
 	(6, 'Super Counties', NULL, NULL, NULL, 1),
 	(7, 'Super Partner', NULL, NULL, NULL, 1),
 	(8, 'Facility Users', NULL, NULL, NULL, 1);
+	(9, 'Maryland Support Team', NULL, NULL, NULL, 1);
 /*!40000 ALTER TABLE `user_types` ENABLE KEYS */;
 
 

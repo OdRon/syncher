@@ -40,13 +40,15 @@ class UserController extends Controller
                             "user_type" => $value->user_type
                         ];
         }
-        foreach ($subusers as $key => $value) {
-            $newUsers[] = (object)[
-                            "id" => $value->id, "user_type_id" => $value->user_type_id,"surname" => $value->surname,
-                            "oname" => $value->oname, "email" => $value->email, "level" => $value->level, "telephone" => $value->telephone,
-                            "deleted_at" => $value->deleted_at, "created_at" => $value->created_at, "updated_at" => $value->updated_at,
-                            "user_type" => $value->user_type
-                        ];
+        if (auth()->user()->user_type_id == 4) {
+            foreach ($subusers as $key => $value) {
+                $newUsers[] = (object)[
+                                "id" => $value->id, "user_type_id" => $value->user_type_id,"surname" => $value->surname,
+                                "oname" => $value->oname, "email" => $value->email, "level" => $value->level, "telephone" => $value->telephone,
+                                "deleted_at" => $value->deleted_at, "created_at" => $value->created_at, "updated_at" => $value->updated_at,
+                                "user_type" => $value->user_type
+                            ];
+            }
         }
 
         $users = (object) $newUsers;

@@ -52,6 +52,9 @@ class HomeController extends Controller
                 return view('tables.viralbatch_details', compact('data','batch'))->with('pageTitle', "VIRAL LOAD Batch :: $batchID");
             }
         }
+
+        if(auth()->user()->user_type_id == 9)
+            return redirect('reports/support');
         
         return redirect('reports/EID');
     }

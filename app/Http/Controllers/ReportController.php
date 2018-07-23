@@ -9,6 +9,7 @@ use App\ViralsampleView;
 use App\ViralsampleCompleteView;
 use App\ViewFacility;
 use App\Partner;
+use App\Lab;
 use Excel;
 
 class ReportController extends Controller
@@ -25,36 +26,41 @@ class ReportController extends Controller
         $countys = (object)[];
         $subcountys = (object)[];
         $partners = (object)[];
+        $labs = (object)[];
         // dd($usertype);
-        $facilitys = ViewFacility::when($usertype, function($query) use ($usertype){
-                                    if ($usertype == 2 || $usertype == 3)
-                                        return $query->where('partner_id', '=', auth()->user()->level);
-                                    if ($usertype == 4)
-                                        return $query->where('county_id', '=', auth()->user()->level);
-                                    if ($usertype == 5)
-                                        return $query->where('subcounty_id', '=', auth()->user()->level);
-                                    if ($usertype == 7)
-                                        return $query->where('partner_id', '=', auth()->user()->level);
-                                })->get();
-        if ($usertype != 5) {
-            if ($usertype != 6) {
-                if ($usertype != 5)
-                    $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
-
-                if ($usertype == 2)
-                    $partners = Partner::where('orderno', '=', 2)->get();
-
-                if ($usertype != 2)
-                    $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
+        if ($usertype == 9) {
+            $labs = Lab::get();
+        } else {
+            $facilitys = ViewFacility::when($usertype, function($query) use ($usertype){
                                         if ($usertype == 2 || $usertype == 3)
                                             return $query->where('partner_id', '=', auth()->user()->level);
                                         if ($usertype == 4)
                                             return $query->where('county_id', '=', auth()->user()->level);
-                                    })->groupBy('subcounty_id')->get();
+                                        if ($usertype == 5)
+                                            return $query->where('subcounty_id', '=', auth()->user()->level);
+                                        if ($usertype == 7)
+                                            return $query->where('partner_id', '=', auth()->user()->level);
+                                    })->get();
+            if ($usertype != 5) {
+                if ($usertype != 6) {
+                    if ($usertype != 5)
+                        $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
+
+                    if ($usertype == 2)
+                        $partners = Partner::where('orderno', '=', 2)->get();
+
+                    if ($usertype != 2)
+                        $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
+                                            if ($usertype == 2 || $usertype == 3)
+                                                return $query->where('partner_id', '=', auth()->user()->level);
+                                            if ($usertype == 4)
+                                                return $query->where('county_id', '=', auth()->user()->level);
+                                        })->groupBy('subcounty_id')->get();
+                }
             }
         }
         
-        return view('reports.home', compact('facilitys','countys','subcountys','partners','testtype'))->with('pageTitle', 'Reports '.$testtype);
+        return view('reports.home', compact('facilitys','countys','subcountys','partners','labs','testtype'))->with('pageTitle', 'Reports '.$testtype);
     }
 
     public function dateselect(Request $request)
