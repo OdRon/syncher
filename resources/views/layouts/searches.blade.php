@@ -5,7 +5,7 @@
 		
 		set_select_patient("sidebar_patient_search", "{{ url('/patient/search') }}", 2, "Search for patient", "{{ url('patientsearchresult') }}");
 		
-		set_select_facility("sidebar_facility_search", "{{ url('/facility/search') }}", 3, "Search for facility", "{{ url('facilitysearchresult') }}");
+		set_select_facility("sidebar_facility_search", "{{ url('/supportfacility/search') }}", 3, "Search for facility", "{{ url('facilitysearchresult') }}");
 	});
 	
 	function set_select(div_name, url, minimum_length, placeholder, send_url) {

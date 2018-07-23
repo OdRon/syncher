@@ -31,7 +31,7 @@ class GenerealController extends Controller
 	
 	public function patientSearch(Request $request) {
 		$usertype = auth()->user()->user_type_id;
-    	$level = auth()->user()->level;
+        $level = ($usertype == 8) ? auth()->user()->facility_id : auth()->user()->level;
     	$search = $request->input('search');
     	$returnData = [];
 
@@ -47,6 +47,8 @@ class GenerealController extends Controller
 		                        return $query->where('view_facilitys.subcounty_id', '=', $level);
 		                    if ($usertype == 7)
 		                        return $query->where('view_facilitys.partner_id', '=', $level);
+                            if ($usertype == 8)
+                                return $query->where('view_facilitys.id', '=', $level);
 		                })->paginate(10);
 
 		$vlPatients = Viralpatient::select('viralpatients.id', 'viralpatients.patient')
@@ -61,6 +63,8 @@ class GenerealController extends Controller
 		                        return $query->where('view_facilitys.subcounty_id', '=', $level);
 		                    if ($usertype == 7)
 		                        return $query->where('view_facilitys.partner_id', '=', $level);
+                            if ($usertype == 8)
+                                return $query->where('view_facilitys.id', '=', $level);
 		                })->paginate(10);
 		foreach ($eidPatients as $key => $patient) {
         	$returnData[] = (object)[
@@ -83,7 +87,7 @@ class GenerealController extends Controller
 
     public function batchSearch(Request $request){
     	$usertype = auth()->user()->user_type_id;
-    	$level = auth()->user()->level;
+        $level = ($usertype == 8) ? auth()->user()->facility_id : auth()->user()->level;
     	$search = $request->input('search');
     	$returnData = [];
 
@@ -99,6 +103,8 @@ class GenerealController extends Controller
                         return $query->where('view_facilitys.subcounty_id', '=', $level);
                     if ($usertype == 7)
                         return $query->where('view_facilitys.partner_id', '=', $level);
+                    if ($usertype == 8)
+                        return $query->where('view_facilitys.id', '=', $level);
                 })->paginate(10);
 
         $vlBatches = Viralbatch::select('viralbatches.id as id', 'view_facilitys.name', 'view_facilitys.facilitycode', 'view_facilitys.county')
@@ -113,6 +119,8 @@ class GenerealController extends Controller
                         return $query->where('view_facilitys.subcounty_id', '=', $level);
                     if ($usertype == 7)
                         return $query->where('view_facilitys.partner_id', '=', $level);
+                    if ($usertype == 8)
+                        return $query->where('view_facilitys.id', '=', $level);
                 })->paginate(10);
         foreach ($eidBatches as $key => $value) {
         	$returnData[] = (object)[
