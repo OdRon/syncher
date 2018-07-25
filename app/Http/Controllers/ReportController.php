@@ -84,7 +84,7 @@ class ReportController extends Controller
         $title = "";
         $excelColumns = [];
         
-        $data = self::__getDateData($request,$dateString, $excelColumns, $title)->get();
+        $data = self::__getDateData($request,$dateString, $excelColumns, $title);
         $this->__getExcel($data, $title, $excelColumns);
         
         return back();
@@ -93,7 +93,7 @@ class ReportController extends Controller
     public static function __getDateData($request, &$dateString, &$excelColumns, &$title)
     {
         ini_set("memory_limit", "-1");
-        // dd($request);
+        
     	if ($request->testtype == 'VL') {
             $table = 'viralsample_complete_view';
             $selectStr = "$table.id, $table.batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, $table.sampletype_name as sampletype, $table.datecollected, $table.justification_name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
@@ -268,7 +268,65 @@ class ReportController extends Controller
                                 ->groupBy('county')
                                 ->orderBy('totaltests', 'desc');
             }
-    	}
+
+    	} else if ($request->testtype == 'support') {
+            $excelColumns = [
+                                ['County', '# of Facilities'],
+                                ['Partner', '# of Facilities'],
+                                ['Lab', '# of Facilities'],
+                                ['MFL Code', 'Facility Name', 'County', 'Partner', '# of Samples'],
+                            ];
+            $title = "REMOTE LOGIN FOR ";
+            if ($request->indicatortype == 11) {
+                $table = "samples_view";
+                $countyData = SampleView::selectRaw("view_facilitys.county as county, count(distinct $table.facility_id) as facilities")
+                                ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                                ->where('site_entry', '=', 1)
+                                ->groupBy('county')
+                                ->orderBy('facilities', 'desc');
+                $partnerData = SampleView::selectRaw("view_facilitys.partner as partner, count(distinct $table.facility_id) as facilities")
+                                ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                                ->where('site_entry', '=', 1)
+                                ->groupBy('partner')
+                                ->orderBy('facilities', 'desc');
+                $labData = SampleView::selectRaw("labs.name as lab, count(distinct $table.facility_id) as facilities")
+                                ->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
+                                ->where('site_entry', '=', 1)
+                                ->groupBy('lab')
+                                ->orderBy('facilities', 'desc');
+                $facilityData = SampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
+                                ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                                ->where('site_entry', '=', 1)
+                                ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
+                                ->orderBy('samplecount', 'desc');
+                $title .= "EID SAMPLES TESTED ";
+            } else if ($request->indicatortype == 12) {
+                $table = "viralsamples_view";
+                $countyData = ViralsampleView::selectRaw("view_facilitys.county as county, count(distinct $table.facility_id) as facilities")
+                                ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                                ->where('site_entry', '=', 1)
+                                ->groupBy('county')
+                                ->orderBy('facilities', 'desc');
+                $partnerData = ViralsampleView::selectRaw("view_facilitys.partner as partner, count(distinct $table.facility_id) as facilities")
+                                ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                                ->where('site_entry', '=', 1)
+                                ->groupBy('partner')
+                                ->orderBy('facilities', 'desc');
+                $labData = ViralsampleView::selectRaw("labs.name as lab, count(distinct $table.facility_id) as facilities")
+                                ->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
+                                ->where('site_entry', '=', 1)
+                                ->groupBy('lab')
+                                ->orderBy('facilities', 'desc');
+                $facilityData = ViralsampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
+                                ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                                ->where('site_entry', '=', 1)
+                                ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
+                                ->orderBy('samplecount', 'desc');
+                $title .= "VL SAMPLES TESTED ";
+            }
+        } else {
+            return back();
+        }
 
         if ($request->indicatortype == 7) {
             if (auth()->user()->user_type_id == 3) {
@@ -299,6 +357,13 @@ class ReportController extends Controller
                 $model = $model->where('view_facilitys.id', '=', $request->facility);
                 $facility = ViewFacility::where('id', '=', $request->facility)->get()->first();
                 $title .= $facility->name;
+            } else if ($request->category == 'lab') {
+                $lab = Lab::where('id', '=', $request->lab)->get()->first();
+                $countyData = $countyData->where('lab_id', '=', $request->lab);
+                $partnerData = $partnerData->where('lab_id', '=', $request->lab);
+                $labData = $labData->where('lab_id', '=', $request->lab);
+                $facilityData = $facilityData->where('lab_id', '=', $request->lab);
+                $title .= "($lab->name)";
             } else if ($request->category == 'overall') {
                 if (auth()->user()->user_type_id == 3) {
                     $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->level);
@@ -320,7 +385,14 @@ class ReportController extends Controller
 
     	if (isset($request->specificDate)) {
     		$dateString = date('d-M-Y', strtotime($request->specificDate));
-    		$model = $model->where("$table.datereceived", '=', $request->specificDate);
+            if ($request->testtype == 'support') {
+                $countyData = $countyData->where("$table.datereceived", '=', $request->specificDate);
+                $partnerData = $partnerData->where("$table.datereceived", '=', $request->specificDate);
+                $labData = $labData->where("$table.datereceived", '=', $request->specificDate);
+                $facilityData = $facilityData->where("$table.datereceived", '=', $request->specificDate);
+            } else {
+    		  $model = $model->where("$table.datereceived", '=', $request->specificDate);
+            }
     	}else {
             if (!isset($request->period) || $request->period == 'range') {
                 $dateString = date('d-M-Y', strtotime($request->fromDate))." & ".date('d-M-Y', strtotime($request->toDate));
@@ -330,13 +402,27 @@ class ReportController extends Controller
                     if ($request->period) { $column = 'datetested'; } 
                     else { $column = 'datereceived'; }
                 }
-                $model = $model->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
+                if ($request->testtype == 'support') {
+                    $countyData = $countyData->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
+                    $partnerData = $partnerData->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
+                    $labData = $labData->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
+                    $facilityData = $facilityData->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
+                } else {
+                  $model = $model->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
+                }
             } else if ($request->period == 'monthly') {
                 $dateString = date("F", mktime(null, null, null, $request->month)).' - '.$request->year;
                 $column = 'datetested';
                 if ($request->indicatortype == 5 || $request->indicatortype == 9) 
                     $column = 'datereceived';
-                $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
+                if ($request->testtype == 'support') {
+                    $countyData = $countyData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
+                    $partnerData = $partnerData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
+                    $labData = $labData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
+                    $facilityData = $facilityData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
+                } else {
+                  $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
+                }
             } else if ($request->period == 'quarterly') {
                 if ($request->quarter == 'Q1') {
                     $startQuarter = 1;
@@ -358,18 +444,40 @@ class ReportController extends Controller
                 $column = 'datetested';
                 if ($request->indicatortype == 5 || $request->indicatortype == 9) 
                     $column = 'datereceived';
-                $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
+                if ($request->testtype == 'support') {
+                    $countyData = $countyData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
+                    $partnerData = $partnerData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
+                    $labData = $labData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
+                    $facilityData = $facilityData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
+                } else {
+                  $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
+                }
             } else if ($request->period == 'annually') {
                 $dateString = $request->year;
                 $column = 'datetested';
                 if ($request->indicatortype == 5 || $request->indicatortype == 9) 
                     $column = 'datereceived';
-                $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."'");
+                if ($request->testtype == 'support') {
+                    $countyData = $countyData->whereRaw("YEAR($table.$column) = '".$request->year."'");
+                    $partnerData = $partnerData->whereRaw("YEAR($table.$column) = '".$request->year."'");
+                    $labData = $labData->whereRaw("YEAR($table.$column) = '".$request->year."'");
+                    $facilityData = $facilityData->whereRaw("YEAR($table.$column) = '".$request->year."'");
+                } else {
+                  $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."'");
+                }
             }
     	}
 
         if ($request->indicatortype == 9) {
             $model = $parent->whereNotIn('id',$model);
+        }
+        if ($request->testtype == 'support') {
+            $model = [
+                    'county' => $countyData,
+                    'partner' => $partnerData,
+                    'lab' => $labData,
+                    'facility' => $facilityData
+                ];
         }
         $title .= " FOR ".$dateString;
         $title = strtoupper($title);
@@ -378,6 +486,58 @@ class ReportController extends Controller
     }
 
     public static function __getExcel($data, $title, $dataArray)
+    {
+        $newdataArray = [];
+        $finaldataArray = [];
+        $sheetTitle = [];
+        ini_set("memory_limit", "-1");
+        if (is_array($data)) {
+            $count = 0;
+            foreach ($data as $key => $value) {
+                $newValue = $value->get();
+                $newdataArray[] = $dataArray[$count];
+                if ($newValue->isNotEmpty()) {
+                    foreach ($newValue as $report) {
+                        $newdataArray[] = $report->toArray();
+                    }
+                } else {
+                    $newdataArray[] = [];
+                }
+                $sheetTitle[] = ucfirst($key) . " Summary";
+                $finaldataArray[] = $newdataArray;
+                $newdataArray = [];
+                $count++;
+            }
+        } else {
+            $data = $data->get();
+            if($data->isNotEmpty()) {
+                $newdataArray[] = $dataArray;
+                foreach ($data as $report) {
+                    $newdataArray[] = $report->toArray();
+                }
+            } else {
+                $newdataArray[] = [];
+            }
+            $sheetTitle[] = $title;
+            $finaldataArray[] = $newdataArray;
+        }
+
+        Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
+            $excel->setTitle($title);
+            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+            $excel->setDescription($title);
+            foreach ($finaldataArray as $key => $value) {
+                $stitle = $sheetTitle[$key];
+                $excel->sheet($stitle, function($sheet) use ($value) {
+                    $sheet->fromArray($value, null, 'A1', false, false);
+                });
+            }
+        })->download('xlsx');
+    }
+
+
+
+    public static function __dupgetExcel($data, $title, $dataArray)
     {
         ini_set("memory_limit", "-1");
         if($data->isNotEmpty()) {
