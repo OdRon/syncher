@@ -56,7 +56,7 @@
 			<tr>
 				<th>Batch No. : {{ $sample->original_batch_id ?? '' }} </th>
 				<th>{{ $sample->facility->name ?? '' }}</th>
-				<th>Lab : {{ $sample->lab->name }}</th>
+				<th>Testing Lab : {{ $sample->lab->name }}</th>
 			</tr>
 		</table>
 		@if($testSysm == 'EID')
@@ -93,7 +93,7 @@
 						<td>{{ $sample->feeding_description ?? '' }}</td>
 					</tr>
 					<tr>
-						<th>Age</th>
+						<th>Age (Months)</th>
 						<td>{{ $sample->age }}</td>
 						<th>Entry Point</th>
 						<td>
@@ -154,7 +154,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th>Patient CC No</th>
+						<th>Patient CCC No</th>
 						<td>{{ $sample->patient ?? '' }}</td>
 						<th>Sample Type</th>
 						<td>{{ $sample->sampletype_name ?? '' }}</td>
@@ -178,8 +178,10 @@
 						<td>{{ $sample->justification_name ?? '' }}</td>
 					</tr>
 					<tr>
-						<th>Age</th>
-						<td colspan="3">{{ $sample->age ?? '' }}</td>
+						<th>Age (Years)</th>
+						<td>{{ $sample->age ?? '' }}</td>
+						<th>DOB</th>
+						<td>{{ $sample->dob ?? '' }}</td>
 					</tr>
 					<tr>
 						<th>Test Result</th>
