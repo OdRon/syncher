@@ -97,20 +97,20 @@ class ReportController extends Controller
         
         if (auth()->user()->user_type_id == 3) {
             $partner = ViewFacility::where('partner_id', '=', auth()->user()->level)->get()->first();
-            $title = $partner->patner;
+            $title = $partner->partner . " ";
         }
         if (auth()->user()->user_type_id == 4) {
             $county = ViewFacility::where('county_id', '=', auth()->user()->level)->get()->first();
-            $title = $county->county;
+            $title .= $county->county . " ";
         }
         if (auth()->user()->user_type_id == 5) {
             $subc = ViewFacility::where('subcounty_id', '=', auth()->user()->level)->get()->first();
-            $title = $subc->subcounty;
+            $title .= $subc->subcounty . " ";
         }
-        
+                // dd($title);
     	if ($request->testtype == 'VL') {
             $table = 'viralsample_complete_view';
-            $selectStr = "$table.id, $table.original_batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, $table.sampletype_name as sampletype, $table.datecollected, $table.justification_name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
+            $selectStr = "$table.original_sample_id, $table.original_batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, $table.sampletype_name as sampletype, $table.datecollected, $table.justification_name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
 
             if ($request->indicatortype == 2) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Reasons for Repeat', 'Rejected Reason', 'Regimen', 'Regimen Line', 'PMTCT', 'Result'];
@@ -178,7 +178,7 @@ class ReportController extends Controller
             }
     	} else if ($request->testtype == 'EID') {
             $table = 'sample_complete_view';
-            $selectStr = "$table.id, $table.patient, $table.original_batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
+            $selectStr = "$table.original_sample_id, $table.patient, $table.original_batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
 
             if ($request->indicatortype == 1 || $request->indicatortype == 6) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result'];
@@ -242,7 +242,6 @@ class ReportController extends Controller
             if (!($request->indicatortype == 5 || $request->indicatortype == 9 || $request->indicatortype == 10)) {
                 $model = $model->where(['repeatt' => 0, 'flag' => 1]);
             }
-            // $model = () ? $model : $model->where(['repeatt' => 0, 'flag' => 1]) ;
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
                 $model = $model->where("$table.receivedstatus", "=", '1')->whereIn("$table.pcrtype", [1,2]);
@@ -497,9 +496,7 @@ class ReportController extends Controller
         }
         $title .= " FOR ".$dateString;
         $title = strtoupper($title);
-        // dd($model->toSql());
-        // dd(DB::getQueryLog());
-        // dd($model->toSql());
+        
     	return $model;
     }
 
@@ -509,7 +506,6 @@ class ReportController extends Controller
         $finaldataArray = [];
         $sheetTitle = [];
         ini_set("memory_limit", "-1");
-        DB::enableQueryLog();
         if (is_array($data)) {
             $count = 0;
             foreach ($data as $key => $value) {
@@ -540,7 +536,7 @@ class ReportController extends Controller
             $sheetTitle[] = $title;
             $finaldataArray[] = $newdataArray;
         }
-        dd(DB::getQueryLog());
+        
         Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
             $excel->setTitle($title);
             $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
