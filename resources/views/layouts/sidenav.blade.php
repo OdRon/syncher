@@ -23,6 +23,8 @@
         @if (Auth::user()->user_type_id == 1)
             <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
             <hr />
+        @elseif(Auth::user()->user_type_id == 9)
+
         @else
             @if(Auth::user()->user_type_id == 8)
                 <li><a href="{{ url('results/EID') }}">EID Batch Results</a></li>

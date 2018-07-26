@@ -27,7 +27,7 @@
                                 @foreach($data as $key => $batch)
                                     <tr>
                                         <td> {{ $key+1 }} </td>
-                                        <td> {{ $batch->id }} </td>
+                                        <td> {{ $batch->original_batch_id }} </td>
                                         <td> {{ $batch->datereceived }} </td>
                                         <td>
                                             <a href="{{ url('results/'.$batch->id.'/'.$testtype.'/batch') }}">View Batch</a>

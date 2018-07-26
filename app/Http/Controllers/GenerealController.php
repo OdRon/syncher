@@ -20,7 +20,7 @@ class GenerealController extends Controller
 				array( 'db' => 'patient','dt' => 1 ),
 				array( 'db' => 'facility', 'dt' => 2 ),
 				array( 'db' => 'lab', 'dt' => 3 ),
-				array( 'db' => 'batch_id', 'dt' => 4 ),
+				array( 'db' => 'original_batch_id', 'dt' => 4 ),
 				array( 'db' => 'receivedstatus_name', 'dt' => 5 ),
 				array( 'db' => 'datecollected', 'dt' => 6),
 				array( 'db' => 'datereceived', 'dt' => 7),
@@ -91,9 +91,9 @@ class GenerealController extends Controller
     	$search = $request->input('search');
     	$returnData = [];
 
-    	$eidBatches = Batch::select('batches.id as id', 'view_facilitys.name', 'view_facilitys.facilitycode', 'view_facilitys.county')
+    	$eidBatches = Batch::select('batches.original_batch_id as id', 'view_facilitys.name', 'view_facilitys.facilitycode', 'view_facilitys.county')
     			->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'batches.facility_id')
-            	->whereRaw("(batches.id like '%" . $search . "%')")
+            	->whereRaw("(batches.original_batch_id like '%" . $search . "%')")
     			->when($usertype, function($query) use ($usertype, $level){
                     if ($usertype == 2 || $usertype == 3)
                         return $query->where('view_facilitys.partner_id', '=', $level);
@@ -107,9 +107,9 @@ class GenerealController extends Controller
                         return $query->where('view_facilitys.id', '=', $level);
                 })->paginate(10);
 
-        $vlBatches = Viralbatch::select('viralbatches.id as id', 'view_facilitys.name', 'view_facilitys.facilitycode', 'view_facilitys.county')
+        $vlBatches = Viralbatch::select('viralbatches.original_batch_id as id', 'view_facilitys.name', 'view_facilitys.facilitycode', 'view_facilitys.county')
     			->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralbatches.facility_id')
-            	->whereRaw("(viralbatches.id like '%" . $search . "%')")
+            	->whereRaw("(viralbatches.original_batch_id like '%" . $search . "%')")
     			->when($usertype, function($query) use ($usertype, $level){
                     if ($usertype == 2 || $usertype == 3)
                         return $query->where('view_facilitys.partner_id', '=', $level);
@@ -187,12 +187,12 @@ class GenerealController extends Controller
     		session(['searchParams'=>null]);
     	$testingSystem = strtolower($testtype);
     	if ($testingSystem == 'eid')
-    		$batch = Batch::where('id', '=', $batch)->get()->first();
+    		$batch = Batch::where('original_batch_id', '=', $batch)->get()->first();
     	if ($testingSystem == 'vl')
-    		$batch = Viralbatch::where('id', '=', $batch)->get()->first();
+    		$batch = Viralbatch::where('original_batch_id', '=', $batch)->get()->first();
 
-    	session(['searchParams'=>['batch_id'=>$batch->id]]);
-    	return view('tables.searchresults')->with('pageTitle', "$testingSystem batch : $batch->id");
+    	session(['searchParams'=>['batch_id'=>$batch->original_batch_id]]);
+    	return view('tables.searchresults')->with('pageTitle', "$testingSystem batch : $batch->original_batch_id");
     }
 
     public function facilityresult($facility) {
@@ -261,7 +261,7 @@ class GenerealController extends Controller
     	$parameter = (object)session('searchParams');
     	if ($testingSystem == 'eid') {
     		$table = "sample_complete_view";
-    		$model = SampleCompleteView::select('sample_complete_view.id','sample_complete_view.batch_id','sample_complete_view.patient_id', 'sample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','sample_complete_view.datecollected','sample_complete_view.datereceived','sample_complete_view.datedispatched','sample_complete_view.datetested','results.name as result','sample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
+    		$model = SampleCompleteView::select('sample_complete_view.id','sample_complete_view.original_batch_id','sample_complete_view.patient_id', 'sample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','sample_complete_view.datecollected','sample_complete_view.datereceived','sample_complete_view.datedispatched','sample_complete_view.datetested','results.name as result','sample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
     						->leftJoin('labs', 'labs.id', '=', 'sample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
     						->leftJoin('results', 'results.id', '=', 'sample_complete_view.facility_id')
@@ -273,7 +273,7 @@ class GenerealController extends Controller
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'sample_complete_view.rejectedreason');
     	} else if ($testingSystem == 'vl') {
     		$table = "viralsample_complete_view";
-    		$model = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','results.name as result','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
+    		$model = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.original_batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','results.name as result','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
     						->leftJoin('labs', 'labs.id', '=', 'viralsample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsample_complete_view.facility_id')
     						->leftJoin('results', 'results.id', '=', 'viralsample_complete_view.facility_id')
@@ -321,7 +321,7 @@ class GenerealController extends Controller
     		$data[] = [
     					$count, $value->patient,
     					$value->facility, $value->lab,
-    					"<a href='#'>".$value->batch_id."</a>", $value->receivedstatus_name,
+    					"<a href='#'>".$value->original_batch_id."</a>", $value->receivedstatus_name,
     					($value->datecollected) ? date('d-M-Y', strtotime($value->datecollected)) : '', 
                         ($value->datereceived) ? date('d-M-Y', strtotime($value->datereceived)) : '', 
                         ($value->datetested) ? date('d-M-Y', strtotime($value->datetested)) : '', 
