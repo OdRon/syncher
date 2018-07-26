@@ -54,7 +54,7 @@
 				</th>
 			</tr>
 			<tr>
-				<th>Batch No. : {{ $sample->batch_id ?? '' }} </th>
+				<th>Batch No. : {{ $sample->original_batch_id ?? '' }} </th>
 				<th>{{ $sample->facility->name ?? '' }}</th>
 				<th>Lab : {{ $sample->lab->name }}</th>
 			</tr>
