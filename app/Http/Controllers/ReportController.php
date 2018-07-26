@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use App\SampleView;
 use App\SampleCompleteView;
@@ -93,18 +94,16 @@ class ReportController extends Controller
     public static function __getDateData($request, &$dateString, &$excelColumns, &$title)
     {
         ini_set("memory_limit", "-1");
+        
         if (auth()->user()->user_type_id == 3) {
-            $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->level);
             $partner = ViewFacility::where('partner_id', '=', auth()->user()->level)->get()->first();
             $title = $partner->patner;
         }
         if (auth()->user()->user_type_id == 4) {
-            $model = $model->where('view_facilitys.county_id', '=', auth()->user()->level);
             $county = ViewFacility::where('county_id', '=', auth()->user()->level)->get()->first();
             $title = $county->county;
         }
         if (auth()->user()->user_type_id == 5) {
-            $model = $model->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
             $subc = ViewFacility::where('subcounty_id', '=', auth()->user()->level)->get()->first();
             $title = $subc->subcounty;
         }
@@ -482,7 +481,6 @@ class ReportController extends Controller
                 }
             }
     	}
-
         if ($request->indicatortype == 9) {
             $model = $parent->whereNotIn('id',$model);
         }
@@ -497,6 +495,8 @@ class ReportController extends Controller
         $title .= " FOR ".$dateString;
         $title = strtoupper($title);
         // dd($model->toSql());
+        // dd(DB::getQueryLog());
+        // dd($model->toSql());
     	return $model;
     }
 
@@ -506,6 +506,7 @@ class ReportController extends Controller
         $finaldataArray = [];
         $sheetTitle = [];
         ini_set("memory_limit", "-1");
+        DB::enableQueryLog();
         if (is_array($data)) {
             $count = 0;
             foreach ($data as $key => $value) {
@@ -536,7 +537,7 @@ class ReportController extends Controller
             $sheetTitle[] = $title;
             $finaldataArray[] = $newdataArray;
         }
-
+        dd(DB::getQueryLog());
         Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
             $excel->setTitle($title);
             $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
