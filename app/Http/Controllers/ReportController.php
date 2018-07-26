@@ -239,7 +239,7 @@ class ReportController extends Controller
                         ->leftJoin('hei_validation as hv', 'hv.id', '=', "$table.hei_validation")
                         ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
             }
-            ($request->indicatortype == (5 || 9 || 10)) ? : $model = $model->where(['repeatt' => 0, 'flag' => 1]) ;
+            $model = ($request->indicatortype == (5 || 9 || 10)) ? $model : $model->where(['repeatt' => 0, 'flag' => 1]) ;
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
                 $model = $model->where("$table.receivedstatus", "=", '1')->whereIn("$table.pcrtype", [1,2]);
