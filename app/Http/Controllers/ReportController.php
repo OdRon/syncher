@@ -239,10 +239,10 @@ class ReportController extends Controller
                         ->leftJoin('hei_validation as hv', 'hv.id', '=', "$table.hei_validation")
                         ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
             }
+            ($request->indicatortype == (5 || 9 || 10)) ? : $model = $model->where(['repeatt' => 0, 'flag' => 1]) ;
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
-                $model = $model->where("$table.receivedstatus", "=", '1')->whereIn("$table.pcrtype", [1,2])
-                            ->where("$table.repeatt", '=', 0);
+                $model = $model->where("$table.receivedstatus", "=", '1')->whereIn("$table.pcrtype", [1,2]);
                 if ($request->indicatortype == 4) {
                     $model = $model->where("$table.result", '=', 1);
                 } else {
@@ -256,14 +256,14 @@ class ReportController extends Controller
             } else if ($request->indicatortype == 6) {
                 $model = $model->where("$table.age", "<", 2);
             } else if ($request->indicatortype == 7) {
-                $model = $model->where("$table.repeatt", '=', 0)->where("$table.result", '=', 2)
+                $model = $model->where("$table.result", '=', 2)
                                 ->groupBy('facility')
                                 ->groupBy('facilitycode')
                                 ->groupBy('subcounty')
                                 ->groupBy('county')
                                 ->orderBy('totaltests', 'desc');
             } else if ($request->indicatortype == 8) {
-                $model = $model->where("$table.repeatt", '=', 0);
+                
             } else if ($request->indicatortype == 9) {
                 if (auth()->user()->user_type_id == 3) {
                     $parent = ViewFacility::select('county','subcounty','partner','name','facilitycode')->where('partner_id', '=', auth()->user()->level);
