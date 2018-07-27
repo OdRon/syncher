@@ -68,9 +68,12 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('user/passwordReset/{user?}', 'UserController@passwordreset')->name('passwordReset');
 	Route::resource('user', 'UserController');
 
-	// Route::get('test', function(){
-	// 	echo md5('123456');
-	// });
+	Route::get('test', function(){
+		echo max([3,5]);
+	});
 });
 
 Route::get('patientstatus', 'HEIController@placeResults');
+
+
+// $connected = @fsockopen("www.example.com", 80); 

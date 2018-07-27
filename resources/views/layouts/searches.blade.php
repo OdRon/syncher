@@ -32,8 +32,8 @@
 					return {
 						results 	: $.map(data.data, function (row){
 							return {
-								text	: row.batch_id + ' - EID',
-								id		: 'EID/' +row.id		
+								text	: row.name + ' - ' + row.type,
+								id		: row.type + '/' +row.id		
 							};
 						}),
 						pagination	: {
@@ -68,7 +68,7 @@
 				},
 				processResults: function(data, params){
 					return {
-						results 	: $.map(data, function (row){
+						results 	: $.map(data.data, function (row){
 							return {
 								text	: row.patient + ' - ' + row.type,
 								id		: row.type + '/' + row.id		
