@@ -82,23 +82,23 @@ class GenerealController extends Controller
         					];
         }
         $eidPatients = json_decode(json_encode($eidPatients));
-        $vlBatches = json_decode(json_encode($vlBatches));
+        $vlPatients = json_decode(json_encode($vlPatients));
         
-        $from = max([$eidPatients->from, $vlBatches->from]);
-        $to = max([$eidPatients->to, $vlBatches->to]);
-        $total = max([$eidPatients->total, $vlBatches->total]);
+        $from = max([$eidPatients->from, $vlPatients->from]);
+        $to = max([$eidPatients->to, $vlPatients->to]);
+        $total = max([$eidPatients->total, $vlPatients->total]);
 
         $returnData = [
-                        'current_page' => $eidPatients->current_page ?? $vlBatches->current_page,
-                        'data' => $mergeBatches,
-                        'first_page_url' => $eidPatients->first_page_url ?? $vlBatches->first_page_url,
+                        'current_page' => $eidPatients->current_page ?? $vlPatients->current_page,
+                        'data' => $mergeData,
+                        'first_page_url' => $eidPatients->first_page_url ?? $vlPatients->first_page_url,
                         'from' => $from,
-                        'last_page' => $eidPatients->last_page ?? $vlBatches->last_page,
-                        'last_page_url' => $eidPatients->last_page_url ?? $vlBatches->last_page_url,
-                        'next_page_url' => $eidPatients->next_page_url ?? $vlBatches->next_page_url,
-                        'path' => $eidPatients->path ?? $vlBatches->path,
-                        'per_page' => $eidPatients->per_page ?? $vlBatches->per_page,
-                        'prev_page_url' => $eidPatients->prev_page_url ?? $vlBatches->prev_page_url,
+                        'last_page' => $eidPatients->last_page ?? $vlPatients->last_page,
+                        'last_page_url' => $eidPatients->last_page_url ?? $vlPatients->last_page_url,
+                        'next_page_url' => $eidPatients->next_page_url ?? $vlPatients->next_page_url,
+                        'path' => $eidPatients->path ?? $vlPatients->path,
+                        'per_page' => $eidPatients->per_page ?? $vlPatients->per_page,
+                        'prev_page_url' => $eidPatients->prev_page_url ?? $vlPatients->prev_page_url,
                         'to' => $to,
                         'total' => $total
                     ];
