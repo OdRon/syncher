@@ -9,13 +9,30 @@
         margin-top: 15px;
     }
 </style>
+@php
+    $activeEid = 'active';
+    $activeVl = '';
+@endphp
+@isset($testingSystem)
+    @if($testingSystem == 'eid')
+        @php
+            $activeEid = 'active';
+            $activeVl = '';
+        @endphp
+    @elseif($testingSystem == 'vl')
+        @php
+            $activeVl = 'active';
+            $activeEid = '';
+        @endphp
+    @endif
+@endisset
 <div class="content">
     <div class="row">
         <div class="col-lg-12">
             <div class="hpanel">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#eid-results"><strong>A.) EID RESULTS</strong></a></li>
-                    <li class=""><a data-toggle="tab" href="#vl-results"><strong>B.) VL RESULTS</strong></a></li>
+                    <li class="{{ $activeEid }}"><a data-toggle="tab" href="#eid-results"><strong>A.) EID RESULTS</strong></a></li>
+                    <li class="{{ $activeVl }}"><a data-toggle="tab" href="#vl-results"><strong>B.) VL RESULTS</strong></a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="eid-results" class="tab-pane active">
@@ -101,6 +118,19 @@
     @endcomponent
     <script type="text/javascript">
         $(document).ready(function(){
+            @if(isset($testingSystem))
+                @if($testingSystem == 'eid')
+                    eidServerside();
+                @elseif($testingSystem == 'vl')
+                    vlServerside();
+                @endif
+            @else
+                eidServerside();
+                vlServerside();
+            @endif
+        });
+
+        function eidServerside(){
             $('#eidTable').dataTable( {
                 dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
                     "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
@@ -158,7 +188,9 @@
                 ],
                 "order": [[ 8, "desc" ]]
             });
+        }
 
+        function vlServerside() {
             $('#vlTable').dataTable( {
                 dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
                     "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
@@ -206,7 +238,7 @@
                 ],
                 "order": [[ 8, "desc" ]]
             });
-        });
+        }
     </script>
 
 @endsection

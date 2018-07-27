@@ -33,7 +33,7 @@ class GenerealController extends Controller
 		$usertype = auth()->user()->user_type_id;
         $level = ($usertype == 8) ? auth()->user()->facility_id : auth()->user()->level;
     	$search = $request->input('search');
-    	$returnData = [];
+    	$mergeData = [];
 
     	$eidPatients = Patient::select('patients.id', 'patients.patient')
     					->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'patients.facility_id')
@@ -67,7 +67,7 @@ class GenerealController extends Controller
                                 return $query->where('view_facilitys.id', '=', $level);
 		                })->paginate(10);
 		foreach ($eidPatients as $key => $patient) {
-        	$returnData[] = (object)[
+        	$mergeData[] = (object)[
         						'type' => 'EID',
         						'id' => $patient->id,
         						'patient' => $patient->patient
@@ -75,23 +75,44 @@ class GenerealController extends Controller
         }
 
         foreach ($vlPatients as $key => $patient) {
-        	$returnData[] = (object)[
+        	$mergeData[] = (object)[
         						'type' => 'VL',
         						'id' => $patient->id,
         						'patient' => $patient->patient
         					];
         }
+        $eidPatients = json_decode(json_encode($eidPatients));
+        $vlPatients = json_decode(json_encode($vlPatients));
         
-    	return $returnData;
+        $from = max([$eidPatients->from, $vlPatients->from]);
+        $to = max([$eidPatients->to, $vlPatients->to]);
+        $total = max([$eidPatients->total, $vlPatients->total]);
+
+        $returnData = [
+                        'current_page' => $eidPatients->current_page ?? $vlPatients->current_page,
+                        'data' => $mergeData,
+                        'first_page_url' => $eidPatients->first_page_url ?? $vlPatients->first_page_url,
+                        'from' => $from,
+                        'last_page' => $eidPatients->last_page ?? $vlPatients->last_page,
+                        'last_page_url' => $eidPatients->last_page_url ?? $vlPatients->last_page_url,
+                        'next_page_url' => $eidPatients->next_page_url ?? $vlPatients->next_page_url,
+                        'path' => $eidPatients->path ?? $vlPatients->path,
+                        'per_page' => $eidPatients->per_page ?? $vlPatients->per_page,
+                        'prev_page_url' => $eidPatients->prev_page_url ?? $vlPatients->prev_page_url,
+                        'to' => $to,
+                        'total' => $total
+                    ];
+        
+        echo json_encode($returnData);
     }
 
     public function batchSearch(Request $request){
     	$usertype = auth()->user()->user_type_id;
         $level = ($usertype == 8) ? auth()->user()->facility_id : auth()->user()->level;
     	$search = $request->input('search');
-    	$returnData = [];
+        $mergeBatches = [];
 
-    	$eidBatches = Batch::select('batches.original_batch_id as id', 'view_facilitys.name', 'view_facilitys.facilitycode', 'view_facilitys.county')
+    	$eidBatches = Batch::select('batches.id as id', 'batches.original_batch_id as batch_id')
     			->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'batches.facility_id')
             	->whereRaw("(batches.original_batch_id like '%" . $search . "%')")
     			->when($usertype, function($query) use ($usertype, $level){
@@ -107,10 +128,10 @@ class GenerealController extends Controller
                         return $query->where('view_facilitys.id', '=', $level);
                 })->paginate(10);
 
-        $vlBatches = Viralbatch::select('viralbatches.original_batch_id as id', 'view_facilitys.name', 'view_facilitys.facilitycode', 'view_facilitys.county')
-    			->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralbatches.facility_id')
-            	->whereRaw("(viralbatches.original_batch_id like '%" . $search . "%')")
-    			->when($usertype, function($query) use ($usertype, $level){
+        $vlBatches = Viralbatch::select('viralbatches.id as id', 'viralbatches.original_batch_id as batch_id')
+             ->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralbatches.facility_id')
+             ->whereRaw("(viralbatches.original_batch_id like '%" . $search . "%')")
+             ->when($usertype, function($query) use ($usertype, $level){
                     if ($usertype == 2 || $usertype == 3)
                         return $query->where('view_facilitys.partner_id', '=', $level);
                     if ($usertype == 4)
@@ -123,22 +144,44 @@ class GenerealController extends Controller
                         return $query->where('view_facilitys.id', '=', $level);
                 })->paginate(10);
         foreach ($eidBatches as $key => $value) {
-        	$returnData[] = (object)[
-        						'type' => 'EID',
-        						'id' => $value->id,
-        						'name' => $value->name
-        					];
+            $mergeBatches[] = [
+                             'type' => 'EID',
+                             'id' => $value->id,
+                             'name' => $value->batch_id
+                         ];
         }
 
         foreach ($vlBatches as $key => $value) {
-        	$returnData[] = (object)[
-        						'type' => 'VL',
-        						'id' => $value->id,
-        						'name' => $value->name
-        					];
+            $mergeBatches[] = [
+                             'type' => 'VL',
+                             'id' => $value->id,
+                             'name' => $value->batch_id
+                         ];
         }
+        $eidBatches = json_decode(json_encode($eidBatches));
+        $vlBatches = json_decode(json_encode($vlBatches));
         
-    	return $returnData;
+        $from = max([$eidBatches->from, $vlBatches->from]);
+        $to = max([$eidBatches->to, $vlBatches->to]);
+        $total = max([$eidBatches->total, $vlBatches->total]);
+
+        $returnData = [
+                        'current_page' => $eidBatches->current_page ?? $vlBatches->current_page,
+                        'data' => $mergeBatches,
+                        'first_page_url' => $eidBatches->first_page_url ?? $vlBatches->first_page_url,
+                        'from' => $from,
+                        'last_page' => $eidBatches->last_page ?? $vlBatches->last_page,
+                        'last_page_url' => $eidBatches->last_page_url ?? $vlBatches->last_page_url,
+                        'next_page_url' => $eidBatches->next_page_url ?? $vlBatches->next_page_url,
+                        'path' => $eidBatches->path ?? $vlBatches->path,
+                        'per_page' => $eidBatches->per_page ?? $vlBatches->per_page,
+                        'prev_page_url' => $eidBatches->prev_page_url ?? $vlBatches->prev_page_url,
+                        'to' => $to,
+                        'total' => $total
+                    ];
+        // return $mergeBatches;
+    	// return $returnData;
+        echo json_encode($returnData);
     }
 
     public function countySearch(Request $request)
@@ -179,7 +222,7 @@ class GenerealController extends Controller
     		$patient = Viralpatient::where('id', '=', $patient)->get()->first();
 
     	session(['searchParams'=>['patient_id'=>$patient->id]]);
-    	return view('tables.searchresults')->with('pageTitle', "$testingSystem patient : $patient->patient");
+    	return view('tables.searchresults', compact('testingSystem'))->with('pageTitle', "$testingSystem patient : $patient->patient");
     }
 
     public function batchresult($testtype,$batch) {
@@ -187,12 +230,12 @@ class GenerealController extends Controller
     		session(['searchParams'=>null]);
     	$testingSystem = strtolower($testtype);
     	if ($testingSystem == 'eid')
-    		$batch = Batch::where('original_batch_id', '=', $batch)->get()->first();
+    		$batch = Batch::where('id', '=', $batch)->get()->first();
     	if ($testingSystem == 'vl')
-    		$batch = Viralbatch::where('original_batch_id', '=', $batch)->get()->first();
+    		$batch = Viralbatch::where('id', '=', $batch)->get()->first();
 
-    	session(['searchParams'=>['batch_id'=>$batch->original_batch_id]]);
-    	return view('tables.searchresults')->with('pageTitle', "$testingSystem batch : $batch->original_batch_id");
+    	session(['searchParams'=>['batch_id'=>$batch->id]]);
+    	return view('tables.searchresults', compact('testingSystem'))->with('pageTitle', "$testingSystem batch : $batch->original_batch_id");
     }
 
     public function facilityresult($facility) {
@@ -264,25 +307,25 @@ class GenerealController extends Controller
     		$model = SampleCompleteView::select('sample_complete_view.id','sample_complete_view.original_batch_id','sample_complete_view.patient_id', 'sample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','sample_complete_view.datecollected','sample_complete_view.datereceived','sample_complete_view.datedispatched','sample_complete_view.datetested','results.name as result','sample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
     						->leftJoin('labs', 'labs.id', '=', 'sample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
-    						->leftJoin('results', 'results.id', '=', 'sample_complete_view.facility_id')
+    						->leftJoin('results', 'results.id', '=', 'sample_complete_view.result')
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'sample_complete_view.rejectedreason');
     		$modelCount = SampleCompleteView::selectRaw("count(*) as totals")
     						->leftJoin('labs', 'labs.id', '=', 'sample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
-    						->leftJoin('results', 'results.id', '=', 'sample_complete_view.facility_id')
+    						->leftJoin('results', 'results.id', '=', 'sample_complete_view.result')
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'sample_complete_view.rejectedreason');
     	} else if ($testingSystem == 'vl') {
     		$table = "viralsample_complete_view";
     		$model = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.original_batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','results.name as result','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
     						->leftJoin('labs', 'labs.id', '=', 'viralsample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsample_complete_view.facility_id')
-    						->leftJoin('results', 'results.id', '=', 'viralsample_complete_view.facility_id')
+    						->leftJoin('results', 'results.id', '=', 'viralsample_complete_view.result')
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'viralsample_complete_view.rejectedreason');
 
     		$modelCount = ViralsampleCompleteView::selectRaw("count(*) as totals")
     						->leftJoin('labs', 'labs.id', '=', 'viralsample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsample_complete_view.facility_id')
-    						->leftJoin('results', 'results.id', '=', 'viralsample_complete_view.facility_id')
+    						->leftJoin('results', 'results.id', '=', 'viralsample_complete_view.result')
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'viralsample_complete_view.rejectedreason');
     	}
 
@@ -326,7 +369,8 @@ class GenerealController extends Controller
                         ($value->datereceived) ? date('d-M-Y', strtotime($value->datereceived)) : '', 
                         ($value->datetested) ? date('d-M-Y', strtotime($value->datetested)) : '', 
                         ($value->datedispatched) ? date('d-M-Y', strtotime($value->datedispatched)) : '', 
-    					$value->result, "<a href='". url("printindividualresult/$testingSystem/$value->id") ."'><img src='".asset('img/print.png')."' />&nbsp;Result</a>"
+    					($value->result == "Negative") ? "<span class='label label-success'>$value->result</span>" : "<span class='label label-danger'>$value->result</span>", 
+                        "<a href='". url("printindividualresult/$testingSystem/$value->id") ."'><img src='".asset('img/print.png')."' />&nbsp;Result</a>"
     				];
     		$count++;
     	}
