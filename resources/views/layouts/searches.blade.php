@@ -1,14 +1,14 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-		set_select("sidebar_batch_search", "{{ url('/batch/search') }}", 1, "Search for batch", "{{ url('batchsearchresult') }}");
+		set_batch_select("sidebar_batch_search", "{{ url('/batch/search') }}", 1, "Search for batch", "{{ url('batchsearchresult') }}");
 		
 		set_select_patient("sidebar_patient_search", "{{ url('/patient/search') }}", 2, "Search for patient", "{{ url('patientsearchresult') }}");
 		
 		set_select_facility("sidebar_facility_search", "{{ url('/supportfacility/search') }}", 3, "Search for facility", "{{ url('facilitysearchresult') }}");
 	});
 	
-	function set_select(div_name, url, minimum_length, placeholder, send_url) {
+	function set_batch_select(div_name, url, minimum_length, placeholder, send_url) {
 		div_name = '#' + div_name;		
 
 		$(div_name).select2({
@@ -28,11 +28,12 @@
 					return  url + "?page=" + params.page;
 				},
 				processResults: function(data, params){
+					console.log(data);
 					return {
-						results 	: $.map(data, function (row){
+						results 	: $.map(data.data, function (row){
 							return {
-								text	: row.id + ' - ' + row.type,
-								id		: row.type + '/' +row.id		
+								text	: row.batch_id + ' - EID',
+								id		: 'EID/' +row.id		
 							};
 						}),
 						pagination	: {
