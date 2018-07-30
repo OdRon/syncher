@@ -97,7 +97,7 @@
 						<td>{{ $sample->age }}</td>
 						<th>Entry Point</th>
 						<td>
-							@foreach($data->entry_points as $entry_point)
+							@foreach($entry_points as $entry_point)
 								@if($entry_point->id == $sample->entry_point)
 									{{ $entry_point->name ?? '' }}
 								@endif
@@ -107,7 +107,7 @@
 					<tr>
 						<th>Test Result</th>
 						<td colspan="3">
-							@foreach($data->results as $result)
+							@foreach($results as $result)
 								@if($result->id == $sample->result)
 									{{ $result->name ?? '' }}
 								@endif
