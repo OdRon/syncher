@@ -249,6 +249,7 @@ class GenerealController extends Controller
     public function print_individual($testSysm,$id) {
         $sampleid = intval($id);
         $testSysm = strtoupper($testSysm);
+        $previousSamples = [];
         if ($testSysm == 'VL') {
             $samples = ViralsampleCompleteView::with(['facility','lab'])->where('id', '=', $sampleid)->whereNotNull('datereceived')->get();
             $patientSample = $samples->first();
