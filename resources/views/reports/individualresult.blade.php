@@ -194,21 +194,19 @@
 						<th>Comment</th>
 						<td colspan="3">{{ $sample->labcomment ?? '' }}</td>
 					</tr>
-					@isset($previousSamples)
-						@forelse($previousSamples as $previous)
-							<tr>
-								<th>Previous VL Result</th>
-								<td>Viral Load : {{ $previous->result ." ". $previous->units }}</td>
-								<th>Date Tested</th>
-								<td>{{ ($previous->datetested) ? date('d-M-Y', strtotime($previous->datetested)) : '' }}</td>
-							</tr>
-						@empty
-							<tr>
-								<th colspan="2">Previous VL Result</th>
-								<td colspan="2"><center>N/A</center></td>
-							</tr>
-						@endforelse
-					@endisset
+					@forelse($previousSamples as $previous)
+						<tr>
+							<th>Previous VL Result</th>
+							<td>Viral Load : {{ $previous->result ." ". $previous->units }}</td>
+							<th>Date Tested</th>
+							<td>{{ ($previous->datetested) ? date('d-M-Y', strtotime($previous->datetested)) : '' }}</td>
+						</tr>
+					@empty
+						<tr>
+							<th colspan="2">Previous VL Result</th>
+							<td colspan="2"><center>N/A</center></td>
+						</tr>
+					@endforelse
 				</tbody>
 			</table>
 		@endif
