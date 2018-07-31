@@ -277,6 +277,46 @@ class GenerealController extends Controller
 
     }
 
+    public function print_batch_individual($testingSystem,$batch) {
+        $testingSystem = strtoupper($testingSystem);
+        if ($testingSystem == 'EID') {
+            $data = Lookup::get_eid_lookups();
+            $batch = Batch::with('sample')->where('id', '=', $batch)->first();
+            $data['testingSys'] = 'EID';
+            $relationships = ['patient.mother', 'batch.lab', 'batch.facility', 'batch.receiver', 'batch.creator'];
+        } else if ($testingSystem == 'VL') {
+            $data = Lookup::get_viral_lookups();
+            $batch = Viralbatch::with('sample')->where('id', '=', $batch)->first();
+            $data['testingSys'] = 'VL';
+            $relationships = ['patient', 'approver', 'batch.lab', 'batch.facility', 'batch.receiver', 'batch.creator'];
+        }
+        $samples = $batch->sample;
+        $data['samples'] = $samples->load($relationships);
+        $data = (object)$data;
+        // dd($data);
+        return view('reports.individualbatch', compact('data'));
+    }
+
+    public function print_batch_summary($testingSystem, $batch) {
+        $testingSystem = strtoupper($testingSystem);
+        if ($testingSystem == 'EID') {
+            $data = Lookup::get_eid_lookups();
+            $data['testingSys'] = 'EID';
+            $data['batches'] = Batch::with(['sample.patient.mother', 'facility', 'lab', 'receiver', 'creator'])->where('id', '=', $batch)->get();
+            $id = $data['batches']->first()->original_batch_id;
+        } else if ($testingSystem == 'VL') {
+            $data = Lookup::get_viral_lookups();
+            $data['testingSys'] = 'VL';
+            $data['batches'] = Viralbatch::with(['sample.patient', 'facility', 'lab', 'receiver', 'creator'])->where('id', '=', $batch)->get();
+            $id = $data['batches']->first()->original_batch_id;
+        }
+        
+        $mpdf = new Mpdf(['format' => 'A4-L']);
+        $view_data = view('reports.summarybatch', $data)->render();
+        $mpdf->WriteHTML($view_data);
+        $mpdf->Output("$testingSystem Batch $id summary.pdf", \Mpdf\Output\Destination::DOWNLOAD);
+    }
+
     public function eidresults(Request $request) {
     	$recordsTotal = 0;
     	$recordsFiltered = 0;
@@ -305,7 +345,7 @@ class GenerealController extends Controller
     	$parameter = (object)session('searchParams');
     	if ($testingSystem == 'eid') {
     		$table = "sample_complete_view";
-    		$model = SampleCompleteView::select('sample_complete_view.id','sample_complete_view.original_batch_id','sample_complete_view.patient_id', 'sample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','sample_complete_view.datecollected','sample_complete_view.datereceived','sample_complete_view.datedispatched','sample_complete_view.datetested','results.name as result','sample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
+    		$model = SampleCompleteView::select('sample_complete_view.id','sample_complete_view.batch_id','sample_complete_view.original_batch_id','sample_complete_view.patient_id', 'sample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','sample_complete_view.datecollected','sample_complete_view.datereceived','sample_complete_view.datedispatched','sample_complete_view.datetested','results.name as result','sample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
     						->leftJoin('labs', 'labs.id', '=', 'sample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
     						->leftJoin('results', 'results.id', '=', 'sample_complete_view.result')
@@ -317,7 +357,7 @@ class GenerealController extends Controller
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'sample_complete_view.rejectedreason');
     	} else if ($testingSystem == 'vl') {
     		$table = "viralsample_complete_view";
-    		$model = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.original_batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','viralsample_complete_view.result','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
+    		$model = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.batch_id','viralsample_complete_view.original_batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','viralsample_complete_view.result','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
     						->leftJoin('labs', 'labs.id', '=', 'viralsample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsample_complete_view.facility_id')
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'viralsample_complete_view.rejectedreason');
@@ -359,8 +399,11 @@ class GenerealController extends Controller
     	$data = [];
     	$count = 1;
     	$dataSet = $model->get();
-    	
+        $sessionData = (object)session('searchParams');
+
     	foreach ($dataSet as $key => $value) {
+            $print = "<a href='". url("printindividualresult/$testingSystem/$value->id") ."'><img src='".asset('img/print.png')."' />&nbsp;Result</a>&nbsp;|&nbsp;<a href='". url("printbatchsummary/$testingSystem/$value->batch_id") ."'><img src='".asset('img/print.png')."' />&nbsp;Summary</a>&nbsp;|&nbsp;<a href='". url("printindividualbatch/$testingSystem/$value->batch_id") ."'><img src='".asset('img/print.png')."' />&nbsp;Batch-Individual</a>";
+
             if ($testingSystem == 'eid') {
                 if ($value->result == "Negative") {
                     $result = "<span class='label label-success'>$value->result</span>";
@@ -379,12 +422,13 @@ class GenerealController extends Controller
     		$data[] = [
     					$count, $value->patient,
     					$value->facility, $value->lab,
-    					"<a href='#'>".$value->original_batch_id."</a>", $value->receivedstatus_name,
+    					"<a href='". url("batchsearchresult/$testingSystem/$value->batch_id") ."'>".$value->original_batch_id."</a>", 
+                        $value->receivedstatus_name,
     					($value->datecollected) ? date('d-M-Y', strtotime($value->datecollected)) : '', 
                         ($value->datereceived) ? date('d-M-Y', strtotime($value->datereceived)) : '', 
                         ($value->datetested) ? date('d-M-Y', strtotime($value->datetested)) : '', 
                         ($value->datedispatched) ? date('d-M-Y', strtotime($value->datedispatched)) : '', 
-    					$result, "<a href='". url("printindividualresult/$testingSystem/$value->id") ."'><img src='".asset('img/print.png')."' />&nbsp;Result</a>"
+    					$result, $print
     				];
     		$count++;
     	}

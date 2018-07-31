@@ -54,6 +54,8 @@ Route::middleware(['web', 'auth'])->group(function(){
 	// ---- Search Results ----
 	// ---- Print Result ----
 	Route::get('printindividualresult/{testSysm}/{sample}', 'GenerealController@print_individual')->name('printindividualresult');
+	Route::get('printindividualbatch/{testSysm}/{batch}', 'GenerealController@print_batch_individual')->name('printindividualbatch');
+	Route::get('printbatchsummary/{testSysm}/{batch}', 'GenerealController@print_batch_summary')->name('printbatchsummary');
 	// ---- Print Result ----
 	// ---- Search AJAX ----
 	Route::get('eidresults', 'GenerealController@eidresults')->name('eidresults');
