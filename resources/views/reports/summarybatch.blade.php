@@ -55,7 +55,7 @@
 		</tr>
 		<tr>
 			<td colspan="5">
-				<strong> Batch No.: {{ $batch->original_batch_id }} &nbsp;&nbsp; {{ $batch->facility->name ?? '' }} </strong> 
+				<strong> Batch No.: {{ $batch->original_batch_id }} &nbsp;&nbsp; {{ $batch->view_facility->name ?? '' }} </strong> 
 			</td>
 			<td colspan="4">
 				<strong>LAB: {{ $batch->lab->name ?? '' }}</strong>
@@ -74,15 +74,15 @@
 			<td colspan='3'>Date Samples Were Dispatched :  {{ $batch->my_date_format('datedispatched')  }}</td>				
 		</tr>
 		<tr>
-			<td>Facility Name: {{ $batch->facility->name }} </td>
-			<td>Contact: {{ $batch->facility->contactperson ?? '' }} </td>
-			<td>Tel(personal): {{ $batch->facility->contacttelephone ?? '' }} </td>
+			<td>Facility Name: {{ $batch->view_facility->name }} </td>
+			<td>Contact: {{ $batch->view_facility->contactperson ?? '' }} </td>
+			<td>Tel(personal): {{ $batch->view_facility->contacttelephone ?? '' }} </td>
 		</tr>
 		<tr>
-			<td colspan='3'>Receiving Address (via Courier): {{ $batch->facility->PostalAddress }}</td>
+			<td colspan='3'>Receiving Address (via Courier): {{ $batch->view_facility->PostalAddress ?? '' }}</td>
 		</tr>
 		<tr>
-			<td colspan='3'>Email (optional-where provided results will be emailed and also sent by courier ):  {{ $batch->facility->email }}</td>
+			<td colspan='3'>Email (optional-where provided results will be emailed and also sent by courier ):  {{ $batch->view_facility->email ?? '' }}</td>
 		</tr>
 	</table>
 	<br />

@@ -293,7 +293,7 @@ class GenerealController extends Controller
         $samples = $batch->sample;
         $data['samples'] = $samples->load($relationships);
         $data = (object)$data;
-        dd($data);
+        
         return view('reports.individualbatch', compact('data'));
     }
 
@@ -310,7 +310,7 @@ class GenerealController extends Controller
             $data['batches'] = Viralbatch::with(['sample.patient', 'view_facility', 'lab', 'receiver', 'creator'])->where('id', '=', $batch)->get();
             $id = $data['batches']->first()->original_batch_id;
         }
-        dd($data);
+        
         $mpdf = new Mpdf(['format' => 'A4-L']);
         $view_data = view('reports.summarybatch', $data)->render();
         $mpdf->WriteHTML($view_data);
