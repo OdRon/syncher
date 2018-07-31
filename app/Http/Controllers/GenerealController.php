@@ -303,13 +303,18 @@ class GenerealController extends Controller
             $data = Lookup::get_eid_lookups();
             $data['testingSys'] = 'EID';
             $data['batches'] = Batch::with(['sample.patient.mother', 'facility', 'lab', 'receiver', 'creator'])->where('id', '=', $batch)->get();
+            $id = $data['batches']->first()->original_batch_id;
         } else if ($testingSystem == 'VL') {
             $data = Lookup::get_viral_lookups();
             $data['testingSys'] = 'VL';
             $data['batches'] = Viralbatch::with(['sample.patient', 'facility', 'lab', 'receiver', 'creator'])->where('id', '=', $batch)->get();
+            $id = $data['batches']->first()->original_batch_id;
         }
         
-        return view('reports.summarybatch', $data)->with('','');
+        $mpdf = new Mpdf(['format' => 'A4-L']);
+        $view_data = view('reports.summarybatch', $data)->render();
+        $mpdf->WriteHTML($view_data);
+        $mpdf->Output("$testingSystem Batch $id summary.pdf", \Mpdf\Output\Destination::DOWNLOAD);
     }
 
     public function eidresults(Request $request) {
