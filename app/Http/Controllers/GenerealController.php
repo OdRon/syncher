@@ -283,13 +283,15 @@ class GenerealController extends Controller
             $data = Lookup::get_eid_lookups();
             $batch = Batch::with('sample')->where('id', '=', $batch)->first();
             $data['testingSys'] = 'EID';
+            $relationships = ['patient.mother', 'batch.lab', 'batch.facility', 'batch.receiver', 'batch.creator'];
         } else if ($testingSystem == 'VL') {
-            $data = Lookup::get_vl_lookups();
+            $data = Lookup::get_viral_lookups();
             $batch = Viralbatch::with('sample')->where('id', '=', $batch)->first();
             $data['testingSys'] = 'VL';
+            $relationships = ['patient', 'approver', 'batch.lab', 'batch.facility', 'batch.receiver', 'batch.creator'];
         }
         $samples = $batch->sample;
-        $data['samples'] = $samples->load(['patient.mother', 'batch.lab', 'batch.facility', 'batch.receiver', 'batch.creator']);
+        $data['samples'] = $samples->load($relationships);
         $data = (object)$data;
         // dd($data);
         return view('reports.individualbatch', compact('data'));
