@@ -283,12 +283,12 @@ class GenerealController extends Controller
             $data = Lookup::get_eid_lookups();
             $batch = Batch::with('sample')->where('id', '=', $batch)->first();
             $data['testingSys'] = 'EID';
-            $relationships = ['patient.mother', 'batch.lab', 'batch.facility', 'batch.receiver', 'batch.creator'];
+            $relationships = ['patient.mother', 'batch.lab', 'batch.view_facility', 'batch.receiver', 'batch.creator'];
         } else if ($testingSystem == 'VL') {
             $data = Lookup::get_viral_lookups();
             $batch = Viralbatch::with('sample')->where('id', '=', $batch)->first();
             $data['testingSys'] = 'VL';
-            $relationships = ['patient', 'approver', 'batch.lab', 'batch.facility', 'batch.receiver', 'batch.creator'];
+            $relationships = ['patient', 'approver', 'batch.lab', 'batch.view_facility', 'batch.receiver', 'batch.creator'];
         }
         $samples = $batch->sample;
         $data['samples'] = $samples->load($relationships);
@@ -302,12 +302,12 @@ class GenerealController extends Controller
         if ($testingSystem == 'EID') {
             $data = Lookup::get_eid_lookups();
             $data['testingSys'] = 'EID';
-            $data['batches'] = Batch::with(['sample.patient.mother', 'facility', 'lab', 'receiver', 'creator'])->where('id', '=', $batch)->get();
+            $data['batches'] = Batch::with(['sample.patient.mother', 'view_facility', 'lab', 'receiver', 'creator'])->where('id', '=', $batch)->get();
             $id = $data['batches']->first()->original_batch_id;
         } else if ($testingSystem == 'VL') {
             $data = Lookup::get_viral_lookups();
             $data['testingSys'] = 'VL';
-            $data['batches'] = Viralbatch::with(['sample.patient', 'facility', 'lab', 'receiver', 'creator'])->where('id', '=', $batch)->get();
+            $data['batches'] = Viralbatch::with(['sample.patient', 'view_facility', 'lab', 'receiver', 'creator'])->where('id', '=', $batch)->get();
             $id = $data['batches']->first()->original_batch_id;
         }
         dd($data);
