@@ -2,9 +2,10 @@
 
 namespace App;
 
+use App\Common;
 use Carbon\Carbon;
 
-class Misc
+class Misc extends Common
 {
 
     public static function getTotalHolidaysinMonth($month)
@@ -89,19 +90,6 @@ class Misc
 	    }*/
 
 	    return $workingDays;
-	}
-
-	public static function get_days($start, $finish, $holidays){
-
-		$workingdays= self::getWorkingDays($start, $finish);
-
-		$totaldays = $workingdays - $holidays;
-		if ($totaldays < 0)
-		{
-			$totaldays=1;
-		}
-		return $totaldays;
-
 	}
 
 	public static function get_new_id($samples_array, $parent_id)

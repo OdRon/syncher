@@ -7,6 +7,11 @@ use App\BaseModel;
 class Sample extends BaseModel
 {
 
+    public function tat($datedispatched)
+    {
+        return \App\Misc::working_days($this->datecollected, $datedispatched);
+    }
+
     public function patient()
     {
     	return $this->belongsTo('App\Patient');
@@ -27,6 +32,16 @@ class Sample extends BaseModel
     public function child()
     {
         return $this->hasMany('App\Sample', 'parentid');
+    }
+
+    public function reviewer()
+    {
+        return $this->belongsTo('App\User', 'reviewedby');
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo('App\User', 'approvedby');
     }
 
     public function scopeLocate($query, $original)

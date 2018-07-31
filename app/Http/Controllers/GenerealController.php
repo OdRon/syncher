@@ -298,7 +298,18 @@ class GenerealController extends Controller
     }
 
     public function print_batch_summary($testingSystem, $batch) {
-
+        $testingSystem = strtoupper($testingSystem);
+        if ($testingSystem == 'EID') {
+            $data = Lookup::get_eid_lookups();
+            $data['testingSys'] = 'EID';
+            $data['batches'] = Batch::with(['sample.patient.mother', 'facility', 'lab', 'receiver', 'creator'])->where('id', '=', $batch)->get();
+        } else if ($testingSystem == 'VL') {
+            $data = Lookup::get_viral_lookups();
+            $data['testingSys'] = 'VL';
+            $data['batches'] = Viralbatch::with(['sample.patient', 'facility', 'lab', 'receiver', 'creator'])->where('id', '=', $batch)->get();
+        }
+        
+        return view('reports.summarybatch', $data)->with('','');
     }
 
     public function eidresults(Request $request) {
