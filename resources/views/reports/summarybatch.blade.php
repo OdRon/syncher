@@ -55,7 +55,7 @@
 		</tr>
 		<tr>
 			<td colspan="5">
-				<strong> Batch No.: {{ $batch->original_batch_id }} &nbsp;&nbsp; {{ $batch->facility->name }} </strong> 
+				<strong> Batch No.: {{ $batch->original_batch_id }} &nbsp;&nbsp; {{ $batch->facility->name ?? '' }} </strong> 
 			</td>
 			<td colspan="4">
 				<strong>LAB: {{ $batch->lab->name ?? '' }}</strong>
