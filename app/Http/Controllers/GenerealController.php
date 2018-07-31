@@ -357,7 +357,7 @@ class GenerealController extends Controller
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'sample_complete_view.rejectedreason');
     	} else if ($testingSystem == 'vl') {
     		$table = "viralsample_complete_view";
-    		$model = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.batch_id','viralsample_complete_view.original_batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','viralsample_complete_view.result','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
+    		$model = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.batch_id','viralsample_complete_view.original_batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','viralsample_complete_view.result','viralsample_complete_view.units','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
     						->leftJoin('labs', 'labs.id', '=', 'viralsample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsample_complete_view.facility_id')
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'viralsample_complete_view.rejectedreason');
@@ -400,7 +400,7 @@ class GenerealController extends Controller
     	$count = 1;
     	$dataSet = $model->get();
         $sessionData = (object)session('searchParams');
-
+        
     	foreach ($dataSet as $key => $value) {
             $print = "<a href='". url("printindividualresult/$testingSystem/$value->id") ."'><img src='".asset('img/print.png')."' />&nbsp;Result</a>&nbsp;|&nbsp;<a href='". url("printbatchsummary/$testingSystem/$value->batch_id") ."'><img src='".asset('img/print.png')."' />&nbsp;Summary</a>&nbsp;|&nbsp;<a href='". url("printindividualbatch/$testingSystem/$value->batch_id") ."'><img src='".asset('img/print.png')."' />&nbsp;Batch-Individual</a>";
 
@@ -414,9 +414,9 @@ class GenerealController extends Controller
                 if ($value->result == '< LDL copies/ml') {
                     $result = "<span class='label label-success'>$value->result</span>";
                 } else if (intval($value->result) < 1000) {
-                    $result = "<span class='label label-success'>$value->result</span>";
+                    $result = "<span class='label label-success'>$value->result&nbsp;$value->units</span>";
                 } else {
-                    $result = "<span class='label label-danger'>$value->result</span>";
+                    $result = "<span class='label label-danger'>$value->result&nbsp;$value->units</span>";
                 }
             }
     		$data[] = [
