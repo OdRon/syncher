@@ -24,6 +24,7 @@
 
 @section('content')
 @php
+    $sessionMonth = (null !== Session('followupMonth')) ? date("F", mktime(null, null, null, Session('followupMonth'))) : '';
     $defaultmonth = date('Y');
 @endphp
 <div class="content">
@@ -53,7 +54,7 @@
         <div class="col-lg-12">
             <div class="hpanel">
                 <div class="alert alert-danger">
-                    <center>* To Update HEI Enrollment Status below, Click on 'Click Here to Fill Follow Up Details' Link on the ' Infants of NOT Documented Online ({{ $defaultmonth }}) Row .</center>
+                    <center>* To Update HEI Enrollment Status below, Click on 'Click Here to Fill Follow Up Details' Link on the ' Infants of NOT Documented Online {{ $sessionMonth }} {{ Session('followupYear') ?? date('Y') }}) Row .</center>
                 </div>
                 <div class="panel-body">
                     <table class="table table-striped table-bordered table-hover" >
@@ -62,12 +63,7 @@
                                 <th colspan="2" style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
                                     <div class="alert alert-success">
                                         <center>Infants for Validation
-                                            <strong>[
-                                            @if(null !== Session::pull('followupMonth'))
-                                                {{ date("F", mktime(null, null, null, Session::pull('followupMonth'))) }}
-                                            @endif
-                                             {{ Session('followupYear') ?? date('Y') }}]
-                                            </strong>
+                                            <strong>[{{ $sessionMonth }} {{ Session('followupYear') ?? date('Y') }}]</strong>
                                         </center>
                                     </div>
                                 </th>
@@ -194,12 +190,7 @@
                                 <th colspan="2" style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
                                     <div class="alert alert-success">
                                         <center>Cumulative Infants for Validation
-                                            <strong>[
-                                            @if(null !== Session::pull('followupMonth'))
-                                                {{ date("F", mktime(null, null, null, Session::pull('followupMonth'))) }}
-                                            @endif
-                                             {{ Session('followupYear') ?? date('Y') }}]
-                                            </strong>
+                                            {{--<strong>[{{ $sessionMonth }} {{ Session('followupYear') ?? date('Y') }}]</strong>--}}
                                         </center>
                                     </div>
                                 </th>
