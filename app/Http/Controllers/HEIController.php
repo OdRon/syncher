@@ -74,6 +74,9 @@ class HEIController extends Controller
     	$data['hei_validation'] = DB::table('hei_validation')->get();
         $data['duration'] = $duration;
         $data['validation'] = ($validation==null) ? 'null' : $validation;
+        if ($validation == null || strtolower($validation) == 'null')
+            $validation = null;
+        
     	$data['patients'] = self::__getPatients($year,$month,$duration,$validation);
         if (isset($validation))
             $data['edit'] = true;
@@ -254,6 +257,7 @@ class HEIController extends Controller
             $model = $model->where('sample_complete_view.hei_validation', '=', 0)
                     ->orWhereNull('sample_complete_view.hei_validation');
         }
+        // dd($model->toSql());
         return $model->get();
     }
 }
