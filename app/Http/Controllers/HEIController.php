@@ -204,6 +204,8 @@ class HEIController extends Controller
     {
         if(!($duration == 'outcomes' || $duration || 'cumulative' || $duration == null))
             return back();
+        if ($validation == null || strtolower($validation) == 'null')
+            $validation = null;
         
     	$usertype = auth()->user()->user_type_id;
         $model = SampleCompleteView::selectRaw("distinct sample_complete_view.patient_id, sample_complete_view.patient, sample_complete_view.original_patient_id, sample_complete_view.ccc_no, sample_complete_view.patient, sample_complete_view.gender_description, sample_complete_view.dob, sample_complete_view.dateinitiatedontreatment, sample_complete_view.hei_validation, sample_complete_view.enrollment_ccc_no, sample_complete_view.enrollment_status, sample_complete_view.referredfromsite, sample_complete_view.otherreason, view_facilitys.name as facility, view_facilitys.county, view_facilitys.facilitycode")
@@ -254,6 +256,7 @@ class HEIController extends Controller
             $model = $model->where('sample_complete_view.hei_validation', '=', 0)
                     ->orWhereNull('sample_complete_view.hei_validation');
         }
+        // dd($model->toSql());
         return $model->get();
     }
 }
