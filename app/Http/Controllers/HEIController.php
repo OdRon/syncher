@@ -59,7 +59,7 @@ class HEIController extends Controller
     			}
                 
     			$save = $this->saveHeis($data);
-    			session(['toast_message'=>'Follow up for the '.$actualCount.' patients complete']);
+    			session(['toast_message'=>'Follow up for the patients complete']);
     			
                 return redirect('hei/followup');
     		}
