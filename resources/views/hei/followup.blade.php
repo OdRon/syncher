@@ -27,6 +27,28 @@
     $defaultmonth = date('Y');
 @endphp
 <div class="content">
+    <div class="row" style="margin-bottom: 1em;">
+        <!-- Year -->
+        <div class="col-md-6">
+            <center><h5>Year Filter</h5></center>
+            @for ($i = 0; $i <= 9; $i++)
+                @php
+                    $year=Date('Y')-$i
+                @endphp
+                <a href='{{ url("hei/followup/$data->duration/$data->validation/$year") }}'>{{ Date('Y')-$i }}</a> |
+            @endfor
+        </div>
+        <!-- Year -->
+        <!-- Month -->
+        <div class="col-md-6">
+            <center><h5>Month Filter</h5></center>
+            @for ($i = 1; $i <= 12; $i++)
+                <a href='{{ url("hei/followup/$data->duration/$data->validation/null/$i") }}'>{{ date("F", mktime(null, null, null, $i)) }}</a> |
+            @endfor
+        </div>
+        <!-- Month -->
+    </div>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="hpanel">
