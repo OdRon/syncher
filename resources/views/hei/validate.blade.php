@@ -146,7 +146,7 @@
                                     <a href="{{ url('hei/followup/outcomes/other') }}" style="color: blue;">Click to View</a>
                                 </td>
                             </tr>
-                            <tr>
+                            {{--<tr>
                                 <th>
                                     Infants with Other validations
                                 </th>
@@ -156,7 +156,7 @@
                                     &nbsp;&nbsp;
                                     <a href="" style="color: blue;">Click to View</a>
                                 </td>
-                            </tr>
+                            </tr>--}}
                             <tr>
                                 <th style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
                                     <div class="alert alert-warning">
@@ -273,7 +273,7 @@
                                     <a href="" style="color: blue;">Click to View</a>
                                 </td>
                             </tr>
-                            <tr>
+                            {{--<tr>
                                 <th>
                                     Cumulative Infants with Other validations
                                 </th>
@@ -283,7 +283,7 @@
                                     &nbsp;&nbsp;
                                     <a href="" style="color: blue;">Click to View</a>
                                 </td>
-                            </tr>
+                            </tr>--}}
                             <tr>
                                 <th style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
                                     <div class="alert alert-warning">
