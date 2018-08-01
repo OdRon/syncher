@@ -190,10 +190,28 @@
             if(str == "Check All"){
                 $(".checks").prop('checked', true);
                 $(this).html("Uncheck All");
+                @foreach($data->patients as $key => $sample)
+                    @php
+                        $key += 1;
+                    @endphp
+                    $("#hei_validation{{ $key }}").removeAttr('disabled');
+                    $("#hei_validation{{ $key }}").attr('required','true');
+                    $("#enrollment_status{{ $key }}").removeAttr('disabled');
+                    $("#enrollment_status{{ $key }}").attr('required','true');
+                @endforeach
             }
             else{
                 $(".checks").prop('checked', false); 
-                $(this).html("Check All");           
+                $(this).html("Check All");
+                @foreach($data->patients as $key => $sample)
+                    @php
+                        $key += 1;
+                    @endphp
+                    $("#hei_validation{{ $key }}").removeAttr('required');
+                    $("#hei_validation{{ $key }}").attr('disabled','true');
+                    $("#enrollment_status{{ $key }}").removeAttr('required');
+                    $("#enrollment_status{{ $key }}").attr('disabled','true');
+                @endforeach         
             }
         });
 
