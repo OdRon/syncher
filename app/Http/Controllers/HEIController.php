@@ -35,8 +35,14 @@ class HEIController extends Controller
         return view('hei.validate', compact('data'))->with('pageTitle','HEI Follow Up');
     }
 
-    public function followup(Request $request,$duration='outcomes',$validation=null)
+    public function followup(Request $request,$duration='outcomes',$validation=null,$year=null,$month=null)
     {
+        if (!($year == null || strtolower($year) == 'null'))
+            session(['followupYear'=>$year]);
+            session()->forget('followupMonth');
+        if (!($month == null || strtolower($month) == 'null')) 
+            session(['followupMonth'=>$month]);
+        
         $year = session('followupYear');
     	$month = session('followupMonth');
         $data['edit'] = false;
@@ -67,6 +73,8 @@ class HEIController extends Controller
     	
     	$data['hei_categories'] = DB::table('hei_categories')->get();
     	$data['hei_validation'] = DB::table('hei_validation')->get();
+        $data['duration'] = $duration;
+        $data['validation'] = ($validation==null) ? 'null' : $validation;
     	$data['patients'] = self::__getPatients($year,$month,$duration,$validation);
         if (isset($validation))
             $data['edit'] = true;
