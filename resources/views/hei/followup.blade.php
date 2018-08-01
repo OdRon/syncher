@@ -152,7 +152,7 @@
                                         <td><textarea  class="form-control" name="other_reason{{ $count }}" id="other_reason{{ $count }}" value="{{ $sample->otherreason ?? '' }}" disabled></textarea></td>
                                     </tr>
                                 @empty
-                                    <tr><td><center>No Data available</center></td></tr>
+                                    <tr><td colspan="12"><center>No Data available</center></td></tr>
                                 @endforelse
                             </tbody>
                         </table>
