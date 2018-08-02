@@ -118,7 +118,7 @@ class EidCountyPositives extends Mailable
     public function build()
     {
         $this->attach($this->path, ['as' => $this->title]);
-        $this->attach(public_path('attachments/HEIValidationToolGuide.pdf'));
+        $this->attach(public_path('downloads/HEIValidationToolGuide.pdf'));
         return $this->subject($this->title)->view('mail.hei_validation');
     }
 }
