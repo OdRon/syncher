@@ -32,6 +32,15 @@ class Lookup
         return $years;
     }
 
+    public static function previous_dob($class_name=null, $patient=null, $facility_id=null)
+    {
+        $row = $class_name::where(['patient' => $patient, 'facility_id' => $facility_id])
+                    ->whereNotIn('dob', ['0000-00-00', ''])
+                    ->whereNotNull('dob')
+                    ->first();
+        return self::clean_date($row->dob);
+    }
+
     public static function calculate_dob($datecollected, $years, $months, $class_name=null, $patient=null, $facility_id=null)
     {        
         $datecollected = self::clean_date($datecollected);
@@ -42,7 +51,7 @@ class Lookup
                         ->where('age', '!=', 0)
                         ->whereNotIn('datecollected', ['0000-00-00', ''])
                         ->whereNotNull('datecollected')
-                        ->get()->first();
+                        ->first();
             if($row){
                 $mydate = self::clean_date($row->datecollected);
                 if(!$mydate) return null;
@@ -80,7 +89,7 @@ class Lookup
         else{
             if(!$class_name) return 3;
             $row = $class_name::where(['patient' => $patient, 'facility_id' => $facility_id])
-                        ->whereRaw("(gender = 'M' or gender = 'F')")->get()->first();
+                        ->whereRaw("(gender = 'M' or gender = 'F')")->first();
             if($row) return self::resolve_gender($row->gender);
             return 3;
         }
