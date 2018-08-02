@@ -60,7 +60,7 @@ class LoginController extends Controller
         $facility_id = $request->input('facility_id');
         $batch_no = $request->input('batch_no');
 
-        $batch = Batch::find($batch_no);
+        $batch = Batch::where('original_batch_id', '=', $batch_no)->get()->first();
 
         if($batch){
             if($batch->outdated()) return $this->failed_facility_login(); 
@@ -75,7 +75,7 @@ class LoginController extends Controller
             }
         }
 
-        $batch = Viralbatch::find($batch_no);
+        $batch = Viralbatch::where('original_batch_id', '=', $batch_no)->get()->first();
 
         if($batch){
             if($batch->outdated()) return $this->failed_facility_login(); 

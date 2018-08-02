@@ -16,11 +16,15 @@
 <aside id="menu">
     <div id="navigation">
         <ul class="nav" id="side-menu" style=" padding-top: 12px;padding-left: 8px;">
-        @if (Auth::user()->user_type_id == 1)
+        @if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 4)
             <li><a href="{{ url('user/add') }}">Add Users</a></li>
             <hr />
+        @endif
+        @if (Auth::user()->user_type_id == 1)
             <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
             <hr />
+        @elseif(Auth::user()->user_type_id == 9)
+
         @else
             @if(Auth::user()->user_type_id == 8)
                 <li><a href="{{ url('results/EID') }}">EID Batch Results</a></li>
@@ -41,10 +45,6 @@
                     <hr />
                     @if(Auth::user()->user_type_id != 2)
                         @if(Auth::user()->user_type_id != 8)
-                            @if(Auth::user()->user_type_id == 4)
-                                <li><a href="{{ url('users') }}">Users</a></li>
-                                <hr />
-                            @endif
                             <li><a href="{{ url('sites') }}">Facilities</a></li>
                             <hr />
                             <li><a href="#">User Guide</a></li>
@@ -73,19 +73,11 @@
             @endif
             
             @if(Auth::user()->user_type_id != 6)
-                @if(session('testingSystem') == 'Viralload')
-                    <li><a href="#"><select class="form-control" id="sidebar_viralfacility_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_viralbatch_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_viralpatient_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_viralworksheet_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_virallabID_search"></select></a></li>
-                @else
-                    <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_batch_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_patient_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_worksheet_search"></select></a></li>
-                    <li><a href="#"><select class="form-control" id="sidebar_labID_search"></select></a></li>
+                @if(Auth::user()->user_type_id != 8)
+                <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
                 @endif
+                <li><a href="#"><select class="form-control" id="sidebar_batch_search"></select></a></li>
+                <li><a href="#"><select class="form-control" id="sidebar_patient_search"></select></a></li>
             @endif
         @endif
         </ul>

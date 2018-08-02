@@ -21,12 +21,15 @@ class GeneralComposer
     {
         $data = [];
         $usertype = auth()->user()->user_type_id;
+
         if ($usertype == 1) {
             $data = (object)['name'=>'System Administrator'];
         } else if ($usertype == 2) {
             $data = (object)['name'=>'Program Officer'];
         } else if ($usertype == 6) {
             $data = (object)['name'=>'National'];
+        } else if ($usertype == 9) {
+            $data = (object)['name'=>'Maryland Support Team'];
         } else {
             $user = ViewFacility::when($usertype, function ($query) use ($usertype){
                                 if ($usertype == 3)

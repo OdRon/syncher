@@ -29,7 +29,11 @@
             <div class="col-lg-12">
                 <div class="hpanel">
                     <div class="alert alert-success">
+                    @if(Auth::user()->user_type_id == 9)
+                        <center>Report Outcomes</center>
+                    @else
                         <center>Test Outcome Report [ All Tested Samples ]</center>
+                    @endif
                     </div>
                     <div class="panel-body">
                         <div class="alert alert-warning">
@@ -44,92 +48,106 @@
                                     <input type="radio" name="category" class="i-checks" value="overall">Overall
                                 </label>
                                 <div class="col-sm-9">
-                                    @if(Auth::user()->user_type_id == 3)
-                                        << For all Sites Under {{ $user->name }} >>
-                                    @elseif(Auth::user()->user_type_id == 4)
-                                        << For all Sites Under {{ $user->name }} >>
-                                    @elseif(Auth::user()->user_type_id == 5)
+                                    @if(Auth::user()->user_type_id == 9)
+                                        << By County / Partner / Lab >>
+                                    @else
                                         << For all Sites Under {{ $user->name }} >>
                                     @endif
                                 </div>
                             </div>
-                            @else
-
                             @endif
-                            @if(Auth::user()->user_type_id == 2)
+                            @if(Auth::user()->user_type_id == 9)
                                 <div class="row">
                                     <label class="col-sm-3 control-label">
-                                        <input type="radio" name="category" value="partner" class="i-checks">Select Partner
+                                        <input type="radio" name="category" value="lab" class="i-checks">Select Lab
                                     </label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" name="partner" id="partner">
-                                            <option value="" selected disabled>Select Partner</option>
-                                        @forelse($partners as $partner)
-                                            <option value="{{ $partner->id }}">{{ $partner->name }}</option>
+                                        <select class="form-control" name="lab" id="lab">
+                                            <option value="" selected disabled>Select Lab</option>
+                                        @forelse($labs as $lab)
+                                            <option value="{{ $lab->id }}">{{ $lab->name }}</option>
                                         @empty
-                                            <option value="" disabled>No Partner available</option>
+                                            <option value="" disabled>No Lab available</option>
+                                        @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+                            @else
+                                @if(Auth::user()->user_type_id == 2)
+                                    <div class="row">
+                                        <label class="col-sm-3 control-label">
+                                            <input type="radio" name="category" value="partner" class="i-checks">Select Partner
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="partner" id="partner">
+                                                <option value="" selected disabled>Select Partner</option>
+                                            @forelse($partners as $partner)
+                                                <option value="{{ $partner->id }}">{{ $partner->name }}</option>
+                                            @empty
+                                                <option value="" disabled>No Partner available</option>
+                                            @endforelse
+                                            </select>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if(Auth::user()->user_type_id != 4)
+                                    @if(Auth::user()->user_type_id != 5)
+                                        @if(Auth::user()->user_type_id != 6)
+                                        <div class="row">
+                                            <label class="col-sm-3 control-label">
+                                                <input type="radio" name="category" value="county" class="i-checks">Select County
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="county" id="county">
+                                                    <option value="" selected disabled>Select County</option>
+                                                @forelse($countys as $county)
+                                                    <option value="{{ $county->county_id }}">{{ $county->county }}</option>
+                                                @empty
+                                                    <option value="" disabled>No County available</option>
+                                                @endforelse
+                                                </select>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endif
+                                @endif
+                                @if(Auth::user()->user_type_id != 2)
+                                    @if(Auth::user()->user_type_id != 5)
+                                        @if(Auth::user()->user_type_id != 6)
+                                        <div class="row">
+                                            <label class="col-sm-3 control-label">
+                                                <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
+                                            </label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="district" id="district">
+                                                    <option value="" selected disabled>Select Sub-County</option>
+                                                @forelse($subcountys as $subcounty)
+                                                    <option value="{{ $subcounty->subcounty_id }}">{{ $subcounty->subcounty }}</option>
+                                                @empty
+                                                    <option value="" disabled>No Sub-County available</option>
+                                                @endforelse
+                                                </select>
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endif
+                                @endif
+                                <div class="row">
+                                    <label class="col-sm-3 control-label">
+                                        <input type="radio" name="category" value="facility" class="i-checks">Select Facility
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="facility" id="facility">
+                                            <option value="" selected disabled>Select Facility</option>
+                                        @forelse($facilitys as $facility)
+                                            <option value="{{ $facility->id }}">{{ $facility->name }}</option>
+                                        @empty
+                                            <option value="" disabled>No Facility available</option>
                                         @endforelse
                                         </select>
                                     </div>
                                 </div>
                             @endif
-                            @if(Auth::user()->user_type_id != 4)
-                                @if(Auth::user()->user_type_id != 5)
-                                    @if(Auth::user()->user_type_id != 6)
-                                    <div class="row">
-                                        <label class="col-sm-3 control-label">
-                                            <input type="radio" name="category" value="county" class="i-checks">Select County
-                                        </label>
-                                        <div class="col-sm-9">
-                                            <select class="form-control" name="county" id="county">
-                                                <option value="" selected disabled>Select County</option>
-                                            @forelse($countys as $county)
-                                                <option value="{{ $county->county_id }}">{{ $county->county }}</option>
-                                            @empty
-                                                <option value="" disabled>No County available</option>
-                                            @endforelse
-                                            </select>
-                                        </div>
-                                    </div>
-                                    @endif
-                                @endif
-                            @endif
-                            @if(Auth::user()->user_type_id != 2)
-                                @if(Auth::user()->user_type_id != 5)
-                                    @if(Auth::user()->user_type_id != 6)
-                                    <div class="row">
-                                        <label class="col-sm-3 control-label">
-                                            <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
-                                        </label>
-                                        <div class="col-sm-9">
-                                            <select class="form-control" name="district" id="district">
-                                                <option value="" selected disabled>Select Sub-County</option>
-                                            @forelse($subcountys as $subcounty)
-                                                <option value="{{ $subcounty->subcounty_id }}">{{ $subcounty->subcounty }}</option>
-                                            @empty
-                                                <option value="" disabled>No Sub-County available</option>
-                                            @endforelse
-                                            </select>
-                                        </div>
-                                    </div>
-                                    @endif
-                                @endif
-                            @endif
-                            <div class="row">
-                                <label class="col-sm-3 control-label">
-                                    <input type="radio" name="category" value="facility" class="i-checks">Select Facility
-                                </label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="facility" id="facility">
-                                        <option value="" selected disabled>Select Facility</option>
-                                    @forelse($facilitys as $facility)
-                                        <option value="{{ $facility->id }}">{{ $facility->name }}</option>
-                                    @empty
-                                        <option value="" disabled>No Facility available</option>
-                                    @endforelse
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Select Period</label>
@@ -141,10 +159,14 @@
                                     <option value="quarterly">Quarterly</option>
                                     <option value="annually">Annually</option>
                                 </select> -->
+                                @if(Auth::user()->user_type_id != 9)
                                 <label> <input type="radio" name="period" value="range"> Date Range </label>
+                                @endif
                                 <label> <input type="radio" name="period" value="monthly"> Monthly </label>
                                 <label> <input type="radio" name="period" value="quarterly"> Quarterly </label>
+                                @if($testtype == 'EID' || Auth::user()->user_type_id == 9)
                                 <label> <input type="radio" name="period" value="annually"> Annually </label>
+                                @endif
                             </div>
                             <div class="row" id="periodSelection" style="display: none;">
                                 <div class="col-md-12" id="rangeSelection">
@@ -175,9 +197,9 @@
                                             <tr>
                                                 <td>Select Year and Month </td>
                                                 <td>
-                                                    <select class="form-control" id="year" name="year">
+                                                    <select class="form-control" id="year" name="year" style="width: 100%;">
                                                         <option selected="true" disabled="true">Select a Year</option>
-                                                        @for ($i = 6; $i >= 0; $i--)
+                                                        @for ($i = 0; $i <= 9; $i++)
                                                             @php
                                                                 $year=Date('Y')-$i
                                                             @endphp
@@ -186,7 +208,7 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select class="form-control" id="month" name="month">
+                                                    <select class="form-control" id="month" name="month" style="width: 100%;">
                                                         <option selected="true" disabled="true">Select a Month</option>
                                                         @for ($i = 1; $i <= 12; $i++)
                                                             <option value="{{ $i }}">{{ date("F", mktime(null, null, null, $i)) }}</option>
@@ -203,9 +225,9 @@
                                             <tr>
                                                 <td>Select Year and Quarter </td>
                                                 <td>
-                                                    <select class="form-control" id="year" name="year">
+                                                    <select class="form-control" id="year" name="year" style="width: 100%;">
                                                         <option selected="true" disabled="true">Select a Year</option>
-                                                        @for ($i = 6; $i >= 0; $i--)
+                                                        @for ($i = 0; $i <= 9; $i++)
                                                             @php
                                                                 $year=Date('Y')-$i
                                                             @endphp
@@ -214,10 +236,21 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select class="form-control" id="quarter" name="quarter">
+                                                    <select class="form-control" id="quarter" name="quarter" style="width: 100%;">
                                                         <option selected="true" disabled="true">Select a Quarter</option>
                                                         @for ($i = 1; $i <= 4; $i++)
-                                                            <option value="Q{{ $i }}">Q{{ $i }}</option>
+                                                            <option value="Q{{ $i }}">
+                                                                Q{{ $i }}
+                                                                @if($i==1)
+                                                                    &nbsp;(Jan - Mar)
+                                                                @elseif($i==2)
+                                                                    &nbsp;(Apr - Jun)
+                                                                @elseif($i==3)
+                                                                    &nbsp;(Jul - Sep)
+                                                                @else
+                                                                    &nbsp;(Oct - Dec)
+                                                                @endif
+                                                            </option>
                                                         @endfor
                                                     </select>
                                                 </td>
@@ -225,15 +258,16 @@
                                         </tbody>
                                     </table>    
                                 </div>
+                                @if($testtype == 'EID' || Auth::user()->user_type_id == 9)
                                 <div class="col-md-12" id="yearSelection">
                                     <table cellpadding="1" cellspacing="1" class="table table-condensed">
                                         <tbody>
                                             <tr>
                                                 <td>Select Year </td>
                                                 <td>
-                                                    <select class="form-control" id="year" name="year">
+                                                    <select class="form-control" id="year" name="year" style="width: 70%;">
                                                         <option selected="true" disabled="true">Select a Year</option>
-                                                        @for ($i = 6; $i >= 0; $i--)
+                                                        @for ($i = 0; $i <= 6; $i++)
                                                             @php
                                                                 $year=Date('Y')-$i
                                                             @endphp
@@ -245,6 +279,7 @@
                                         </tbody>
                                     </table>    
                                 </div>
+                                @endif
                             </div>
                         </div> 
                         <div class="form-group">
@@ -262,26 +297,32 @@
                                     <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes for Validation </label>
                                 @endif
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
-                                @if(Auth::user()->user_type_id != (2 || 6))
+                                @if(Auth::user()->user_type_id != 2)
+                                @if(Auth::user()->user_type_id != 6))
                                 <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <2M </label>
                                 <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
                                 @endif
+                                @endif
                                 @if(Auth::user()->user_type_id == 3)
                                     @if(Auth::user()->user_type_id != 2)
-                                        <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label>
+                                        <!-- <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label> -->
                                         <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>
                                         <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples </label>
                                     @endif
                                 @endif
                             @elseif($testtype == 'VL')
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
-                                <label> <input type="radio" name="indicatortype" value="3" class="i-checks">Rejected</label>
+                                <label> <input type="radio" name="indicatortype" value="5" class="i-checks">Rejected</label>
                                 @if(Auth::user()->user_type_id == 3)
                                     <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> Non Suppressed ( > 1000 cp/ml)</label>
                                     <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Pregnant & Lactating</label>
-                                    <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> Dormant Sites ( Not Sent Samples)</label>
+                                    <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples)</label>
                                     <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples</label>
                                 @endif
+                            @elseif($testtype == 'support')
+                                <label> <input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report </label>
+                                <label> <input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report </label>
+                                <label> <input type="radio" name="indicatortype" value="13" class="i-checks"> Quarterly VL Report (only for labs) </label>
                             @endif
                             </div>
                         </div>
@@ -363,6 +404,9 @@
                 } else if (selValue == 'partner') {
                     category = $("#partner").val();
                     cat = 'Partner';
+                } else if (selValue == 'lab') {
+                    category = $("#lab").val();
+                    cat = 'Lab';
                 }
 
                 if(category == '' || category == null || category == undefined) {

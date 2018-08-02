@@ -37,7 +37,7 @@ class HomeController extends Controller
             if (isset($batch['eid'])) {
                 $batchID = $batch['eid'];
                 $data = Lookup::get_eid_lookups();
-                $batch = Batch::where('id', '=', $batchID)->get()->first();
+                $batch = Batch::where('original_batch_id', '=', $batchID)->get()->first();
                 $batch = $batch->load(['sample.patient.mother','view_facility', 'receiver', 'creator.facility']);
                 $data = (object) $data;
                 // dd($batch);
@@ -45,23 +45,17 @@ class HomeController extends Controller
             } else {
                 $batchID = $batch['vl'];
                 $data = Lookup::get_viral_lookups();
-                $data['batch'] = Viralbatch::where('id', '=', $batchID)->get()->first();
-                $data['samples'] = ViralsampleView::where('batch_id', '=', $batchID)->get();
+                $batch = Viralbatch::where('original_batch_id', '=', $batchID)->get()->first();
+                $batch = $batch->load(['sample.patient','view_facility', 'receiver', 'creator.facility']);
                 $data = (object) $data;
-                // dd($data);
-                return view('tables.viralbatch_details', compact('data'))->with('pageTitle', "VIRAL LOAD Batch :: $batchID");
+                // dd($batch);
+                return view('tables.viralbatch_details', compact('data','batch'))->with('pageTitle', "VIRAL LOAD Batch :: $batchID");
             }
         }
+
+        if(auth()->user()->user_type_id == 9)
+            return redirect('reports/support');
         
         return redirect('reports/EID');
-    }
-
-    public function countysearch(Request $request)
-    {
-        $search = $request->input('search');
-        $county = DB::table('countys')->select('id', 'name', 'letter as facilitycode')
-            ->whereRaw("(name like '%" . $search . "%')")
-            ->paginate(10);
-        return $county;
     }
 }
