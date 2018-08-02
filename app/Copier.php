@@ -55,9 +55,10 @@ class Copier
 
                     if($patient->dob) $patient->dob = Lookup::clean_date($patient->dob);
 
-                    if(!$patient->dob){
-						$patient->dob = Lookup::calculate_dob($value->datecollected, 0, $value->age, SampleView::class, $value->patient, $value->facility_id);
-                    }
+                    if(!$patient->dob) $patient->dob = Lookup::previous_dob(SampleView::class, $value->patient, $value->facility_id);
+
+                    if(!$patient->dob) $patient->dob = Lookup::calculate_dob($value->datecollected, 0, $value->age, SampleView::class, $value->patient, $value->facility_id);
+
 
 					$patient->sex = Lookup::resolve_gender($value->gender, SampleView::class, $value->patient, $value->facility_id);
 					$enrollment_data = self::get_enrollment_data($value->patient, $value->facility_id);
@@ -119,9 +120,9 @@ class Copier
 					$patient = new Viralpatient($value->only($fields['patient']));
 
                     if($patient->dob) $patient->dob = Lookup::clean_date($patient->dob);
-                    if(!$patient->dob){
-						$patient->dob = Lookup::calculate_dob($value->datecollected, $value->age, 0, ViralsampleView::class, $value->patient, $value->facility_id);
-                    }
+
+                    if(!$patient->dob) $patient->dob = Lookup::previous_dob(ViralsampleView::class, $value->patient, $value->facility_id);
+                    if(!$patient->dob) $patient->dob = Lookup::calculate_dob($value->datecollected, $value->age, 0, ViralsampleView::class, $value->patient, $value->facility_id);
 
 					$patient->sex = Lookup::resolve_gender($value->gender, ViralsampleView::class, $value->patient, $value->facility_id);
 					$patient->save();
