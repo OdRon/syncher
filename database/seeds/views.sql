@@ -22,7 +22,7 @@ CREATE OR REPLACE VIEW old_samples_view AS
     s.dateindividualresultprinted,  
 
     p.originalautoid as original_patient_id, s.patient, s.fullnames as patient_name, s.caregiverphoneno as 
-    caregiver_phone, p.gender, m.entry_point,  s.dateinitiatedontreatment,
+    caregiver_phone, p.gender, m.entry_point,  s.dateinitiatedontreatment, p.dob,
 
     m.status as hiv_status
     #, m.cccno as ccc_no
@@ -51,7 +51,7 @@ CREATE OR REPLACE VIEW old_viralsamples_view AS
     s.dateindividualresultprinted, 
 
     p.originalautoid as original_patient_id, s.patient, s.fullnames as patient_name, s.caregiverphoneno as 
-    caregiver_phone, p.gender, p.initiationdate as initiation_date
+    caregiver_phone, p.gender, p.initiationdate as initiation_date, p.dob
 
     FROM viralsamples s
     LEFT JOIN viralpatients p ON p.AutoID=s.patientid

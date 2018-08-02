@@ -38,7 +38,8 @@ class Lookup
                     ->whereNotIn('dob', ['0000-00-00', ''])
                     ->whereNotNull('dob')
                     ->first();
-        return self::clean_date($row->dob);
+        $dob = $row->dob ?? null;
+        return self::clean_date($dob);
     }
 
     public static function calculate_dob($datecollected, $years, $months, $class_name=null, $patient=null, $facility_id=null)
