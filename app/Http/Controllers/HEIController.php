@@ -83,7 +83,7 @@ class HEIController extends Controller
 
         if ($data['edit']) {
             foreach ($data['patients'] as $key => $value) {
-                $data['facilitys'][] = ViewFacility::where('id','=',$value->referredfromsite)->get()->first() ?? null;
+                $data['facilitys'][] = ViewFacility::where('id','=',$value->referredfromsite)->first() ?? null;
             }
         }
         $data = (object)$data;
@@ -99,7 +99,7 @@ class HEIController extends Controller
     {
         foreach ($data as $key => $value) {
     		$value = (object)$value;
-    		$patient = Patient::where('id', '=', $value->id)->get()->first();
+    		$patient = Patient::where('id', '=', $value->id)->first();
             $patient->hei_validation = $value->hei_validation;
     		if ($value->hei_validation == 1) {
     			$patient->enrollment_status = $value->enrollment_status;
@@ -200,7 +200,7 @@ class HEIController extends Controller
                     	} else {
                         	return $query->where('sample_complete_view.enrollment_status', '=', $status);
                         }
-                    })->get()->first()->totalPositives;
+                    })->first()->totalPositives;
     }
 
     public static function __getPatients($year=null,$month=null,$duration=null,$validation=null)

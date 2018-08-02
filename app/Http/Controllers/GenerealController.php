@@ -217,9 +217,9 @@ class GenerealController extends Controller
     		session(['searchParams'=>null]);
     	$testingSystem = strtolower($testtype);
     	if ($testingSystem == 'eid')
-    		$patient = Patient::where('id', '=', $patient)->get()->first();
+    		$patient = Patient::where('id', '=', $patient)->first();
     	if ($testingSystem == 'vl')
-    		$patient = Viralpatient::where('id', '=', $patient)->get()->first();
+    		$patient = Viralpatient::where('id', '=', $patient)->first();
 
     	session(['searchParams'=>['patient_id'=>$patient->id]]);
     	return view('tables.searchresults', compact('testingSystem'))->with('pageTitle', "$testingSystem patient : $patient->patient");
@@ -230,9 +230,9 @@ class GenerealController extends Controller
     		session(['searchParams'=>null]);
     	$testingSystem = strtolower($testtype);
     	if ($testingSystem == 'eid')
-    		$batch = Batch::where('id', '=', $batch)->get()->first();
+    		$batch = Batch::where('id', '=', $batch)->first();
     	if ($testingSystem == 'vl')
-    		$batch = Viralbatch::where('id', '=', $batch)->get()->first();
+    		$batch = Viralbatch::where('id', '=', $batch)->first();
 
     	session(['searchParams'=>['batch_id'=>$batch->id]]);
     	return view('tables.searchresults', compact('testingSystem'))->with('pageTitle', "$testingSystem batch : $batch->original_batch_id");
@@ -241,7 +241,7 @@ class GenerealController extends Controller
     public function facilityresult($facility) {
     	if (null !== session('searchParams'))
     		session(['searchParams'=>null]);
-    	$facility = ViewFacility::where('id', '=', $facility)->get()->first();
+    	$facility = ViewFacility::where('id', '=', $facility)->first();
     	session(['searchParams'=>['facility_id'=>$facility->id]]);
     	return view('tables.searchresults')->with('pageTitle', "$facility->name");
     }
