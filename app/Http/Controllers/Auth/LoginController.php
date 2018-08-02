@@ -60,33 +60,29 @@ class LoginController extends Controller
         $facility_id = $request->input('facility_id');
         $batch_no = $request->input('batch_no');
 
-        $batch = Batch::where('original_batch_id', '=', $batch_no)->get()->first();
-
+        $batch = Batch::where(['original_batch_id' => $batch_no, 'facility_id' => $facility_id])->first();
+        
         if($batch){
             if($batch->outdated()) return $this->failed_facility_login(); 
-            if($batch->facility_id == $facility_id){
-                $user = User::where(['facility_id' => $facility_id, 'user_type_id' => 8])->get()->first();
-                
-                if($user){
-                    session(['batcheLoggedInWith'=>['eid'=>$batch_no]]);
-                    Auth::login($user);
-                    return redirect('/home');
-                }
+            $user = User::where(['facility_id' => $facility_id, 'user_type_id' => 8])->first();
+            
+            if($user){
+                session(['batcheLoggedInWith'=>['eid'=>$batch_no]]);
+                Auth::login($user);
+                return redirect('/home');
             }
         }
 
-        $batch = Viralbatch::where('original_batch_id', '=', $batch_no)->get()->first();
+        $batch = Viralbatch::where(['original_batch_id' => $batch_no, 'facility_id' => $facility_id])->get()->first();
 
         if($batch){
             if($batch->outdated()) return $this->failed_facility_login(); 
-            if($batch->facility_id == $facility_id){
-                $user = User::where(['facility_id' => $facility_id, 'user_type_id' => 8])->get()->first();
+            $user = User::where(['facility_id' => $facility_id, 'user_type_id' => 8])->first();
 
-                if($user){
-                    session(['batcheLoggedInWith'=>['vl'=>$batch_no]]);
-                    Auth::login($user);
-                    return redirect('/home');
-                }
+            if($user){
+                session(['batcheLoggedInWith'=>['vl'=>$batch_no]]);
+                Auth::login($user);
+                return redirect('/home');
             }
         }
         return $this->failed_facility_login(); 
