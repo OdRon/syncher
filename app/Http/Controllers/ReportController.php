@@ -544,11 +544,11 @@ class ReportController extends Controller
             $count = 0;
             foreach ($data as $key => $value) {
                 $newValue = $value->get();
-                $mergeCells = "";
-                for($i=0;$i=sizeof($dataArray[$count]);$i++) {
-                    $mergeCells .= self::$alphabets[$i].'1';
-                }
-                $mergeCellsArray[] = $mergeCells;
+                // $mergeCells = "";
+                // for($i=0;$i=sizeof($dataArray[$count]);$i++) {
+                //     $mergeCells .= self::$alphabets[$i].'1';
+                // }
+                // $mergeCellsArray[] = $mergeCells;
                 // $newdataArray[] = $title;
                 $newdataArray[] = $dataArray[$count];
                 if ($newValue->isNotEmpty()) {
@@ -566,16 +566,16 @@ class ReportController extends Controller
         } else {
             $data = $data->get();
             if($data->isNotEmpty()) {
-                $mergeCells = "";
-                $size = sizeof($dataArray);
-                for($i=0;$i<=$size;$i++) {
-                    if ($size==$i) {
-                        $mergeCells .= self::$alphabets[$i].'1';
-                    } else {
-                        $mergeCells .= self::$alphabets[$i].'1:';
-                    }
-                }
-                $mergeCellsArray[] = $mergeCells;
+                // $mergeCells = "";
+                // $size = sizeof($dataArray);
+                // for($i=0;$i<=$size;$i++) {
+                //     if ($size==$i) {
+                //         $mergeCells .= self::$alphabets[$i].'1';
+                //     } else {
+                //         $mergeCells .= self::$alphabets[$i].'1:';
+                //     }
+                // }
+                // $mergeCellsArray[] = $mergeCells;
                 // $newdataArray[] = $title;
                 $newdataArray[] = $dataArray;
                 foreach ($data as $report) {
