@@ -588,15 +588,13 @@ class ReportController extends Controller
             $finaldataArray[] = $newdataArray;
         }
         // dd($finaldataArray);
-        Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle, $mergeCellsArray) {
+        Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
             $excel->setTitle($title);
             $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
             $excel->setDescription($title);
             foreach ($finaldataArray as $key => $value) {
                 $stitle = $sheetTitle[$key];
-                $count = 0;
-                $excel->sheet($stitle, function($sheet) use ($value,$mergeCellsArray,$count) {
-                    $sheet->mergeCells($mergeCellsArray[$count]);
+                $excel->sheet($stitle, function($sheet) use ($value) {
                     $sheet->fromArray($value, null, 'A1', false, false);
                 });
                 $count++;
