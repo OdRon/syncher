@@ -597,7 +597,7 @@ class ReportController extends Controller
                 $excel->sheet($stitle, function($sheet) use ($value) {
                     $sheet->fromArray($value, null, 'A1', false, false);
                 });
-                $count++;
+                // $count++;
             }
         })->download('xlsx');
     }
