@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Support\Facades\Cache;
 use DB;
 use Carbon\Carbon;
+use Exception;
 
 class Lookup
 {
@@ -106,6 +107,12 @@ class Lookup
             $my = Carbon::parse($mydate);
             return $my->toDateString();
         } catch (Exception $e) {
+            try {
+                $my = Carbon::createFromFormat('d/m/Y', $mydate);
+                return $my->toDateString();                
+            } catch (Exception $exp) {
+                return null;
+            }
             return null;
         }
     }
