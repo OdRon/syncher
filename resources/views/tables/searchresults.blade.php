@@ -35,7 +35,7 @@
                     <li class="{{ $activeVl }}"><a data-toggle="tab" href="#vl-results"><strong>B.) VL RESULTS</strong></a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="eid-results" class="tab-pane active">
+                    <div id="eid-results" class="tab-pane {{ $activeEid }}">
                         <div class="panel-body">
                             <div class="alert alert-warning">
                                 <center>
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="vl-results" class="tab-pane">
+                    <div id="vl-results" class="tab-pane {{ $activeVl }}">
                         <div class="panel-body">
                             <div class="alert alert-warning">
                                 <center>

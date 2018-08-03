@@ -160,7 +160,7 @@ class ReportController extends Controller
                 ->where("$table.repeatt", '=', 0)->where("$table.flag", '=', 1);
 
             if (!($request->indicatortype == 9 || $request->indicatortype == 10)) {
-                $model = $model->where(['repeatt' => 0, 'flag' => 1]);
+                $model = $model->where(['repeatt' => 0, "$table.flag" => 1]);
             }
 
             if ($request->indicatortype == 5) {
@@ -266,7 +266,7 @@ class ReportController extends Controller
                         ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
             }
             if (!($request->indicatortype == 5 || $request->indicatortype == 9 || $request->indicatortype == 10)) {
-                $model = $model->where(['repeatt' => 0, 'flag' => 1]);
+                $model = $model->where(['repeatt' => 0, "$table.flag" => 1]);
             }
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
@@ -340,7 +340,7 @@ class ReportController extends Controller
                 $facilityData = SampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
                                 ->where('site_entry', '=', 1)
-                                ->where('repeatt', '=', 0)->where('flag', '=', 1)
+                                ->where('repeatt', '=', 0)->where("$table.flag", '=', 1)
                                 ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
                                 ->orderBy('samplecount', 'desc');
                 $title .= "EID SAMPLES TESTED ";
@@ -365,7 +365,7 @@ class ReportController extends Controller
                 $facilityData = ViralsampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
                                 ->where('site_entry', '=', 1)
-                                ->where('repeatt', '=', 0)->where('flag', '=', 1)
+                                ->where('repeatt', '=', 0)->where("$table.flag", '=', 1)
                                 ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
                                 ->orderBy('samplecount', 'desc');
                 $title .= "VL SAMPLES TESTED ";
