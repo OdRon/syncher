@@ -584,7 +584,7 @@ class ReportController extends Controller
             } else {
                 $newdataArray[] = [];
             }
-            $sheetTitle[] = $title;
+            $sheetTitle[] = 'Sheet1';
             $finaldataArray[] = $newdataArray;
         }
         // dd($finaldataArray);
