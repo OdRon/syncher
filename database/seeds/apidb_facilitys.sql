@@ -113,7 +113,7 @@ SELECT
 
 `fac`.`id` AS `id`,`fac`.`facilitycode` AS `facilitycode`,`fac`.`name` AS `name`,
 `dis`.`name` AS `subcounty`,`dis`.`id` AS `subcounty_id`,`countys`.`name` AS `county`,`countys`.`id` AS `county_id`,
-`labs`.`name` AS `lab`,`partners`.`name` AS `partner`,`partners`.`id` AS `partner_id`, `fac`.`burden`, 
+`labs`.`name` AS `lab`,`partners`.`name` AS `partner`,`partners`.`id` AS `partner_id`,`fac`.`partner2` AS `partner_id2`,`fac`.`partner3` AS `partner_id3`,`fac`.`partner4` AS `partner_id4`,`fac`.`partner5` AS `partner_id5`,`fac`.`partner6` AS `partner_id6`, `fac`.`burden`, 
 `fac`.`physicaladdress` AS `physicaladdress`,`fac`.`PostalAddress` AS `PostalAddress`,`fac`.`telephone` AS `telephone`,
 `fac`.`telephone2` AS `telephone2`,`fac`.`fax` AS `fax`,`fac`.`email` AS `email`,`fac`.`contactperson` AS `contactperson`,
 `fac`.`ContactEmail` AS `ContactEmail`,`fac`.`contacttelephone` AS `contacttelephone`,
