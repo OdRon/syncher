@@ -61,7 +61,7 @@ class ReportController extends Controller
                 if ($usertype != 5) 
                     $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
                 if ($usertype == 6)
-                    $countys = ViewFacility::whereIn('county_id',[24,35,34])->groupBy('county_id')->get();
+                    $countys = DB::table('countys')->get();
                 if ($usertype==7 && auth()->user()->level==85)
                     $countys = ViewFacility::where('partner_id5', '=', auth()->user()->level)->groupBy('county_id')->get();
 
