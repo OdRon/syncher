@@ -17,6 +17,10 @@ class ReportController extends Controller
 {
     //
     public static $alphabets = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+    public static $quarters = ['Q1'=>['name'=>'Jan-Mar', 'start'=>1, 'end'=>3],
+                        'Q2'=>['name'=>'Apr-Jun', 'start'=>4, 'end'=>6],
+                        'Q3'=>['name'=>'Jul-Sep', 'start'=>7, 'end'=>9],
+                        'Q4'=>['name'=>'Oct-Dec', 'start'=>10, 'end'=>12]];
     public function index($testtype = NULL)
     {   
         if (NULL == $testtype) 
@@ -29,7 +33,7 @@ class ReportController extends Controller
         $partners = (object)[];
         $labs = (object)[];
         // dd($usertype);
-        if ($usertype == 9) {
+       if ($usertype == 9) {
             $labs = Lab::get();
         } else {
             $facilitys = ViewFacility::when($usertype, function($query) use ($usertype){
@@ -39,25 +43,38 @@ class ReportController extends Controller
                                             return $query->where('county_id', '=', auth()->user()->level);
                                         if ($usertype == 5)
                                             return $query->where('subcounty_id', '=', auth()->user()->level);
-                                        if ($usertype == 7)
-                                            return $query->where('partner_id', '=', auth()->user()->level);
+                                        if ($usertype == 7) {
+                                            if (auth()->user()->level ==82) {//speed24
+                                                return $query->where('partner_id3', '=', auth()->user()->level);
+                                            } elseif (auth()->user()->level ==84) {//PHASE
+                                                return $query->where('partner_id4', '=', auth()->user()->level);
+                                            } elseif (auth()->user()->level ==85) {//jilinde
+                                                return $query->where('partner_id5', '=', auth()->user()->level);
+                                            } elseif (auth()->user()->level ==80) {//fhi 360
+                                                return $query->where('partner_id6', '=', auth()->user()->level);
+                                            } else  { //boresha
+                                                return $query->where('partner_id2', '=', auth()->user()->level);
+                                            }
+                                        }
                                     })->get();
             if ($usertype != 5) {
-                if ($usertype != 6) {
-                    if ($usertype != 5)
-                        $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
+                if ($usertype != 5) 
+                    $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
+                if ($usertype == 6)
+                    $countys = ViewFacility::whereIn('county_id',[24,35,34])->groupBy('county_id')->get();
+                if ($usertype==7 && auth()->user()->level==85)
+                    $countys = ViewFacility::where('partner_id5', '=', auth()->user()->level)->groupBy('county_id')->get();
 
-                    if ($usertype == 2)
-                        $partners = Partner::where('orderno', '=', 2)->get();
+                if ($usertype == 2)
+                    $partners = Partner::where('orderno', '=', 2)->get();
 
-                    if ($usertype != 2)
-                        $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
-                                            if ($usertype == 2 || $usertype == 3)
-                                                return $query->where('partner_id', '=', auth()->user()->level);
-                                            if ($usertype == 4)
-                                                return $query->where('county_id', '=', auth()->user()->level);
-                                        })->groupBy('subcounty_id')->get();
-                }
+                if ($usertype != 2)
+                    $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
+                                        if ($usertype == 2 || $usertype == 3)
+                                            return $query->where('partner_id', '=', auth()->user()->level);
+                                        if ($usertype == 4)
+                                            return $query->where('county_id', '=', auth()->user()->level);
+                                    })->groupBy('subcounty_id')->get();
             }
         }
         
@@ -68,7 +85,7 @@ class ReportController extends Controller
     {
     	$dateString = '';
 
-	    $data = self::__getDateData($request, $dateString)->get();
+	    $data = $this->__getDateData($request, $dateString)->get();
     	$this->__getExcel($data, $dateString);
     	
     	return back();
@@ -80,33 +97,47 @@ class ReportController extends Controller
             session(['toast_message'=>'Please Enter a category', 'toast_error'=>1]);
             return back();
         }
+        if ($request->testtype == 'support') {
+            if ($request->category != 'lab') {
+                session(['toast_message' => 'This Report type requires a lab to be selected<br/>Please select a lab from the dropdown', 'toast_error'=>1]);
+                return back();
+            }
+            if ($request->period != 'quarterly') {
+                session(['toast_message' => 'This is a quarterly report<br/>Please select a quarter', 'toast_error'=>1]);
+                return back();
+            }
+        }
         // dd($request->all());
         $dateString = '';
         $title = "";
         $briefTitle = "";
         $excelColumns = [];
         
-        $data = self::__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
+        $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
         $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         
         return back();
     }
 
-    public static function __getDateData($request, &$dateString, &$excelColumns, &$title, &$briefTitle)
+    public function __getDateData($request, &$dateString, &$excelColumns, &$title, &$briefTitle)
     {
         ini_set("memory_limit", "-1");
         
         if (auth()->user()->user_type_id == 3) {
-            $partner = ViewFacility::where('partner_id', '=', auth()->user()->level)->get()->first();
+            $partner = ViewFacility::where('partner_id', '=', auth()->user()->level)->first();
             $title = $partner->partner . " ";
         }
         if (auth()->user()->user_type_id == 4) {
-            $county = ViewFacility::where('county_id', '=', auth()->user()->level)->get()->first();
+            $county = ViewFacility::where('county_id', '=', auth()->user()->level)->first();
             $title .= $county->county . " ";
         }
         if (auth()->user()->user_type_id == 5) {
-            $subc = ViewFacility::where('subcounty_id', '=', auth()->user()->level)->get()->first();
+            $subc = ViewFacility::where('subcounty_id', '=', auth()->user()->level)->first();
             $title .= $subc->subcounty . " ";
+        }
+        if (auth()->user()->user_type_id == 7) {
+            $partner = DB::table('partners')->where('id', '=', auth()->user()->level)->first();
+            $title .= $partner->name . " ";
         }
         
     	if ($request->testtype == 'VL') {
@@ -370,6 +401,9 @@ class ReportController extends Controller
                                 ->orderBy('samplecount', 'desc');
                 $title .= "VL SAMPLES TESTED ";
                 $briefTitle = "VL SAMPLES TESTED ";
+            } else if ($request->indicatortype == 13) {
+                $data = $this->getVLQuarterlyReportData($request);
+                
             }
         } else {
             return back();
@@ -426,6 +460,19 @@ class ReportController extends Controller
                     $model = $model->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
                     $subc = ViewFacility::where('subcounty_id', '=', auth()->user()->level)->get()->first();
                     $title .= $subc->subcounty;
+                }
+                if (auth()->user()->user_type_id == 7) {
+                    if (auth()->user()->level ==82) {//speed24
+                        $model = $model->where('view_facilitys.partner_id3', '=', auth()->user()->level);
+                    } elseif (auth()->user()->level ==84) {//PHASE
+                        $model = $model->where('view_facilitys.partner_id4', '=', auth()->user()->level);
+                    } elseif (auth()->user()->level ==85) {//jilinde
+                        $model = $model->where('view_facilitys.partner_id5', '=', auth()->user()->level);
+                    } elseif (auth()->user()->level ==80) {//fhi 360
+                        $model = $model->where('view_facilitys.partner_id6', '=', auth()->user()->level);
+                    } else  { //boresha
+                        $model = $model->where('view_facilitys.partner_id2', '=', auth()->user()->level);
+                    }
                 }
             }
         }
@@ -531,6 +578,85 @@ class ReportController extends Controller
         $briefTitle = strtoupper($briefTitle);
         
     	return $model;
+    }
+
+    public static function getVLQuarterlyObject($request) {
+        $quarter = (object)self::$quarters[$request->quarter];
+        return ViralsampleView::selectRaw("COUNT(*) AS totalSamples")
+                        ->where(['lab_id'=>$request->lab,'repeatt'=>0,'flag'=>1])
+                        ->where('facility_id', '<>', 7148)
+                        ->whereRaw("YEAR(datetested) = '".$request->year."' AND MONTH(datetested) BETWEEN '".$quarter->start."' AND '".$quarter->end."'");
+    }
+
+    public function getVLQuarterlyReportData($request)
+    {
+        $quarter = (object)self::$quarters[$request->quarter];
+        // Build Query objects
+        $lab = Lab::where('id', '=', $request->lab)->first();
+        // Retreive results
+        $validTests = self::getVLQuarterlyObject($request)->whereBetween('rcategory', [1, 4])->get()->first()->totalSamples;
+        $supOutcomes = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
+        $nonsupOutcomes = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
+        $supmale = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->where('sex', '=', 1)->get()->first()->totalSamples;
+        $nonsupmale = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->where('sex', '=', 1)->get()->first()->totalSamples;
+        $supfemale = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->where('sex', '=', 2)->get()->first()->totalSamples;
+        $nonsupfemale = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->where('sex', '=', 2)->get()->first()->totalSamples;
+        $supnogender = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->where('sex', '=', 3)->get()->first()->totalSamples;
+        $nonsupnogender = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->where('sex', '=', 3)->get()->first()->totalSamples;
+
+        $supless94 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
+        $nonsupless9 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
+        $sup10to14 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
+        $nonsup10to14 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
+        $sup15to19 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
+        $nonsup15to19 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
+        $sup20to24 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
+        $nonsup20to24 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
+        $supabove25 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
+        $nonsupabove25 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
+
+        $supnoage = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->where('age_category', '=', 0)->get()->first()->totalSamples;
+        $nonsupnoage = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->where('age_category', '=', 0)->get()->first()->totalSamples;
+        $suppregnant = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->where('pmtct', '=', 1)->get()->first()->totalSamples;
+        $nonsuppregnant = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->where('pmtct', '=', 1)->get()->first()->totalSamples;
+        $supbreastfeeding = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->where('pmtct', '=', 2)->get()->first()->totalSamples;
+        $nonsupbreastfeeding = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->where('pmtct', '=', 2)->get()->first()->totalSamples;
+        // Build Excel Data
+        $data = [
+            ['Lab',$lab->name],
+            ['Quarter',"[$quarter->name], $request->year"],
+            ['All Valid Tests',$validTests],
+            ['Outcomes','Suppressed','Non Suppressed'],
+            ['',$supOutcomes,$nonsupOutcomes],
+            ['Male',$supmale,$nonsupmale],
+            ['Female',$supfemale,$nonsupfemale],
+            ['No Gender',$supnogender,$nonsupnogender],
+            ['<9',$supless94,$nonsupless9],
+            ['10-14',$sup10to14,$nonsup10to14],
+            ['15-19',$sup15to19,$nonsup15to19],
+            ['20-24',$sup20to24,$nonsup20to24],
+            ['25+',$supabove25,$nonsupabove25],
+            ['No Age',$supnoage,$nonsupnoage],
+            ['Pregnant',$suppregnant,$nonsuppregnant],
+            ['Breast Feeding',$supbreastfeeding,$nonsupbreastfeeding],
+        ];
+        $title = "$lab->name $quarter->name $request->year";
+        $sheetTitle = "$lab->name";
+        //Export Data
+        Excel::create($title, function($excel) use ($data, $title, $sheetTitle) {
+            $excel->setTitle($title);
+            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+            $excel->setDescription($title);
+            
+            $excel->sheet($sheetTitle, function($sheet) use ($data) {
+                $sheet->mergeCells('B1:C1');
+                $sheet->mergeCells('B2:C2');
+                $sheet->mergeCells('B3:C3');
+                $sheet->mergeCells('A4:A5');
+                $sheet->fromArray($data, null, 'A1', false, false);
+            });
+             
+        })->download('xlsx');
     }
 
     public static function __getExcel($data, $title, $dataArray, $briefTitle)

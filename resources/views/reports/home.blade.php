@@ -90,48 +90,43 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if(Auth::user()->user_type_id != 4)
-                                    @if(Auth::user()->user_type_id != 5)
-                                        @if(Auth::user()->user_type_id != 6)
-                                        <div class="row">
-                                            <label class="col-sm-3 control-label">
-                                                <input type="radio" name="category" value="county" class="i-checks">Select County
-                                            </label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" name="county" id="county">
-                                                    <option value="" selected disabled>Select County</option>
-                                                @forelse($countys as $county)
-                                                    <option value="{{ $county->county_id }}">{{ $county->county }}</option>
-                                                @empty
-                                                    <option value="" disabled>No County available</option>
-                                                @endforelse
-                                                </select>
-                                            </div>
+                                @if(!(Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 5))
+                                    @if(Auth::user()->user_type_id != 7 || Auth::user()->level == 85)
+                                    <div class="row">
+                                        <label class="col-sm-3 control-label">
+                                            <input type="radio" name="category" value="county" class="i-checks">Select County
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="county" id="county">
+                                                <option value="" selected disabled>Select County</option>
+                                            @forelse($countys as $county)
+                                                <option value="{{ $county->county_id }}">{{ $county->county }}</option>
+                                            @empty
+                                                <option value="" disabled>No County available</option>
+                                            @endforelse
+                                            </select>
                                         </div>
-                                        @endif
+                                    </div>
                                     @endif
                                 @endif
-                                @if(Auth::user()->user_type_id != 2)
-                                    @if(Auth::user()->user_type_id != 5)
-                                        @if(Auth::user()->user_type_id != 6)
-                                        <div class="row">
-                                            <label class="col-sm-3 control-label">
-                                                <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
-                                            </label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" name="district" id="district">
-                                                    <option value="" selected disabled>Select Sub-County</option>
-                                                @forelse($subcountys as $subcounty)
-                                                    <option value="{{ $subcounty->subcounty_id }}">{{ $subcounty->subcounty }}</option>
-                                                @empty
-                                                    <option value="" disabled>No Sub-County available</option>
-                                                @endforelse
-                                                </select>
-                                            </div>
+                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 5 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+                                    <div class="row">
+                                        <label class="col-sm-3 control-label">
+                                            <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="district" id="district">
+                                                <option value="" selected disabled>Select Sub-County</option>
+                                            @forelse($subcountys as $subcounty)
+                                                <option value="{{ $subcounty->subcounty_id }}">{{ $subcounty->subcounty }}</option>
+                                            @empty
+                                                <option value="" disabled>No Sub-County available</option>
+                                            @endforelse
+                                            </select>
                                         </div>
-                                        @endif
-                                    @endif
+                                    </div>
                                 @endif
+                                @if(Auth::user()->user_type_id != 6)
                                 <div class="row">
                                     <label class="col-sm-3 control-label">
                                         <input type="radio" name="category" value="facility" class="i-checks">Select Facility
@@ -147,6 +142,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                @endif
                             @endif
                         </div>
                         <div class="form-group">
@@ -165,7 +161,9 @@
                                 <label> <input type="radio" name="period" value="monthly"> Monthly </label>
                                 <label> <input type="radio" name="period" value="quarterly"> Quarterly </label>
                                 @if($testtype == 'EID' || Auth::user()->user_type_id == 9)
+                                @if($testtype == 'EID' || Auth::user()->user_type_id != 7)
                                 <label> <input type="radio" name="period" value="annually"> Annually </label>
+                                @endif
                                 @endif
                             </div>
                             <div class="row" id="periodSelection" style="display: none;">
@@ -289,7 +287,7 @@
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks"> All Outcomes (+/-) </label>
                                 @if(Auth::user()->user_type_id != 6)
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks"> + Outcomes </label>
-                                    @if(Auth::user()->user_type_id != 2)
+                                    @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 7))
                                     <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
                                     @endif
                                 @endif
@@ -297,11 +295,9 @@
                                     <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes for Validation </label>
                                 @endif
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
-                                @if(Auth::user()->user_type_id != 2)
-                                @if(Auth::user()->user_type_id != 6))
+                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
                                 <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <2M </label>
                                 <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
-                                @endif
                                 @endif
                                 @if(Auth::user()->user_type_id == 3)
                                     @if(Auth::user()->user_type_id != 2)
