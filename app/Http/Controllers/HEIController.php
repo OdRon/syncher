@@ -37,10 +37,11 @@ class HEIController extends Controller
 
     public function followup(Request $request,$duration='outcomes',$validation=null,$year=null,$month=null)
     {
-        if (!($year == null || strtolower($year) == 'null'))
+        if (!($year == null || strtolower($year) == 'null')) {
             session(['followupYear'=>$year]);
             session()->forget('followupMonth');
-        if (!($month == null || strtolower($month) == 'null')) 
+        }
+        if (!($month == null || strtolower($month) == 'null'))
             session(['followupMonth'=>$month]);
         
         $year = session('followupYear');
