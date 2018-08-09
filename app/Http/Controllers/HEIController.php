@@ -259,7 +259,7 @@ class HEIController extends Controller
             $model = $model->where('sample_complete_view.hei_validation', '=', 0)
                     ->orWhereNull('sample_complete_view.hei_validation');
         }
-        // dd($model->toSql());
+        // dd($model->get());
         return $model->get();
     }
 }
