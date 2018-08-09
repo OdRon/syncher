@@ -183,16 +183,19 @@ class ReportController extends Controller
             }
 
             $model = ViralsampleCompleteView::selectRaw($selectStr)
-				->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
 				->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-				->leftJoin('viralrejectedreasons', 'viralrejectedreasons.id', '=', "$table.rejectedreason")
-                ->leftJoin('viralpmtcttype', 'viralpmtcttype.id', '=', "$table.pmtct")
-                ->leftJoin('viralregimenline', 'viralregimenline.id', '=', "$table.regimenline")
-                ->where("$table.repeatt", '=', 0)->where("$table.flag", '=', 1);
+				->where("$table.flag", '=', 1);
 
             if (!($request->indicatortype == 9 || $request->indicatortype == 10)) {
-                $model = $model->where(['repeatt' => 0, "$table.flag" => 1]);
+                $model = $model->where('repeatt', '=', 0);
             }
+            if ($request->indicatortype == 2 || $request->indicatortype == 4 || $request->indicatortype == 5 || $request->indicatortype == 6) 
+                $model = $model->leftJoin('labs', 'labs.id', '=', "$table.lab_id");
+            if ($request->indicatortype == 2 || $request->indicatortype == 5)
+                $model = $model->leftJoin('viralrejectedreasons', 'viralrejectedreasons.id', '=', "$table.rejectedreason");
+            if ($request->indicatortype == 2 || $request->indicatortype == 4 || $request->indicatortype == 6)
+                $model = $model->leftJoin('viralpmtcttype', 'viralpmtcttype.id', '=', "$table.pmtct")
+                                ->leftJoin('viralregimenline', 'viralregimenline.id', '=', "$table.regimenline");
 
             if ($request->indicatortype == 5) {
                 $model = $model->where("$table.receivedstatus", "=", 2);
@@ -285,17 +288,26 @@ class ReportController extends Controller
                             ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id");
             } else {
                 $model = SampleCompleteView::selectRaw($selectStr)
-                        ->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
-                        ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-                        ->leftJoin('pcrtype', 'pcrtype.id', '=', "$table.pcrtype")
-                        ->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', "$table.rejectedreason")
-                        ->leftJoin('entry_points', 'entry_points.id', '=', "$table.entry_point")
-                        ->leftJoin('results as ir', 'ir.id', '=', "$table.result")
-                        ->leftJoin('mothers', 'mothers.id', '=', "$table.mother_id")
-                        ->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status')
-                        ->leftJoin('hei_validation as hv', 'hv.id', '=', "$table.hei_validation")
-                        ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
+                        ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id");
             }
+            //Additional Joins
+            if ($request->indicatortype == 1 || $request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4 || $request->indicatortype == 5 || $request->indicatortype == 6 || $request->indicatortype == 8)
+                $model = $model->leftJoin('labs', 'labs.id', '=', "$table.lab_id");
+            if (!($request->indicatortype == 7 || $request->indicatortype == 9 || $request->indicatortype == 10))
+                $model = $model->leftJoin('pcrtype', 'pcrtype.id', '=', "$table.pcrtype");
+            if ($request->indicatortype == 5)
+                $model = $model->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', "$table.rejectedreason");
+            if ($request->indicatortype == 1 || $request->indicatortype == 6)
+                $model = $model->leftJoin('entry_points', 'entry_points.id', '=', "$table.entry_point");
+            if ($request->indicatortype == 1 || $request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4 || $request->indicatortype == 6 || $request->indicatortype == 8)
+                $model = $model->leftJoin('results as ir', 'ir.id', '=', "$table.result");
+            if ($request->indicatortype == 1 || $request->indicatortype == 6)
+                $model = $model->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status')->leftJoin('mothers', 'mothers.id', '=', "$table.mother_id");
+            if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4)
+                $model = $model->leftJoin('hei_validation as hv', 'hv.id', '=', "$table.hei_validation")
+                                ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
+            //Additional Joins
+
             if (!($request->indicatortype == 5 || $request->indicatortype == 9 || $request->indicatortype == 10)) {
                 $model = $model->where(['repeatt' => 0, "$table.flag" => 1]);
             }
@@ -576,7 +588,7 @@ class ReportController extends Controller
         $briefTitle .= " - ".$dateString;
         $title = strtoupper($title);
         $briefTitle = strtoupper($briefTitle);
-        
+        // dd($model->toSql());
     	return $model;
     }
 
