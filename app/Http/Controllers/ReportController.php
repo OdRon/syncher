@@ -223,11 +223,11 @@ class ReportController extends Controller
             }
     	} else if ($request->testtype == 'EID') {
             $table = 'sample_complete_view';
-            $selectStr = "$table.original_sample_id, $table.patient, $table.original_batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
+            $selectStr = "$table.original_sample_id, $table.patient, $table.original_batch_id, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, IF(pcrtype=4, enrollment_ccc_no, null) as enrollment_ccc_no, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
 
             if ($request->indicatortype == 1 || $request->indicatortype == 6) {
-                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result'];
-                $selectStr .= ",$table.regimen_name as infantprophylaxis, $table.receivedstatus_name as receivedstatus, $table.spots, $table.feeding_name, entry_points.name as entrypoint, ir.name as infantresult, $table.mother_prophylaxis_name as motherprophylaxis, mr.name as motherresult";
+                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Enrollment CCC No', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Lab Comment', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result', 'Mother Age', 'Mother CCC No', 'Mother Last VL'];
+                $selectStr .= ",$table.regimen_name as infantprophylaxis, $table.receivedstatus_name as receivedstatus, $table.labcomment, $table.spots, $table.feeding_name, entry_points.name as entrypoint, ir.name as infantresult, $table.mother_prophylaxis_name as motherprophylaxis, mr.name as motherresult, $table.mother_age, $table.mother_ccc_no, $table.mother_last_result";
                 if ($request->indicatortype == 1) {
                     $title .= "EID TEST OUTCOMES FOR ";
                     $briefTitle .= "EID TEST OUTCOMES ";
@@ -237,7 +237,7 @@ class ReportController extends Controller
                     $briefTitle .= "EID PATIENTS <2M ";
                 }
             } else if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
-                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result', 'Validation (CP,A,VL,RT,UF)', 'Enrollment Status', 'Date Initiated on Treatment', 'Enrollment CCC #', 'Other Reasons'];
+                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Enrollment CCC No', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result', 'Validation (CP,A,VL,RT,UF)', 'Enrollment Status', 'Date Initiated on Treatment', 'Enrollment CCC #', 'Other Reasons'];
 
                 $selectStr .= ", ir.name as infantresult, hv.desc as hei_validation, hc.name as enrollment_status, $table.dateinitiatedontreatment, $table.enrollment_ccc_no, $table.otherreason";
                 if ($request->indicatortype == 2) {
@@ -253,7 +253,7 @@ class ReportController extends Controller
                     $briefTitle .= "EID NEGATIVEs FOR FOLLOW UP ";
                 }
             } else if ($request->indicatortype == 5) {
-                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Received Status', 'Rejected Reason'];
+                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Enrollment CCC No', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Received Status', 'Rejected Reason'];
                 $selectStr .= ", $table.receivedstatus_name as receivedstatus, rejectedreasons.name";
                 
                 $title .= "EID REJECTED SAMPLES FOR ";
@@ -265,7 +265,7 @@ class ReportController extends Controller
                 $title .= "EID HIGH BURDEN SITES FOR ";
                 $briefTitle .= "EID HIGH BURDEN SITES ";
             } else if ($request->indicatortype == 8) {
-                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result'];
+                $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Enrollment CCC No', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result'];
                 $selectStr .= ", ir.name as infantresult";
 
                 $title .= "RHT TESTING ";
@@ -302,7 +302,7 @@ class ReportController extends Controller
             if ($request->indicatortype == 1 || $request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4 || $request->indicatortype == 6 || $request->indicatortype == 8)
                 $model = $model->leftJoin('results as ir', 'ir.id', '=', "$table.result");
             if ($request->indicatortype == 1 || $request->indicatortype == 6)
-                $model = $model->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status')->leftJoin('mothers', 'mothers.id', '=', "$table.mother_id");
+                $model = $model->leftJoin('mothers', 'mothers.id', '=', "$table.mother_id")->leftJoin('results as mr', 'mr.id', '=', 'mothers.hiv_status');
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4)
                 $model = $model->leftJoin('hei_validation as hv', 'hv.id', '=', "$table.hei_validation")
                                 ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
@@ -313,15 +313,15 @@ class ReportController extends Controller
             }
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
-                $model = $model->where("$table.receivedstatus", "=", '1')->whereIn("$table.pcrtype", [1,2]);
+                $model = $model->where("$table.receivedstatus", "=", '1')->where("$table.facility_id", '<>', 748);
                 if ($request->indicatortype == 4) {
                     $model = $model->where("$table.result", '=', 1);
                 } else {
                     $model = $model->where("$table.result", '=', 2);
                 }
                 
-                if ($request->indicatortype == 3) 
-                    $model->whereRaw("($table.hei_validation = 0 or $table.hei_validation is null)");
+                // if ($request->indicatortype == 3) 
+                //     $model->whereRaw("($table.hei_validation = 0 or $table.hei_validation is null)");
             } else if ($request->indicatortype == 5) {
                 $model = $model->where("$table.receivedstatus", "=", 2);
             } else if ($request->indicatortype == 6) {
@@ -588,7 +588,7 @@ class ReportController extends Controller
         $briefTitle .= " - ".$dateString;
         $title = strtoupper($title);
         $briefTitle = strtoupper($briefTitle);
-        // dd($model->toSql());
+        dd($model->toSql());
     	return $model;
     }
 
