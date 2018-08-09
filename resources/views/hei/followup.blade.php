@@ -90,7 +90,7 @@
                                         </td>
                                         <td>{{ $key+1 }}</td>
                                         <td>{{ $sample->county }}</td>
-                                        <td>{{ $sample->name }}</td>
+                                        <td>{{ $sample->facility }}</td>
                                         <td>{{ $sample->facilitycode }}</td>
                                         <td>
                                             {{ $sample->patient }}
