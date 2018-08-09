@@ -212,7 +212,7 @@ class HEIController extends Controller
     	$usertype = auth()->user()->user_type_id;
         $model = SampleCompleteView::selectRaw("distinct sample_complete_view.patient_id, sample_complete_view.patient, sample_complete_view.original_patient_id, sample_complete_view.ccc_no, sample_complete_view.patient, sample_complete_view.gender_description, sample_complete_view.dob, sample_complete_view.dateinitiatedontreatment, sample_complete_view.hei_validation, sample_complete_view.enrollment_ccc_no, sample_complete_view.enrollment_status, sample_complete_view.referredfromsite, sample_complete_view.otherreason, view_facilitys.name as facility, view_facilitys.county, view_facilitys.facilitycode")
     				->join('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
-                    ->where(['sample_complete_view.repeatt' => 0,'sample_complete_view.flag' => 0])
+                    ->where(['sample_complete_view.repeatt' => 0,'sample_complete_view.flag' => 1])
                     ->whereIn('sample_complete_view.pcrtype', [1,2,3])
                     ->where('sample_complete_view.result', '=', 2)
                     ->when($usertype, function($query) use ($usertype){
