@@ -108,7 +108,7 @@
                                             <select class="form-control" name="hei_validation{{ $count }}" id="hei_validation{{ $count }}" style="width: 150px;">
                                                 @if($data->edit)
                                                     @forelse($data->hei_validation as $validation)
-                                                        @if($sample->hei_validation = $validation->id)
+                                                        @if($sample->hei_validation == $validation->id)
                                                             <option value="{{ $validation->id }}" selected>{{ $validation->desc }} - {{ $validation->name }}</option>
                                                         @else
                                                             <option value="{{ $validation->id }}">{{ $validation->desc }} - {{ $validation->name }}</option>
