@@ -292,7 +292,7 @@
                                     @endif
                                 @endif
                                 @if(Auth::user()->user_type_id == 3)
-                                    <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes for Validation </label>
+                                    <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes </label>
                                 @endif
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
                                 @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))

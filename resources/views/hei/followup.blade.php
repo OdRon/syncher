@@ -67,6 +67,8 @@
                                     <th>Facility</th>
                                     <th>MFL Code</th>
                                     <th>Sample/Patient ID</th>
+                                    <th>Patient Age (Months)</th>
+                                    <th>PCR Type</th>
                                     <th>Validation (CP,A,VL,RT,UF)</th>
                                     <th>Enrollment Status</th>
                                     <th>Date Initiated on Treatment</th>
@@ -90,11 +92,17 @@
                                         </td>
                                         <td>{{ $key+1 }}</td>
                                         <td>{{ $sample->county }}</td>
-                                        <td>{{ $sample->name }}</td>
+                                        <td>{{ $sample->facility }}</td>
                                         <td>{{ $sample->facilitycode }}</td>
                                         <td>
                                             {{ $sample->patient }}
                                             <input type="hidden" name="patient{{ $count }}" id="patient{{ $count }}" value="{{ $sample->patient }}">
+                                        </td>
+                                        <td>
+                                            {{ $sample->age }}
+                                        </td>
+                                        <td>
+                                            {{ $sample->pcrtype }}
                                         </td>
                                         <td>
                                             <select class="form-control" name="hei_validation{{ $count }}" id="hei_validation{{ $count }}" style="width: 150px;">
