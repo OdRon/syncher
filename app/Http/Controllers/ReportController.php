@@ -313,7 +313,7 @@ class ReportController extends Controller
             }
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
-                $model = $model->where("$table.receivedstatus", "<>", '2')->where("$table.facility_id", '<>', 748);
+                $model = $model->where("$table.receivedstatus", "<>", '2')->where("$table.facility_id", '<>', 7148);
                 if ($request->indicatortype == 4) {
                     $model = $model->where("$table.result", '=', 1);
                 } else {
