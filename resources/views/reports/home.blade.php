@@ -296,7 +296,7 @@
                                 @endif
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
                                 @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
-                                <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <2M </label>
+                                <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <= 2M </label>
                                 <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
                                 @endif
                                 @if(Auth::user()->user_type_id == 3)
