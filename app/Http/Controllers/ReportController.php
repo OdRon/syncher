@@ -325,7 +325,7 @@ class ReportController extends Controller
             } else if ($request->indicatortype == 5) {
                 $model = $model->where("$table.receivedstatus", "<>", '2');
             } else if ($request->indicatortype == 6) {
-                $model = $model->where("$table.age", "<", 2);
+                $model = $model->whereBetween("$table.age", [0.001,2])->where("$table.facility_id", '<>', 7148);
             } else if ($request->indicatortype == 7) {
                 $model = $model->where("$table.result", '=', 2)
                                 ->groupBy('facility')
