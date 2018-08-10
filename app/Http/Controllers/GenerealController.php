@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\ViewFacility;
 use App\SampleCompleteView;
 use App\ViralsampleCompleteView;
+use App\Sample;
+use App\Viralsample;
 use App\Batch;
 use App\Viralbatch;
 use App\Patient;
@@ -249,32 +251,30 @@ class GenerealController extends Controller
     public function print_individual($testSysm,$id) {
         $sampleid = intval($id);
         $testSysm = strtoupper($testSysm);
-        $previousSamples = [];
         if ($testSysm == 'VL') {
-            $samples = ViralsampleCompleteView::with(['facility','lab'])->where('id', '=', $sampleid)->whereNotNull('datereceived')->get();
-            $patientSample = $samples->first();
-            $previousSamples = ViralsampleCompleteView::where('patient', '=', "$patientSample->patient")
-                                                    ->where('datereceived', '<', "$patientSample->datereceived")
-                                                    ->orderBy('datereceived', 'desc')->get();
+            $samples = Viralsample::join('viralbatches', 'viralbatches.id', '=', 'viralsamples.batch_id')->where('viralsamples.id', '=', $sampleid)->whereNotNull('viralbatches.datereceived')->first();
             $data = Lookup::get_viral_lookups();
+            $relationships = ['patient', 'approver', 'batch.lab', 'batch.view_facility', 'batch.receiver', 'batch.creator'];
         } else if ($testSysm == 'EID') {
-            $samples = SampleCompleteView::with(['facility','lab'])->where('id', '=', $sampleid)->whereNotNull('datereceived')->get();
+            $samples = Sample::join('batches', 'batches.id', '=', 'samples.batch_id')->where('samples.id', '=', $sampleid)->whereNotNull('batches.datereceived')->first();
             $data = Lookup::get_eid_lookups();
+            $relationships = ['patient.mother', 'batch.lab', 'batch.view_facility', 'batch.receiver', 'batch.creator'];
         } else {
             return back();
         }
-        $data['samples'] = $samples;
-        $data['previousSamples'] = $previousSamples;
-        $data['testSysm'] = $testSysm;
-        $facility = $samples->first()->facility->name;
-        $datereceived = date('d-M-Y', strtotime($samples->first()->datereceived));
+        $samples = $samples->load($relationships);
+        $data['sample'] = $samples;
+        $data['testingSys'] = $testSysm;
+        
+        // return view('reports.individualresult', $data);
+        $facility = $samples->batch->view_facility->name;
+        $datereceived = date('d-M-Y', strtotime($samples->datereceived));
         $fileName = $testSysm. " Individual Samples Report for $facility Received on $datereceived";
         
         $mpdf = new Mpdf(['format' => 'A4-L']);
         $view_data = view('reports.individualresult', $data)->render();
         $mpdf->WriteHTML($view_data);
         $mpdf->Output($fileName.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
-
     }
 
     public function print_batch_individual($testingSystem,$batch) {
@@ -290,11 +290,18 @@ class GenerealController extends Controller
             $data['testingSys'] = 'VL';
             $relationships = ['patient', 'approver', 'batch.lab', 'batch.view_facility', 'batch.receiver', 'batch.creator'];
         }
+        $batch = $batch->load('view_facility');
         $samples = $batch->sample;
         $data['samples'] = $samples->load($relationships);
-        $data = (object)$data;
-        
-        return view('reports.individualbatch', compact('data'));
+        // $data = (object)$data;
+        $facility = $batch->view_facility->name;
+        $datereceived = date('d-M-Y', strtotime($batch->datereceived));
+        $fileName = $testingSystem. " Individual Samples Report for $facility Received on $datereceived";
+        // return view('reports.individualbatch', $data);
+        $mpdf = new Mpdf(['format' => 'A4-L']);
+        $view_data = view('reports.individualbatch', $data)->render();
+        $mpdf->WriteHTML($view_data);
+        $mpdf->Output($fileName.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
     }
 
     public function print_batch_summary($testingSystem, $batch) {
