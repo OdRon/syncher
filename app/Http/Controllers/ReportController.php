@@ -313,17 +313,17 @@ class ReportController extends Controller
             }
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
-                $model = $model->where("$table.receivedstatus", "=", '1')->where("$table.facility_id", '<>', 748);
+                $model = $model->where("$table.receivedstatus", "<>", '2')->where("$table.facility_id", '<>', 748);
                 if ($request->indicatortype == 4) {
                     $model = $model->where("$table.result", '=', 1);
                 } else {
                     $model = $model->where("$table.result", '=', 2);
                 }
                 
-                // if ($request->indicatortype == 3) 
-                //     $model->whereRaw("($table.hei_validation = 0 or $table.hei_validation is null)");
+                if ($request->indicatortype == 3) 
+                    $model->whereIn("$table.pcrtype", [1,2,3])->whereRaw("($table.hei_validation = 0 or $table.hei_validation is null)");
             } else if ($request->indicatortype == 5) {
-                $model = $model->where("$table.receivedstatus", "=", 2);
+                $model = $model->where("$table.receivedstatus", "<>", '2');
             } else if ($request->indicatortype == 6) {
                 $model = $model->where("$table.age", "<", 2);
             } else if ($request->indicatortype == 7) {
