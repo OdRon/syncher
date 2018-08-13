@@ -156,7 +156,7 @@
                                         <select class="form-control" name="facility" id="facility">
                                             <option value="" selected disabled>Select Facility</option>
                                         @forelse($facilitys as $facility)
-                                            <option value="{{ $facility->id }}">{{ $facility->name }}</option>
+                                            <option value="{{ $facility->id }}">{{ $facility->name }} ({{ $facility->county }})</option>
                                         @empty
                                             <option value="" disabled>No Facility available</option>
                                         @endforelse

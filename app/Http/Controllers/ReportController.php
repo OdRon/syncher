@@ -56,17 +56,17 @@ class ReportController extends Controller
                                                 return $query->where('partner_id2', '=', auth()->user()->level);
                                             }
                                         }
-                                    })->get();
+                                    })->orderBy('name', 'asc')->get();
             if ($usertype != 5) {
                 if ($usertype != 5) 
-                    $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->get();
+                    $countys = ViewFacility::where('partner_id', '=', auth()->user()->level)->groupBy('county_id')->orderBy('county', 'asc')->get();
                 if ($usertype == 6)
-                    $countys = DB::table('countys')->select('id as county_id', 'name as county')->get();
+                    $countys = DB::table('countys')->select('id as county_id', 'name as county')->orderBy('name', 'asc')->get();
                 if ($usertype==7 && auth()->user()->level==85)
-                    $countys = ViewFacility::where('partner_id5', '=', auth()->user()->level)->groupBy('county_id')->get();
+                    $countys = ViewFacility::where('partner_id5', '=', auth()->user()->level)->groupBy('county_id')->orderBy('county', 'asc')->get();
 
                 if ($usertype == 2)
-                    $partners = Partner::where('orderno', '=', 2)->get();
+                    $partners = Partner::where('orderno', '=', 2)->orderBy('name', 'desc')->get();
 
                 if ($usertype != 2)
                     $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
@@ -74,7 +74,7 @@ class ReportController extends Controller
                                             return $query->where('partner_id', '=', auth()->user()->level);
                                         if ($usertype == 4)
                                             return $query->where('county_id', '=', auth()->user()->level);
-                                    })->groupBy('subcounty_id')->get();
+                                    })->groupBy('subcounty_id')->orderBy('subcounty', 'desc')->get();
             }
         }
         
@@ -184,7 +184,7 @@ class ReportController extends Controller
 
             $model = ViralsampleCompleteView::selectRaw($selectStr)
 				->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-				->where("$table.flag", '=', 1);
+				->where("$table.flag", '=', 1)->where("$table.facility_id", '<>', 7148);
 
             if (!($request->indicatortype == 9 || $request->indicatortype == 10)) {
                 $model = $model->where('repeatt', '=', 0);
@@ -285,10 +285,12 @@ class ReportController extends Controller
             
             if ($request->indicatortype == 7) {
                 $model = SampleCompleteView::selectRaw($selectStr)
-                            ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id");
+                            ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                            ->where("$table.facility_id", '<>', 7148);
             } else {
                 $model = SampleCompleteView::selectRaw($selectStr)
-                        ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id");
+                        ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                        ->where("$table.facility_id", '<>', 7148);
             }
             //Additional Joins
             if ($request->indicatortype == 1 || $request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4 || $request->indicatortype == 5 || $request->indicatortype == 6 || $request->indicatortype == 8)
@@ -313,7 +315,7 @@ class ReportController extends Controller
             }
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
-                $model = $model->where("$table.receivedstatus", "<>", '2')->where("$table.facility_id", '<>', 7148);
+                $model = $model->where("$table.receivedstatus", "<>", '2');
                 if ($request->indicatortype == 4) {
                     $model = $model->where("$table.result", '=', 1);
                 } else {
@@ -323,9 +325,9 @@ class ReportController extends Controller
                 if ($request->indicatortype == 3) 
                     $model->whereIn("$table.pcrtype", [1,2,3])->whereRaw("($table.hei_validation = 0 or $table.hei_validation is null)");
             } else if ($request->indicatortype == 5) {
-                $model = $model->where("$table.receivedstatus", "<>", '2');
+                $model = $model->where("$table.receivedstatus", "=", '2');
             } else if ($request->indicatortype == 6) {
-                $model = $model->whereBetween("$table.age", [0.001,2])->where("$table.facility_id", '<>', 7148);
+                $model = $model->whereBetween("$table.age", [0.001,2]);
             } else if ($request->indicatortype == 7) {
                 $model = $model->where("$table.result", '=', 2)
                                 ->groupBy('facility')
@@ -367,22 +369,22 @@ class ReportController extends Controller
                 $table = "samples_view";
                 $countyData = SampleView::selectRaw("view_facilitys.county as county, count(distinct $table.facility_id) as facilities")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-                                ->where('site_entry', '=', 1)
+                                ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
                                 ->groupBy('county')
                                 ->orderBy('facilities', 'desc');
                 $partnerData = SampleView::selectRaw("view_facilitys.partner as partner, count(distinct $table.facility_id) as facilities")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-                                ->where('site_entry', '=', 1)
+                                ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
                                 ->groupBy('partner')
                                 ->orderBy('facilities', 'desc');
                 $labData = SampleView::selectRaw("labs.name as lab, count(distinct $table.facility_id) as facilities")
                                 ->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
-                                ->where('site_entry', '=', 1)
+                                ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
                                 ->groupBy('lab')
                                 ->orderBy('facilities', 'desc');
                 $facilityData = SampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-                                ->where('site_entry', '=', 1)
+                                ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
                                 ->where('repeatt', '=', 0)->where("$table.flag", '=', 1)
                                 ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
                                 ->orderBy('samplecount', 'desc');
@@ -392,22 +394,22 @@ class ReportController extends Controller
                 $table = "viralsamples_view";
                 $countyData = ViralsampleView::selectRaw("view_facilitys.county as county, count(distinct $table.facility_id) as facilities")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-                                ->where('site_entry', '=', 1)
+                                ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
                                 ->groupBy('county')
                                 ->orderBy('facilities', 'desc');
                 $partnerData = ViralsampleView::selectRaw("view_facilitys.partner as partner, count(distinct $table.facility_id) as facilities")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-                                ->where('site_entry', '=', 1)
+                                ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
                                 ->groupBy('partner')
                                 ->orderBy('facilities', 'desc');
                 $labData = ViralsampleView::selectRaw("labs.name as lab, count(distinct $table.facility_id) as facilities")
                                 ->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
-                                ->where('site_entry', '=', 1)
+                                ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
                                 ->groupBy('lab')
                                 ->orderBy('facilities', 'desc');
                 $facilityData = ViralsampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-                                ->where('site_entry', '=', 1)
+                                ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
                                 ->where('repeatt', '=', 0)->where("$table.flag", '=', 1)
                                 ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
                                 ->orderBy('samplecount', 'desc');
@@ -588,7 +590,7 @@ class ReportController extends Controller
         $briefTitle .= " - ".$dateString;
         $title = strtoupper($title);
         $briefTitle = strtoupper($briefTitle);
-        
+        // dd($model->toSql());
     	return $model;
     }
 
