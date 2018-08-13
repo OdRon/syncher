@@ -131,6 +131,8 @@
                                             @if($data->edit)
                                                 @forelse($data->hei_categories as $followup)
                                                     @if($followup->id == $sample->enrollment_status)
+                                                        <option value="{{ $followup->id }}" selected>{{ $followup->name }}</option>
+                                                    @else
                                                         <option value="{{ $followup->id }}">{{ $followup->name }}</option>
                                                     @endif
                                                 @empty
@@ -142,14 +144,14 @@
                                         <td>
                                             <div class="input-group date">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" class="form-control input-sm" value="{{ $sample->dateinitiatedontreatment ?? '' }}" name="dateinitiatedontreatment{{ $count }}" id="dateinitiatedontreatment{{ $count }}" disabled  style="width: 150px;">
+                                                <input type="text" class="form-control input-sm" value="{{ $sample->dateinitiatedontreatment ?? '' }}" name="dateinitiatedontreatment{{ $count }}" id="dateinitiatedontreatment{{ $count }}" @if($sample->enrollment_status != 1) disabled @else required @endif style="width: 150px;">
                                             </div>
                                         </td>
                                         <td>
-                                            <input class="form-control" type="text" name="enrollment_ccc_no{{ $count }}" id="enrollment_ccc_no{{ $count }}" value="{{ $sample->enrollment_ccc_no ?? '' }}" disabled>
+                                            <input class="form-control" type="text" name="enrollment_ccc_no{{ $count }}" id="enrollment_ccc_no{{ $count }}" value="{{ $sample->enrollment_ccc_no ?? '' }}" @if($sample->enrollment_status != 1) disabled @endif>
                                         </td>
                                         <td>
-                                            <select class="form-control" name="facility_id{{ $count }}" id="facility_id{{ $count }}" disabled style="width: 200px;">
+                                            <select class="form-control" name="facility_id{{ $count }}" id="facility_id{{ $count }}" @if($sample->enrollment_status != 5) disabled @else required @endif style="width: 200px;">
                                                 @if($data->edit)
                                                     @isset($data->facilitys[$key])
                                                         <option value="{{ $data->facilitys[$key]->id }}">{{ $data->facilitys[$key]->name }}</option>
@@ -157,7 +159,7 @@
                                                 @endif
                                             </select>
                                         </td>
-                                        <td><textarea  class="form-control" name="other_reason{{ $count }}" id="other_reason{{ $count }}" value="{{ $sample->otherreason ?? '' }}" disabled></textarea></td>
+                                        <td><textarea  class="form-control" name="other_reason{{ $count }}" id="other_reason{{ $count }}" value="{{ $sample->otherreason ?? '' }}" @if($sample->enrollment_status != 6) disabled @else required @endif></textarea></td>
                                     </tr>
                                 @empty
                                     <tr><td colspan="12"><center>No Data available</center></td></tr>
@@ -229,6 +231,18 @@
                     $("#hei_validation{{ $key }}").attr('required','true');
                     $("#enrollment_status{{ $key }}").removeAttr('disabled');
                     $("#enrollment_status{{ $key }}").attr('required','true');
+                    @if($sample->enrollment_status == 1)
+                        $("#dateinitiatedontreatment{{ $key }}").removeAttr('disabled');
+                        $("#dateinitiatedontreatment{{ $key }}").attr('required','true');
+                        $("#enrollment_ccc_no{{ $key }}").removeAttr('disabled');
+                        $("#enrollment_ccc_no{{ $key }}").attr('required','true');
+                    @elseif($sample->enrollment_status == 5)
+                        $("#facility_id{{ $key }}").removeAttr('disabled');
+                        $("#facility_id{{ $key }}").attr('required','true');
+                    @elseif($sample->enrollment_status == 6)
+                        $("#other_reason{{ $key }}").removeAttr('disabled');
+                        $("#other_reason{{ $key }}").attr('required','true');
+                    @endif
                 @endforeach
             }
             else{
@@ -242,6 +256,18 @@
                     $("#hei_validation{{ $key }}").attr('disabled','true');
                     $("#enrollment_status{{ $key }}").removeAttr('required');
                     $("#enrollment_status{{ $key }}").attr('disabled','true');
+                    @if($sample->enrollment_status == 1)
+                        $("#dateinitiatedontreatment{{ $key }}").removeAttr('required');
+                        $("#dateinitiatedontreatment{{ $key }}").attr('disabled','true');
+                        $("#enrollment_ccc_no{{ $key }}").removeAttr('required');
+                        $("#enrollment_ccc_no{{ $key }}").attr('disabled','true');
+                    @elseif($sample->enrollment_status == 5)
+                        $("#facility_id{{ $key }}").removeAttr('required');
+                        $("#facility_id{{ $key }}").attr('disabled','true');
+                    @elseif($sample->enrollment_status == 6)
+                        $("#other_reason{{ $key }}").removeAttr('required');
+                        $("#other_reason{{ $key }}").attr('disabled','true');
+                    @endif
                 @endforeach         
             }
         });
@@ -276,11 +302,34 @@
                     $("#id{{ $key }}").attr('disabled', 'true');
                     $("#patient{{ $key }}").attr('disabled', 'true');
                     $("#hei_validation{{ $key }}").attr('disabled', 'true');
+                    $("#enrollment_status{{ $key }}").attr('disabled','true');
+                    $("#dateinitiatedontreatment{{ $key }}").attr('disabled','true');
+                    $("#enrollment_ccc_no{{ $key }}").attr('disabled','true');
+                    $("#facility_id{{ $key }}").attr('disabled','true');
+                    $("#other_reason{{ $key }}").attr('disabled','true');
                 } else {
                     $("#id{{ $key }}").removeAttr('disabled');
                     $("#patient{{ $key }}").removeAttr('disabled');
                     $("#hei_validation{{ $key }}").removeAttr('disabled');
                     $("#hei_validation{{ $key }}").attr('required','true');
+                    @if($sample->hei_validation == 1)
+                        $("#enrollment_status{{ $key }}").removeAttr('disabled');
+                        $("#enrollment_status{{ $key }}").attr('required','true');
+                    @endif
+                    @if($sample->enrollment_status == 1)
+                        $("#dateinitiatedontreatment{{ $key }}").removeAttr('disabled');
+                        $("#dateinitiatedontreatment{{ $key }}").attr('required','true');
+                        $("#enrollment_ccc_no{{ $key }}").removeAttr('disabled');
+                        $("#enrollment_ccc_no{{ $key }}").attr('required','true');
+                    @endif
+                    @if($sample->enrollment_status == 5)
+                        $("#facility_id{{ $key }}").removeAttr('disabled');
+                        $("#facility_id{{ $key }}").attr('required','true');
+                    @endif
+                    @if($sample->enrollment_status == 6)
+                        $("#other_reason{{ $key }}").removeAttr('disabled');
+                        $("#other_reason{{ $key }}").attr('required','true');
+                    @endif
                 }
             @endforeach
         });
