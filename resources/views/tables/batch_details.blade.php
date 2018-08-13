@@ -12,7 +12,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <p><strong>Batch:</strong> {{ $batch->id  ?? '' }}</p>
+                            <p><strong>Batch:</strong> {{ $batch->original_batch_id  ?? '' }}</p>
                         </div>
                         <div class="col-md-8">
                             <p><strong>Facility:</strong> {{ ($batch->view_facility->facilitycode . ' - ' . $batch->view_facility->name . ' (' . $batch->view_facility->county . ')') ?? '' }}</p>
@@ -57,7 +57,7 @@
                         </div>                       
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover" >
+                        <table class="table table-striped table-bordered table-hover data-table" >
                             <thead>
                                 <tr>
                                     <th colspan="17"><center> Sample Log</center></th>
