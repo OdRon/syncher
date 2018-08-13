@@ -37,7 +37,28 @@
                     </div>
                     <div class="panel-body">
                         <div class="alert alert-warning">
-                            <center>Please select Overall <strong>or Province or County or District or Facility & Period To generate the report based on your criteria.</strong></center>
+                            <center>
+                                Please select Overall 
+                                <strong>
+                                @if(Auth::user()->user_type_id == 9 || !(Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 5))
+                                    @if(Auth::user()->user_type_id != 7 || Auth::user()->level == 85)
+                                        or County 
+                                    @endif
+                                @endif
+                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 5 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+                                    or Sub-County 
+                                @endif
+                                @if(Auth::user()->user_type_id != 6)
+                                    or Facility  
+                                @endif
+                                @if(Auth::user()->user_type_id == 2)
+                                    or Partner  
+                                @endif
+                                @if(Auth::user()->user_type_id == 9)
+                                    or Lab 
+                                @endif
+                                    & Period To generate the report based on your criteria.
+                                </strong></center>
                         </div>
                         {{ Form::open(['url'=>'/reports', 'method' => 'post', 'class'=>'form-horizontal', 'id' => 'reports_form']) }}
                         <input type="hidden" name="testtype" value="{{ $testtype }}">
