@@ -14,13 +14,18 @@
                                               
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover" >
+                        <table class="table table-striped table-bordered table-hover data-table" >
                             <thead>
                                 <tr> 
-                                    <th>#</th>
-                                    <th>Batch No</th>
-                                    <th>Date Received</th>
-                                    <th>Action</th>
+                                    <th rowspan="2">#</th>
+                                    <th rowspan="2">Batch No</th>
+                                    <th rowspan="2">Date Received</th>
+                                    <th colspan="3"><center>Action<center></th>
+                                </tr>
+                                <tr>
+                                    <th>View</th>
+                                    <th>Print Summary</th>
+                                    <th>Print Individual</th>
                                 </tr>
                             </thead>
                             <tbody> 
@@ -30,7 +35,13 @@
                                         <td> {{ $batch->original_batch_id }} </td>
                                         <td> {{ $batch->datereceived }} </td>
                                         <td>
-                                            <a href="{{ url('results/'.$batch->id.'/'.$testtype.'/batch') }}">View Batch</a>
+                                            <center><a href="{{ url('results/'.$batch->id.'/'.$testtype.'/batch') }}">View Batch</a></center>
+                                        </td>
+                                        <td>
+                                            <center><a href='{{ url("printindividualbatch/$testtype/$batch->id") }}'><img src="{{ asset('img/print.png') }}" />&nbsp;Batch-Individual</a></center>
+                                        </td>
+                                        <td>
+                                            <center><a href='{{ url("printbatchsummary/$testtype/$batch->id") }}'><img src="{{ asset('img/print.png') }}" />&nbsp;Summary</a></center>
                                         </td>
                                     </tr>
                                 @endforeach
