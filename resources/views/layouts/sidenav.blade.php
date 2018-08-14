@@ -70,7 +70,7 @@
                 <hr />
             @endif
             
-            @if(!(Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+            @if(!(Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7 || Auth::user()->user_type_id == 2))
                 @if(Auth::user()->user_type_id != 8)
                 <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
                 @endif
