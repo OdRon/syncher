@@ -16,7 +16,7 @@ use Excel;
 class ReportController extends Controller
 {
     //
-
+    public static $alphabets = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
     public function index($testtype = NULL)
     {   
         if (NULL == $testtype) 
@@ -83,15 +83,16 @@ class ReportController extends Controller
         // dd($request->all());
         $dateString = '';
         $title = "";
+        $briefTitle = "";
         $excelColumns = [];
         
-        $data = self::__getDateData($request,$dateString, $excelColumns, $title);
-        $this->__getExcel($data, $title, $excelColumns);
+        $data = self::__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
+        $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         
         return back();
     }
 
-    public static function __getDateData($request, &$dateString, &$excelColumns, &$title)
+    public static function __getDateData($request, &$dateString, &$excelColumns, &$title, &$briefTitle)
     {
         ini_set("memory_limit", "-1");
         
@@ -107,7 +108,7 @@ class ReportController extends Controller
             $subc = ViewFacility::where('subcounty_id', '=', auth()->user()->level)->get()->first();
             $title .= $subc->subcounty . " ";
         }
-                // dd($title);
+        
     	if ($request->testtype == 'VL') {
             $table = 'viralsample_complete_view';
             $selectStr = "$table.original_sample_id, $table.original_batch_id, $table.patient, labs.labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, $table.sampletype_name as sampletype, $table.datecollected, $table.justification_name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
@@ -117,31 +118,37 @@ class ReportController extends Controller
                 $selectStr .= ", $table.receivedstatus_name as receivedstatus, $table.reason_for_repeat, viralrejectedreasons.name as rejectedreason, $table.prophylaxis_name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
                 
                 $title .= "vl TEST OUTCOMES FOR ";
+                $briefTitle .= "vl TEST OUTCOMES ";
             } else if ($request->indicatortype == 5) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Rejected Reason', 'Lab Comment'];
                 $selectStr .= ", $table.receivedstatus_name as receivedstatus, viralrejectedreasons.name as rejectedreason, $table.labcomment";
                 
                 $title .= "vl rejected TEST OUTCOMES FOR ";
+                $briefTitle .= "vl rejected TEST OUTCOMES ";
             } else if ($request->indicatortype == 4) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Regimen', 'Regimen Line', 'PMTCT', 'Result'];
                 $selectStr .= ", $table.receivedstatus_name as receivedstatus, $table.prophylaxis_name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
                 
                 $title .= "vl Non Suppressed ( > 1000 cp/ml) FOR ";
+                $briefTitle .= "vl Non Suppressed ( > 1000 cp/ml) ";
             } else if ($request->indicatortype == 6) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Regimen', 'Regimen Line', 'PMTCT', 'Result'];
                 $selectStr .= ", $table.receivedstatus_name as receivedstatus, $table.prophylaxis_name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result";
                 
                 $title .= "VL PREGNANT & LACTATING MOTHERS FOR ";
+                $briefTitle .= "vl PREGNANT & LACTATING MOTHERS ";
             } else if ($request->indicatortype == 9) {
                 $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code'];
                 $selectStr = "distinct $table.facility_id";
 
                 $title .= "VL DORMANT SITES FOR ";
+                $briefTitle .= "vl DORMANT ";
             } else if ($request->indicatortype == 10) {
                 $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Total Samples'];
                 $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT($table.id) as totaltests";
 
                 $title .= "VL SITES DIONG REMOTE SAMPLE ENTRY FOR ";
+                $briefTitle .= "vl SITES DIONG REMOTE SAMPLE ENTRY ";
             }
 
             $model = ViralsampleCompleteView::selectRaw($selectStr)
@@ -153,7 +160,7 @@ class ReportController extends Controller
                 ->where("$table.repeatt", '=', 0)->where("$table.flag", '=', 1);
 
             if (!($request->indicatortype == 9 || $request->indicatortype == 10)) {
-                $model = $model->where(['repeatt' => 0, 'flag' => 1]);
+                $model = $model->where(['repeatt' => 0, "$table.flag" => 1]);
             }
 
             if ($request->indicatortype == 5) {
@@ -187,44 +194,59 @@ class ReportController extends Controller
             if ($request->indicatortype == 1 || $request->indicatortype == 6) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result'];
                 $selectStr .= ",$table.regimen_name as infantprophylaxis, $table.receivedstatus_name as receivedstatus, $table.spots, $table.feeding_name, entry_points.name as entrypoint, ir.name as infantresult, $table.mother_prophylaxis_name as motherprophylaxis, mr.name as motherresult";
-                if ($request->indicatortype == 1)
+                if ($request->indicatortype == 1) {
                     $title .= "EID TEST OUTCOMES FOR ";
-                if ($request->indicatortype == 6)
+                    $briefTitle .= "EID TEST OUTCOMES ";
+                }
+                if ($request->indicatortype == 6) {
                     $title .= "EID PATIENTS <2M ";
+                    $briefTitle .= "EID PATIENTS <2M ";
+                }
             } else if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result', 'Validation (CP,A,VL,RT,UF)', 'Enrollment Status', 'Date Initiated on Treatment', 'Enrollment CCC #', 'Other Reasons'];
 
                 $selectStr .= ", ir.name as infantresult, hv.desc as hei_validation, hc.name as enrollment_status, $table.dateinitiatedontreatment, $table.enrollment_ccc_no, $table.otherreason";
-                if ($request->indicatortype == 2)
+                if ($request->indicatortype == 2) {
                     $title .= "EID POSITIVE TEST OUTCOMES FOR ";
-                if ($request->indicatortype == 3)
+                    $briefTitle .= "EID POSITIVE TEST OUTCOMES ";
+                }
+                if ($request->indicatortype == 3) {
                     $title .= "EID POSITIVE TEST OUTCOMES FOR FOLLOW UP FOR ";
-                if ($request->indicatortype == 4)
+                    $briefTitle .= "EID POSITIVEs FOR FOLLOW UP ";
+                }
+                if ($request->indicatortype == 4) {
                     $title .= "EID NEGATIVE TEST OUTCOMES FOR FOLLOW UP FOR ";
+                    $briefTitle .= "EID NEGATIVEs FOR FOLLOW UP ";
+                }
             } else if ($request->indicatortype == 5) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Received Status', 'Rejected Reason'];
                 $selectStr .= ", $table.receivedstatus_name as receivedstatus, rejectedreasons.name";
                 
                 $title .= "EID REJECTED SAMPLES FOR ";
+                $briefTitle .= "EID REJECTED SAMPLES ";
             } else if ($request->indicatortype == 7) {
                 $excelColumns = ['County', 'Sub-County', 'Facilty', 'Facility Code', 'Total Positives'];
                 $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT($table.id) as totaltests";
                 
                 $title .= "EID HIGH BURDEN SITES FOR ";
+                $briefTitle .= "EID HIGH BURDEN SITES ";
             } else if ($request->indicatortype == 8) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result'];
                 $selectStr .= ", ir.name as infantresult";
 
-                $title .= "RHT TESTING";
+                $title .= "RHT TESTING ";
+                $briefTitle .= "RHT TESTING ";
             } else if ($request->indicatortype == 9) {
                 $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code'];
                 $selectStr = "distinct $table.facility_id";
                 $title = "EID DORMANT SITES FOR ";
+                $briefTitle .= "EID DORMANT SITES ";
             } else if ($request->indicatortype == 10) {
                 $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Total Samples'];
                 $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT($table.id) as totaltests";
 
                 $title .= "EID SITES DIONG REMOTE SAMPLE ENTRY FOR ";
+                $briefTitle .= "EID SITES DIONG REMOTE SAMPLE ENTRY ";
             }
             
             if ($request->indicatortype == 7) {
@@ -244,7 +266,7 @@ class ReportController extends Controller
                         ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
             }
             if (!($request->indicatortype == 5 || $request->indicatortype == 9 || $request->indicatortype == 10)) {
-                $model = $model->where(['repeatt' => 0, 'flag' => 1]);
+                $model = $model->where(['repeatt' => 0, "$table.flag" => 1]);
             }
 
             if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
@@ -297,6 +319,7 @@ class ReportController extends Controller
                                 ['MFL Code', 'Facility Name', 'County', 'Partner', '# of Samples'],
                             ];
             $title = "REMOTE LOGIN FOR ";
+            $briefTitle = "REMOTE LOGIN FOR ";
             if ($request->indicatortype == 11) {
                 $table = "samples_view";
                 $countyData = SampleView::selectRaw("view_facilitys.county as county, count(distinct $table.facility_id) as facilities")
@@ -317,10 +340,11 @@ class ReportController extends Controller
                 $facilityData = SampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
                                 ->where('site_entry', '=', 1)
-                                ->where('repeatt', '=', 0)->where('flag', '=', 1)
+                                ->where('repeatt', '=', 0)->where("$table.flag", '=', 1)
                                 ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
                                 ->orderBy('samplecount', 'desc');
                 $title .= "EID SAMPLES TESTED ";
+                $briefTitle = "EID SAMPLES TESTED ";
             } else if ($request->indicatortype == 12) {
                 $table = "viralsamples_view";
                 $countyData = ViralsampleView::selectRaw("view_facilitys.county as county, count(distinct $table.facility_id) as facilities")
@@ -341,10 +365,11 @@ class ReportController extends Controller
                 $facilityData = ViralsampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
                                 ->where('site_entry', '=', 1)
-                                ->where('repeatt', '=', 0)->where('flag', '=', 1)
+                                ->where('repeatt', '=', 0)->where("$table.flag", '=', 1)
                                 ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
                                 ->orderBy('samplecount', 'desc');
                 $title .= "VL SAMPLES TESTED ";
+                $briefTitle = "VL SAMPLES TESTED ";
             }
         } else {
             return back();
@@ -501,21 +526,30 @@ class ReportController extends Controller
                 ];
         }
         $title .= " FOR ".$dateString;
+        $briefTitle .= " - ".$dateString;
         $title = strtoupper($title);
+        $briefTitle = strtoupper($briefTitle);
         
     	return $model;
     }
 
-    public static function __getExcel($data, $title, $dataArray)
+    public static function __getExcel($data, $title, $dataArray, $briefTitle)
     {
         $newdataArray = [];
         $finaldataArray = [];
         $sheetTitle = [];
+        $mergeCellsArray = [];
         ini_set("memory_limit", "-1");
         if (is_array($data)) {
             $count = 0;
             foreach ($data as $key => $value) {
                 $newValue = $value->get();
+                $mergeCells = "";
+                for($i=0;$i=sizeof($dataArray[$count]);$i++) {
+                    $mergeCells .= self::$alphabets[$i].'1';
+                }
+                $mergeCellsArray[] = $mergeCells;
+                // $newdataArray[] = $title;
                 $newdataArray[] = $dataArray[$count];
                 if ($newValue->isNotEmpty()) {
                     foreach ($newValue as $report) {
@@ -532,6 +566,17 @@ class ReportController extends Controller
         } else {
             $data = $data->get();
             if($data->isNotEmpty()) {
+                $mergeCells = "";
+                $size = sizeof($dataArray);
+                for($i=0;$i<=$size;$i++) {
+                    if ($size==$i) {
+                        $mergeCells .= self::$alphabets[$i].'1';
+                    } else {
+                        $mergeCells .= self::$alphabets[$i].'1:';
+                    }
+                }
+                $mergeCellsArray[] = $mergeCells;
+                // $newdataArray[] = $title;
                 $newdataArray[] = $dataArray;
                 foreach ($data as $report) {
                     $newdataArray[] = $report->toArray();
@@ -542,16 +587,19 @@ class ReportController extends Controller
             $sheetTitle[] = $title;
             $finaldataArray[] = $newdataArray;
         }
-        
-        Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
+        // dd($finaldataArray);
+        Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle, $mergeCellsArray) {
             $excel->setTitle($title);
             $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
             $excel->setDescription($title);
             foreach ($finaldataArray as $key => $value) {
                 $stitle = $sheetTitle[$key];
-                $excel->sheet($stitle, function($sheet) use ($value) {
+                $count = 0;
+                $excel->sheet($stitle, function($sheet) use ($value,$mergeCellsArray,$count) {
+                    $sheet->mergeCells($mergeCellsArray[$count]);
                     $sheet->fromArray($value, null, 'A1', false, false);
                 });
+                $count++;
             }
         })->download('xlsx');
     }

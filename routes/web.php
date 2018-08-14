@@ -21,6 +21,17 @@ Route::redirect('/', 'login');
 Route::get('login/facility', 'Auth\\LoginController@fac_login')->name('login.facility');
 Route::post('login/facility', 'Auth\\LoginController@facility_login');
 
+Route::prefix('download')->name('download.')->group(function(){
+
+	Route::get('user_guide', 'DownloadController@user_guide')->name('user_guide');
+	Route::get('consumption', 'DownloadController@consumption')->name('consumption');
+	Route::get('hei', 'DownloadController@hei')->name('hei');
+	Route::get('poc', 'DownloadController@poc')->name('poc');
+	Route::get('eid_req', 'DownloadController@eid_req')->name('eid_req');
+	Route::get('vl_req', 'DownloadController@vl_req')->name('vl_req');
+
+});
+
 Auth::routes();
 
 Route::post('facility/search/', 'FacilityController@search')->name('facility.search');
