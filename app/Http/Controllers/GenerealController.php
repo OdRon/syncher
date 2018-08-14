@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\ViewFacility;
 use App\SampleCompleteView;
 use App\ViralsampleCompleteView;
+use App\Sample;
+use App\Viralsample;
 use App\Batch;
 use App\Viralbatch;
 use App\Patient;
@@ -249,32 +251,30 @@ class GenerealController extends Controller
     public function print_individual($testSysm,$id) {
         $sampleid = intval($id);
         $testSysm = strtoupper($testSysm);
-        $previousSamples = [];
         if ($testSysm == 'VL') {
-            $samples = ViralsampleCompleteView::with(['facility','lab'])->where('id', '=', $sampleid)->whereNotNull('datereceived')->get();
-            $patientSample = $samples->first();
-            $previousSamples = ViralsampleCompleteView::where('patient', '=', "$patientSample->patient")
-                                                    ->where('datereceived', '<', "$patientSample->datereceived")
-                                                    ->orderBy('datereceived', 'desc')->get();
+            $samples = Viralsample::join('viralbatches', 'viralbatches.id', '=', 'viralsamples.batch_id')->where('viralsamples.id', '=', $sampleid)->whereNotNull('viralbatches.datereceived')->first();
             $data = Lookup::get_viral_lookups();
+            $relationships = ['patient', 'approver', 'batch.lab', 'batch.view_facility', 'batch.receiver', 'batch.creator'];
         } else if ($testSysm == 'EID') {
-            $samples = SampleCompleteView::with(['facility','lab'])->where('id', '=', $sampleid)->whereNotNull('datereceived')->get();
+            $samples = Sample::join('batches', 'batches.id', '=', 'samples.batch_id')->where('samples.id', '=', $sampleid)->whereNotNull('batches.datereceived')->first();
             $data = Lookup::get_eid_lookups();
+            $relationships = ['patient.mother', 'batch.lab', 'batch.view_facility', 'batch.receiver', 'batch.creator'];
         } else {
             return back();
         }
-        $data['samples'] = $samples;
-        $data['previousSamples'] = $previousSamples;
-        $data['testSysm'] = $testSysm;
-        $facility = $samples->first()->facility->name;
-        $datereceived = date('d-M-Y', strtotime($samples->first()->datereceived));
+        $samples = $samples->load($relationships);
+        $data['sample'] = $samples;
+        $data['testingSys'] = $testSysm;
+        
+        // return view('reports.individualresult', $data);
+        $facility = $samples->batch->view_facility->name;
+        $datereceived = date('d-M-Y', strtotime($samples->datereceived));
         $fileName = $testSysm. " Individual Samples Report for $facility Received on $datereceived";
         
         $mpdf = new Mpdf(['format' => 'A4-L']);
         $view_data = view('reports.individualresult', $data)->render();
         $mpdf->WriteHTML($view_data);
         $mpdf->Output($fileName.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
-
     }
 
     public function print_batch_individual($testingSystem,$batch) {
@@ -290,11 +290,18 @@ class GenerealController extends Controller
             $data['testingSys'] = 'VL';
             $relationships = ['patient', 'approver', 'batch.lab', 'batch.view_facility', 'batch.receiver', 'batch.creator'];
         }
+        $batch = $batch->load('view_facility');
         $samples = $batch->sample;
         $data['samples'] = $samples->load($relationships);
-        $data = (object)$data;
-        
-        return view('reports.individualbatch', compact('data'));
+        // $data = (object)$data;
+        $facility = $batch->view_facility->name;
+        $datereceived = date('d-M-Y', strtotime($batch->datereceived));
+        $fileName = $testingSystem. " Individual Samples Report for $facility Received on $datereceived";
+        // return view('reports.individualbatch', $data);
+        $mpdf = new Mpdf(['format' => 'A4-L']);
+        $view_data = view('reports.individualbatch', $data)->render();
+        $mpdf->WriteHTML($view_data);
+        $mpdf->Output($fileName.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
     }
 
     public function print_batch_summary($testingSystem, $batch) {
@@ -357,7 +364,7 @@ class GenerealController extends Controller
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'sample_complete_view.rejectedreason');
     	} else if ($testingSystem == 'vl') {
     		$table = "viralsample_complete_view";
-    		$model = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.batch_id','viralsample_complete_view.original_batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','viralsample_complete_view.result','viralsample_complete_view.units','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
+    		$model = ViralsampleCompleteView::select('viralsample_complete_view.id','viralsample_complete_view.batch_id','viralsample_complete_view.original_batch_id','viralsample_complete_view.patient_id', 'viralsample_complete_view.patient','view_facilitys.name as facility', 'labs.name as lab','viralsample_complete_view.datecollected','viralsample_complete_view.datereceived','viralsample_complete_view.datedispatched','viralsample_complete_view.datetested','viralsample_complete_view.result','viralsample_complete_view.units','viralsample_complete_view.interpretation','viralsample_complete_view.receivedstatus_name','rejectedreasons.name as rejectedreason')
     						->leftJoin('labs', 'labs.id', '=', 'viralsample_complete_view.lab_id')
     						->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralsample_complete_view.facility_id')
     						->leftJoin('rejectedreasons', 'rejectedreasons.id', '=', 'viralsample_complete_view.rejectedreason');
@@ -414,9 +421,9 @@ class GenerealController extends Controller
                 if ($value->result == '< LDL copies/ml') {
                     $result = "<span class='label label-success'>$value->result</span>";
                 } else if (intval($value->result) < 1000) {
-                    $result = "<span class='label label-success'>$value->result&nbsp;$value->units</span>";
+                    $result = "<span class='label label-success'>$value->interpretation</span>";
                 } else {
-                    $result = "<span class='label label-danger'>$value->result&nbsp;$value->units</span>";
+                    $result = "<span class='label label-danger'>$value->interpretation</span>";
                 }
             }
     		$data[] = [

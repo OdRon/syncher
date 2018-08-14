@@ -37,42 +37,40 @@
                 <li><a href="{{ url('reports/VL') }}">VL Results/Reports</a></li>
                 <hr />
             @endif
-            @if(Auth::user()->user_type_id != 2)
-                @if(Auth::user()->user_type_id != 6)
-                    <li><a href="{{ url('hei/validate') }}">HEI Patient Follow Up</a></li>
-                    <hr />
-                    <li><a href="{{ url('#') }}">HEI Validation Guide</a></li>
-                    <hr />
-                    @if(Auth::user()->user_type_id != 2)
-                        @if(Auth::user()->user_type_id != 8)
-                            <li><a href="{{ url('sites') }}">Facilities</a></li>
-                            <hr />
-                            <li><a href="#">User Guide</a></li>
-                            <hr />
-                            <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
-                            <hr />
-                        @endif
-                    @endif
-                    @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 8)
-                        <li>
-                            <a href="{{ url('downloads/EID') }}">EID Requisition Form</a>
-                        </li>
+            @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+                <li><a href="{{ url('hei/validate') }}">HEI Patient Follow Up</a></li>
+                <hr />
+                <li><a href="{{ url('#') }}">HEI Validation Guide</a></li>
+                <hr />
+                @if(Auth::user()->user_type_id != 2)
+                    @if(Auth::user()->user_type_id != 8)
+                        <li><a href="{{ url('sites') }}">Facilities</a></li>
                         <hr />
-                        <li>
-                            <a href="{{ url('downloads/VL') }}">VL Requisition Form</a>
-                        </li>
+                        <li><a href="#">User Guide</a></li>
+                        <hr />
+                        <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
                         <hr />
                     @endif
                 @endif
+                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 8)
+                    <li>
+                        <a href="{{ url('downloads/EID') }}">EID Requisition Form</a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a href="{{ url('downloads/VL') }}">VL Requisition Form</a>
+                    </li>
+                    <hr />
+                @endif
             @endif
-            @if(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6)
+            @if(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7)
                 <li><a href="https://eid.nascop.org">EID Summaries</a></li>
                 <hr />
                 <li><a href="https://viralload.nascop.org">VL Summaries</a></li>
                 <hr />
             @endif
             
-            @if(Auth::user()->user_type_id != 6)
+            @if(!(Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
                 @if(Auth::user()->user_type_id != 8)
                 <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
                 @endif

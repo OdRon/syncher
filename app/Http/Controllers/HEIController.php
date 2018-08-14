@@ -37,10 +37,11 @@ class HEIController extends Controller
 
     public function followup(Request $request,$duration='outcomes',$validation=null,$year=null,$month=null)
     {
-        if (!($year == null || strtolower($year) == 'null'))
+        if (!($year == null || strtolower($year) == 'null')) {
             session(['followupYear'=>$year]);
             session()->forget('followupMonth');
-        if (!($month == null || strtolower($month) == 'null')) 
+        }
+        if (!($month == null || strtolower($month) == 'null'))
             session(['followupMonth'=>$month]);
         
         $year = session('followupYear');
@@ -209,9 +210,10 @@ class HEIController extends Controller
             return back();
         
     	$usertype = auth()->user()->user_type_id;
-        $model = SampleCompleteView::selectRaw("distinct sample_complete_view.patient_id, sample_complete_view.patient, sample_complete_view.original_patient_id, sample_complete_view.ccc_no, sample_complete_view.patient, sample_complete_view.gender_description, sample_complete_view.dob, sample_complete_view.dateinitiatedontreatment, sample_complete_view.hei_validation, sample_complete_view.enrollment_ccc_no, sample_complete_view.enrollment_status, sample_complete_view.referredfromsite, sample_complete_view.otherreason, view_facilitys.name as facility, view_facilitys.county, view_facilitys.facilitycode")
+        $model = SampleCompleteView::selectRaw("distinct sample_complete_view.patient_id, sample_complete_view.patient, sample_complete_view.original_patient_id, sample_complete_view.ccc_no, sample_complete_view.patient, sample_complete_view.gender_description, sample_complete_view.age, sample_complete_view.dob, pcrtype.alias as pcrtype, sample_complete_view.dateinitiatedontreatment, sample_complete_view.hei_validation, sample_complete_view.enrollment_ccc_no, sample_complete_view.enrollment_status, sample_complete_view.referredfromsite, sample_complete_view.otherreason, view_facilitys.name as facility, view_facilitys.county, view_facilitys.facilitycode")
     				->join('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
-                    ->where('sample_complete_view.repeatt', '=', 0)
+                    ->join('pcrtype', 'pcrtype.id', '=', 'sample_complete_view.pcrtype')
+                    ->where(['sample_complete_view.repeatt' => 0,'sample_complete_view.flag' => 1])
                     ->whereIn('sample_complete_view.pcrtype', [1,2,3])
                     ->where('sample_complete_view.result', '=', 2)
                     ->when($usertype, function($query) use ($usertype){
@@ -257,7 +259,7 @@ class HEIController extends Controller
             $model = $model->where('sample_complete_view.hei_validation', '=', 0)
                     ->orWhereNull('sample_complete_view.hei_validation');
         }
-        // dd($model->toSql());
+        // dd($model->get());
         return $model->get();
     }
 }
