@@ -63,7 +63,7 @@
                         {{ Form::open(['url'=>'/reports', 'method' => 'post', 'class'=>'form-horizontal', 'id' => 'reports_form']) }}
                         <input type="hidden" name="testtype" value="{{ $testtype }}">
                         <div class="form-group">
-                            @if(Auth::user()->user_type_id != 6)
+                            @if(!(Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 2))
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" class="i-checks" value="overall">Overall
@@ -130,7 +130,7 @@
                                     </div>
                                     @endif
                                 @endif
-                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 5 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+                                @if(!(Auth::user()->user_type_id == 5 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
                                     <div class="row">
                                         <label class="col-sm-3 control-label">
                                             <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
@@ -305,7 +305,9 @@
                             <label class="col-sm-3 control-label">Select Report Type</label>
                             <div class="col-sm-9">
                             @if($testtype == 'EID')
+                                @if(!(Auth::user()->user_type_id = 2))
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks"> All Outcomes (+/-) </label>
+                                @endif
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks"> + Outcomes </label>
                                 @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
                                 <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>

@@ -37,7 +37,7 @@ class ReportController extends Controller
             $labs = Lab::get();
         } else {
             $facilitys = ViewFacility::when($usertype, function($query) use ($usertype){
-                                        if ($usertype == 2 || $usertype == 3)
+                                        if ($usertype == 3)
                                             return $query->where('partner_id', '=', auth()->user()->level);
                                         if ($usertype == 4)
                                             return $query->where('county_id', '=', auth()->user()->level);
@@ -68,9 +68,8 @@ class ReportController extends Controller
                 if ($usertype == 2)
                     $partners = Partner::where('orderno', '=', 2)->orderBy('name', 'desc')->get();
 
-                if ($usertype != 2)
-                    $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
-                                        if ($usertype == 2 || $usertype == 3)
+                $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
+                                        if ($usertype == 3)
                                             return $query->where('partner_id', '=', auth()->user()->level);
                                         if ($usertype == 4)
                                             return $query->where('county_id', '=', auth()->user()->level);
