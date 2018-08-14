@@ -306,21 +306,21 @@
                             <div class="col-sm-9">
                             @if($testtype == 'EID')
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks"> All Outcomes (+/-) </label>
-                                @if(Auth::user()->user_type_id != 6)
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks"> + Outcomes </label>
-                                    @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 7))
-                                    <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
-                                    @endif
+                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+                                <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
                                 @endif
                                 @if(Auth::user()->user_type_id == 3)
                                     <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes </label>
                                 @endif
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
-                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 7))
                                 <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <= 2M </label>
-                                <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
+                                    @if(!(Auth::user()->user_type_id == 6))
+                                    <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
+                                    @endif
                                 @endif
-                                @if(Auth::user()->user_type_id == 3)
+                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6)
                                     @if(Auth::user()->user_type_id != 2)
                                         <!-- <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label> -->
                                         <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>
@@ -330,7 +330,7 @@
                             @elseif($testtype == 'VL')
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks">Rejected</label>
-                                @if(Auth::user()->user_type_id == 3)
+                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6)
                                     <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> Non Suppressed ( > 1000 cp/ml)</label>
                                     <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Pregnant & Lactating</label>
                                     <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples)</label>
