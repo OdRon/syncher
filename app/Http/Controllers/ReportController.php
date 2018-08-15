@@ -96,12 +96,12 @@ class ReportController extends Controller
             session(['toast_message'=>'Please Enter a category', 'toast_error'=>1]);
             return back();
         }
-        if ($request->testtype == 'support' && $request->indicatortype == 13) {
+        if ($request->testtype == 'support' && ($request->indicatortype == 13 || $request->indicatortype == 14 || $request->indicatortype == 15)) {
             if ($request->category != 'lab') {
                 session(['toast_message' => 'This Report type requires a lab to be selected<br/>Please select a lab from the dropdown', 'toast_error'=>1]);
                 return back();
             }
-            if ($request->period != 'quarterly') {
+            if ($request->period != 'quarterly' && $request->indicatortype == 13) {
                 session(['toast_message' => 'This is a quarterly report<br/>Please select a quarter', 'toast_error'=>1]);
                 return back();
             }
@@ -429,7 +429,18 @@ class ReportController extends Controller
                 $briefTitle = "VL SAMPLES TESTED ";
             } else if ($request->indicatortype == 13) {
                 $data = $this->getVLQuarterlyReportData($request);
-                
+            } else if ($request->indicatortype == 14) {
+                $excelColumns = ['Facility Code', 'Facility', 'County', 'Partner', 'Sub-County', '# of Samples'];
+                $table = 'samples_view';
+                $title = "EID SAMPLES referral network ";
+                $model = SampleView::selectRaw("distinct view_facilitys.facilitycode as facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner, view_facilitys.subcounty, count(*) as totalSamples")
+                        ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")->groupBy(['facility', 'facilitycode', 'county', 'partner', 'subcounty'])->where("$table.facility_id", '<>', 7148)->orderBy('totalSamples', 'desc');
+            } else if ($request->indicatortype == 15) {
+                $excelColumns = ['Facility Code', 'Facility', 'County', 'Partner', 'Sub-County', '# of Samples'];
+                $table = 'viralsamples_view';
+                $title = "VL SAMPLES referral network ";
+                $model = ViralsampleView::selectRaw(" distinct view_facilitys.facilitycode as facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner, view_facilitys.subcounty, count(*) as totalSamples")
+                        ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")->groupBy(['facility', 'facilitycode', 'county', 'partner', 'subcounty'])->where("$table.facility_id", '<>', 7148)->orderBy('totalSamples', 'desc');
             }
         } else {
             return back();
@@ -466,11 +477,15 @@ class ReportController extends Controller
                 $title .= $facility->name;
             } else if ($request->category == 'lab') {
                 $lab = Lab::where('id', '=', $request->lab)->get()->first();
-                $countyData = $countyData->where('lab_id', '=', $request->lab);
-                $partnerData = $partnerData->where('lab_id', '=', $request->lab);
-                $labData = $labData->where('lab_id', '=', $request->lab);
-                $facilityData = $facilityData->where('lab_id', '=', $request->lab);
-                $facilityRemote = $facilityRemote->where('lab_id', '=', $request->lab);
+                if($request->indicatortype == 11 || $request->indicatortype == 12) {
+                    $countyData = $countyData->where('lab_id', '=', $request->lab);
+                    $partnerData = $partnerData->where('lab_id', '=', $request->lab);
+                    $labData = $labData->where('lab_id', '=', $request->lab);
+                    $facilityData = $facilityData->where('lab_id', '=', $request->lab);
+                    $facilityRemote = $facilityRemote->where('lab_id', '=', $request->lab);
+                }else {
+                    $model = $model->where('lab_id', '=', $request->lab);
+                }
                 $title .= "($lab->name)";
             } else if ($request->category == 'overall') {
                 if (auth()->user()->user_type_id == 3) {
@@ -506,7 +521,7 @@ class ReportController extends Controller
 
     	if (isset($request->specificDate)) {
     		$dateString = date('d-M-Y', strtotime($request->specificDate));
-            if ($request->testtype == 'support') {
+            if ($request->testtype == 'support' && ($request->indicatortype == 11 || $request->indicatortype == 12)) {
                 $countyData = $countyData->where("$table.datereceived", '=', $request->specificDate);
                 $partnerData = $partnerData->where("$table.datereceived", '=', $request->specificDate);
                 $labData = $labData->where("$table.datereceived", '=', $request->specificDate);
@@ -524,7 +539,7 @@ class ReportController extends Controller
                     if ($request->period) { $column = 'datetested'; } 
                     else { $column = 'datereceived'; }
                 }
-                if ($request->testtype == 'support') {
+                if ($request->testtype == 'support' && ($request->indicatortype == 11 || $request->indicatortype == 12)) {
                     $countyData = $countyData->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
                     $partnerData = $partnerData->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
                     $labData = $labData->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
@@ -538,7 +553,7 @@ class ReportController extends Controller
                 $column = 'datetested';
                 if ($request->indicatortype == 5 || $request->indicatortype == 9) 
                     $column = 'datereceived';
-                if ($request->testtype == 'support') {
+                if ($request->testtype == 'support' && ($request->indicatortype == 11 || $request->indicatortype == 12)) {
                     $countyData = $countyData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
                     $partnerData = $partnerData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
                     $labData = $labData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
@@ -568,7 +583,7 @@ class ReportController extends Controller
                 $column = 'datetested';
                 if ($request->indicatortype == 5 || $request->indicatortype == 9) 
                     $column = 'datereceived';
-                if ($request->testtype == 'support') {
+                if ($request->testtype == 'support' && ($request->indicatortype == 11 || $request->indicatortype == 12)) {
                     $countyData = $countyData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
                     $partnerData = $partnerData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
                     $labData = $labData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
@@ -582,7 +597,7 @@ class ReportController extends Controller
                 $column = 'datetested';
                 if ($request->indicatortype == 5 || $request->indicatortype == 9) 
                     $column = 'datereceived';
-                if ($request->testtype == 'support') {
+                if ($request->testtype == 'support' && ($request->indicatortype == 11 || $request->indicatortype == 12)) {
                     $countyData = $countyData->whereRaw("YEAR($table.$column) = '".$request->year."'");
                     $partnerData = $partnerData->whereRaw("YEAR($table.$column) = '".$request->year."'");
                     $labData = $labData->whereRaw("YEAR($table.$column) = '".$request->year."'");
@@ -597,7 +612,7 @@ class ReportController extends Controller
             $model = $parent->whereNotIn('id',$model);
         }
         
-        if ($request->testtype == 'support') {
+        if ($request->testtype == 'support' && ($request->indicatortype == 11 || $request->indicatortype == 12)) {
             $model = [
                     'county' => $countyData,
                     'partner' => $partnerData,
@@ -610,7 +625,7 @@ class ReportController extends Controller
         $briefTitle .= " - ".$dateString;
         $title = strtoupper($title);
         $briefTitle = strtoupper($briefTitle);
-        
+        // dd($model->toSql());
     	return $model;
     }
 

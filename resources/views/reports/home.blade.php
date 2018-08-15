@@ -341,6 +341,8 @@
                             @elseif($testtype == 'support')
                                 <label> <input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report </label>
                                 <label> <input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report </label>
+                                <label> <input type="radio" name="indicatortype" value="14" class="i-checks"> EID Sample Referral Network </label>
+                                <label> <input type="radio" name="indicatortype" value="15" class="i-checks"> VL Sample Referral Network </label>
                                 <label> <input type="radio" name="indicatortype" value="13" class="i-checks"> Quarterly VL Report (only for labs) </label>
                             @endif
                             </div>
