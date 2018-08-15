@@ -45,9 +45,11 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::post('followup', 'HEIController@followup');
 	});
 
-	Route::get('reports/{testtype?}', 'ReportController@index')->name('reports');
-	Route::post('reports', 'ReportController@generate');
-
+	Route::prefix('reports')->name('reports.')->group(function(){
+		Route::get('{testtype?}', 'ReportController@index')->name('reports');
+		Route::post('/', 'ReportController@generate');
+	});
+	
 	Route::get('results/{testtype?}', 'ResultController@index')->name('results');
 	Route::get('results/{id}/{testtype}/{type}', 'ResultController@specific')->name('specific.results');
 
