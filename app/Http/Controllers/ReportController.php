@@ -624,6 +624,7 @@ class ReportController extends Controller
 
     public function getVLQuarterlyReportData($request)
     {
+        ini_set("memory_limit", "-1");
         $quarter = (object)self::$quarters[$request->quarter];
         // Build Query objects
         $lab = Lab::where('id', '=', $request->lab)->first();
@@ -638,16 +639,16 @@ class ReportController extends Controller
         $supnogender = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->where('sex', '=', 3)->get()->first()->totalSamples;
         $nonsupnogender = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->where('sex', '=', 3)->get()->first()->totalSamples;
 
-        $supless94 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
-        $nonsupless9 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
-        $sup10to14 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
-        $nonsup10to14 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
-        $sup15to19 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
-        $nonsup15to19 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
-        $sup20to24 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
-        $nonsup20to24 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
-        $supabove25 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
-        $nonsupabove25 = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
+        $supless9 = self::getVLQuarterlyObject($request)->whereIn('age_category',[6,7])->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
+        $nonsupless9 = self::getVLQuarterlyObject($request)->whereIn('age_category',[6,7])->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
+        $sup10to14 = self::getVLQuarterlyObject($request)->where('age_category','=',8)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
+        $nonsup10to14 = self::getVLQuarterlyObject($request)->where('age_category','=',8)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
+        $sup15to19 = self::getVLQuarterlyObject($request)->where('age_category','=',9)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
+        $nonsup15to19 = self::getVLQuarterlyObject($request)->where('age_category','=',9)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
+        $sup20to24 = self::getVLQuarterlyObject($request)->where('age_category','=',10)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
+        $nonsup20to24 = self::getVLQuarterlyObject($request)->where('age_category','=',10)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
+        $supabove25 = self::getVLQuarterlyObject($request)->where('age_category','=',11)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
+        $nonsupabove25 = self::getVLQuarterlyObject($request)->where('age_category','=',11)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
 
         $supnoage = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->where('age_category', '=', 0)->get()->first()->totalSamples;
         $nonsupnoage = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->where('age_category', '=', 0)->get()->first()->totalSamples;
@@ -665,7 +666,7 @@ class ReportController extends Controller
             ['Male',$supmale,$nonsupmale],
             ['Female',$supfemale,$nonsupfemale],
             ['No Gender',$supnogender,$nonsupnogender],
-            ['<9',$supless94,$nonsupless9],
+            ['<9',$supless9,$nonsupless9],
             ['10-14',$sup10to14,$nonsup10to14],
             ['15-19',$sup15to19,$nonsup15to19],
             ['20-24',$sup20to24,$nonsup20to24],
@@ -674,6 +675,7 @@ class ReportController extends Controller
             ['Pregnant',$suppregnant,$nonsuppregnant],
             ['Breast Feeding',$supbreastfeeding,$nonsupbreastfeeding],
         ];
+        dd($data);
         $title = "$lab->name $quarter->name $request->year";
         $sheetTitle = "$lab->name";
         //Export Data
