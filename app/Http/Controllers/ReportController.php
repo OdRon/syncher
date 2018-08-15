@@ -675,7 +675,7 @@ class ReportController extends Controller
             ['Pregnant',$suppregnant,$nonsuppregnant],
             ['Breast Feeding',$supbreastfeeding,$nonsupbreastfeeding],
         ];
-        dd($data);
+        // dd($data);
         $title = "$lab->name $quarter->name $request->year";
         $sheetTitle = "$lab->name";
         //Export Data
