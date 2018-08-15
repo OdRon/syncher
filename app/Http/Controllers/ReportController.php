@@ -96,7 +96,7 @@ class ReportController extends Controller
             session(['toast_message'=>'Please Enter a category', 'toast_error'=>1]);
             return back();
         }
-        if ($request->testtype == 'support') {
+        if ($request->testtype == 'support' && $request->indicatortype == 13) {
             if ($request->category != 'lab') {
                 session(['toast_message' => 'This Report type requires a lab to be selected<br/>Please select a lab from the dropdown', 'toast_error'=>1]);
                 return back();
@@ -585,7 +585,7 @@ class ReportController extends Controller
                     'facility' => $facilityData
                 ];
         }
-        $title .= " FOR ".$dateString;
+        $title .= " IN ".$dateString;
         $briefTitle .= " - ".$dateString;
         $title = strtoupper($title);
         $briefTitle = strtoupper($briefTitle);
