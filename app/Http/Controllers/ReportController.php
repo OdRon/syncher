@@ -361,6 +361,7 @@ class ReportController extends Controller
                                 ['Partner', '# of Facilities'],
                                 ['Lab', '# of Facilities'],
                                 ['MFL Code', 'Facility Name', 'County', 'Partner', '# of Samples'],
+                                ['MFL Code', 'Facility Name', 'County', 'Partner', '# of Samples'],
                             ];
             $title = "REMOTE LOGIN FOR ";
             $briefTitle = "REMOTE LOGIN FOR ";
@@ -381,9 +382,15 @@ class ReportController extends Controller
                                 ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
                                 ->groupBy('lab')
                                 ->orderBy('facilities', 'desc');
+                $facilityRemote = SampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
+                                ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                                ->where("$table.site_entry", '=', 1)->where("$table.facility_id", '<>', 7148)
+                                ->where('repeatt', '=', 0)->where("$table.flag", '=', 1)
+                                ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
+                                ->orderBy('samplecount', 'desc');
                 $facilityData = SampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-                                ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
+                                ->where("$table.site_entry", '=', 0)->where("$table.facility_id", '<>', 7148)
                                 ->where('repeatt', '=', 0)->where("$table.flag", '=', 1)
                                 ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
                                 ->orderBy('samplecount', 'desc');
@@ -406,9 +413,15 @@ class ReportController extends Controller
                                 ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
                                 ->groupBy('lab')
                                 ->orderBy('facilities', 'desc');
+                $facilityRemote = ViralsampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
+                                ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                                ->where("$table.site_entry", '=', 1)->where("$table.facility_id", '<>', 7148)
+                                ->where('repeatt', '=', 0)->where("$table.flag", '=', 1)
+                                ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
+                                ->orderBy('samplecount', 'desc');
                 $facilityData = ViralsampleView::selectRaw("view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner as partner, count(distinct $table.id) as samplecount")
                                 ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-                                ->where('site_entry', '=', 1)->where("$table.facility_id", '<>', 7148)
+                                ->where("$table.site_entry", '=', 0)->where("$table.facility_id", '<>', 7148)
                                 ->where('repeatt', '=', 0)->where("$table.flag", '=', 1)
                                 ->groupBy(['facilitycode', 'facility', 'county', 'partner'])
                                 ->orderBy('samplecount', 'desc');
@@ -457,6 +470,7 @@ class ReportController extends Controller
                 $partnerData = $partnerData->where('lab_id', '=', $request->lab);
                 $labData = $labData->where('lab_id', '=', $request->lab);
                 $facilityData = $facilityData->where('lab_id', '=', $request->lab);
+                $facilityRemote = $facilityRemote->where('lab_id', '=', $request->lab);
                 $title .= "($lab->name)";
             } else if ($request->category == 'overall') {
                 if (auth()->user()->user_type_id == 3) {
@@ -496,7 +510,8 @@ class ReportController extends Controller
                 $countyData = $countyData->where("$table.datereceived", '=', $request->specificDate);
                 $partnerData = $partnerData->where("$table.datereceived", '=', $request->specificDate);
                 $labData = $labData->where("$table.datereceived", '=', $request->specificDate);
-                $facilityData = $facilityData->where("$table.datereceived", '=', $request->specificDate);
+                $facilityRemote = $facilityRemote->where("$table.datetested", '=', $request->specificDate);
+                $facilityData = $facilityData->where("$table.datetested", '=', $request->specificDate);
             } else {
     		  $model = $model->where("$table.datereceived", '=', $request->specificDate);
             }
@@ -513,6 +528,7 @@ class ReportController extends Controller
                     $countyData = $countyData->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
                     $partnerData = $partnerData->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
                     $labData = $labData->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
+                    $facilityRemote = $facilityRemote->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
                     $facilityData = $facilityData->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
                 } else {
                   $model = $model->whereRaw("$table.$column BETWEEN '".$request->fromDate."' AND '".$request->toDate."'");
@@ -526,6 +542,7 @@ class ReportController extends Controller
                     $countyData = $countyData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
                     $partnerData = $partnerData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
                     $labData = $labData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
+                    $facilityRemote = $facilityRemote->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
                     $facilityData = $facilityData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
                 } else {
                   $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) = '".$request->month."'");
@@ -555,6 +572,7 @@ class ReportController extends Controller
                     $countyData = $countyData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
                     $partnerData = $partnerData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
                     $labData = $labData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
+                    $facilityRemote = $facilityRemote->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
                     $facilityData = $facilityData->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
                 } else {
                   $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
@@ -568,6 +586,7 @@ class ReportController extends Controller
                     $countyData = $countyData->whereRaw("YEAR($table.$column) = '".$request->year."'");
                     $partnerData = $partnerData->whereRaw("YEAR($table.$column) = '".$request->year."'");
                     $labData = $labData->whereRaw("YEAR($table.$column) = '".$request->year."'");
+                    $facilityRemote = $facilityRemote->whereRaw("YEAR($table.$column) = '".$request->year."'");
                     $facilityData = $facilityData->whereRaw("YEAR($table.$column) = '".$request->year."'");
                 } else {
                   $model = $model->whereRaw("YEAR($table.$column) = '".$request->year."'");
@@ -577,11 +596,13 @@ class ReportController extends Controller
         if ($request->indicatortype == 9) {
             $model = $parent->whereNotIn('id',$model);
         }
+        
         if ($request->testtype == 'support') {
             $model = [
                     'county' => $countyData,
                     'partner' => $partnerData,
                     'lab' => $labData,
+                    'facility Doing Remote' => $facilityRemote,
                     'facility' => $facilityData
                 ];
         }
@@ -589,7 +610,7 @@ class ReportController extends Controller
         $briefTitle .= " - ".$dateString;
         $title = strtoupper($title);
         $briefTitle = strtoupper($briefTitle);
-        // dd($model->toSql());
+        
     	return $model;
     }
 
