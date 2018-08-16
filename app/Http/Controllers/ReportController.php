@@ -25,14 +25,14 @@ class ReportController extends Controller
     {   
         if (NULL == $testtype) 
             $testtype = 'EID';
-        // dd(auth()->user());
+        
         $usertype = auth()->user()->user_type_id;
         $facilitys = (object)[];
         $countys = (object)[];
         $subcountys = (object)[];
         $partners = (object)[];
         $labs = (object)[];
-        // dd($usertype);
+        
        if ($usertype == 9) {
             $labs = Lab::get();
         } else {
@@ -80,14 +80,67 @@ class ReportController extends Controller
         return view('reports.home', compact('facilitys','countys','subcountys','partners','labs','testtype'))->with('pageTitle', 'Reports '.$testtype);
     }
 
-    public function dateselect(Request $request)
-    {
-    	$dateString = '';
+    public function nodata($testtype='EID', $year=null, $month=null) {
+        $testtype = strtoupper($testtype);
+        if ($year==null || $year=='null'){
+            if (session('reportYear')==null)
+                session(['reportYear' => gmdate('Y')]);
+        } else {
+            session(['reportYear'=>$year]);
+        }
+        
+        if ($testtype == 'EID') {
+            $age = $this->nodataObject($testtype, session('reportYear'), $month)
+                        ->whereRaw("(age is null or age = 0)")
+                        ->whereNull('dob')->get();
+            $gender = $this->nodataObject($testtype, session('reportYear'), $month)
+                        ->whereRaw("(sex is null or sex = 0)")->get();
+            $data = ['age' => $age, 'gender' => $gender];
+        } else if ($testtype == 'VL') {
+            $age = $this->nodataObject($testtype, session('reportYear'), $month)
+                        ->whereRaw("(age is null or age = 0)")
+                        ->whereNull('dob')->get();
+            $gender = $this->nodataObject($testtype, session('reportYear'), $month)
+                        ->whereRaw("(sex is null or sex = 0)")->get();
+            $regimen = $this->nodataObject($testtype, session('reportYear'), $month)
+                        ->whereRaw("(prophylaxis is null or prophylaxis = 0)")->get();
+            $initiation = $this->nodataObject($testtype, session('reportYear'), $month)
+                                ->whereNull('initiation_date')->get();
+            $data = ['age' => $age, 'gender' => $gender, 'regimen' => $regimen, 'initiation' => $initiation];
+        }
+        $data['testingSystem'] = $testtype;
+        $data = (object)$data;
+        $monthName = "";
+        $year = session('reportYear');
+        
+        if (null !== $month) 
+            $monthName = "- ".date("F", mktime(null, null, null, $month));
+        
+        return view('tables.nodata', compact('data'))->with('pageTitle', "No Data $testtype: $year $monthName");
+    }
 
-	    $data = $this->__getDateData($request, $dateString)->get();
-    	$this->__getExcel($data, $dateString);
-    	
-    	return back();
+    public function nodataObject($testtype, $year, $month) {
+        $model = (object)[];
+        if($testtype == 'EID')
+            $table = "samples_view";
+        if($testtype == 'VL')
+            $table = "viralsamples_view";
+        $selectStr = "$table.id,$table.patient,labs.labname as lab, view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.partner, view_facilitys.county, view_facilitys.subcounty, $table.datetested";
+
+        if ($testtype == 'EID') {
+            $model = SampleView::selectRaw($selectStr);
+        } else if ($testtype == 'VL') {
+            $model = ViralsampleView::selectRaw($selectStr);
+        }
+        $model = $model->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                    ->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
+                    ->where("$table.facility_id", '<>', 7148)
+                    ->when($month, function($query) use ($month, $table){
+                        return $query->whereRaw("MONTH($table.datetested) = $month");
+                    })->whereRaw("YEAR($table.datetested) = $year")
+                    ->orderBy('datetested', 'desc');
+        
+        return $model;
     }
 
     public function generate(Request $request)
@@ -625,7 +678,7 @@ class ReportController extends Controller
         $briefTitle .= " - ".$dateString;
         $title = strtoupper($title);
         $briefTitle = strtoupper($briefTitle);
-        // dd($model->toSql());
+        
     	return $model;
     }
 
@@ -653,7 +706,6 @@ class ReportController extends Controller
         $nonsupfemale = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->where('sex', '=', 2)->get()->first()->totalSamples;
         $supnogender = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->where('sex', '=', 3)->get()->first()->totalSamples;
         $nonsupnogender = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->where('sex', '=', 3)->get()->first()->totalSamples;
-
         $supless9 = self::getVLQuarterlyObject($request)->whereIn('age_category',[6,7])->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
         $nonsupless9 = self::getVLQuarterlyObject($request)->whereIn('age_category',[6,7])->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
         $sup10to14 = self::getVLQuarterlyObject($request)->where('age_category','=',8)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
@@ -664,7 +716,6 @@ class ReportController extends Controller
         $nonsup20to24 = self::getVLQuarterlyObject($request)->where('age_category','=',10)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
         $supabove25 = self::getVLQuarterlyObject($request)->where('age_category','=',11)->whereIn('rcategory', [1,2])->get()->first()->totalSamples;
         $nonsupabove25 = self::getVLQuarterlyObject($request)->where('age_category','=',11)->whereIn('rcategory', [3,4])->get()->first()->totalSamples;
-
         $supnoage = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->where('age_category', '=', 0)->get()->first()->totalSamples;
         $nonsupnoage = self::getVLQuarterlyObject($request)->whereIn('rcategory', [3,4])->where('age_category', '=', 0)->get()->first()->totalSamples;
         $suppregnant = self::getVLQuarterlyObject($request)->whereIn('rcategory', [1,2])->where('pmtct', '=', 1)->get()->first()->totalSamples;
@@ -721,12 +772,6 @@ class ReportController extends Controller
             $count = 0;
             foreach ($data as $key => $value) {
                 $newValue = $value->get();
-                // $mergeCells = "";
-                // for($i=0;$i=sizeof($dataArray[$count]);$i++) {
-                //     $mergeCells .= self::$alphabets[$i].'1';
-                // }
-                // $mergeCellsArray[] = $mergeCells;
-                // $newdataArray[] = $title;
                 $newdataArray[] = $dataArray[$count];
                 if ($newValue->isNotEmpty()) {
                     foreach ($newValue as $report) {
@@ -743,17 +788,6 @@ class ReportController extends Controller
         } else {
             $data = $data->get();
             if($data->isNotEmpty()) {
-                // $mergeCells = "";
-                // $size = sizeof($dataArray);
-                // for($i=0;$i<=$size;$i++) {
-                //     if ($size==$i) {
-                //         $mergeCells .= self::$alphabets[$i].'1';
-                //     } else {
-                //         $mergeCells .= self::$alphabets[$i].'1:';
-                //     }
-                // }
-                // $mergeCellsArray[] = $mergeCells;
-                // $newdataArray[] = $title;
                 $newdataArray[] = $dataArray;
                 foreach ($data as $report) {
                     $newdataArray[] = $report->toArray();
@@ -764,7 +798,7 @@ class ReportController extends Controller
             $sheetTitle[] = 'Sheet1';
             $finaldataArray[] = $newdataArray;
         }
-        // dd($finaldataArray);
+        
         Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
             $excel->setTitle($title);
             $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
@@ -774,33 +808,32 @@ class ReportController extends Controller
                 $excel->sheet($stitle, function($sheet) use ($value) {
                     $sheet->fromArray($value, null, 'A1', false, false);
                 });
-                // $count++;
             }
         })->download('xlsx');
     }
 
 
 
-    public static function __dupgetExcel($data, $title, $dataArray)
-    {
-        ini_set("memory_limit", "-1");
-        if($data->isNotEmpty()) {
-            $newdataArray[] = $dataArray;
-            foreach ($data as $report) {
-                $newdataArray[] = $report->toArray();
-            }
+    // public static function __dupgetExcel($data, $title, $dataArray)
+    // {
+    //     ini_set("memory_limit", "-1");
+    //     if($data->isNotEmpty()) {
+    //         $newdataArray[] = $dataArray;
+    //         foreach ($data as $report) {
+    //             $newdataArray[] = $report->toArray();
+    //         }
             
-            Excel::create($title, function($excel) use ($newdataArray, $title) {
-                $excel->setTitle($title);
-                $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('NASCOP.ORG');
-                $excel->setDescription($title);
+    //         Excel::create($title, function($excel) use ($newdataArray, $title) {
+    //             $excel->setTitle($title);
+    //             $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('NASCOP.ORG');
+    //             $excel->setDescription($title);
 
-                $excel->sheet($title, function($sheet) use ($newdataArray) {
-                    $sheet->fromArray($newdataArray, null, 'A1', false, false);
-                });
-            })->download('xlsx');
-        } else {
-            session(['toast_message' => 'No data available for the criteria provided']);
-        }
-    }
+    //             $excel->sheet($title, function($sheet) use ($newdataArray) {
+    //                 $sheet->fromArray($newdataArray, null, 'A1', false, false);
+    //             });
+    //         })->download('xlsx');
+    //     } else {
+    //         session(['toast_message' => 'No data available for the criteria provided']);
+    //     }
+    // }
 }
