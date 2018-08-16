@@ -743,7 +743,8 @@ class ReportController extends Controller
         ];
         // dd($data);
         $title = "$lab->name $quarter->name $request->year";
-        $sheetTitle = "$lab->name";
+        $string = (strlen($lab->name) > 31) ? substr($lab->name,0,28).'...' : $string;
+        $sheetTitle = "$string";
         //Export Data
         Excel::create($title, function($excel) use ($data, $title, $sheetTitle) {
             $excel->setTitle($title);
