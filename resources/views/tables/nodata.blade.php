@@ -58,24 +58,30 @@
                                     <thead>
                                         <tr> 
                                             <th>#</th>
+                                            <th>System ID</th>
+                                            <th>Patient No</th>
+                                            <th>Lab Tested In</th>
                                             <th>Facility Code</th>
                                             <th>Facility</th>
                                             <th>Partner</th>
                                             <th>County</th>
                                             <th>Sub-County</th>
-                                            <th>No. of Samples</th>
+                                            <th>Date Tested</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     @forelse($data->age as $key => $noage)
                                         <tr>
                                             <td>{{ $key+1 }}</td>
+                                            <td>{{ $noage->id }}</td>
+                                            <td>{{ $noage->patient }}</td>
+                                            <td>{{ $noage->lab }}</td>
                                             <td>{{ $noage->facilitycode }}</td>
                                             <td>{{ $noage->facility }}</td>
                                             <td>{{ $noage->partner }}</td>
                                             <td>{{ $noage->county }}</td>
                                             <td>{{ $noage->subcounty }}</td>
-                                            <td>{{ $noage->total_samples }}</td>
+                                            <td>{{ (isset($noage->datetested)) ? date('Y-M-d', strtotime($noage->datetested)) : '' }}</td>
                                         </tr>
                                     @empty
                                         <tr><td colspan="7">No Age Data</td></tr>
@@ -92,24 +98,30 @@
                                     <thead>
                                         <tr> 
                                             <th>#</th>
+                                            <th>System ID</th>
+                                            <th>Patient No</th>
+                                            <th>Lab Tested In</th>
                                             <th>Facility Code</th>
                                             <th>Facility</th>
                                             <th>Partner</th>
                                             <th>County</th>
                                             <th>Sub-County</th>
-                                            <th>No. of Samples</th>
+                                            <th>Date Tested</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     @forelse($data->gender as $key => $nogender)
                                         <tr>
                                             <td>{{ $key+1 }}</td>
+                                            <td>{{ $nogender->id }}</td>
+                                            <td>{{ $nogender->patient }}</td>
+                                            <td>{{ $nogender->lab }}</td>
                                             <td>{{ $nogender->facilitycode }}</td>
                                             <td>{{ $nogender->facility }}</td>
                                             <td>{{ $nogender->partner }}</td>
                                             <td>{{ $nogender->county }}</td>
                                             <td>{{ $nogender->subcounty }}</td>
-                                            <td>{{ $nogender->total_samples }}</td>
+                                            <td>{{ (isset($nogender->datetested)) ? date('Y-M-d', strtotime($nogender->datetested)) : '' }}</td>
                                         </tr>
                                     @empty
                                         <tr><td colspan="7">No Gender Data</td></tr>
@@ -127,24 +139,30 @@
                                         <thead>
                                             <tr> 
                                                 <th>#</th>
+                                                <th>System ID</th>
+                                                <th>Patient No</th>
+                                                <th>Lab Tested In</th>
                                                 <th>Facility Code</th>
                                                 <th>Facility</th>
                                                 <th>Partner</th>
                                                 <th>County</th>
                                                 <th>Sub-County</th>
-                                                <th>No. of Samples</th>
+                                                <th>Date Tested</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         @forelse($data->regimen as $key => $noregimen)
                                             <tr>
                                                 <td>{{ $key+1 }}</td>
+                                                <td>{{ $noregimen->id }}</td>
+                                                <td>{{ $noregimen->patient }}</td>
+                                                <td>{{ $noregimen->lab }}</td>
                                                 <td>{{ $noregimen->facilitycode }}</td>
                                                 <td>{{ $noregimen->facility }}</td>
                                                 <td>{{ $noregimen->partner }}</td>
                                                 <td>{{ $noregimen->county }}</td>
                                                 <td>{{ $noregimen->subcounty }}</td>
-                                                <td>{{ $noregimen->total_samples }}</td>
+                                                <td>{{ (isset($noregimen->datetested)) ? date('Y-M-d', strtotime($noregimen->datetested)) : '' }}</td>
                                             </tr>
                                         @empty
                                             <tr><td colspan="7">No Regimen Data</td></tr>
@@ -161,24 +179,30 @@
                                         <thead>
                                             <tr> 
                                                 <th>#</th>
+                                                <th>System ID</th>
+                                                <th>Patient No</th>
+                                                <th>Lab Tested In</th>
                                                 <th>Facility Code</th>
                                                 <th>Facility</th>
                                                 <th>Partner</th>
                                                 <th>County</th>
                                                 <th>Sub-County</th>
-                                                <th>No. of Samples</th>
+                                                <th>Date Tested</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         @forelse($data->initiation as $key => $noinitiation)
                                             <tr>
                                                 <td>{{ $key+1 }}</td>
+                                                <td>{{ $noinitiation->id }}</td>
+                                                <td>{{ $noinitiation->patient }}</td>
+                                                <td>{{ $noinitiation->lab }}</td>
                                                 <td>{{ $noinitiation->facilitycode }}</td>
                                                 <td>{{ $noinitiation->facility }}</td>
                                                 <td>{{ $noinitiation->partner }}</td>
                                                 <td>{{ $noinitiation->county }}</td>
                                                 <td>{{ $noinitiation->subcounty }}</td>
-                                                <td>{{ $noinitiation->total_samples }}</td>
+                                                <td>{{ (isset($noinitiation->datetested)) ? date('Y-M-d', strtotime($noinitiation->datetested)) : '' }}</td>
                                             </tr>
                                         @empty
                                             <tr><td colspan="7">No Initiation Date Data</td></tr>

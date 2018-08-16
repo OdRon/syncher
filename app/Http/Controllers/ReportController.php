@@ -121,22 +121,24 @@ class ReportController extends Controller
 
     public function nodataObject($testtype, $year, $month) {
         $model = (object)[];
-        $selectStr = "view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.partner, view_facilitys.county, view_facilitys.subcounty, count(*) as total_samples";
+        if($testtype == 'EID')
+            $table = "samples_view";
+        if($testtype == 'VL')
+            $table = "viralsamples_view";
+        $selectStr = "$table.id,$table.patient,labs.labname as lab, view_facilitys.facilitycode, view_facilitys.name as facility, view_facilitys.partner, view_facilitys.county, view_facilitys.subcounty, $table.datetested";
 
         if ($testtype == 'EID') {
-            $table = "samples_view";
             $model = SampleView::selectRaw($selectStr);
         } else if ($testtype == 'VL') {
-            $table = "viralsamples_view";
             $model = ViralsampleView::selectRaw($selectStr);
         }
         $model = $model->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
+                    ->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
                     ->where("$table.facility_id", '<>', 7148)
                     ->when($month, function($query) use ($month, $table){
                         return $query->whereRaw("MONTH($table.datetested) = $month");
                     })->whereRaw("YEAR($table.datetested) = $year")
-                    ->groupBy(['facilitycode', 'facility', 'partner', 'subcounty', 'county'])
-                    ->orderBy('total_samples', 'desc');
+                    ->orderBy('datetested', 'desc');
         
         return $model;
     }
