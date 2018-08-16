@@ -47,6 +47,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 
 	Route::prefix('reports')->name('reports.')->group(function(){
 		Route::get('{testtype?}', 'ReportController@index')->name('reports');
+		Route::get('nodata/{testtype?}/{year?}/{month?}', 'ReportController@nodata')->name('nodata');
 		Route::post('/', 'ReportController@generate');
 	});
 	

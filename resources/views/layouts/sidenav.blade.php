@@ -24,9 +24,9 @@
             <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
             <hr />
         @elseif(Auth::user()->user_type_id == 9)
-            <li><a href="{{ url('reports/NoData/EID') }}">EID No Data Reports</a></li>
+            <li><a href="{{ url('reports/nodata/EID') }}">EID No Data Reports</a></li>
             <hr />
-            <li><a href="{{ url('reports/NoData/VL') }}">VL No Data Reports</a></li>
+            <li><a href="{{ url('reports/nodata/VL') }}">VL No Data Reports</a></li>
             <hr />
         @else
             @if(Auth::user()->user_type_id == 8)
