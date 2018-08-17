@@ -193,7 +193,7 @@ class ReportController extends Controller
                 }
             }
         }
-        dd($data);
+        // dd($data);
         $viewdata['machines'] = $machines;
         $viewdata['testingSystem'] = $testtype;
         $viewdata['labs'] = $lab;
