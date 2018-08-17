@@ -330,20 +330,20 @@
                                     @endif
                                 @endif
                             @elseif($testtype == 'VL')
-                                <label> <input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
-                                <label> <input type="radio" name="indicatortype" value="5" class="i-checks">Rejected</label>
+                                <label><input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
+                                <label><input type="radio" name="indicatortype" value="5" class="i-checks">Rejected</label>
                                 @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6)
-                                    <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> Non Suppressed ( > 1000 cp/ml)</label>
-                                    <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Pregnant & Lactating</label>
-                                    <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples)</label>
-                                    <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples</label>
+                                    <label><input type="radio" name="indicatortype" value="4" class="i-checks">Non Suppressed ( > 1000 cp/ml)</label>
+                                    <label><input type="radio" name="indicatortype" value="6" class="i-checks">Pregnant & Lactating</label>
+                                    <label><input type="radio" name="indicatortype" value="9" class="i-checks">Dormant Sites ( Not Sent Samples)</label>
+                                    <label><input type="radio" name="indicatortype" value="10" class="i-checks">Sites Doing Remote Data Entry of Samples</label>
                                 @endif
                             @elseif($testtype == 'support')
-                                <label> <input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report </label>
-                                <label> <input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report </label>
-                                <label> <input type="radio" name="indicatortype" value="14" class="i-checks"> EID Sample Referral Network </label>
-                                <label> <input type="radio" name="indicatortype" value="15" class="i-checks"> VL Sample Referral Network </label>
-                                <label> <input type="radio" name="indicatortype" value="13" class="i-checks"> Quarterly VL Report (only for labs) </label>
+                                <label><input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="14" class="i-checks">EID Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="15" class="i-checks">VL Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="13" class="i-checks">Quarterly VL Report (only for labs)</label>
                             @endif
                             </div>
                         </div>
