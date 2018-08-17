@@ -181,7 +181,7 @@ class ReportController extends Controller
                 } else { return back(); }
                 $dbData = $dbData->when($month, function($query) use ($month, $table){
                         return $query->whereRaw("MONTH($table.datetested) = $month");
-                    })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->toSql();
+                    })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
 
                 foreach ($dbData as $dbDatakey => $dbDatavalue) {
                     if($dbDatavalue->lab_id == $labvalue->id){
