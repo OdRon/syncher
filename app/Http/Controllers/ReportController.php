@@ -181,7 +181,8 @@ class ReportController extends Controller
                 } else { return back(); }
                 $dbData = $dbData->when($month, function($query) use ($month, $table){
                         return $query->whereRaw("MONTH($table.datetested) = $month");
-                    })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
+                    })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->toSql();
+
                 foreach ($dbData as $dbDatakey => $dbDatavalue) {
                     if($dbDatavalue->lab_id == $labvalue->id){
                         $data[$labvalue->id][$machinevalue->machine] = $dbDatavalue->totalSamples;
@@ -192,6 +193,7 @@ class ReportController extends Controller
                 }
             }
         }
+        dd($data);
         $viewdata['machines'] = $machines;
         $viewdata['testingSystem'] = $testtype;
         $viewdata['labs'] = $lab;
