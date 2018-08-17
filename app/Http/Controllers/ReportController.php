@@ -161,6 +161,8 @@ class ReportController extends Controller
         }
         $year = session('reportYear');
 
+        ini_set("memory_limit", "-1");
+        
         $machines = DB::table('machines')->select('id','machine')->get();
         $lab = DB::table('labs')->get();
         foreach ($lab as $labkey => $labvalue) {
