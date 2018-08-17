@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use App\Sample;
+use App\Viralsample;
 use App\SampleView;
 use App\SampleCompleteView;
 use App\ViralsampleView;
@@ -27,6 +29,9 @@ class ReportController extends Controller
             $testtype = 'EID';
         
         $usertype = auth()->user()->user_type_id;
+        if ($usertype == 9) 
+            $testtype = 'support';
+        
         $facilitys = (object)[];
         $countys = (object)[];
         $subcountys = (object)[];
@@ -141,6 +146,62 @@ class ReportController extends Controller
                     ->orderBy('datetested', 'desc');
         
         return $model;
+    }
+
+    public function utilization($testtype='EID', $year=null, $month=null) {
+        $testtype = strtoupper($testtype);
+        $data = [];
+        $newdata = [];
+
+        if ($year==null || $year=='null'){
+            if (session('reportYear')==null)
+                session(['reportYear' => gmdate('Y')]);
+        } else {
+            session(['reportYear'=>$year]);
+        }
+        $year = session('reportYear');
+
+        $machines = DB::table('machines')->select('id','machine')->get();
+        $lab = DB::table('labs')->get();
+        foreach ($lab as $labkey => $labvalue) {
+            $data[$labvalue->id] = ['lab' => $labvalue->labname];
+            foreach ($machines as $machinekey => $machinevalue) {
+                if($testtype=='EID'){
+                    $table = 'samples';
+                    $dbData = Sample::selectRaw("worksheets.lab_id, count(*) as totalSamples")
+                                            ->leftJoin('worksheets', 'worksheets.id', '=', 'samples.worksheet_id')
+                                            ->where('worksheets.machine_type', '=', $machinevalue->id);
+                } else if($testtype=='VL'){
+                    $table = 'viralsamples';
+                    $dbData = Viralsample::selectRaw("viralworksheets.lab_id, count(*) as totalSamples")
+                                            ->leftJoin('viralworksheets', 'viralworksheets.id', '=', 'viralsamples.worksheet_id')
+                                            ->where('viralworksheets.machine_type', '=', $machinevalue->id);
+                } else { return back(); }
+                $dbData = $dbData->when($month, function($query) use ($month, $table){
+                        return $query->whereRaw("MONTH($table.datetested) = $month");
+                    })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
+                foreach ($dbData as $dbDatakey => $dbDatavalue) {
+                    if($dbDatavalue->lab_id == $labvalue->id){
+                        $data[$labvalue->id][$machinevalue->machine] = $dbDatavalue->totalSamples;
+                    } else {
+                        if (!isset($data[$labvalue->id][$machinevalue->machine]) || $data[$labvalue->id][$machinevalue->machine] == 0) 
+                            $data[$labvalue->id][$machinevalue->machine] = 0;
+                    }
+                }
+            }
+        }
+        $viewdata['machines'] = $machines;
+        $viewdata['testingSystem'] = $testtype;
+        $viewdata['labs'] = $lab;
+        $viewdata['data'] = (object)$data;
+        $viewdata = (object) $viewdata;
+        $monthName = "";
+        $year = session('reportYear');
+        
+        if (null !== $month) 
+            $monthName = "- ".date("F", mktime(null, null, null, $month));
+        
+        return view('tables.utilization', compact('viewdata'))->with('pageTitle', "Utilization $testtype: $year $monthName");
     }
 
     public function generate(Request $request)
@@ -481,7 +542,7 @@ class ReportController extends Controller
                 $title .= "VL SAMPLES TESTED ";
                 $briefTitle = "VL SAMPLES TESTED ";
             } else if ($request->indicatortype == 13) {
-                $data = $this->getVLQuarterlyReportData($request);
+                $this->getVLQuarterlyReportData($request);
             } else if ($request->indicatortype == 14) {
                 $excelColumns = ['Facility Code', 'Facility', 'County', 'Partner', 'Sub-County', '# of Samples'];
                 $table = 'samples_view';
@@ -494,7 +555,10 @@ class ReportController extends Controller
                 $title = "VL SAMPLES referral network ";
                 $model = ViralsampleView::selectRaw(" distinct view_facilitys.facilitycode as facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner, view_facilitys.subcounty, count(*) as totalSamples")
                         ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")->groupBy(['facility', 'facilitycode', 'county', 'partner', 'subcounty'])->where("$table.facility_id", '<>', 7148)->orderBy('totalSamples', 'desc');
+            } elseif ($request->indicatortype == 16 || $request->indicatortype == 17) {
+                $this->getUtilizationReport($request);
             }
+
         } else {
             return back();
         }
