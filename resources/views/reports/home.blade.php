@@ -343,8 +343,6 @@
                                 <label><input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report</label>
                                 <label><input type="radio" name="indicatortype" value="14" class="i-checks">EID Sample Referral Network</label>
                                 <label><input type="radio" name="indicatortype" value="15" class="i-checks">VL Sample Referral Network</label>
-                                <label><input type="radio" name="indicatortype" value="16" class="i-checks">EID Equipment Utilization</label>
-                                <label><input type="radio" name="indicatortype" value="17" class="i-checks"> VL Equipment Utilization</label>
                                 <label><input type="radio" name="indicatortype" value="13" class="i-checks">Quarterly VL Report (only for labs)</label>
                             @endif
                             </div>

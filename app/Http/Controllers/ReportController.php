@@ -555,8 +555,6 @@ class ReportController extends Controller
                 $title = "VL SAMPLES referral network ";
                 $model = ViralsampleView::selectRaw(" distinct view_facilitys.facilitycode as facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner, view_facilitys.subcounty, count(*) as totalSamples")
                         ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")->groupBy(['facility', 'facilitycode', 'county', 'partner', 'subcounty'])->where("$table.facility_id", '<>', 7148)->orderBy('totalSamples', 'desc');
-            } elseif ($request->indicatortype == 16 || $request->indicatortype == 17) {
-                $this->getUtilizationReport($request);
             }
 
         } else {
