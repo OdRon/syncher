@@ -165,33 +165,38 @@ class ReportController extends Controller
         
         $machines = DB::table('machines')->select('id','machine')->get();
         $lab = DB::table('labs')->get();
+
+        foreach ($machines as $machinekey => $machinevalue) {
+            if($testtype=='EID'){
+                $table = 'samples';
+                $dbData = Sample::selectRaw("worksheets.lab_id, count(*) as totalSamples")
+                                        ->leftJoin('worksheets', 'worksheets.id', '=', 'samples.worksheet_id')
+                                        ->where('worksheets.machine_type', '=', $machinevalue->id);
+            } else if($testtype=='VL'){
+                $table = 'viralsamples';
+                $dbData = Viralsample::selectRaw("viralworksheets.lab_id, count(*) as totalSamples")
+                                        ->leftJoin('viralworksheets', 'viralworksheets.id', '=', 'viralsamples.worksheet_id')
+                                        ->where('viralworksheets.machine_type', '=', $machinevalue->id);
+            } else { return back(); }
+            $newdata[$machinevalue->machine] = $dbData->when($month, function($query) use ($month, $table){
+                    return $query->whereRaw("MONTH($table.datetested) = $month");
+                })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
+        }
+        
         foreach ($lab as $labkey => $labvalue) {
             $data[$labvalue->id] = ['lab' => $labvalue->labname];
-            foreach ($machines as $machinekey => $machinevalue) {
-                if($testtype=='EID'){
-                    $table = 'samples';
-                    $dbData = Sample::selectRaw("worksheets.lab_id, count(*) as totalSamples")
-                                            ->leftJoin('worksheets', 'worksheets.id', '=', 'samples.worksheet_id')
-                                            ->where('worksheets.machine_type', '=', $machinevalue->id);
-                } else if($testtype=='VL'){
-                    $table = 'viralsamples';
-                    $dbData = Viralsample::selectRaw("viralworksheets.lab_id, count(*) as totalSamples")
-                                            ->leftJoin('viralworksheets', 'viralworksheets.id', '=', 'viralsamples.worksheet_id')
-                                            ->where('viralworksheets.machine_type', '=', $machinevalue->id);
-                } else { return back(); }
-                $dbData = $dbData->when($month, function($query) use ($month, $table){
-                        return $query->whereRaw("MONTH($table.datetested) = $month");
-                    })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
-                foreach ($dbData as $dbDatakey => $dbDatavalue) {
-                    if($dbDatavalue->lab_id == $labvalue->id){
-                        $data[$labvalue->id][$machinevalue->machine] = $dbDatavalue->totalSamples;
+            foreach ($newdata as $newdatakey => $newdatavalue) {
+                foreach ($newdatavalue as $newkey => $newvalue) {
+                    if ($labvalue->id == $newvalue->lab_id) {
+                        $data[$labvalue->id][$newdatakey] = $newvalue->totalSamples;
                     } else {
-                        if (!isset($data[$labvalue->id][$machinevalue->machine]) || $data[$labvalue->id][$machinevalue->machine] == 0) 
-                            $data[$labvalue->id][$machinevalue->machine] = 0;
+                        if (!isset($data[$labvalue->id][$newdatakey]) || $data[$labvalue->id][$newdatakey] == 0) 
+                            $data[$labvalue->id][$newdatakey] = 0;
                     }
                 }
             }
         }
+        
         $viewdata['machines'] = $machines;
         $viewdata['testingSystem'] = $testtype;
         $viewdata['labs'] = $lab;
