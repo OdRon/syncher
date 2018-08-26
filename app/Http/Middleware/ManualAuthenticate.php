@@ -27,7 +27,7 @@ class ManualAuthenticate
         $a = $request->headers->get('Authorization');
 
         if($a){
-            $t = explode('{', $a);
+            $t = explode(' ', $a);
             $token = substr($t[1], 0, -1) || null;
             $tt = new \Tymon\JWTAuth\Token($token);
             try {
