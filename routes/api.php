@@ -32,7 +32,7 @@ $api->version('v1', function (Router $api) {
 
 
 
-        $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
+        // $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
 
             $api->resource('facility', 'FacilityController');
             $api->post('lablogs', 'LablogController@lablogs');
@@ -88,9 +88,7 @@ $api->version('v1', function (Router $api) {
 
             });
 
-
-
-        });
+        // });
 
 
 
