@@ -24,7 +24,7 @@ class ManualAuthenticate
      */
     public function handle($request, Closure $next)
     {
-        $a = $request->headers('Authorization');
+        $a = $request->headers->get('Authorization');
 
         if($a){
             $t = explode('{', $a);
