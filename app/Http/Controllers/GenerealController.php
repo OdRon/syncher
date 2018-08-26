@@ -572,7 +572,7 @@ class GenerealController extends Controller
                                 ->join('view_facilitys', 'view_facilitys.id', '=', 'samples_view.facility_id')
                                 ->where('view_facilitys.facilitycode', '=', $mflcode)
                                 ->where('samples_view.patient', 'like', "$actual_sampleID")
-                                ->where('repeatt', '=', 0)->get();
+                                ->where('repeatt', '=', 0)->orderBy('id', 'desc')->get();
             if(!$sample->isEmpty()) {
                 $shortCode->testtype = 1;
                 $resultType = 'EID';
@@ -583,7 +583,7 @@ class GenerealController extends Controller
                                 ->join('view_facilitys', 'view_facilitys.id', '=', 'samples_view.facility_id')
                                 ->where('view_facilitys.facilitycode', '=', $mflcode)
                                 ->where('viralsamples_view.patient', 'like', "$actual_sampleID")
-                                ->where('repeatt', '=', 0)->get();
+                                ->where('repeatt', '=', 0)->orderBy('id', 'desc')->get();
                 if(!$sample->isEmpty()) {
                     $shortCode->testtype = 2;
                     $resultType = 'VL';           
