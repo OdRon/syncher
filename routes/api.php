@@ -19,7 +19,7 @@ $api->version('v1', function (Router $api) {
             $api->get('me', 'UserController@me');
         });
 
-        $api->group(['middleware' => 'jwt.manual'], function(Router $api) {
+        $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
 
             $api->get('protected', 'RandomController@protected_route');
 
