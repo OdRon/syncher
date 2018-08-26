@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\ViewComposers;
 
+use DB;
 use Illuminate\View\View;
 use App\ViewFacility;
 
@@ -28,6 +29,8 @@ class GeneralComposer
             $data = (object)['name'=>'Program Officer'];
         } else if ($usertype == 6) {
             $data = (object)['name'=>'National'];
+        } else if ($usertype == 7) {
+            $data = DB::table('partners')->where('id', '=', auth()->user()->level)->first();
         } else if ($usertype == 9) {
             $data = (object)['name'=>'Maryland Support Team'];
         } else {

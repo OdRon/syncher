@@ -37,7 +37,7 @@ class HomeController extends Controller
             if (isset($batch['eid'])) {
                 $batchID = $batch['eid'];
                 $data = Lookup::get_eid_lookups();
-                $batch = Batch::where('original_batch_id', '=', $batchID)->get()->first();
+                $batch = Batch::where('original_batch_id', '=', $batchID)->where('facility_id', '=', auth()->user()->facility_id)->first();
                 $batch = $batch->load(['sample.patient.mother','view_facility', 'receiver', 'creator.facility']);
                 $data = (object) $data;
                 // dd($batch);
@@ -45,7 +45,7 @@ class HomeController extends Controller
             } else {
                 $batchID = $batch['vl'];
                 $data = Lookup::get_viral_lookups();
-                $batch = Viralbatch::where('original_batch_id', '=', $batchID)->get()->first();
+                $batch = Viralbatch::where('original_batch_id', '=', $batchID)->where('facility_id', '=', auth()->user()->facility_id)->first();
                 $batch = $batch->load(['sample.patient','view_facility', 'receiver', 'creator.facility']);
                 $data = (object) $data;
                 // dd($batch);

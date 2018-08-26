@@ -45,9 +45,13 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::post('followup', 'HEIController@followup');
 	});
 
-	Route::get('reports/{testtype?}', 'ReportController@index')->name('reports');
-	Route::post('reports', 'ReportController@generate');
-
+	Route::prefix('reports')->name('reports.')->group(function(){
+		Route::get('{testtype?}', 'ReportController@index')->name('reports');
+		Route::get('nodata/{testtype?}/{year?}/{month?}', 'ReportController@nodata')->name('nodata');
+		Route::get('utilization/{testtype?}/{year?}/{month?}', 'ReportController@utilization')->name('utilization');
+		Route::post('/', 'ReportController@generate');
+	});
+	
 	Route::get('results/{testtype?}', 'ResultController@index')->name('results');
 	Route::get('results/{id}/{testtype}/{type}', 'ResultController@specific')->name('specific.results');
 
@@ -87,6 +91,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 });
 
 Route::get('patientstatus', 'HEIController@placeResults');
+Route::get('sendsms', 'GenerealController@send_sms');
 
 
 // $connected = @fsockopen("www.example.com", 80); 

@@ -37,12 +37,33 @@
                     </div>
                     <div class="panel-body">
                         <div class="alert alert-warning">
-                            <center>Please select Overall <strong>or Province or County or District or Facility & Period To generate the report based on your criteria.</strong></center>
+                            <center>
+                                Please select Overall 
+                                <strong>
+                                @if(Auth::user()->user_type_id == 9 || !(Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 5))
+                                    @if(Auth::user()->user_type_id != 7 || Auth::user()->level == 85)
+                                        or County 
+                                    @endif
+                                @endif
+                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 5 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+                                    or Sub-County 
+                                @endif
+                                @if(Auth::user()->user_type_id != 6)
+                                    or Facility  
+                                @endif
+                                @if(Auth::user()->user_type_id == 2)
+                                    or Partner  
+                                @endif
+                                @if(Auth::user()->user_type_id == 9)
+                                    or Lab 
+                                @endif
+                                    & Period To generate the report based on your criteria.
+                                </strong></center>
                         </div>
                         {{ Form::open(['url'=>'/reports', 'method' => 'post', 'class'=>'form-horizontal', 'id' => 'reports_form']) }}
                         <input type="hidden" name="testtype" value="{{ $testtype }}">
                         <div class="form-group">
-                            @if(Auth::user()->user_type_id != 6)
+                            @if(!(Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 2))
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" class="i-checks" value="overall">Overall
@@ -90,48 +111,43 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if(Auth::user()->user_type_id != 4)
-                                    @if(Auth::user()->user_type_id != 5)
-                                        @if(Auth::user()->user_type_id != 6)
-                                        <div class="row">
-                                            <label class="col-sm-3 control-label">
-                                                <input type="radio" name="category" value="county" class="i-checks">Select County
-                                            </label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" name="county" id="county">
-                                                    <option value="" selected disabled>Select County</option>
-                                                @forelse($countys as $county)
-                                                    <option value="{{ $county->county_id }}">{{ $county->county }}</option>
-                                                @empty
-                                                    <option value="" disabled>No County available</option>
-                                                @endforelse
-                                                </select>
-                                            </div>
+                                @if(!(Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 5))
+                                    @if(Auth::user()->user_type_id != 7 || Auth::user()->level == 85)
+                                    <div class="row">
+                                        <label class="col-sm-3 control-label">
+                                            <input type="radio" name="category" value="county" class="i-checks">Select County
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="county" id="county">
+                                                <option value="" selected disabled>Select County</option>
+                                            @forelse($countys as $county)
+                                                <option value="{{ $county->county_id }}">{{ $county->county }}</option>
+                                            @empty
+                                                <option value="" disabled>No County available</option>
+                                            @endforelse
+                                            </select>
                                         </div>
-                                        @endif
+                                    </div>
                                     @endif
                                 @endif
-                                @if(Auth::user()->user_type_id != 2)
-                                    @if(Auth::user()->user_type_id != 5)
-                                        @if(Auth::user()->user_type_id != 6)
-                                        <div class="row">
-                                            <label class="col-sm-3 control-label">
-                                                <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
-                                            </label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control" name="district" id="district">
-                                                    <option value="" selected disabled>Select Sub-County</option>
-                                                @forelse($subcountys as $subcounty)
-                                                    <option value="{{ $subcounty->subcounty_id }}">{{ $subcounty->subcounty }}</option>
-                                                @empty
-                                                    <option value="" disabled>No Sub-County available</option>
-                                                @endforelse
-                                                </select>
-                                            </div>
+                                @if(!(Auth::user()->user_type_id == 5 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+                                    <div class="row">
+                                        <label class="col-sm-3 control-label">
+                                            <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="district" id="district">
+                                                <option value="" selected disabled>Select Sub-County</option>
+                                            @forelse($subcountys as $subcounty)
+                                                <option value="{{ $subcounty->subcounty_id }}">{{ $subcounty->subcounty }}</option>
+                                            @empty
+                                                <option value="" disabled>No Sub-County available</option>
+                                            @endforelse
+                                            </select>
                                         </div>
-                                        @endif
-                                    @endif
+                                    </div>
                                 @endif
+                                @if(Auth::user()->user_type_id != 6)
                                 <div class="row">
                                     <label class="col-sm-3 control-label">
                                         <input type="radio" name="category" value="facility" class="i-checks">Select Facility
@@ -140,13 +156,14 @@
                                         <select class="form-control" name="facility" id="facility">
                                             <option value="" selected disabled>Select Facility</option>
                                         @forelse($facilitys as $facility)
-                                            <option value="{{ $facility->id }}">{{ $facility->name }}</option>
+                                            <option value="{{ $facility->id }}">{{ $facility->name }} ({{ $facility->county }})</option>
                                         @empty
                                             <option value="" disabled>No Facility available</option>
                                         @endforelse
                                         </select>
                                     </div>
                                 </div>
+                                @endif
                             @endif
                         </div>
                         <div class="form-group">
@@ -165,7 +182,9 @@
                                 <label> <input type="radio" name="period" value="monthly"> Monthly </label>
                                 <label> <input type="radio" name="period" value="quarterly"> Quarterly </label>
                                 @if($testtype == 'EID' || Auth::user()->user_type_id == 9)
+                                @if($testtype == 'EID' || Auth::user()->user_type_id != 7)
                                 <label> <input type="radio" name="period" value="annually"> Annually </label>
+                                @endif
                                 @endif
                             </div>
                             <div class="row" id="periodSelection" style="display: none;">
@@ -286,24 +305,24 @@
                             <label class="col-sm-3 control-label">Select Report Type</label>
                             <div class="col-sm-9">
                             @if($testtype == 'EID')
+                                @if(!(Auth::user()->user_type_id = 2))
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks"> All Outcomes (+/-) </label>
-                                @if(Auth::user()->user_type_id != 6)
+                                @endif
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks"> + Outcomes </label>
-                                    @if(Auth::user()->user_type_id != 2)
-                                    <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
-                                    @endif
+                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+                                <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
                                 @endif
                                 @if(Auth::user()->user_type_id == 3)
-                                    <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes for Validation </label>
+                                    <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes </label>
                                 @endif
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
-                                @if(Auth::user()->user_type_id != 2)
-                                @if(Auth::user()->user_type_id != 6))
-                                <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <2M </label>
-                                <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
+                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 7))
+                                <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <= 2M </label>
+                                    @if(!(Auth::user()->user_type_id == 6))
+                                    <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
+                                    @endif
                                 @endif
-                                @endif
-                                @if(Auth::user()->user_type_id == 3)
+                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6)
                                     @if(Auth::user()->user_type_id != 2)
                                         <!-- <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label> -->
                                         <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>
@@ -311,18 +330,20 @@
                                     @endif
                                 @endif
                             @elseif($testtype == 'VL')
-                                <label> <input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
-                                <label> <input type="radio" name="indicatortype" value="5" class="i-checks">Rejected</label>
-                                @if(Auth::user()->user_type_id == 3)
-                                    <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> Non Suppressed ( > 1000 cp/ml)</label>
-                                    <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Pregnant & Lactating</label>
-                                    <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples)</label>
-                                    <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples</label>
+                                <label><input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
+                                <label><input type="radio" name="indicatortype" value="5" class="i-checks">Rejected</label>
+                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6)
+                                    <label><input type="radio" name="indicatortype" value="4" class="i-checks">Non Suppressed ( > 1000 cp/ml)</label>
+                                    <label><input type="radio" name="indicatortype" value="6" class="i-checks">Pregnant & Lactating</label>
+                                    <label><input type="radio" name="indicatortype" value="9" class="i-checks">Dormant Sites ( Not Sent Samples)</label>
+                                    <label><input type="radio" name="indicatortype" value="10" class="i-checks">Sites Doing Remote Data Entry of Samples</label>
                                 @endif
                             @elseif($testtype == 'support')
-                                <label> <input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report </label>
-                                <label> <input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report </label>
-                                <label> <input type="radio" name="indicatortype" value="13" class="i-checks"> Quarterly VL Report (only for labs) </label>
+                                <label><input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="14" class="i-checks">EID Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="15" class="i-checks">VL Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="13" class="i-checks">Quarterly VL Report (only for labs)</label>
                             @endif
                             </div>
                         </div>

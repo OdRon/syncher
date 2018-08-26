@@ -15,12 +15,12 @@ class ResultController extends Controller
     		$testtypetitle = 'EID';
     		$data = Batch::select('*');
     		if (auth()->user()->user_type_id == 8)
-    			$data = $data->where('facility_id', '=', auth()->user()->facility_id)->get();
+    			$data = $data->where('facility_id', '=', auth()->user()->facility_id)->orderBy('datereceived', 'desc')->get();
     	}else if ($testtype == 'VL'){
     		$testtypetitle = 'VIRAL LOAD';
     		$data = Viralbatch::select('*');
     		if (auth()->user()->user_type_id == 8)
-    			$data = $data->where('facility_id', '=', auth()->user()->facility_id)->get();
+    			$data = $data->where('facility_id', '=', auth()->user()->facility_id)->orderBy('datereceived', 'desc')->get();
     	}else {
     		return back();
     	}
