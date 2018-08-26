@@ -15,7 +15,6 @@ class Test
 			'password' => $password,
 		]);
 		return $token;
-
 	}
 
 }
