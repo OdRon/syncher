@@ -91,6 +91,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 });
 
 Route::get('patientstatus', 'HEIController@placeResults');
+Route::get('sendsms', 'GenerealController@send_sms');
 
 
 // $connected = @fsockopen("www.example.com", 80); 
