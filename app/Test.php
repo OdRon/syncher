@@ -12,7 +12,7 @@ class Test
 		$JWTAuth = new JWTAuth;
 		$token = $JWTAuth->attempt([
 			'email' => $username,
-			'password' => $password.
+			'password' => $password,
 		]);
 		return $token;
 
