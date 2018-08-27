@@ -68,7 +68,10 @@ class Copier
 				}
 				
 				$value->original_batch_id = self::set_batch_id($value->original_batch_id);
-				$batch = Batch::existing($value->original_batch_id, $value->lab_id)->get()->first();
+                $batch = null;
+                if($value->original_batch_id != 0){
+    				$batch = Batch::existing($value->original_batch_id, $value->lab_id)->get()->first();
+                }
 
 				if(!$batch){
 					$batch = new Batch($value->only($fields['batch']));
@@ -129,7 +132,10 @@ class Copier
 				}
 
 				$value->original_batch_id = self::set_batch_id($value->original_batch_id);
-				$batch = Viralbatch::existing($value->original_batch_id, $value->lab_id)->get()->first();
+                $batch = null;
+                if($value->original_batch_id != 0){
+    				$batch = Viralbatch::existing($value->original_batch_id, $value->lab_id)->get()->first();
+                }
 
 				if(!$batch){
 					$batch = new Viralbatch($value->only($fields['batch']));
@@ -200,7 +206,7 @@ class Copier
         }
     }
 
-    private static function set_batch_id($batch_id)
+    public static function set_batch_id($batch_id)
     {
         if($batch_id == floor($batch_id)) return $batch_id;
         return (floor($batch_id) + 0.5);
