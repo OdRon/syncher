@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Lookup;
+use App\Bookmark;
 
 use App\OldModels\WorksheetView;
 use App\OldModels\ViralworksheetView;
@@ -29,7 +30,9 @@ class Copier
 
 	public static function copy_eid()
 	{
-		$start = Sample::max('id');
+        $bookmark = Bookmark::find(1);
+        // $start = Sample::max('id');
+		$start = $bookmark->samples ?? 0;
 		ini_set("memory_limit", "-1");
 		$fields = Lookup::samples_arrays();	
         $sample_date_array = ['datecollected', 'datetested', 'datemodified', 'dateapproved', 'dateapproved2'];
@@ -98,12 +101,17 @@ class Copier
 			$offset_value += self::$limit;
 			echo "Completed eid {$offset_value} at " . date('d/m/Y h:i:s a', time()). "\n";
 		}
+        $bookmark->samples = $value->id;
+        $bookmark->save();
+
 	}
 
 
 	public static function copy_vl()
 	{
-		$start = Viralsample::max('id');
+        $bookmark = Bookmark::find(1);
+        // $start = Viralsample::max('id');
+        $start = $bookmark->viralsamples ?? 0;
 		ini_set("memory_limit", "-1");
 		$fields = Lookup::viralsamples_arrays();
         $sample_date_array = ['datecollected', 'datetested', 'datemodified', 'dateapproved', 'dateapproved2'];
@@ -161,15 +169,19 @@ class Copier
 			$offset_value += self::$limit;
 			echo "Completed vl {$offset_value} at " . date('d/m/Y h:i:s a', time()). "\n";
 		}
+        $bookmark->viralsamples = $value->id;
+        $bookmark->save();
 	}
 
 
 
     public static function copy_worksheet()
     {
+        $bookmark = Bookmark::find(1);
+
         $work_array = [
-            'eid' => ['model' => Worksheet::class, 'view' => WorksheetView::class],
-            'vl' => ['model' => Viralworksheet::class, 'view' => ViralworksheetView::class],
+            'eid' => ['model' => Worksheet::class, 'view' => WorksheetView::class, 'col' => 'worksheets'],
+            'vl' => ['model' => Viralworksheet::class, 'view' => ViralworksheetView::class, 'col' => 'viralworksheets'],
         ];
 
         $date_array = ['kitexpirydate', 'sampleprepexpirydate', 'bulklysisexpirydate', 'controlexpirydate', 'calibratorexpirydate', 'amplificationexpirydate', 'datecut', 'datereviewed', 'datereviewed2', 'datecancelled', 'daterun', 'created_at'];
@@ -179,8 +191,10 @@ class Copier
         foreach ($work_array as $key => $value) {
             $model = $value['model'];
             $view = $value['view'];
+            $col = $value['col'];
 
-            $start = $model::max('id');              
+            // $start = $model::max('id');
+            $start = $bookmark->$col ?? 0;            
 
             $offset_value = 0;
             while(true)
@@ -197,12 +211,14 @@ class Copier
                     foreach ($date_array as $date_field) {
                         $work->$date_field = Lookup::clean_date($worksheet->$date_field);
                     }
-                    $work->id = $worksheet->id;
+                    // $work->id = $worksheet->id;
                     $work->save();
                 }
                 $offset_value += self::$limit;
                 echo "Completed {$key} worksheet {$offset_value} at " . date('d/m/Y h:i:s a', time()). "\n";
             }
+            $bookmark->$col = $worksheet->id;
+            $bookmark->save();
         }
     }
 
