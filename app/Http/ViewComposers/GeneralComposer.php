@@ -33,6 +33,8 @@ class GeneralComposer
             $data = DB::table('partners')->where('id', '=', auth()->user()->level)->first();
         } else if ($usertype == 9) {
             $data = (object)['name'=>'Maryland Support Team'];
+        } else if ($usertype == 10) {
+            $data = (object)['name'=>'National View'];
         } else {
             $user = ViewFacility::when($usertype, function ($query) use ($usertype){
                                 if ($usertype == 3)
