@@ -447,7 +447,7 @@ INSERT INTO `districts` (`id`, `name`, `SubCountyDHISCode`, `SubCountyMFLCode`, 
 	(377, 'Mathare', NULL, NULL, NULL, 1, 5, NULL, 1),
 	(378, 'Kipkelion West', NULL, NULL, NULL, 36, 8, NULL, 1),
 	(379, 'Webuye West', 'West', NULL, NULL, 40, 9, NULL, 1),
-	(380, 'Nyeri South (Othaya) ', '', '', NULL, 20, 1, 'dhis', 1)
+	(380, 'Nyeri South (Othaya) ', '', '', NULL, 20, 1, 'dhis', 1),
 	(381, 'Igambang\'ombe', 'yXwsnpFBIPW', NULL, NULL, 14, NULL, NULL, 1),
 	(382, 'Kangema', 'U9CLTNIwehR', NULL, NULL, 22, NULL, NULL, 1),
 	(383, 'Kilome', 'XAy1bjurhLU', NULL, NULL, 18, NULL, NULL, 1),
