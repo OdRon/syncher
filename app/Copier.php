@@ -211,7 +211,7 @@ class Copier
                     foreach ($date_array as $date_field) {
                         $work->$date_field = Lookup::clean_date($worksheet->$date_field);
                     }
-                    $work->id = $worksheet->id;
+                    // $work->id = $worksheet->id;
                     $work->save();
                 }
                 $offset_value += self::$limit;
