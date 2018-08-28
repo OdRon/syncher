@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DB;
 use App\Lookup;
 use App\Bookmark;
 
@@ -10,11 +11,13 @@ use App\OldModels\ViralworksheetView;
 
 use App\OldModels\SampleView;
 use App\OldModels\ViralsampleView;
+use App\OldModels\User as OldUser;
 
 use App\Mother;
 use App\Patient;
 use App\Batch;
 use App\Sample;
+use App\User;
 
 use App\Viralpatient;
 use App\Viralbatch;
@@ -27,6 +30,46 @@ use App\Viralworksheet;
 class Copier
 {
 	private static $limit = 10000;
+
+    public static function copy_users() {
+        $start = $bookmark->users ?? 0;
+        $offset_value = 0;
+        $count = 0;
+        
+        ini_set("memory_limit", "-1");
+
+        while (true) {
+            echo "==> Getting users {$offset_value} - " . self::$limit . " at " . date('d/m/Y h:i:s a', time()). "\n";
+            $oldUsers = OldUser::when($start, function($query) use ($start){
+                            return $query->where('id', '>', $start);
+                        })->limit(self::$limit)->offset($offset_value)->get();
+            if($oldUsers->isEmpty()) break;
+            foreach ($oldUsers as $key => $value) {
+                $count++;
+                $userCheck = User::where('email', '=', $value->email)->get();
+                if($userCheck->isEmpty()){
+                    if (!($value->account == 0 || $value->account == 6)) {
+                        $newUser = new User();
+                        $usertype = DB::table('user_types')->where('old_id', '=', $value->account)->first();
+                        $newUser->user_type_id = $usertype->id ?? NULL;
+                        $newUser->lab_id = $value->lab ?? 0;
+                        $newUser->surname = $value->surname ?? NULL;
+                        $newUser->oname = $value->oname ?? NULL;
+                        $email = trim($value->email);
+                        $newUser->email = $email ?? $value->username.'@example.com';
+                        $newUser->password = $value->username ?? NULL;
+                        $newUser->old_password = $value->password ?? NULL;
+                        $newUser->level = $value->partner ?? NULL;
+                        $newUser->telephone = $value->telephone ?? NULL;
+                        $newUser->save();
+                    }
+                }
+            }
+            $offset_value += $count;
+            echo "Completed users {$offset_value} at " . date('d/m/Y h:i:s a', time()). "\n";
+            break;
+        }
+    }
 
 	public static function copy_eid()
 	{
@@ -211,7 +254,7 @@ class Copier
                     foreach ($date_array as $date_field) {
                         $work->$date_field = Lookup::clean_date($worksheet->$date_field);
                     }
-                    $work->id = $worksheet->id;
+                    // $work->id = $worksheet->id;
                     $work->save();
                 }
                 $offset_value += self::$limit;

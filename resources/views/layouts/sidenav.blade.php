@@ -61,7 +61,7 @@
                         <hr />
                     @endif
                 @endif
-                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 8)
+                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 8 || Auth::user()->user_type_id == 10)
                     <li>
                         <a href="{{ url('downloads/EID') }}">EID Requisition Form</a>
                     </li>

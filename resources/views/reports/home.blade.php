@@ -40,7 +40,7 @@
                             <center>
                                 Please select Overall 
                                 <strong>
-                                @if(Auth::user()->user_type_id == 9 || !(Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 5))
+                                @if(Auth::user()->user_type_id == 9 || Auth::user()->user_type_id == 10 || !(Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 5))
                                     @if(Auth::user()->user_type_id != 7 || Auth::user()->level == 85)
                                         or County 
                                     @endif
@@ -51,10 +51,10 @@
                                 @if(Auth::user()->user_type_id != 6)
                                     or Facility  
                                 @endif
-                                @if(Auth::user()->user_type_id == 2)
+                                @if(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 10)
                                     or Partner  
                                 @endif
-                                @if(Auth::user()->user_type_id == 9)
+                                @if(Auth::user()->user_type_id == 9 || Auth::user()->user_type_id == 10)
                                     or Lab 
                                 @endif
                                     & Period To generate the report based on your criteria.
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             @endif
-                            @if(Auth::user()->user_type_id == 9)
+                            @if(Auth::user()->user_type_id == 9 || Auth::user()->user_type_id == 10)
                                 <div class="row">
                                     <label class="col-sm-3 control-label">
                                         <input type="radio" name="category" value="lab" class="i-checks">Select Lab
@@ -93,8 +93,9 @@
                                         </select>
                                     </div>
                                 </div>
-                            @else
-                                @if(Auth::user()->user_type_id == 2)
+                            @endif
+                            @if(Auth::user()->user_type_id != 9)
+                                @if(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 10)
                                     <div class="row">
                                         <label class="col-sm-3 control-label">
                                             <input type="radio" name="category" value="partner" class="i-checks">Select Partner
@@ -305,14 +306,14 @@
                             <label class="col-sm-3 control-label">Select Report Type</label>
                             <div class="col-sm-9">
                             @if($testtype == 'EID')
-                                @if(!(Auth::user()->user_type_id = 2))
+                                @if(!(Auth::user()->user_type_id == 2))
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks"> All Outcomes (+/-) </label>
                                 @endif
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks"> + Outcomes </label>
                                 @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
                                 <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
                                 @endif
-                                @if(Auth::user()->user_type_id == 3)
+                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 10)
                                     <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes </label>
                                 @endif
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
@@ -322,7 +323,7 @@
                                     <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
                                     @endif
                                 @endif
-                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6)
+                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 10)
                                     @if(Auth::user()->user_type_id != 2)
                                         <!-- <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label> -->
                                         <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>
@@ -332,7 +333,7 @@
                             @elseif($testtype == 'VL')
                                 <label><input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
                                 <label><input type="radio" name="indicatortype" value="5" class="i-checks">Rejected</label>
-                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6)
+                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 10)
                                     <label><input type="radio" name="indicatortype" value="4" class="i-checks">Non Suppressed ( > 1000 cp/ml)</label>
                                     <label><input type="radio" name="indicatortype" value="6" class="i-checks">Pregnant & Lactating</label>
                                     <label><input type="radio" name="indicatortype" value="9" class="i-checks">Dormant Sites ( Not Sent Samples)</label>
