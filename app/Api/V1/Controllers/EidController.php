@@ -222,10 +222,21 @@ class EidController extends Controller
 
             if(!$new_model) continue;
 
-            $new_model->fill(get_object_vars($value));
+            $update_data = get_object_vars($value);
+            unset($update_data['id']);
+
+            if($input == 'patients'){
+                unset($update_data['hei_validation']);
+                unset($update_data['enrollment_ccc_no']);
+                unset($update_data['enrollment_status']);
+                unset($update_data['referredfromsite']);
+                unset($update_data['otherreason']);
+            }
+
+            $new_model->fill($update_data);
             $new_model->$original_column = $new_model->id;
-            unset($new_model->id);
             unset($new_model->$nat_column);
+
             $new_model->save();
             $models_array[] = ['original_id' => $new_model->$original_column, $nat_column => $new_model->id ];
         }
