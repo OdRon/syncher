@@ -266,6 +266,8 @@ class Copier
                             return $query->where('id', '>', $start);
                         })->limit(self::$limit)->offset($offset_value)->get();
             if($oldUsers->isEmpty()) break;
+
+            echo "==> Begin copying users at " . date('d/m/Y h:i:s a', time()). "\n";
             foreach ($oldUsers as $key => $value) {
                 $count++;
                 $userCheck = User::where('email', '=', $value->email)->get();
@@ -288,7 +290,7 @@ class Copier
                 }
             }
             $offset_value += $count;
-            echo "Completed users {$offset_value} at " . date('d/m/Y h:i:s a', time()). "\n";
+            echo "==> Completed copying {$offset_value} users at " . date('d/m/Y h:i:s a', time()). "\n";
             break;
         }
     }
