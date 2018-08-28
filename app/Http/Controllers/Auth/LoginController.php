@@ -72,7 +72,7 @@ class LoginController extends Controller
         $batch_no = $request->input('batch_no');
 
         $batch = Batch::where(['original_batch_id' => $batch_no, 'facility_id' => $facility_id])->first();
-        dd($batch);
+        
         if($batch){
             if($batch->outdated()) return $this->failed_facility_login(); 
             $user = User::where(['facility_id' => $facility_id, 'user_type_id' => 8])->first();
