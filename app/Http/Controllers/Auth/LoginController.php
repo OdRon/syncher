@@ -49,6 +49,17 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function login(Request $request)
+    {
+        // $credentials = $request->only('username', 'password');
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password, 'deleted_at' => null])) {
+            return redirect()->intended('home');
+        } else {
+            session(['login_error' => 'Wrong username or password']);
+            return redirect('login');
+        }
+    }
+
     public function fac_login()
     {
         return view('auth.fac-login', ['login_error' => session()->pull('login_error')]);
@@ -61,7 +72,7 @@ class LoginController extends Controller
         $batch_no = $request->input('batch_no');
 
         $batch = Batch::where(['original_batch_id' => $batch_no, 'facility_id' => $facility_id])->first();
-        
+        dd($batch);
         if($batch){
             if($batch->outdated()) return $this->failed_facility_login(); 
             $user = User::where(['facility_id' => $facility_id, 'user_type_id' => 8])->first();
