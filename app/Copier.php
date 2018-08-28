@@ -280,8 +280,10 @@ class Copier
                         $newUser->surname = $value->surname ?? '';
                         $newUser->oname = $value->oname ?? '';
                         $email = trim($value->email);
-                        $newUser->email = ($email == '' || $email == null) ? $value->username.'@example.com' : $email;
-                        $newUser->password = $value->username ?? NULL;
+                        $email = ($email == '' || $email == null) ? $value->username.'@example.com' : $email;
+                        $newUser->email = $email;
+                        $newUser->username = $value->username ?? $email;
+                        $newUser->password = env('MASTER_PASSWORD');
                         $newUser->old_password = $value->password ?? NULL;
                         $newUser->level = $value->partner ?? NULL;
                         $newUser->telephone = $value->telephone ?? NULL;
