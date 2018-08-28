@@ -31,7 +31,6 @@ class Copier
 	public static function copy_eid()
 	{
         $bookmark = Bookmark::find(1);
-        // $start = Sample::max('id');
 		$start = $bookmark->samples ?? 0;
 		ini_set("memory_limit", "-1");
 		$fields = Lookup::samples_arrays();	
@@ -110,7 +109,6 @@ class Copier
 	public static function copy_vl()
 	{
         $bookmark = Bookmark::find(1);
-        // $start = Viralsample::max('id');
         $start = $bookmark->viralsamples ?? 0;
 		ini_set("memory_limit", "-1");
 		$fields = Lookup::viralsamples_arrays();
