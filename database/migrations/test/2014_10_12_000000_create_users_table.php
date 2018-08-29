@@ -17,14 +17,14 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->tinyInteger('user_type_id');
             $table->tinyInteger('lab_id');
-            $table->Integer('facility_id');
+            $table->integer('facility_id');
             $table->string('surname');
             $table->string('oname');
             $table->string('email')->unique();
             $table->string('username')->unique();
             $table->string('password');
             $table->rememberToken();
-            $table->Integer('level')->nullable();
+            $table->integer('level')->nullable();
             $table->string('telephone')->nullable();
             $table->softDeletes();
             $table->timestamps();
