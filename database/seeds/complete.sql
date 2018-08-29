@@ -15,28 +15,30 @@
 -- Dumping structure for table lab-nat.user_types
 DROP TABLE IF EXISTS `user_types`;
 CREATE TABLE IF NOT EXISTS `user_types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` TINYINT  unsigned NOT NULL AUTO_INCREMENT,
   `user_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `active` tinyint(4) NOT NULL DEFAULT '1',
+  `old_id` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table lab-nat.user_types: ~8 rows (approximately)
 /*!40000 ALTER TABLE `user_types` DISABLE KEYS */;
-INSERT INTO `user_types` (`id`, `user_type`, `deleted_at`, `created_at`, `updated_at`, `active`) VALUES
-	(1, 'System Administrator', NULL, NULL, NULL, 1),
-	(2, 'Program Officers', NULL, NULL, NULL, 1),
-	(3, 'Partner', NULL, NULL, NULL, 1),
-	(4, 'CASCOS/CHRIO', NULL, NULL, NULL, 1),
-	(5, 'Sub CASCO', NULL, NULL, NULL, 1),
-	(6, 'Super Counties', NULL, NULL, NULL, 1),
-	(7, 'Super Partner', NULL, NULL, NULL, 1),
-	(8, 'Facility Users', NULL, NULL, NULL, 1),
-	(9, 'Maryland Support Team', NULL, NULL, NULL, 1),
-	(10, 'Super Administrator', NULL, NULL, NULL, 1);
+INSERT INTO `user_types` (`id`, `old_id`, `user_type`, `deleted_at`, `created_at`, `updated_at`, `active`) VALUES
+	(1, 2, 'System Administrator', NULL, NULL, NULL, 1),
+	(2, 3, 'Program Officers', NULL, NULL, NULL, 1),
+	(3, 4, 'Partner', NULL, NULL, NULL, 1),
+	(4, 7, 'CASCOS/CHRIO', NULL, NULL, NULL, 1),
+	(5, 10, 'Sub CASCO', NULL, NULL, NULL, 1),
+	(6, 11, 'Super Counties', NULL, NULL, NULL, 1),
+	(7, 12, 'Super Partner', NULL, NULL, NULL, 1),
+	(8, 0, 'Facility Users', NULL, NULL, NULL, 1),
+	(9, 9, 'Maryland Support Team', NULL, NULL, NULL, 1),
+	(10, 0, 'Super Administrator', NULL, NULL, NULL, 1),
+	(11, 5, 'SCMS / Kit Management', NULL, NULL, NULL, 1);
 /*!40000 ALTER TABLE `user_types` ENABLE KEYS */;
 
 
