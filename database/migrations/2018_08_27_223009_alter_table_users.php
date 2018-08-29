@@ -13,9 +13,10 @@ class AlterTableUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('old_password')->nullable();
-        });
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->string('old_password')->nullable();
+        //     $table->string('old_password')->nullable();
+        // });
     }
 
     /**
@@ -25,12 +26,12 @@ class AlterTableUsers extends Migration
      */
     public function down()
     {
-        if (Schema::hasColumn('users', 'name'))
-        {
-            Schema::table('users', function (Blueprint $table)
-            {
-                $table->dropColumn('name');
-            });
-        }
+        // if (Schema::hasColumn('users', 'name'))
+        // {
+        //     Schema::table('users', function (Blueprint $table)
+        //     {
+        //         $table->dropColumn('name');
+        //     });
+        // }
     }
 }
