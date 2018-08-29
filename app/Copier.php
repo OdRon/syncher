@@ -95,6 +95,9 @@ class Copier
                     $sample->age = Lookup::calculate_age($batch->datecollected, $patient->dob);
                 }
 
+                if($sample->worksheet_id == 0) $sample->worksheet_id = null;
+                if($sample->receivedstatus == 0) $sample->receivedstatus = null;
+
 				$sample->save();
 			}
 			$offset_value += self::$limit;
@@ -161,6 +164,9 @@ class Copier
                 if($sample->age == 0 && $batch->datecollected && $patient->dob){
                     $sample->age = Lookup::calculate_viralage($batch->datecollected, $patient->dob);
                 }
+                
+                if($sample->worksheet_id == 0) $sample->worksheet_id = null;
+                if($sample->receivedstatus == 0) $sample->receivedstatus = null;
 
 				$sample->save();
 			}
