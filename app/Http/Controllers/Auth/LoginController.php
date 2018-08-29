@@ -49,6 +49,17 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function login(Request $request)
+    {
+        // $credentials = $request->only('username', 'password');
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password, 'deleted_at' => null])) {
+            return redirect()->intended('home');
+        } else {
+            session(['login_error' => 'Wrong username or password']);
+            return redirect('login');
+        }
+    }
+
     public function fac_login()
     {
         return view('auth.fac-login', ['login_error' => session()->pull('login_error')]);

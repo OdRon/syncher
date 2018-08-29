@@ -45,31 +45,35 @@ class UsersTableSeeder extends Seeder
 
 
         $users = factory(App\User::class, 1)->create([
-	        'user_type_id' => 1,
+	        'user_type_id' => 10,
 	        'surname' => 'Kithinji',
 	        'oname' => 'Joel',
 	        'email' => 'joelkith@gmail.com',
+	        'username' => 'joelkith@gmail.com',
     	]);
 
         $users = factory(App\User::class, 1)->create([
-	        'user_type_id' => 1,
+	        'user_type_id' => 10,
 	        'surname' => 'Bakasa',
 	        'oname' => 'Joshua',
 	        'email' => 'bakasa@gmail.com',
+	        'username' => 'bakasa@gmail.com',
     	]);
 
         $users = factory(App\User::class, 1)->create([
-	        'user_type_id' => 1,
+	        'user_type_id' => 10,
 	        'surname' => 'Ngugi',
 	        'oname' => 'Tim',
 	        'email' => 'tim@gmail.com',
+	        'username' => 'tim@gmail.com',
     	]);
 
         $users = factory(App\User::class, 1)->create([
-	        'user_type_id' => 1,
+	        'user_type_id' => 10,
 	        'surname' => 'Lusike',
 	        'oname' => 'Judy',
 	        'email' => 'judy@gmail.com',
+	        'username' => 'judy@gmail.com',
     	]);
 
         $users = factory(App\User::class, 1)->create([
@@ -77,6 +81,7 @@ class UsersTableSeeder extends Seeder
 	        'surname' => 'Default',
 	        'oname' => 'Admin',
 	        'email' => 'admin@admin.com',
+	        'username' => 'admin@admin.com',
     	]);
 
     	$facilitys = DB::table('facilitys')->get();
@@ -91,6 +96,7 @@ class UsersTableSeeder extends Seeder
 		        'oname' => '',
 		        'facility_id' => $facility->id,
 		        'email' => 'facility' . $facility->id . '@nascop-lab.com',
+		        'username' => 'facility' . $facility->id . '@nascop-lab.com',
 		        'password' => encrypt($facility->name)
 	    	]);
 

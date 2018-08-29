@@ -63,6 +63,11 @@ Artisan::command('copy:worksheet', function () {
     $this->info($str);
 })->describe('Copy worksheets.');
 
+Artisan::command('copy:users', function(){
+    $str = \App\Copier::copy_users();
+    $this->info($str);
+})->describe('Copy Patients.');
+
 Artisan::command('patient:assign', function(){
     $str = \App\Copier::assign_patient_statuses();
     $this->info($str);
