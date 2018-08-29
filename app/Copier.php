@@ -104,6 +104,7 @@ class Copier
 
                 if($sample->worksheet_id == 0) $sample->worksheet_id = null;
                 if($sample->receivedstatus == 0) $sample->receivedstatus = null;
+                if($sample->result == '') $sample->result = null;
 
                 $sample->old_id = $value->id;
 				$sample->save();
@@ -179,6 +180,7 @@ class Copier
                 
                 if($sample->worksheet_id == 0) $sample->worksheet_id = null;
                 if($sample->receivedstatus == 0) $sample->receivedstatus = null;
+                if($sample->result == '') $sample->result = null;
 
                 $sample->old_id = $value->id;
 				$sample->save();
