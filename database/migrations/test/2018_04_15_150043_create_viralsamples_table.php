@@ -15,6 +15,7 @@ class CreateViralsamplesTable extends Migration
     {
         Schema::create('viralsamples', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('old_id')->unsigned()->nullable()->index();
             $table->integer('original_sample_id')->unsigned()->nullable()->index();
             $table->integer('patient_id')->unsigned()->index();
             $table->integer('batch_id')->unsigned()->index();
@@ -25,7 +26,7 @@ class CreateViralsamplesTable extends Migration
             $table->tinyInteger('receivedstatus')->unsigned()->nullable();
 
             // This will be used instead 
-            $table->float('age', 5, 2)->unsigned()->nullable();
+            $table->float('age', 6, 3)->unsigned()->nullable();
             $table->tinyInteger('age_category')->unsigned()->default(0);
             $table->tinyInteger('justification')->unsigned()->nullable();
             $table->string('other_justification', 50)->nullable();
