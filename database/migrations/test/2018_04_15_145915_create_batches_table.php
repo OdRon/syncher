@@ -29,9 +29,10 @@ class CreateBatchesTable extends Migration
 
             $table->boolean('sent_email')->default(false)->nullable(); 
 
-            $table->integer('printedby')->unsigned()->nullable();
-            $table->integer('user_id')->unsigned()->nullable();
+            $table->string('entered_by', 20)->nullable();
+            $table->integer('user_id')->unsigned()->nullable()->index();
             $table->integer('received_by')->unsigned()->nullable();
+            $table->integer('printedby')->unsigned()->nullable();
 
             $table->integer('lab_id')->unsigned()->index();
             $table->integer('facility_id')->unsigned()->index();

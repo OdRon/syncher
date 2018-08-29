@@ -83,6 +83,8 @@ class Copier
                     foreach ($batch_date_array as $date_field) {
                         $batch->$date_field = Lookup::clean_date($batch->$date_field);
                     }
+                    if(!$batch->received_by) $batch->received_by = $value->user_id;
+                    $batch->entered_by = $value->user_id;
 					$batch->save();
 				}
 
@@ -154,6 +156,8 @@ class Copier
                     foreach ($batch_date_array as $date_field) {
                         $batch->$date_field = Lookup::clean_date($batch->$date_field);
                     }
+                    if(!$batch->received_by) $batch->received_by = $value->user_id;
+                    $batch->entered_by = $value->user_id;
 					$batch->save();
 				}
 
