@@ -83,6 +83,8 @@ class Copier
                     foreach ($batch_date_array as $date_field) {
                         $batch->$date_field = Lookup::clean_date($batch->$date_field);
                     }
+                    if(!$batch->received_by) $batch->received_by = $value->user_id;
+                    $batch->entered_by = $value->user_id;
 					$batch->save();
 				}
 
@@ -97,6 +99,9 @@ class Copier
                 if($sample->age == 0 && $batch->datecollected && $patient->dob){
                     $sample->age = Lookup::calculate_age($batch->datecollected, $patient->dob);
                 }
+
+                if($sample->worksheet_id == 0) $sample->worksheet_id = null;
+                if($sample->receivedstatus == 0) $sample->receivedstatus = null;
 
 				$sample->save();
 			}
@@ -151,6 +156,8 @@ class Copier
                     foreach ($batch_date_array as $date_field) {
                         $batch->$date_field = Lookup::clean_date($batch->$date_field);
                     }
+                    if(!$batch->received_by) $batch->received_by = $value->user_id;
+                    $batch->entered_by = $value->user_id;
 					$batch->save();
 				}
 
@@ -164,6 +171,9 @@ class Copier
                 if($sample->age == 0 && $batch->datecollected && $patient->dob){
                     $sample->age = Lookup::calculate_viralage($batch->datecollected, $patient->dob);
                 }
+                
+                if($sample->worksheet_id == 0) $sample->worksheet_id = null;
+                if($sample->receivedstatus == 0) $sample->receivedstatus = null;
 
 				$sample->save();
 			}

@@ -604,11 +604,11 @@ INSERT INTO `partners` (`id`, `name`, `partnerDHISCode`, `partnertype`, `logo`, 
 	(17, 'CHS - Western Kenya ', NULL, 'Care Treatment Partner', NULL, 1, 2, 0, 0, 0),
 	(19, 'Aphia Plus HCM ', NULL, 'Care Treatment Partner', NULL, 1, 0, 0, 100, 80),
 	(20, 'UoMaryland-PACT Endeleza ', NULL, 'Care Treatment Partner', NULL, 1, 2, 32, 61, 84),
-	(22, 'HSDSA Cluster 2', NULL, 'Care Treatment Partner', NULL, 1, 0, 0, 0, 5),
+	(22, 'Afya Nyota ya Bonde', NULL, 'Care Treatment Partner', NULL, 1, 0, 0, 0, 5),
 	(23, 'UON CRISSP+', NULL, 'Care Treatment Partner', NULL, 1, 2, 0, 14, 0),
 	(24, 'Healthstrat TACT programme', NULL, 'Care Treatment Partner', NULL, 1, 2, 0, 8, 67),
 	(25, 'AMREF REACH90', NULL, 'Care Treatment Partner', NULL, 1, 2, 0, 0, 0),
-	(27, 'HSDSA Cluster 3', NULL, 'Care Treatment Partner', NULL, 1, 0, 4, 1, 9),
+	(27, 'Afya Kamilisha', NULL, 'Care Treatment Partner', NULL, 1, 0, 4, 1, 9),
 	(28, 'Aphia Plus Pwani', NULL, 'Care Treatment Partner', 'ANAIROBI.png', 1, 0, 2, 2, 3),
 	(29, 'CHAK-CDC HIV-AIDS Program', NULL, 'Care Treatment Partner', NULL, 1, 2, 0, 0, 3),
 	(31, 'EGPAF-TUNAWEZA', NULL, 'Care Treatment Partner', NULL, 0, 0, 0, 0, NULL),
@@ -639,9 +639,9 @@ INSERT INTO `partners` (`id`, `name`, `partnerDHISCode`, `partnertype`, `logo`, 
 	(80, 'FHI 360', NULL, 'Care Treatment Partner', NULL, 0, 0, 0, 0, NULL),
 	(81, 'Global Implementation Solutions (GIS) ', NULL, 'Care Treatment Partner', NULL, 0, 2, 0, 0, 0),
 	(82, 'Speed24', NULL, 'Care Treatment Partner', NULL, 0, 2, NULL, NULL, NULL),
-	(83, 'HSDSA Cluster 1', NULL, 'Care Treatment Partner', NULL, 1, 2, NULL, NULL, NULL),
+	(83, 'Afya Ziwani', NULL, 'Care Treatment Partner', NULL, 1, 2, NULL, NULL, NULL),
 	(84, 'PHASE', NULL, 'Care Treatment Partner', NULL, 0, 2, NULL, NULL, NULL),
-	(85, 'Nilinde,Coast', NULL, 'Care Treatment Partner', NULL, 0, 2, NULL, NULL, NULL);
+	(85, 'Nilinde Coast', NULL, 'Care Treatment Partner', NULL, 0, 2, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `partners` ENABLE KEYS */;
 
 -- Dumping structure for table apidb.pcrtype
