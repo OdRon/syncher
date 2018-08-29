@@ -82,6 +82,7 @@ class Copier
 					$batch = new Batch($value->only($fields['batch']));
                     foreach ($batch_date_array as $date_field) {
                         $batch->$date_field = Lookup::clean_date($batch->$date_field);
+                        if($batch->$date_field == '1970-01-01') $batch->$date_field = null;
                     }
                     if(!$batch->received_by) $batch->received_by = $value->user_id;
                     $batch->entered_by = $value->user_id;
@@ -91,18 +92,20 @@ class Copier
 				$sample = new Sample($value->only($fields['sample']));
                 foreach ($sample_date_array as $date_field) {
                     $sample->$date_field = Lookup::clean_date($sample->$date_field);
+                    if($sample->$date_field == '1970-01-01') $sample->$date_field = null;
                 }
 
 				$sample->batch_id = $batch->id;
 				$sample->patient_id = $patient->id;
 
-                if($sample->age == 0 && $batch->datecollected && $patient->dob){
+                if(!$sample->age && $batch->datecollected && $patient->dob){
                     $sample->age = Lookup::calculate_age($batch->datecollected, $patient->dob);
                 }
 
                 if($sample->worksheet_id == 0) $sample->worksheet_id = null;
                 if($sample->receivedstatus == 0) $sample->receivedstatus = null;
 
+                $sample->old_id = $value->id;
 				$sample->save();
 			}
 			$offset_value += self::$limit;
@@ -155,6 +158,7 @@ class Copier
 					$batch = new Viralbatch($value->only($fields['batch']));
                     foreach ($batch_date_array as $date_field) {
                         $batch->$date_field = Lookup::clean_date($batch->$date_field);
+                        if($batch->$date_field == '1970-01-01') $batch->$date_field = null;
                     }
                     if(!$batch->received_by) $batch->received_by = $value->user_id;
                     $batch->entered_by = $value->user_id;
@@ -164,17 +168,19 @@ class Copier
 				$sample = new Viralsample($value->only($fields['sample']));
                 foreach ($sample_date_array as $date_field) {
                     $sample->$date_field = Lookup::clean_date($sample->$date_field);
+                    if($sample->$date_field == '1970-01-01') $sample->$date_field = null;
                 }
 				$sample->batch_id = $batch->id;
 				$sample->patient_id = $patient->id;
 
-                if($sample->age == 0 && $batch->datecollected && $patient->dob){
+                if(!$sample->age && $batch->datecollected && $patient->dob){
                     $sample->age = Lookup::calculate_viralage($batch->datecollected, $patient->dob);
                 }
                 
                 if($sample->worksheet_id == 0) $sample->worksheet_id = null;
                 if($sample->receivedstatus == 0) $sample->receivedstatus = null;
 
+                $sample->old_id = $value->id;
 				$sample->save();
 			}
 			$offset_value += self::$limit;

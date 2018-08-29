@@ -15,6 +15,7 @@ class CreateSamplesTable extends Migration
     {
         Schema::create('samples', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('old_id')->unsigned()->nullable()->index();
             $table->integer('original_sample_id')->unsigned()->nullable()->index();
             $table->integer('patient_id')->unsigned()->index();
             $table->integer('batch_id')->unsigned()->index();
