@@ -13,9 +13,9 @@ class AlterUsertypeTable extends Migration
      */
     public function up()
     {
-        Schema::table('user_types', function(Blueprint $table){
-            $table->tinyInteger('old_id')->nullable();
-        });
+        // Schema::table('user_types', function(Blueprint $table){
+        //     $table->tinyInteger('old_id')->nullable();
+        // });
     }
 
     /**
