@@ -15,28 +15,30 @@
 -- Dumping structure for table lab-nat.user_types
 DROP TABLE IF EXISTS `user_types`;
 CREATE TABLE IF NOT EXISTS `user_types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` TINYINT  unsigned NOT NULL AUTO_INCREMENT,
   `user_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `active` tinyint(4) NOT NULL DEFAULT '1',
+  `old_id` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table lab-nat.user_types: ~8 rows (approximately)
 /*!40000 ALTER TABLE `user_types` DISABLE KEYS */;
-INSERT INTO `user_types` (`id`, `user_type`, `deleted_at`, `created_at`, `updated_at`, `active`) VALUES
-	(1, 'System Administrator', NULL, NULL, NULL, 1),
-	(2, 'Program Officers', NULL, NULL, NULL, 1),
-	(3, 'Partner', NULL, NULL, NULL, 1),
-	(4, 'CASCOS/CHRIO', NULL, NULL, NULL, 1),
-	(5, 'Sub CASCO', NULL, NULL, NULL, 1),
-	(6, 'Super Counties', NULL, NULL, NULL, 1),
-	(7, 'Super Partner', NULL, NULL, NULL, 1),
-	(8, 'Facility Users', NULL, NULL, NULL, 1),
-	(9, 'Maryland Support Team', NULL, NULL, NULL, 1);
-	(10, 'Super Administrator', NULL, NULL, NULL, 1);
+INSERT INTO `user_types` (`id`, `old_id`, `user_type`, `deleted_at`, `created_at`, `updated_at`, `active`) VALUES
+	(1, 2, 'System Administrator', NULL, NULL, NULL, 1),
+	(2, 3, 'Program Officers', NULL, NULL, NULL, 1),
+	(3, 4, 'Partner', NULL, NULL, NULL, 1),
+	(4, 7, 'CASCOS/CHRIO', NULL, NULL, NULL, 1),
+	(5, 10, 'Sub CASCO', NULL, NULL, NULL, 1),
+	(6, 11, 'Super Counties', NULL, NULL, NULL, 1),
+	(7, 12, 'Super Partner', NULL, NULL, NULL, 1),
+	(8, 0, 'Facility Users', NULL, NULL, NULL, 1),
+	(9, 9, 'Maryland Support Team', NULL, NULL, NULL, 1),
+	(10, 0, 'Super Administrator', NULL, NULL, NULL, 1),
+	(11, 5, 'SCMS / Kit Management', NULL, NULL, NULL, 1);
 /*!40000 ALTER TABLE `user_types` ENABLE KEYS */;
 
 
@@ -562,17 +564,17 @@ CREATE TABLE IF NOT EXISTS `labs` (
 
 -- Dumping data for table apidb.labs: ~10 rows (approximately)
 /*!40000 ALTER TABLE `labs` DISABLE KEYS */;
-INSERT INTO `labs` (`id`, `name`, `email`, `labname`, `labdesc`, `lablocation`, `base_url`, `labtel1`, `labtel2`, `taqman`, `abbott`) VALUES
-	(1, 'KEMRI CVR HIV-P3 Lab, Nairobi', 'eid-nairobi@googlegroups.com', 'KEMRI Nairobi ', 'KEMRI CVR HIV-P3 Lab', 'KEMRI HQ, Mbagathi Road, Nairobi', NULL, '020 2722541 Ext: 2256/2290 ', '0725793260 / 0725796842', 1, 1),
-	(2, 'KEMRI CDC HIV/R Lab,  Kisumu', 'eid-kisumu-kisian@googlegroups.c', 'Kisumu Lab', 'CDC HIV/R Lab', 'Kisumu-Busia Road, Kisumu', NULL, '057 2053017/8 ', ' 0722204614', 1, 1),
-	(3, 'KEMRI ALUPE HIV Laboratory', 'eid-alupe@googlegroups.com', 'Busia Lab', 'KEMRI Alupe Lab', 'Busia - Malaba Rd, Busia', NULL, ' (055) 22410', ' 0726156679', 1, 1),
-	(4, 'KEMRI/Walter Reed CRC Lab, Kericho', 'eid-kericho@googlegroups.com', 'Kericho Lab', 'WRP CRC Lab', 'Hospital Road, Kericho', NULL, ' 052 30388/21064', '0716430261', 1, 1),
-	(5, 'AMPATH Care Lab, Eldoret', 'eid-ampath@googlegroups.com', 'Eldoret Lab', 'AMPATH Care Lab Eldoret', 'Moi Referral Hospital, Eldoret', NULL, NULL, NULL, 1, 1),
-	(6, 'Coast Provincial General Hospital Molecular Lab', 'eid-cpgh@googlegroups.com', 'Coast Lab', 'CPGH Molecular Lab', 'Coast Provincial General Hospital', NULL, ' 0722207868 Ext. Lab', '0720594408 / 0733657392', 1, 1),
-	(7, 'National HIV Reference Laboratory, Nairobi', NULL, 'NHRL Nairobi', 'NHRL Nairobi', NULL, NULL, NULL, NULL, 1, 1),
-	(8, 'Nyumbani Diagnostic Lab', NULL, 'Nyumbani Lab ', 'Nyumbani Lab Nairobi', NULL, NULL, NULL, NULL, 0, 1),
-	(9, 'Kenyatta National Hospial Lab, Nairobi', NULL, 'KNH Nairobi', 'KNH Nairobi', NULL, NULL, NULL, NULL, 1, 1),
-	(10, 'EDARP, Nairobi', NULL, 'Edarp Nairobi', 'EDARP Nairobi', NULL, NULL, NULL, NULL, 1, 1);
+INSERT INTO `labs` (`id`, `name`, `email`, `labname`, `labdesc`, `lablocation`, `base_url`, `labtel1`, `labtel2`, `taqman`, `abbott`) 
+VALUES (1, 'KEMRI,Nairobi HIV Lab', 'eid-nairobi@googlegroups.com', 'KEMRI Nairobi ', 'KEMRI,Nairobi HIV Lab', 'KEMRI HQ, Mbagathi Road, Nairobi', 'https://kemrinairobi.nascop.org:7443/api', '020 2722541 Ext: 2256/2290 ', '0725793260 / 0725796842', 1, 1),
+ (2, 'KEMRI CDC HIV/R Lab,  Kisumu', 'eid-kisumu-kisian@googlegroups.c', 'Kisumu Lab', 'CDC HIV/R Lab', 'Kisumu-Busia Road, Kisumu', NULL, '057 2053017/8 ', ' 0722204614', 1, 1),
+ (3, 'KEMRI,Alupe HIV Lab', 'eid-alupe@googlegroups.com', 'Busia Lab', 'KEMRI,Alupe HIV Lab', 'Busia - Malaba Rd, Busia', NULL, ' (055) 22410', ' 0726156679', 1, 1), 
+ (4, 'KEMRI/Walter Reed CRC Lab, Kericho', 'eid-kericho@googlegroups.com', 'Kericho Lab', 'WRP CRC Lab', 'Hospital Road, Kericho', NULL, ' 052 30388/21064', '0716430261', 1, 1), 
+ (5, 'AMPATH Care Lab, Eldoret', 'eid-ampath@googlegroups.com', 'Eldoret Lab', 'AMPATH Care Lab Eldoret', 'Moi Referral Hospital, Eldoret', NULL, NULL, NULL, 1, 1), 
+ (6, 'Coast Provincial General Hospital Molecular Lab', 'eid-cpgh@googlegroups.com', 'Coast Lab', 'CPGH Molecular Lab', 'Coast Provincial General Hospital', NULL, ' 0722207868 Ext. Lab', '0720594408 / 0733657392', 1, 1), 
+ (7, 'National HIV Reference Laboratory, Nairobi', NULL, 'NHRL Nairobi', 'NHRL Nairobi', NULL, NULL, NULL, NULL, 1, 1), 
+ (8, 'Nyumbani Diagnostic Lab', NULL, 'Nyumbani Lab ', 'Nyumbani Lab Nairobi', NULL, NULL, NULL, NULL, 0, 1),
+ (9, 'Kenyatta National Hospial Lab, Nairobi', NULL, 'KNH Nairobi', 'KNH Nairobi', NULL, NULL, NULL, NULL, 1, 1), 
+ (10, 'EDARP, Nairobi', NULL, 'Edarp Nairobi', 'EDARP Nairobi', NULL, NULL, NULL, NULL, 1, 1);
 /*!40000 ALTER TABLE `labs` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `partners`;
@@ -604,11 +606,11 @@ INSERT INTO `partners` (`id`, `name`, `partnerDHISCode`, `partnertype`, `logo`, 
 	(17, 'CHS - Western Kenya ', NULL, 'Care Treatment Partner', NULL, 1, 2, 0, 0, 0),
 	(19, 'Aphia Plus HCM ', NULL, 'Care Treatment Partner', NULL, 1, 0, 0, 100, 80),
 	(20, 'UoMaryland-PACT Endeleza ', NULL, 'Care Treatment Partner', NULL, 1, 2, 32, 61, 84),
-	(22, 'HSDSA Cluster 2', NULL, 'Care Treatment Partner', NULL, 1, 0, 0, 0, 5),
+	(22, 'Afya Nyota ya Bonde', NULL, 'Care Treatment Partner', NULL, 1, 0, 0, 0, 5),
 	(23, 'UON CRISSP+', NULL, 'Care Treatment Partner', NULL, 1, 2, 0, 14, 0),
 	(24, 'Healthstrat TACT programme', NULL, 'Care Treatment Partner', NULL, 1, 2, 0, 8, 67),
 	(25, 'AMREF REACH90', NULL, 'Care Treatment Partner', NULL, 1, 2, 0, 0, 0),
-	(27, 'HSDSA Cluster 3', NULL, 'Care Treatment Partner', NULL, 1, 0, 4, 1, 9),
+	(27, 'Afya Kamilisha', NULL, 'Care Treatment Partner', NULL, 1, 0, 4, 1, 9),
 	(28, 'Aphia Plus Pwani', NULL, 'Care Treatment Partner', 'ANAIROBI.png', 1, 0, 2, 2, 3),
 	(29, 'CHAK-CDC HIV-AIDS Program', NULL, 'Care Treatment Partner', NULL, 1, 2, 0, 0, 3),
 	(31, 'EGPAF-TUNAWEZA', NULL, 'Care Treatment Partner', NULL, 0, 0, 0, 0, NULL),
@@ -639,9 +641,9 @@ INSERT INTO `partners` (`id`, `name`, `partnerDHISCode`, `partnertype`, `logo`, 
 	(80, 'FHI 360', NULL, 'Care Treatment Partner', NULL, 0, 0, 0, 0, NULL),
 	(81, 'Global Implementation Solutions (GIS) ', NULL, 'Care Treatment Partner', NULL, 0, 2, 0, 0, 0),
 	(82, 'Speed24', NULL, 'Care Treatment Partner', NULL, 0, 2, NULL, NULL, NULL),
-	(83, 'HSDSA Cluster 1', NULL, 'Care Treatment Partner', NULL, 1, 2, NULL, NULL, NULL),
+	(83, 'Afya Ziwani', NULL, 'Care Treatment Partner', NULL, 1, 2, NULL, NULL, NULL),
 	(84, 'PHASE', NULL, 'Care Treatment Partner', NULL, 0, 2, NULL, NULL, NULL),
-	(85, 'Nilinde,Coast', NULL, 'Care Treatment Partner', NULL, 0, 2, NULL, NULL, NULL);
+	(85, 'Nilinde Coast', NULL, 'Care Treatment Partner', NULL, 0, 2, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `partners` ENABLE KEYS */;
 
 -- Dumping structure for table apidb.pcrtype
@@ -663,10 +665,10 @@ CREATE TABLE `pcrtype` (
 LOCK TABLES `pcrtype` WRITE;
 /*!40000 ALTER TABLE `pcrtype` DISABLE KEYS */;
 INSERT INTO `pcrtype` VALUES 
-(1,'1 &nbsp;Initial PCR (6 week or first contact)','Initial PCR'),
-(2,'2 &nbsp;2nd PCR (6 months)','Second PCR'),
-(3,'3 &nbsp;3rd PCR (12 months)','Third PCR'),
-(4,'4 &nbsp;Confirmatory PCR and Baseline VL','Confirmatory PCR'),
+(1,'1 &nbsp;Initial PCR (6 week or first contact)','Initial PCR (6 week or first contact)'),
+(2,'2 &nbsp;2nd PCR (6 months)','2nd PCR (6 months)'),
+(3,'3 &nbsp;3rd PCR (12 months)','3rd PCR (12 months)'),
+(4,'4 &nbsp;Confirmatory PCR and Baseline VL','Confirmatory PCR and Baseline VL'),
 (5,'5 &nbsp;Discrepant PCR(tie breaker)','Discrepant PCR(tie breaker)');
 /*!40000 ALTER TABLE `pcrtype` ENABLE KEYS */;
 UNLOCK TABLES;
