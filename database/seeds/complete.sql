@@ -141,13 +141,13 @@ INSERT INTO `countys` (`id`, `name`, `CountyDHISCode`, `CountyMFLCode`, `CountyC
 DROP TABLE IF EXISTS `districts`;
 -- Dumping structure for table apidb.districts
 CREATE TABLE IF NOT EXISTS `districts` (
-  `id` smallint(5) NOT NULL AUTO_INCREMENT,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `SubCountyDHISCode` varchar(50) DEFAULT NULL,
   `SubCountyMFLCode` varchar(50) DEFAULT NULL,
   `SubCountyCoordinates` varchar(3070) DEFAULT NULL,
-  `county` int(32) NOT NULL,
-  `province` int(14) NOT NULL,
+  `county` tinyint(3) unsigned NOT NULL,
+  `province` tinyint(3) unsigned NOT NULL,
   `comment` varchar(32) DEFAULT NULL,
   `flag` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`id`)
