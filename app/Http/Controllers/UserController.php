@@ -17,7 +17,7 @@ class UserController extends Controller
      **/
     public function index()
     {
-        $columns = $this->_columnBuilder(['#','Full Names','Email Address','Account Type','Last Access','Action']);
+        $columns = $this->_columnBuilder(['#','Full Names','Email Address','Username','Account Type','Last Access','Action']);
         $row = "";
         $newUsers = [];
 
@@ -62,6 +62,7 @@ class UserController extends Controller
             $row .= '<td>'.($key+1).'</td>';
             $row .= '<td>'.$value->surname.' '.$value->oname.'</td>';
             $row .= '<td>'.$value->email.'</td>';
+            $row .= '<td>'.$value->username.'</td>';
             $row .= '<td>'.$value->user_type.'</td>';
             $row .= '<td>'.$value->created_at.'</td>';
             $row .= '<td><a href="'.$passreset.'">Reset Password</a> | <a href="'.$statusChange.'">Deactivate</a> | <a href="'.$delete.'">Delete</a></td>';
