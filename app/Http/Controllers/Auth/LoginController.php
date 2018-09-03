@@ -31,8 +31,10 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
-
+    protected function redirectTo()
+    {
+        return $this->set_access();
+    }
     // protected function redirectTo () {
     //     $user = Auth::user();
     //     dd($user);
@@ -53,7 +55,7 @@ class LoginController extends Controller
     {
         // $credentials = $request->only('username', 'password');
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password, 'deleted_at' => null])) {
-            return redirect()->intended('home');
+            return $this->set_access();
         } else {
             session(['login_error' => 'Wrong username or password']);
             return redirect('login');
@@ -80,7 +82,8 @@ class LoginController extends Controller
             if($user){
                 session(['batcheLoggedInWith'=>['eid'=>$batch_no]]);
                 Auth::login($user);
-                return redirect('/home');
+
+                $this->set_access();
             }
         }
 
@@ -93,10 +96,17 @@ class LoginController extends Controller
             if($user){
                 session(['batcheLoggedInWith'=>['vl'=>$batch_no]]);
                 Auth::login($user);
-                return redirect('/home');
+                $this->set_access();
             }
         }
         return $this->failed_facility_login(); 
+    }
+
+    public function set_access(){
+        $user = auth()->user();
+        $user->set_last_access();
+
+        return redirect('/home');
     }
 
     public function failed_facility_login()

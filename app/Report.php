@@ -74,14 +74,14 @@ class Report
 		}
 	}
 
-	public static function send_password()
-	{
-		$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 3)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->get();
+	// public static function send_password()
+	// {
+	// 	$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 3)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->get();
 		
-		foreach ($users as $key => $value) {
-			Mail::to($value->email)->send(new PasswordEmail($value->id));
-		}
-	}
+	// 	foreach ($users as $key => $value) {
+	// 		Mail::to($value->email)->send(new PasswordEmail($value->id));
+	// 	}
+	// }
 
 
 	public static function vl_partner($partner_contact=null)
