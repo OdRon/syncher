@@ -4,7 +4,6 @@ namespace App;
 
 use App\Common;
 use Carbon\Carbon;
-use App\User;
 
 class Misc extends Common
 {
@@ -101,9 +100,4 @@ class Misc extends Common
 		return 1;
 	}
 
-	public static function sendNewSystemEmail() {
-		echo "==> Getting users\n";
-		$users = User::where('user_type_id', '<>', 8)->get();
-		dd($users);
-	}
 }

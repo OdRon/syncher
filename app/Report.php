@@ -12,6 +12,7 @@ use App\Mail\EidPartnerPositives;
 use App\Mail\EidCountyPositives;
 use App\Mail\VlPartnerNonsuppressed;
 use App\Mail\VlCountyNonsuppressed;
+use App\Mail\PasswordEmail;
 
 class Report
 {
@@ -71,6 +72,16 @@ class Report
 	        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
 	     	Mail::to($mail_array)->send(new EidCountyPositives($contact->id));
 		}
+	}
+
+	public static function send_password()
+	{
+		$users = \App\User::where('user_type_id', '<>', 8)->get();
+		$mail_array = array('baksajoshua09@gmail.com');
+		Mail::to($mail_array)->send(new PasswordEmail(1));
+		// foreach ($users as $key => $value) {
+			
+		// }
 	}
 
 
