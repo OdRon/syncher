@@ -270,7 +270,7 @@ class Copier
     }
 
     public static function copy_users() {
-        $start = $bookmark->users ?? 0;
+        $start = 0;
         $offset_value = 0;
         $count = 0;
         
