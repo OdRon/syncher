@@ -322,11 +322,13 @@ class Copier
             if($oldUsers->isEmpty()) break;
             echo "==> Started at " . date('d/m/Y h:i:s a', time()). "\n";
             foreach ($oldUsers as $key => $value) {
-                $current = User::where('username', '=', $value->username)->get();
+                $current = User::where('username', '=', $value->username)->first();
+                
                 if(!$current->isEmpty()) {
-                    $current::update(['deleted_at'=>date('Y-m-d H:i:s')]);
-                    // $current->deleted_at = date('Y-m-d H:i:s');
-                    // $current->update();
+                    $user = User::find($current->id);
+                    // $current::update(['deleted_at'=>date('Y-m-d H:i:s')]);
+                    $user->deleted_at = date('Y-m-d H:i:s');
+                    $user->save();
                     $count++;
                 }
             }
