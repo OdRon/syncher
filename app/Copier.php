@@ -326,7 +326,6 @@ class Copier
                 
                 if(!$current->isEmpty()) {
                     $user = User::find($current->first()->id);
-                    // $current::update(['deleted_at'=>date('Y-m-d H:i:s')]);
                     $user->deleted_at = date('Y-m-d H:i:s');
                     $user->save();
                     $count++;
