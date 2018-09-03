@@ -19,7 +19,7 @@
     </div>
     <div id="logo" class="light-version" style="padding-left: 2px; padding-top: 6px; width: 250px;">
         <span>
-            <img src="{{ asset(env('LOGO')) }}">
+            <img src="{{ asset(env('LOGO')) }}" style="width: 250px;">
         </span>
     </div>
     <nav role="navigation">
