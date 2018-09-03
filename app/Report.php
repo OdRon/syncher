@@ -19,7 +19,7 @@ class Report
 
     public static function test_email()
     {
-        Mail::to(['joelkith@gmail.com'])->send(new TestMail());
+        Mail::to(['baksajoshua09@gmail.com'])->send(new TestMail());
     }
 
 	public static function eid_partner($partner_contact=null)

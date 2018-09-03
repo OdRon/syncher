@@ -77,3 +77,8 @@ Artisan::command('test:email', function(){
     $str = \App\Report::test_email();
     $this->info($str);
 })->describe('Send test email.');
+
+Artisan::command('testnew:email', function(){
+    $str = \App\Misc::sendNewSystemEmail();
+    $this->info($str);
+})->describe('Send Email to all users to tell them of their new passwords');
