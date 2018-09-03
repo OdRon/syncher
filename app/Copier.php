@@ -330,7 +330,7 @@ class Copier
                 }
             }
             echo "==> Completed updating {$count} users at " . date('d/m/Y h:i:s a', time()). "\n";
-            break
+            break;
         }
     }
 
