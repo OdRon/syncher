@@ -76,12 +76,11 @@ class Report
 
 	public static function send_password()
 	{
-		$users = \App\User::where('user_type_id', '<>', 8)->get();
-		$mail_array = array('baksajoshua09@gmail.com');
-		Mail::to($mail_array)->send(new PasswordEmail(1));
-		// foreach ($users as $key => $value) {
-			
-		// }
+		$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 3)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->get();
+		
+		foreach ($users as $key => $value) {
+			Mail::to($value->email)->send(new PasswordEmail($value->id));
+		}
 	}
 
 

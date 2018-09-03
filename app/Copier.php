@@ -313,6 +313,27 @@ class Copier
         }
     }
 
+    public static function deactivate_old_users()
+    {
+
+        while (true) {
+            $count = 0;
+            $oldUsers = OldUser::where('flag', '=', 0)->get();
+            if($oldUsers->isEmpty()) break;
+            echo "==> Started at " . date('d/m/Y h:i:s a', time()). "\n";
+            foreach ($oldUsers as $key => $value) {
+                $current = User::where('username', '=', $value->username)->get();
+                if(!$current->isEmpty()) {
+                    $current->deleted_at = date('Y-m-d H:i:s');
+                    $current->save();
+                    $count++;
+                }
+            }
+            echo "==> Completed updating {$count} users at " . date('d/m/Y h:i:s a', time()). "\n";
+            break
+        }
+    }
+
     public static function assign_patient_statuses()
     {
     	print_r("==> Getting patient data at " . date('d/m/Y h:i:s a', time()). "\n");

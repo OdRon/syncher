@@ -5,7 +5,7 @@
 	<br />
 	<br />
 
-	Please Log in to <a href='http://eiddash.nascop.org/'>EID/VL National</a> with your usual username but with a password of:<br />\t {{ $credentials->password }}. Once you log in please change you password to your desired password.
+	Please Log in to <a href='http://eiddash.nascop.org/'>EID/VL National</a> with your usual username but with a password of: {{ $credentials->password }}.<br /> Once you log in please change you password to your desired password.
 	<br />
 	<br />
 
