@@ -13,6 +13,8 @@ class PasswordEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $credentials;
+    public $title;
+
 
     /**
      * Create a new message instance.
@@ -27,6 +29,7 @@ class PasswordEmail extends Mailable
         						'email' => $user->email,
         						'password' => '12345678'
         					];
+        $this->title = 'EID/VL SYTEM UPDATE';
     }
 
     /**
@@ -36,6 +39,6 @@ class PasswordEmail extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->credentials)->view('mail.passwordAnnouncement');
+        return $this->subject($this->title)->view('mail.passwordAnnouncement');
     }
 }
