@@ -52,7 +52,7 @@ class UserController extends Controller
         }
 
         $users = (object) $newUsers;
-        dd($users);
+        // dd($users);
         foreach ($users as $key => $value) {
             $id = md5($value->id);
             $passreset = url("user/passwordReset/$id");
