@@ -324,8 +324,9 @@ class Copier
             foreach ($oldUsers as $key => $value) {
                 $current = User::where('username', '=', $value->username)->get();
                 if(!$current->isEmpty()) {
-                    $current->deleted_at = date('Y-m-d H:i:s');
-                    $current->update();
+                    $current::update(['deleted_at'=>date('Y-m-d H:i:s')]);
+                    // $current->deleted_at = date('Y-m-d H:i:s');
+                    // $current->update();
                     $count++;
                 }
             }
