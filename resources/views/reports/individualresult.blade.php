@@ -286,7 +286,7 @@
 						$vlmessage='Failed Test';
 					}
 					else{
-						$guideline = $data->vl_result_guidelines->where('test', $test_no)->where('triagecode', $outcome_code)->where('sampletype', $s_type->typecode)->first();
+						$guideline = $vl_result_guidelines->where('test', $test_no)->where('triagecode', $outcome_code)->where('sampletype', $s_type->typecode)->first();
 
 						if($guideline){
 							$vlmessage = $guideline->indication;
