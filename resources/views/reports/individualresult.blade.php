@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<style type="text/css">
-		<!--
 		.style1 {font-family: "Courier New", Courier, monospace}
 		.style4 {font-size: 12}
 		.style5 {font-family: "Courier New", Courier, monospace; font-size: 12; }
@@ -10,33 +9,38 @@
 			font-size: medium;
 			font-weight: bold;
 		}
-		-->
 	</style>
 	<style>
-		td { }
+		td {
 
+		}
+		@page{
+		 	size: portrait;
+		 }
 		.oddrow {
-		 	background-color : #CCCCCC;
+			background-color : #CCCCCC;
 		}
 		.evenrow {
-		 	background-color : #F0F0F0;
-		}
+			background-color : #F0F0F0;
+		} 
 		#table1 {
 			border : solid 1px black;
 			width:1000px;
-			width:1000px;
 		}
-		.style7 {font-size: medium}
+		/*.style7 {font-size: medium}*/
+		.style7 {font-size: 13px}
 		.style10 {font-size: 16px}
+		.emph {
+			font-size: 16px;
+			font-weight: bold;
+		}
 		p.breakhere {page-break-before: always}
 	</style>
 	<body>
 		<table  border="0" id='table1' align="center">
 			<tr>
 				<td colspan="9" align="center">
-					<span class="style6 style1">
-						<strong><img src="{{ asset('img/naslogo.jpg') }}" alt="NASCOP" align="absmiddle" ></strong> 
-					</span>
+					<strong><img src="http://lab-2.test.nascop.org/img/naslogo.jpg" alt="NASCOP"></strong> 
 					<span class="style1"><br>
 						<span class="style7">
 							MINISTRY OF HEALTH <br />
@@ -295,9 +299,8 @@
 				@endphp
 			@endif
 			<tr>
-				<td colspan="2" class="evenrow"><span class="style1"><strong>
-				Test Result </strong></span></td>
-				<td colspan="5" class="evenrow"  >
+				<td colspan="3" class="style4 style1 comment"><strong>Test Result</strong></td>
+				<td colspan="1" class="style4 style1 comment">
 					<span class="style1">
 						<strong> 
 						@if($testingSys == 'EID')
@@ -318,6 +321,20 @@
 					</span>
 				</td>
 			</tr>
+
+			@if($sample->worksheet)
+				<tr>
+					<td colspan="2"></td>
+					<td colspan="7" class="style4 style1 comment">					
+						@if($sample->worksheet->machine_type == 1)
+							HIV-1 DNA qualitative  assay on Roche CAP/CTM system
+						@elseif($sample->worksheet->machine_type == 2)
+							HIV-1 DNA qualitative  assay on Abbott M2000 system
+						@endif					
+					</td>				
+				</tr>
+			@endif
+
 			<tr>
 				<td colspan="2">
 				  <span class="style1"><strong>Comments:</strong></span>
@@ -334,18 +351,11 @@
 				</td>
 			</tr>
 			<tr>
+				<td colspan="3" class="style4 style1 comment">
+					<strong>Date Dispatched:  </strong>
+				</td>
 				<td colspan="6" class="style4 style1 comment">
-					<center>
-						<strong>Result Reviewed By: </strong>
-						&nbsp;&nbsp;
-						<strong> {{ $sample->approver->full_name ?? '' }}</strong> 
-					</center>					
-				</td>
-				<td colspan="3" class="style4 style1 comment">
-					<strong>Date Reviewed:  {{ $sample->my_date_format('dateapproved') }}</strong>
-				</td>
-				<td colspan="3" class="style4 style1 comment">
-					<strong>Date Dispatched:  {{ $sample->batch->my_date_format('datedispatched') }}</strong>
+					{{ $sample->batch->my_date_format('datedispatched') }}
 				</td>
 			</tr>
 			@if($testingSys == 'EID')
@@ -391,15 +401,9 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			at {{ $sample->batch->lab->email }}
 			<br> 
-			<b> To Access & Download your current and past results go to : <u> http://eid.nascop.org/login.php</u> </b>
+			<b> To Access & Download your current and past results go to : <u> http://eiddash.nascop.org/</u> </b>
 		</span>
-		<br>
-		<br>
-		<img src="{{ asset('img/but_cut.gif') }}">
-		<br>
-		<br>
-		
 		<p class="breakhere"></p>
-		<pagebreak sheet-size='A4-L'>
+		<pagebreak sheet-size='A4'>
 	</body>
 </html>

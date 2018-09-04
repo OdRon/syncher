@@ -23,6 +23,11 @@ class Viralsample extends BaseModel
         return $this->belongsTo('App\Viralbatch', 'batch_id');
     }
 
+    public function worksheet()
+    {
+        return $this->belongsTo('App\Viralworksheet', 'worksheet_id');
+    }
+
     // Parent sample
     public function parent()
     {
