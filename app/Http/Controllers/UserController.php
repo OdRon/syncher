@@ -69,7 +69,7 @@ class UserController extends Controller
             $row .= '<td>'.$value->email.'</td>';
             $row .= '<td>'.$value->username.'</td>';
             $row .= '<td>'.$value->user_type.'</td>';
-            $row .= '<td>'.($value->last_access) ? date('M d, Y', strtotime($value->last_access)) : " ".'</td>';
+            $row .= '<td>'.$value->last_acces.'</td>';
             $row .= '<td></td>';
             $row .= '<td><a href="'.$passreset.'">Reset Password</a> | <a href="'.$statusChange.'">Deactivate</a> | <a href="'.$delete.'">Delete</a></td>';
             $row .= '</tr>';
