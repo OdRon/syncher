@@ -20,15 +20,21 @@ class UserController extends Controller
         $columns = $this->_columnBuilder(['#','Full Names','Email Address','Username','Account Type','Last Access','Status','Action']);
         $row = "";
         $newUsers = [];
+        $usertype = auth()->user()->user_type_id;
 
-        $users = User::select('users.*','user_types.user_type')->join('user_types', 'user_types.id', '=', 'users.user_type_id')->where('users.user_type_id', '<>', 8);
+        $users = User::select('users.*','user_types.user_type')->join('user_types', 'user_types.id', '=', 'users.user_type_id')
+                    ->where('users.user_type_id', '<>', 8)->orderBy('last_access', 'desc')
+                    ->when($usertype, function ($query) use ($usertype){
+                        if ($usertype != 10)
+                            return $query->where('user_type_id', '<>', 10);
+                    });
         if (auth()->user()->user_type_id == 4) {
-            $users = $users->where('user_type_id', '=', auth()->user()->user_type_id)->where('level', '=', auth()->user()->level);
+            $users = $users->where('user_type_id', '=', auth()->user()->user_type_id)->where('level', '=', auth()->user()->level)->orderBy('last_access', 'desc');
 
             $subusers = User::selectRaw('distinct users.id, users.*,user_types.user_type')
                                 ->join('user_types', 'user_types.id', '=', 'users.user_type_id')
                                 ->join('view_facilitys', 'view_facilitys.subcounty_id', '=', 'users.level')
-                                ->where('view_facilitys.county_id', '=', auth()->user()->level)->get();
+                                ->where('view_facilitys.county_id', '=', auth()->user()->level)->orderBy('last_access', 'desc')->get();
         }
         
         $users = $users->get();
@@ -63,14 +69,16 @@ class UserController extends Controller
             $passreset = url("user/passwordReset/$id");
             $statusChange = url("user/status/$id");
             $delete = url("user/delete/$id");
+            $last_access = (null === $value->last_access) ? "" : date('M d, Y (H:i)', strtotime($value->last_access));
+            $status = (null === $value->deleted_at) ? "<span class='label label-success'>Active</span>" : "<span class='label label-danger'>Inactive</span>";
             $row .= '<tr>';
             $row .= '<td>'.($key+1).'</td>';
             $row .= '<td>'.$value->surname.' '.$value->oname.'</td>';
             $row .= '<td>'.$value->email.'</td>';
             $row .= '<td>'.$value->username.'</td>';
             $row .= '<td>'.$value->user_type.'</td>';
-            $row .= '<td>'.$value->last_acces.'</td>';
-            $row .= '<td></td>';
+            $row .= '<td>'.$last_access.'</td>';
+            $row .= '<td>'.$status.'</td>';
             $row .= '<td><a href="'.$passreset.'">Reset Password</a> | <a href="'.$statusChange.'">Deactivate</a> | <a href="'.$delete.'">Delete</a></td>';
             $row .= '</tr>';
         }
