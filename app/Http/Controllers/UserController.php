@@ -34,19 +34,24 @@ class UserController extends Controller
         $users = $users->get();
         foreach ($users as $key => $value) {
             $newUsers[] = (object)[
-                            "id" => $value->id, "user_type_id" => $value->user_type_id,"surname" => $value->surname,
-                            "oname" => $value->oname, "email" => $value->email, "username" => $value->username, "level" => $value->level, "telephone" => $value->telephone,
-                            "deleted_at" => $value->deleted_at, "created_at" => $value->created_at, "updated_at" => $value->updated_at,
-                            "user_type" => $value->user_type
+                            "id" => $value->id, "user_type_id" => $value->user_type_id,
+                            "surname" => $value->surname, "oname" => $value->oname, 
+                            "email" => $value->email, "username" => $value->username, 
+                            "level" => $value->level, "telephone" => $value->telephone,
+                            "deleted_at" => $value->deleted_at, "created_at" => $value->created_at, 
+                            "updated_at" => $value->updated_at, "user_type" => $value->user_type, 
+                            "last_access" => $value->last_access
                         ];
         }
         if (auth()->user()->user_type_id == 4) {
             foreach ($subusers as $key => $value) {
                 $newUsers[] = (object)[
                                 "id" => $value->id, "user_type_id" => $value->user_type_id,"surname" => $value->surname,
-                                "oname" => $value->oname, "email" => $value->email, "username" => $value->username, "level" => $value->level, "telephone" => $value->telephone,
-                                "deleted_at" => $value->deleted_at, "created_at" => $value->created_at, "updated_at" => $value->updated_at,
-                                "user_type" => $value->user_type
+                                "oname" => $value->oname, "email" => $value->email, "username" => $value->username, 
+                                "level" => $value->level, "telephone" => $value->telephone,
+                                "deleted_at" => $value->deleted_at, "created_at" => $value->created_at, 
+                                "updated_at" => $value->updated_at, "user_type" => $value->user_type, 
+                                "last_access" => $value->last_access
                             ];
             }
         }
@@ -64,7 +69,7 @@ class UserController extends Controller
             $row .= '<td>'.$value->email.'</td>';
             $row .= '<td>'.$value->username.'</td>';
             $row .= '<td>'.$value->user_type.'</td>';
-            $row .= '<td>'.$value->created_at.'</td>';
+            $row .= '<td>'.$value->last_access.'</td>';
             $row .= '<td><a href="'.$passreset.'">Reset Password</a> | <a href="'.$statusChange.'">Deactivate</a> | <a href="'.$delete.'">Delete</a></td>';
             $row .= '</tr>';
         }
