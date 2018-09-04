@@ -645,6 +645,13 @@ class ReportController extends Controller
             }
         }
 
+        if (auth()->user()->user_type_id == 3) 
+            $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->level);
+        if (auth()->user()->user_type_id == 4) 
+            $model = $model->where('view_facilitys.county_id', '=', auth()->user()->level);
+        if (auth()->user()->user_type_id == 5) 
+            $model = $model->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
+
     	if (isset($request->specificDate)) {
     		$dateString = date('d-M-Y', strtotime($request->specificDate));
             if ($request->testtype == 'support' && ($request->indicatortype == 11 || $request->indicatortype == 12)) {
