@@ -17,7 +17,7 @@ class UserController extends Controller
      **/
     public function index()
     {
-        $columns = $this->_columnBuilder(['#','Full Names','Email Address','Username','Account Type','Last Access','Action']);
+        $columns = $this->_columnBuilder(['#','Full Names','Email Address','Username','Account Type','Last Access','Status','Action']);
         $row = "";
         $newUsers = [];
 
@@ -69,7 +69,8 @@ class UserController extends Controller
             $row .= '<td>'.$value->email.'</td>';
             $row .= '<td>'.$value->username.'</td>';
             $row .= '<td>'.$value->user_type.'</td>';
-            $row .= '<td>'.$value->last_access.'</td>';
+            $row .= '<td>'.($value->last_access) ? date('M d, Y', strtotime($value->last_access)) : " ".'</td>';
+            $row .= '<td>'.($value->deleted_at) ? "<span class='label label-danger'>Inactive</span>" : "<span class='label label-success'>Active</span>".'</td>';
             $row .= '<td><a href="'.$passreset.'">Reset Password</a> | <a href="'.$statusChange.'">Deactivate</a> | <a href="'.$delete.'">Delete</a></td>';
             $row .= '</tr>';
         }
