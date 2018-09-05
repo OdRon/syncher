@@ -32,7 +32,7 @@
                                     <div class="col-sm-8">
                                         <select class="form-control" required name="user_type" id="user_type">
                                             <option value="" selected disabled>Select Account Type</option>
-                                        @forelse ($accounts as $account)
+                                        @forelse ($data->accounts as $account)
                                             <option value="{{ $account->id }}">{{ $account->user_type }}</option>
                                         @empty
                                             <option value="" disabled="true">No Account types available</option>
@@ -41,29 +41,37 @@
                                     </div>
                                 </div>
                                 @isset($level)
-                                <div class="form-group" id="levels"
-                                @if(Auth::user()->user_type_id == 4)
-                                    style="display:none;"
-                                @endif
-                                >
-                                    @if(Auth::user()->user_type_id == 1)
+                                <div class="form-group" id="levels">
+                                    @if(Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 10)
                                         <label class="col-sm-4 control-label">Partner</label>
                                         <div class="col-sm-8">
-                                            <select class="form-control" name="level" id="level">
+                                            <select class="form-control" name="level" id="partner_select">
                                                 <option value="" selected disabled>Select Partner</option>
-                                            @forelse ($level as $partner)
+                                            @forelse ($data->partners as $partner)
                                                 <option value="{{ $partner->id }}">{{ $partner->name }}</option>
                                             @empty
                                                 <option value="" disabled="true">No Partners available</option>
                                             @endforelse
                                             </select>
                                         </div>
-                                    @elseif(Auth::user()->user_type_id == 4)
+                                        <label class="col-sm-4 control-label">County</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" name="level" id="partner_select">
+                                                <option value="" selected disabled>Select County</option>
+                                            @forelse ($data->countys as $county)
+                                                <option value="{{ $county->id }}">{{ $county->name }}</option>
+                                            @empty
+                                                <option value="" disabled="true">No Countys available</option>
+                                            @endforelse
+                                            </select>
+                                        </div>
+                                    @endif
+                                    @if(Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 10)
                                         <label class="col-sm-4 control-label">Sub-County</label>
                                         <div class="col-sm-8">
-                                            <select class="form-control" name="level" id="level" style="width: 100%;">
+                                            <select class="form-control" name="level" id="subcounty" style="width: 100%;">
                                                 <option value="" selected disabled>Select Sub-County</option>
-                                            @forelse ($level as $subcounty)
+                                            @forelse ($data->subcountys as $subcounty)
                                                 <option value="{{ $subcounty->id }}">{{ $subcounty->name }}</option>
                                             @empty
                                                 <option value="" disabled="true">No Sub-County available</option>
@@ -77,6 +85,12 @@
                                     <label class="col-sm-4 control-label">Email</label>
                                     <div class="col-sm-8">
                                         <input class="form-control" name="email" id="email" type="email" value="{{ $user->email ?? '' }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Username</label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" name="username" id="username" type="username" value="{{ $user->username ?? '' }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -170,6 +184,11 @@
                     $("#confirm-password").val("");
                     $("#confirm-password").focus();
                 }
+            });
+
+            $("#email").on('keyup', function(){
+                $val = $(this).val();
+                $("#username").val($val);
             });
 
             @if(Auth::user()->user_type_id == 4)

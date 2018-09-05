@@ -22,6 +22,11 @@ class Sample extends BaseModel
         return $this->belongsTo('App\Batch');
     }
 
+    public function worksheet()
+    {
+        return $this->belongsTo('App\Worksheet');
+    }
+
     // Parent sample
     public function parent()
     {

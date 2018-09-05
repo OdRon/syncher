@@ -12,6 +12,7 @@ use App\Mail\EidPartnerPositives;
 use App\Mail\EidCountyPositives;
 use App\Mail\VlPartnerNonsuppressed;
 use App\Mail\VlCountyNonsuppressed;
+use App\Mail\PasswordEmail;
 
 class Report
 {
@@ -19,7 +20,7 @@ class Report
 
     public static function test_email()
     {
-        Mail::to(['joelkith@gmail.com'])->send(new TestMail());
+        Mail::to(['baksajoshua09@gmail.com'])->send(new TestMail());
     }
 
 	public static function eid_partner($partner_contact=null)
@@ -72,6 +73,15 @@ class Report
 	     	Mail::to($mail_array)->send(new EidCountyPositives($contact->id));
 		}
 	}
+
+	// public static function send_password()
+	// {
+	// 	$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 3)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->get();
+		
+	// 	foreach ($users as $key => $value) {
+	// 		Mail::to($value->email)->send(new PasswordEmail($value->id));
+	// 	}
+	// }
 
 
 	public static function vl_partner($partner_contact=null)

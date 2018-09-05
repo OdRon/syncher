@@ -99,4 +99,5 @@ class Misc extends Common
 		}
 		return 1;
 	}
+
 }
