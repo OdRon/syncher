@@ -17,11 +17,12 @@ class UserController extends Controller
      **/
     public function index()
     {
+        $usertype = auth()->user()->user_type_id;
+        if(!($usertype == 1 || $usertype == 4 || $usertype == 10)) return back();
         $columns = $this->_columnBuilder(['#','Full Names','Email Address','Username','Account Type','Last Access','Status','Action']);
         $row = "";
         $newUsers = [];
-        $usertype = auth()->user()->user_type_id;
-
+        
         $users = User::select('users.*','user_types.user_type')->join('user_types', 'user_types.id', '=', 'users.user_type_id')
                     ->where('users.user_type_id', '<>', 8)->orderBy('last_access', 'desc')
                     ->when($usertype, function ($query) use ($usertype){
@@ -94,18 +95,35 @@ class UserController extends Controller
     public function create()
     {
         $usertype = auth()->user()->user_type_id;
+        if(!($usertype == 1 || $usertype == 4 || $usertype == 10)) return back();
+
+        $partners = (object)[];
+        $countys = (object)[];
+        $subcountys = (object)[];
         $accounts = UserType::whereNull('deleted_at')->where('id', '<>', 8)
                                 ->when($usertype,function($query) use ($usertype) {
-                                    return $query->where('id','=',4)->orWhere('id','=',5);
+                                    if ($usertype == 1)
+                                        return $query->where('id','<>', 10);
+                                    if ($usertype == 4)
+                                        return $query->where('id','=',4)->orWhere('id','=',5);
                                 })->get();
-        if (auth()->user()->user_type_id == 1) {
-            $level = DB::table('partners')->get();
-        } else if (auth()->user()->user_type_id == 4) {
-            $level = DB::table('districts')->where('county', '=', auth()->user()->level)->get();
+        if (auth()->user()->user_type_id == 1 || auth()->user()->user_type_id == 10) {
+            $partners = DB::table('partners')->get();
+            $countys = DB::table('countys')->get();
         }
+        
+        if (auth()->user()->user_type_id == 1 || auth()->user()->user_type_id == 4 || auth()->user()->user_type_id == 10) 
+            $subcountys = DB::table('districts')->where('county', '=', auth()->user()->level)->get();
 
+        $data = (object)[
+                        'accounts' => $accounts,
+                        'countys' => $countys,
+                        'partners' => $partners,
+                        'subcountys' => $subcountys
+                    ];
+        // dd($data);
 
-        return view('forms.users', compact('accounts','level'))->with('pageTitle', 'Add User');
+        return view('forms.users', compact('data'))->with('pageTitle', 'Add User');
     }
 
     /**
