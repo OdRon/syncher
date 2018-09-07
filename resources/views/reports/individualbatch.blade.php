@@ -32,6 +32,7 @@
 	</style>
 	<body>
 		@foreach($samples as $key => $sample)
+		@continue($sample->repeatt == 1)
 			<table  border="0" id='table1' align="center">
 				<tr>
 					<td colspan="9" align="center">

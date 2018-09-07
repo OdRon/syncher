@@ -279,7 +279,7 @@ class GenerealController extends Controller
         $datereceived = date('d-M-Y', strtotime($samples->datereceived));
         $fileName = $testSysm. " Individual Samples Report for $facility Received on $datereceived";
         
-        $mpdf = new Mpdf(['format' => 'A4-L']);
+        $mpdf = new Mpdf();
         $view_data = view('reports.individualresult', $data)->render();
         $mpdf->WriteHTML($view_data);
         $mpdf->Output($fileName.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
@@ -306,7 +306,7 @@ class GenerealController extends Controller
         $datereceived = date('d-M-Y', strtotime($batch->datereceived));
         $fileName = $testingSystem. " Individual Samples Report for $facility Received on $datereceived";
         // return view('reports.individualbatch', $data);
-        $mpdf = new Mpdf(['format' => 'A4-L']);
+        $mpdf = new Mpdf();
         $view_data = view('reports.individualbatch', $data)->render();
         $mpdf->WriteHTML($view_data);
         $mpdf->Output($fileName.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
