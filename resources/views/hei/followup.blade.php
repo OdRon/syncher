@@ -230,7 +230,7 @@
                 $initialCount += 1;
             @endphp
             checklist = $("#check{{ $initialCount }}:checked").val();
-            console.log(checklist);
+            
             if (checklist == undefined) {
                 $("#id{{ $initialCount }}").attr('disabled', 'true');
                 $("#patient{{ $initialCount }}").attr('disabled', 'true');
