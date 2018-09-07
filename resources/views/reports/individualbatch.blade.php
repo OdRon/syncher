@@ -32,6 +32,7 @@
 	</style>
 	<body>
 		@foreach($samples as $key => $sample)
+		@continue($sample->repeatt == 1)
 			<table  border="0" id='table1' align="center">
 				<tr>
 					<td colspan="9" align="center">
@@ -319,6 +320,20 @@
 						</span>
 					</td>
 				</tr>
+
+				@if($sample->worksheet)
+					<tr>
+						<td colspan="2"></td>
+						<td colspan="7" class="style4 style1 comment">					
+							@if($sample->worksheet->machine_type == 1)
+								HIV-1 DNA qualitative  assay on Roche CAP/CTM system
+							@elseif($sample->worksheet->machine_type == 2)
+								HIV-1 DNA qualitative  assay on Abbott M2000 system
+							@endif					
+						</td>				
+					</tr>
+				@endif
+
 				<tr>
 					<td colspan="2">
 					  <span class="style1"><strong>Comments:</strong></span>
@@ -335,18 +350,11 @@
 					</td>
 				</tr>
 				<tr>
+					<td colspan="3" class="style4 style1 comment">
+						<strong>Date Dispatched:  </strong>
+					</td>
 					<td colspan="6" class="style4 style1 comment">
-						<center>
-							<strong>Result Reviewed By: </strong>
-							&nbsp;&nbsp;
-							<strong> {{ $sample->approver->full_name ?? '' }}</strong> 
-						</center>					
-					</td>
-					<td colspan="3" class="style4 style1 comment">
-						<strong>Date Reviewed:  {{ $sample->my_date_format('dateapproved') }}</strong>
-					</td>
-					<td colspan="3" class="style4 style1 comment">
-						<strong>Date Dispatched:  {{ $sample->batch->my_date_format('datedispatched') }}</strong>
+						{{ $sample->batch->my_date_format('datedispatched') }}
 					</td>
 				</tr>
 				@if($testingSys == 'EID')
@@ -392,7 +400,7 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				at {{ $sample->batch->lab->email }}
 				<br> 
-				<b> To Access & Download your current and past results go to : <u> http://eid.nascop.org/login.php</u> </b>
+				<b> To Access & Download your current and past results go to : <u> http://eiddash.nascop.org/</u> </b>
 			</span>
 			<br>
 			<br>
@@ -401,7 +409,7 @@
 			<br>
 			@if($key % 2 == 1)
 				<p class="breakhere"></p>
-				<pagebreak sheet-size='A4-L'>
+				<pagebreak sheet-size='A4'>
 			@endif
 		@endforeach
 	</body>

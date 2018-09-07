@@ -270,7 +270,7 @@ class Copier
     }
 
     public static function copy_users() {
-        $start = $bookmark->users ?? 0;
+        $start = 0;
         $offset_value = 0;
         $count = 0;
         
@@ -312,6 +312,29 @@ class Copier
             break;
         }
     }
+
+    // public static function deactivate_old_users()
+    // {
+
+    //     while (true) {
+    //         $count = 0;
+    //         $oldUsers = OldUser::where('flag', '=', 0)->get();
+    //         if($oldUsers->isEmpty()) break;
+    //         echo "==> Started at " . date('d/m/Y h:i:s a', time()). "\n";
+    //         foreach ($oldUsers as $key => $value) {
+    //             $current = User::where('username', '=', $value->username)->get();
+                
+    //             if(!$current->isEmpty()) {
+    //                 $user = User::find($current->first()->id);
+    //                 $user->deleted_at = date('Y-m-d H:i:s');
+    //                 $user->save();
+    //                 $count++;
+    //             }
+    //         }
+    //         echo "==> Completed updating {$count} users at " . date('d/m/Y h:i:s a', time()). "\n";
+    //         break;
+    //     }
+    // }
 
     public static function assign_patient_statuses()
     {

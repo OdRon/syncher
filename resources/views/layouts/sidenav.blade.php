@@ -16,7 +16,7 @@
 <aside id="menu">
     <div id="navigation">
         <ul class="nav" id="side-menu" style=" padding-top: 12px;padding-left: 8px;">
-        @if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 4)
+        @if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 10)
             <li><a href="{{ url('user/add') }}">Add Users</a></li>
             <hr />
         @endif
