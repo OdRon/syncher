@@ -40,47 +40,66 @@
                                         </select>
                                     </div>
                                 </div>
-                                @isset($level)
-                                <div class="form-group" id="levels">
-                                    @if(Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 10)
-                                        <label class="col-sm-4 control-label">Partner</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control" name="level" id="partner_select">
-                                                <option value="" selected disabled>Select Partner</option>
-                                            @forelse ($data->partners as $partner)
+                                @if(Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 10)
+                                <div class="form-group" id="partners">
+                                    <label class="col-sm-4 control-label">Partner</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="level" id="partner_select">
+                                            <option value="" selected disabled>Select Partner</option>
+                                        @forelse ($data->partners as $partner)
+                                            @if($partner->flag == 1)
                                                 <option value="{{ $partner->id }}">{{ $partner->name }}</option>
-                                            @empty
-                                                <option value="" disabled="true">No Partners available</option>
-                                            @endforelse
-                                            </select>
-                                        </div>
-                                        <label class="col-sm-4 control-label">County</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control" name="level" id="partner_select">
-                                                <option value="" selected disabled>Select County</option>
-                                            @forelse ($data->countys as $county)
-                                                <option value="{{ $county->id }}">{{ $county->name }}</option>
-                                            @empty
-                                                <option value="" disabled="true">No Countys available</option>
-                                            @endforelse
-                                            </select>
-                                        </div>
-                                    @endif
-                                    @if(Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 10)
-                                        <label class="col-sm-4 control-label">Sub-County</label>
-                                        <div class="col-sm-8">
-                                            <select class="form-control" name="level" id="subcounty" style="width: 100%;">
-                                                <option value="" selected disabled>Select Sub-County</option>
-                                            @forelse ($data->subcountys as $subcounty)
-                                                <option value="{{ $subcounty->id }}">{{ $subcounty->name }}</option>
-                                            @empty
-                                                <option value="" disabled="true">No Sub-County available</option>
-                                            @endforelse
-                                            </select>
-                                        </div>
-                                    @endif
+                                            @endif
+                                        @empty
+                                            <option value="" disabled="true">No Partners available</option>
+                                        @endforelse
+                                        </select>
+                                    </div>
                                 </div>
-                                @endisset
+                                <div class="form-group" id="super_partners">
+                                    <label class="col-sm-4 control-label">Super Partner</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="level" id="super_partner_select">
+                                            <option value="" selected disabled>Select Super Partner</option>
+                                        @forelse ($data->partners as $partner)
+                                            @if($partner->flag == 2)
+                                                <option value="{{ $partner->id }}">{{ $partner->name }}</option>
+                                            @endif
+                                        @empty
+                                            <option value="" disabled="true">No Partners available</option>
+                                        @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="countys">
+                                    <label class="col-sm-4 control-label">County</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="level" id="partner_select">
+                                            <option value="" selected disabled>Select County</option>
+                                        @forelse ($data->countys as $county)
+                                            <option value="{{ $county->id }}">{{ $county->name }}</option>
+                                        @empty
+                                            <option value="" disabled="true">No Countys available</option>
+                                        @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+                                @endif
+                                @if(Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 10)
+                                <div class="form-group" id="subcounty">
+                                    <label class="col-sm-4 control-label">Sub-County</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" name="level" id="subcounty" style="width: 100%;">
+                                            <option value="" selected disabled>Select Sub-County</option>
+                                        @forelse ($data->subcountys as $subcounty)
+                                            <option value="{{ $subcounty->id }}">{{ $subcounty->name }}</option>
+                                        @empty
+                                            <option value="" disabled="true">No Sub-County available</option>
+                                        @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+                                @endif
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">Email</label>
                                     <div class="col-sm-8">
@@ -175,6 +194,11 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
+            $("#partners").hide();
+            $("#super_partners").hide();
+            $("#countys").hide();
+            $("#subcounty").hide();
+
             $(".submit").click(function(e){
                 password = $("#password").val();
                 confirm = $("#confirm-password").val();
@@ -191,16 +215,32 @@
                 $("#username").val($val);
             });
 
-            @if(Auth::user()->user_type_id == 4)
-                $("#user_type").change(function(){
-                    val = $(this).val();
-                    if(val == 5) {
-                        $("#levels").show();
-                    } else {
-                        $("#levels").hide();
-                    }
-                });
-            @endif
+            $("#user_type").change(function(){
+                val = $(this).val();
+                if (val == 3) {
+                    $("#partners").fadeIn();
+                    $("#super_partners").hide();
+                    $("#countys").hide();
+                    $("#subcounty").hide();
+                } else if (val == 4) {
+                    $("#countys").fadeIn();
+                    $("#partners").hide();
+                    $("#super_partners").hide();
+                    $("#subcounty").hide();
+                } else if (val == 5) {
+                    $("#subcounty").fadeIn();
+                    $("#countys").hide();
+                    $("#partners").hide();
+                    $("#super_partners").hide();
+                } else if (val == 7) {
+                    $("#super_partners").fadeIn();
+                    $("#countys").hide();
+                    $("#partners").hide();
+                    $("#subcounty").hide();
+                }
+
+            });
+            
         });
     </script>
 @endsection
