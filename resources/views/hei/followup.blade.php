@@ -362,6 +362,7 @@
                 $count += 1;
             @endphp
             $("#hei_validation{{ $count }}").change(function(){
+                console.log('It is getting here');
                 val = $(this).val();
                 $("#enrollment_status{{ $count }}").html("");
                 html = "<option value='' disabled selected>Select Hei Categry</option>";
