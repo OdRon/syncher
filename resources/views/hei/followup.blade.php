@@ -127,7 +127,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select class="form-control" name="enrollment_status{{ $count }}" id="enrollment_status{{ $count }}" style="width: 150px;">
+                                            <select class="form-control" name="enrollment_status{{ $count }}" id="enrollment_status{{ $count }}" disabled style="width: 150px;">
                                             @if($data->edit)
                                                 @forelse($data->hei_categories as $followup)
                                                     @if($followup->id == $sample->enrollment_status)
