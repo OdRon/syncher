@@ -277,6 +277,7 @@ class VlController extends Controller
 
             $new_model->fill(get_object_vars($update_data));
             $new_model->$original_column = $new_model->id;
+            $new_model->synched = 1;
             unset($new_model->$nat_column);
             $new_model->save();
             $models_array[] = ['original_id' => $new_model->$original_column, $nat_column => $new_model->id ];
