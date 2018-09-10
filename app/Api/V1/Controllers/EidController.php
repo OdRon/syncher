@@ -137,7 +137,6 @@ class EidController extends Controller
                 $sample->fill(get_object_vars($value2));
                 $sample->original_sample_id = $sample->id;
                 $sample->patient_id = $value2->patient->national_patient_id;
-                if(!$sample->patient_id)
                 unset($sample->id);
                 unset($sample->patient);
                 unset($sample->national_sample_id);
