@@ -63,7 +63,7 @@ class Report
 		foreach ($county_contacts as $key => $contact) {
 
 	        // $mail_array = [];
-	        // $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@gmail.com'];
+	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@gmail.com'];
 
 	        // foreach ($contact as $column_name => $value) {
 	        // 	$find = strpos($column_name, 'email');
