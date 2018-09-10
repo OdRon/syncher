@@ -125,7 +125,7 @@ class VlCountyNonsuppressed extends Mailable
      */
     public function build()
     {
-        $this->attach($this->path, ['as' => $this->title]);
+        $this->attach($this->path, ['as' => $this->title . '.pdf']);
         return $this->subject($this->title)->view('mail.suppression');
     }
 }
