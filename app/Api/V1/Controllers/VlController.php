@@ -4,6 +4,7 @@ namespace App\Api\V1\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Api\V1\Requests\BlankRequest;
+use Exception;
 
 use App\Misc;
 use App\Viralbatch;
@@ -92,12 +93,9 @@ class VlController extends Controller
         $batches = json_decode($request->input('batches'));
         $lab_id = json_decode($request->input('lab_id'));
 
-        return response()->json([
-            'batches' => $batches
-        ], 200);
-
         foreach ($batches as $key => $value) {
-            if(!isset($value->id)) continue;
+            try {
+
             $batch = Viralbatch::where(['original_batch_id' => $value->id, 'lab_id' => $value->lab_id])->first();
             if(!$batch) $batch = new Viralbatch;
             $temp = $value;
@@ -126,6 +124,13 @@ class VlController extends Controller
                 $sample->save();
                 
                 $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                
+            }
+                
+            } catch (Exception $e) {
+                return response()->json([
+                    'status' => 'ok',
+                    'batch' => $value,
+                ], 201);                
             }
 
             // Parent ID will be the sample ID at the lab instead of the national sample ID
