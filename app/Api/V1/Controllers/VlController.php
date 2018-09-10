@@ -99,11 +99,11 @@ class VlController extends Controller
 
             $batch = Viralbatch::where(['original_batch_id' => $value->id, 'lab_id' => $value->lab_id])->first();
             if(!$batch) $batch = new Viralbatch;
+            $batch->original_batch_id = $value->id;
             $temp = $value;
             unset($temp->sample);
             unset($temp->id);
             $batch->fill(get_object_vars($temp));
-            $batch->original_batch_id = $value->id;
             unset($batch->national_batch_id);
             $batch->save();
 
