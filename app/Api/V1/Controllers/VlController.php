@@ -92,6 +92,10 @@ class VlController extends Controller
         $batches = json_decode($request->input('batches'));
         $lab_id = json_decode($request->input('lab_id'));
 
+        return response()->json([
+            'batches' => $batches
+        ], 200);
+
         foreach ($batches as $key => $value) {
             if(!isset($value->id)) continue;
             $batch = Viralbatch::where(['original_batch_id' => $value->id, 'lab_id' => $value->lab_id])->first();
