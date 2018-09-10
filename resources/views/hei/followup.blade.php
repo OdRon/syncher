@@ -218,142 +218,139 @@
             ]
         });
 
+        
+    @endcomponent
+    <script type="text/javascript">
+        /************** SET ATTRIBUTES **************/
+        @php
+            $initialCount = 0;
+        @endphp
+       @foreach($data->patients as $key => $sample)
+            @php
+                $initialCount += 1;
+            @endphp
+            checklist = $("#check{{ $initialCount }}:checked").val();
+            
+            if (checklist == undefined) {
+                $("#id{{ $initialCount }}").attr('disabled', 'true');
+                $("#patient{{ $initialCount }}").attr('disabled', 'true');
+                $("#hei_validation{{ $initialCount }}").attr('disabled', 'true');
+            } else {
+                $("#id{{ $initialCount }}").removeAttr('disabled');
+                $("#patient{{ $initialCount }}").removeAttr('disabled');
+                $("#hei_validation{{ $initialCount }}").removeAttr('disabled');
+                $("#hei_validation{{ $initialCount }}").attr('required','true');
+            }
+        @endforeach
+        /************** EVENTS **************/
+        /***** CHECK ALL *****/
         $("#check_all").on('click', function(){
             var str = $(this).html();
             if(str == "Check All"){
                 $(".checks").prop('checked', true);
                 $(this).html("Uncheck All");
+                @php
+                    $checkallCount = 0;
+                @endphp
                 @foreach($data->patients as $key => $sample)
                     @php
-                        $key += 1;
+                        $checkallCount += 1;
                     @endphp
-                    $("#hei_validation{{ $key }}").removeAttr('disabled');
-                    $("#hei_validation{{ $key }}").attr('required','true');
-                    $("#enrollment_status{{ $key }}").removeAttr('disabled');
-                    $("#enrollment_status{{ $key }}").attr('required','true');
+                    $("#hei_validation{{ $checkallCount }}").removeAttr('disabled');
+                    $("#hei_validation{{ $checkallCount }}").attr('required','true');
                     @if($sample->enrollment_status == 1)
-                        $("#dateinitiatedontreatment{{ $key }}").removeAttr('disabled');
-                        $("#dateinitiatedontreatment{{ $key }}").attr('required','true');
-                        $("#enrollment_ccc_no{{ $key }}").removeAttr('disabled');
-                        $("#enrollment_ccc_no{{ $key }}").attr('required','true');
+                        $("#enrollment_status{{ $checkallCount }}").removeAttr('disabled');
+                        $("#enrollment_status{{ $checkallCount }}").attr('required','true');
+                        $("#dateinitiatedontreatment{{ $checkallCount }}").removeAttr('disabled');
+                        $("#dateinitiatedontreatment{{ $checkallCount }}").attr('required','true');
+                        $("#enrollment_ccc_no{{ $checkallCount }}").removeAttr('disabled');
+                        $("#enrollment_ccc_no{{ $checkallCount }}").attr('required','true');
                     @elseif($sample->enrollment_status == 5)
-                        $("#facility_id{{ $key }}").removeAttr('disabled');
-                        $("#facility_id{{ $key }}").attr('required','true');
+                        $("#facility_id{{ $checkallCount }}").removeAttr('disabled');
+                        $("#facility_id{{ $checkallCount }}").attr('required','true');
                     @elseif($sample->enrollment_status == 6)
-                        $("#other_reason{{ $key }}").removeAttr('disabled');
-                        $("#other_reason{{ $key }}").attr('required','true');
+                        $("#other_reason{{ $checkallCount }}").removeAttr('disabled');
+                        $("#other_reason{{ $checkallCount }}").attr('required','true');
                     @endif
                 @endforeach
             }
             else{
                 $(".checks").prop('checked', false); 
                 $(this).html("Check All");
+                @php
+                    $uncheckallCount = 0;
+                @endphp
                 @foreach($data->patients as $key => $sample)
                     @php
-                        $key += 1;
+                        $uncheckallCount += 1;
                     @endphp
-                    $("#hei_validation{{ $key }}").removeAttr('required');
-                    $("#hei_validation{{ $key }}").attr('disabled','true');
-                    $("#enrollment_status{{ $key }}").removeAttr('required');
-                    $("#enrollment_status{{ $key }}").attr('disabled','true');
+                    $("#hei_validation{{ $uncheckallCount }}").removeAttr('required');
+                    $("#hei_validation{{ $uncheckallCount }}").attr('disabled','true');
                     @if($sample->enrollment_status == 1)
-                        $("#dateinitiatedontreatment{{ $key }}").removeAttr('required');
-                        $("#dateinitiatedontreatment{{ $key }}").attr('disabled','true');
-                        $("#enrollment_ccc_no{{ $key }}").removeAttr('required');
-                        $("#enrollment_ccc_no{{ $key }}").attr('disabled','true');
+                        $("#enrollment_status{{ $uncheckallCount }}").removeAttr('required');
+                        $("#enrollment_status{{ $uncheckallCount }}").attr('disabled','true');
+                        $("#dateinitiatedontreatment{{ $uncheckallCount }}").removeAttr('required');
+                        $("#dateinitiatedontreatment{{ $uncheckallCount }}").attr('disabled','true');
+                        $("#enrollment_ccc_no{{ $uncheckallCount }}").removeAttr('required');
+                        $("#enrollment_ccc_no{{ $uncheckallCount }}").attr('disabled','true');
                     @elseif($sample->enrollment_status == 5)
-                        $("#facility_id{{ $key }}").removeAttr('required');
-                        $("#facility_id{{ $key }}").attr('disabled','true');
+                        $("#facility_id{{ $uncheckallCount }}").removeAttr('required');
+                        $("#facility_id{{ $uncheckallCount }}").attr('disabled','true');
                     @elseif($sample->enrollment_status == 6)
-                        $("#other_reason{{ $key }}").removeAttr('required');
-                        $("#other_reason{{ $key }}").attr('disabled','true');
+                        $("#other_reason{{ $uncheckallCount }}").removeAttr('required');
+                        $("#other_reason{{ $uncheckallCount }}").attr('disabled','true');
                     @endif
                 @endforeach         
             }
         });
 
-        @foreach($data->patients as $key => $sample)
-            @php
-                $key += 1;
-            @endphp
-            checklist = $("#check{{ $key }}:checked").val();
-            console.log(checklist);
-            if (checklist == undefined) {
-                $("#id{{ $key }}").attr('disabled', 'true');
-                $("#patient{{ $key }}").attr('disabled', 'true');
-                $("#hei_validation{{ $key }}").attr('disabled', 'true');
-            } else {
-                $("#id{{ $key }}").removeAttr('disabled');
-                $("#patient{{ $key }}").removeAttr('disabled');
-                $("#hei_validation{{ $key }}").removeAttr('disabled');
-                $("#hei_validation{{ $key }}").attr('required','true');
-                $("#enrollment_status{{ $key }}").removeAttr('disabled');
-                $("#enrollment_status{{ $key }}").attr('required','true');
-            }
-        @endforeach
-
+        /***** CHECK ONE *****/
         $(".checks").click(function(){
+            @php
+                $checkCount = 0;
+            @endphp
             @foreach($data->patients as $key => $sample)
                 @php
-                    $key += 1;
+                    $checkCount += 1;
                 @endphp
-                checklist = $("#check{{ $key }}:checked").val();
+                checklist = $("#check{{ $checkCount }}:checked").val();
                 if (checklist == undefined) {
-                    $("#id{{ $key }}").attr('disabled', 'true');
-                    $("#patient{{ $key }}").attr('disabled', 'true');
-                    $("#hei_validation{{ $key }}").attr('disabled', 'true');
-                    $("#enrollment_status{{ $key }}").attr('disabled','true');
-                    $("#dateinitiatedontreatment{{ $key }}").attr('disabled','true');
-                    $("#enrollment_ccc_no{{ $key }}").attr('disabled','true');
-                    $("#facility_id{{ $key }}").attr('disabled','true');
-                    $("#other_reason{{ $key }}").attr('disabled','true');
+                    $("#id{{ $checkCount }}").attr('disabled', 'true');
+                    $("#patient{{ $checkCount }}").attr('disabled', 'true');
+                    $("#hei_validation{{ $checkCount }}").attr('disabled', 'true');
+                    $("#enrollment_status{{ $checkCount }}").attr('disabled','true');
+                    $("#dateinitiatedontreatment{{ $checkCount }}").attr('disabled','true');
+                    $("#enrollment_ccc_no{{ $checkCount }}").attr('disabled','true');
+                    $("#facility_id{{ $checkCount }}").attr('disabled','true');
+                    $("#other_reason{{ $checkCount }}").attr('disabled','true');
                 } else {
-                    $("#id{{ $key }}").removeAttr('disabled');
-                    $("#patient{{ $key }}").removeAttr('disabled');
-                    $("#hei_validation{{ $key }}").removeAttr('disabled');
-                    $("#hei_validation{{ $key }}").attr('required','true');
+                    $("#id{{ $checkCount }}").removeAttr('disabled');
+                    $("#patient{{ $checkCount }}").removeAttr('disabled');
+                    $("#hei_validation{{ $checkCount }}").removeAttr('disabled');
+                    $("#hei_validation{{ $checkCount }}").attr('required','true');
                     @if($sample->hei_validation == 1)
-                        $("#enrollment_status{{ $key }}").removeAttr('disabled');
-                        $("#enrollment_status{{ $key }}").attr('required','true');
+                        $("#enrollment_status{{ $checkCount }}").removeAttr('disabled');
+                        $("#enrollment_status{{ $checkCount }}").attr('required','true');
                     @endif
                     @if($sample->enrollment_status == 1)
-                        $("#dateinitiatedontreatment{{ $key }}").removeAttr('disabled');
-                        $("#dateinitiatedontreatment{{ $key }}").attr('required','true');
-                        $("#enrollment_ccc_no{{ $key }}").removeAttr('disabled');
-                        $("#enrollment_ccc_no{{ $key }}").attr('required','true');
+                        $("#dateinitiatedontreatment{{ $checkCount }}").removeAttr('disabled');
+                        $("#dateinitiatedontreatment{{ $checkCount }}").attr('required','true');
+                        $("#enrollment_ccc_no{{ $checkCount }}").removeAttr('disabled');
+                        $("#enrollment_ccc_no{{ $checkCount }}").attr('required','true');
                     @endif
                     @if($sample->enrollment_status == 5)
-                        $("#facility_id{{ $key }}").removeAttr('disabled');
-                        $("#facility_id{{ $key }}").attr('required','true');
+                        $("#facility_id{{ $checkCount }}").removeAttr('disabled');
+                        $("#facility_id{{ $checkCount }}").attr('required','true');
                     @endif
                     @if($sample->enrollment_status == 6)
-                        $("#other_reason{{ $key }}").removeAttr('disabled');
-                        $("#other_reason{{ $key }}").attr('required','true');
+                        $("#other_reason{{ $checkCount }}").removeAttr('disabled');
+                        $("#other_reason{{ $checkCount }}").attr('required','true');
                     @endif
                 }
             @endforeach
         });
 
-        $("#saveBtn").click(function(e){
-            // e.preventDefault();
-            // var checkedValue = $('.checks:checked').val();
-            // console.log(checkedValue);
-            /*@foreach($data->patients as $key => $sample)
-                @php
-                    $key += 1;
-                @endphp
-                checklist = $("#id{{ $key }}:checked").val();
-                if (checklist == undefined) {
-                    $("#id{{ $key }}").attr('disabled', 'true');
-                    $("#patient{{ $key }}").attr('disabled', 'true');
-                    $("#hei_validation{{ $key }}").attr('disabled', 'true');
-                } else {
-                    $("#hei_validation{{ $key }}").attr('required','true');
-                }
-            @endforeach*/
-            // $(this).unbind('submit').submit();
-        });
-
+        /***** DROPDOWNS EVENTS *****/
         @php
             $count=0;
         @endphp
@@ -419,6 +416,7 @@
             });
         @endforeach
 
-    @endcomponent
+        
+    </script>
    
 @endsection

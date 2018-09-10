@@ -48,6 +48,7 @@ class VlController extends Controller
 
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
 
+
             foreach ($value->sample as $key2 => $value2) {
                 $sample = Viralsample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->get()->first();
                 if(!$sample) continue;
@@ -91,16 +92,19 @@ class VlController extends Controller
         $batches = json_decode($request->input('batches'));
 
         foreach ($batches as $key => $value) {
-            $batch = new Viralbatch;
+            $batch = Viralbatch::where(['original_batch_id' => $value->id, 'lab_id' => $lab_id])->first();
+            if(!$batch) $batch = new Viralbatch;
             $temp = $value;
             unset($temp->sample);
+            unset($temp->id);
             $batch->fill(get_object_vars($temp));
-            $batch->original_batch_id = $batch->id;
-            unset($batch->id);
+            $batch->original_batch_id = $value->id;
             unset($batch->national_batch_id);
             $batch->save();
 
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
+
+            if(!$value->sample) continue;
 
             foreach ($value->sample as $key2 => $value2) {
                 // if($value2->parentid != 0) continue;
@@ -118,6 +122,7 @@ class VlController extends Controller
                 $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                
             }
 
+            // Parent ID will be the sample ID at the lab instead of the national sample ID
             // foreach ($value->sample as $key2 => $value2) {
             //     if($value2->parentid == 0) continue;
             //     $sample = new Viralsample;

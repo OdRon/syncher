@@ -138,6 +138,7 @@ class UserController extends Controller
             session(['toast_message'=>'User already exists', 'toast_error'=>1]);
             return redirect()->route('user.add');
         } else {
+            dd($request->all());
             $user = new User;
             
             $user->surname = $request->surname;
