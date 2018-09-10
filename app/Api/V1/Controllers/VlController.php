@@ -108,7 +108,7 @@ class VlController extends Controller
 
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
 
-            if(!$value->sample) continue;
+            if(!isset($value->sample)) continue;
 
             foreach ($value->sample as $key2 => $value2) {
                 // if($value2->parentid != 0) continue;
@@ -123,7 +123,7 @@ class VlController extends Controller
                 $sample->batch_id = $batch->id;
                 $sample->save();
                 
-                $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                
+                $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];               
             }
                 
             } catch (Exception $e) {
