@@ -89,6 +89,7 @@ class VlController extends Controller
     {
         $batches_array = [];
         $samples_array = [];
+        $errors = [];
         
         $batches = json_decode($request->input('batches'));
         $lab_id = json_decode($request->input('lab_id'));
@@ -127,10 +128,7 @@ class VlController extends Controller
             }
                 
             } catch (Exception $e) {
-                return response()->json([
-                    'status' => 'ok',
-                    'batch' => $value,
-                ], 201);                
+                $errors[] = $value;   
             }
 
             // Parent ID will be the sample ID at the lab instead of the national sample ID
@@ -155,6 +153,7 @@ class VlController extends Controller
             'status' => 'ok',
             'batches' => $batches_array,
             'samples' => $samples_array,
+            'errors' => $errors,
         ], 201);
     }
 
