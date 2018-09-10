@@ -114,7 +114,7 @@ class EidController extends Controller
         $lab_id = json_decode($request->input('lab_id'));
 
         foreach ($batches as $key => $value) {
-            $batch = Batch::where(['original_batch_id' => $value->id, 'lab_id' => $lab_id])->first();
+            $batch = Batch::where(['original_batch_id' => $value->id, 'lab_id' => $value->lab_id])->first();
             if(!$batch) $batch = new Batch;
             $temp = $value;
             unset($temp->sample);
