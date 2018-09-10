@@ -128,7 +128,7 @@ class VlController extends Controller
             }
                 
             } catch (Exception $e) {
-                $errors[] = $value;   
+                $errors[] = ['message' => $e->getMessage(), 'line' => $e->getLine()];  
             }
 
             // Parent ID will be the sample ID at the lab instead of the national sample ID
