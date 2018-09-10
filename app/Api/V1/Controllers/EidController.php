@@ -111,17 +111,22 @@ class EidController extends Controller
         $samples_array = [];
         
         $batches = json_decode($request->input('batches'));
+        $lab_id = json_decode($request->input('lab_id'));
 
         foreach ($batches as $key => $value) {
-            $batch = new Batch;
-            $batch->fill(get_object_vars($value));
-            $batch->original_batch_id = $batch->id;
-            unset($batch->id);
+            $batch = Batch::where(['original_batch_id' => $value->id, 'lab_id' => $lab_id])->first();
+            if(!$batch) $batch = new Batch;
+            $temp = $value;
+            unset($temp->sample);
+            unset($temp->id);            
+            $batch->fill(get_object_vars($temp));
+            $batch->original_batch_id = $value->id;
             unset($batch->national_batch_id);
-            unset($batch->sample);
             $batch->save();
 
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
+
+            if(!$value->sample) continue;
 
             foreach ($value->sample as $key2 => $value2) {
                 // if($value2->parentid != 0) continue;
@@ -132,6 +137,7 @@ class EidController extends Controller
                 $sample->fill(get_object_vars($value2));
                 $sample->original_sample_id = $sample->id;
                 $sample->patient_id = $value2->patient->national_patient_id;
+                if(!$sample->patient_id)
                 unset($sample->id);
                 unset($sample->patient);
                 unset($sample->national_sample_id);
@@ -144,6 +150,7 @@ class EidController extends Controller
                 $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                
             }
 
+            // Parent ID will be the sample ID at the lab instead of the national sample ID
             // foreach ($value->sample as $key2 => $value2) {
             //     if($value2->parentid == 0) continue;
 
