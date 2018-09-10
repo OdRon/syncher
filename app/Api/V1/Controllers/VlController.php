@@ -96,36 +96,34 @@ class VlController extends Controller
 
         foreach ($batches as $key => $value) {
             try {
+                $batch = Viralbatch::where(['original_batch_id' => $value->id, 'lab_id' => $value->lab_id])->first();
+                if(!$batch) $batch = new Viralbatch;
+                $batch->original_batch_id = $value->id;
+                $samples = $value->sample;
+                $temp = $value;
+                unset($temp->sample);
+                unset($temp->id);
+                $batch->fill(get_object_vars($temp));
+                unset($batch->national_batch_id);
+                $batch->save();
 
-            $batch = Viralbatch::where(['original_batch_id' => $value->id, 'lab_id' => $value->lab_id])->first();
-            if(!$batch) $batch = new Viralbatch;
-            $batch->original_batch_id = $value->id;
-            $temp = $value;
-            unset($temp->sample);
-            unset($temp->id);
-            $batch->fill(get_object_vars($temp));
-            unset($batch->national_batch_id);
-            $batch->save();
+                $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
 
-            $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
+                foreach ($samples as $key2 => $value2) {
+                    // if($value2->parentid != 0) continue;
+                    $sample = new Viralsample;
+                    $sample->fill(get_object_vars($value2));
+                    $sample->original_sample_id = $sample->id;
+                    $sample->patient_id = $value2->patient->national_patient_id;
+                    unset($sample->id);
+                    unset($sample->patient);
+                    unset($sample->national_sample_id);
 
-            if(!isset($value->sample) || !$value->sample) continue;
-
-            foreach ($value->sample as $key2 => $value2) {
-                // if($value2->parentid != 0) continue;
-                $sample = new Viralsample;
-                $sample->fill(get_object_vars($value2));
-                $sample->original_sample_id = $sample->id;
-                $sample->patient_id = $value2->patient->national_patient_id;
-                unset($sample->id);
-                unset($sample->patient);
-                unset($sample->national_sample_id);
-
-                $sample->batch_id = $batch->id;
-                $sample->save();
-                
-                $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];               
-            }
+                    $sample->batch_id = $batch->id;
+                    $sample->save();
+                    
+                    $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];               
+                }
                 
             } catch (Exception $e) {
                 $errors[] = ['message' => $e->getMessage(), 'line' => $e->getLine()];  
