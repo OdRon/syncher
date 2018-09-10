@@ -108,7 +108,7 @@ class VlController extends Controller
 
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
 
-            if(!isset($value->sample)) continue;
+            if(!isset($value->sample) || !$value->sample) continue;
 
             foreach ($value->sample as $key2 => $value2) {
                 // if($value2->parentid != 0) continue;
