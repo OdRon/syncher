@@ -251,8 +251,6 @@
 		@endforeach
 	</table>
 
-	<p>Result Reviewed By: {{ $sample->approver->full_name ?? '' }}  Date Reviewed: {{ $sample->my_date_format('dateapproved') }}</p>
-
 	@isset($rejection)
 		<table>
 			@php
@@ -343,7 +341,8 @@
 	<p>
 		<strong>NOTE:</strong> Always provide the facility's up-to-date email address(es) and mobile number(s) on the sample requisition form so as to get alerts on the status of your samples.
 		<br />
-		To Access & Download your current and past results go to : http://www.nascop.org/eid/facilitylogon.php
+		<!-- To Access & Download your current and past results go to : http://www.nascop.org/eid/facilitylogon.php -->
+		To Access & Download your current and past results go to : https://eiddash.nascop.org
 	</p>
 
 	<h5>KEY/CODES</h5>
