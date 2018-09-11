@@ -95,22 +95,22 @@ class Report
 
 		foreach ($partner_contacts as $key => $contact) {
 
-	        $cc_array = [];
-	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@gmail.com'];
+	        // $cc_array = [];
+	        // $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@gmail.com'];
 
-	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'ccc');
-	        	if($find && $value) $cc_array[] = $value;
-	        }
+	        // foreach ($contact as $column_name => $value) {
+	        // 	$find = strpos($column_name, 'ccc');
+	        // 	if($find && $value) $cc_array[] = $value;
+	        // }
 
-	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'bcc');
-	        	if($find && $value) $bcc_array[] = $value;
-	        }
+	        // foreach ($contact as $column_name => $value) {
+	        // 	$find = strpos($column_name, 'bcc');
+	        // 	if($find && $value) $bcc_array[] = $value;
+	        // }
 
-	        Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
-	        DB::table('vl_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
-	     	// Mail::to($mail_array)->send(new VlPartnerNonsuppressed($contact->id));
+	        // Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
+	        // DB::table('vl_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
+	     	Mail::to($mail_array)->send(new VlPartnerNonsuppressed($contact->id));
 		}
 	}
 
