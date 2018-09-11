@@ -46,7 +46,7 @@
 		<br />
 		<br />
 
-		Please Log in to <a href='http://eid.nascop.org/'>Eid</a> with your {{ $division }} Credentials, to download the same Report in Excel format.
+		Please Log in to <a href='https://eid.nascop.org/'>Eid</a> with your {{ $division }} Credentials, to download the same Report in Excel format.
 		<br />
 		<br />
 
@@ -58,7 +58,7 @@
 		<br />
 		<br />
 
-		<a href="http://eiddash.nascop.org/">Click here</a>  provided below to directly access the page to update the status of the infants tracked.
+		<a href="https://eiddash.nascop.org/">Click here</a>  provided below to directly access the page to update the status of the infants tracked.
 		Thanks.
 		<br />
 		<br />
