@@ -32,8 +32,8 @@ class VlCountyNonsuppressed extends Mailable
     {
         $contact = DB::table('eid_users')->where('id', $user_id)->get()->first();
 
-        $startdate = date('Y-m-d', strtotime('-7 days'));
-        // $startdate = date('Y-m-d', strtotime('2018-08-27'));
+        // $startdate = date('Y-m-d', strtotime('-7 days'));
+        $startdate = date('Y-m-d', strtotime('2018-08-27'));
         $enddate = date("Y-m-d", strtotime('-1 days'));
 
         $displayfromdate=date("d-M-Y",strtotime($startdate));
