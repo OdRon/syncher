@@ -91,7 +91,7 @@ class Report
 			    }
 			} else {
 			    echo "==> No errors, all sent successfully!</br>";
-			    $user->email_sent = NULL;
+			    $user->email_sent = date('Y-m-d H:i:s');
 		   		$user->save();
 			}
 		}
