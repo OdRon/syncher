@@ -77,7 +77,7 @@ class Report
 
 	public static function send_password()
 	{
-		$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 2)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->whereNull('email_sent')->get();
+		$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 2)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->whereRaw("email not like '%example%'")->whereNull('email_sent')->get();
 		
 		foreach ($users as $key => $value) {
 			$user = \App\User::find($value->id);
