@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;
@@ -21,15 +22,15 @@ class PasswordEmail extends Mailable
      *
      * @return void
      */
-    public function __construct($user_id)
+    public function __construct(User $user)
     {
-        $user = \App\User::where('id', $user_id)->first();
+        // $user = \App\User::where('id', $user_id)->first();
         $this->credentials = (object)[
         						'name' => $user->surname . ' ' .$user->oname,
         						'email' => $user->email,
         						'password' => '12345678'
         					];
-        $this->title = 'EID/VL SYTEM UPDATE';
+        $this->title = 'EID/VL SYSTEM UPDATE';
     }
 
     /**
