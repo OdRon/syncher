@@ -77,27 +77,39 @@ class Report
 
 	public static function send_password()
 	{
-		$user = \App\User::where('id', '=', 1)->first();
+		// $user = \App\User::find(2);
+		// print_r($user);
+		// $email = Mail::to(['baksajoshua09@gmail.com'])->send(new PasswordEmail($user->id));
 
-		$email = Mail::to(['baksajoshua09@gmail.com'])->send(new PasswordEmail($user->id));
+		// if( count(Mail::failures()) > 0 ) {
 
-		if( count(Mail::failures()) > 0 ) {
+		//    echo "There was one or more failures. They were: <br />";
 
-		   echo "There was one or more failures. They were: <br />";
+		//    foreach(Mail::failures() as $email_address) {
+		//        echo " - $email_address <br />";
+		//     }
 
-		   foreach(Mail::failures() as $email_address) {
-		       echo " - $email_address <br />";
-		    }
-
-		} else {
-		    echo "No errors, all sent successfully!";
-		}
-		// print_r($email);
-		// $users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 3)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->get();
-		
-		// foreach ($users as $key => $value) {
-		// 	Mail::to($value->email)->send(new PasswordEmail($value->id));
+		// } else {
+		//     echo "No errors, all sent successfully!";
 		// }
+		// print_r($email);
+		$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 3)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->limit(10)->offset(0)->get();
+		
+		foreach ($users as $key => $value) {
+			Mail::to(['baksajoshua09@gmail.com'])->send(new PasswordEmail($value->id));
+			if( count(Mail::failures()) > 0 ) {
+
+			   echo "There was one or more failures. They were: <br />";
+
+			   foreach(Mail::failures() as $email_address) {
+			       echo " - $email_address <br />";
+			    }
+
+			} else {
+			    echo "No errors, all sent successfully!";
+			}
+			// $updateUser = \App\User::find(2);
+		}
 	}
 
 
