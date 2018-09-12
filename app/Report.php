@@ -77,38 +77,23 @@ class Report
 
 	public static function send_password()
 	{
-		// $user = \App\User::find(2);
-		// print_r($user);
-		// $email = Mail::to(['baksajoshua09@gmail.com'])->send(new PasswordEmail($user->id));
-
-		// if( count(Mail::failures()) > 0 ) {
-
-		//    echo "There was one or more failures. They were: <br />";
-
-		//    foreach(Mail::failures() as $email_address) {
-		//        echo " - $email_address <br />";
-		//     }
-
-		// } else {
-		//     echo "No errors, all sent successfully!";
-		// }
-		// print_r($email);
-		$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 3)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->limit(10)->offset(0)->get();
+		$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 3)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->get();
 		
 		foreach ($users as $key => $value) {
-			Mail::to(['baksajoshua09@gmail.com'])->send(new PasswordEmail($value->id));
+			$user = \App\User::find($value->id);
+			Mail::to($value->email)->send(new PasswordEmail($value->id));
 			if( count(Mail::failures()) > 0 ) {
-
-			   echo "There was one or more failures. They were: <br />";
-
+			   echo "==>There was one or more failures. They were: <br />";
 			   foreach(Mail::failures() as $email_address) {
-			       echo " - $email_address <br />";
+			   		$user->email_sent = NULL;
+			   		$user->save();
+			       	echo " - $email_address <br />";
 			    }
-
 			} else {
-			    echo "No errors, all sent successfully!";
+			    echo "==> No errors, all sent successfully!</br>";
+			    $user->email_sent = NULL;
+		   		$user->save();
 			}
-			// $updateUser = \App\User::find(2);
 		}
 	}
 
