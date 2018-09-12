@@ -22,9 +22,9 @@ class PasswordEmail extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct($user_id)
     {
-        // $user = \App\User::where('id', $user_id)->first();
+        $user = User::where('id', $user_id)->first();
         $this->credentials = (object)[
         						'name' => $user->surname . ' ' .$user->oname,
         						'email' => $user->email,

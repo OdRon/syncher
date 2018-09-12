@@ -77,9 +77,9 @@ class Report
 
 	public static function send_password()
 	{
-		$user = \App\User::where('id', '=', 1);
+		$user = \App\User::where('id', '=', 1)->get();
 
-		$email = Mail::to(['baksajoshua09@gmail.com'])->send(new PasswordEmail($user));
+		$email = Mail::to(['baksajoshua09@gmail.com'])->send(new PasswordEmail($user->id));
 
 		if( count(Mail::failures()) > 0 ) {
 
