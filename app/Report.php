@@ -75,27 +75,27 @@ class Report
 		}
 	}
 
-	public static function send_password()
-	{
-		$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 2)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->whereRaw("email not like '%example%'")->whereNull('email_sent')->get();
+	// public static function send_password()
+	// {
+	// 	$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 2)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->whereRaw("email not like '%example%'")->whereNull('email_sent')->get();
 		
-		foreach ($users as $key => $value) {
-			$user = \App\User::find($value->id);
-			Mail::to($value->email)->send(new PasswordEmail($value->id));
-			if( count(Mail::failures()) > 0 ) {
-			   echo "==>There was one or more failures. They were: <br />";
-			   foreach(Mail::failures() as $email_address) {
-			   		$user->email_sent = NULL;
-			   		$user->save();
-			       	echo " - $email_address <br />";
-			    }
-			} else {
-			    echo "==> No errors, all sent successfully!</br>";
-			    $user->email_sent = date('Y-m-d H:i:s');
-		   		$user->save();
-			}
-		}
-	}
+	// 	foreach ($users as $key => $value) {
+	// 		$user = \App\User::find($value->id);
+	// 		Mail::to($value->email)->send(new PasswordEmail($value->id));
+	// 		if( count(Mail::failures()) > 0 ) {
+	// 		   echo "==>There was one or more failures. They were: <br />";
+	// 		   foreach(Mail::failures() as $email_address) {
+	// 		   		$user->email_sent = NULL;
+	// 		   		$user->save();
+	// 		       	echo " - $email_address <br />";
+	// 		    }
+	// 		} else {
+	// 		    echo "==> No errors, all sent successfully!</br>";
+	// 		    $user->email_sent = date('Y-m-d H:i:s');
+	// 	   		$user->save();
+	// 		}
+	// 	}
+	// }
 
 
 	public static function vl_partner($partner_contact=null)
