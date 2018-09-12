@@ -78,10 +78,10 @@ Artisan::command('test:email', function(){
     $this->info($str);
 })->describe('Send test email.');
 
-Artisan::command('testPassword:email', function(){
-    $str = \App\Report::send_password();
-    $this->info($str);
-})->describe('Send Email to all users to tell them of their new passwords');
+// Artisan::command('testPassword:email', function(){
+//     $str = \App\Report::send_password();
+//     $this->info($str);
+// })->describe('Send Email to all users to tell them of their new passwords');
 
 // Artisan::command('deactivate:users', function(){
 //     $str = \App\Copier::deactivate_old_users();
