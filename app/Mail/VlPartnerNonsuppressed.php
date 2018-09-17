@@ -87,7 +87,7 @@ class VlPartnerNonsuppressed extends Mailable
         }
 
         $this->nonsup_absent = $nonsup_absent;
-        $this->name = $data[0]['partner'];
+        $this->name = DB::table('partners')->where('id', $contact->partner)->first()->name ?? '';
         $this->division = 'Partner';
         $county = $data[0]['county'] ?? '';
         
