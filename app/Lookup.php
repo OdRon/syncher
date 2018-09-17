@@ -33,14 +33,18 @@ class Lookup
         return $years;
     }
 
-    public static function previous_dob($class_name=null, $patient=null, $facility_id=null)
+    public static function previous_dob($class_name=null, $patient=null, $facility_id=null, $column='dob')
     {
-        $row = $class_name::where(['patient' => $patient, 'facility_id' => $facility_id])
-                    ->whereNotIn('dob', ['0000-00-00', ''])
-                    ->whereNotNull('dob')
-                    ->first();
-        $dob = $row->dob ?? null;
-        return self::clean_date($dob);
+        $roww = $class_name::where(['patient' => $patient, 'facility_id' => $facility_id])
+                    ->whereNotIn($column, ['0000-00-00', ''])
+                    ->whereNotNull($column)
+                    ->get();
+        foreach ($rows as $key => $row) {
+            $date_field = $row->$column ?? null;
+            $val = self::clean_date($date_field);
+            if($val) return $val;
+        }
+        return null;
     }
 
     public static function calculate_dob($datecollected, $years, $months, $class_name=null, $patient=null, $facility_id=null)

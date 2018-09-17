@@ -54,6 +54,7 @@ class Copier
 
 				if(!$patient){
 					$mother = new Mother($value->only($fields['mother']));
+                    if($value->mother_age) $mother->mother_dob = Lookup::calculate_dob($value->datecollected, $value->mother_age, 0);
 					$mother->save();
 					$patient = new Patient($value->only($fields['patient']));
 					$patient->mother_id = $mother->id;
@@ -70,7 +71,23 @@ class Copier
 					if($enrollment_data) $patient->fill($enrollment_data);
 					// $patient->ccc_no = $value->enrollment_ccc_no;
 					$patient->save();
-				}
+				}else{
+                    $dob = Lookup::clean_date($value->dob);
+                    $dateinitiatedontreatment = Lookup::clean_date($value->dateinitiatedontreatment);
+                    if(!$dateinitiatedontreatment) $dateinitiatedontreatment = Lookup::previous_dob(SampleView::class, $value->patient, $value->facility_id, 'dateinitiatedontreatment');
+                    $sex = Lookup::resolve_gender($value->gender);
+                    if($dob) $patient->dob = $dob;
+                    if(!$patient->dob) $patient->dob = Lookup::calculate_dob($value->datecollected, 0, $value->age);
+                    if($dateinitiatedontreatment) $patient->dateinitiatedontreatment = $dateinitiatedontreatment;
+
+                    if($patient->sex == 3 && $sex != 3) $patient->sex = $sex;
+                    $patient->save();
+
+                    $mother = $patient->mother;
+                    $mother->fill($value->only($fields['mother']));
+                    if($value->mother_age) $mother->mother_dob = Lookup::calculate_dob($value->datecollected, $value->mother_age, 0);
+                    $mother->save();
+                }
 				
 				$value->original_batch_id = self::set_batch_id($value->original_batch_id);
                 $batch = null;
@@ -118,6 +135,8 @@ class Copier
 	}
 
 
+
+
 	public static function copy_vl()
 	{
         $bookmark = Bookmark::find(1);
@@ -147,7 +166,16 @@ class Copier
 
 					$patient->sex = Lookup::resolve_gender($value->gender, ViralsampleView::class, $value->patient, $value->facility_id);
 					$patient->save();
-				}
+				}else{
+                    $dob = Lookup::clean_date($value->dob);
+                    if(!$dob) $dob = Lookup::calculate_dob($value->datecollected, $value->age, 0);
+                    if($dob) $patient->dob = $dob;
+                    $sex = Lookup::resolve_gender($value->gender);
+                    if($sex != 3 && $patient->sex == 3) $patient->sex = $sex;
+                    $initiation_date = Lookup::clean_date($value->initiation_date);
+                    if($initiation_date) $patient->initiation_date = $initiation_date;
+                    $patient->save();
+                }
 
 				$value->original_batch_id = self::set_batch_id($value->original_batch_id);
                 $batch = null;
