@@ -28,7 +28,7 @@ class Report
 		$partner_contacts = DB::table('eid_partner_contacts_for_alerts')
             ->when($partner_contact, function($query) use ($partner_contact){
                 return $query->where('id', $partner_contact);
-            })->where('active', 1)->get();
+            })->where('active', 1)->where('lastalertsent', '!=', date('Y-m-d'))->get();
         $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($partner_contacts as $key => $contact) {
@@ -37,13 +37,8 @@ class Report
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 
 	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'ccc');
-	        	if(is_numeric($find) && str_contains($value, ['@'])) $cc_array[] = trim($value);
-	        }
-
-	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'bcc');
-	        	if(is_numeric($find) && str_contains($value, ['@'])) $bcc_array[] = trim($value);
+	        	if(str_contains($column_name, 'ccc') && str_contains($value, ['@'])) $cc_array[] = trim($value);
+	        	if(str_contains($column_name, 'bcc') && str_contains($value, ['@'])) $bcc_array[] = trim($value);
 	        }
 
 	        Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
@@ -66,8 +61,7 @@ class Report
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 
 	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'email');
-	        	if(is_numeric($find) && str_contains($value, ['@'])) $mail_array[] = trim($value);
+	        	if(str_contains($column_name, 'email') && str_contains($value, ['@'])) $mail_array[] = trim($value);
 	        }
 	        
 	        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
@@ -99,13 +93,8 @@ class Report
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 
 	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'ccc');
-	        	if(is_numeric($find) && str_contains($value, ['@'])) $cc_array[] = trim($value);
-	        }
-
-	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'bcc');
-	        	if(is_numeric($find) && str_contains($value, ['@'])) $bcc_array[] = trim($value);
+	        	if(str_contains($column_name, 'ccc') && str_contains($value, ['@'])) $cc_array[] = trim($value);
+	        	if(str_contains($column_name, 'bcc') && str_contains($value, ['@'])) $bcc_array[] = trim($value);
 	        }
 
 	        Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
@@ -128,8 +117,7 @@ class Report
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 
 	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'email');
-	        	if(is_numeric($find) && str_contains($value, ['@'])) $mail_array[] = trim($value);
+	        	if(str_contains($column_name, 'email') && str_contains($value, ['@'])) $mail_array[] = trim($value);
 	        }
 	        
 	        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
