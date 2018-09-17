@@ -38,12 +38,12 @@ class Report
 
 	        foreach ($contact as $column_name => $value) {
 	        	$find = strpos($column_name, 'ccc');
-	        	if(is_numeric($find) && $value) $cc_array[] = trim($value);
+	        	if(is_numeric($find) && str_contains($value, ['@'])) $cc_array[] = trim($value);
 	        }
 
 	        foreach ($contact as $column_name => $value) {
 	        	$find = strpos($column_name, 'bcc');
-	        	if(is_numeric($find) && $value) $bcc_array[] = trim($value);
+	        	if(is_numeric($find) && str_contains($value, ['@'])) $bcc_array[] = trim($value);
 	        }
 
 	        Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
@@ -67,7 +67,7 @@ class Report
 
 	        foreach ($contact as $column_name => $value) {
 	        	$find = strpos($column_name, 'email');
-	        	if(is_numeric($find) && $value) $mail_array[] = trim($value);
+	        	if(is_numeric($find) && str_contains($value, ['@'])) $mail_array[] = trim($value);
 	        }
 	        
 	        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
@@ -100,12 +100,12 @@ class Report
 
 	        foreach ($contact as $column_name => $value) {
 	        	$find = strpos($column_name, 'ccc');
-	        	if(is_numeric($find) && $value) $cc_array[] = trim($value);
+	        	if(is_numeric($find) && str_contains($value, ['@'])) $cc_array[] = trim($value);
 	        }
 
 	        foreach ($contact as $column_name => $value) {
 	        	$find = strpos($column_name, 'bcc');
-	        	if(is_numeric($find) && $value) $bcc_array[] = trim($value);
+	        	if(is_numeric($find) && str_contains($value, ['@'])) $bcc_array[] = trim($value);
 	        }
 
 	        Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
@@ -129,7 +129,7 @@ class Report
 
 	        foreach ($contact as $column_name => $value) {
 	        	$find = strpos($column_name, 'email');
-	        	if(is_numeric($find) && $value) $mail_array[] = trim($value);
+	        	if(is_numeric($find) && str_contains($value, ['@'])) $mail_array[] = trim($value);
 	        }
 	        
 	        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
