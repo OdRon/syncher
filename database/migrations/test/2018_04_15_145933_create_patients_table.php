@@ -42,8 +42,7 @@ class CreatePatientsTable extends Migration
             $table->date('dateinitiatedontreatment')->nullable();
             $table->tinyInteger('synched')->default(0);
             $table->date('datesynched')->nullable();
-            $table->timestamps();
-            
+            $table->timestamps();            
 
             $table->index(['facility_id', 'patient'], 'eid_patient_unq_index');
         });
