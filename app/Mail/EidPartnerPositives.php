@@ -96,7 +96,7 @@ class EidPartnerPositives extends Mailable
         }
         $this->summary = $data;
         $this->samples = $samples;
-        $this->name = $data[0]['partner'];
+        $this->name = DB::table('partners')->where('id', $contact->partner)->first()->name ?? '';
         $this->division = 'Partner';
         $county = $data[0]['county'] ?? '';
         
