@@ -31,6 +31,37 @@ class Copier
 {
 	private static $limit = 10000;
 
+    public static function return_dateinitiated()
+    {
+        ini_set("memory_limit", "-1");
+        $offset =0;
+
+        while(true){
+            $rows = SampleView::select('patient', 'facility_id', 'dateinitiatedontreatment')
+                                ->whereNotNull('dateinitiatedontreatment')
+                                ->whereNotIn('dateinitiatedontreatment', ['0000-00-00', ''])
+                                ->limit(5000)
+                                ->offset($offset)
+                                ->get();
+            if($rows->isEmpty()) break;
+
+            foreach ($rows as $key => $row) {
+                $d = Lookup::clean_date($row->dateinitiatedontreatment);
+                if(!$d) continue;
+
+                $patient = Patient::existing($row->facility_id, $row->patient)->first();
+                if(!$patient) continue;
+
+                if($patient->dateinitiatedontreatment && $patient->dateinitiatedontreatment != '0000-00-00') continue;
+                $patient->dateinitiatedontreatment = $d;
+                $patient->save();
+
+            }
+            $offset += 5000;
+        }
+
+    }
+
 	public static function copy_eid()
 	{
         $bookmark = Bookmark::find(1);
