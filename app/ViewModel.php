@@ -22,6 +22,22 @@ class ViewModel extends Model
     }
 
 
+    public function scopeSample($query, $facility, $patient, $datecollected)
+    {
+        return $query->where(['facility_id' => $facility, 'patient' => $patient, 'datecollected' => $datecollected]);
+    }
+
+    public function scopeExisting($query, $data_array)
+    {
+        return $query->where(['facility_id' => $data_array['facility_id'], 'patient' => $data_array['patient'], 'datecollected' => $data_array['datecollected']]);
+    }
+
+    public function scopePatient($query, $facility, $patient)
+    {
+        return $query->where(['facility_id' => $facility, 'patient' => $patient]);
+    }
+
+
     /**
      * Get the patient's gender
      *
