@@ -262,6 +262,10 @@ class VlController extends Controller
         return $this->update_dash($request, Viralpatient::class, 'patients', 'national_patient_id', 'original_patient_id');
     }
 
+    public function update_batches(BlankRequest $request){
+        return $this->update_dash($request, Batch::class, 'batches', 'national_batch_id', 'original_batch_id');
+    }
+
     public function update_samples(BlankRequest $request){
         return $this->update_dash($request, Viralsample::class, 'samples', 'national_sample_id', 'original_sample_id');
     }
@@ -280,13 +284,30 @@ class VlController extends Controller
             if($value->$nat_column){
                 $new_model = $update_class::find($value->$nat_column);
             }else{
-                $new_model = $update_class::locate($value)->get()->first();
+                if($input == 'samples'){
+                    $s = \App\ViralsampleView::locate($value, $lab_id)->first();
+                    $new_model = $update_class::find($s->id);
+                }else{
+                    $new_model = $update_class::locate($value)->get()->first();
+                }
             }
 
             if(!$new_model) continue;
 
             $update_data = get_object_vars($value);
             unset($update_data['id']);
+            unset($update_data['created_at']);
+            unset($update_data['updated_at']);
+
+            if($input == 'samples'){
+                $original_batch = $value->batch;
+                $original_patient = $value->patient;
+                $update_data['batch_id'] = $original_batch->national_batch_id;
+                $update_data['patient_id'] = $original_patient->national_patient_id;
+
+                unset($update_data['batch']);
+                unset($update_data['patient']);
+            }
 
             $new_model->fill(get_object_vars($update_data));
             $new_model->$original_column = $new_model->id;
@@ -312,7 +333,12 @@ class VlController extends Controller
             if($value->$nat_column){
                 $new_model = $update_class::find($value->$nat_column);
             }else{
-                $new_model = $update_class::locate($value)->get()->first();
+                if($input == 'samples'){
+                    $s = \App\ViralsampleView::locate($value, $lab_id)->first();
+                    $new_model = $update_class::find($s->id);
+                }else{
+                    $new_model = $update_class::locate($value)->get()->first();
+                }
             }
 
             if(!$new_model) continue;
