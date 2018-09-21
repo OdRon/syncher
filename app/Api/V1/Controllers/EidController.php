@@ -229,14 +229,20 @@ class EidController extends Controller
             }else{
                 if($input == 'samples'){
                     $s = \App\SampleView::locate($value, $lab_id)->first();
-                    if(!$s) continue;
+                    if(!$s){
+                        $errors_array[] = $value;
+                        continue;
+                    }
                     $new_model = $update_class::find($s->id);
                 }else{
                     $new_model = $update_class::locate($value)->get()->first();
                 }
             }
 
-            if(!$new_model) continue;
+            if(!$new_model){
+                $errors_array[] = $value;
+                continue;
+            }
 
             $update_data = get_object_vars($value);
             unset($update_data['id']);
@@ -289,9 +295,12 @@ class EidController extends Controller
             $models_array[] = ['original_id' => $new_model->$original_column, $nat_column => $new_model->id ];
         }
 
+        if(count($errors_array) == 0) $errors_array = null;
+
         return response()->json([
             'status' => 'ok',
             $input => $models_array,
+            'errors_array' => $errors_array,
         ], 201);        
     }
 
