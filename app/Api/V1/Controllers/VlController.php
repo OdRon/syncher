@@ -263,7 +263,7 @@ class VlController extends Controller
     }
 
     public function update_batches(BlankRequest $request){
-        return $this->update_dash($request, Batch::class, 'batches', 'national_batch_id', 'original_batch_id');
+        return $this->update_dash($request, Viralbatch::class, 'batches', 'national_batch_id', 'original_batch_id');
     }
 
     public function update_samples(BlankRequest $request){
