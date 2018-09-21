@@ -309,7 +309,7 @@ class VlController extends Controller
                 unset($update_data['patient']);
             }
 
-            $new_model->fill(get_object_vars($update_data));
+            $new_model->fill($update_data);
             $new_model->$original_column = $value->id;
             $new_model->synched = 1;
             unset($new_model->$nat_column);
