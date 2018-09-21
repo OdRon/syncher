@@ -277,7 +277,7 @@ class EidController extends Controller
             }
 
             $new_model->fill($update_data);
-            $new_model->$original_column = $new_model->id;
+            $new_model->$original_column = $value->id;
             $new_model->synched = 1;
             unset($new_model->$nat_column);
 
