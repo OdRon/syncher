@@ -204,6 +204,10 @@ class EidController extends Controller
         return $this->update_dash($request, Mother::class, 'mothers', 'national_mother_id', 'original_mother_id');
     }
 
+    public function update_batches(BlankRequest $request){
+        return $this->update_dash($request, Batch::class, 'batches', 'national_batch_id', 'original_batch_id');
+    }
+
     public function update_samples(BlankRequest $request){
         return $this->update_dash($request, Sample::class, 'samples', 'national_sample_id', 'original_sample_id');
     }
@@ -212,6 +216,7 @@ class EidController extends Controller
         return $this->update_dash($request, Worksheet::class, 'worksheets', 'national_worksheet_id', 'original_worksheet_id');
     }
 
+    // Change foreign keys e.g. batch_id, patient_id
     public function update_dash(BlankRequest $request, $update_class, $input, $nat_column, $original_column)
     {
         $models_array = [];
@@ -222,13 +227,20 @@ class EidController extends Controller
             if($value->$nat_column){
                 $new_model = $update_class::find($value->$nat_column);
             }else{
-                $new_model = $update_class::locate($value)->get()->first();
+                if($input == 'samples'){
+                    $s = \App\SampleView::locate($value, $lab_id)->first();
+                    $new_model = $update_class::find($s->id);
+                }else{
+                    $new_model = $update_class::locate($value)->get()->first();
+                }
             }
 
             if(!$new_model) continue;
 
             $update_data = get_object_vars($value);
             unset($update_data['id']);
+            unset($update_data['created_at']);
+            unset($update_data['updated_at']);
 
             if($input == 'patients'){
                 unset($update_data['hei_validation']);
@@ -236,10 +248,36 @@ class EidController extends Controller
                 unset($update_data['enrollment_status']);
                 unset($update_data['referredfromsite']);
                 unset($update_data['otherreason']);
+
+                unset($update_data['mother_id']);
+            }
+
+            if($input == 'samples'){
+                $original_batch = $value->batch;
+                $original_patient = $value->patient;
+                $update_data['batch_id'] = $original_batch->national_batch_id;
+                $update_data['patient_id'] = $original_patient->national_patient_id;
+
+                unset($update_data['batch']);
+                unset($update_data['patient']);
+
+
+                // $batch = $new_model->batch;
+                // if($batch->original_batch_id == $new_model->batch_id) unset($update_data['batch_id']);
+                // else{
+                //     $b = Batch::existing($update_data['batch_id'], $lab_id)->first();
+                //     $update_data['batch_id'] = $b->id;
+                // }
+                // $patient = $new_model->patient;
+                // if($patient->original_patient_id == $new_model->patient_id) unset($update_data['patient_id']);
+                // else{
+
+                // }
+
             }
 
             $new_model->fill($update_data);
-            $new_model->$original_column = $new_model->id;
+            $new_model->$original_column = $value->id;
             $new_model->synched = 1;
             unset($new_model->$nat_column);
 
@@ -263,7 +301,12 @@ class EidController extends Controller
             if($value->$nat_column){
                 $new_model = $update_class::find($value->$nat_column);
             }else{
-                $new_model = $update_class::locate($value)->get()->first();
+                if($input == 'samples'){
+                    $s = \App\SampleView::locate($value, $lab_id)->first();
+                    $new_model = $update_class::find($s->id);
+                }else{
+                    $new_model = $update_class::locate($value)->get()->first();
+                }
             }
 
             if(!$new_model) continue;
