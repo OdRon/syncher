@@ -277,6 +277,7 @@ class VlController extends Controller
     public function update_dash(BlankRequest $request, $update_class, $input, $nat_column, $original_column)
     {
         $models_array = [];
+        $errors_array = [];
         $models = json_decode($request->input($input));
         $lab_id = json_decode($request->input('lab_id'));
 
@@ -286,13 +287,20 @@ class VlController extends Controller
             }else{
                 if($input == 'samples'){
                     $s = \App\ViralsampleView::locate($value, $lab_id)->first();
+                    if(!$s){
+                        $errors_array[] = $value;
+                        continue;
+                    }
                     $new_model = $update_class::find($s->id);
                 }else{
                     $new_model = $update_class::locate($value)->get()->first();
                 }
             }
 
-            if(!$new_model) continue;
+            if(!$new_model){
+                $errors_array[] = $value;
+                continue;
+            }
 
             $update_data = get_object_vars($value);
             unset($update_data['id']);
@@ -320,9 +328,12 @@ class VlController extends Controller
             $models_array[] = ['original_id' => $new_model->$original_column, $nat_column => $new_model->id ];
         }
 
+        if(count($errors_array) == 0) $errors_array = null;
+
         return response()->json([
             'status' => 'ok',
             $input => $models_array,
+            'errors_array' => $errors_array,
         ], 201);        
     }
 
