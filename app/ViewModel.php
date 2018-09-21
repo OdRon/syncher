@@ -25,7 +25,7 @@ class ViewModel extends Model
 
     public function scopeLocate($query, $original, $lab_id)
     {
-        return $query->where(['original_sample_id' => $original->id, 'lab_id', $lab_id]);
+        return $query->where(['original_sample_id' => $original->id, 'lab_id' => $lab_id]);
     }
 
     public function scopeSample($query, $facility, $patient, $datecollected)
