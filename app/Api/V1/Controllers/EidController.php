@@ -229,6 +229,7 @@ class EidController extends Controller
             }else{
                 if($input == 'samples'){
                     $s = \App\SampleView::locate($value, $lab_id)->first();
+                    if(!$s) continue;
                     $new_model = $update_class::find($s->id);
                 }else{
                     $new_model = $update_class::locate($value)->get()->first();
