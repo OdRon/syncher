@@ -255,7 +255,10 @@ class EidController extends Controller
             if($input == 'samples'){
                 $original_batch = $value->batch;
                 $original_patient = $value->patient;
-                $update_data['batch_id'] = $original_batch->national_batch_id;
+                if($original_batch) $update_data['batch_id'] = $original_batch->national_batch_id;
+                else{
+                    unset($update_data['batch_id']);
+                }
                 $update_data['patient_id'] = $original_patient->national_patient_id;
 
                 unset($update_data['batch']);
