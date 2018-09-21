@@ -223,7 +223,7 @@ class EidController extends Controller
         $models = json_decode($request->input($input));
         $lab_id = json_decode($request->input('lab_id'));
 
-        foreach ($data as $key => $value) {
+        foreach ($models as $key => $value) {
             if($value->$nat_column){
                 $new_model = $update_class::find($value->$nat_column);
             }else{
