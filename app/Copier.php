@@ -98,11 +98,13 @@ class Copier
         ini_set('memory_limit', '-1');
         $duplicates = Viralsample::selectRaw("old_id, count(old_id) as my_count")
                     ->groupBy('old_id')
-                    ->having('my_count', 165)
+                    ->having('my_count', '>', 1)
                     ->get();
 
         foreach ($duplicates as $duplicate) {
             $samples = Viralsample::where('old_id', $duplicate->old_id)->get();
+            $old_samples = ViralsampleView::where('id', $duplicate->old_id)->get();
+            if($samples->count() == $old_samples->count()) continue;
             $first = true;
 
             foreach ($samples as $sample) {
@@ -110,7 +112,6 @@ class Copier
                     $first=false;
                     continue;
                 }
-
                 $sample->delete();
             }
         }
