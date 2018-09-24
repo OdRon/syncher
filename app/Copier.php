@@ -93,6 +93,31 @@ class Copier
 
     }
 
+    public static function delete_duplicates_vl()
+    {
+        ini_set('memory_limit', '-1');
+        $duplicates = Viralsample::selectRaw("old_id, count(old_id) as my_count")
+                    ->groupBy('old_id')
+                    ->having('my_count', 165)
+                    ->get();
+
+        foreach ($duplicates as $duplicate) {
+            $samples = Viralsample::where('old_id', $duplicate->old_id)->get();
+            $first = true;
+
+            foreach ($samples as $sample) {
+                if($first){
+                    $first=false;
+                    continue;
+                }
+
+                $sample->delete();
+            }
+        }
+    }
+
+
+
 	public static function copy_eid()
 	{
         $bookmark = Bookmark::find(1);
