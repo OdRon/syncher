@@ -35,7 +35,7 @@ class Lookup
 
     public static function previous_dob($class_name=null, $patient=null, $facility_id=null, $column='dob')
     {
-        $roww = $class_name::where(['patient' => $patient, 'facility_id' => $facility_id])
+        $rows = $class_name::where(['patient' => $patient, 'facility_id' => $facility_id])
                     ->whereNotIn($column, ['0000-00-00', ''])
                     ->whereNotNull($column)
                     ->get();
