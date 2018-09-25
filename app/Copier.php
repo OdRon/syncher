@@ -31,6 +31,94 @@ class Copier
 {
 	private static $limit = 10000;
 
+    public static function return_dateinitiated()
+    {
+        ini_set("memory_limit", "-1");
+        $offset =0;
+
+        while(true){
+            $rows = SampleView::select('patient', 'facility_id', 'dateinitiatedontreatment')
+                                ->whereNotNull('dateinitiatedontreatment')
+                                ->whereNotIn('dateinitiatedontreatment', ['0000-00-00', ''])
+                                ->limit(5000)
+                                ->offset($offset)
+                                ->get();
+            if($rows->isEmpty()) break;
+
+            foreach ($rows as $key => $row) {
+                $d = Lookup::clean_date($row->dateinitiatedontreatment);
+                if(!$d) continue;
+
+                $patient = Patient::existing($row->facility_id, $row->patient)->first();
+                if(!$patient) continue;
+
+                if($patient->dateinitiatedontreatment && $patient->dateinitiatedontreatment != '0000-00-00') continue;
+                $patient->dateinitiatedontreatment = $d;
+                $patient->save();
+
+            }
+            $offset += 5000;
+        }
+
+    }
+
+    public static function return_vl_dateinitiated()
+    {
+        ini_set("memory_limit", "-1");
+        $offset =0;
+
+        while(true){
+            $rows = ViralsampleView::select('patient', 'facility_id', 'initiation_date')
+                                ->whereNotNull('initiation_date')
+                                ->whereNotIn('initiation_date', ['0000-00-00', ''])
+                                ->limit(5000)
+                                ->offset($offset)
+                                ->get();
+            if($rows->isEmpty()) break;
+
+            foreach ($rows as $key => $row) {
+                $d = Lookup::clean_date($row->initiation_date);
+                if(!$d) continue;
+
+                $patient = Viralpatient::existing($row->facility_id, $row->patient)->first();
+                if(!$patient) continue;
+
+                if($patient->initiation_date && $patient->initiation_date != '0000-00-00') continue;
+                $patient->initiation_date = $d;
+                $patient->save();
+
+            }
+            $offset += 5000;
+        }
+
+    }
+
+    public static function delete_duplicates_vl()
+    {
+        ini_set('memory_limit', '-1');
+        $duplicates = Viralsample::selectRaw("old_id, count(old_id) as my_count")
+                    ->groupBy('old_id')
+                    ->having('my_count', '>', 1)
+                    ->get();
+
+        foreach ($duplicates as $duplicate) {
+            $samples = Viralsample::where('old_id', $duplicate->old_id)->get();
+            $old_samples = ViralsampleView::where('id', $duplicate->old_id)->get();
+            if($samples->count() == $old_samples->count()) continue;
+            $first = true;
+
+            foreach ($samples as $sample) {
+                if($first){
+                    $first=false;
+                    continue;
+                }
+                $sample->delete();
+            }
+        }
+    }
+
+
+
 	public static function copy_eid()
 	{
         $bookmark = Bookmark::find(1);
@@ -54,6 +142,7 @@ class Copier
 
 				if(!$patient){
 					$mother = new Mother($value->only($fields['mother']));
+                    if($value->mother_age) $mother->mother_dob = Lookup::calculate_dob($value->datecollected, $value->mother_age, 0);
 					$mother->save();
 					$patient = new Patient($value->only($fields['patient']));
 					$patient->mother_id = $mother->id;
@@ -70,7 +159,23 @@ class Copier
 					if($enrollment_data) $patient->fill($enrollment_data);
 					// $patient->ccc_no = $value->enrollment_ccc_no;
 					$patient->save();
-				}
+				}else{
+                    $dob = Lookup::clean_date($value->dob);
+                    $dateinitiatedontreatment = Lookup::clean_date($value->dateinitiatedontreatment);
+                    if(!$dateinitiatedontreatment) $dateinitiatedontreatment = Lookup::previous_dob(SampleView::class, $value->patient, $value->facility_id, 'dateinitiatedontreatment');
+                    $sex = Lookup::resolve_gender($value->gender);
+                    if($dob) $patient->dob = $dob;
+                    if(!$patient->dob) $patient->dob = Lookup::calculate_dob($value->datecollected, 0, $value->age);
+                    if($dateinitiatedontreatment) $patient->dateinitiatedontreatment = $dateinitiatedontreatment;
+
+                    if($patient->sex == 3 && $sex != 3) $patient->sex = $sex;
+                    $patient->save();
+
+                    $mother = $patient->mother;
+                    $mother->fill($value->only($fields['mother']));
+                    if($value->mother_age) $mother->mother_dob = Lookup::calculate_dob($value->datecollected, $value->mother_age, 0);
+                    $mother->save();
+                }
 				
 				$value->original_batch_id = self::set_batch_id($value->original_batch_id);
                 $batch = null;
@@ -118,6 +223,8 @@ class Copier
 	}
 
 
+
+
 	public static function copy_vl()
 	{
         $bookmark = Bookmark::find(1);
@@ -147,7 +254,16 @@ class Copier
 
 					$patient->sex = Lookup::resolve_gender($value->gender, ViralsampleView::class, $value->patient, $value->facility_id);
 					$patient->save();
-				}
+				}else{
+                    $dob = Lookup::clean_date($value->dob);
+                    if(!$dob) $dob = Lookup::calculate_dob($value->datecollected, $value->age, 0);
+                    if($dob) $patient->dob = $dob;
+                    $sex = Lookup::resolve_gender($value->gender);
+                    if($sex != 3 && $patient->sex == 3) $patient->sex = $sex;
+                    $initiation_date = Lookup::clean_date($value->initiation_date);
+                    if($initiation_date) $patient->initiation_date = $initiation_date;
+                    $patient->save();
+                }
 
 				$value->original_batch_id = self::set_batch_id($value->original_batch_id);
                 $batch = null;

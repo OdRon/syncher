@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\ViewModel;
 
-class ViralsampleView extends Model
+class ViralsampleView extends ViewModel
 {
     protected $table = 'viralsamples_view';
 }

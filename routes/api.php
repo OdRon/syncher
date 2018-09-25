@@ -67,10 +67,12 @@ $api->version('v1', function (Router $api) {
                 $api->post('worksheets', 'EidController@update_worksheets');
                 $api->post('mothers', 'EidController@update_mothers');
                 $api->post('patients', 'EidController@update_patients');
+                $api->post('batches', 'EidController@update_batches');
                 $api->post('samples', 'EidController@update_samples');
 
                 $api->post('viralworksheets', 'VlController@update_worksheets');
                 $api->post('viralpatients', 'VlController@update_patients');
+                $api->post('viralbatches', 'VlController@update_batches');
                 $api->post('viralsamples', 'VlController@update_samples');
 
             });
