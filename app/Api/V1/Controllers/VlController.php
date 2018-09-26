@@ -118,6 +118,7 @@ class VlController extends Controller
                     unset($sample->id);
                     unset($sample->patient);
                     unset($sample->national_sample_id);
+                    unset($sample->sample_received_by);
 
                     $sample->batch_id = $batch->id;
                     $sample->save();
@@ -318,6 +319,7 @@ class VlController extends Controller
 
                 unset($update_data['batch']);
                 unset($update_data['patient']);
+                unset($update_data['sample_received_by']);
             }
 
             $new_model->fill($update_data);
