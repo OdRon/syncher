@@ -139,6 +139,7 @@ class EidController extends Controller
                 unset($sample->id);
                 unset($sample->patient);
                 unset($sample->national_sample_id);
+                unset($sample->sample_received_by);
 
                 // if($sample->parentid != 0) $sample->parentid = Misc::get_new_id($samples_array, $sample->parentid);
                     
@@ -271,6 +272,7 @@ class EidController extends Controller
 
                 unset($update_data['batch']);
                 unset($update_data['patient']);
+                unset($update_data['sample_received_by']);
 
 
                 // $batch = $new_model->batch;
