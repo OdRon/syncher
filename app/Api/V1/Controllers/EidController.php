@@ -132,7 +132,11 @@ class EidController extends Controller
 
                 // $pat = json_decode($value2->patient);
 
-                $sample = new Sample;
+                if($value2->national_sample_id) $sample = Sample::find($value2->national_sample_id);
+                else{
+                    $sample = new Sample;
+                }
+                
                 $sample->fill(get_object_vars($value2));
                 $sample->original_sample_id = $sample->id;
                 $sample->patient_id = $value2->patient->national_patient_id;

@@ -111,7 +111,12 @@ class VlController extends Controller
 
                 foreach ($samples as $key2 => $value2) {
                     // if($value2->parentid != 0) continue;
-                    $sample = new Viralsample;
+
+
+                    if($value2->national_sample_id) $sample = Viralsample::find($value2->national_sample_id);
+                    else{
+                        $sample = new Viralsample;
+                    }
                     $sample->fill(get_object_vars($value2));
                     $sample->original_sample_id = $sample->id;
                     $sample->patient_id = $value2->patient->national_patient_id;
