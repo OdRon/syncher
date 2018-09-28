@@ -132,13 +132,18 @@ class EidController extends Controller
 
                 // $pat = json_decode($value2->patient);
 
-                $sample = new Sample;
+                if($value2->national_sample_id) $sample = Sample::find($value2->national_sample_id);
+                else{
+                    $sample = new Sample;
+                }
+                
                 $sample->fill(get_object_vars($value2));
                 $sample->original_sample_id = $sample->id;
                 $sample->patient_id = $value2->patient->national_patient_id;
                 unset($sample->id);
                 unset($sample->patient);
                 unset($sample->national_sample_id);
+                unset($sample->sample_received_by);
 
                 // if($sample->parentid != 0) $sample->parentid = Misc::get_new_id($samples_array, $sample->parentid);
                     
@@ -271,6 +276,7 @@ class EidController extends Controller
 
                 unset($update_data['batch']);
                 unset($update_data['patient']);
+                unset($update_data['sample_received_by']);
 
 
                 // $batch = $new_model->batch;
