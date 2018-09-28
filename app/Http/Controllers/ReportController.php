@@ -879,7 +879,7 @@ class ReportController extends Controller
             $sheetTitle[] = 'Sheet1';
             $finaldataArray[] = $newdataArray;
         }
-        
+        ini_set("memory_limit", "-1");
         Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
             $excel->setTitle($title);
             $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
