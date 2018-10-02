@@ -96,7 +96,7 @@ class EidPartnerPositives extends Mailable
         }
         $this->summary = $data;
         $this->samples = $samples;
-        $this->name = $data[0]['partner'];
+        $this->name = DB::table('partners')->where('id', $contact->partner)->first()->name ?? '';
         $this->division = 'Partner';
         $county = $data[0]['county'] ?? '';
         
@@ -131,7 +131,7 @@ class EidPartnerPositives extends Mailable
      */
     public function build()
     {
-        $this->attach($this->path, ['as' => $this->title]);
+        $this->attach($this->path, ['as' => $this->title . '.pdf']);
         $this->attach(public_path('downloads/HEIValidationToolGuide.pdf'));
         return $this->subject($this->title)->view('mail.hei_validation');
     }

@@ -72,6 +72,32 @@ INSERT INTO `age_bands` (`id`, `name`, `lower`, `upper`, `age_range_id`, `age_ra
 	(11, 'Above 36 months', 36.00010, 1200.00000, 5, 'Above 24 months', 24.00000, 1200.00000);
 /*!40000 ALTER TABLE `age_bands` ENABLE KEYS */;
 
+DROP TABLE IF EXISTS `agecategory`;
+CREATE TABLE IF NOT EXISTS `agecategory` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `subID` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `name` (`name`),
+  KEY `subID` (`subID`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+INSERT INTO `agecategory` (`id`, `name`, `subID`) VALUES
+	(0, 'No Data', '1'),
+	(1, '<5', NULL),
+	(2, '<10', NULL),
+	(3, '<15', NULL),
+	(4, '<18', NULL),
+	(5, '18 +', NULL),
+	(6, 'Less 2', '1'),
+	(7, '2-9', '1'),
+	(8, '10-14', '1'),
+	(9, '15-19', '1'),
+	(10, '20-24', '1'),
+	(11, '25+', '1');
+
+
+
 
 DROP TABLE IF EXISTS `countys`;
 -- Dumping structure for table apidb.countys

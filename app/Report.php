@@ -34,21 +34,16 @@ class Report
 		foreach ($partner_contacts as $key => $contact) {
 
 	        $cc_array = [];
-	        $bcc_array = [];
+	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 
 	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'ccc');
-	        	if($find && $value) $cc_array[] = $value;
+	        	if(str_contains($column_name, 'ccc') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $cc_array[] = trim($value);
+	        	if(str_contains($column_name, 'bcc') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $bcc_array[] = trim($value);
 	        }
 
-	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'bcc');
-	        	if($find && $value) $bcc_array[] = $value;
-	        }
-
-	        // Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
-	        // DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
-	     	Mail::to($mail_array)->send(new EidPartnerPositives($contact->id));
+	        Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
+	        DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
+	     	// Mail::to($mail_array)->send(new EidPartnerPositives($contact->id));
 		}
 	}
 
@@ -62,24 +57,37 @@ class Report
 
 		foreach ($county_contacts as $key => $contact) {
 
-	        // $mail_array = [];
+	        $mail_array = [];
+	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 
-	        // foreach ($contact as $column_name => $value) {
-	        // 	$find = strpos($column_name, 'email');
-	        // 	if($find && $value) $mail_array[] = $value;
-	        // }
+	        foreach ($contact as $column_name => $value) {
+	        	if(str_contains($column_name, 'email') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $mail_array[] = trim($value);
+	        }
 	        
 	        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
-	     	Mail::to($mail_array)->send(new EidCountyPositives($contact->id));
+	     	Mail::to($mail_array)->bcc($bcc_array)->send(new EidCountyPositives($contact->id));
 		}
 	}
 
 	// public static function send_password()
 	// {
-	// 	$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 3)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->get();
+	// 	$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 2)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->whereRaw("email not like '%example%'")->whereNull('email_sent')->get();
 		
 	// 	foreach ($users as $key => $value) {
+	// 		$user = \App\User::find($value->id);
 	// 		Mail::to($value->email)->send(new PasswordEmail($value->id));
+	// 		if( count(Mail::failures()) > 0 ) {
+	// 		   echo "==>There was one or more failures. They were: <br />";
+	// 		   foreach(Mail::failures() as $email_address) {
+	// 		   		$user->email_sent = NULL;
+	// 		   		$user->save();
+	// 		       	echo " - $email_address <br />";
+	// 		    }
+	// 		} else {
+	// 		    echo "==> No errors, all sent successfully!</br>";
+	// 		    $user->email_sent = date('Y-m-d H:i:s');
+	// 	   		$user->save();
+	// 		}
 	// 	}
 	// }
 
@@ -95,21 +103,16 @@ class Report
 		foreach ($partner_contacts as $key => $contact) {
 
 	        $cc_array = [];
-	        $bcc_array = [];
+	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 
 	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'ccc');
-	        	if($find && $value) $cc_array[] = $value;
+	        	if(str_contains($column_name, 'ccc') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $cc_array[] = trim($value);
+	        	if(str_contains($column_name, 'bcc') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $bcc_array[] = trim($value);
 	        }
 
-	        foreach ($contact as $column_name => $value) {
-	        	$find = strpos($column_name, 'bcc');
-	        	if($find && $value) $bcc_array[] = $value;
-	        }
-
-	        // Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
-	        // DB::table('vl_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
-	     	Mail::to($mail_array)->send(new VlPartnerNonsuppressed($contact->id));
+	        Mail::to($contact->mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
+	        DB::table('vl_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
+	     	// Mail::to($mail_array)->send(new VlPartnerNonsuppressed($contact->id));
 		}
 	}
 
@@ -123,15 +126,15 @@ class Report
 
 		foreach ($county_contacts as $key => $contact) {
 
-	        // $mail_array = [];
+	        $mail_array = [];
+	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 
-	        // foreach ($contact as $column_name => $value) {
-	        // 	$find = strpos($column_name, 'email');
-	        // 	if($find && $value) $mail_array[] = $value;
-	        // }
+	        foreach ($contact as $column_name => $value) {
+	        	if(str_contains($column_name, 'email') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $mail_array[] = trim($value);
+	        }
 	        
 	        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
-	     	Mail::to($mail_array)->send(new VlCountyNonsuppressed($contact->id));
+	     	Mail::to($mail_array)->bcc($bcc_array)->send(new VlCountyNonsuppressed($contact->id));
 		}
 	}
 

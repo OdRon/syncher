@@ -33,14 +33,14 @@ class FacilityController extends Controller
         $lab_id = $request->input('lab_id');
         $facility = new Facility;
         $facility->fill($facility_data);
-        unset($facility->id);
+        // unset($facility->id);
         $facility->save();
 
         NewFacility::dispatch($facility);
 
         return response()->json([
           'status' => 'ok',
-          // 'facility' => $facility,
+          'facility' => $facility,
         ], 201);
     }
 

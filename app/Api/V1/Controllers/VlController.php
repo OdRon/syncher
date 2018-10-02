@@ -4,6 +4,7 @@ namespace App\Api\V1\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Api\V1\Requests\BlankRequest;
+use Exception;
 
 use App\Misc;
 use App\Viralbatch;
@@ -48,6 +49,7 @@ class VlController extends Controller
 
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
 
+
             foreach ($value->sample as $key2 => $value2) {
                 $sample = Viralsample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->get()->first();
                 if(!$sample) continue;
@@ -87,37 +89,53 @@ class VlController extends Controller
     {
         $batches_array = [];
         $samples_array = [];
+        $errors = [];
         
         $batches = json_decode($request->input('batches'));
+        $lab_id = json_decode($request->input('lab_id'));
 
         foreach ($batches as $key => $value) {
-            $batch = new Viralbatch;
-            $temp = $value;
-            unset($temp->sample);
-            $batch->fill(get_object_vars($temp));
-            $batch->original_batch_id = $batch->id;
-            unset($batch->id);
-            unset($batch->national_batch_id);
-            $batch->save();
+            try {
+                $batch = Viralbatch::where(['original_batch_id' => $value->id, 'lab_id' => $value->lab_id])->first();
+                if(!$batch) $batch = new Viralbatch;
+                $batch->original_batch_id = $value->id;
+                $samples = $value->sample;
+                $temp = $value;
+                unset($temp->sample);
+                unset($temp->id);
+                $batch->fill(get_object_vars($temp));
+                unset($batch->national_batch_id);
+                $batch->save();
 
-            $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
+                $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
 
-            foreach ($value->sample as $key2 => $value2) {
-                // if($value2->parentid != 0) continue;
-                $sample = new Viralsample;
-                $sample->fill(get_object_vars($value2));
-                $sample->original_sample_id = $sample->id;
-                $sample->patient_id = $value2->patient->national_patient_id;
-                unset($sample->id);
-                unset($sample->patient);
-                unset($sample->national_sample_id);
+                foreach ($samples as $key2 => $value2) {
+                    // if($value2->parentid != 0) continue;
 
-                $sample->batch_id = $batch->id;
-                $sample->save();
+
+                    if($value2->national_sample_id) $sample = Viralsample::find($value2->national_sample_id);
+                    else{
+                        $sample = new Viralsample;
+                    }
+                    $sample->fill(get_object_vars($value2));
+                    $sample->original_sample_id = $sample->id;
+                    $sample->patient_id = $value2->patient->national_patient_id;
+                    unset($sample->id);
+                    unset($sample->patient);
+                    unset($sample->national_sample_id);
+                    unset($sample->sample_received_by);
+
+                    $sample->batch_id = $batch->id;
+                    $sample->save();
+                    
+                    $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];               
+                }
                 
-                $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                
+            } catch (Exception $e) {
+                $errors[] = ['message' => $e->getMessage(), 'line' => $e->getLine()];  
             }
 
+            // Parent ID will be the sample ID at the lab instead of the national sample ID
             // foreach ($value->sample as $key2 => $value2) {
             //     if($value2->parentid == 0) continue;
             //     $sample = new Viralsample;
@@ -139,6 +157,7 @@ class VlController extends Controller
             'status' => 'ok',
             'batches' => $batches_array,
             'samples' => $samples_array,
+            'errors' => $errors,
         ], 201);
     }
 
@@ -249,6 +268,10 @@ class VlController extends Controller
         return $this->update_dash($request, Viralpatient::class, 'patients', 'national_patient_id', 'original_patient_id');
     }
 
+    public function update_batches(BlankRequest $request){
+        return $this->update_dash($request, Viralbatch::class, 'batches', 'national_batch_id', 'original_batch_id');
+    }
+
     public function update_samples(BlankRequest $request){
         return $this->update_dash($request, Viralsample::class, 'samples', 'national_sample_id', 'original_sample_id');
     }
@@ -260,31 +283,64 @@ class VlController extends Controller
     public function update_dash(BlankRequest $request, $update_class, $input, $nat_column, $original_column)
     {
         $models_array = [];
+        $errors_array = [];
         $models = json_decode($request->input($input));
         $lab_id = json_decode($request->input('lab_id'));
 
-        foreach ($data as $key => $value) {
+        foreach ($models as $key => $value) {
             if($value->$nat_column){
                 $new_model = $update_class::find($value->$nat_column);
             }else{
-                $new_model = $update_class::locate($value)->get()->first();
+                if($input == 'samples'){
+                    $s = \App\ViralsampleView::locate($value, $lab_id)->first();
+                    if(!$s){
+                        $errors_array[] = $value;
+                        continue;
+                    }
+                    $new_model = $update_class::find($s->id);
+                }else{
+                    $new_model = $update_class::locate($value)->get()->first();
+                }
             }
 
-            if(!$new_model) continue;
+            if(!$new_model){
+                $errors_array[] = $value;
+                continue;
+            }
 
             $update_data = get_object_vars($value);
             unset($update_data['id']);
+            unset($update_data['created_at']);
+            unset($update_data['updated_at']);
 
-            $new_model->fill(get_object_vars($update_data));
-            $new_model->$original_column = $new_model->id;
+            if($input == 'samples'){
+                $original_batch = $value->batch;
+                $original_patient = $value->patient;
+                if($original_batch) $update_data['batch_id'] = $original_batch->national_batch_id;
+                else{
+                    unset($update_data['batch_id']);
+                }
+                $update_data['patient_id'] = $original_patient->national_patient_id;
+
+                unset($update_data['batch']);
+                unset($update_data['patient']);
+                unset($update_data['sample_received_by']);
+            }
+
+            $new_model->fill($update_data);
+            $new_model->$original_column = $value->id;
+            $new_model->synched = 1;
             unset($new_model->$nat_column);
             $new_model->save();
             $models_array[] = ['original_id' => $new_model->$original_column, $nat_column => $new_model->id ];
         }
 
+        if(count($errors_array) == 0) $errors_array = null;
+
         return response()->json([
             'status' => 'ok',
             $input => $models_array,
+            'errors_array' => $errors_array,
         ], 201);        
     }
 
@@ -298,7 +354,12 @@ class VlController extends Controller
             if($value->$nat_column){
                 $new_model = $update_class::find($value->$nat_column);
             }else{
-                $new_model = $update_class::locate($value)->get()->first();
+                if($input == 'samples'){
+                    $s = \App\ViralsampleView::locate($value, $lab_id)->first();
+                    $new_model = $update_class::find($s->id);
+                }else{
+                    $new_model = $update_class::locate($value)->get()->first();
+                }
             }
 
             if(!$new_model) continue;
