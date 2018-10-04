@@ -324,14 +324,21 @@
 			                	@if($sample->receivedstatus == 2)
 									{{ $routcome }}
 								@else
-									&nbsp;&nbsp;&nbsp;&nbsp; Viral Load {!! $routcome !!} 
+									&nbsp;&nbsp;&nbsp;&nbsp; {!! $routcome !!} 
 								@endif
 			                @endif
 							</strong>
 						</span>
 					</td>
 				</tr>
-
+				@if($testingSys == 'VL')
+				<tr>
+					<td colspan="2"></td>
+					<td colspan="7" class="style4 style1 comment">					
+						{!! $sample->result_comment !!}					
+					</td>				
+				</tr>
+				@endif
 				<tr>
 					<td colspan="2">
 					  <span class="style1"><strong>Comments:</strong></span>
