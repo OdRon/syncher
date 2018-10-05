@@ -92,26 +92,26 @@ class Viralsample extends BaseModel
         // < ldl
         if(str_contains($interpretation, ['<'])){
             $str = "LDL:Lower Detectable Limit ";
-            // $str .= "i.e. Below Detectable levels by machine ";
-            // if(str_contains($interpretation, ['839'])){
-            //     $str .= "( Abbott DBS  &lt;839 copies/ml )";
-            // }
-            // else if(str_contains($interpretation, ['40'])){
-            //     $str .= "( Abbott Plasma  &lt;40 copies/ml )";
-            // }
-            // else if(str_contains($interpretation, ['150'])){
-            //     $str .= "( Abbott Plasma  &lt;150 copies/ml )";
-            // }
-            // else if(str_contains($interpretation, ['20'])){
-            //     $str .= "( Roche Plasma  &lt;20 copies/ml )";
-            // }
-            // else if(str_contains($interpretation, ['30'])){
-            //     $str .= "( Pantha Plasma  &lt;30 copies/ml )";
-            // }
-            // else{
-            //     $n = preg_replace("/[^<0-9]/", "", $interpretation);
-            //     $str .= "( &lt;{$n} copies/ml )";
-            // }
+            $str .= "i.e. Below Detectable levels by machine ";
+            if(str_contains($interpretation, ['839'])){
+                $str .= "( Abbott DBS  &lt;839 copies/ml )";
+            }
+            else if(str_contains($interpretation, ['40'])){
+                $str .= "( Abbott Plasma  &lt;40 copies/ml )";
+            }
+            else if(str_contains($interpretation, ['150'])){
+                $str .= "( Abbott Plasma  &lt;150 copies/ml )";
+            }
+            else if(str_contains($interpretation, ['20'])){
+                $str .= "( Roche Plasma  &lt;20 copies/ml )";
+            }
+            else if(str_contains($interpretation, ['30'])){
+                $str .= "( Pantha Plasma  &lt;30 copies/ml )";
+            }
+            else{
+                $n = preg_replace("/[^<0-9]/", "", $interpretation);
+                $str .= "( &lt;{$n} copies/ml )";
+            }
         }
         else if(str_contains($result, ['<']) && str_contains($lower_interpretation, ['not detected'])){
             $str = "No circulating virus ie. level of HIV in blood is below the threshold needed for detection by this test. Doesn’t mean client Is Negative";
