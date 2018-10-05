@@ -65,12 +65,6 @@
 						<strong>LAB: {{ $sample->batch->lab->name }}</strong>
 					</td>
 				</tr>	
-
-				<tr>
-					<td colspan="9" class="style4 style1 comment">
-						<strong>Contact/Facility Email:</strong> &nbsp; {{ $sample->batch->facility->email_string }}
-					</td>					
-				</tr>
 				<tr>
 					<td colspan="5"  class="evenrow" align="center" >
 						<span class="style1 style10">
