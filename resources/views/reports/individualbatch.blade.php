@@ -253,7 +253,7 @@
 				@if($testingSys == 'VL')
 					@php
 						if($sample->receivedstatus != 2){
-							$routcome = '<u>' . $sample->interpretation . '</u>';
+							$routcome = '<u>' . $sample->result . '</u>';
 							$resultcomments="";
 							$vlresultinlog='N/A';
 
