@@ -22,4 +22,19 @@ class Viralpatient extends BaseModel
     {
         return $query->where(['original_patient_id' => $original->id, 'facility_id' => $original->facility_id]);
     }
+
+    public function getGenderAttribute(){
+        $sex = $this->sex;
+        // $gender = \DB::table('gender')->where('id', '=', $sex)->first();
+
+        // return $gender->gender_description;
+        if($sex == 1) {
+            $gender = 'Male';
+        } else if ($sex == 2) {
+            $gender = 'Female';
+        } else {
+            $gender = 'No data';
+        }
+        return $gender;
+    }
 }
