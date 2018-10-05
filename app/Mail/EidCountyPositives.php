@@ -34,7 +34,7 @@ class EidCountyPositives extends Mailable
         $contact = DB::table('eid_users')->where('id', $user_id)->get()->first();
         $samples = SampleAlertView::where('facility_id', '!=', 7148)
             ->whereIn('pcrtype', [1, 2, 3])
-            ->where(['result' => 2, 'repeatt' => 0, 'enrollment_status' => 0, 'county_id' => $contact->partner])
+            ->where(['result' => 2, 'repeatt' => 0, 'hei_validation' => 0, 'county_id' => $contact->partner])
             ->whereYear('datetested', date('Y'))
             ->orderBy('facility_id')
             ->orderBy('datetested', 'ASC')
