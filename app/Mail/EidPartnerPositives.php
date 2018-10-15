@@ -35,7 +35,7 @@ class EidPartnerPositives extends Mailable
         $contact = DB::table('eid_partner_contacts_for_alerts')->where('id', $partner_contact_id)->get()->first();
         $samples = SampleAlertView::where('facility_id', '!=', 7148)
             ->whereIn('pcrtype', [1, 2, 3])
-            ->where(['result' => 2, 'repeatt' => 0, 'enrollment_status' => 0, 'partner_id' => $contact->partner])
+            ->where(['result' => 2, 'repeatt' => 0, 'hei_validation' => 0, 'partner_id' => $contact->partner])
             ->when(($contact->split == 1), function($query) use ($contact){
                 return $query->where('county_id', $contact->county);
             })
