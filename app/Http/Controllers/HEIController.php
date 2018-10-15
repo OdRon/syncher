@@ -53,6 +53,7 @@ class HEIController extends Controller
     		$columns = [ 'id', 'patient', 'hei_validation', 'enrollment_status', 'dateinitiatedontreatment', 'enrollment_ccc_no', 'facility_id', 'other_reason'];
     		$sampleCount = (int)$request->DataTables_Table_0_length ?? null;
             $actualCount = 0;
+            dd($sampleCount);
     		if (isset($sampleCount) || $sampleCount > 0) {
     			for ($i=$sampleCount; $i > 0 ; $i--) { 
     				foreach ($columns as $key => $value) {
