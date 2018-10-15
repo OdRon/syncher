@@ -54,6 +54,7 @@
             <div class="hpanel">
                 <div class="alert alert-danger">
                     <center>* You can only update the HEIs of the infants in the present view. If you wish to increase the number, please increase the number from the drop down on the left below.</center>
+                    <center>First select the hei validation - Then select enrollment status Only Confirmed Positive (CP) will enable the area to enter Enrollment CCC # and Date Initiated on Treatment  - Any additional notes/comments be filled in the ‘Notes/Comments’ section</center>
                 </div>
                 <div class="panel-body">
                     {{ Form::open(['url' => '/hei/followup', 'method' => 'post', 'class'=>'form-horizontal']) }}
@@ -74,7 +75,7 @@
                                     <th>Date Initiated on Treatment</th>
                                     <th>Enrollement CCC #</th>
                                     <th>Referred to Site</th>
-                                    <th>Other Reason</th>
+                                    <th>Notes/Comments</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -159,7 +160,7 @@
                                                 @endif
                                             </select>
                                         </td>
-                                        <td><textarea  class="form-control" name="other_reason{{ $count }}" id="other_reason{{ $count }}" value="{{ $sample->otherreason ?? '' }}" @if($sample->enrollment_status != 6) disabled @else required @endif></textarea></td>
+                                        <td><textarea  class="form-control" name="other_reason{{ $count }}" id="other_reason{{ $count }}" value="{{ $sample->otherreason ?? '' }}"></textarea></td>
                                     </tr>
                                 @empty
                                     <tr><td colspan="12"><center>No Data available</center></td></tr>
@@ -268,9 +269,6 @@
                     @elseif($sample->enrollment_status == 5)
                         $("#facility_id{{ $checkallCount }}").removeAttr('disabled');
                         $("#facility_id{{ $checkallCount }}").attr('required','true');
-                    @elseif($sample->enrollment_status == 6)
-                        $("#other_reason{{ $checkallCount }}").removeAttr('disabled');
-                        $("#other_reason{{ $checkallCount }}").attr('required','true');
                     @endif
                 @endforeach
             }
@@ -296,9 +294,6 @@
                     @elseif($sample->enrollment_status == 5)
                         $("#facility_id{{ $uncheckallCount }}").removeAttr('required');
                         $("#facility_id{{ $uncheckallCount }}").attr('disabled','true');
-                    @elseif($sample->enrollment_status == 6)
-                        $("#other_reason{{ $uncheckallCount }}").removeAttr('required');
-                        $("#other_reason{{ $uncheckallCount }}").attr('disabled','true');
                     @endif
                 @endforeach         
             }
@@ -322,7 +317,6 @@
                     $("#dateinitiatedontreatment{{ $checkCount }}").attr('disabled','true');
                     $("#enrollment_ccc_no{{ $checkCount }}").attr('disabled','true');
                     $("#facility_id{{ $checkCount }}").attr('disabled','true');
-                    $("#other_reason{{ $checkCount }}").attr('disabled','true');
                 } else {
                     $("#id{{ $checkCount }}").removeAttr('disabled');
                     $("#patient{{ $checkCount }}").removeAttr('disabled');
@@ -341,10 +335,6 @@
                     @if($sample->enrollment_status == 5)
                         $("#facility_id{{ $checkCount }}").removeAttr('disabled');
                         $("#facility_id{{ $checkCount }}").attr('required','true');
-                    @endif
-                    @if($sample->enrollment_status == 6)
-                        $("#other_reason{{ $checkCount }}").removeAttr('disabled');
-                        $("#other_reason{{ $checkCount }}").attr('required','true');
                     @endif
                 }
             @endforeach
@@ -404,14 +394,14 @@
                         $("#facility_id{{ $count }}").html("");
                     }
                     
-                    if (val == 6) { //Other Reason
-                        $("#other_reason{{ $count }}").removeAttr('disabled');
-                        $("#other_reason{{ $count }}").attr('required','true');
-                    } else {
-                        $("#other_reason{{ $count }}").removeAttr('required');
-                        $("#other_reason{{ $count }}").attr('disabled','true');
-                        $("#other_reason{{ $count }}").val("");
-                    }
+                    // if (val == 6) { //Other Reason
+                    //     $("#other_reason{{ $count }}").removeAttr('disabled');
+                    //     $("#other_reason{{ $count }}").attr('required','true');
+                    // } else {
+                    //     $("#other_reason{{ $count }}").removeAttr('required');
+                    //     $("#other_reason{{ $count }}").attr('disabled','true');
+                    //     $("#other_reason{{ $count }}").val("");
+                    // }
                 }
             });
         @endforeach
