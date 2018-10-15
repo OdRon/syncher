@@ -54,7 +54,9 @@
             <div class="hpanel">
                 <div class="alert alert-danger">
                     <center>* You can only update the HEIs of the infants in the present view. If you wish to increase the number, please increase the number from the drop down on the left below.</center>
-                    <center>* First select the hei validation - Then select enrollment status Only Confirmed Positive (CP) will enable the area to enter Enrollment CCC # and Date Initiated on Treatment  - Any additional notes/comments be filled in the ‘Notes/Comments’ section</center>
+                    <center>- First select the hei validation</center>
+                    <center>- Then select enrollment status, Only Confirmed Positive (CP) will enable the area to enter Enrollment CCC # and Date Initiated on Treatment</center>
+                    <center>- Any additional notes/comments be filled in the ‘Notes/Comments’ section</center>
                 </div>
                 <div class="panel-body">
                     {{ Form::open(['url' => '/hei/followup', 'method' => 'post', 'class'=>'form-horizontal']) }}
