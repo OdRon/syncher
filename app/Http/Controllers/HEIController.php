@@ -118,6 +118,7 @@ class HEIController extends Controller
     		}
     		$patient->save();
     	}
+        dd($patient);
     	return true;
     }
 // 191836
@@ -260,7 +261,7 @@ class HEIController extends Controller
             $model = $model->where('sample_complete_view.hei_validation', '=', 0)
                     ->orWhereNull('sample_complete_view.hei_validation');
         }
-        // dd($model->get());
+        dd($model->toSql());
         return $model->get();
     }
 }
