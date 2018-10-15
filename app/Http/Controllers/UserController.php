@@ -146,7 +146,7 @@ class UserController extends Controller
             $user->username = $request->username;
             $user->user_type_id = $request->user_type;
             $user->lab_id = 0;
-            $user->password = bcrypt($request->password);
+            $user->password = $request->password;
             if (isset($request->partner)) {
                 $user->level = $request->level;
             } else {
