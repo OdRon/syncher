@@ -24,7 +24,30 @@ class EidController extends Controller
 
         foreach ($patients as $key => $value) {
             $patient = Patient::existing($value->facility_id, $value->patient)->get()->first();
-            if(!$patient) continue;
+            // if(!$patient) continue;
+            if(!$patient){
+                $mother = new Mother;
+                $mother_data = get_object_vars($value->mother);
+                $mother->fill($mother_data);
+                $mother->original_mother_id = $mother->id;
+                unset($mother->id);
+                unset($mother->national_mother_id);
+                $mother->save();
+                $mothers_array[] = $mother->toArray();
+
+                unset($value->mother);
+                $patient = new Patient;
+                $patient->fill(get_object_vars($value));
+                $patient->mother_id = $mother->id;
+                $patient->original_patient_id = $patient->id;
+                unset($patient->id);
+                unset($patient->national_patient_id);
+                $patient->save();
+                $patients_array[] = $patient->toArray();
+
+                continue;
+            }
+            
             $patient->original_patient_id = $value->id;
             $patient->save();
             $patients_array[] = $patient->toArray();

@@ -24,9 +24,19 @@ class VlController extends Controller
 
         foreach ($patients as $key => $value) {
             $patient = Viralpatient::existing($value->facility_id, $value->patient)->get()->first();
-            if(!$patient) continue;
-            $patient->original_patient_id = $value->id;
-            $patient->save();
+            // if(!$patient) continue;
+            if(!$patient){
+                $patient = new Viralpatient;
+                $patient->fill(get_object_vars($value));
+                $patient->original_patient_id = $patient->id;
+                unset($patient->id);
+                unset($patient->national_patient_id);
+                $patient->save();
+            }
+            else{
+                $patient->original_patient_id = $value->id;
+                $patient->save();                
+            }
             $patients_array[] = $patient->toArray();
             // $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
         }
