@@ -98,6 +98,7 @@ class HEIController extends Controller
 
     public function saveHeis($data)
     {
+        dd($data);
         foreach ($data as $key => $value) {
     		$value = (object)$value;
     		$patient = Patient::where('id', '=', $value->id)->first();
