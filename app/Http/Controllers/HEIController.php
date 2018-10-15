@@ -53,7 +53,7 @@ class HEIController extends Controller
     		$columns = [ 'id', 'patient', 'hei_validation', 'enrollment_status', 'dateinitiatedontreatment', 'enrollment_ccc_no', 'facility_id', 'other_reason'];
     		$sampleCount = (int)$request->DataTables_Table_0_length ?? null;
             $actualCount = 0;
-            dd($sampleCount);
+            // dd($sampleCount);
     		if (isset($sampleCount) || $sampleCount > 0) {
     			for ($i=$sampleCount; $i > 0 ; $i--) { 
     				foreach ($columns as $key => $value) {
@@ -99,7 +99,7 @@ class HEIController extends Controller
 
     public function saveHeis($data)
     {
-        dd($data);
+        // dd($data);
         foreach ($data as $key => $value) {
     		$value = (object)$value;
     		$patient = Patient::where('id', '=', $value->id)->first();
@@ -120,7 +120,7 @@ class HEIController extends Controller
     		}
     		$patient->save();
     	}
-        dd($patient);
+        // dd($patient);
     	return true;
     }
 // 191836
