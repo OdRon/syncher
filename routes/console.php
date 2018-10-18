@@ -38,6 +38,11 @@ Artisan::command('report:suppression-county {contact_id?}', function ($contact_i
 })->describe('Send suppression follow up report for counties.');
 
 
+Artisan::command('ages {type}', function ($type) {
+    $str = \App\Common::set_age($type);
+})->describe('Set age for samples that have a dob but no age.');
+
+
 Artisan::command('copy:test {limit}', function () {
 	ini_set("memory_limit", "-1");
 	$limit = $this->argument('limit');

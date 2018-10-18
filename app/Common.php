@@ -245,4 +245,42 @@ class Common
 		return "Batches of {$type} have been marked as input complete";
 	}
 
+	public static function set_age($type)
+	{
+		ini_set('memory_limit', -1);
+		if($type == 'eid'){
+			$view_model = \App\SampleView::class;
+			$sample_model = \App\Sample::class;
+			$dob_function = 'calculate_age';
+		}else{
+			$view_model = \App\ViralsampleView::class;
+			$sample_model = \App\Viralsample::class;
+			$dob_function = 'calculate_viralage';
+		}
+		$samples = $view_model::whereNotNull('dob')->where(['age' => 0])->get();
+
+		foreach ($samples as $key => $sample) {
+			$age = \App\Lookup::$dob_function($sample->datecollected, $sample->dob);
+			$update_array = ['age' => $age];
+			if($type == 'vl'){
+				$age_category = self::set_age_cat($age);
+				$update_array = array_merge($update_array, ['age_category' => $age_category]);
+			}
+			$sample_model::where(['id' => $sample->id])->update($age_category);
+		}
+	}
+
+    public static function set_age_cat($age = null)
+    {
+        if($age > 0.00001 && $age < 2) return 6; 
+        else if($age >= 2 && $age < 10) return 7; 
+        else if($age >= 10 && $age < 15) return 8; 
+        else if($age >= 15 && $age < 20) return 9; 
+        else if($age >= 19 && $age < 25) return 10;
+        else if($age >= 25) return 11;
+        else{ return 0; }
+    }
+
+
+
 }
