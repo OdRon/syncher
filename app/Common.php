@@ -266,7 +266,7 @@ class Common
 				$age_category = self::set_age_cat($age);
 				$update_array = array_merge($update_array, ['age_category' => $age_category]);
 			}
-			$sample_model::where(['id' => $sample->id])->update($age_category);
+			$sample_model::where(['id' => $sample->id])->update($update_array);
 		}
 	}
 
