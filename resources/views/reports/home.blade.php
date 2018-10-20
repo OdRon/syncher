@@ -345,6 +345,7 @@
                                 <label><input type="radio" name="indicatortype" value="14" class="i-checks">EID Sample Referral Network</label>
                                 <label><input type="radio" name="indicatortype" value="15" class="i-checks">VL Sample Referral Network</label>
                                 <label><input type="radio" name="indicatortype" value="13" class="i-checks">Quarterly VL Report (only for labs)</label>
+                                <label><input type="radio" name="indicatortype" value="16" class="i-checks">VL Outcomes by Platform</label>
                             @endif
                             </div>
                         </div>

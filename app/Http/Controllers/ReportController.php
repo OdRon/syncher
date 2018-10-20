@@ -348,7 +348,7 @@ class ReportController extends Controller
             }
     	} else if ($request->testtype == 'EID') {
             $table = 'sample_complete_view';
-            $selectStr = "$table.id, $table.patient, $table.original_batch_id, IF(site_entry=2, 'POC Site', labs.labdesc) as labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, IF(pcrtype=4, ccc_no, null) as ccc_no, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
+            $selectStr = "$table.id, $table.patient, $table.original_batch_id, IF(site_entry=2, 'POC Site', labs.labdesc) as labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, IF($table.pcrtype=4, $table.ccc_no, null) as ccc_no, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
 
             if ($request->indicatortype == 1 || $request->indicatortype == 6) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Enrollment CCC No', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Lab Comment', 'Reason for Repeat', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result', 'Mother Age', 'Mother CCC No', 'Mother Last VL'];
@@ -567,6 +567,8 @@ class ReportController extends Controller
                 $title = "VL SAMPLES referral network ";
                 $model = ViralsampleView::selectRaw(" distinct view_facilitys.facilitycode as facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner, view_facilitys.subcounty, count(*) as totalSamples")
                         ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")->groupBy(['facility', 'facilitycode', 'county', 'partner', 'subcounty'])->where("$table.facility_id", '<>', 7148)->orderBy('totalSamples', 'desc');
+            } else if ($request->indicatortype == 16) {
+                // $model = ;
             }
 
         } else {
