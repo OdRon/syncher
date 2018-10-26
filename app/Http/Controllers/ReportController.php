@@ -265,30 +265,39 @@ class ReportController extends Controller
         }
         $newdataArray[] = ['Month', 'Outcomes', '', '', 'Total'];
         $newdataArray[] = ['', '0 to 40', '41 to 999', 'Above 1000'];
+        $below40total = 0;
+        $below999total = 0;
+        $above1000total = 0;
+        $last = 0;
         foreach ($months as $key => $value) {
             $current = 0;
+            $last = $key;
             $data[$key]['month'] = date("F", mktime(null, null, null, $value));
             foreach ($below40 as $below40key => $below40value) {
                 if ($value == $below40value->month) {
                     $data[$key]['below40'] = $below40value->samples;
                     $current += $below40value->samples;
+                    $below40total += $below40value->samples;
                 }
             }
             foreach ($below999 as $below999key => $below999value) {
                 if ($value == $below999value->month) {
                     $data[$key]['below999'] = $below999value->samples;
                     $current += $below999value->samples;
+                    $below999total += $below999value->samples;
                 }
             }
             foreach ($above1000 as $above1000key => $above1000value) {
                 if ($value == $above1000value->month) {
                     $data[$key]['above1000'] = $above1000value->samples;
                     $current += $above1000value->samples;
+                    $above1000total += $above1000value->samples;
                 }
             }
-            $data[$key]['total'] = $current;
+            $data[$key]['rowtotal'] = $current;
         }
-        // $newdataArray[] = $columntitles;
+        $data[$last+1] = ['month' => 'Total', 'below40total' => $below40total, 'below999total' => $below999total, 'above1000total' => $above1000total, 'alltotal' => ($below40total + $below999total + $above1000total)];
+        
         foreach ($data as $report) {
             $newdataArray[] = $report;
         }
