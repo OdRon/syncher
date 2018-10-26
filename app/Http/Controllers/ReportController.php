@@ -260,14 +260,16 @@ class ReportController extends Controller
         $below40 = $this->__getTestOutComesData($request,1);
         $below999 = $this->__getTestOutComesData($request,2);
         $above1000 = $this->__getTestOutComesData($request,3);
+        $dbs = $this->__getTestOutComesData($request);
         foreach ($below40 as $key => $value) {
             $months[] = $value->month;
         }
-        $newdataArray[] = ['Month', 'Outcomes', '', '', 'Total'];
-        $newdataArray[] = ['', '0 to 40', '41 to 999', 'Above 1000'];
+        $newdataArray[] = ['Month', 'Outcomes', '', '', 'Total', 'DBS Samples'];
+        $newdataArray[] = ['', '0 to 40', '41 to 999', 'Above 1000', ];
         $below40total = 0;
         $below999total = 0;
         $above1000total = 0;
+        $dbstotal = 0;
         $last = 0;
         foreach ($months as $key => $value) {
             $current = 0;
@@ -294,9 +296,15 @@ class ReportController extends Controller
                     $above1000total += $above1000value->samples;
                 }
             }
+            foreach ($dbs as $dbskey => $dbsvalue) {
+                if ($value == $dbsvalue->month) {
+                    $data[$key]['dbs'] = $dbsvalue->samples;
+                    $dbstotal += $dbsvalue->samples;
+                }
+            }
             $data[$key]['rowtotal'] = $current;
         }
-        $data[$last+1] = ['month' => 'Total', 'below40total' => $below40total, 'below999total' => $below999total, 'above1000total' => $above1000total, 'alltotal' => ($below40total + $below999total + $above1000total)];
+        $data[$last+1] = ['month' => 'Total', 'below40total' => $below40total, 'below999total' => $below999total, 'above1000total' => $above1000total, 'alltotal' => ($below40total + $below999total + $above1000total), 'dbstotal' => $dbstotal];
         
         foreach ($data as $report) {
             $newdataArray[] = $report;
@@ -315,16 +323,17 @@ class ReportController extends Controller
                 $sheet->mergeCells('A1:A2');
                 $sheet->mergeCells('B1:D1');
                 $sheet->mergeCells('E1:E2');
+                $sheet->mergeCells('F1:F2');
                 $sheet->fromArray($newdataArray, null, 'A1', false, false);
             });
              
         })->download('xlsx');
     }
 
-    public function __getTestOutComesData($request, $type) {
+    public function __getTestOutComesData($request, $type = null) {
         ini_set("memory_limit", "-1");
         $model = ViralsampleView::selectRaw("COUNT(*) as samples, MONTHNAME(datetested) as `monthname`, MONTH(datetested) as `month`")
-                            ->WhereYear('datetested', $request->year)->where('lab_id', $request->lab)
+                            ->WhereYear('datetested', $request->year)->where('lab_id', $request->lab)->where('repeatt', '=', 0)
                             ->groupBy('month')->groupBy('monthname')->orderBy('month','asc');
         if ($type == 1) {
             $model = $model->whereRaw("(rcategory = 1 OR result BETWEEN '0' AND '40')");
@@ -332,6 +341,8 @@ class ReportController extends Controller
             $model = $model->whereBetween('result', ['41', '999']);
         } else if ($type == 3) {
             $model = $model->whereIn('rcategory', [3,4]);
+        } else if ($type == null) {
+            $model = $model->whereIn('sampletype', [3,4])->whereNotNull('reseult');
         }
 
         return $model->get();
