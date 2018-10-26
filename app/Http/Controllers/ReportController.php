@@ -342,7 +342,7 @@ class ReportController extends Controller
         } else if ($type == 3) {
             $model = $model->whereIn('rcategory', [3,4]);
         } else if ($type == null) {
-            $model = $model->whereIn('sampletype', [3,4])->whereNotNull('reseult');
+            $model = $model->whereIn('sampletype', [3,4])->whereNotNull('result');
         }
 
         return $model->get();
