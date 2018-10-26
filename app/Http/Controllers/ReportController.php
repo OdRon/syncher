@@ -261,6 +261,7 @@ class ReportController extends Controller
         $below999 = $this->__getTestOutComesData($request,2);
         $above1000 = $this->__getTestOutComesData($request,3);
         $dbs = $this->__getTestOutComesData($request);
+        // dd($dbs);
         foreach ($below40 as $key => $value) {
             $months[] = $value->month;
         }
@@ -296,13 +297,16 @@ class ReportController extends Controller
                     $above1000total += $above1000value->samples;
                 }
             }
+            $data[$key]['rowtotal'] = $current;
+        }
+
+        foreach ($months as $key => $value) {
             foreach ($dbs as $dbskey => $dbsvalue) {
                 if ($value == $dbsvalue->month) {
                     $data[$key]['dbs'] = $dbsvalue->samples;
                     $dbstotal += $dbsvalue->samples;
                 }
             }
-            $data[$key]['rowtotal'] = $current;
         }
         $data[$last+1] = ['month' => 'Total', 'below40total' => $below40total, 'below999total' => $below999total, 'above1000total' => $above1000total, 'alltotal' => ($below40total + $below999total + $above1000total), 'dbstotal' => $dbstotal];
         
