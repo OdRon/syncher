@@ -237,11 +237,95 @@ class ReportController extends Controller
         $title = "";
         $briefTitle = "";
         $excelColumns = [];
+
+        if ($request->indicatortype == 17) {
+            if ($request->category == 'lab' || $request->period == 'annually') {
+                $this->__getTestOutComes($request,$dateString, $excelColumns, $title, $briefTitle);
+                return back();
+            } else {
+                session(['toast_message' => 'This report is only for lab and annually', 'toast_error' => 1]);
+                return back();
+            }
+        }
         
         $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
         $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         
         return back();
+    }
+
+    public function __getTestOutComes($request, &$dateString, &$excelColumns, &$title, &$briefTitle) {
+        $months = [];
+        $lab = Lab::find($request->lab);
+        $below40 = $this->__getTestOutComesData($request,1);
+        $below999 = $this->__getTestOutComesData($request,2);
+        $above1000 = $this->__getTestOutComesData($request,3);
+        foreach ($below40 as $key => $value) {
+            $months[] = $value->month;
+        }
+        $newdataArray[] = ['Month', 'Outcomes', '', '', 'Total'];
+        $newdataArray[] = ['', '0 to 40', '41 to 999', 'Above 1000'];
+        foreach ($months as $key => $value) {
+            $current = 0;
+            $data[$key]['month'] = date("F", mktime(null, null, null, $value));
+            foreach ($below40 as $below40key => $below40value) {
+                if ($value == $below40value->month) {
+                    $data[$key]['below40'] = $below40value->samples;
+                    $current += $below40value->samples;
+                }
+            }
+            foreach ($below999 as $below999key => $below999value) {
+                if ($value == $below999value->month) {
+                    $data[$key]['below999'] = $below999value->samples;
+                    $current += $below999value->samples;
+                }
+            }
+            foreach ($above1000 as $above1000key => $above1000value) {
+                if ($value == $above1000value->month) {
+                    $data[$key]['above1000'] = $above1000value->samples;
+                    $current += $above1000value->samples;
+                }
+            }
+            $data[$key]['total'] = $current;
+        }
+        // $newdataArray[] = $columntitles;
+        foreach ($data as $report) {
+            $newdataArray[] = $report;
+        }
+        // dd($newdataArray);
+        $title = "$lab->name Test Outcomes $request->year";
+        $string = (strlen($lab->name) > 31) ? substr($lab->name,0,28).'...' : $lab->name;
+        $sheetTitle = "$string";
+        //Export Data
+        Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
+            $excel->setTitle($title);
+            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+            $excel->setDescription($title);
+            
+            $excel->sheet($sheetTitle, function($sheet) use ($newdataArray) {
+                $sheet->mergeCells('A1:A2');
+                $sheet->mergeCells('B1:D1');
+                $sheet->mergeCells('E1:E2');
+                $sheet->fromArray($newdataArray, null, 'A1', false, false);
+            });
+             
+        })->download('xlsx');
+    }
+
+    public function __getTestOutComesData($request, $type) {
+        ini_set("memory_limit", "-1");
+        $model = ViralsampleView::selectRaw("COUNT(*) as samples, MONTHNAME(datetested) as `monthname`, MONTH(datetested) as `month`")
+                            ->WhereYear('datetested', $request->year)->where('lab_id', $request->lab)
+                            ->groupBy('month')->groupBy('monthname')->orderBy('month','asc');
+        if ($type == 1) {
+            $model = $model->whereRaw("(rcategory = 1 OR result BETWEEN '0' AND '40')");
+        } else if ($type == 2) {
+            $model = $model->whereBetween('result', ['41', '999']);
+        } else if ($type == 3) {
+            $model = $model->whereIn('rcategory', [3,4]);
+        }
+
+        return $model->get();
     }
 
     public function __getDateData($request, &$dateString, &$excelColumns, &$title, &$briefTitle)

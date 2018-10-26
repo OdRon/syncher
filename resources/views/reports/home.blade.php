@@ -182,7 +182,7 @@
                                 @endif
                                 <label> <input type="radio" name="period" value="monthly"> Monthly </label>
                                 <label> <input type="radio" name="period" value="quarterly"> Quarterly </label>
-                                @if($testtype == 'EID' || Auth::user()->user_type_id == 9)
+                                @if($testtype == 'EID' || Auth::user()->user_type_id == 9 || Auth::user()->user_type_id == 10)
                                 @if($testtype == 'EID' || Auth::user()->user_type_id != 7)
                                 <label> <input type="radio" name="period" value="annually"> Annually </label>
                                 @endif
@@ -278,7 +278,7 @@
                                         </tbody>
                                     </table>    
                                 </div>
-                                @if($testtype == 'EID' || Auth::user()->user_type_id == 9)
+                                @if($testtype == 'EID' || Auth::user()->user_type_id == 9 || Auth::user()->user_type_id == 10)
                                 <div class="col-md-12" id="yearSelection">
                                     <table cellpadding="1" cellspacing="1" class="table table-condensed">
                                         <tbody>
@@ -339,6 +339,9 @@
                                     <label><input type="radio" name="indicatortype" value="9" class="i-checks">Dormant Sites ( Not Sent Samples)</label>
                                     <label><input type="radio" name="indicatortype" value="10" class="i-checks">Sites Doing Remote Data Entry of Samples</label>
                                 @endif
+                                @if(Auth::user()->user_type_id == 10)
+                                    <label><input type="radio" name="indicatortype" value="17" class="i-checks">Test Outcomes</label>
+                                @endif
                             @elseif($testtype == 'support')
                                 <label><input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report</label>
                                 <label><input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report</label>
@@ -347,6 +350,7 @@
                                 <label><input type="radio" name="indicatortype" value="13" class="i-checks">Quarterly VL Report (only for labs)</label>
                                 <label><input type="radio" name="indicatortype" value="16" class="i-checks">VL Outcomes by Platform</label>
                             @endif
+                            <!-- Highest value 17 -->
                             </div>
                         </div>
 
