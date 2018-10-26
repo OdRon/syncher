@@ -293,8 +293,8 @@ class ReportController extends Controller
             $newdataArray[] = $report;
         }
         // dd($newdataArray);
-        $title = "$lab->name Test Outcomes $request->year";
-        $string = (strlen($lab->name) > 31) ? substr($lab->name,0,28).'...' : $lab->name;
+        $title = "$lab->labname Test Outcomes $request->year";
+        $string = (strlen($lab->labname) > 31) ? substr($lab->labname,0,28).'...' : $lab->labname;
         $sheetTitle = "$string";
         //Export Data
         Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
