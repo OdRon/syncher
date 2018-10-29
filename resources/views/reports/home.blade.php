@@ -342,15 +342,30 @@
                                 @if(Auth::user()->user_type_id == 10)
                                     <label><input type="radio" name="indicatortype" value="17" class="i-checks">Test Outcomes</label>
                                 @endif
-                            @elseif($testtype == 'support')
+                            @elseif($testtype == 'support' || Auth::user()->user_type_id == 10)
                                 <label><input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report</label>
                                 <label><input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report</label>
                                 <label><input type="radio" name="indicatortype" value="14" class="i-checks">EID Sample Referral Network</label>
                                 <label><input type="radio" name="indicatortype" value="15" class="i-checks">VL Sample Referral Network</label>
                                 <label><input type="radio" name="indicatortype" value="13" class="i-checks">Quarterly VL Report (only for labs)</label>
                                 <label><input type="radio" name="indicatortype" value="16" class="i-checks">VL Outcomes by Platform</label>
+                                <label><input type="radio" name="indicatortype" value="18" class="i-checks">Low Level Viremia</label>
                             @endif
-                            <!-- Highest value 17 -->
+                            <br />
+                            @if(Auth::user()->user_type_id == 10)
+                                <hr>
+                                <h4>Maryland Support Reports</h4>
+                                <hr>
+                                <br>
+                                <label><input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="14" class="i-checks">EID Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="15" class="i-checks">VL Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="13" class="i-checks">Quarterly VL Report (only for labs)</label>
+                                <label><input type="radio" name="indicatortype" value="16" class="i-checks">VL Outcomes by Platform</label>
+                                <label><input type="radio" name="indicatortype" value="18" class="i-checks">Low Level Viremia</label>
+                            @endif
+                            <!-- Highest value 18 -->
                             </div>
                         </div>
 
