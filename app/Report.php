@@ -3,6 +3,7 @@
 namespace App;
 
 use DB;
+use Exception;
 
 use Illuminate\Support\Facades\Mail;
 
@@ -41,8 +42,12 @@ class Report
 	        	if(str_contains($column_name, 'bcc') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $bcc_array[] = trim($value);
 	        }
 
-	        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
-	        DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
+	        try {
+		        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
+		        DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
+	        } catch (Exception $e) {
+	        	
+	        }
 	     	// Mail::to($mail_array)->send(new EidPartnerPositives($contact->id));
 		}
 	}
@@ -63,9 +68,12 @@ class Report
 	        foreach ($contact as $column_name => $value) {
 	        	if(str_contains($column_name, 'email') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $mail_array[] = trim($value);
 	        }
-	        
-	        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
-	     	Mail::to($mail_array)->bcc($bcc_array)->send(new EidCountyPositives($contact->id));
+	        try {
+		        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
+		     	Mail::to($mail_array)->bcc($bcc_array)->send(new EidCountyPositives($contact->id));
+	        } catch (Exception $e) {
+	        	
+	        }
 		}
 	}
 
@@ -110,8 +118,12 @@ class Report
 	        	if(str_contains($column_name, 'bcc') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $bcc_array[] = trim($value);
 	        }
 
-	        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
-	        DB::table('vl_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
+	        try {
+		        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
+		        DB::table('vl_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
+	        } catch (Exception $e) {
+	        	
+	        }
 	     	// Mail::to($mail_array)->send(new VlPartnerNonsuppressed($contact->id));
 		}
 	}
@@ -133,8 +145,12 @@ class Report
 	        	if(str_contains($column_name, 'email') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $mail_array[] = trim($value);
 	        }
 	        
-	        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
-	     	Mail::to($mail_array)->bcc($bcc_array)->send(new VlCountyNonsuppressed($contact->id));
+	        try {
+		        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
+		     	Mail::to($mail_array)->bcc($bcc_array)->send(new VlCountyNonsuppressed($contact->id));
+	        } catch (Exception $e) {
+	        	
+	        }
 		}
 	}
 
