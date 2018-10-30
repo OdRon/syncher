@@ -406,7 +406,7 @@ class ReportController extends Controller
             $facility = ViewFacility::find($request->facility);
             $title = "$facility->name";
         }
-        dd($title);
+        
         $string = (strlen($title) > 31) ? substr($title,0,28).'...' : $title;
         $sheetTitle = "$string";
         //Export Data
