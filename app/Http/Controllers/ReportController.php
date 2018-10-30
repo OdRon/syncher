@@ -389,6 +389,7 @@ class ReportController extends Controller
             $newdataArray[] = $report;
         }
 
+        $title = "National outcomes";
         if ($request->category == 'lab') {
             $lab = Lab::find($request->lab);
             $title = "$lab->labname";
