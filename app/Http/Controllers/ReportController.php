@@ -406,7 +406,17 @@ class ReportController extends Controller
             $facility = ViewFacility::find($request->facility);
             $title = "$facility->name";
         }
-        
+
+        if($request->period == "range") {
+            $title .= " BETWEEN ".$request->fromDate." and ".$request->toDate;
+        } else if ($request->period == "monthly") {
+            $title .= " for ".$request->year." - ".$request->month;
+        } else if ($request->period == "quarterly") {
+            $title .= " for ".$request->year." - ".$request->quarter;
+        } elseif ($request->period == "annually") {
+            $title .= " for ".$request->year;
+        }
+        $title = strtoupper($title);
         $string = (strlen($title) > 31) ? substr($title,0,28).'...' : $title;
         $sheetTitle = "$string";
         //Export Data
@@ -429,7 +439,7 @@ class ReportController extends Controller
                             ->where('repeatt', '=', 0)->whereNotNull('result')
                             ->when($request, function($query) use ($request){
                                 if($request->period == "range") {
-                                    $query = $query->whereBetween('datetested', ['fromDate', 'toDate']);
+                                    $query = $query->whereBetween('datetested', [gmdate('Y-m-d', strtotime($request->fromDate)), gmdate('Y-m-d', strtotime($request->toDate))]);
                                 } else if ($request->period == "monthly") {
                                     $query = $query->whereYear('datetested', $request->year)->whereMonth('datetested', $request->month);
                                 } else if ($request->period == "quarterly") {
