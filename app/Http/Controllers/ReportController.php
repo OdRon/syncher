@@ -386,7 +386,7 @@ class ReportController extends Controller
                 ];
         $newdataArray[] = ['Result Ranges', 'DBS', 'Plasma'];
         foreach ($data as $report) {
-            $newdataArray[] = $value;
+            $newdataArray[] = $report;
         }
 
         if ($request->category == 'lab') {
