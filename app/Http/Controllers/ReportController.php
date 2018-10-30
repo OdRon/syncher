@@ -402,9 +402,10 @@ class ReportController extends Controller
             $subcounty = DB::table('districts')->find($request->district);
             $title = "$subcounty->name";
         } else if ($request->category == 'facility') {
-            $query = $query->where('facility_id', '=', $request->facility);
+            $facility = ViewFacility::find($request->facility);
+            $title = "$facility->name";
         }
-        
+        dd($title);
         $string = (strlen($title) > 31) ? substr($title,0,28).'...' : $title;
         $sheetTitle = "$string";
         //Export Data
