@@ -38,6 +38,14 @@ Artisan::command('report:suppression-county {contact_id?}', function ($contact_i
 })->describe('Send suppression follow up report for counties.');
 
 
+Artisan::command('delete-pdfs', function(){
+    $str = \App\Report::delete_folder(storage_path('app/hei'));
+    $str = \App\Report::delete_folder(storage_path('app/suppression'));
+    $this->info($str);
+})->describe('Delete pdfs from hard drive.');
+
+
+
 Artisan::command('ages {type}', function ($type) {
     $str = \App\Common::set_age($type);
 })->describe('Set age for samples that have a dob but no age.');

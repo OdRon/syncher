@@ -107,6 +107,8 @@ class VlPartnerNonsuppressed extends Mailable
                     </div>";
                     
 
+        if(!is_dir(storage_path('app/suppression/partner'))) mkdir(storage_path('app/suppression/partner'), 0777, true);
+
         $path = storage_path('app/suppression/partner/' . $contact->id .   '.pdf');
         $this->path = $path;
         if(file_exists($path)) unlink($path);
