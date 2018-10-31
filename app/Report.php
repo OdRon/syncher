@@ -18,6 +18,8 @@ use App\Mail\PasswordEmail;
 class Report
 {
 
+	public static $email_array = ['joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com'];
+
 
     public static function test_email()
     {
@@ -42,13 +44,19 @@ class Report
 	        	if(str_contains($column_name, 'bcc') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $bcc_array[] = trim($value);
 	        }
 
-	        try {
-		        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
-		        DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
-	        } catch (Exception $e) {
-	        	
-	        }
-	     	// Mail::to($mail_array)->send(new EidPartnerPositives($contact->id));
+
+	        if(env('APP_ENV') == 'production'){
+		        try {
+			        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
+			        DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
+		        } catch (Exception $e) {
+		        	
+		        }
+		    }
+		    else{
+		    	Mail::to(self::$email_array)->send(new EidPartnerPositives($contact->id));
+		    }
+
 		}
 	}
 
@@ -58,7 +66,6 @@ class Report
             ->when($county_id, function($query) use ($county_id){
                 return $query->where('partner', $county_id);
             })->where(['flag' => 1, 'account' => 7])->where('id', '>', 384)->get();
-        $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($county_contacts as $key => $contact) {
 
@@ -68,12 +75,18 @@ class Report
 	        foreach ($contact as $column_name => $value) {
 	        	if(str_contains($column_name, 'email') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $mail_array[] = trim($value);
 	        }
-	        try {
-		        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
-		     	Mail::to($mail_array)->bcc($bcc_array)->send(new EidCountyPositives($contact->id));
-	        } catch (Exception $e) {
-	        	
-	        }
+
+	        if(env('APP_ENV') == 'production'){
+		        try {
+			        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
+			     	Mail::to($mail_array)->bcc($bcc_array)->send(new EidCountyPositives($contact->id));
+		        } catch (Exception $e) {
+		        	
+		        }
+		    }
+		    else{
+		    	Mail::to(self::$email_array)->send(new EidCountyPositives($contact->id));
+		    }
 		}
 	}
 
@@ -117,14 +130,17 @@ class Report
 	        	if(str_contains($column_name, 'ccc') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $cc_array[] = trim($value);
 	        	if(str_contains($column_name, 'bcc') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $bcc_array[] = trim($value);
 	        }
-
-	        try {
-		        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
-		        DB::table('vl_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
-	        } catch (Exception $e) {
-	        	
-	        }
-	     	// Mail::to($mail_array)->send(new VlPartnerNonsuppressed($contact->id));
+	        if(env('APP_ENV') == 'production'){
+		        try {
+			        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
+			        DB::table('vl_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
+		        } catch (Exception $e) {
+		        	
+		        }
+		    }
+		    else{
+		    	Mail::to(self::$email_array)->send(new VlPartnerNonsuppressed($contact->id));
+		    }
 		}
 	}
 
@@ -144,14 +160,50 @@ class Report
 	        foreach ($contact as $column_name => $value) {
 	        	if(str_contains($column_name, 'email') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $mail_array[] = trim($value);
 	        }
-	        
-	        try {
-		        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
-		     	Mail::to($mail_array)->bcc($bcc_array)->send(new VlCountyNonsuppressed($contact->id));
-	        } catch (Exception $e) {
-	        	
-	        }
+	        if(env('APP_ENV') == 'production'){
+		        try {
+			        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
+			     	Mail::to($mail_array)->bcc($bcc_array)->send(new VlCountyNonsuppressed($contact->id));
+		        } catch (Exception $e) {
+		        	
+		        }
+		    }
+		    else{
+		    	Mail::to(self::$email_array)->send(new VlCountyNonsuppressed($contact->id));
+		    }
 		}
+	}
+
+    public static function delete_folder($path)
+    {
+        if(!ends_with($path, '/')) $path .= '/';
+        $files = scandir($path);
+        if(!$files) rmdir($path);
+        else{
+            foreach ($files as $file) {
+            	if($file == '.' || $file == '..') continue;
+            	$a=true;
+                if(is_dir($path . $file)) self::delete_folder($path . $file);
+                else{
+                	unlink($path . $file);
+                }              
+            }
+            rmdir($path);
+        }
+    }
+
+
+	public static function test()
+	{
+        $totals = \App\SampleAlertView::selectRaw("facility_id, enrollment_status, facilitycode, facility, county, subcounty, partner, count(distinct patient_id) as total")
+            ->whereIn('pcrtype', [1, 2, 3])
+            ->where(['result' => 2, 'repeatt' => 0, 'county_id' => 1])
+            ->whereYear('datetested', date('Y'))
+            ->groupBy('facility_id', 'enrollment_status')
+            ->orderBy('facility_id')
+            ->get();
+
+        return $totals;
 	}
 
 

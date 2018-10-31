@@ -46,7 +46,7 @@ class EidCountyPositives extends Mailable
             ->where(['result' => 2, 'repeatt' => 0, 'county_id' => $contact->partner])
             ->get()->pluck('facility_id')->toArray();
 
-        $totals = SampleAlertView::selectRaw("facility_id, enrollment_status, facilitycode, facility, county, subcounty, partner, count(id) as total")
+        $totals = SampleAlertView::selectRaw("facility_id, enrollment_status, facilitycode, facility, county, subcounty, partner, count(distinct patient_id) as total")
             ->whereIn('pcrtype', [1, 2, 3])
             ->where(['result' => 2, 'repeatt' => 0, 'county_id' => $contact->partner])
             ->whereYear('datetested', date('Y'))
@@ -95,6 +95,8 @@ class EidCountyPositives extends Mailable
         else{
             $this->title = date('Y') .  ' HEI FOR FOLLOW UP & ONLINE DOCUMENTATION FOR ' . strtoupper($this->name) . ' COUNTY SITES ';             
         }
+
+        if(!is_dir(storage_path('app/hei/county'))) mkdir(storage_path('app/hei/county'), 0777, true);
 
         $path = storage_path('app/hei/county/' . $contact->id .   '.pdf');
         $this->path = $path;

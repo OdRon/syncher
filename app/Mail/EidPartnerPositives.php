@@ -53,7 +53,7 @@ class EidPartnerPositives extends Mailable
             })
             ->get()->pluck('facility_id')->toArray();
 
-        $totals = SampleAlertView::selectRaw("facility_id, enrollment_status, facilitycode, facility, county, subcounty, partner, count(id) as total")
+        $totals = SampleAlertView::selectRaw("facility_id, enrollment_status, facilitycode, facility, county, subcounty, partner, count(distinct patient_id) as total")
             ->whereIn('pcrtype', [1, 2, 3])
             ->where(['result' => 2, 'repeatt' => 0, 'partner_id' => $contact->partner])
             ->when(($contact->split == 1), function($query) use ($contact){
@@ -102,6 +102,8 @@ class EidPartnerPositives extends Mailable
         
         $addendum = '';
         if($contact->split == 1) $addendum = " IN " . strtoupper($county) . " COUNTY";
+
+        if(!is_dir(storage_path('app/hei/partner'))) mkdir(storage_path('app/hei/partner'), 0777, true);
 
         $path = storage_path('app/hei/partner/' . $contact->id .   '.pdf');
         $this->path = $path;

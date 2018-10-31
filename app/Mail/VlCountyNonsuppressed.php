@@ -100,6 +100,8 @@ class VlCountyNonsuppressed extends Mailable
                     </div>";
                     
 
+        if(!is_dir(storage_path('app/suppression/county'))) mkdir(storage_path('app/suppression/county'), 0777, true);
+
         $path = storage_path('app/suppression/county/' . $contact->id .   '.pdf');
         $this->path = $path;
         if(file_exists($path)) unlink($path);
