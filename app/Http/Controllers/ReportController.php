@@ -344,9 +344,9 @@ class ReportController extends Controller
                             ->WhereYear('datetested', $request->year)->where('lab_id', $request->lab)->where('repeatt', '=', 0)
                             ->groupBy('month')->groupBy('monthname')->orderBy('month','asc');
         if ($type == 1) {
-            $model = $model->whereRaw("(rcategory = 1 OR result BETWEEN '0' AND '40')");
+            $model = $model->whereRaw("(rcategory = 1 OR result BETWEEN 0 AND 40)");
         } else if ($type == 2) {
-            $model = $model->whereBetween('result', ['41', '999']);
+            $model = $model->whereBetween('result', [41, 999]);
         } else if ($type == 3) {
             $model = $model->whereIn('rcategory', [3,4]);
         } else if ($type == null) {
@@ -473,17 +473,17 @@ class ReportController extends Controller
         }
 
         if ($result == 1) { // Result 0-200
-            $model = $model->whereBetween('result', ['0', '200']);
+            $model = $model->whereBetween('result', [0, 200]);
         } else if ($result == 2) { // Result 201-400
-            $model = $model->whereBetween('result', ['201', '400']);
+            $model = $model->whereBetween('result', [201, 400]);
         } else if ($result == 3) { // Result 401-500
-            $model = $model->whereBetween('result', ['401', '500']);
+            $model = $model->whereBetween('result', [401, 500]);
         } else if ($result == 4) { // Result 501-600
-            $model = $model->whereBetween('result', ['501', '600']);
+            $model = $model->whereBetween('result', [501, 600]);
         } else if ($result == 5) { // Result 601-800
-            $model = $model->whereBetween('result', ['601', '800']);
+            $model = $model->whereBetween('result', [601, 800]);
         } else if ($result == 6) { // Result 801-999
-            $model = $model->whereBetween('result', ['801', '999']);
+            $model = $model->whereBetween('result', [801, 999]);
         }
 
         return $model->first()->samples;
