@@ -389,7 +389,7 @@ class ReportController extends Controller
             $newdataArray[] = $report;
         }
 
-        $title = "National outcomes";
+        $title = "National";
         if ($request->category == 'lab') {
             $lab = Lab::find($request->lab);
             $title = "$lab->labname";
@@ -406,6 +406,7 @@ class ReportController extends Controller
             $facility = ViewFacility::find($request->facility);
             $title = "$facility->name";
         }
+        $title .= "  Low level Viremia data";
 
         if($request->period == "range") {
             $title .= " BETWEEN ".$request->fromDate." and ".$request->toDate;
