@@ -571,7 +571,7 @@ class ReportController extends Controller
             if ($request->indicatortype == 5) {
                 $model = $model->where("$table.receivedstatus", "=", 2);
             } else if ($request->indicatortype == 4) {
-                $model = $model->where("$table.rcategory", "=", 4);
+                $model = $model->whereIn("$table.rcategory", [3,4]);
             } else if ($request->indicatortype == 6) {
                 $model = $model->whereIn('pmtct', [1, 2]);
             } else if ($request->indicatortype == 9) {
