@@ -98,7 +98,7 @@ class EidPartnerPositives extends Mailable
             $data[$i]['transfer'] = $totals->where('facility_id', $id)->where('enrollment_status', 5)->first()->total ?? 0;
             $data[$i]['otherreasons'] = $totals->where('facility_id', $id)->where('enrollment_status', 6)->first()->total ?? 0;
 
-            $validated = $validated_samples->where('facility_id', $id)->first()->total ?? 0
+            $validated = $validated_samples->where('facility_id', $id)->first()->total ?? 0;
 
             // $data[$i]['unknown'] = $data[$i]['positives'] - ($data[$i]['treatment'] + $data[$i]['ltfu'] + $data[$i]['dead'] + $data[$i]['adult'] + $data[$i]['transfer'] + $data[$i]['otherreasons']);
             $data[$i]['unknown'] = $data[$i]['positives'] - $validated;
