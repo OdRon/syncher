@@ -113,10 +113,8 @@ class HEIController extends Controller
     				$patient->facility_id = $value->facility_id;
     				$patient->referredfromsite = $value->facility_id;
     			}
-                //else if ($value->enrollment_status == 6) {
-    			$patient->otherreason = $value->other_reason ?? null;
-    			//}
-    		}
+            }
+            $patient->otherreason = $value->other_reason ?? null;
     		$patient->save();
     	}
     	return true;
