@@ -127,6 +127,7 @@ class Misc extends Common
 		$sql .= 'ORDER BY facility_id ';
 
 		$data = DB::select($sql);
+		$data = collect($data);
 
 		$rows = [];
 
@@ -158,5 +159,7 @@ class Misc extends Common
 
 		return $data;
     }
+
+
 
 }
