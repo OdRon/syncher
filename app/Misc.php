@@ -157,7 +157,7 @@ class Misc extends Common
             });
         })->store('csv');
 
-		return $data;
+		return null;
     }
 
 
