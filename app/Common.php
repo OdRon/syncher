@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
+use App\Mail\CustomMail;
 use Carbon\Carbon;
 
 class Common
@@ -13,6 +14,11 @@ class Common
     public static function test_email()
     {
         Mail::to(['joelkith@gmail.com'])->send(new TestMail());
+    }
+
+    public static function custom_mail()
+    {
+        Mail::to(['joelkith@gmail.com'])->send(new CustomMail());
     }
 
 

@@ -28,7 +28,7 @@ class CustomMail extends Mailable
      */
     public function build()
     {
-        $this->attach(storage_path(''));
+        $this->attach(storage_path('exports/LDL.csv'));
         return $this->view('mail.test');
     }
 }
