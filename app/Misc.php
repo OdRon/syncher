@@ -4,6 +4,9 @@ namespace App;
 
 use App\Common;
 use Carbon\Carbon;
+use Excel;
+
+use App\Facility;
 
 class Misc extends Common
 {
@@ -99,5 +102,60 @@ class Misc extends Common
 		}
 		return 1;
 	}
+
+
+
+    public static function sites_suppression(){
+    	ini_set("memory_limit", "-1");
+
+    	$sql = 'SELECT facility_id as facility, rcategory, count(*) as totals ';
+		$sql .= 'FROM ';
+		$sql .= '(SELECT v.id, v.facility_id, v.rcategory ';
+		$sql .= 'FROM viralsamples_view v ';
+		$sql .= 'RIGHT JOIN ';
+		$sql .= '(SELECT id, patient_id, max(datetested) as maxdate ';
+		$sql .= 'FROM viralsamples_view ';
+		$sql .= 'WHERE year(datetested) = 2018 ';
+		$sql .= "AND patient != '' AND patient != 'null' AND patient is not null ";
+		$sql .= 'AND flag=1 AND repeatt=0 AND rcategory in (1, 2, 3, 4) ';
+		$sql .= 'AND justification != 10 AND facility_id != 7148 ';
+		$sql .= 'GROUP BY patient_id) gv ';
+		$sql .= 'ON v.id=gv.id) tb ';
+		$sql .= 'WHERE rcategory=1 ';
+		$sql .= 'GROUP BY facility_id ';
+		$sql .= 'ORDER BY facility_id ';
+
+		$data = DB::select($sql);
+
+		$rows = [];
+
+		$file = public_path('downloads/sites.csv');
+
+		$handle = fopen($file, "r");
+        while (($value = fgetcsv($handle, 1000, ",")) !== FALSE)
+        {
+        	$fac = Facility::where(['facilitycode' => $value[1]])->first();
+	        if(!$fac) continue;
+        	$val = $data->where('facility_id', $fac->id)->first()->totals ?? 0;
+
+        	$rows[] = [
+        		'Facility Name' => $value[0],
+        		'MFL Code' => $value[1],
+        		'Total No Of Patients With Vl as LDL' => $val,
+        	];
+        }
+
+        $filename = 'LDL';
+
+        if(file_exists($filename)) unlink($filename);
+
+        Excel::create($filename, function($excel) use($rows) {
+            $excel->sheet('Sheetname', function($sheet) use($rows) {
+                $sheet->fromArray($rows);
+            });
+        })->store('csv');
+
+		return $data;
+    }
 
 }
