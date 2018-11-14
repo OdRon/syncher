@@ -4,6 +4,7 @@ namespace App;
 
 use App\Common;
 use Carbon\Carbon;
+use DB;
 use Excel;
 
 use App\Facility;
