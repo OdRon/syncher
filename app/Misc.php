@@ -138,7 +138,7 @@ class Misc extends Common
         {
         	$fac = Facility::where(['facilitycode' => $value[1]])->first();
 	        if(!$fac) continue;
-        	$val = $data->where('facility_id', $fac->id)->first()->totals ?? 0;
+        	$val = $data->where('facility', $fac->id)->first()->totals ?? 0;
 
         	$rows[] = [
         		'Facility Name' => $value[0],
