@@ -232,7 +232,7 @@ class ReportController extends Controller
                 return back();
             }
         }
-        // dd($request->all());
+        
         $dateString = '';
         $title = "";
         $briefTitle = "";
@@ -862,6 +862,10 @@ class ReportController extends Controller
                     $model = $model->where('lab_id', '=', $request->lab);
                 }
                 $title .= "($lab->name)";
+            } else if ($request->category == 'partner'){
+                $model = $model->where('view_facilitys.partner_id', '=', $request->partner);
+                $partner = Partner::where('id', '=', $request->partner)->first();
+                $title .= $partner->name;
             } else if ($request->category == 'overall') {
                 if (auth()->user()->user_type_id == 3) {
                     $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->level);
