@@ -550,7 +550,7 @@ class ReportController extends Controller
                 $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT($table.id) as totaltests";
 
                 $title .= "VL SITES DIONG REMOTE SAMPLE ENTRY FOR ";
-                $briefTitle .= "vl SITES DIONG REMOTE SAMPLE ENTRY ";
+                $briefTitle .= "vl SITES DIONG REMOTE SAMPLE ENTRY for";
             }
 
             $model = ViralsampleCompleteView::selectRaw($selectStr)
@@ -608,18 +608,18 @@ class ReportController extends Controller
                             if ($request->input('age') == 7)
                                 return $query->where('age_category', '=', 11);
                 });
-                 if ($request->input('age') == 2)
-                    $briefTitle .= " for less 2 for ";
+                if ($request->input('age') == 2)
+                    $title .= " less 2 for ";
                 if ($request->input('age') == 3)
-                    $briefTitle .= " for 2 - 9 for ";
+                    $title .= " 2 - 9 for ";
                 if ($request->input('age') == 4)
-                    $briefTitle .= " for 10 - 14 for ";
+                    $title .= " 10 - 14 for ";
                 if ($request->input('age') == 5)
-                    $briefTitle .= " for 15 - 19 for ";
+                    $title .= " 15 - 19 for ";
                 if ($request->input('age') == 6)
-                    $briefTitle .= " for 20 - 24 for ";
+                    $title .= " 20 - 24 for ";
                 if ($request->input('age') == 7)
-                    $briefTitle .= " for above 25 for ";
+                    $title .= " above 25 for ";
 
             }
     	} else if ($request->testtype == 'EID') {
