@@ -592,6 +592,23 @@ class ReportController extends Controller
                                 ->groupBy('county')
                                 ->orderBy('totaltests', 'desc');
             }
+
+            if(null !== $request->input('age')){
+                $model = $model->when(true, function($query) use ($request){
+                            if ($request->input('age') == 2)
+                                return $query->where('age_category', '=', 6);
+                            if ($request->input('age') == 3)
+                                return $query->where('age_category', '=', 7);
+                            if ($request->input('age') == 4)
+                                return $query->where('age_category', '=', 8);
+                            if ($request->input('age') == 5)
+                                return $query->where('age_category', '=', 9);
+                            if ($request->input('age') == 6)
+                                return $query->where('age_category', '=', 10);
+                            if ($request->input('age') == 7)
+                                return $query->where('age_category', '=', 11);
+                });
+            }
     	} else if ($request->testtype == 'EID') {
             $table = 'sample_complete_view';
             $selectStr = "$table.id, $table.patient, $table.original_batch_id, IF(site_entry=2, 'POC Site', labs.labdesc) as labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, IF($table.pcrtype=4, $table.enrollment_ccc_no, null) as enrolment_ccc_no, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
@@ -1092,7 +1109,7 @@ class ReportController extends Controller
                 $sheet->fromArray($data, null, 'A1', false, false);
             });
              
-        })->download('xlsx');
+        })->download('csv');
     }
 
     public static function __getExcel($data, $title, $dataArray, $briefTitle)
@@ -1143,7 +1160,7 @@ class ReportController extends Controller
                     $sheet->fromArray($value, null, 'A1', false, false);
                 });
             }
-        })->download('xlsx');
+        })->download('csv');
     }
 
 

@@ -302,6 +302,22 @@
                                 @endif
                             </div>
                         </div> 
+                        @if($testtype == 'VL' && (Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 10))
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Select Age Group</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="age" name="age" style="width: 70%;">
+                                    <option value="1" selected>All ages</option>
+                                    <option value="2">Less than 2</option>
+                                    <option value="3">2-9</option>
+                                    <option value="4">10-14</option>
+                                    <option value="5">15-19</option>
+                                    <option value="6">20-24</option>
+                                    <option value="7">25+</option>
+                                </select>
+                            </div>
+                        </div>
+                        @endif
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Select Report Type</label>
                             <div class="col-sm-9">
