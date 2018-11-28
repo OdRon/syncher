@@ -609,17 +609,17 @@ class ReportController extends Controller
                                 return $query->where('age_category', '=', 11);
                 });
                 if ($request->input('age') == 2)
-                    $title .= " less 2 for ";
+                    $title .= " less 2 ";
                 if ($request->input('age') == 3)
-                    $title .= " 2 - 9 for ";
+                    $title .= " 2 - 9 ";
                 if ($request->input('age') == 4)
-                    $title .= " 10 - 14 for ";
+                    $title .= " 10 - 14 ";
                 if ($request->input('age') == 5)
-                    $title .= " 15 - 19 for ";
+                    $title .= " 15 - 19 ";
                 if ($request->input('age') == 6)
-                    $title .= " 20 - 24 for ";
+                    $title .= " 20 - 24 ";
                 if ($request->input('age') == 7)
-                    $title .= " above 25 for ";
+                    $title .= " above 25 ";
 
             }
     	} else if ($request->testtype == 'EID') {
