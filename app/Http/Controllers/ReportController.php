@@ -335,7 +335,7 @@ class ReportController extends Controller
                 $sheet->fromArray($newdataArray, null, 'A1', false, false);
             });
              
-        })->download('xlsx');
+        })->download('csv');
     }
 
     public function __getTestOutComesData($request, $type = null) {
@@ -608,6 +608,19 @@ class ReportController extends Controller
                             if ($request->input('age') == 7)
                                 return $query->where('age_category', '=', 11);
                 });
+                 if ($request->input('age') == 2)
+                    $briefTitle .= " for less 2 for ";
+                if ($request->input('age') == 3)
+                    $briefTitle .= " for 2 - 9 for ";
+                if ($request->input('age') == 4)
+                    $briefTitle .= " for 10 - 14 for ";
+                if ($request->input('age') == 5)
+                    $briefTitle .= " for 15 - 19 for ";
+                if ($request->input('age') == 6)
+                    $briefTitle .= " for 20 - 24 for ";
+                if ($request->input('age') == 7)
+                    $briefTitle .= " for above 25 for ";
+
             }
     	} else if ($request->testtype == 'EID') {
             $table = 'sample_complete_view';
