@@ -17,6 +17,13 @@ class BaseModel extends Model
         return '';
     }
 
+    public function my_string_format($value, $default='0')
+    {
+        if($this->$value) return (string) $this->$value;
+        return $default;
+    }
+
+
     public function pre_update()
     {
         if($this->synched == 1 && $this->isDirty()) $this->synched = 2;
