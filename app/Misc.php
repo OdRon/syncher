@@ -9,6 +9,8 @@ use Excel;
 
 use App\Facility;
 
+use GuzzleHttp\Client;
+
 class Misc extends Common
 {
 	public static $mlab_url = 'http://197.248.10.20:3001/api/results/results';
