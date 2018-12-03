@@ -86,6 +86,12 @@ Artisan::command('patient:assign', function(){
     $this->info($str);
 })->describe('Assign patient statuses');
 
+Artisan::command('dispatch:mlab', function(){
+    $str = \App\Misc::send_to_mlab_eid();
+    $str = \App\Misc::send_to_mlab_vl();
+    $this->info($str);
+})->describe('Send WRP results to MLAB.');
+
 Artisan::command('test:email', function(){
     $str = \App\Report::test_email();
     $this->info($str);
