@@ -185,6 +185,8 @@ class Misc extends Common
 
     			$client = new Client(['base_uri' => self::$mlab_url]);
 
+                if(!$sample->patient->patient || $sample->patient->patient == '' ) $sample->patient->patient = "null";
+
     			$post_data = [
 						'source' => '1',
 						'result_id' => "{$sample->id}",
@@ -245,6 +247,8 @@ class Misc extends Common
                 if($sample->repeatt == 1) continue;
 
                 $client = new Client(['base_uri' => self::$mlab_url]);
+
+                if(!$sample->patient->patient || $sample->patient->patient == '' ) $sample->patient->patient = "null";
 
                 $post_data = [
                         'source' => '1',
