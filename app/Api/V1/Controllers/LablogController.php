@@ -18,7 +18,7 @@ class LablogController extends Controller
      */
     public function lablogs(BlankRequest $request)
     {
-        $data = json_decode($request->input('data'));
+        $data = $request->input('data');
         $data['dateupdated'] = date('Y-m-d H:i:s');
         $lab_id = $request->input('lab_id');
 
