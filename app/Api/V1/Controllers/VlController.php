@@ -358,6 +358,19 @@ class VlController extends Controller
         ], 201);        
     }
 
+    public function delete_patients(BlankRequest $request){
+        return $this->delete_dash($request, Viralpatient::class, 'patients', 'national_patient_id', 'original_patient_id');
+    }
+
+    public function delete_batches(BlankRequest $request){
+        return $this->delete_dash($request, Viralbatch::class, 'batches', 'national_batch_id', 'original_batch_id');
+    }
+
+    public function delete_samples(BlankRequest $request){
+        return $this->delete_dash($request, Viralsample::class, 'samples', 'national_sample_id', 'original_sample_id');
+    }
+
+
     public function delete_dash(BlankRequest $request, $update_class, $input, $nat_column, $original_column)
     {
         $models_array = [];

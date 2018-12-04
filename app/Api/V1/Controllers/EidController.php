@@ -334,6 +334,26 @@ class EidController extends Controller
         ], 201);        
     }
 
+    public function delete_patients(BlankRequest $request){
+        return $this->delete_dash($request, Patient::class, 'patients', 'national_patient_id', 'original_patient_id');
+    }
+
+    public function delete_mothers(BlankRequest $request){
+        return $this->delete_dash($request, Mother::class, 'mothers', 'national_mother_id', 'original_mother_id');
+    }
+
+    public function delete_batches(BlankRequest $request){
+        return $this->delete_dash($request, Batch::class, 'batches', 'national_batch_id', 'original_batch_id');
+    }
+
+    public function delete_samples(BlankRequest $request){
+        return $this->delete_dash($request, Sample::class, 'samples', 'national_sample_id', 'original_sample_id');
+    }
+
+    public function delete_worksheets(BlankRequest $request){
+        return $this->delete_dash($request, Worksheet::class, 'worksheets', 'national_worksheet_id', 'original_worksheet_id');
+    }
+
     public function delete_dash(BlankRequest $request, $update_class, $input, $nat_column, $original_column)
     {
         $models_array = [];
