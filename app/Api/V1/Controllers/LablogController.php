@@ -22,7 +22,7 @@ class LablogController extends Controller
         $data['dateupdated'] = date('Y-m-d H:i:s');
         $lab_id = $request->input('lab_id');
 
-        DB::table('lablogs')->where('logdate', date('Y-m-d'))
+        DB::table('apidb.lablogs')->where('logdate', date('Y-m-d'))
                             ->where('lab', $lab_id)
                             ->where('testtype', $data['testtype'])
                             ->update($data);
