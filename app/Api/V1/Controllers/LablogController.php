@@ -27,6 +27,13 @@ class LablogController extends Controller
                             ->where('testtype', $data['testtype'])
                             ->update($data);
 
+        DB::table('apidb.lablogs')->where('logdate', date('Y-m-d'))
+                            ->where('lab', 10)
+                            ->where('testtype', $data['testtype'])
+                            ->update(['dateupdated' => date('Y-m-d H:i:s')]);
+
+
+
         return response()->json([
           'status' => 'ok',
         ], 200);
