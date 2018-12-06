@@ -10,6 +10,7 @@ use App\Misc;
 use App\Viralbatch;
 use App\Viralpatient;
 use App\Viralsample;
+use App\ViralsampleView;
 use App\Viralworksheet;
 
 class VlController extends Controller
