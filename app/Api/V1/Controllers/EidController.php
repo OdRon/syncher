@@ -82,7 +82,7 @@ class EidController extends Controller
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
 
             foreach ($value->sample as $key2 => $value2) {
-                $sample = SampleView::where(['original_sample_id' => $value2->id, 'lab_id' => $value->lab_id])->first();
+                $sample = Sample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->first();
                 if(!$sample) continue;
                 $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];
             }

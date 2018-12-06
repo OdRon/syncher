@@ -10,7 +10,6 @@ use App\Misc;
 use App\Viralbatch;
 use App\Viralpatient;
 use App\Viralsample;
-use App\ViralsampleView;
 use App\Viralworksheet;
 
 class VlController extends Controller
@@ -62,7 +61,7 @@ class VlController extends Controller
 
 
             foreach ($value->sample as $key2 => $value2) {
-                $sample = ViralsampleView::where(['original_sample_id' => $value2->id, 'lab_id' => $value->lab_id])->first();
+                $sample = Viralsample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->first();
                 if(!$sample) continue;
                 $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];
             }
