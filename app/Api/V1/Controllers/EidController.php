@@ -95,34 +95,23 @@ class EidController extends Controller
         ], 200);
     }
 
-    /*public function synch_samples(BlankRequest $request)
+    public function synch_samples(BlankRequest $request)
     {
-        $batches_array = [];
         $samples_array = [];
         $samples = json_decode($request->input('samples'));
 
         foreach ($samples as $key => $value) {
-            // $sample = SampleView::where(['original_sample_id'])
+            if(!$value->batch->national_batch_id) continue;
+            $sample = SampleView::where(['original_sample_id' => $value->id, 'batch_id' => $value->batch->national_batch_id])->first();
             if(!$sample) continue;
             $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];
-        }
-
-        foreach ($batches as $key => $value) {
-            $batch = Batch::existing($value->id, $value->lab_id)->get()->first();
-            if(!$batch) continue;
-
-            $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
-
-            foreach ($value->sample as $key2 => $value2) {
-                $sample = Sample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->get()->first();
-            }
         }
 
         return response()->json([
             'status' => 'ok',
             'samples' => $samples_array,
         ], 200);
-    }*/
+    }
 
     public function patients(BlankRequest $request)
     {
