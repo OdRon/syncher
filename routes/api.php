@@ -40,10 +40,12 @@ $api->version('v1', function (Router $api) {
             // Route group that matches records between national and lab
             $api->group(['prefix' => 'synch'], function(Router $api) {
 
+                $api->post('samples', 'EidController@synch_samples');
                 $api->post('patients', 'EidController@synch_patients');
                 $api->post('batches', 'EidController@synch_batches');
                 $api->post('worksheets', 'EidController@worksheets');
 
+                $api->post('viralsamples', 'VlController@synch_samples');
                 $api->post('viralpatients', 'VlController@synch_patients');
                 $api->post('viralbatches', 'VlController@synch_batches');
                 $api->post('viralworksheets', 'VlController@worksheets');
