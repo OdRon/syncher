@@ -82,7 +82,8 @@ class VlController extends Controller
 
         foreach ($samples as $key => $value) {
             if(!isset($value->batch) || !$value->batch->national_batch_id) continue;
-            $sample = ViralsampleView::where(['original_sample_id' => $value->id, 'batch_id' => $value->batch->national_batch_id])->first();
+            // $sample = ViralsampleView::where(['original_sample_id' => $value->id, 'batch_id' => $value->batch->national_batch_id])->first();
+            $sample = ViralsampleView::where(['original_sample_id' => $value->id, 'lab_id' => $value->batch->lab_id])->first();
             if(!$sample) continue;
             $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];
         }
