@@ -321,6 +321,8 @@ class ReportController extends Controller
         $title = "$lab->labname Test Outcomes $request->year";
         $string = (strlen($lab->labname) > 31) ? substr($lab->labname,0,28).'...' : $lab->labname;
         $sheetTitle = "$string";
+
+        ini_set("memory_limit", "-1");
         //Export Data
         Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
             $excel->setTitle($title);
@@ -357,6 +359,7 @@ class ReportController extends Controller
     }
 
     public function __getLowLevelViremia($request) {
+        ini_set("memory_limit", "-1");
         $data = [
                     [
                         'range' => '0-200',
@@ -430,7 +433,7 @@ class ReportController extends Controller
                 $sheet->fromArray($newdataArray, null, 'A1', false, false);
             });
              
-        })->download('xlsx');
+        })->download('csv');
     }
 
     public function __getLowLevelViremiaData($request, $result = null, $sampletype = null) {
