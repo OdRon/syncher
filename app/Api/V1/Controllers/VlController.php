@@ -10,6 +10,7 @@ use App\Misc;
 use App\Viralbatch;
 use App\Viralpatient;
 use App\Viralsample;
+use App\ViralsampleView;
 use App\Viralworksheet;
 
 class VlController extends Controller
@@ -61,7 +62,7 @@ class VlController extends Controller
 
 
             foreach ($value->sample as $key2 => $value2) {
-                $sample = Viralsample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->get()->first();
+                $sample = Viralsample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->first();
                 if(!$sample) continue;
                 $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];
             }
@@ -70,6 +71,25 @@ class VlController extends Controller
         return response()->json([
             'status' => 'ok',
             'batches' => $batches_array,
+            'samples' => $samples_array,
+        ], 200);
+    }
+
+    public function synch_samples(BlankRequest $request)
+    {
+        $samples_array = [];
+        $samples = json_decode($request->input('samples'));
+
+        foreach ($samples as $key => $value) {
+            if(!isset($value->batch) || !$value->batch->national_batch_id) continue;
+            // $sample = ViralsampleView::where(['original_sample_id' => $value->id, 'batch_id' => $value->batch->national_batch_id])->first();
+            $sample = ViralsampleView::where(['original_sample_id' => $value->id, 'lab_id' => $value->batch->lab_id])->first();
+            if(!$sample) continue;
+            $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];
+        }
+
+        return response()->json([
+            'status' => 'ok',
             'samples' => $samples_array,
         ], 200);
     }
@@ -358,13 +378,26 @@ class VlController extends Controller
         ], 201);        
     }
 
+    public function delete_patients(BlankRequest $request){
+        return $this->delete_dash($request, Viralpatient::class, 'patients', 'national_patient_id', 'original_patient_id');
+    }
+
+    public function delete_batches(BlankRequest $request){
+        return $this->delete_dash($request, Viralbatch::class, 'batches', 'national_batch_id', 'original_batch_id');
+    }
+
+    public function delete_samples(BlankRequest $request){
+        return $this->delete_dash($request, Viralsample::class, 'samples', 'national_sample_id', 'original_sample_id');
+    }
+
+
     public function delete_dash(BlankRequest $request, $update_class, $input, $nat_column, $original_column)
     {
         $models_array = [];
         $models = json_decode($request->input($input));
         $lab_id = json_decode($request->input('lab_id'));
 
-        foreach ($data as $key => $value) {
+        foreach ($models as $key => $value) {
             if($value->$nat_column){
                 $new_model = $update_class::find($value->$nat_column);
             }else{

@@ -9,6 +9,7 @@ use App\Misc;
 use App\Batch;
 use App\Patient;
 use App\Sample;
+use App\SampleView;
 use App\Mother;
 use App\Worksheet;
 
@@ -81,7 +82,7 @@ class EidController extends Controller
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
 
             foreach ($value->sample as $key2 => $value2) {
-                $sample = Sample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->get()->first();
+                $sample = Sample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->first();
                 if(!$sample) continue;
                 $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];
             }
@@ -90,6 +91,25 @@ class EidController extends Controller
         return response()->json([
             'status' => 'ok',
             'batches' => $batches_array,
+            'samples' => $samples_array,
+        ], 200);
+    }
+
+    public function synch_samples(BlankRequest $request)
+    {
+        $samples_array = [];
+        $samples = json_decode($request->input('samples'));
+
+        foreach ($samples as $key => $value) {
+            if(!isset($value->batch) || !$value->batch->national_batch_id) continue;
+            // $sample = SampleView::where(['original_sample_id' => $value->id, 'batch_id' => $value->batch->national_batch_id])->first();
+            $sample = SampleView::where(['original_sample_id' => $value->id, 'lab_id' => $value->batch->lab_id])->first();
+            if(!$sample) continue;
+            $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];
+        }
+
+        return response()->json([
+            'status' => 'ok',
             'samples' => $samples_array,
         ], 200);
     }
@@ -334,13 +354,33 @@ class EidController extends Controller
         ], 201);        
     }
 
+    public function delete_patients(BlankRequest $request){
+        return $this->delete_dash($request, Patient::class, 'patients', 'national_patient_id', 'original_patient_id');
+    }
+
+    public function delete_mothers(BlankRequest $request){
+        return $this->delete_dash($request, Mother::class, 'mothers', 'national_mother_id', 'original_mother_id');
+    }
+
+    public function delete_batches(BlankRequest $request){
+        return $this->delete_dash($request, Batch::class, 'batches', 'national_batch_id', 'original_batch_id');
+    }
+
+    public function delete_samples(BlankRequest $request){
+        return $this->delete_dash($request, Sample::class, 'samples', 'national_sample_id', 'original_sample_id');
+    }
+
+    public function delete_worksheets(BlankRequest $request){
+        return $this->delete_dash($request, Worksheet::class, 'worksheets', 'national_worksheet_id', 'original_worksheet_id');
+    }
+
     public function delete_dash(BlankRequest $request, $update_class, $input, $nat_column, $original_column)
     {
         $models_array = [];
         $models = json_decode($request->input($input));
         $lab_id = json_decode($request->input('lab_id'));
 
-        foreach ($data as $key => $value) {
+        foreach ($models as $key => $value) {
             if($value->$nat_column){
                 $new_model = $update_class::find($value->$nat_column);
             }else{
