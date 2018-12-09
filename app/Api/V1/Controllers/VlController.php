@@ -100,6 +100,13 @@ class VlController extends Controller
         $patients = json_decode($request->input('patients'));
 
         foreach ($patients as $key => $value) {
+            $p = Viralpatient::existing($value->facility_id, $value->patient)->first();
+            if($p){
+                $patients_array[] = ['original_id' => $p->original_patient_id, 'national_patient_id' => $p->id ];
+                continue;
+            }
+
+
             $patient = new Viralpatient;
             $patient->fill(get_object_vars($value));
             $patient->original_patient_id = $patient->id;
@@ -142,11 +149,18 @@ class VlController extends Controller
                 foreach ($samples as $key2 => $value2) {
                     // if($value2->parentid != 0) continue;
 
-
-                    if($value2->national_sample_id) $sample = Viralsample::find($value2->national_sample_id);
-                    else{
-                        $sample = new Viralsample;
+                    if($value2->national_sample_id){
+                        $sample = Viralsample::find($value2->national_sample_id);
+                        if($sample && $sample->original_sample_id != $value2->id) $sample = null;
                     }
+
+                    if(!$sample) $sample = new Viralsample;
+
+
+                    // if($value2->national_sample_id) $sample = Viralsample::find($value2->national_sample_id);
+                    // else{
+                    //     $sample = new Viralsample;
+                    // }
                     $sample->fill(get_object_vars($value2));
                     $sample->original_sample_id = $sample->id;
                     $sample->patient_id = $value2->patient->national_patient_id;
