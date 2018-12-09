@@ -121,6 +121,13 @@ class EidController extends Controller
         $patients = json_decode($request->input('patients'));
 
         foreach ($patients as $key => $value) {
+            $p = Patient::existing($value->facility_id, $value->patient)->first();
+            if($p){
+                $patients_array[] = ['original_id' => $p->original_patient_id, 'national_patient_id' => $p->id ];
+                $mothers_array[] = ['original_id' => $p->mother->original_mother_id, 'national_mother_id' => $p->mother->id ];
+                continue;
+            }
+
             $mother = new Mother;
             $mother_data = get_object_vars($value->mother);
             $mother->fill($mother_data);
@@ -175,10 +182,12 @@ class EidController extends Controller
 
                 // $pat = json_decode($value2->patient);
 
-                if($value2->national_sample_id) $sample = Sample::find($value2->national_sample_id);
-                else{
-                    $sample = new Sample;
+                if($value2->national_sample_id){
+                    $sample = Sample::find($value2->national_sample_id);
+                    if($sample && $sample->original_sample_id != $value2->id) $sample = null;
                 }
+
+                if(!$sample) $sample = new Sample;
                 
                 $sample->fill(get_object_vars($value2));
                 $sample->original_sample_id = $sample->id;
