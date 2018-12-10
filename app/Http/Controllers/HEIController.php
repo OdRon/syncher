@@ -51,8 +51,9 @@ class HEIController extends Controller
     	if ($request->method() == 'POST') {
             $data = [];
     		$columns = [ 'id', 'patient', 'hei_validation', 'enrollment_status', 'dateinitiatedontreatment', 'enrollment_ccc_no', 'facility_id', 'other_reason'];
-    		$sampleCount = (int)$request->DataTables_Table_0_length ?? null;
+    		$sampleCount = (self::__getPatients($year,$month,'outcomes',null,true)+100);
             $actualCount = 0;
+
     		if (isset($sampleCount) || $sampleCount > 0) {
     			for ($i=$sampleCount; $i > 0 ; $i--) { 
     				foreach ($columns as $key => $value) {
@@ -111,15 +112,14 @@ class HEIController extends Controller
     			} else if ($value->enrollment_status == 5) {
     				$patient->facility_id = $value->facility_id;
     				$patient->referredfromsite = $value->facility_id;
-    			} else if ($value->enrollment_status == 6) {
-    				$patient->otherreason = $value->other_reason;
     			}
-    		}
+            }
+            $patient->otherreason = $value->other_reason ?? null;
     		$patient->save();
     	}
     	return true;
     }
-// 191836
+
     public static function __outcomes($year=null, $month=null)
     {
     	$positiveOutcomes = self::__getOutcomes(null,null,$year,$month);
@@ -204,14 +204,18 @@ class HEIController extends Controller
                     })->first()->totalPositives;
     }
 
-    public static function __getPatients($year=null,$month=null,$duration=null,$validation=null)
+    public static function __getPatients($year=null,$month=null,$duration=null,$validation=null,$count=false)
     {
         if(!($duration == 'outcomes' || $duration || 'cumulative' || $duration == null))
             return back();
         
     	$usertype = auth()->user()->user_type_id;
-        $model = SampleCompleteView::selectRaw("distinct sample_complete_view.patient_id, sample_complete_view.patient, sample_complete_view.original_patient_id, sample_complete_view.ccc_no, sample_complete_view.patient, sample_complete_view.gender_description, sample_complete_view.age, sample_complete_view.dob, pcrtype.alias as pcrtype, sample_complete_view.dateinitiatedontreatment, sample_complete_view.hei_validation, sample_complete_view.enrollment_ccc_no, sample_complete_view.enrollment_status, sample_complete_view.referredfromsite, sample_complete_view.otherreason, view_facilitys.name as facility, view_facilitys.county, view_facilitys.facilitycode")
-    				->join('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
+        if ($count == true) {
+            $model = SampleCompleteView::selectRaw("count(distinct sample_complete_view.patient_id) as `patients`");
+        } else {
+            $model = SampleCompleteView::selectRaw("distinct sample_complete_view.patient_id, sample_complete_view.patient, sample_complete_view.original_patient_id, sample_complete_view.ccc_no, sample_complete_view.patient, sample_complete_view.gender_description, sample_complete_view.age, sample_complete_view.dob, pcrtype.alias as pcrtype, sample_complete_view.dateinitiatedontreatment, sample_complete_view.hei_validation, sample_complete_view.enrollment_ccc_no, sample_complete_view.enrollment_status, sample_complete_view.referredfromsite, sample_complete_view.otherreason, view_facilitys.name as facility, view_facilitys.county, view_facilitys.facilitycode");
+        }
+        $model->join('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
                     ->join('pcrtype', 'pcrtype.id', '=', 'sample_complete_view.pcrtype')
                     ->where(['sample_complete_view.repeatt' => 0,'sample_complete_view.flag' => 1])
                     ->whereIn('sample_complete_view.pcrtype', [1,2,3])
@@ -256,10 +260,13 @@ class HEIController extends Controller
                                 return $query->where('sample_complete_view.enrollment_status', '=', 6);
                         });
         } else {
-            $model = $model->where('sample_complete_view.hei_validation', '=', 0)
-                    ->orWhereNull('sample_complete_view.hei_validation');
+            $model = $model->whereRaw("(sample_complete_view.hei_validation = 0 or sample_complete_view.hei_validation is null)");
         }
-        // dd($model->get());
-        return $model->get();
+
+        if ($count == true) {
+            return $model->first()->patients;
+        } else {
+            return $model->get();
+        }
     }
 }

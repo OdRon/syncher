@@ -29,6 +29,7 @@ class ReportController extends Controller
             $testtype = 'EID';
         
         $usertype = auth()->user()->user_type_id;
+
         if ($usertype == 9) 
             $testtype = 'support';
         
@@ -75,7 +76,7 @@ class ReportController extends Controller
                     $countys = ViewFacility::where('partner_id5', '=', auth()->user()->level)->groupBy('county_id')->orderBy('county', 'asc')->get();
 
                 if ($usertype == 2 || $usertype == 10)
-                    $partners = Partner::where('orderno', '=', 2)->orderBy('name', 'desc')->get();
+                    $partners = Partner::orderBy('name', 'desc')->get();
 
                 $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
                                         if ($usertype == 3)
@@ -231,17 +232,266 @@ class ReportController extends Controller
                 return back();
             }
         }
-        // dd($request->all());
+        
         $dateString = '';
         $title = "";
         $briefTitle = "";
         $excelColumns = [];
+
+        if ($request->indicatortype == 17) {
+            if ($request->category == 'lab' || $request->period == 'annually') {
+                $this->__getTestOutComes($request,$dateString, $excelColumns, $title, $briefTitle);
+                return back();
+            } else {
+                session(['toast_message' => 'This report is only for lab and annually', 'toast_error' => 1]);
+                return back();
+            }
+        }
+
+        if ($request->indicatortype == 18) {
+            $this->__getLowLevelViremia($request);
+        }
         
         $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
         $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         
         return back();
     }
+
+    public function __getTestOutComes($request, &$dateString, &$excelColumns, &$title, &$briefTitle) {
+        $months = [];
+        $lab = Lab::find($request->lab);
+        $below40 = $this->__getTestOutComesData($request,1);
+        $below999 = $this->__getTestOutComesData($request,2);
+        $above1000 = $this->__getTestOutComesData($request,3);
+        $dbs = $this->__getTestOutComesData($request);
+        // dd($dbs);
+        foreach ($below40 as $key => $value) {
+            $months[] = $value->month;
+        }
+        $newdataArray[] = ['Month', 'Outcomes', '', '', 'Total', 'DBS Samples'];
+        $newdataArray[] = ['', '0 to 40', '41 to 999', 'Above 1000', ];
+        $below40total = 0;
+        $below999total = 0;
+        $above1000total = 0;
+        $dbstotal = 0;
+        $last = 0;
+        foreach ($months as $key => $value) {
+            $current = 0;
+            $last = $key;
+            $data[$key]['month'] = date("F", mktime(null, null, null, $value));
+            foreach ($below40 as $below40key => $below40value) {
+                if ($value == $below40value->month) {
+                    $data[$key]['below40'] = $below40value->samples;
+                    $current += $below40value->samples;
+                    $below40total += $below40value->samples;
+                }
+            }
+            foreach ($below999 as $below999key => $below999value) {
+                if ($value == $below999value->month) {
+                    $data[$key]['below999'] = $below999value->samples;
+                    $current += $below999value->samples;
+                    $below999total += $below999value->samples;
+                }
+            }
+            foreach ($above1000 as $above1000key => $above1000value) {
+                if ($value == $above1000value->month) {
+                    $data[$key]['above1000'] = $above1000value->samples;
+                    $current += $above1000value->samples;
+                    $above1000total += $above1000value->samples;
+                }
+            }
+            $data[$key]['rowtotal'] = $current;
+        }
+
+        foreach ($months as $key => $value) {
+            foreach ($dbs as $dbskey => $dbsvalue) {
+                if ($value == $dbsvalue->month) {
+                    $data[$key]['dbs'] = $dbsvalue->samples;
+                    $dbstotal += $dbsvalue->samples;
+                }
+            }
+        }
+        $data[$last+1] = ['month' => 'Total', 'below40total' => $below40total, 'below999total' => $below999total, 'above1000total' => $above1000total, 'alltotal' => ($below40total + $below999total + $above1000total), 'dbstotal' => $dbstotal];
+        
+        foreach ($data as $report) {
+            $newdataArray[] = $report;
+        }
+        // dd($newdataArray);
+        $title = "$lab->labname Test Outcomes $request->year";
+        $string = (strlen($lab->labname) > 31) ? substr($lab->labname,0,28).'...' : $lab->labname;
+        $sheetTitle = "$string";
+
+        ini_set("memory_limit", "-1");
+        //Export Data
+        Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
+            $excel->setTitle($title);
+            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+            $excel->setDescription($title);
+            
+            $excel->sheet($sheetTitle, function($sheet) use ($newdataArray) {
+                $sheet->mergeCells('A1:A2');
+                $sheet->mergeCells('B1:D1');
+                $sheet->mergeCells('E1:E2');
+                $sheet->mergeCells('F1:F2');
+                $sheet->fromArray($newdataArray, null, 'A1', false, false);
+            });
+             
+        })->download('csv');
+    }
+
+    public function __getTestOutComesData($request, $type = null) {
+        ini_set("memory_limit", "-1");
+        $model = ViralsampleView::selectRaw("COUNT(*) as samples, MONTHNAME(datetested) as `monthname`, MONTH(datetested) as `month`")
+                            ->WhereYear('datetested', $request->year)->where('lab_id', $request->lab)->where('repeatt', '=', 0)
+                            ->groupBy('month')->groupBy('monthname')->orderBy('month','asc');
+        if ($type == 1) {
+            $model = $model->whereRaw("(rcategory = 1 OR result BETWEEN 0 AND 40)");
+        } else if ($type == 2) {
+            $model = $model->whereBetween('result', [41, 999]);
+        } else if ($type == 3) {
+            $model = $model->whereIn('rcategory', [3,4]);
+        } else if ($type == null) {
+            $model = $model->whereIn('sampletype', [3,4])->whereNotNull('result');
+        }
+
+        return $model->get();
+    }
+
+    public function __getLowLevelViremia($request) {
+        ini_set("memory_limit", "-1");
+        $data = [
+                    [
+                        'range' => '0-200',
+                        'dbs0to200' => $this->__getLowLevelViremiaData($request, 1, 2),
+                        'plasma0to200' => $this->__getLowLevelViremiaData($request, 1, 1)
+                    ],[ 
+                        'range' => '201-400',
+                        'dbs201to400' => $this->__getLowLevelViremiaData($request, 2, 2),
+                        'plasma201to400' => $this->__getLowLevelViremiaData($request, 2, 1)
+                    ],[ 
+                        'range' => '401-500',
+                        'dbs401to500' => $this->__getLowLevelViremiaData($request, 3, 2),
+                        'plasma401to500' => $this->__getLowLevelViremiaData($request, 3, 1)
+                    ],[ 
+                        'range' => '501-600',
+                        'dbs501to600' => $this->__getLowLevelViremiaData($request, 4, 2),
+                        'plasma501to600' => $this->__getLowLevelViremiaData($request, 4, 1)
+                    ],[ 
+                        'range' => '601-800',
+                        'dbs601to800' => $this->__getLowLevelViremiaData($request, 5, 2),
+                        'plasma601to800' => $this->__getLowLevelViremiaData($request, 5, 1)
+                    ],[ 
+                        'range' => '801-999',
+                        'dbs801to999' => $this->__getLowLevelViremiaData($request, 6, 2),
+                        'plasma801to999' => $this->__getLowLevelViremiaData($request, 6, 1)
+                    ]
+                ];
+        $newdataArray[] = ['Result Ranges', 'DBS', 'Plasma'];
+        foreach ($data as $report) {
+            $newdataArray[] = $report;
+        }
+
+        $title = "National";
+        if ($request->category == 'lab') {
+            $lab = Lab::find($request->lab);
+            $title = "$lab->labname";
+        } elseif ($request->category == 'partner') {
+            $partner = Partner::find($request->partner);
+            $title = "$partner->name";
+        } else if ($request->category == 'county') {
+            $county = DB::table('countys')->find($request->county);
+            $title = "$county->name";
+        } else if ($request->category == 'subcounty') {
+            $subcounty = DB::table('districts')->find($request->district);
+            $title = "$subcounty->name";
+        } else if ($request->category == 'facility') {
+            $facility = ViewFacility::find($request->facility);
+            $title = "$facility->name";
+        }
+        $title .= "  Low level Viremia data";
+
+        if($request->period == "range") {
+            $title .= " BETWEEN ".$request->fromDate." and ".$request->toDate;
+        } else if ($request->period == "monthly") {
+            $title .= " for ".$request->year." - ".$request->month;
+        } else if ($request->period == "quarterly") {
+            $title .= " for ".$request->year." - ".$request->quarter;
+        } elseif ($request->period == "annually") {
+            $title .= " for ".$request->year;
+        }
+        $title = strtoupper($title);
+        $string = (strlen($title) > 31) ? substr($title,0,28).'...' : $title;
+        $sheetTitle = "$string";
+        //Export Data
+        Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
+            $excel->setTitle($title);
+            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+            $excel->setDescription($title);
+            
+            $excel->sheet($sheetTitle, function($sheet) use ($newdataArray) {
+                $sheet->fromArray($newdataArray, null, 'A1', false, false);
+            });
+             
+        })->download('csv');
+    }
+
+    public function __getLowLevelViremiaData($request, $result = null, $sampletype = null) {
+        ini_set("memory_limit", "-1");
+
+        $model = ViralsampleView::selectRaw("count(*) as samples")
+                            ->where('repeatt', '=', 0)->whereNotNull('result')
+                            ->when($request, function($query) use ($request){
+                                if($request->period == "range") {
+                                    $query = $query->whereBetween('datetested', [gmdate('Y-m-d', strtotime($request->fromDate)), gmdate('Y-m-d', strtotime($request->toDate))]);
+                                } else if ($request->period == "monthly") {
+                                    $query = $query->whereYear('datetested', $request->year)->whereMonth('datetested', $request->month);
+                                } else if ($request->period == "quarterly") {
+                                    $query = $query->whereYear('datetested', $request->year)
+                                                    ->whereRaw("MONTH(datetested) IN (".self::$quarters[$request->quarter]['start'].", ".self::$quarters[$request->quarter]['end'].")");
+                                } elseif ($request->period == "annually") {
+                                    $query = $query->whereYear('datetested', $request->year);
+                                }
+
+                                if ($request->category == 'lab') {
+                                    $query = $query->where('lab_id', '=', $request->lab);
+                                } elseif ($request->category == 'partner') {
+                                    $query = $query->join('view_facilitys', 'view_facilitys.id', '=', 'viralsamples_view.facility_id')
+                                                    ->where('view_facilitys.partner_id', '=', $request->partner);
+                                } else if ($request->category == 'county') {
+                                    $query = $query->join('view_facilitys', 'view_facilitys.id', '=', 'viralsamples_view.facility_id')
+                                                    ->where('view_facilitys.county_id', '=', $request->county);
+                                } else if ($request->category == 'subcounty') {
+                                    $query = $query->join('view_facilitys', 'view_facilitys.id', '=', 'viralsamples_view.facility_id')
+                                                    ->where('view_facilitys.subcounty_id', '=', $request->district);
+                                } else if ($request->category == 'facility') {
+                                    $query = $query->where('facility_id', '=', $request->facility);
+                                }
+                            });
+
+        if ($sampletype == 1) { //Plasma samples
+            $model = $model->whereIn('sampletype', [1, 2, 5]);
+        } else if ($sampletype == 2) { //DBS Samples
+            $model = $model->whereIn('sampletype', [3, 4]);
+        }
+
+        if ($result == 1) { // Result 0-200
+            $model = $model->whereBetween('result', [0, 200]);
+        } else if ($result == 2) { // Result 201-400
+            $model = $model->whereBetween('result', [201, 400]);
+        } else if ($result == 3) { // Result 401-500
+            $model = $model->whereBetween('result', [401, 500]);
+        } else if ($result == 4) { // Result 501-600
+            $model = $model->whereBetween('result', [501, 600]);
+        } else if ($result == 5) { // Result 601-800
+            $model = $model->whereBetween('result', [601, 800]);
+        } else if ($result == 6) { // Result 801-999
+            $model = $model->whereBetween('result', [801, 999]);
+        }
+
+        return $model->first()->samples;
+    }
+
 
     public function __getDateData($request, &$dateString, &$excelColumns, &$title, &$briefTitle)
     {
@@ -303,7 +553,7 @@ class ReportController extends Controller
                 $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT($table.id) as totaltests";
 
                 $title .= "VL SITES DIONG REMOTE SAMPLE ENTRY FOR ";
-                $briefTitle .= "vl SITES DIONG REMOTE SAMPLE ENTRY ";
+                $briefTitle .= "vl SITES DIONG REMOTE SAMPLE ENTRY for";
             }
 
             $model = ViralsampleCompleteView::selectRaw($selectStr)
@@ -324,7 +574,7 @@ class ReportController extends Controller
             if ($request->indicatortype == 5) {
                 $model = $model->where("$table.receivedstatus", "=", 2);
             } else if ($request->indicatortype == 4) {
-                $model = $model->where("$table.rcategory", "=", 4);
+                $model = $model->whereIn("$table.rcategory", [3,4]);
             } else if ($request->indicatortype == 6) {
                 $model = $model->whereIn('pmtct', [1, 2]);
             } else if ($request->indicatortype == 9) {
@@ -345,9 +595,39 @@ class ReportController extends Controller
                                 ->groupBy('county')
                                 ->orderBy('totaltests', 'desc');
             }
+
+            if(null !== $request->input('age')){
+                $model = $model->when(true, function($query) use ($request){
+                            if ($request->input('age') == 2)
+                                return $query->where('age_category', '=', 6);
+                            if ($request->input('age') == 3)
+                                return $query->where('age_category', '=', 7);
+                            if ($request->input('age') == 4)
+                                return $query->where('age_category', '=', 8);
+                            if ($request->input('age') == 5)
+                                return $query->where('age_category', '=', 9);
+                            if ($request->input('age') == 6)
+                                return $query->where('age_category', '=', 10);
+                            if ($request->input('age') == 7)
+                                return $query->where('age_category', '=', 11);
+                });
+                if ($request->input('age') == 2)
+                    $title .= " less 2 ";
+                if ($request->input('age') == 3)
+                    $title .= " 2 - 9 ";
+                if ($request->input('age') == 4)
+                    $title .= " 10 - 14 ";
+                if ($request->input('age') == 5)
+                    $title .= " 15 - 19 ";
+                if ($request->input('age') == 6)
+                    $title .= " 20 - 24 ";
+                if ($request->input('age') == 7)
+                    $title .= " above 25 ";
+
+            }
     	} else if ($request->testtype == 'EID') {
             $table = 'sample_complete_view';
-            $selectStr = "$table.id, $table.patient, $table.original_batch_id, IF(site_entry=2, 'POC Site', labs.labdesc) as labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, IF(pcrtype=4, enrollment_ccc_no, null) as enrollment_ccc_no, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
+            $selectStr = "$table.id, $table.patient, $table.original_batch_id, IF(site_entry=2, 'POC Site', labs.labdesc) as labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, IF($table.pcrtype=4, $table.enrollment_ccc_no, null) as enrolment_ccc_no, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
 
             if ($request->indicatortype == 1 || $request->indicatortype == 6) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Enrollment CCC No', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Lab Comment', 'Reason for Repeat', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result', 'Mother Age', 'Mother CCC No', 'Mother Last VL'];
@@ -363,7 +643,7 @@ class ReportController extends Controller
             } else if ($request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Enrollment CCC No', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Test Result', 'Validation (CP,A,VL,RT,UF)', 'Enrollment Status', 'Date Initiated on Treatment', 'Enrollment CCC #', 'Other Reasons'];
 
-                $selectStr .= ", ir.name as infantresult, hv.desc as hei_validation, hc.name as enrollment_status, $table.dateinitiatedontreatment, $table.enrollment_ccc_no, $table.otherreason";
+                $selectStr .= ", ir.name as infantresult, hv.desc as hei_validation, hc.name as enrollment_status, $table.dateinitiatedontreatment, $table.ccc_no, $table.otherreason";
                 if ($request->indicatortype == 2) {
                     $title .= "EID POSITIVE TEST OUTCOMES FOR ";
                     $briefTitle .= "EID POSITIVE TEST OUTCOMES ";
@@ -566,6 +846,8 @@ class ReportController extends Controller
                 $title = "VL SAMPLES referral network ";
                 $model = ViralsampleView::selectRaw(" distinct view_facilitys.facilitycode as facilitycode, view_facilitys.name as facility, view_facilitys.county, view_facilitys.partner, view_facilitys.subcounty, count(*) as totalSamples")
                         ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")->groupBy(['facility', 'facilitycode', 'county', 'partner', 'subcounty'])->where("$table.facility_id", '<>', 7148)->orderBy('totalSamples', 'desc');
+            } else if ($request->indicatortype == 16) {
+                // $model = ;
             }
 
         } else {
@@ -613,6 +895,10 @@ class ReportController extends Controller
                     $model = $model->where('lab_id', '=', $request->lab);
                 }
                 $title .= "($lab->name)";
+            } else if ($request->category == 'partner'){
+                $model = $model->where('view_facilitys.partner_id', '=', $request->partner);
+                $partner = Partner::where('id', '=', $request->partner)->first();
+                $title .= $partner->name;
             } else if ($request->category == 'overall') {
                 if (auth()->user()->user_type_id == 3) {
                     $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->level);
@@ -839,7 +1125,7 @@ class ReportController extends Controller
                 $sheet->fromArray($data, null, 'A1', false, false);
             });
              
-        })->download('xlsx');
+        })->download('csv');
     }
 
     public static function __getExcel($data, $title, $dataArray, $briefTitle)
@@ -890,7 +1176,7 @@ class ReportController extends Controller
                     $sheet->fromArray($value, null, 'A1', false, false);
                 });
             }
-        })->download('xlsx');
+        })->download('csv');
     }
 
 

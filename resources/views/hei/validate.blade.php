@@ -180,7 +180,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-lg-12">
             <div class="hpanel">
                 <div class="panel-body">
@@ -190,7 +190,7 @@
                                 <th colspan="2" style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
                                     <div class="alert alert-success">
                                         <center>Cumulative Infants for Validation
-                                            {{--<strong>[{{ $sessionMonth }} {{ Session('followupYear') ?? date('Y') }}]</strong>--}}
+                                            {{--<strong>[{{-- $sessionMonth --}} {{-- Session('followupYear') ?? date('Y') --}}]</strong>--}}
                                         </center>
                                     </div>
                                 </th>
@@ -202,7 +202,7 @@
                                     Cumulative Infants with Positive Outcomes
                                 </th>
                                 <td>
-                                    {{ number_format($data->cumulative->positiveOutcomes) }}
+                                    {{-- number_format($data->cumulative->positiveOutcomes) --}}
                                     &nbsp;&nbsp;
                                     <a href="" style="color: blue;">Click to View</a>
                                 </td>
@@ -212,8 +212,8 @@
                                     Cumulative Infants Initiated onto Treatment 
                                 </th>
                                 <td>
-                                    {{ number_format($data->cumulative->enrolled) }}
-                                    <strong>[{{ round(@(($data->cumulative->enrolled/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                    {{-- number_format($data->cumulative->enrolled) --}}
+                                    <strong>[{{-- round(@(($data->cumulative->enrolled/$data->cumulative->positiveOutcomes)*100),1) --}}%]</strong>
                                     &nbsp;&nbsp;
                                     <a href="" style="color: blue;">Click to View</a>
                                 </td>
@@ -224,7 +224,7 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->cumulative->ltfu) }}
-                                    <strong>[{{ round(@(($data->cumulative->ltfu/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{-- round(@(($data->cumulative->ltfu/$data->cumulative->positiveOutcomes)*100),1) --}}%]</strong>
                                     &nbsp;&nbsp;
                                     <a href="" style="color: blue;">Click to View</a>
                                 </td>
@@ -235,7 +235,7 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->cumulative->dead) }}
-                                    <strong>[{{ round(@(($data->cumulative->dead/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{-- round(@(($data->cumulative->dead/$data->cumulative->positiveOutcomes)*100),1) --}}%]</strong>
                                     &nbsp;&nbsp;
                                     <a href="" style="color: blue;">Click to View</a>
                                 </td>
@@ -246,7 +246,7 @@
                                 </th>
                                 <td>
                                     {{ $data->cumulative->adult }}
-                                    <strong>[{{ round(@(($data->cumulative->adult/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{-- round(@(($data->cumulative->adult/$data->cumulative->positiveOutcomes)*100),1) --}}%]</strong>
                                     &nbsp;&nbsp;
                                     <a href="" style="color: blue;">Click to View</a>
                                 </td>
@@ -257,7 +257,7 @@
                                 </th>
                                 <td>
                                     {{ number_format($data->cumulative->transferOut) }}
-                                    <strong>[{{ round(@(($data->cumulative->transferOut/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{-- round(@(($data->cumulative->transferOut/$data->cumulative->positiveOutcomes)*100),1) --}}%]</strong>
                                     &nbsp;&nbsp;
                                     <a href="" style="color: blue;">Click to View</a>
                                 </td>
@@ -267,8 +267,8 @@
                                     Cumulative Infants with (Other Reasons) 
                                 </th>
                                 <td>
-                                    {{ number_format($data->cumulative->other) }}
-                                    <strong>[{{ round(@(($data->cumulative->other/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                    {{-- number_format($data->cumulative->other) --}}
+                                    <strong>[{{-- round(@(($data->cumulative->other/$data->cumulative->positiveOutcomes)*100),1) --}}%]</strong>
                                     &nbsp;&nbsp;
                                     <a href="" style="color: blue;">Click to View</a>
                                 </td>
@@ -279,7 +279,7 @@
                                 </th>
                                 <td>
                                     {{ $data->cumulative->othervalidation }}
-                                    <strong>[{{ round(@(($data->cumulative->othervalidation/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                    <strong>[{{-- round(@(($data->cumulative->othervalidation/$data->cumulative->positiveOutcomes)*100),1) --}}%]</strong>
                                     &nbsp;&nbsp;
                                     <a href="" style="color: blue;">Click to View</a>
                                 </td>
@@ -292,8 +292,8 @@
                                 </th>
                                 <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
                                     <div class="alert alert-warning">
-                                        {{ number_format($data->cumulative->unknown) }}
-                                        <strong>[{{ round(@(($data->cumulative->unknown/$data->cumulative->positiveOutcomes)*100),1) }}%]</strong>
+                                        {{-- number_format($data->cumulative->unknown) --}}
+                                        <strong>[{{-- round(@(($data->cumulative->unknown/$data->cumulative->positiveOutcomes)*100),1) --}}%]</strong>
                                         @if($data->cumulative->unknown > 0)
                                             <a href="{{ url('hei/followup') }}" style="color: blue;">Click to View Full Listing</a>
                                         @endif
@@ -305,7 +305,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 @endsection
 

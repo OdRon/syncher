@@ -73,4 +73,53 @@ class Viralsample extends BaseModel
                 ->get();
         $this->previous_tests = $samples;
     }
+
+    /**
+     * Get the sample's result comment
+     *
+     * @return string
+     */
+    public function getResultCommentAttribute()
+    {
+        $str = '';
+        $result = $this->result;
+        $interpretation = $this->interpretation;
+        $lower_interpretation = strtolower($interpretation);
+        // < ldl
+        if(str_contains($interpretation, ['<'])){
+            $str = "LDL:Lower Detectable Limit ";
+            $str .= "i.e. Below Detectable levels by machine ";
+            if(str_contains($interpretation, ['839'])){
+                $str .= "( Abbott DBS  &lt;839 copies/ml )";
+            }
+            else if(str_contains($interpretation, ['40'])){
+                $str .= "( Abbott Plasma  &lt;40 copies/ml )";
+            }
+            else if(str_contains($interpretation, ['150'])){
+                $str .= "( Abbott Plasma  &lt;150 copies/ml )";
+            }
+            else if(str_contains($interpretation, ['20'])){
+                $str .= "( Roche Plasma  &lt;20 copies/ml )";
+            }
+            else if(str_contains($interpretation, ['30'])){
+                $str .= "( Pantha Plasma  &lt;30 copies/ml )";
+            }
+            else{
+                $n = preg_replace("/[^<0-9]/", "", $interpretation);
+                $str .= "( &lt;{$n} copies/ml )";
+            }
+        }
+        else if(str_contains($result, ['<']) && str_contains($lower_interpretation, ['not detected'])){
+            $str = "No circulating virus ie. level of HIV in blood is below the threshold needed for detection by this test. Doesn’t mean client Is Negative";
+        }
+        else if($result == "Target Not Detected"){
+            $str = "No circulating virus ie. level of HIV in blood is below the threshold needed for detection by this test. Doesn’t mean client Is Negative";
+        }
+        else if($result == "Collect New Sample" || $result == "Failed"){
+            $str = "Sample failed during processing due to sample deterioration or equipment malfunction.  Redraw another sample and send to lab as soon as possible";
+        }
+        else{}
+        return "<small>{$str}</small>";
+    }
+
 }

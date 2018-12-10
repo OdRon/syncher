@@ -63,11 +63,11 @@
                 @endif
                 @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 8 || Auth::user()->user_type_id == 10)
                     <li>
-                        <a href="{{ url('downloads/EID') }}">EID Requisition Form</a>
+                        <a href="http://lab-2.test.nascop.org/download/eid_req">EID Requisition Form</a>
                     </li>
                     <hr />
                     <li>
-                        <a href="{{ url('downloads/VL') }}">VL Requisition Form</a>
+                        <a href="http://lab-2.test.nascop.org/download/vl_req">VL Requisition Form</a>
                     </li>
                     <hr />
                 @endif

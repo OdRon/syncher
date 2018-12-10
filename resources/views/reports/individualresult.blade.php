@@ -62,7 +62,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3"  class="evenrow" align="center" >
+				<td colspan="5"  class="evenrow" align="center" >
 					<span class="style1 style10">
 						<strong>
 						@if($testingSys == 'EID')
@@ -89,11 +89,11 @@
 				<td colspan="2" class="style4 style1 comment"><strong>
 					@if($testingSys == 'EID') HEI Number @elseif($testingSys == 'VL') Patient CCC No @endif
 				</strong></td>
-				<td colspan="1"> <span class="style5">{{ $sample->patient->patient }}</span></td>
-				<td class="style4 style1 comment" colspan="3"><strong> 
+				<td colspan="3"> <span class="style5">{{ $sample->patient->patient }}</span></td>
+				<td class="style4 style1 comment" colspan="2"><strong> 
 					@if($testingSys == 'EID') Infant Prophylaxis @elseif($testingSys == 'VL') Sample Type @endif
 				</strong></td>
-				<td colspan="1" class="comment">
+				<td colspan="2" class="comment">
 					<span class="style5">
 						@if($testingSys == 'EID')
 		                    @foreach($iprophylaxis as $iproph)
@@ -115,11 +115,11 @@
 				<td colspan="2" class="style4 style1 comment"><strong> 
 					DOB & Age @if($testingSys == 'EID') (Months) @elseif($testingSys == 'VL') (Years) @endif
 				</strong></td>
-				<td colspan="1"  ><span class="style5">{{ $sample->patient->my_date_format('dob') }} {{ $sample->age }}</span></td>
-				<td class="style4 style1 comment" colspan="3" ><strong>
+				<td colspan="3"  ><span class="style5">{{ $sample->patient->my_date_format('dob') }} {{ $sample->age }}</span></td>
+				<td class="style4 style1 comment" colspan="2" ><strong>
 					@if($testingSys == 'EID') Infant Feeding @elseif($testingSys == 'VL') Justification @endif
 				</strong></td>
-				<td colspan="1" class="comment">
+				<td colspan="2" class="comment">
 					<span class="style5">
 						@if($testingSys == 'EID')
 		                    @foreach($feedings as $feeding)
@@ -139,11 +139,11 @@
 			</tr>
 			<tr>
 				<td colspan="2" class="style4 style1 comment"><strong> Gender</strong></td>
-				<td colspan="1"  ><span class="style5"> {{ $sample->patient->gender }} </span></td>
-				<td class="style4 style1 comment" colspan="3" ><strong>
+				<td colspan="3"  ><span class="style5"> {{ $sample->patient->gender }} </span></td>
+				<td class="style4 style1 comment" colspan="2" ><strong>
 					@if($testingSys == 'EID') Entry Point @elseif($testingSys == 'VL') PMTCT @endif
 				</strong></td>
-				<td colspan="1" class="comment">
+				<td colspan="2" class="comment">
 					<span class="style5">
                         @if($testingSys == 'EID')
 		                    @foreach($entry_points as $entry_point)
@@ -164,7 +164,7 @@
 			@if($testingSys == 'EID')
 				<tr>
 					<td colspan="2" class="style4 style1 comment"><strong> PCR Type</strong></td>
-					<td colspan="1">
+					<td colspan="3">
 						<span class="style5">
 	                        @foreach($pcrtypes as $pcrtype)
 	                            @if($sample->pcrtype == $pcrtype->id)
@@ -173,35 +173,35 @@
 	                        @endforeach	
 						</span>
 					</td>
-					<td class="style4 style1 comment" colspan="3" ><strong> Mother CCC #</strong></td>
-					<td colspan="1" class="comment">
+					<td class="style4 style1 comment" colspan="2" ><strong> Mother CCC #</strong></td>
+					<td colspan="2" class="comment">
 						<span class="style5"> {{ $sample->patient->mother->ccc_no ?? '' }} </span>
 					</td>
 				</tr>
 			@endif
 			<tr>
 				<td colspan="2" class="style4 style1 comment" ><strong>Date	Collected </strong></td>
-				<td class="comment" colspan="1">
+				<td class="comment" colspan="3">
 					<span class="style5">{{ $sample->my_date_format('datecollected') }}</span>
 				</td>
 				@if($testingSys == 'EID')
-					<td class="style4 style1 comment" colspan="3"><strong> Age (Yrs) </strong></td>
-					<td colspan="1" > <span class="style5">{{ $sample->mother_age }}</span></td>
+					<td class="style4 style1 comment" colspan="2"><strong> Age (Yrs) </strong></td>
+					<td colspan="2" > <span class="style5">{{ $sample->mother_age }}</span></td>
 				@elseif($testingSys == 'VL')
-					<td class="style4 style1 comment" colspan="3"><strong> ART Initiation Date </strong></td>
-					<td colspan="1"><span class="style5">{{ $sample->patient->my_date_format('initiation_date') }}</span></td>
+					<td class="style4 style1 comment" colspan="2"><strong> ART Initiation Date </strong></td>
+					<td colspan="2"><span class="style5">{{ $sample->patient->my_date_format('initiation_date') }}</span></td>
 				@endif
 			</tr>
 			<tr>
 				<td colspan="2" class="style4 style1 comment"><strong>Date Received </strong></td>
-				<td colspan="1" class="comment" >
+				<td colspan="3" class="comment" >
 					<span class="style5">
 						{{ $sample->batch->my_date_format('datereceived') }} 
 					</span>
 				</td>
 				@if($testingSys == 'EID')
-					<td class="style4 style1 comment" colspan="3"><strong>PMTCT Intervention </strong></td>
-					<td colspan="1" >
+					<td class="style4 style1 comment" colspan="2"><strong>PMTCT Intervention </strong></td>
+					<td colspan="2" >
 						<span class="style5">
 		                    @foreach($interventions as $intervention)
 		                        @if($sample->mother_prophylaxis == $intervention->id)
@@ -211,8 +211,8 @@
 						</span>
 					</td>
 				@elseif($testingSys == 'VL')
-					<td class="style4 style1 comment" colspan="3"><strong>Current ART Regimen	</strong></td>
-					<td colspan="1" class="comment">
+					<td class="style4 style1 comment" colspan="2"><strong>Current ART Regimen	</strong></td>
+					<td colspan="2" class="comment">
 						<span class="style5">
 		                    @foreach($prophylaxis as $proph)
 		                        @if($sample->prophylaxis == $proph->id)
@@ -225,25 +225,25 @@
 			</tr>
 			<tr>
 				<td colspan="2" class="style4 style1 comment"><strong>Date Test Perfomed </strong></td>
-				<td colspan="1" class="comment" >
+				<td colspan="3" class="comment" >
 					<span class="style5">{{ $sample->my_date_format('datetested') }}</span>
 				</td>
 				@if($testingSys == 'EID')
-					<td class="style4 style1 comment" colspan="3"><strong> Mother Last VL </strong></td>
-					<td colspan="1" ><span class="style5">{{ $sample->mother_last_result }}
+					<td class="style4 style1 comment" colspan="2"><strong> Mother Last VL </strong></td>
+					<td colspan="2" ><span class="style5">{{ $sample->mother_last_result }}
 						@if($sample->mother_last_result && is_integer($sample->mother_last_result))
 							cp/ml
 						@endif
 					</span></td>
 				@elseif($testingSys == 'VL')
-					<td class="style4 style1 comment" colspan="3" ><strong>Date Initiated on Current Regimen </strong></td>
-					<td colspan="1" class="comment"><span class="style5">{{ $sample->my_date_format('dateinitiatedonregimen') }} </span></td>
+					<td class="style4 style1 comment" colspan="2" ><strong>Date Initiated on Current Regimen </strong></td>
+					<td colspan="2" class="comment"><span class="style5">{{ $sample->my_date_format('dateinitiatedonregimen') }} </span></td>
 				@endif
 			</tr>
 			@if($testingSys == 'VL')
 				@php
 					if($sample->receivedstatus != 2){
-						$routcome = '<u>' . $sample->result . '</u> ' . $sample->units;
+						$routcome = '<u>' . $sample->result . '</u>';
 						$resultcomments="";
 						$vlresultinlog='N/A';
 
@@ -299,8 +299,8 @@
 				@endphp
 			@endif
 			<tr>
-				<td colspan="3" class="style4 style1 comment"><strong>Test Result</strong></td>
-				<td colspan="1" class="style4 style1 comment">
+				<td colspan="4" class="style4 style1 comment"><strong>Test Result</strong></td>
+				<td colspan="5" class="style4 style1 comment">
 					<span class="style1">
 						<strong> 
 						@if($testingSys == 'EID')
@@ -313,28 +313,21 @@
 		                	@if($sample->receivedstatus == 2)
 								{{ $routcome }}
 							@else
-								&nbsp;&nbsp;&nbsp;&nbsp; Viral Load {!! $routcome !!} &nbsp;&nbsp;&nbsp; Log 10 
-								<u>{{ $vlresultinlog}} </u>
+								&nbsp;&nbsp;&nbsp;&nbsp; {!! $routcome !!}
 							@endif
 		                @endif
 						</strong>
 					</span>
 				</td>
 			</tr>
-
-			@if($sample->worksheet)
-				<tr>
-					<td colspan="2"></td>
-					<td colspan="7" class="style4 style1 comment">					
-						@if($sample->worksheet->machine_type == 1)
-							HIV-1 DNA qualitative  assay on Roche CAP/CTM system
-						@elseif($sample->worksheet->machine_type == 2)
-							HIV-1 DNA qualitative  assay on Abbott M2000 system
-						@endif					
-					</td>				
-				</tr>
+			@if($testingSys == 'VL')
+			<tr>
+				<td colspan="2"></td>
+				<td colspan="7" class="style4 style1 comment">					
+					{!! $sample->result_comment !!}					
+				</td>				
+			</tr>
 			@endif
-
 			<tr>
 				<td colspan="2">
 				  <span class="style1"><strong>Comments:</strong></span>
@@ -387,10 +380,10 @@
 				@endforeach
 			@else
 				<tr class="evenrow">
-					<td colspan="2">
+					<td colspan="3">
 						<span class="style1"><strong>Previous {{ $testingSys }} Results</strong></span>
 					</td>
-					<td colspan="5" class="comment" ><span class="style5 "> N/A </span></td>
+					<td colspan="6" class="comment" ><span class="style5 "> N/A </span></td>
 				</tr>
 			@endif
 		</table>
@@ -401,7 +394,7 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			at {{ $sample->batch->lab->email }}
 			<br> 
-			<b> To Access & Download your current and past results go to : <u> http://eiddash.nascop.org/</u> </b>
+			<b> To Access & Download your current and past results go to : <u> https://eiddash.nascop.org/</u> </b>
 		</span>
 		<p class="breakhere"></p>
 		<pagebreak sheet-size='A4'>
