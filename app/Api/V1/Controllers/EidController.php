@@ -187,7 +187,7 @@ class EidController extends Controller
                     if($sample && $sample->original_sample_id != $value2->id) $sample = null;
                 }
 
-                if(!$sample) $sample = new Sample;
+                if(!isset($sample) || !$sample) $sample = new Sample;
                 
                 $sample->fill(get_object_vars($value2));
                 $sample->original_sample_id = $sample->id;
