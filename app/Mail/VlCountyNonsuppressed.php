@@ -33,7 +33,10 @@ class VlCountyNonsuppressed extends Mailable
         $contact = DB::table('eid_users')->where('id', $user_id)->get()->first();
 
         $startdate = date('Y-m-d', strtotime('-7 days'));
-        $enddate = date("Y-m-d", strtotime('-0 days'));
+        $enddate = date("Y-m-d", strtotime('-1 days'));
+
+        // $startdate = date('Y-m-d', strtotime('-9 days'));
+        // $enddate = date("Y-m-d", strtotime('-3 days'));
 
         $displayfromdate=date("d-M-Y",strtotime($startdate));
         $displaytodate=date("d-M-Y",strtotime($enddate));
@@ -99,6 +102,8 @@ class VlCountyNonsuppressed extends Mailable
                         <h3>NATIONAL AIDS AND STD CONTROL PROGRAM (NASCOP)</h3> 
                     </div>";
                     
+
+        if(!is_dir(storage_path('app/suppression/county'))) mkdir(storage_path('app/suppression/county'), 0777, true);
 
         $path = storage_path('app/suppression/county/' . $contact->id .   '.pdf');
         $this->path = $path;

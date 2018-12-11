@@ -38,6 +38,19 @@ Artisan::command('report:suppression-county {contact_id?}', function ($contact_i
 })->describe('Send suppression follow up report for counties.');
 
 
+Artisan::command('delete-pdfs', function(){
+    $str = \App\Report::delete_folder(storage_path('app/hei'));
+    $str = \App\Report::delete_folder(storage_path('app/suppression'));
+    $this->info($str);
+})->describe('Delete pdfs from hard drive.');
+
+
+
+Artisan::command('ages {type}', function ($type) {
+    $str = \App\Common::set_age($type);
+})->describe('Set age for samples that have a dob but no age.');
+
+
 Artisan::command('copy:test {limit}', function () {
 	ini_set("memory_limit", "-1");
 	$limit = $this->argument('limit');
@@ -72,6 +85,12 @@ Artisan::command('patient:assign', function(){
     $str = \App\Copier::assign_patient_statuses();
     $this->info($str);
 })->describe('Assign patient statuses');
+
+Artisan::command('dispatch:mlab', function(){
+    $str = \App\Misc::send_to_mlab_eid();
+    $str = \App\Misc::send_to_mlab_vl();
+    $this->info($str);
+})->describe('Send WRP results to MLAB.');
 
 Artisan::command('test:email', function(){
     $str = \App\Report::test_email();

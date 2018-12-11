@@ -10,6 +10,7 @@ use App\Misc;
 use App\Viralbatch;
 use App\Viralpatient;
 use App\Viralsample;
+use App\ViralsampleView;
 use App\Viralworksheet;
 
 class VlController extends Controller
@@ -61,7 +62,7 @@ class VlController extends Controller
 
 
             foreach ($value->sample as $key2 => $value2) {
-                $sample = Viralsample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->get()->first();
+                $sample = Viralsample::where(['original_sample_id' => $value2->id, 'batch_id' => $batch->id])->first();
                 if(!$sample) continue;
                 $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];
             }
@@ -74,12 +75,38 @@ class VlController extends Controller
         ], 200);
     }
 
+    public function synch_samples(BlankRequest $request)
+    {
+        $samples_array = [];
+        $samples = json_decode($request->input('samples'));
+
+        foreach ($samples as $key => $value) {
+            if(!isset($value->batch) || !$value->batch->national_batch_id) continue;
+            // $sample = ViralsampleView::where(['original_sample_id' => $value->id, 'batch_id' => $value->batch->national_batch_id])->first();
+            $sample = ViralsampleView::where(['original_sample_id' => $value->id, 'lab_id' => $value->batch->lab_id])->first();
+            if(!$sample) continue;
+            $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];
+        }
+
+        return response()->json([
+            'status' => 'ok',
+            'samples' => $samples_array,
+        ], 200);
+    }
+
     public function patients(BlankRequest $request)
     {
         $patients_array = [];
         $patients = json_decode($request->input('patients'));
 
         foreach ($patients as $key => $value) {
+            $p = Viralpatient::existing($value->facility_id, $value->patient)->first();
+            if($p){
+                $patients_array[] = ['original_id' => $p->original_patient_id, 'national_patient_id' => $p->id ];
+                continue;
+            }
+
+
             $patient = new Viralpatient;
             $patient->fill(get_object_vars($value));
             $patient->original_patient_id = $patient->id;
@@ -122,11 +149,18 @@ class VlController extends Controller
                 foreach ($samples as $key2 => $value2) {
                     // if($value2->parentid != 0) continue;
 
-
-                    if($value2->national_sample_id) $sample = Viralsample::find($value2->national_sample_id);
-                    else{
-                        $sample = new Viralsample;
+                    if($value2->national_sample_id){
+                        $sample = Viralsample::find($value2->national_sample_id);
+                        if($sample && $sample->original_sample_id != $value2->id) unset($sample);
                     }
+
+                    if(!isset($sample)) $sample = new Sample;
+
+
+                    // if($value2->national_sample_id) $sample = Viralsample::find($value2->national_sample_id);
+                    // else{
+                    //     $sample = new Viralsample;
+                    // }
                     $sample->fill(get_object_vars($value2));
                     $sample->original_sample_id = $sample->id;
                     $sample->patient_id = $value2->patient->national_patient_id;
@@ -134,6 +168,8 @@ class VlController extends Controller
                     unset($sample->patient);
                     unset($sample->national_sample_id);
                     unset($sample->sample_received_by);
+                    unset($sample->areaname);
+                    unset($sample->label_id);
 
                     $sample->batch_id = $batch->id;
                     $sample->save();
@@ -335,6 +371,8 @@ class VlController extends Controller
                 unset($update_data['batch']);
                 unset($update_data['patient']);
                 unset($update_data['sample_received_by']);
+                unset($update_data['areaname']);
+                unset($update_data['label_id']);
             }
 
             $new_model->fill($update_data);
@@ -354,13 +392,26 @@ class VlController extends Controller
         ], 201);        
     }
 
+    public function delete_patients(BlankRequest $request){
+        return $this->delete_dash($request, Viralpatient::class, 'patients', 'national_patient_id', 'original_patient_id');
+    }
+
+    public function delete_batches(BlankRequest $request){
+        return $this->delete_dash($request, Viralbatch::class, 'batches', 'national_batch_id', 'original_batch_id');
+    }
+
+    public function delete_samples(BlankRequest $request){
+        return $this->delete_dash($request, Viralsample::class, 'samples', 'national_sample_id', 'original_sample_id');
+    }
+
+
     public function delete_dash(BlankRequest $request, $update_class, $input, $nat_column, $original_column)
     {
         $models_array = [];
         $models = json_decode($request->input($input));
         $lab_id = json_decode($request->input('lab_id'));
 
-        foreach ($data as $key => $value) {
+        foreach ($models as $key => $value) {
             if($value->$nat_column){
                 $new_model = $update_class::find($value->$nat_column);
             }else{

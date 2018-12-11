@@ -40,13 +40,23 @@ class EidCountyPositives extends Mailable
             ->orderBy('datetested', 'ASC')
             ->get();
 
+        $validated_samples = SampleAlertView::selectRaw("facility_id, count(distinct patient_id) as total")
+            ->where('facility_id', '!=', 7148)
+            ->whereIn('pcrtype', [1, 2, 3])
+            ->where(['result' => 2, 'repeatt' => 0, 'county_id' => $contact->partner])
+            ->whereYear('datetested', date('Y'))
+            ->where('hei_validation', '>', 0)
+            ->groupBy('facility_id')
+            ->orderBy('facility_id')
+            ->get();
+
         $facilities = SampleAlertView::selectRaw("distinct facility_id")
             ->whereIn('pcrtype', [1, 2, 3])
             ->whereYear('datetested', date('Y'))
             ->where(['result' => 2, 'repeatt' => 0, 'county_id' => $contact->partner])
             ->get()->pluck('facility_id')->toArray();
 
-        $totals = SampleAlertView::selectRaw("facility_id, enrollment_status, facilitycode, facility, county, subcounty, partner, count(id) as total")
+        $totals = SampleAlertView::selectRaw("facility_id, enrollment_status, facilitycode, facility, county, subcounty, partner, count(distinct patient_id) as total")
             ->whereIn('pcrtype', [1, 2, 3])
             ->where(['result' => 2, 'repeatt' => 0, 'county_id' => $contact->partner])
             ->whereYear('datetested', date('Y'))
@@ -74,7 +84,10 @@ class EidCountyPositives extends Mailable
             $data[$i]['transfer'] = $totals->where('facility_id', $id)->where('enrollment_status', 5)->first()->total ?? 0;
             $data[$i]['otherreasons'] = $totals->where('facility_id', $id)->where('enrollment_status', 6)->first()->total ?? 0;
 
-            $data[$i]['unknown'] = $data[$i]['positives'] - ($data[$i]['treatment'] + $data[$i]['ltfu'] + $data[$i]['dead'] + $data[$i]['adult'] + $data[$i]['transfer'] + $data[$i]['otherreasons']);
+            $validated = $validated_samples->where('facility_id', $id)->first()->total ?? 0;
+
+            // $data[$i]['unknown'] = $data[$i]['positives'] - ($data[$i]['treatment'] + $data[$i]['ltfu'] + $data[$i]['dead'] + $data[$i]['adult'] + $data[$i]['transfer'] + $data[$i]['otherreasons']);
+            $data[$i]['unknown'] = $data[$i]['positives'] - $validated;
 
            
            if($data[$i]['positives'] == 0) $data[$i]['unknown_percentage'] = 0;
@@ -95,6 +108,8 @@ class EidCountyPositives extends Mailable
         else{
             $this->title = date('Y') .  ' HEI FOR FOLLOW UP & ONLINE DOCUMENTATION FOR ' . strtoupper($this->name) . ' COUNTY SITES ';             
         }
+
+        if(!is_dir(storage_path('app/hei/county'))) mkdir(storage_path('app/hei/county'), 0777, true);
 
         $path = storage_path('app/hei/county/' . $contact->id .   '.pdf');
         $this->path = $path;

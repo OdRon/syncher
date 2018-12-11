@@ -40,10 +40,6 @@ class Viralsample extends BaseModel
         return $this->hasMany('App\Viralsample', 'parentid');
     }
 
-    public function reviewer()
-    {
-        return $this->belongsTo('App\User', 'reviewedby');
-    }
 
     public function approver()
     {

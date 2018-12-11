@@ -43,36 +43,19 @@
                                 @endswitch
                             </p>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <p><strong>Date Entered:</strong> {{ $batch->my_date_format('created_at') }}</p>
                         </div>
-                        <div class="col-md-4">
-                            <p><strong>Entered By:</strong> 
-                                @if($batch->creator)
-                                    @if($batch->creator->full_name != ' ')
-                                        {{ $batch->creator->full_name }}
-                                    @else
-                                        {{ $batch->creator->facility->name ?? '' }}
-                                    @endif
-                                @endif
-                            </p>
-                        </div>
                         @if($batch->high_priority)
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <p><strong>Date Received:</strong> {{ $batch->my_date_format('datereceived')  ?? '' }}</p>
                             </div>
-                            <div class="col-md-4">
-                                <p><strong>Received By:</strong> {{ $batch->receiver->full_name ?? '' }}</p>
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <span class="alert alert-warning">High Priority Batch</span>
                             </div>
                         @else
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <p><strong>Date Received:</strong> {{ $batch->my_date_format('datereceived')  ?? '' }}</p>
-                            </div>
-                            <div class="col-md-8">
-                                <p><strong>Received By:</strong> {{ $batch->receiver->full_name ?? '' }}</p>
                             </div>
                         @endif                        
                     </div>
@@ -107,6 +90,7 @@
                             </thead>
                             <tbody> 
                                 @foreach($batch->sample as $key => $sample)
+                                    @if($sample->repeatt == 0)
                                     <tr>
                                         <td> {{ $key+1 }} </td>
                                         <td> {{ $sample->patient->patient ?? '' }} </td>
@@ -146,6 +130,7 @@
                                         </td>
                                         <td> {{ $sample->result ?? '' }} </td>
                                     </tr>
+                                    @endif
                                 @endforeach
 
 

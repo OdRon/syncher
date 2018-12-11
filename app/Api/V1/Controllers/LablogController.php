@@ -18,14 +18,21 @@ class LablogController extends Controller
      */
     public function lablogs(BlankRequest $request)
     {
-        $data = json_decode($request->input('data'));
+        $data = $request->input('data');
         $data['dateupdated'] = date('Y-m-d H:i:s');
         $lab_id = $request->input('lab_id');
 
-        DB::table('lablogs')->where('logdate', date('Y-m-d'))
+        DB::table('apidb.lablogs')->where('logdate', date('Y-m-d'))
                             ->where('lab', $lab_id)
                             ->where('testtype', $data['testtype'])
                             ->update($data);
+
+        DB::table('apidb.lablogs')->where('logdate', date('Y-m-d'))
+                            ->where('lab', 10)
+                            ->where('testtype', $data['testtype'])
+                            ->update(['dateupdated' => date('Y-m-d H:i:s')]);
+
+
 
         return response()->json([
           'status' => 'ok',

@@ -182,7 +182,7 @@
                                 @endif
                                 <label> <input type="radio" name="period" value="monthly"> Monthly </label>
                                 <label> <input type="radio" name="period" value="quarterly"> Quarterly </label>
-                                @if($testtype == 'EID' || Auth::user()->user_type_id == 9)
+                                @if($testtype == 'EID' || Auth::user()->user_type_id == 9 || Auth::user()->user_type_id == 10)
                                 @if($testtype == 'EID' || Auth::user()->user_type_id != 7)
                                 <label> <input type="radio" name="period" value="annually"> Annually </label>
                                 @endif
@@ -278,7 +278,7 @@
                                         </tbody>
                                     </table>    
                                 </div>
-                                @if($testtype == 'EID' || Auth::user()->user_type_id == 9)
+                                @if($testtype == 'EID' || Auth::user()->user_type_id == 9 || Auth::user()->user_type_id == 10)
                                 <div class="col-md-12" id="yearSelection">
                                     <table cellpadding="1" cellspacing="1" class="table table-condensed">
                                         <tbody>
@@ -302,6 +302,22 @@
                                 @endif
                             </div>
                         </div> 
+                        @if($testtype == 'VL' && (Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 10))
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Select Age Group</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="age" name="age" style="width: 70%;">
+                                    <option value="1" selected>All ages</option>
+                                    <option value="2">Less than 2</option>
+                                    <option value="3">2-9</option>
+                                    <option value="4">10-14</option>
+                                    <option value="5">15-19</option>
+                                    <option value="6">20-24</option>
+                                    <option value="7">25+</option>
+                                </select>
+                            </div>
+                        </div>
+                        @endif
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Select Report Type</label>
                             <div class="col-sm-9">
@@ -339,13 +355,33 @@
                                     <label><input type="radio" name="indicatortype" value="9" class="i-checks">Dormant Sites ( Not Sent Samples)</label>
                                     <label><input type="radio" name="indicatortype" value="10" class="i-checks">Sites Doing Remote Data Entry of Samples</label>
                                 @endif
-                            @elseif($testtype == 'support')
+                                @if(Auth::user()->user_type_id == 10)
+                                    <label><input type="radio" name="indicatortype" value="17" class="i-checks">Test Outcomes</label>
+                                @endif
+                            @elseif($testtype == 'support' || Auth::user()->user_type_id == 10)
                                 <label><input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report</label>
                                 <label><input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report</label>
                                 <label><input type="radio" name="indicatortype" value="14" class="i-checks">EID Sample Referral Network</label>
                                 <label><input type="radio" name="indicatortype" value="15" class="i-checks">VL Sample Referral Network</label>
                                 <label><input type="radio" name="indicatortype" value="13" class="i-checks">Quarterly VL Report (only for labs)</label>
+                                <label><input type="radio" name="indicatortype" value="16" class="i-checks">VL Outcomes by Platform</label>
+                                <label><input type="radio" name="indicatortype" value="18" class="i-checks">Low Level Viremia</label>
                             @endif
+                            <br />
+                            @if(Auth::user()->user_type_id == 10)
+                                <hr>
+                                <h4>Maryland Support Reports</h4>
+                                <hr>
+                                <br>
+                                <label><input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="14" class="i-checks">EID Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="15" class="i-checks">VL Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="13" class="i-checks">Quarterly VL Report (only for labs)</label>
+                                <label><input type="radio" name="indicatortype" value="16" class="i-checks">VL Outcomes by Platform</label>
+                                <label><input type="radio" name="indicatortype" value="18" class="i-checks">Low Level Viremia</label>
+                            @endif
+                            <!-- Highest value 18 -->
                             </div>
                         </div>
 
