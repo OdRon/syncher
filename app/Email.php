@@ -15,9 +15,9 @@ class Email extends BaseModel
 {
     use SoftDeletes;
 
-    public function county()
+    public function lab()
     {
-        return $this->belongsTo('App\County');
+        return $this->belongsTo('App\Lab');
     }
 
     public function user()
