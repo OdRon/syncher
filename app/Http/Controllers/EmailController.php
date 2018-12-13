@@ -10,7 +10,7 @@ class EmailController extends Controller
 
     function __construct()
     {
-        parent::__construct();
+        // parent::__construct();
         if(!in_array(auth()->user()->user_type_id, [10, 12])) abort();
     }
 
