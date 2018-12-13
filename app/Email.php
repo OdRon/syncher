@@ -2,7 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+
+use App\BaseModel;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Mail\CustomMail;
@@ -10,7 +11,7 @@ use App\Mail\CustomEmailFiles;
 use Exception;
 use DB;
 
-class Email extends Model
+class Email extends BaseModel
 {
     use SoftDeletes;
 
@@ -70,8 +71,10 @@ class Email extends Model
 
 		foreach ($partner_contacts as $key => $contact) {
 
-	        $cc_array = [];
-	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
+	        $cc_array = $this->comma_array($this->cc_list);
+	        $bcc_array = $this->comma_array($this->bcc_list);
+	        $bcc_array = array_merge($bcc_array, ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org']);
+
 
 	        foreach ($contact as $column_name => $value) {
 	        	if(str_contains($column_name, 'ccc') && str_contains($value, ['@']) && !str_contains($value, ['jbatuka'])) $cc_array[] = trim($value);
@@ -81,7 +84,6 @@ class Email extends Model
 	        if(env('APP_ENV') == 'production'){
 		        try {
 			        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send($comm);
-			        DB::table('vl_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
 		        } catch (Exception $e) {
 		        	
 		        }
@@ -91,23 +93,6 @@ class Email extends Model
 		    }
 		}
 
-        $cc_array = $this->comma_array($this->cc_list);
-        $bcc_array = $this->comma_array($this->bcc_list);
-        $bcc_array = array_merge($bcc_array, ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke']);
-
-        foreach ($facilities as $key => $facility) {
-        	$mail_array = $facility->email_array;
-            if(!$mail_array) continue;
-        	// $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
-        	$comm = new CustomMail($this, $facility);
-        	try {
-	        	Mail::to($mail_array)->cc($cc_array)->bcc($bcc_array)->send($comm);
-	        } catch (Exception $e) {
-        	
-	        }
-        	// break;
-        }
-        
         $this->send_files();
         $this->delete_blade();
     }
