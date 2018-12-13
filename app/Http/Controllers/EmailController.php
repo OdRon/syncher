@@ -44,7 +44,7 @@ class EmailController extends Controller
         $email->save();
         $email->save_raw($request->input('email_content'));
         session(['toast_message' => 'The email has been created.']);
-        return back();
+        return redirect('email');
     }
 
     /**
