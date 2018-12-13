@@ -72,7 +72,7 @@
                     <hr />
                 @endif
             @endif
-            @if(in_array(Auth::user()->user_type_id, [10, 12])
+            @if(in_array(Auth::user()->user_type_id, [10, 12]))
                 <li>
                     <a href="{{ url('email/create') }}">Add Email</a>
                 </li>                
