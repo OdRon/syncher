@@ -92,6 +92,11 @@ Artisan::command('dispatch:mlab', function(){
     $this->info($str);
 })->describe('Send WRP results to MLAB.');
 
+Artisan::command('send:emails', function(){
+    $str = \App\Report::send_communication();
+    $this->info($str);
+})->describe('Send pending emails.');
+
 Artisan::command('test:email', function(){
     $str = \App\Report::test_email();
     $this->info($str);

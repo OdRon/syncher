@@ -106,6 +106,8 @@ class LoginController extends Controller
         $user = auth()->user();
         $user->set_last_access();
 
+        if($user->user_type_id == 12) return redirect('/email');
+
         return redirect('/home');
     }
 
