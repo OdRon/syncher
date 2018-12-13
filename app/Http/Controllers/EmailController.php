@@ -8,13 +8,6 @@ use Illuminate\Http\Request;
 class EmailController extends Controller
 {
 
-    // function __construct()
-    // {
-    //     // parent::__construct();
-    //     dd(auth()->user());
-    //     if(!in_array(auth()->user()->user_type_id, [10, 12])) abort();
-    // }
-
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +15,6 @@ class EmailController extends Controller
      */
     public function index()
     {
-        dd(auth()->user());
         $emails = Email::with(['lab'])->get();
         return view('tables.emails', ['emails' => $emails]);
     }
