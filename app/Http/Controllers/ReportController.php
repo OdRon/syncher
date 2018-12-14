@@ -59,6 +59,8 @@ class ReportController extends Controller
                                                 return $query->where('partner_id5', '=', auth()->user()->level);
                                             } elseif (auth()->user()->level ==80) {//fhi 360
                                                 return $query->where('partner_id6', '=', auth()->user()->level);
+                                            } elseif (auth()->user()->level ==93) {//MobileWAChX
+                                                return $query->where('partner_id7', '=', auth()->user()->level);
                                             } else  { //boresha
                                                 return $query->where('partner_id2', '=', auth()->user()->level);
                                             }
@@ -924,6 +926,8 @@ class ReportController extends Controller
                         $model = $model->where('view_facilitys.partner_id5', '=', auth()->user()->level);
                     } elseif (auth()->user()->level ==80) {//fhi 360
                         $model = $model->where('view_facilitys.partner_id6', '=', auth()->user()->level);
+                    } elseif (auth()->user()->level ==93) {//MobileWAChX
+                        $model = $model->where('view_facilitys.partner_id7', '=', auth()->user()->level);
                     } else  { //boresha
                         $model = $model->where('view_facilitys.partner_id2', '=', auth()->user()->level);
                     }
