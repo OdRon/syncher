@@ -61,10 +61,7 @@ class Email extends BaseModel
         ini_set("memory_limit", "-1");
 
 
-		$partner_contacts = DB::table('vl_partner_contacts_for_alerts')
-            ->when($partner_contact, function($query) use ($partner_contact){
-                return $query->where('id', $partner_contact);
-            })->where('active', 2)->get();
+		$partner_contacts = DB::table('vl_partner_contacts_for_alerts')->where('active', 2)->get();
         
         $this->sent = true;
         $this->save();
