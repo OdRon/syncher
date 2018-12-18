@@ -152,13 +152,24 @@ class VlController extends Controller
 
                     $sample = null;
 
-                    if($value2->national_sample_id){
-                        $sample = Viralsample::find($value2->national_sample_id);
-                        if($sample && $sample->original_sample_id != $value2->id) $sample = null;
-                        // {
-                        //     $sample->delete();
-                        //     unset($sample);
-                        // }
+                    // if($value2->national_sample_id){
+                    //     $sample = Viralsample::find($value2->national_sample_id);
+                    //     if($sample && $sample->original_sample_id != $value2->id){
+                    //         $sample = null;
+                    //     }
+                    //     // {
+                    //     //     $sample->delete();
+                    //     //     unset($sample);
+                    //     // }
+                    // }
+
+                    $sample_view = ViralsampleView::where(['original_sample_id' => $value2->id, 'lab_id' => $batch->lab_id])->get();
+                    if($sample_view->count() == 1) $sample = Viralsample::find($sample_view->first()->id);
+                    else{
+                        foreach ($sample_view as $duplicate) {
+                            $dup = Viralsample::find($duplicate->id);
+                            $dup->delete();
+                        }
                     }
 
                     if(!$sample) $sample = new Viralsample;
