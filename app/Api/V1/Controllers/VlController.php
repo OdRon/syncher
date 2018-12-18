@@ -102,7 +102,8 @@ class VlController extends Controller
         foreach ($patients as $key => $value) {
             $p = Viralpatient::existing($value->facility_id, $value->patient)->first();
             if($p){
-                $patients_array[] = ['original_id' => $p->original_patient_id, 'national_patient_id' => $p->id ];
+                // $patients_array[] = ['original_id' => $p->original_patient_id, 'national_patient_id' => $p->id ];
+                $patients_array[] = ['original_id' => $value->original_patient_id, 'national_patient_id' => $p->id ];
                 continue;
             }
 
