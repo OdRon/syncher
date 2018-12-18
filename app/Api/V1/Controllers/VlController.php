@@ -150,15 +150,18 @@ class VlController extends Controller
                 foreach ($samples as $key2 => $value2) {
                     // if($value2->parentid != 0) continue;
 
+                    $sample = null;
+
                     if($value2->national_sample_id){
                         $sample = Viralsample::find($value2->national_sample_id);
-                        if($sample && $sample->original_sample_id != $value2->id){
-                            $sample->delete();
-                            unset($sample);
-                        }
+                        if($sample && $sample->original_sample_id != $value2->id) $sample = null;
+                        // {
+                        //     $sample->delete();
+                        //     unset($sample);
+                        // }
                     }
 
-                    if(!isset($sample)) $sample = new Viralsample;
+                    if(!$sample) $sample = new Viralsample;
 
 
                     // if($value2->national_sample_id) $sample = Viralsample::find($value2->national_sample_id);
