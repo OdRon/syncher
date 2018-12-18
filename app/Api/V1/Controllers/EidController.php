@@ -123,8 +123,11 @@ class EidController extends Controller
         foreach ($patients as $key => $value) {
             $p = Patient::existing($value->facility_id, $value->patient)->first();
             if($p){
-                $patients_array[] = ['original_id' => $p->original_patient_id, 'national_patient_id' => $p->id ];
-                $mothers_array[] = ['original_id' => $p->mother->original_mother_id, 'national_mother_id' => $p->mother->id ];
+                // $patients_array[] = ['original_id' => $p->original_patient_id, 'national_patient_id' => $p->id ];
+                // $mothers_array[] = ['original_id' => $p->mother->original_mother_id, 'national_mother_id' => $p->mother->id ];
+
+                $patients_array[] = ['original_id' => $value->id, 'national_patient_id' => $p->id ];
+                $mothers_array[] = ['original_id' => $value->mother->id, 'national_mother_id' => $p->mother->id ];
                 continue;
             }
 
@@ -236,9 +239,11 @@ class EidController extends Controller
     {
         $worksheets_array = [];
         $worksheets = json_decode($request->input('worksheets'));
+        $lab_id = json_decode($request->input('lab_id'));
 
         foreach ($worksheets as $key => $value) {
-            $worksheet = new Worksheet;
+            $worksheet = Worksheet::where(['original_worksheet_id' => $worksheet->id, 'lab_id' => $lab_id])->first();
+            if(!$worksheet) $worksheet = new Worksheet;
             $worksheet->fill(get_object_vars($value));
             $worksheet->original_worksheet_id = $worksheet->id;
             unset($worksheet->id);

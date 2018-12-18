@@ -10,9 +10,9 @@ class BaseModel extends Model
 
     
 
-    public function my_date_format($value=null)
+    public function my_date_format($value=null, $format='d-M-Y')
     {
-        if($this->$value) return date('d-M-Y', strtotime($this->$value));
+        if($this->$value) return date($format, strtotime($this->$value));
 
         return '';
     }

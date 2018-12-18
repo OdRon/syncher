@@ -174,6 +174,15 @@ class Report
 		}
 	}
 
+    public static function send_communication()
+    {
+        $emails = \App\Email::where('sent', false)->where('time_to_be_sent', '<', date('Y-m-d H:i:s'))->get();
+
+        foreach ($emails as $email) {
+        	$email->dispatch();
+        }
+    }
+
     public static function delete_folder($path)
     {
         if(!ends_with($path, '/')) $path .= '/';

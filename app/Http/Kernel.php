@@ -62,5 +62,7 @@ class Kernel extends HttpKernel
         'jwt.refresh' => RefreshToken::class,
 
         'jwt.auth' => Authenticate::class,
+        
+        'only_utype' => \App\Http\Middleware\OnlyUtype::class,
     ];
 }

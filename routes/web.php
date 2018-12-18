@@ -39,6 +39,15 @@ Route::post('facility/search/', 'FacilityController@search')->name('facility.sea
 Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('/home', 'HomeController@index')->name('home');
 
+	Route::group(['middleware' => ['only_utype:10,12']], function () {
+		Route::prefix('email')->name('email.')->group(function () {
+			Route::get('preview/{email}', 'EmailController@demo')->name('demo');
+			Route::post('preview/{email}', 'EmailController@demo_email')->name('demo_email');
+		});
+		Route::resource('email', 'EmailController');
+	});
+
+
 	Route::prefix('hei')->name('hei.')->group(function(){
 		Route::get('validate/{year?}/{month?}', 'HEIController@index')->name('followup');
 		Route::get('followup/{duration?}/{validation?}/{year?}/{month?}', 'HEIController@followup')->name('followup');
