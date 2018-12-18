@@ -155,7 +155,7 @@ class VlController extends Controller
                         if($sample && $sample->original_sample_id != $value2->id) unset($sample);
                     }
 
-                    if(!isset($sample)) $sample = new ViralSample;
+                    if(!isset($sample)) $sample = new Viralsample;
 
 
                     // if($value2->national_sample_id) $sample = Viralsample::find($value2->national_sample_id);
