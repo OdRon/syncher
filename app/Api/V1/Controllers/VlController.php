@@ -231,7 +231,7 @@ class VlController extends Controller
         $worksheets = json_decode($request->input('worksheets'));
 
         foreach ($worksheets as $key => $value) {
-            $worksheet = Viralworksheet::where(['original_worksheet_id' => $worksheet->id, 'lab_id' => $lab_id])->first();
+            $worksheet = Viralworksheet::where(['original_worksheet_id' => $value->id, 'lab_id' => $value->lab_id])->first();
             if(!$worksheet) $worksheet = new Viralworksheet;
             $worksheet->fill(get_object_vars($value));
             $worksheet->original_worksheet_id = $worksheet->id;
