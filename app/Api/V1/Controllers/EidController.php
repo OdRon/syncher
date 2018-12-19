@@ -257,7 +257,7 @@ class EidController extends Controller
         $lab_id = json_decode($request->input('lab_id'));
 
         foreach ($worksheets as $key => $value) {
-            $worksheet = Worksheet::where(['original_worksheet_id' => $worksheet->id, 'lab_id' => $lab_id])->first();
+            $worksheet = Worksheet::where(['original_worksheet_id' => $value->id, 'lab_id' => $value->lab_id])->first();
             if(!$worksheet) $worksheet = new Worksheet;
             $worksheet->fill(get_object_vars($value));
             $worksheet->original_worksheet_id = $worksheet->id;
