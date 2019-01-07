@@ -167,6 +167,29 @@
                                 @endif
                             @endif
                         </div>
+                        @if(Auth::user()->user_type_id == 9)
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                <strong>Selection Level</strong>
+                            </label>
+                            <div class="col-sm-9">
+                                <label class="col-sm-3 control-label">
+                                    <input type="radio" name="level" value="counties" class="i-checks">By Counties
+                                </label>
+                                <label class="col-sm-3 control-label">
+                                    <input type="radio" name="level" value="partners" class="i-checks">By Partners
+                                </label>
+                                <label class="col-sm-3 control-label">
+                                    <input type="radio" name="level" value="subcounties" class="i-checks">By Sub-Counties
+                                </label>
+                                <label class="col-sm-3 control-label">
+                                    <input type="radio" name="level" value="facility" class="i-checks">By Facilities
+                                </label>
+                            </div>
+                        </div>
+                        <hr>
+                        @endif
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Select Period</label>
                             <div class="col-sm-10">
@@ -178,13 +201,13 @@
                                     <option value="annually">Annually</option>
                                 </select> -->
                                 @if(Auth::user()->user_type_id != 9)
-                                <label> <input type="radio" name="period" value="range"> Date Range </label>
+                                <label> <input type="radio" name="period" value="range" required> Date Range </label>
                                 @endif
-                                <label> <input type="radio" name="period" value="monthly"> Monthly </label>
-                                <label> <input type="radio" name="period" value="quarterly"> Quarterly </label>
+                                <label> <input type="radio" name="period" value="monthly" required> Monthly </label>
+                                <label> <input type="radio" name="period" value="quarterly" required> Quarterly </label>
                                 @if($testtype == 'EID' || Auth::user()->user_type_id == 9 || Auth::user()->user_type_id == 10)
                                 @if($testtype == 'EID' || Auth::user()->user_type_id != 7)
-                                <label> <input type="radio" name="period" value="annually"> Annually </label>
+                                <label> <input type="radio" name="period" value="annually" required> Annually </label>
                                 @endif
                                 @endif
                             </div>
@@ -323,49 +346,51 @@
                             <div class="col-sm-9">
                             @if($testtype == 'EID')
                                 @if(!(Auth::user()->user_type_id == 2))
-                                <label> <input type="radio" name="indicatortype" value="1" class="i-checks"> All Outcomes (+/-) </label>
+                                <label> <input type="radio" name="indicatortype" value="1" class="i-checks" required> All Outcomes (+/-) </label>
                                 @endif
-                                <label> <input type="radio" name="indicatortype" value="2" class="i-checks"> + Outcomes </label>
+                                <label> <input type="radio" name="indicatortype" value="2" class="i-checks" required> + Outcomes </label>
                                 @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
-                                <label> <input type="radio" name="indicatortype" value="3" class="i-checks"> + Outcomes for Follow Up </label>
+                                <label> <input type="radio" name="indicatortype" value="3" class="i-checks" required> + Outcomes for Follow Up </label>
                                 @endif
                                 @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 10)
-                                    <label> <input type="radio" name="indicatortype" value="4" class="i-checks"> - Outcomes </label>
+                                    <label> <input type="radio" name="indicatortype" value="4" class="i-checks" required> - Outcomes </label>
                                 @endif
-                                <label> <input type="radio" name="indicatortype" value="5" class="i-checks"> Rejected Samples </label>
+                                <label> <input type="radio" name="indicatortype" value="5" class="i-checks" required> Rejected Samples </label>
                                 @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 7))
-                                <label> <input type="radio" name="indicatortype" value="6" class="i-checks"> Patients <= 2M </label>
+                                <label> <input type="radio" name="indicatortype" value="6" class="i-checks" required> Patients <= 2M </label>
                                     @if(!(Auth::user()->user_type_id == 6))
-                                    <label> <input type="radio" name="indicatortype" value="7" class="i-checks"> High + Burden Sites </label>
+                                    <label> <input type="radio" name="indicatortype" value="7" class="i-checks" required> High + Burden Sites </label>
                                     @endif
                                 @endif
                                 @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 10)
                                     @if(Auth::user()->user_type_id != 2)
                                         <!-- <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label> -->
-                                        <label> <input type="radio" name="indicatortype" value="9" class="i-checks"> Dormant Sites ( Not Sent Samples) </label>
-                                        <label> <input type="radio" name="indicatortype" value="10" class="i-checks"> Sites Doing Remote Data Entry of Samples </label>
+                                        <label> <input type="radio" name="indicatortype" value="9" class="i-checks" required> Dormant Sites ( Not Sent Samples) </label>
+                                        <label> <input type="radio" name="indicatortype" value="10" class="i-checks" required> Sites Doing Remote Data Entry of Samples </label>
                                     @endif
                                 @endif
                             @elseif($testtype == 'VL')
-                                <label><input type="radio" name="indicatortype" value="2" class="i-checks">Detailed</label>
-                                <label><input type="radio" name="indicatortype" value="5" class="i-checks">Rejected</label>
+                                <label><input type="radio" name="indicatortype" value="2" class="i-checks" required>Detailed</label>
+                                <label><input type="radio" name="indicatortype" value="5" class="i-checks" required>Rejected</label>
                                 @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 10)
-                                    <label><input type="radio" name="indicatortype" value="4" class="i-checks">Non Suppressed ( > 1000 cp/ml)</label>
-                                    <label><input type="radio" name="indicatortype" value="6" class="i-checks">Pregnant & Lactating</label>
-                                    <label><input type="radio" name="indicatortype" value="9" class="i-checks">Dormant Sites ( Not Sent Samples)</label>
-                                    <label><input type="radio" name="indicatortype" value="10" class="i-checks">Sites Doing Remote Data Entry of Samples</label>
+                                    <label><input type="radio" name="indicatortype" value="4" class="i-checks" required>Non Suppressed ( > 1000 cp/ml)</label>
+                                    <label><input type="radio" name="indicatortype" value="6" class="i-checks" required>Pregnant & Lactating</label>
+                                    <label><input type="radio" name="indicatortype" value="9" class="i-checks" required>Dormant Sites ( Not Sent Samples)</label>
+                                    <label><input type="radio" name="indicatortype" value="10" class="i-checks" required>Sites Doing Remote Data Entry of Samples</label>
                                 @endif
                                 @if(Auth::user()->user_type_id == 10)
-                                    <label><input type="radio" name="indicatortype" value="17" class="i-checks">Test Outcomes</label>
+                                    <label><input type="radio" name="indicatortype" value="17" class="i-checks" required>Test Outcomes</label>
                                 @endif
                             @elseif($testtype == 'support' || Auth::user()->user_type_id == 10)
-                                <label><input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report</label>
-                                <label><input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report</label>
-                                <label><input type="radio" name="indicatortype" value="14" class="i-checks">EID Sample Referral Network</label>
-                                <label><input type="radio" name="indicatortype" value="15" class="i-checks">VL Sample Referral Network</label>
-                                <label><input type="radio" name="indicatortype" value="13" class="i-checks">Quarterly VL Report (only for labs)</label>
-                                <label><input type="radio" name="indicatortype" value="16" class="i-checks">VL Outcomes by Platform</label>
-                                <label><input type="radio" name="indicatortype" value="18" class="i-checks">Low Level Viremia</label>
+                                <label><input type="radio" name="indicatortype" value="11" class="i-checks" required> EID Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="12" class="i-checks" required> VL Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="14" class="i-checks" required>EID Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="15" class="i-checks" required>VL Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="13" class="i-checks" required>Quarterly VL Report (only for labs)</label>
+                                <label><input type="radio" name="indicatortype" value="16" class="i-checks" required>VL Outcomes by Platform</label>
+                                <label><input type="radio" name="indicatortype" value="18" class="i-checks" required>Low Level Viremia</label>
+                                <label><input type="radio" name="indicatortype" value="19" class="i-checks" required>EID No Data Summary</label>
+                                <label><input type="radio" name="indicatortype" value="20" class="i-checks" required>VL No Data Summary</label>
                             @endif
                             <br />
                             @if(Auth::user()->user_type_id == 10)
@@ -373,13 +398,15 @@
                                 <h4>Maryland Support Reports</h4>
                                 <hr>
                                 <br>
-                                <label><input type="radio" name="indicatortype" value="11" class="i-checks"> EID Remote Log in Report</label>
-                                <label><input type="radio" name="indicatortype" value="12" class="i-checks"> VL Remote Log in Report</label>
-                                <label><input type="radio" name="indicatortype" value="14" class="i-checks">EID Sample Referral Network</label>
-                                <label><input type="radio" name="indicatortype" value="15" class="i-checks">VL Sample Referral Network</label>
-                                <label><input type="radio" name="indicatortype" value="13" class="i-checks">Quarterly VL Report (only for labs)</label>
-                                <label><input type="radio" name="indicatortype" value="16" class="i-checks">VL Outcomes by Platform</label>
-                                <label><input type="radio" name="indicatortype" value="18" class="i-checks">Low Level Viremia</label>
+                                <label><input type="radio" name="indicatortype" value="11" class="i-checks" required> EID Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="12" class="i-checks" required> VL Remote Log in Report</label>
+                                <label><input type="radio" name="indicatortype" value="14" class="i-checks" required>EID Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="15" class="i-checks" required>VL Sample Referral Network</label>
+                                <label><input type="radio" name="indicatortype" value="13" class="i-checks" required>Quarterly VL Report (only for labs)</label>
+                                <label><input type="radio" name="indicatortype" value="16" class="i-checks" required>VL Outcomes by Platform</label>
+                                <label><input type="radio" name="indicatortype" value="18" class="i-checks" required>Low Level Viremia</label>
+                                <label><input type="radio" name="indicatortype" value="19" class="i-checks" required>EID No Data Summary</label>
+                                <label><input type="radio" name="indicatortype" value="20" class="i-checks" required>VL No Data Summary</label>
                             @endif
                             <!-- Highest value 18 -->
                             </div>
@@ -428,6 +455,7 @@
 
     @endcomponent
     <script type="text/javascript">
+
         $(document).ready(function(){
             // $('.period').click(function(){
             $('input[name="period"]').change(function(){

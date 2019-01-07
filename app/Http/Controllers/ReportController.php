@@ -92,6 +92,42 @@ class ReportController extends Controller
         return view('reports.home', compact('facilitys','countys','subcountys','partners','labs','testtype'))->with('pageTitle', 'Reports '.$testtype);
     }
 
+    public static function __getDateRequested($request, $model, $table, &$dateString, $receivedOnly=true) {
+        if ($receivedOnly) { $column = 'datereceived'; } else { $column = 'datetested'; }
+
+        if (!$request->input('period') || $request->input('period') == 'range') {
+            $dateString .= date('d-M-Y', strtotime($request->input('fromDate')))." - ".date('d-M-Y', strtotime($request->input('toDate')));
+            $model = $model->whereRaw("$table.$column BETWEEN '".$request->input('fromDate')."' AND '".$request->input('toDate')."'");
+        } else if ($request->input('period') == 'monthly') {
+            $dateString .= date("F", mktime(null, null, null, $request->input('month'))).' - '.$request->input('year');
+            $model = $model->whereRaw("YEAR($table.$column) = '".$request->input('year')."' AND MONTH($table.$column) = '".$request->input('month')."'");
+        } else if ($request->input('period') == 'quarterly') {
+            if ($request->input('quarter') == 'Q1') {
+                $startQuarter = 1;
+                $endQuarter = 3;
+            } else if ($request->input('quarter') == 'Q2') {
+                $startQuarter = 4;
+                $endQuarter = 6;
+            } else if ($request->input('quarter') == 'Q3') {
+                $startQuarter = 7;
+                $endQuarter = 9;
+            } else if ($request->input('quarter') == 'Q4') {
+                $startQuarter = 10;
+                $endQuarter = 12;
+            } else {
+                $startQuarter = 0;
+                $endQuarter = 0;
+            }
+            $dateString .= $request->input('quarter').' - '.$request->input('year');
+            $model = $model->whereRaw("YEAR($table.$column) = '".$request->input('year')."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
+        } else if ($request->input('period') == 'annually') {
+            $dateString .= $request->input('year');
+            $model = $model->whereRaw("YEAR($table.$column) = '".$request->input('year')."'");
+        }
+
+        return $model;
+    }
+
     public function nodata($testtype='EID', $year=null, $month=null) {
         $testtype = strtoupper($testtype);
         if ($year==null || $year=='null'){
@@ -220,7 +256,7 @@ class ReportController extends Controller
 
     public function generate(Request $request)
     {
-        if (!isset($request->category)) {
+        if (!isset($request->category) && !($request->indicatortype == 19 || $request->indicatortype == 20)) {
             session(['toast_message'=>'Please Enter a category', 'toast_error'=>1]);
             return back();
         }
@@ -252,12 +288,97 @@ class ReportController extends Controller
 
         if ($request->indicatortype == 18) {
             $this->__getLowLevelViremia($request);
+            return back();
+        }
+
+        if ($request->indicatortype == 19 || $request->indicatortype == 20) {
+            $this->__getNodataSummary($request);
+            return back();
         }
         
         $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
         $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         
         return back();
+    }
+
+    public function __getNodataSummary($request) {
+        $model = $this->__getNodataSummaryObject($request);
+    }
+
+    public function __getNodataSummaryObject($request) {
+        $allcount = "COUNT(*) AS allsamples";
+        $dobcount = "COUNT(IF(dob IS NULL, 1, NULL)) AS dob";
+        $sexcount = "COUNT(IF(sex IS NULL, 1, NULL)) AS sex";
+        $regimencount = "COUNT(IF(prophylaxis IS NULL, 1, NULL)) AS regimen";
+        $justificationcount = "COUNT(IF(justification IS NULL, 1, NULL)) AS justification";
+        $initiationcount = "COUNT(IF(initiation_date IS NULL, 1, NULL)) AS initiation_date";
+        $dateString = '';
+        $newdata = [];
+
+        if ($request->input('indicatortype') == 19) { // For EID
+            $newdata[] = ['Name', 'Age', 'Gender'];
+            $model = SampleView::selectRaw("$allcount, $dobcount, $sexcount");
+            $table = "samples_view";
+            $dateString = 'EID';
+        } else if ($request->input('indicatortype') == 20) { // For VL
+            $newdata[] = ['Name', 'Age', 'Gender', 'Regimen', 'Justification', 'Initiation Date'];
+            $model = ViralsampleView::selectRaw("$allcount, $dobcount, $sexcount, $regimencount, $justificationcount, $initiationcount");
+            $table = "viralsamples_view";
+            $dateString = 'VL';
+        }
+
+        $dateString .= ' no data ';
+        $model = self::__getDateRequested($request, $model, $table, $dateString);
+        $model = self::__getBelongingToNoDataSummary($request, $model, $dateString, $table);
+        $data = $model->get();
+        $sheetTitle[] = 'Sheet1';
+        
+        foreach ($data as $key => $dataitem) {
+            $newdata[$key+1] = ['name' => $dataitem->selection,
+                            'age' => number_format(round(($dataitem->dob/$dataitem->allsamples)*100,2)).'%',
+                            'gender' => number_format(round(($dataitem->sex/$dataitem->allsamples)*100,2)).'%'];
+            if ($request->input('indicatortype') == 20) {
+                $newdata[$key+1]['regimen'] = number_format(round(($dataitem->regimen/$dataitem->allsamples)*100,2)).'%';
+                $newdata[$key+1]['justification'] = number_format(round(($dataitem->justification/$dataitem->allsamples)*100,2)).'%';
+                $newdata[$key+1]['initiationdate'] = number_format(round(($dataitem->initiationdate/$dataitem->allsamples)*100,2)).'%';
+            }
+        }
+        
+        ini_set("memory_limit", "-1");
+        $title = strtoupper($dateString);
+        Excel::create($title, function($excel) use ($newdata, $title) {
+                $excel->setTitle($title);
+                $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('EID/VL System');
+                $excel->setDescription($title);
+
+                $excel->sheet('Sheet1', function($sheet) use ($newdata) {
+                    $sheet->fromArray($newdata, null, 'A1', false, false);
+                });
+
+            })->download('csv');
+
+    }
+
+    public static function __getBelongingToNoDataSummary($request, $model, &$dateString, $table) {
+        $title = ' for ';
+        $model = $model->join('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id");
+        if ($request->input('level') == 'counties') {
+            $model = $model->selectRaw("view_facilitys.county as selection");
+            $title .= 'counties ';
+        } else if ($request->input('level') == 'subcounties') {
+            $model = $model->selectRaw("view_facilitys.subcounty as selection");
+            $title .= 'subcounties ';
+        } else if ($request->input('level') == 'facility') {
+            $model = $model->selectRaw("view_facilitys.name as selection");
+            $title .= 'facilities ';
+        } else if ($request->input('level') == 'partners') {
+            $model = $model->selectRaw("view_facilitys.partner as selection");
+            $title .= 'partners ';
+        }
+        $model = $model->groupBy('selection');
+        $dateString .= $title;
+        return $model;
     }
 
     public function __getTestOutComes($request, &$dateString, &$excelColumns, &$title, &$briefTitle) {
