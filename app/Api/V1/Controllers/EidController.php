@@ -185,12 +185,27 @@ class EidController extends Controller
 
                 // $pat = json_decode($value2->patient);
 
-                if($value2->national_sample_id){
-                    $sample = Sample::find($value2->national_sample_id);
-                    if($sample && $sample->original_sample_id != $value2->id) unset($sample);
+                $sample = null;
+
+                // if($value2->national_sample_id){
+                //     $sample = Sample::find($value2->national_sample_id);
+                //     if($sample && $sample->original_sample_id != $value2->id) $sample = null;
+                //     // {
+                //     //     // $sample->delete();
+                //     //     unset($sample);
+                //     // }
+                // }
+
+                $sample_view = SampleView::where(['original_sample_id' => $value2->id, 'lab_id' => $batch->lab_id])->get();
+                if($sample_view->count() == 1) $sample = Sample::find($sample_view->first()->id);
+                else{
+                    foreach ($sample_view as $duplicate) {
+                        $dup = Sample::find($duplicate->id);
+                        $dup->delete();
+                    }
                 }
 
-                if(!isset($sample)) $sample = new Sample;
+                if(!$sample) $sample = new Sample;
                 
                 $sample->fill(get_object_vars($value2));
                 $sample->original_sample_id = $sample->id;
@@ -242,7 +257,7 @@ class EidController extends Controller
         $lab_id = json_decode($request->input('lab_id'));
 
         foreach ($worksheets as $key => $value) {
-            $worksheet = Worksheet::where(['original_worksheet_id' => $worksheet->id, 'lab_id' => $lab_id])->first();
+            $worksheet = Worksheet::where(['original_worksheet_id' => $value->id, 'lab_id' => $value->lab_id])->first();
             if(!$worksheet) $worksheet = new Worksheet;
             $worksheet->fill(get_object_vars($value));
             $worksheet->original_worksheet_id = $worksheet->id;

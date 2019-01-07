@@ -150,12 +150,29 @@ class VlController extends Controller
                 foreach ($samples as $key2 => $value2) {
                     // if($value2->parentid != 0) continue;
 
-                    if($value2->national_sample_id){
-                        $sample = Viralsample::find($value2->national_sample_id);
-                        if($sample && $sample->original_sample_id != $value2->id) unset($sample);
+                    $sample = null;
+
+                    // if($value2->national_sample_id){
+                    //     $sample = Viralsample::find($value2->national_sample_id);
+                    //     if($sample && $sample->original_sample_id != $value2->id){
+                    //         $sample = null;
+                    //     }
+                    //     // {
+                    //     //     $sample->delete();
+                    //     //     unset($sample);
+                    //     // }
+                    // }
+
+                    $sample_view = ViralsampleView::where(['original_sample_id' => $value2->id, 'lab_id' => $batch->lab_id])->get();
+                    if($sample_view->count() == 1) $sample = Viralsample::find($sample_view->first()->id);
+                    else{
+                        foreach ($sample_view as $duplicate) {
+                            $dup = Viralsample::find($duplicate->id);
+                            $dup->delete();
+                        }
                     }
 
-                    if(!isset($sample)) $sample = new Viralsample;
+                    if(!$sample) $sample = new Viralsample;
 
 
                     // if($value2->national_sample_id) $sample = Viralsample::find($value2->national_sample_id);
@@ -214,7 +231,7 @@ class VlController extends Controller
         $worksheets = json_decode($request->input('worksheets'));
 
         foreach ($worksheets as $key => $value) {
-            $worksheet = Viralworksheet::where(['original_worksheet_id' => $worksheet->id, 'lab_id' => $lab_id])->first();
+            $worksheet = Viralworksheet::where(['original_worksheet_id' => $value->id, 'lab_id' => $value->lab_id])->first();
             if(!$worksheet) $worksheet = new Viralworksheet;
             $worksheet->fill(get_object_vars($value));
             $worksheet->original_worksheet_id = $worksheet->id;
