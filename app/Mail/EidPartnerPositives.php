@@ -114,9 +114,9 @@ class EidPartnerPositives extends Mailable
         $this->samples = $samples;
         $this->name = DB::table('partners')->where('id', $contact->partner)->first()->name ?? '';
         $this->division = 'Partner';
-        $county = $data[0]['county'] ?? '';
         
         $addendum = '';
+        if($contact->split == 1) $county = DB::table('countys')->where(['id' => $contact->county])->first()->name ?? '';
         if($contact->split == 1) $addendum = " IN " . strtoupper($county) . " COUNTY";
 
         if(!is_dir(storage_path('app/hei/partner'))) mkdir(storage_path('app/hei/partner'), 0777, true);
