@@ -48,6 +48,20 @@ class Random
 		foreach ($data as $row) {
 			Facility::where(['facilitycode' => $row->code])->update(['smsprinter' => 1]);
 		}
+	} 
+
+	public static function mlab_kisii_sites()
+	{
+		ini_set("memory_limit", "-1");
+        config(['excel.import.heading' => true]);
+		$path = public_path('mlab_kisii.csv');
+		$data = Excel::load($path, function($reader){
+
+		})->get();
+
+		foreach ($data as $row) {
+			Facility::where(['facilitycode' => $row->code])->update(['smsprinter' => 1]);
+		}
 	}
 
 
