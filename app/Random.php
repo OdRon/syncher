@@ -55,7 +55,7 @@ class Random
 			foreach ($samples as $sample) {
 				if($sample->id == $original->id) continue;
 
-				if($sample->datetested == $original->datetested  && $sample->result == $original->result){
+				if($sample->worksheet_id == $original->worksheet_id  && $sample->result == $original->result){
 					$s = $sample_model::find($sample->id);
 					$s->delete();
 				}
