@@ -290,5 +290,23 @@ class Misc extends Common
     }
 
 
+    public static function delete_folder($path)
+    {
+        if(!ends_with($path, '/')) $path .= '/';
+        $files = scandir($path);
+        if(!$files) rmdir($path);
+        else{
+            foreach ($files as $file) {
+            	if($file == '.' || $file == '..') continue;
+            	$a=true;
+                if(is_dir($path . $file)) self::delete_folder($path . $file);
+                else{
+                	unlink($path . $file);
+                }              
+            }
+            rmdir($path);
+        }
+    }
+
 
 }
