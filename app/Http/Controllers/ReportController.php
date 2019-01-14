@@ -260,7 +260,7 @@ class ReportController extends Controller
             session(['toast_message'=>'Please Enter a category', 'toast_error'=>1]);
             return back();
         }
-        if ($request->testtype == 'support' && ($request->indicatortype == 13 || $request->indicatortype == 14 || $request->indicatortype == 15)) {
+        if ($request->testtype == 'support' && ($request->indicatortype == 13 || $request->indicatortype == 14 || $request->indicatortype == 15 || $request->indicatortype == 16)) {
             if ($request->category != 'lab') {
                 session(['toast_message' => 'This Report type requires a lab to be selected<br/>Please select a lab from the dropdown', 'toast_error'=>1]);
                 return back();
@@ -286,6 +286,11 @@ class ReportController extends Controller
             }
         }
 
+        if($request->indicatortype == 16){
+            $this->__getOutcomesByPlartform($request);
+            return back();
+        }
+
         if ($request->indicatortype == 18) {
             $this->__getLowLevelViremia($request);
             return back();
@@ -300,6 +305,29 @@ class ReportController extends Controller
         $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         
         return back();
+    }
+
+    protected function __getOutcomesByPlartform($request) {
+        $columns = "machines.machine, viralsampletype.name as sampletype";
+        $plasmaundetectable = "count(if(viralsampletype.id = 1 or viralsampletype.id = 2, if(viralsamples.result = '< LDL copies' or viralsamples.result = '< LDL copies/ml' or viralsamples.result = '< 20' or viralsamples.result < 20, 1, null), null)) as `plasmaundetectable`";
+        $plasma20_400 = "count(if(viralsampletype.id = 1 or viralsampletype.id = 2, if(viralsamples.result between 20 and 400, 1, null),null)) as `plasma20-400`";
+        $plasma401_999 = "count(if(viralsampletype.id = 1, if(viralsamples.result between 401 and 999, 1, null),null)) as `plasma401-999`";
+        $dbsTaqmanundetectable = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(viralsamples.result = '< LDL copies' or viralsamples.result = '< LDL copies/ml' or viralsamples.result < 401, if(machines.id = 1,1,null), null), null)) as `dbsTaqmanundetectable`";
+        $dbsAbbotundetectable = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(viralsamples.result = '< LDL copies' or viralsamples.result = '< LDL copies/ml' or viralsamples.result < 840, if(machines.id = 2,1,null), null), null)) as `dbsAbbotundetectable`";
+        $dbsAbbot840_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 2, if(viralsamples.result between 840 and 999, 1, null), null),null)) as `dbsAbbot840-999`";
+        $dbsTaqman401_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 1, if(viralsamples.result between 401 and 999, 1, null), null),null)) as `dbsTaqman401-999`";
+        $above100 = "count(if(viralsamples.result > 999, 1, null)) as `above100`";
+        $model = DB::table('machines')->selectRaw("$columns, $plasmaundetectable, $plasma20_400, $plasma401_999, $dbsTaqmanundetectable, $dbsAbbotundetectable, $dbsAbbot840_999, $dbsTaqman401_999, $above100");
+        $model->leftJoin('viralworksheets', 'viralworksheets.machine_type', '=', 'machines.id')
+                ->leftJoin('viralsamples', 'viralsamples.worksheet_id', '=', 'viralworksheets.id')
+                ->leftJoin('viralsampletype', 'viralsampletype.id', '=', 'viralsamples.sampletype')
+                ->where('viralsamples.lab_id', '=', $request->input('lab'))
+                ->groupBy('machine')->groupBy('sampletype');
+        $table = "viralsamples";
+        $lab = Lab::find($request->input('lab'))->labname;
+        $dateString = "$lab ";
+        $model = self::__getDateRequested($request, $model, $table, $dateString)->get();
+        dd($model);
     }
 
     public function __getNodataSummary($request) {
