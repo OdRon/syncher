@@ -48,14 +48,17 @@ class Random
 					->get();
 
 		foreach ($copies as $key => $copy) {
-			$samples = $sample_model::where(['original_sample_id' => $copy->original_sample_id, 'lab_id' => $copy->lab_id])->get();
+			$samples = $view_model::where(['original_sample_id' => $copy->original_sample_id, 'lab_id' => $copy->lab_id])->get();
 
 			$original = $samples->first();
 
 			foreach ($samples as $sample) {
 				if($sample->id == $original->id) continue;
 
-				if($sample->datecollected == $original->datecollected && $sample->datetested == $original->datetested  && $sample->result == $original->result) $sample->delete();
+				if($sample->datecollected == $original->datecollected && $sample->datetested == $original->datetested  && $sample->result == $original->result){
+					$s = $sample_model::find($sample->id);
+					$s->delete();
+				}
 			}
 		}
 	}
