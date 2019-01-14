@@ -309,21 +309,21 @@ class ReportController extends Controller
 
     protected function __getOutcomesByPlartform($request) {
         $columns = "machines.machine, viralsampletype.name as sampletype";
-        $plasmaundetectable = "count(if(viralsampletype.id = 1 or viralsampletype.id = 2, if(viralsamples.result = '< LDL copies' or viralsamples.result = '< LDL copies/ml' or viralsamples.result = '< 20' or viralsamples.result < 20, 1, null), null)) as `plasmaundetectable`";
-        $plasma20_400 = "count(if(viralsampletype.id = 1 or viralsampletype.id = 2, if(viralsamples.result between 20 and 400, 1, null),null)) as `plasma20-400`";
-        $plasma401_999 = "count(if(viralsampletype.id = 1, if(viralsamples.result between 401 and 999, 1, null),null)) as `plasma401-999`";
-        $dbsTaqmanundetectable = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(viralsamples.result = '< LDL copies' or viralsamples.result = '< LDL copies/ml' or viralsamples.result < 401, if(machines.id = 1,1,null), null), null)) as `dbsTaqmanundetectable`";
-        $dbsAbbotundetectable = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(viralsamples.result = '< LDL copies' or viralsamples.result = '< LDL copies/ml' or viralsamples.result < 840, if(machines.id = 2,1,null), null), null)) as `dbsAbbotundetectable`";
-        $dbsAbbot840_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 2, if(viralsamples.result between 840 and 999, 1, null), null),null)) as `dbsAbbot840-999`";
-        $dbsTaqman401_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 1, if(viralsamples.result between 401 and 999, 1, null), null),null)) as `dbsTaqman401-999`";
-        $above100 = "count(if(viralsamples.result > 999, 1, null)) as `above100`";
+        $plasmaundetectable = "count(if(viralsampletype.id = 1 or viralsampletype.id = 2, if(viralsamples_view.result = '< LDL copies' or viralsamples_view.result = '< LDL copies/ml' or viralsamples_view.result = '< 20' or viralsamples_view.result < 20, 1, null), null)) as `plasmaundetectable`";
+        $plasma20_400 = "count(if(viralsampletype.id = 1 or viralsampletype.id = 2, if(viralsamples_view.result between 20 and 400, 1, null),null)) as `plasma20-400`";
+        $plasma401_999 = "count(if(viralsampletype.id = 1, if(viralsamples_view.result between 401 and 999, 1, null),null)) as `plasma401-999`";
+        $dbsTaqmanundetectable = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(viralsamples_view.result = '< LDL copies' or viralsamples_view.result = '< LDL copies/ml' or viralsamples_view.result < 401, if(machines.id = 1,1,null), null), null)) as `dbsTaqmanundetectable`";
+        $dbsAbbotundetectable = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(viralsamples_view.result = '< LDL copies' or viralsamples_view.result = '< LDL copies/ml' or viralsamples_view.result < 840, if(machines.id = 2,1,null), null), null)) as `dbsAbbotundetectable`";
+        $dbsAbbot840_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 2, if(viralsamples_view.result between 840 and 999, 1, null), null),null)) as `dbsAbbot840-999`";
+        $dbsTaqman401_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 1, if(viralsamples_view.result between 401 and 999, 1, null), null),null)) as `dbsTaqman401-999`";
+        $above100 = "count(if(viralsamples_view.result > 999, 1, null)) as `above100`";
         $model = DB::table('machines')->selectRaw("$columns, $plasmaundetectable, $plasma20_400, $plasma401_999, $dbsTaqmanundetectable, $dbsAbbotundetectable, $dbsAbbot840_999, $dbsTaqman401_999, $above100");
         $model->leftJoin('viralworksheets', 'viralworksheets.machine_type', '=', 'machines.id')
-                ->leftJoin('viralsamples', 'viralsamples.worksheet_id', '=', 'viralworksheets.id')
-                ->leftJoin('viralsampletype', 'viralsampletype.id', '=', 'viralsamples.sampletype')
-                ->where('viralsamples.lab_id', '=', $request->input('lab'))
+                ->leftJoin('viralsamples_view', 'viralsamples_view.worksheet_id', '=', 'viralworksheets.id')
+                ->leftJoin('viralsampletype', 'viralsampletype.id', '=', 'viralsamples_view.sampletype')
+                ->where('viralsamples_view.lab_id', '=', $request->input('lab'))
                 ->groupBy('machine')->groupBy('sampletype');
-        $table = "viralsamples";
+        $table = "viralsamples_view";
         $lab = Lab::find($request->input('lab'))->labname;
         $dateString = "$lab ";
         $model = self::__getDateRequested($request, $model, $table, $dateString)->get();
