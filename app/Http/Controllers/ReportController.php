@@ -334,7 +334,6 @@ class ReportController extends Controller
     }
 
     protected static function __buildOutcomesByPlatformData($data,$lab, $title) {
-
         $newdata = [];
         $sample_types = ['Plasma' => 1, 'DBS' => 2];
         $machines = DB::table('machines')->get();
@@ -347,11 +346,10 @@ class ReportController extends Controller
             foreach ($sample_types as $sampletypekey => $sampletype) {
                 foreach ($data as $itemkey => $item) {
                     if ($item->sampletype == $sampletype) {
-                        $machine_name = 'Abbott';
-                        if ($item->machine == 'Taqman')
+                        $machine_name = $item->machine;
+                        if ($item->machine == 'TaqMan')
                             $machine_name = 'CAPCTM';
-                        if ($item->machine == 'C8800')
-                            $machine_name = 'C8800';
+                        
                         if ($sampletype == 1) {
                             $newdata[] = [$sampletypekey, $machine_name, 'Undetectable/LDL/', $item->plasmaundetectable];
                             $newdata[] = [$sampletypekey, $machine_name, '20-400 cp/ml', $item->plasma20_400];
