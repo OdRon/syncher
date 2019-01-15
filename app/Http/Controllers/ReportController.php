@@ -59,6 +59,8 @@ class ReportController extends Controller
                                                 return $query->where('partner_id5', '=', auth()->user()->level);
                                             } elseif (auth()->user()->level ==80) {//fhi 360
                                                 return $query->where('partner_id6', '=', auth()->user()->level);
+                                            } elseif (auth()->user()->level ==93) {//MobileWAChX
+                                                return $query->where('partner_id7', '=', auth()->user()->level);
                                             } else  { //boresha
                                                 return $query->where('partner_id2', '=', auth()->user()->level);
                                             }
@@ -88,6 +90,42 @@ class ReportController extends Controller
         }
         
         return view('reports.home', compact('facilitys','countys','subcountys','partners','labs','testtype'))->with('pageTitle', 'Reports '.$testtype);
+    }
+
+    public static function __getDateRequested($request, $model, $table, &$dateString, $receivedOnly=true) {
+        if ($receivedOnly) { $column = 'datereceived'; } else { $column = 'datetested'; }
+
+        if (!$request->input('period') || $request->input('period') == 'range') {
+            $dateString .= date('d-M-Y', strtotime($request->input('fromDate')))." - ".date('d-M-Y', strtotime($request->input('toDate')));
+            $model = $model->whereRaw("$table.$column BETWEEN '".$request->input('fromDate')."' AND '".$request->input('toDate')."'");
+        } else if ($request->input('period') == 'monthly') {
+            $dateString .= date("F", mktime(null, null, null, $request->input('month'))).' - '.$request->input('year');
+            $model = $model->whereRaw("YEAR($table.$column) = '".$request->input('year')."' AND MONTH($table.$column) = '".$request->input('month')."'");
+        } else if ($request->input('period') == 'quarterly') {
+            if ($request->input('quarter') == 'Q1') {
+                $startQuarter = 1;
+                $endQuarter = 3;
+            } else if ($request->input('quarter') == 'Q2') {
+                $startQuarter = 4;
+                $endQuarter = 6;
+            } else if ($request->input('quarter') == 'Q3') {
+                $startQuarter = 7;
+                $endQuarter = 9;
+            } else if ($request->input('quarter') == 'Q4') {
+                $startQuarter = 10;
+                $endQuarter = 12;
+            } else {
+                $startQuarter = 0;
+                $endQuarter = 0;
+            }
+            $dateString .= $request->input('quarter').' - '.$request->input('year');
+            $model = $model->whereRaw("YEAR($table.$column) = '".$request->input('year')."' AND MONTH($table.$column) BETWEEN '".$startQuarter."' AND '".$endQuarter."'");
+        } else if ($request->input('period') == 'annually') {
+            $dateString .= $request->input('year');
+            $model = $model->whereRaw("YEAR($table.$column) = '".$request->input('year')."'");
+        }
+
+        return $model;
     }
 
     public function nodata($testtype='EID', $year=null, $month=null) {
@@ -218,11 +256,11 @@ class ReportController extends Controller
 
     public function generate(Request $request)
     {
-        if (!isset($request->category)) {
+        if (!isset($request->category) && !($request->indicatortype == 19 || $request->indicatortype == 20)) {
             session(['toast_message'=>'Please Enter a category', 'toast_error'=>1]);
             return back();
         }
-        if ($request->testtype == 'support' && ($request->indicatortype == 13 || $request->indicatortype == 14 || $request->indicatortype == 15)) {
+        if ($request->testtype == 'support' && ($request->indicatortype == 13 || $request->indicatortype == 14 || $request->indicatortype == 15 || $request->indicatortype == 16)) {
             if ($request->category != 'lab') {
                 session(['toast_message' => 'This Report type requires a lab to be selected<br/>Please select a lab from the dropdown', 'toast_error'=>1]);
                 return back();
@@ -248,14 +286,154 @@ class ReportController extends Controller
             }
         }
 
+        if($request->indicatortype == 16){
+            $this->__getOutcomesByPlartform($request);
+            return back();
+        }
+
         if ($request->indicatortype == 18) {
             $this->__getLowLevelViremia($request);
+            return back();
+        }
+
+        if ($request->indicatortype == 19 || $request->indicatortype == 20) {
+            $this->__getNodataSummary($request);
+            return back();
         }
         
         $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
         $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         
         return back();
+    }
+
+    protected function __getOutcomesByPlartform($request) {
+        $columns = "machines.machine, viralsampletype.name as sampletype";
+        $plasmaundetectable = "count(if(viralsampletype.id = 1 or viralsampletype.id = 2, if(viralsamples_view.result = '< LDL copies' or viralsamples_view.result = '< LDL copies/ml' or viralsamples_view.result = '< 20' or viralsamples_view.result < 20, 1, null), null)) as `plasmaundetectable`";
+        $plasma20_400 = "count(if(viralsampletype.id = 1 or viralsampletype.id = 2, if(viralsamples_view.result between 20 and 400, 1, null),null)) as `plasma20-400`";
+        $plasma401_999 = "count(if(viralsampletype.id = 1, if(viralsamples_view.result between 401 and 999, 1, null),null)) as `plasma401-999`";
+        $dbsTaqmanundetectable = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(viralsamples_view.result = '< LDL copies' or viralsamples_view.result = '< LDL copies/ml' or viralsamples_view.result < 401, if(machines.id = 1,1,null), null), null)) as `dbsTaqmanundetectable`";
+        $dbsAbbotundetectable = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(viralsamples_view.result = '< LDL copies' or viralsamples_view.result = '< LDL copies/ml' or viralsamples_view.result < 840, if(machines.id = 2,1,null), null), null)) as `dbsAbbotundetectable`";
+        $dbsAbbot840_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 2, if(viralsamples_view.result between 840 and 999, 1, null), null),null)) as `dbsAbbot840-999`";
+        $dbsTaqman401_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 1, if(viralsamples_view.result between 401 and 999, 1, null), null),null)) as `dbsTaqman401-999`";
+        $above100 = "count(if(viralsamples_view.result > 999, 1, null)) as `above100`";
+        $model = DB::table('machines')->selectRaw("$columns, $plasmaundetectable, $plasma20_400, $plasma401_999, $dbsTaqmanundetectable, $dbsAbbotundetectable, $dbsAbbot840_999, $dbsTaqman401_999, $above100");
+        $model->leftJoin('viralworksheets', 'viralworksheets.machine_type', '=', 'machines.id')
+                ->leftJoin('viralsamples_view', 'viralsamples_view.worksheet_id', '=', 'viralworksheets.id')
+                ->leftJoin('viralsampletype', 'viralsampletype.id', '=', 'viralsamples_view.sampletype')
+                ->where('viralsamples_view.lab_id', '=', $request->input('lab'))
+                ->groupBy('machine')->groupBy('sampletype');
+        $table = "viralsamples_view";
+        $lab = Lab::find($request->input('lab'));
+        $labname = $lab->labname;
+        $dateString = "$labname ";
+        $data = self::__getDateRequested($request, $model, $table, $dateString)->get();
+        $data = self::__buildOutcomesByPlatformData($data,$lab, $dateString);
+        dd($model);
+    }
+
+    protected static __buildOutcomesByPlatformData($data,$lab, $title) {
+        $newdata = [];
+        // $sample_types = DB::table('viralsampletype')->get();
+        $sample_types = ['Plasma' => ['Frozen Plasma', 'Venous Blood  (EDTA )'], 'DBS' => ['DBS Venous', 'DBS Capillary ( infants)']];
+        $machines = DB::table('machines')->get();
+        if (isset($data)) {
+            $labname = $lab->name;
+            $newdata[] = ['Lab', $labname, '', ''];
+            $newdata[] = ['Period', $title, '', ''];
+            $newdata[] = ['Sample Type', 'Equipment', 'Categories', 'Totals'];
+            // foreach ($sample_types as $key => $sampletype) {
+            //     foreach ($machines as $key => $machine) {
+            //         foreach ($data as $key => $item) {
+            //             if (in_array($item->sampletype, $sampletype)) {
+            //                 if ($machine->machine == $item->machine) {
+                                
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+        }
+        return $newdata;
+    }
+
+    public function __getNodataSummary($request) {
+        $model = $this->__getNodataSummaryObject($request);
+    }
+
+    public function __getNodataSummaryObject($request) {
+        $allcount = "COUNT(*) AS allsamples";
+        $dobcount = "COUNT(IF(dob IS NULL, 1, NULL)) AS dob";
+        $sexcount = "COUNT(IF(sex IS NULL, 1, NULL)) AS sex";
+        $regimencount = "COUNT(IF(prophylaxis IS NULL, 1, NULL)) AS regimen";
+        $justificationcount = "COUNT(IF(justification IS NULL, 1, NULL)) AS justification";
+        $initiationcount = "COUNT(IF(initiation_date IS NULL, 1, NULL)) AS initiation_date";
+        $dateString = '';
+        $newdata = [];
+
+        if ($request->input('indicatortype') == 19) { // For EID
+            $newdata[] = ['Name', 'Age', 'Gender'];
+            $model = SampleView::selectRaw("$allcount, $dobcount, $sexcount");
+            $table = "samples_view";
+            $dateString = 'EID';
+        } else if ($request->input('indicatortype') == 20) { // For VL
+            $newdata[] = ['Name', 'Age', 'Gender', 'Regimen', 'Justification', 'Initiation Date'];
+            $model = ViralsampleView::selectRaw("$allcount, $dobcount, $sexcount, $regimencount, $justificationcount, $initiationcount");
+            $table = "viralsamples_view";
+            $dateString = 'VL';
+        }
+
+        $dateString .= ' no data ';
+        $model = self::__getDateRequested($request, $model, $table, $dateString);
+        $model = self::__getBelongingToNoDataSummary($request, $model, $dateString, $table);
+        $data = $model->get();
+        $sheetTitle[] = 'Sheet1';
+        
+        foreach ($data as $key => $dataitem) {
+            $newdata[$key+1] = ['name' => $dataitem->selection,
+                            'age' => number_format(round(($dataitem->dob/$dataitem->allsamples)*100,2)).'%',
+                            'gender' => number_format(round(($dataitem->sex/$dataitem->allsamples)*100,2)).'%'];
+            if ($request->input('indicatortype') == 20) {
+                $newdata[$key+1]['regimen'] = number_format(round(($dataitem->regimen/$dataitem->allsamples)*100,2)).'%';
+                $newdata[$key+1]['justification'] = number_format(round(($dataitem->justification/$dataitem->allsamples)*100,2)).'%';
+                $newdata[$key+1]['initiationdate'] = number_format(round(($dataitem->initiationdate/$dataitem->allsamples)*100,2)).'%';
+            }
+        }
+        
+        ini_set("memory_limit", "-1");
+        $title = strtoupper($dateString);
+        Excel::create($title, function($excel) use ($newdata, $title) {
+                $excel->setTitle($title);
+                $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('EID/VL System');
+                $excel->setDescription($title);
+
+                $excel->sheet('Sheet1', function($sheet) use ($newdata) {
+                    $sheet->fromArray($newdata, null, 'A1', false, false);
+                });
+
+            })->download('csv');
+
+    }
+
+    public static function __getBelongingToNoDataSummary($request, $model, &$dateString, $table) {
+        $title = ' for ';
+        $model = $model->join('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id");
+        if ($request->input('level') == 'counties') {
+            $model = $model->selectRaw("view_facilitys.county as selection");
+            $title .= 'counties ';
+        } else if ($request->input('level') == 'subcounties') {
+            $model = $model->selectRaw("view_facilitys.subcounty as selection");
+            $title .= 'subcounties ';
+        } else if ($request->input('level') == 'facility') {
+            $model = $model->selectRaw("view_facilitys.name as selection");
+            $title .= 'facilities ';
+        } else if ($request->input('level') == 'partners') {
+            $model = $model->selectRaw("view_facilitys.partner as selection");
+            $title .= 'partners ';
+        }
+        $model = $model->groupBy('selection');
+        $dateString .= $title;
+        return $model;
     }
 
     public function __getTestOutComes($request, &$dateString, &$excelColumns, &$title, &$briefTitle) {
@@ -924,6 +1102,8 @@ class ReportController extends Controller
                         $model = $model->where('view_facilitys.partner_id5', '=', auth()->user()->level);
                     } elseif (auth()->user()->level ==80) {//fhi 360
                         $model = $model->where('view_facilitys.partner_id6', '=', auth()->user()->level);
+                    } elseif (auth()->user()->level ==93) {//MobileWAChX
+                        $model = $model->where('view_facilitys.partner_id7', '=', auth()->user()->level);
                     } else  { //boresha
                         $model = $model->where('view_facilitys.partner_id2', '=', auth()->user()->level);
                     }

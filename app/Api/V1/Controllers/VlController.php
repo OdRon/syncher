@@ -102,7 +102,8 @@ class VlController extends Controller
         foreach ($patients as $key => $value) {
             $p = Viralpatient::existing($value->facility_id, $value->patient)->first();
             if($p){
-                $patients_array[] = ['original_id' => $p->original_patient_id, 'national_patient_id' => $p->id ];
+                // $patients_array[] = ['original_id' => $p->original_patient_id, 'national_patient_id' => $p->id ];
+                $patients_array[] = ['original_id' => $value->id, 'national_patient_id' => $p->id ];
                 continue;
             }
 
@@ -149,12 +150,29 @@ class VlController extends Controller
                 foreach ($samples as $key2 => $value2) {
                     // if($value2->parentid != 0) continue;
 
-                    if($value2->national_sample_id){
-                        $sample = Viralsample::find($value2->national_sample_id);
-                        if($sample && $sample->original_sample_id != $value2->id) unset($sample);
+                    $sample = null;
+
+                    // if($value2->national_sample_id){
+                    //     $sample = Viralsample::find($value2->national_sample_id);
+                    //     if($sample && $sample->original_sample_id != $value2->id){
+                    //         $sample = null;
+                    //     }
+                    //     // {
+                    //     //     $sample->delete();
+                    //     //     unset($sample);
+                    //     // }
+                    // }
+
+                    $sample_view = ViralsampleView::where(['original_sample_id' => $value2->id, 'lab_id' => $batch->lab_id])->get();
+                    if($sample_view->count() == 1) $sample = Viralsample::find($sample_view->first()->id);
+                    else{
+                        foreach ($sample_view as $duplicate) {
+                            $dup = Viralsample::find($duplicate->id);
+                            $dup->delete();
+                        }
                     }
 
-                    if(!isset($sample)) $sample = new Sample;
+                    if(!$sample) $sample = new Viralsample;
 
 
                     // if($value2->national_sample_id) $sample = Viralsample::find($value2->national_sample_id);
@@ -213,7 +231,8 @@ class VlController extends Controller
         $worksheets = json_decode($request->input('worksheets'));
 
         foreach ($worksheets as $key => $value) {
-            $worksheet = new Viralworksheet;
+            $worksheet = Viralworksheet::where(['original_worksheet_id' => $value->id, 'lab_id' => $value->lab_id])->first();
+            if(!$worksheet) $worksheet = new Viralworksheet;
             $worksheet->fill(get_object_vars($value));
             $worksheet->original_worksheet_id = $worksheet->id;
             unset($worksheet->id);

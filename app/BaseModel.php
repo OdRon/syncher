@@ -10,9 +10,9 @@ class BaseModel extends Model
 
     
 
-    public function my_date_format($value=null)
+    public function my_date_format($value=null, $format='d-M-Y')
     {
-        if($this->$value) return date('d-M-Y', strtotime($this->$value));
+        if($this->$value) return date($format, strtotime($this->$value));
 
         return '';
     }
@@ -26,13 +26,13 @@ class BaseModel extends Model
 
     public function pre_update()
     {
-        if($this->synched == 1 && $this->isDirty()) $this->synched = 2;
+        if(($this->synched == 0 || $this->synched == 1) && $this->isDirty()) $this->synched = 2;
         $this->save();
     }
 
     public function pre_delete()
     {
-        if($this->synched == 1){
+        if($this->synched == 0 || $this->synched == 1){
             $this->synched = 3;
         }else{
             $this->delete();

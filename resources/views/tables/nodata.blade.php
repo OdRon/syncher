@@ -84,7 +84,7 @@
                                             <td>{{ (isset($noage->datetested)) ? date('Y-M-d', strtotime($noage->datetested)) : '' }}</td>
                                         </tr>
                                     @empty
-                                        <tr><td colspan="7">No Age Data</td></tr>
+                                        <tr><td colspan="10">No Age Data</td></tr>
                                     @endforelse
                                     </tbody>
                                 </table>
@@ -124,7 +124,7 @@
                                             <td>{{ (isset($nogender->datetested)) ? date('Y-M-d', strtotime($nogender->datetested)) : '' }}</td>
                                         </tr>
                                     @empty
-                                        <tr><td colspan="7">No Gender Data</td></tr>
+                                        <tr><td colspan="10">No Gender Data</td></tr>
                                     @endforelse
                                     </tbody>
                                 </table>
@@ -165,7 +165,7 @@
                                                 <td>{{ (isset($noregimen->datetested)) ? date('Y-M-d', strtotime($noregimen->datetested)) : '' }}</td>
                                             </tr>
                                         @empty
-                                            <tr><td colspan="7">No Regimen Data</td></tr>
+                                            <tr><td colspan="10">No Regimen Data</td></tr>
                                         @endforelse
                                         </tbody>
                                     </table>
@@ -205,7 +205,7 @@
                                                 <td>{{ (isset($noinitiation->datetested)) ? date('Y-M-d', strtotime($noinitiation->datetested)) : '' }}</td>
                                             </tr>
                                         @empty
-                                            <tr><td colspan="7">No Initiation Date Data</td></tr>
+                                            <tr><td colspan="10">No Initiation Date Data</td></tr>
                                         @endforelse
                                         </tbody>
                                     </table>

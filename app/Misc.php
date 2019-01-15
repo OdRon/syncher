@@ -13,7 +13,8 @@ use GuzzleHttp\Client;
 
 class Misc extends Common
 {
-	public static $mlab_url = 'http://197.248.10.20:3001/api/results/results';
+	// public static $mlab_url = 'http://197.248.10.20:3001/api/results/results';
+	public static $mlab_url = 'https://api.mhealthkenya.co.ke/api/vl_results';
 
     public static function getTotalHolidaysinMonth($month)
 	{
@@ -288,6 +289,24 @@ class Misc extends Common
         }
     }
 
+
+    public static function delete_folder($path)
+    {
+        if(!ends_with($path, '/')) $path .= '/';
+        $files = scandir($path);
+        if(!$files) rmdir($path);
+        else{
+            foreach ($files as $file) {
+            	if($file == '.' || $file == '..') continue;
+            	$a=true;
+                if(is_dir($path . $file)) self::delete_folder($path . $file);
+                else{
+                	unlink($path . $file);
+                }              
+            }
+            rmdir($path);
+        }
+    }
 
 
 }

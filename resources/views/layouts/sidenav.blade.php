@@ -72,6 +72,14 @@
                     <hr />
                 @endif
             @endif
+            @if(in_array(Auth::user()->user_type_id, [10, 12]))
+                <li>
+                    <a href="{{ url('email/create') }}">Add Email</a>
+                </li>                
+                <li>
+                    <a href="{{ url('email') }}">View Emails</a>
+                </li>                
+            @endif 
             @if(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7)
                 <li><a href="https://eid.nascop.org">EID Summaries</a></li>
                 <hr />

@@ -50,7 +50,7 @@ class Report
 			        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
 			        DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
 		        } catch (Exception $e) {
-		        	
+		        	echo $e->getMessage();
 		        }
 		    }
 		    else{
@@ -173,6 +173,15 @@ class Report
 		    }
 		}
 	}
+
+    public static function send_communication()
+    {
+        $emails = \App\Email::where('sent', false)->where('time_to_be_sent', '<', date('Y-m-d H:i:s'))->get();
+
+        foreach ($emails as $email) {
+        	$email->dispatch();
+        }
+    }
 
     public static function delete_folder($path)
     {
