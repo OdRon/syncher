@@ -324,10 +324,37 @@ class ReportController extends Controller
                 ->where('viralsamples_view.lab_id', '=', $request->input('lab'))
                 ->groupBy('machine')->groupBy('sampletype');
         $table = "viralsamples_view";
-        $lab = Lab::find($request->input('lab'))->labname;
-        $dateString = "$lab ";
-        $model = self::__getDateRequested($request, $model, $table, $dateString)->get();
+        $lab = Lab::find($request->input('lab'));
+        $labname = $lab->labname;
+        $dateString = "$labname ";
+        $data = self::__getDateRequested($request, $model, $table, $dateString)->get();
+        $data = self::__buildOutcomesByPlatformData($data,$lab, $dateString);
         dd($model);
+    }
+
+    protected static __buildOutcomesByPlatformData($data,$lab, $title) {
+        $newdata = [];
+        // $sample_types = DB::table('viralsampletype')->get();
+        $sample_types = ['Plasma' => ['Frozen Plasma', 'Venous Blood  (EDTA )'], 'DBS' => ['DBS Venous', 'DBS Capillary ( infants)']];
+        $machines = DB::table('machines')->get();
+        if (isset($data)) {
+            $labname = $lab->name;
+            $newdata[] = ['Lab', $labname, '', ''];
+            $newdata[] = ['Period', $title, '', ''];
+            $newdata[] = ['Sample Type', 'Equipment', 'Categories', 'Totals'];
+            // foreach ($sample_types as $key => $sampletype) {
+            //     foreach ($machines as $key => $machine) {
+            //         foreach ($data as $key => $item) {
+            //             if (in_array($item->sampletype, $sampletype)) {
+            //                 if ($machine->machine == $item->machine) {
+                                
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+        }
+        return $newdata;
     }
 
     public function __getNodataSummary($request) {
