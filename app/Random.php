@@ -9,6 +9,60 @@ use App\Facilitys;
 class Random
 {
 
+	public static $class_arrays = [
+		'eid' => [
+			'misc_class' => \App\Misc::class,
+			'sample_class' => Sample::class,
+			'sampleview_class' => \App\SampleView::class,
+			'batch_class' => Batch::class,
+			'worksheet_class' => Worksheet::class,
+			'patient_class' => Patient::class,
+			'view_table' => 'samples_view',
+			'worksheets_table' => 'worksheets',
+		],
+
+		'vl' => [
+			'misc_class' => \App\MiscViral::class,
+			'sample_class' => Viralsample::class,
+			'sampleview_class' => \App\ViralsampleView::class,
+			'batch_class' => Viralbatch::class,
+			'worksheet_class' => Viralworksheet::class,
+			'patient_class' => Viralpatient::class,
+			'view_table' => 'viralsamples_view',
+			'worksheets_table' => 'viralworksheets',
+		],
+	];
+
+	public static function delete_duplicates($type='eid')
+	{
+		ini_set("memory_limit", "-1");
+		$view_model = self::$class_arrays[$type]['sampleview_class'];
+		$sample_model = self::$class_arrays[$type]['sample_class'];
+
+		$copies = $view_model::selectRaw("original_sample_id, lab_id, count(id) as my_count")
+					->whereNotNull('original_sample_id')
+					->where('original_sample_id', '!=', 0)
+					->groupBy('original_sample_id')
+					->groupBy('lab_id')
+					->having('my_count', '>', 1)
+					->get();
+
+		foreach ($copies as $key => $copy) {
+			$samples = $view_model::where(['original_sample_id' => $copy->original_sample_id, 'lab_id' => $copy->lab_id])->get();
+
+			$original = $samples->first();
+
+			foreach ($samples as $sample) {
+				if($sample->id == $original->id) continue;
+
+				if($sample->worksheet_id == $original->worksheet_id  && $sample->interpretation == $original->interpretation && $sample->batch_id == $original->batch_id){
+					$s = $sample_model::find($sample->id);
+					$s->delete();
+				}
+			}
+		}
+	}
+
 	public static function facilitys()
 	{
 		self::alter_facilitys();
