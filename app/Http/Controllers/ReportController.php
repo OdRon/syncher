@@ -308,16 +308,16 @@ class ReportController extends Controller
     }
 
     protected function __getOutcomesByPlartform($request) {
-        $columns = "machines.machine, viralsampletype.name as sampletype";
+        $columns = "machines.machine, if(viralsampletype.sampletype = 3, 1, viralsampletype.sampletype) as sampletype";
         $plasmaundetectable = "count(if(viralsampletype.id = 1 or viralsampletype.id = 2, if(viralsamples_view.result = '< LDL copies' or viralsamples_view.result = '< LDL copies/ml' or viralsamples_view.result = '< 20' or viralsamples_view.result < 20, 1, null), null)) as `plasmaundetectable`";
-        $plasma20_400 = "count(if(viralsampletype.id = 1 or viralsampletype.id = 2, if(viralsamples_view.result between 20 and 400, 1, null),null)) as `plasma20-400`";
-        $plasma401_999 = "count(if(viralsampletype.id = 1, if(viralsamples_view.result between 401 and 999, 1, null),null)) as `plasma401-999`";
+        $plasma20_400 = "count(if(viralsampletype.id = 1 or viralsampletype.id = 2, if(viralsamples_view.result between 20 and 400, 1, null),null)) as `plasma20_400`";
+        $plasma401_999 = "count(if(viralsampletype.id = 1, if(viralsamples_view.result between 401 and 999, 1, null),null)) as `plasma401_999`";
         $dbsTaqmanundetectable = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(viralsamples_view.result = '< LDL copies' or viralsamples_view.result = '< LDL copies/ml' or viralsamples_view.result < 401, if(machines.id = 1,1,null), null), null)) as `dbsTaqmanundetectable`";
         $dbsAbbotundetectable = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(viralsamples_view.result = '< LDL copies' or viralsamples_view.result = '< LDL copies/ml' or viralsamples_view.result < 840, if(machines.id = 2,1,null), null), null)) as `dbsAbbotundetectable`";
-        $dbsAbbot840_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 2, if(viralsamples_view.result between 840 and 999, 1, null), null),null)) as `dbsAbbot840-999`";
-        $dbsTaqman401_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 1, if(viralsamples_view.result between 401 and 999, 1, null), null),null)) as `dbsTaqman401-999`";
-        $above100 = "count(if(viralsamples_view.result > 999, 1, null)) as `above100`";
-        $model = DB::table('machines')->selectRaw("$columns, $plasmaundetectable, $plasma20_400, $plasma401_999, $dbsTaqmanundetectable, $dbsAbbotundetectable, $dbsAbbot840_999, $dbsTaqman401_999, $above100");
+        $dbsAbbot840_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 2, if(viralsamples_view.result between 840 and 999, 1, null), null),null)) as `dbsAbbot840_999`";
+        $dbsTaqman401_999 = "count(if(viralsampletype.id = 3 or viralsampletype.id = 4, if(machines.id = 1, if(viralsamples_view.result between 401 and 999, 1, null), null),null)) as `dbsTaqman401_999`";
+        $above1000 = "count(if(viralsamples_view.result > 999, 1, null)) as `above1000`";
+        $model = DB::table('machines')->selectRaw("$columns, $plasmaundetectable, $plasma20_400, $plasma401_999, $dbsTaqmanundetectable, $dbsAbbotundetectable, $dbsAbbot840_999, $dbsTaqman401_999, $above1000");
         $model->leftJoin('viralworksheets', 'viralworksheets.machine_type', '=', 'machines.id')
                 ->leftJoin('viralsamples_view', 'viralsamples_view.worksheet_id', '=', 'viralworksheets.id')
                 ->leftJoin('viralsampletype', 'viralsampletype.id', '=', 'viralsamples_view.sampletype')
@@ -326,35 +326,66 @@ class ReportController extends Controller
         $table = "viralsamples_view";
         $lab = Lab::find($request->input('lab'));
         $labname = $lab->labname;
-        $dateString = "$labname ";
+        $dateString = "$labname outcomes by equipment report ";
         $data = self::__getDateRequested($request, $model, $table, $dateString)->get();
-        $data = self::__buildOutcomesByPlatformData($data,$lab, $dateString);
-        dd($model);
+        $data = self::__buildOutcomesByPlatformData($data, $lab, $dateString);
+        $excel = self::__generateOutcomesByPlatformExcel($data, $dateString);
+        return true;
     }
 
-    protected static __buildOutcomesByPlatformData($data,$lab, $title) {
+    protected static function __buildOutcomesByPlatformData($data,$lab, $title) {
         $newdata = [];
-        // $sample_types = DB::table('viralsampletype')->get();
-        $sample_types = ['Plasma' => ['Frozen Plasma', 'Venous Blood  (EDTA )'], 'DBS' => ['DBS Venous', 'DBS Capillary ( infants)']];
+        $sample_types = ['Plasma' => 1, 'DBS' => 2];
         $machines = DB::table('machines')->get();
         if (isset($data)) {
             $labname = $lab->name;
-            $newdata[] = ['Lab', $labname, '', ''];
-            $newdata[] = ['Period', $title, '', ''];
+            $period = str_replace("$labname outcomes by equipment report ", "", $title);
+            $newdata[] = ['Lab', $labname];
+            $newdata[] = ['Period', $period];
             $newdata[] = ['Sample Type', 'Equipment', 'Categories', 'Totals'];
-            // foreach ($sample_types as $key => $sampletype) {
-            //     foreach ($machines as $key => $machine) {
-            //         foreach ($data as $key => $item) {
-            //             if (in_array($item->sampletype, $sampletype)) {
-            //                 if ($machine->machine == $item->machine) {
-                                
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
+            foreach ($sample_types as $sampletypekey => $sampletype) {
+                foreach ($data as $itemkey => $item) {
+                    if ($item->sampletype == $sampletype) {
+                        $machine_name = $item->machine;
+                        if ($item->machine == 'TaqMan')
+                            $machine_name = 'CAPCTM';
+                        
+                        if ($sampletype == 1) {
+                            $newdata[] = [$sampletypekey, $machine_name, 'Undetectable/LDL/', $item->plasmaundetectable];
+                            $newdata[] = [$sampletypekey, $machine_name, '20-400 cp/ml', $item->plasma20_400];
+                            $newdata[] = [$sampletypekey, $machine_name, '401-999 cp/ml', $item->plasma401_999];
+                        }
+                        if ($sampletype == 2) {
+                            if ($item->machine == 'Abbott') {
+                                $newdata[] = [$sampletypekey, $machine_name, 'Undetectable/LDL/', $item->dbsAbbotundetectable];
+                                $newdata[] = [$sampletypekey, $machine_name, '839-999 cp/ml', $item->dbsAbbot840_999];
+                            } else {
+                                $newdata[] = [$sampletypekey, $machine_name, 'Undetectable/LDL/', $item->dbsAbbotundetectable];
+                                $newdata[] = [$sampletypekey, $machine_name, '839-999 cp/ml', $item->dbsTaqman401_999];
+                            }
+                        }
+                        $newdata[] = [$sampletypekey, $machine_name, '> 1000 cp/ml', $item->above1000];
+                    }
+                }
+            }
         }
         return $newdata;
+    }
+
+    protected function __generateOutcomesByPlatformExcel($data, $title) {
+        $title = strtoupper($title);
+        Excel::create($title, function($excel) use ($data, $title) {
+            $excel->setTitle($title);
+            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+            $excel->setDescription($title);
+            
+            $excel->sheet($title, function($sheet) use ($data) {
+                $sheet->mergeCells('B1:C1:D1');
+                $sheet->mergeCells('B2:C2:D2');
+                $sheet->fromArray($data, null, 'A1', false, false);
+            });
+             
+        })->download('csv');
     }
 
     public function __getNodataSummary($request) {
