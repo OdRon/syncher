@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-	protected $guarded = [];
-
+    use \Venturecraft\Revisionable\RevisionableTrait;
+    protected $revisionEnabled = true;
+    // protected $revisionCleanup = true; 
+    // protected $historyLimit = 500; 
     
+    protected $guarded = [];
 
     public function my_date_format($value=null, $format='d-M-Y')
     {

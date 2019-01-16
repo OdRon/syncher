@@ -3,7 +3,7 @@
 	<br />
 	@if($samples->isEmpty())
 
-		You have successfully followed and documented online all your HIV Exposed Infants for {{ date('Y') }}.
+		You have successfully followed and documented online all your HIV Exposed Infants for {{ $time_period }}.
 		<br />
 		<br />
 
@@ -34,7 +34,7 @@
 
 	@else
 
-		Please find attached the HIV Exposed Infants Report pending online documentation for {{ date('Y') }}.
+		Please find attached the HIV Exposed Infants Report pending online documentation for {{ $time_period }}.
 		<br />
 		<br />
 
