@@ -47,7 +47,7 @@
                                         <select class="form-control" name="level" id="partner_select">
                                             <option value="" selected disabled>Select Partner</option>
                                         @forelse ($data->partners as $partner)
-                                            @if($partner->flag == 1)
+                                            @if(!in_array($partner->id, [77,82,84,85,80,93]))
                                                 <option value="{{ $partner->id }}">{{ $partner->name }}</option>
                                             @endif
                                         @empty
@@ -62,7 +62,7 @@
                                         <select class="form-control" name="level" id="super_partner_select">
                                             <option value="" selected disabled>Select Super Partner</option>
                                         @forelse ($data->partners as $partner)
-                                            @if($partner->flag == 2)
+                                            @if(in_array($partner->id, [77,82,84,85,80,93]))
                                                 <option value="{{ $partner->id }}">{{ $partner->name }}</option>
                                             @endif
                                         @empty
