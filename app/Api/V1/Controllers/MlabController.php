@@ -23,8 +23,14 @@ class MlabController extends Controller
         $dispatched = $request->input('dispatched');   
         $ids = $request->input('ids');   
 
-        if($test == 2) $class = SampleView::class;
-        else if($test == 1) $class = ViralsampleView::class;
+        if($test == 2){
+            $class = SampleView::class;
+            $table = 'samples_view';
+        }
+        else if($test == 1){
+            $class = ViralsampleView::class;
+            $table = 'viralsamples_view';
+        }
 
         if($patients){
             $patients = str_replace(' ', '', $patients);
@@ -39,15 +45,12 @@ class MlabController extends Controller
             $facilities = explode(',', $facilities);
         }
  
-        $result = $class::when($facilities, function($query) use($facilities){
+        $result = $class::select("{$table}.*", 'facilitys.facilitycode')
+            ->join('facilitys', 'facilitys.id', '=', "{$table}.facility_id")
+            ->when($facilities, function($query) use($facilities){
                 return $query->whereIn('facilitycode', $facilities);
             })
-            ->when($dispatched, function($query){
-                // return $query->whereNotNull('datedispatched');
-                return $query->whereRaw("(datedispatched is not null OR (dateapproved is not null and dateapproved2 is not null))");
-            })
             ->when($patients, function($query) use($patients, $test){
-                if($test == 3) return $query->whereIn('medicalrecordno', $patients);
                 return $query->whereIn('patient', $patients);
             })
             ->when($ids, function($query) use($ids){
@@ -59,7 +62,7 @@ class MlabController extends Controller
             ->when(($date_dispatched_start && $date_dispatched_end), function($query) use($date_dispatched_start, $date_dispatched_end){
                 return $query->whereBetween('datedispatched', [$date_dispatched_start, $date_dispatched_end]);
             })
-            ->where(['repeatt' => 0])          
+            ->where(['repeatt' => 0, ])          
             ->orderBy('created_at', 'desc')
             ->paginate(50);
 
