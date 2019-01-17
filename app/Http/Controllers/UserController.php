@@ -121,8 +121,7 @@ class UserController extends Controller
                         'partners' => $partners,
                         'subcountys' => $subcountys
                     ];
-        // dd($data);
-
+        
         return view('forms.users', compact('data'))->with('pageTitle', 'Add User');
     }
 
