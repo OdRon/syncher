@@ -211,6 +211,7 @@ class Misc extends Common
 					// 'debug' => true,
 					'http_errors' => false,
 					'json' => $post_data,
+					'verify' => false,
 				]);
 				$body = json_decode($response->getBody());
 				// print_r($body);
@@ -274,6 +275,7 @@ class Misc extends Common
                     // 'debug' => true,
                     'http_errors' => false,
                     'json' => $post_data,
+                    'verify' => false,
                 ]);
                 $body = json_decode($response->getBody());
                 // print_r($body);
@@ -287,6 +289,30 @@ class Misc extends Common
             $batch->save();
             // break;
         }
+    }
+
+    public static function get_mlab_facilities()
+    {
+    	Facility::where('id', '>', 0)->update(['smsprinter' => 0]);
+
+    	$client = new Client(['base_uri' => 'https://api.mhealthkenya.co.ke/api/active_facilities']);
+
+		$response = $client->request('get', '', [
+			// 'debug' => true,
+			'http_errors' => false,
+			'verify' => false,
+		]);
+
+		$body = json_decode($response->getBody());
+
+		// dd($body);
+
+		foreach ($body as $body2) {
+			foreach ($body2 as $fac) {
+				// echo $fac->mfl_code;
+				Facility::where('facilitycode', $fac->mfl_code)->update(['smsprinter' => 1]);
+			}
+		}
     }
 
 

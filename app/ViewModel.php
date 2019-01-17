@@ -21,6 +21,12 @@ class ViewModel extends Model
         return '';
     }
 
+    public function my_string_format($value, $default='0')
+    {
+        if($this->$value) return (string) $this->$value;
+        return $default;
+    }
+
 
 
     public function scopeLocate($query, $original, $lab_id)
