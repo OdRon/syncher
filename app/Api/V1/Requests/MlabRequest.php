@@ -3,7 +3,7 @@
 namespace App\Api\V1\Requests;
 
 use Dingo\Api\Http\FormRequest;
-use App\Rules\BeforeOrEqual;
+// use App\Rules\BeforeOrEqual;
 
 class MlabRequest extends FormRequest
 {
@@ -12,9 +12,10 @@ class MlabRequest extends FormRequest
     {
         return [
             'test' => 'required|integer|max:2',
-            'start_date' => ['date_format:Y-m-d', 'required_with:end_date', new BeforeOrEqual($this->input('end_date'), 'end_date')],
+            // 'start_date' => ['date_format:Y-m-d', 'required_with:end_date', new BeforeOrEqual($this->input('end_date'), 'end_date')],
+            'start_date' => ['date_format:Y-m-d', 'required_with:end_date', 'before_or_equal:' . $this->input('end_date')],
             'end_date' => 'date_format:Y-m-d',
-            'date_dispatched_start' => ['date_format:Y-m-d', 'required_with:date_dispatched_end', new BeforeOrEqual($this->input('date_dispatched_end'), 'date_dispatched_end')],
+            'date_dispatched_start' => ['date_format:Y-m-d', 'required_with:date_dispatched_end', 'before_or_equal:' . $this->input('date_dispatched_end')],
             'date_dispatched_end' => 'date_format:Y-m-d',            
         ];
     }
