@@ -27,6 +27,11 @@ class ViewModel extends Model
         return $default;
     }
 
+    public function lab()
+    {
+        return $this->belongsTo('App\Lab');
+    }
+
 
 
     public function scopeLocate($query, $original, $lab_id)
