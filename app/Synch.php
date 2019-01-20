@@ -106,25 +106,7 @@ class Synch
 
 			foreach ($batches as $batch) {
 				$client = new Client(['base_uri' => $batch->lab->base_url]);
-
-				$response = $client->request('post', $url . $batch->original_batch_id, [
-				'http_errors' => false,
-				'verify' => false,
-					'headers' => [
-						'Accept' => 'application/json',
-						'Authorization' => 'Bearer ' . self::get_token($batch->lab),
-					],
-					'json' => [
-						'batch' => $batch->toJson(),
-					],
-				]);
-
-				$body = json_decode($response->getBody());
-				if($response->getStatusCode() < 400)
-				{
-					$batch->fill($data);
-					$batch->save();
-				}
+				self::send_update($batch, $batch->lab);
 			}
 		}
 
@@ -133,25 +115,7 @@ class Synch
 
 		foreach ($batches as $batch) {
 			foreach ($labs as $lab) {
-				$client = new Client(['base_uri' => $lab->base_url]);
-
-				$response = $client->request('post', $url . $batch->original_batch_id, [
-				'http_errors' => false,
-				'verify' => false,
-					'headers' => [
-						'Accept' => 'application/json',
-						'Authorization' => 'Bearer ' . self::get_token($lab),
-					],
-					'json' => [
-						'batch' => $batch->toJson(),
-					],
-				]);
-				$body = json_decode($response->getBody());
-				if($response->getStatusCode() < 400)
-				{
-					$batch->fill($data);
-					$batch->save();
-				}
+				if(self::send_update($batch, $lab)) break;
 			}
 		}
 	}
@@ -165,12 +129,6 @@ class Synch
 		$sample_class = $classes['sample_class'];
 		$sampleview_class = $classes['sampleview_class'];
 
-		if($type == "eid"){
-			$url = 'update/sample/';
-		}else{
-			$url = 'update/viralsample/';
-		}
-
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
 		while(true)
@@ -180,34 +138,92 @@ class Synch
 
 			foreach ($samples as $s) {
 				$sample = $sample_class::find($s->id);
-
-				$client = new Client(['base_uri' => $s->lab->base_url]);
-
-				$response = $client->request('post', $url . $sample->original_sample_id, [
-				'http_errors' => false,
-				'verify' => false,
-					'headers' => [
-						'Accept' => 'application/json',
-						'Authorization' => 'Bearer ' . self::get_token($s->lab),
-					],
-					'json' => [
-						'sample' => $sample->toJson(),
-					],
-				]);
-
-				$body = json_decode($response->getBody());
-				if($response->getStatusCode() < 400)
-				{
-					$sample->fill($data);
-					$sample->save();
-				}
+				self::send_update($sample, $s->lab);
 			}
 		}
 
-		
+		$labs = Lab::all();
+		$samples = $sample_class::where('synched', 2)->where('site_entry', 2)->get();
 
-
-
+		foreach ($samples as $samples) {
+			foreach ($labs as $lab) {
+				if(self::send_update($sample, $lab)) break;
+			}
+		}
 	}
+
+
+	public static function synch_patients($type)
+	{
+        ini_set("memory_limit", "-1");
+		$classes = self::$synch_arrays[$type];
+
+		$patient_class = $classes['patient_class'];
+		$sampleview_class = $classes['sampleview_class'];
+		$labs = Lab::all();
+
+		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
+
+		$patients = $patient_class::where('synched', 2)->get();
+
+		foreach ($patients as $patient) {
+			$sample = $sampleview_class::where(['synched' => 2, 'patient_id' => $patient->id])->where('site_entry', '!=', 2)->first();
+
+			if(!$sample){
+				foreach ($labs as $lab) {
+					if(self::send_update($patient, $lab)) break;
+				}
+			}
+			else{
+				$lab = $labs->where('id', $sample->lab_id)->first();
+				self::send_update($patient, $lab);
+			}
+		}
+	}
+
+
+	private static function send_update($model, $lab)
+	{
+		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
+
+		$class = get_class($model);
+		$col = 'original_';
+		if(str_contains($class, 'sample')) $param = 'sample';
+		if(str_contains($class, 'patient')) $param = 'patient';
+		if(str_contains($class, 'batch')) $param = 'batch';
+		$col .= $param . '_id';
+
+		$url = str_replace('App\\', '', $class);
+		$url = strtolower($url);
+
+		$client = new Client(['base_uri' => $lab->base_url]);
+
+		$response = $client->request('put', $url . $model->$col, [
+			'http_errors' => false,
+			'verify' => false,
+			'headers' => [
+				'Accept' => 'application/json',
+				'Authorization' => 'Bearer ' . self::get_token($lab),
+			],
+			'json' => [
+				$param => $model->toJson(),
+			],
+		]);
+
+		$body = json_decode($response->getBody());
+		if($response->getStatusCode() < 400)
+		{
+			$model->fill($data);
+			$model->save();
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+
+
+
 
 }
