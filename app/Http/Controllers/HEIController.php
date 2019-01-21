@@ -51,7 +51,7 @@ class HEIController extends Controller
     	if ($request->method() == 'POST') {
             $data = [];
     		$columns = [ 'id', 'patient', 'hei_validation', 'enrollment_status', 'dateinitiatedontreatment', 'enrollment_ccc_no', 'facility_id', 'other_reason'];
-    		$sampleCount = (self::__getPatients($year,$month,'outcomes',null,true)+100);
+    		$sampleCount = (self::__getPatients($year,$month,'outcomes',null,true)+100); // This is a minor hack to sort the datatable problem
             $actualCount = 0;
 
     		if (isset($sampleCount) || $sampleCount > 0) {
@@ -215,7 +215,7 @@ class HEIController extends Controller
         if ($count == true) {
             $model = SampleCompleteView::selectRaw("count(distinct sample_complete_view.patient_id) as `patients`");
         } else {
-            $model = SampleCompleteView::selectRaw("distinct sample_complete_view.patient_id, sample_complete_view.patient, sample_complete_view.original_patient_id, sample_complete_view.ccc_no, sample_complete_view.patient, sample_complete_view.gender_description, sample_complete_view.age, sample_complete_view.dob, pcrtype.alias as pcrtype, sample_complete_view.dateinitiatedontreatment, sample_complete_view.hei_validation, sample_complete_view.enrollment_ccc_no, sample_complete_view.enrollment_status, sample_complete_view.referredfromsite, sample_complete_view.otherreason, view_facilitys.name as facility, view_facilitys.county, view_facilitys.facilitycode");
+            $model = SampleCompleteView::selectRaw("distinct sample_complete_view.patient_id, sample_complete_view.patient, sample_complete_view.original_patient_id, sample_complete_view.ccc_no, sample_complete_view.patient, sample_complete_view.gender_description, sample_complete_view.dob, pcrtype.alias as pcrtype, sample_complete_view.dateinitiatedontreatment, sample_complete_view.hei_validation, sample_complete_view.enrollment_ccc_no, sample_complete_view.enrollment_status, sample_complete_view.referredfromsite, sample_complete_view.otherreason, view_facilitys.name as facility, view_facilitys.county, view_facilitys.facilitycode");
         }
         $model->join('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
                     ->join('pcrtype', 'pcrtype.id', '=', 'sample_complete_view.pcrtype')
@@ -265,7 +265,7 @@ class HEIController extends Controller
         } else {
             $model = $model->whereRaw("(sample_complete_view.hei_validation = 0 or sample_complete_view.hei_validation is null)");
         }
-
+        // dd($model->toSql());
         if ($count == true) {
             return $model->first()->patients;
         } else {
