@@ -30,6 +30,8 @@ $api->version('v1', function (Router $api) {
 
         $api->get('hello', 'RandomController@hello');
 
+        $api->post('mlab', 'MlabController@api');
+
 
 
         $api->group(['middleware' => 'jwt.auth'], function(Router $api) {

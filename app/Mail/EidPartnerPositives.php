@@ -23,6 +23,7 @@ class EidPartnerPositives extends Mailable
     public $name;
     public $division;
     public $path;
+    public $time_period;
 
     /**
      * Create a new message instance.
@@ -31,7 +32,9 @@ class EidPartnerPositives extends Mailable
      */
     public function __construct($partner_contact_id)
     {
-        // ini_set("memory_limit", "-1");
+        ini_set("memory_limit", "-1");
+        $min_date = date("Y-m-d", strtotime("-1 year"));
+        $this->time_period = date("d-M-Y", strtotime($min_date)) . ' TO ' . date('d-M-Y');
         $contact = DB::table('eid_partner_contacts_for_alerts')->where('id', $partner_contact_id)->get()->first();
         $samples = SampleAlertView::where('facility_id', '!=', 7148)
             ->whereIn('pcrtype', [1, 2, 3])
@@ -39,7 +42,7 @@ class EidPartnerPositives extends Mailable
             ->when(($contact->split == 1), function($query) use ($contact){
                 return $query->where('county_id', $contact->county);
             })
-            ->whereYear('datetested', date('Y'))
+            ->where('datetested', '>', $min_date)
             ->orderBy('facility_id')
             ->orderBy('datetested', 'ASC')
             ->get();
@@ -51,7 +54,7 @@ class EidPartnerPositives extends Mailable
             ->when(($contact->split == 1), function($query) use ($contact){
                 return $query->where('county_id', $contact->county);
             })
-            ->whereYear('datetested', date('Y'))
+            ->where('datetested', '>', $min_date)
             ->where('hei_validation', '>', 0)
             ->groupBy('facility_id')
             ->orderBy('facility_id')
@@ -59,7 +62,7 @@ class EidPartnerPositives extends Mailable
 
         $facilities = SampleAlertView::selectRaw("distinct facility_id")
             ->whereIn('pcrtype', [1, 2, 3])
-            ->whereYear('datetested', date('Y'))
+            ->where('datetested', '>', $min_date)
             ->where(['result' => 2, 'repeatt' => 0, 'partner_id' => $contact->partner])
             ->when(($contact->split == 1), function($query) use ($contact){
                 return $query->where('county_id', $contact->county);
@@ -73,7 +76,7 @@ class EidPartnerPositives extends Mailable
                 return $query->where('county_id', $contact->county);
             })
             // ->whereIn('facility_id', $facilities)
-            ->whereYear('datetested', date('Y'))
+            ->where('datetested', '>', $min_date)
             ->groupBy('facility_id', 'enrollment_status')
             ->orderBy('facility_id')
             ->get();
@@ -126,10 +129,10 @@ class EidPartnerPositives extends Mailable
         if(file_exists($path)) unlink($path);
 
         if($samples->isEmpty()){
-            $this->title = date('Y') .  ' COMPLETED HEI FOLLOW UP SUMMARY FOR ' . strtoupper($this->name) . ' SITES ' . $addendum; 
+            $this->title = $this->time_period .  ' COMPLETED HEI FOLLOW UP SUMMARY FOR ' . strtoupper($this->name) . ' SITES ' . $addendum; 
         }
         else{
-            $this->title = date('Y') .  ' HEI FOR FOLLOW UP & ONLINE DOCUMENTATION FOR ' . strtoupper($this->name) . ' SITES ' . $addendum;             
+            $this->title = $this->time_period .  ' HEI FOR FOLLOW UP & ONLINE DOCUMENTATION FOR ' . strtoupper($this->name) . ' SITES ' . $addendum;             
         }
 
         $pdf_data['summary'] = $data;

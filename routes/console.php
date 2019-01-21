@@ -102,6 +102,11 @@ Artisan::command('test:email', function(){
     $this->info($str);
 })->describe('Send test email.');
 
+Artisan::command('test:connection', function(){
+    $str = \App\Synch::test_connection();
+    $this->info($str);
+})->describe('Check connection to the labs.');
+
 // Artisan::command('testPassword:email', function(){
 //     $str = \App\Report::send_password();
 //     $this->info($str);
