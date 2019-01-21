@@ -233,7 +233,7 @@ class Synch
 			$client = new Client(['base_uri' => $lab->base_url]);
 			$response = $client->request('get', 'hello');
 			$body = json_decode($response->getBody());
-			echo $lab->name . ' ' $body->message . "\n";
+			echo $lab->name . ' '. $body->message . "\n";
 		}
 	}
 
