@@ -194,11 +194,11 @@ class Synch
 		$col .= $param . '_id';
 
 		$url = str_replace('App\\', '', $class);
-		$url = strtolower($url);
+		$url = strtolower($url) . '/' . $model->$col;
 
 		$client = new Client(['base_uri' => $lab->base_url]);
 
-		$response = $client->request('put', $url . $model->$col, [
+		$response = $client->request('put', $url, [
 			'http_errors' => false,
 			'verify' => false,
 			'headers' => [
@@ -223,6 +223,19 @@ class Synch
 	}
 
 
+
+
+	public static function test_connection()
+	{
+		$labs = Lab::all();
+
+		foreach ($labs as $lab) {
+			$client = new Client(['base_uri' => $lab->base_url]);
+			$response = $client->request('get', 'hello');
+			$body = json_decode($response->getBody());
+			echo $lab->name . ' ' $body->message . "\n";
+		}
+	}
 
 
 
