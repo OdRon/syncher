@@ -5,6 +5,7 @@ namespace App;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 use DB;
+use Exception;
 
 use App\Sample;
 use App\Batch;
@@ -229,24 +230,23 @@ class Synch
 	{
 		$labs = Lab::all();
 
-		// dd($labs);
-
 		foreach ($labs as $lab) {
-			// if($lab->id != 9) continue;
-			$client = new Client(['base_uri' => $lab->base_url]);
-			$response = $client->request('get', 'hello', [
-				'headers' => [
-					'Accept' => 'application/json',
-				],
-				// 'debug' => true,
-				'http_errors' => false,
-				// 'verify' => false,
-			]);
-			$body = json_decode($response->getBody());
-			// print_r($body);
-			// dd($response->getStatusCode());
-			echo $lab->name . ' '. $body->message . "\n";
-			// echo $lab->name . ' ' . $response->getStatusCode() . "\n";
+			try {
+				$client = new Client(['base_uri' => $lab->base_url]);
+				$response = $client->request('get', 'hello', [
+					'headers' => [
+						'Accept' => 'application/json',
+					],
+					// 'debug' => true,
+					'http_errors' => false,
+					// 'verify' => false,
+				]);
+				$body = json_decode($response->getBody());
+				echo $lab->name . ' '. $body->message . "\n";
+				
+			} catch (Exception $e) {
+				echo $lab->name . ' has error ' . $e->getMessage() . "\n";
+			}
 		}
 	}
 
