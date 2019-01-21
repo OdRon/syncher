@@ -67,6 +67,9 @@ class MlabController extends Controller
             ->paginate(50);
 
         $result->transform(function ($sample, $key) use ($test){
+            $result = $sample->result;
+            if($test == 2) $result = $sample->result_name;
+
             return [                
                 'source' => '1',
                 'result_id' => "{$sample->id}",
@@ -75,7 +78,7 @@ class MlabController extends Controller
                 'client_id' => $sample->patient,
                 'age' => "{$sample->age}",
                 'gender' => $sample->gender,
-                'result_content' => "{$sample->result}",
+                'result_content' => "{$result}",
                 'units' => $sample->units ?? '',
                 'mfl_code' => "{$sample->facilitycode}",
                 'lab_id' => "{$sample->lab_id}",
