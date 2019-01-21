@@ -171,9 +171,10 @@ class HEIController extends Controller
     public static function __getOutcomes($status,$validate,$year=null, $month=null)
     {
         $usertype = auth()->user()->user_type_id;
-    	return SampleCompleteView::selectRaw("COUNT(distinct sample_complete_view.patient_id) as totalPositives")
+    	$model = SampleCompleteView::selectRaw("COUNT(distinct sample_complete_view.patient_id) as totalPositives")
 					->join('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
 					->where('sample_complete_view.repeatt', '=', 0)
+                    ->where('sample_complete_view.flag', '=', 1)
                     ->whereIn('sample_complete_view.pcrtype', [1,2,3])
                     ->where('sample_complete_view.result', '=', 2)
                     ->when($year, function($query) use ($year){
@@ -202,6 +203,7 @@ class HEIController extends Controller
                         	return $query->where('sample_complete_view.enrollment_status', '=', $status);
                         }
                     })->first()->totalPositives;
+        return $model;
     }
 
     public static function __getPatients($year=null,$month=null,$duration=null,$validation=null,$count=false)
@@ -217,7 +219,8 @@ class HEIController extends Controller
         }
         $model->join('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
                     ->join('pcrtype', 'pcrtype.id', '=', 'sample_complete_view.pcrtype')
-                    ->where(['sample_complete_view.repeatt' => 0,'sample_complete_view.flag' => 1])
+                    ->where('sample_complete_view.repeatt', '=', 0)
+                    ->where('sample_complete_view.flag', '=', 1)
                     ->whereIn('sample_complete_view.pcrtype', [1,2,3])
                     ->where('sample_complete_view.result', '=', 2)
                     ->when($usertype, function($query) use ($usertype){
