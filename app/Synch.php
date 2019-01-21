@@ -229,14 +229,24 @@ class Synch
 	{
 		$labs = Lab::all();
 
+		// dd($labs);
+
 		foreach ($labs as $lab) {
+			// if($lab->id != 9) continue;
 			$client = new Client(['base_uri' => $lab->base_url]);
 			$response = $client->request('get', 'hello', [
+				'headers' => [
+					'Accept' => 'application/json',
+				],
+				// 'debug' => true,
 				'http_errors' => false,
-				'verify' => false,
+				// 'verify' => false,
 			]);
 			$body = json_decode($response->getBody());
+			// print_r($body);
+			// dd($response->getStatusCode());
 			echo $lab->name . ' '. $body->message . "\n";
+			// echo $lab->name . ' ' . $response->getStatusCode() . "\n";
 		}
 	}
 
