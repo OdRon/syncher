@@ -254,6 +254,7 @@ class Synch
 			$response = $client->request('get', $url, [
 				'headers' => [
 					'Accept' => 'application/json',
+					'Authorization' => 'Bearer ' . self::get_token($sample->batch->lab),
 				],
 				// 'debug' => true,
 				'http_errors' => false,
