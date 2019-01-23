@@ -292,7 +292,7 @@ class Synch
 
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
-		$samples = $sample_class::where('batch_id', 0)->get();
+		$samples = $sample_class::where('batch_id', 0)->where('datecollected', '>', '2017-01-01')->get();
 
 		foreach ($samples as $key => $sample) {
 			
@@ -317,7 +317,7 @@ class Synch
 
 					if($response->getStatusCode() < 400)
 					{				
-						if($sample->datetested == $body->datetested)
+						if($sample->datecollected == $body->datecollected)
 						{
 							$sample->batch_id = $body->batch->national_batch_id;
 							$sample->save();
