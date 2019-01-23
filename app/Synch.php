@@ -262,22 +262,11 @@ class Synch
 
 			$body = json_decode($response->getBody());
 
-			// dd($body);
-
-			// return $body;
-
-			print_r($body);
-			// print_r($sample->toJson());
-
-			die();
-
-			if($key == 20) die();
-
-			// if($response->getStatusCode() < 400)
-			// {				
-			// 	$sample->patient_id = $body->patient->national_patient_id;
-			// 	$sample->save();
-			// }
+			if($response->getStatusCode() < 400)
+			{				
+				$sample->patient_id = $body->patient->national_patient_id;
+				$sample->save();
+			}
 		}
 
 	}
