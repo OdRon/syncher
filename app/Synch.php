@@ -256,6 +256,7 @@ class Synch
 					'Authorization' => 'Bearer ' . self::get_token($sample->batch->lab),
 				],
 				// 'debug' => true,
+	            'connect_timeout' => 4.5,
 				'http_errors' => false,
 				'verify' => false,
 			]);
