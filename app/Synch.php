@@ -247,7 +247,7 @@ class Synch
 		$samples = $sample_class::where('patient_id', 0)->with(['batch.lab'])->get();
 
 		foreach ($samples as $key => $sample) {
-			if($sample->batch->site_entry == 2) continue;
+			if(!$sample->batch ||  $sample->batch->site_entry == 2) continue;
 			$client = new Client(['base_uri' => $sample->batch->lab->base_url]);
 			$url = $base . $sample->original_sample_id;
 
