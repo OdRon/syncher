@@ -250,23 +250,27 @@ class Synch
 			$client = new Client(['base_uri' => $sample->batch->lab->base_url]);
 			$url = $base . $sample->original_sample_id;
 
-			$response = $client->request('get', $url, [
-				'headers' => [
-					'Accept' => 'application/json',
-					'Authorization' => 'Bearer ' . self::get_token($sample->batch->lab),
-				],
-				// 'debug' => true,
-	            'connect_timeout' => 4.5,
-				'http_errors' => false,
-				'verify' => false,
-			]);
+			try {
+				$response = $client->request('get', $url, [
+					'headers' => [
+						'Accept' => 'application/json',
+						'Authorization' => 'Bearer ' . self::get_token($sample->batch->lab),
+					],
+		            'connect_timeout' => 3.5,
+					'http_errors' => false,
+					'verify' => false,
+				]);
 
-			$body = json_decode($response->getBody());
+				$body = json_decode($response->getBody());
 
-			if($response->getStatusCode() < 400)
-			{				
-				$sample->patient_id = $body->patient->national_patient_id;
-				$sample->save();
+				if($response->getStatusCode() < 400)
+				{				
+					$sample->patient_id = $body->patient->national_patient_id;
+					$sample->save();
+				}
+				
+			} catch (Exception $e) {
+				
 			}
 		}
 
