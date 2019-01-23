@@ -59,20 +59,26 @@ class Synch
 		Cache::forget($lab->token_name);
 		$client = new Client(['base_uri' => $lab->base_url]);
 
-		$response = $client->request('post', 'auth/login', [
-            'http_errors' => false,
-			'headers' => [
-				'Accept' => 'application/json',
-			],
-			'json' => [
-				'email' => env('LAB_USERNAME', null),
-				'password' => env('LAB_PASSWORD', null),
-			],
-		]);
-		$status_code = $response->getStatusCode();
-		if($status_code > 399) die();
-		$body = json_decode($response->getBody());
-		Cache::put($lab->token_name, $body->token, 60);
+		try {
+			$response = $client->request('post', 'auth/login', [
+	            'http_errors' => false,
+				'headers' => [
+					'Accept' => 'application/json',
+				],
+				'json' => [
+					'email' => env('LAB_USERNAME', null),
+					'password' => env('LAB_PASSWORD', null),
+				],
+			]);
+			$status_code = $response->getStatusCode();
+			// if($status_code > 399) die();
+			$body = json_decode($response->getBody());
+			print_r($body);
+			// Cache::put($lab->token_name, $body->token, 60);	
+			// echo $lab->token_name . " is {$body->token} \n";		
+		} catch (Exception $e) {
+			echo $lab->token_name . " is {$e->getMessage()}. \n";			
+		}
 	}
 
 	public static function get_token($lab)
@@ -106,8 +112,9 @@ class Synch
 			if($batches->isEmpty()) break;
 
 			foreach ($batches as $batch) {
-				$client = new Client(['base_uri' => $batch->lab->base_url]);
-				self::send_update($batch, $batch->lab);
+				$lab = $batch->lab;
+				unset($batch->lab);
+				self::send_update($batch, $lab);
 			}
 		}
 
@@ -183,7 +190,7 @@ class Synch
 	}
 
 
-	private static function send_update($model, $lab)
+	private static function send_update($model, $lab, $site_entry=false)
 	{
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
@@ -208,6 +215,7 @@ class Synch
 			],
 			'json' => [
 				$param => $model->toJson(),
+				'site_entry' => 2,
 			],
 		]);
 
@@ -224,6 +232,46 @@ class Synch
 	}
 
 
+	public static function correct_no_patient($type)
+	{
+        ini_set("memory_limit", "-1");
+		$classes = self::$synch_arrays[$type];
+
+		$base = str_replace('App\\', '', $class);
+		$base = strtolower($base) . '/';
+
+		$sample_class = $classes['sample_class'];
+		$sampleview_class = $classes['sampleview_class'];
+
+		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
+
+		$samples = $sample_class::where('patient_id', 0)->with(['batch.lab'])->get();
+
+		foreach ($samples as $sample) {
+			$client = new Client(['base_uri' => $sample->batch->lab->base_url]);
+			$url = $base . $sample->original_sample_id;
+
+			$response = $client->request('get', $url, [
+				'headers' => [
+					'Accept' => 'application/json',
+				],
+				// 'debug' => true,
+				'http_errors' => false,
+				'verify' => false,
+			]);
+
+			$body = json_decode($response->getBody());
+
+			dd($body);
+
+			if($response->getStatusCode() < 400)
+			{				
+				$sample->patient_id = $body->patient->national_patient_id;
+				$sample->save();
+			}
+		}
+
+	}
 
 
 	public static function test_connection()
@@ -247,6 +295,15 @@ class Synch
 			} catch (Exception $e) {
 				echo $lab->name . ' has error ' . $e->getMessage() . "\n";
 			}
+		}
+	}
+
+	public static function logins()
+	{
+		$labs = Lab::all();
+
+		foreach ($labs as $lab) {
+			self::login($lab);
 		}
 	}
 
