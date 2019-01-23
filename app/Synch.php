@@ -261,6 +261,8 @@ class Synch
 
 			$body = json_decode($response->getBody());
 
+			dd($sample);
+
 			print_r($body);
 
 			if($key == 20) die();
