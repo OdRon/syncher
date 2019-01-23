@@ -267,7 +267,7 @@ class Synch
 			// return $body;
 
 			print_r($body);
-			print_r($sample->toJson());
+			// print_r($sample->toJson());
 
 			die();
 
