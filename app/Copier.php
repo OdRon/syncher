@@ -62,14 +62,15 @@ class Copier
         foreach ($samples as $sample) {
             $old = ViralsampleView::find($sample->old_id);
 
+            if(!$old) continue;
+
             $batch = Viralbatch::existing($old->original_batch_id, $old->lab_id)->first();
 
             if($batch){
                 $sample->batch_id = $batch->id;
                 $sample->save();
             }
-            else{
-            }
+            else{}
         } 
     }
 
