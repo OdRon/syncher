@@ -53,6 +53,26 @@ class Copier
         } 
     }
 
+    public static function return_vl_batch_id()
+    {
+        ini_set("memory_limit", "-1");
+        $samples = Viralsample::where('batch_id', 0)->whereNotNull('old_id')->get();
+        $batch_date_array = ['datedispatchedfromfacility', 'datereceived', 'datedispatched', 'dateindividualresultprinted', 'datebatchprinted'];
+
+        foreach ($samples as $sample) {
+            $old = ViralsampleView::find($sample->old_id);
+
+            $batch = Viralbatch::existing($old->original_batch_id, $old->lab_id)->first();
+
+            if($batch){
+                $sample->batch_id = $batch->id;
+                $sample->save();
+            }
+            else{
+            }
+        } 
+    }
+
     public static function return_dateinitiated()
     {
         ini_set("memory_limit", "-1");
