@@ -263,9 +263,12 @@ class Synch
 
 			// dd($body);
 
-			return $body;
+			// return $body;
 
-			// print_r($body);
+			print_r($body);
+			print_r($sample);
+
+			die();
 
 			if($key == 20) die();
 
