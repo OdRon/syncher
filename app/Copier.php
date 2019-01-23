@@ -31,6 +31,28 @@ class Copier
 {
 	private static $limit = 10000;
 
+
+
+    public static function return_batch_id()
+    {
+        ini_set("memory_limit", "-1");
+        $samples = Sample::where('batch_id', 0)->whereNotNull('old_id')->get();
+        $batch_date_array = ['datedispatchedfromfacility', 'datereceived', 'datedispatched', 'dateindividualresultprinted', 'datebatchprinted'];
+
+        foreach ($samples as $sample) {
+            $old = SampleView::find($sample->old_id);
+
+            $batch = Batch::existing($old->original_batch_id, $old->lab_id)->first();
+
+            if($batch){
+                $sample->batch_id = $batch->id;
+                $sample->save();
+            }
+            else{
+            }
+        } 
+    }
+
     public static function return_dateinitiated()
     {
         ini_set("memory_limit", "-1");
