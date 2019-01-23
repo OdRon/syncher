@@ -62,7 +62,7 @@ class Synch
 		try {
 			$response = $client->request('post', 'auth/login', [
 	            'http_errors' => false,
-	            'connect_timeout' => 4.5,
+	            'connect_timeout' => 1.5,
 				'headers' => [
 					'Accept' => 'application/json',
 				],
@@ -77,6 +77,7 @@ class Synch
 			Cache::put($lab->token_name, $body->token, 60);	
 			// echo $lab->token_name . " is {$body->token} \n";		
 		} catch (Exception $e) {
+			Cache::put($lab->token_name, 'null', 60);	
 			// echo $lab->token_name . " is {$e->getMessage()}. \n";			
 		}
 	}
@@ -272,6 +273,61 @@ class Synch
 				
 			} catch (Exception $e) {
 				
+			}
+		}
+
+	}
+
+
+	public static function correct_no_batch($type)
+	{
+        ini_set("memory_limit", "-1");
+		$classes = self::$synch_arrays[$type];
+
+		$sample_class = $classes['sample_class'];
+
+		$labs = Lab::all();
+		$base = str_replace('App\\', '', $sample_class);
+		$base = strtolower($base) . '/';
+
+		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
+
+		$samples = $sample_class::where('batch_id', 0)->get();
+
+		foreach ($samples as $key => $sample) {
+			
+			$url = $base . $sample->original_sample_id;
+
+			foreach ($labs as $lab) {
+
+				$client = new Client(['base_uri' => $lab->base_url]);
+
+				try {
+					$response = $client->request('get', $url, [
+						'headers' => [
+							'Accept' => 'application/json',
+							'Authorization' => 'Bearer ' . self::get_token($lab),
+						],
+			            'connect_timeout' => 1.5,
+						'http_errors' => false,
+						'verify' => false,
+					]);
+
+					$body = json_decode($response->getBody());
+
+					if($response->getStatusCode() < 400)
+					{				
+						if($sample->datetested == $body->datetested)
+						{
+							$sample->batch_id = $body->batch->national_batch_id;
+							$sample->save();
+							break;
+						}
+					}
+					
+				} catch (Exception $e) {
+					
+				}
 			}
 		}
 
