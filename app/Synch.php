@@ -236,11 +236,10 @@ class Synch
         ini_set("memory_limit", "-1");
 		$classes = self::$synch_arrays[$type];
 
-		$base = str_replace('App\\', '', $class);
-		$base = strtolower($base) . '/';
-
 		$sample_class = $classes['sample_class'];
-		$sampleview_class = $classes['sampleview_class'];
+
+		$base = str_replace('App\\', '', $sample_class);
+		$base = strtolower($base) . '/';
 
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
