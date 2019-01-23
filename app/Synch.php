@@ -245,7 +245,7 @@ class Synch
 
 		$samples = $sample_class::where('patient_id', 0)->with(['batch.lab'])->get();
 
-		foreach ($samples as $sample) {
+		foreach ($samples as $key => $sample) {
 			$client = new Client(['base_uri' => $sample->batch->lab->base_url]);
 			$url = $base . $sample->original_sample_id;
 
@@ -261,13 +261,15 @@ class Synch
 
 			$body = json_decode($response->getBody());
 
-			dd($body);
+			print_r($body);
 
-			if($response->getStatusCode() < 400)
-			{				
-				$sample->patient_id = $body->patient->national_patient_id;
-				$sample->save();
-			}
+			if($key == 20) die();
+
+			// if($response->getStatusCode() < 400)
+			// {				
+			// 	$sample->patient_id = $body->patient->national_patient_id;
+			// 	$sample->save();
+			// }
 		}
 
 	}
