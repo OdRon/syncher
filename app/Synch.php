@@ -62,7 +62,7 @@ class Synch
 		try {
 			$response = $client->request('post', 'auth/login', [
 	            'http_errors' => false,
-	            'connect_timeout' => 3.14,
+	            'connect_timeout' => 4.5,
 				'headers' => [
 					'Accept' => 'application/json',
 				],
@@ -267,7 +267,7 @@ class Synch
 			// return $body;
 
 			print_r($body);
-			print_r($sample);
+			print_r($sample->toJson());
 
 			die();
 
