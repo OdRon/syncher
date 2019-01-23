@@ -62,6 +62,7 @@ class Synch
 		try {
 			$response = $client->request('post', 'auth/login', [
 	            'http_errors' => false,
+	            'connect_timeout' => 3.14,
 				'headers' => [
 					'Accept' => 'application/json',
 				],
@@ -263,9 +264,12 @@ class Synch
 
 			// dd($body);
 
-			return $body;
+			// return $body;
 
-			// print_r($body);
+			print_r($body);
+			print_r($sample);
+
+			die();
 
 			if($key == 20) die();
 
