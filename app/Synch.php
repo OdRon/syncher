@@ -261,7 +261,9 @@ class Synch
 
 			$body = json_decode($response->getBody());
 
-			dd($body);
+			// dd($body);
+
+			return $body;
 
 			// print_r($body);
 
