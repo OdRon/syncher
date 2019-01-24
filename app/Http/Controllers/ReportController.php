@@ -758,8 +758,8 @@ class ReportController extends Controller
                 $title .= "VL DORMANT SITES FOR ";
                 $briefTitle .= "vl DORMANT ";
             } else if ($request->indicatortype == 10) {
-                $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Total Samples'];
-                $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT($table.id) as totaltests";
+                $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Remote Logged Samples', 'Total Samples'];
+                $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT(IF($table.site_entry = 1, 1, null)) as remotelogged, COUNT($table.id) as totaltests";
 
                 $title .= "VL SITES DIONG REMOTE SAMPLE ENTRY FOR ";
                 $briefTitle .= "vl SITES DIONG REMOTE SAMPLE ENTRY for";
@@ -769,7 +769,7 @@ class ReportController extends Controller
 				->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
 				->where("$table.flag", '=', 1)->where("$table.facility_id", '<>', 7148);
 
-            if (!($request->indicatortype == 9 || $request->indicatortype == 10)) {
+            if (!($request->indicatortype == 9)) {
                 $model = $model->where('repeatt', '=', 0);
             }
             if ($request->indicatortype == 2 || $request->indicatortype == 4 || $request->indicatortype == 5 || $request->indicatortype == 6) 
@@ -797,8 +797,7 @@ class ReportController extends Controller
                     $parent = ViewFacility::select('county','subcounty','partner','name','facilitycode')->where('subcounty_id', '=', auth()->user()->level);
                 }
             } else if ($request->indicatortype == 10) {
-                $model = $model->where("$table.site_entry", '=', 1)
-                                ->groupBy('facility')
+                $model = $model->groupBy('facility')
                                 ->groupBy('facilitycode')
                                 ->groupBy('subcounty')
                                 ->groupBy('county')
@@ -889,8 +888,8 @@ class ReportController extends Controller
                 $title = "EID DORMANT SITES FOR ";
                 $briefTitle .= "EID DORMANT SITES ";
             } else if ($request->indicatortype == 10) {
-                $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Total Samples'];
-                $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT($table.id) as totaltests";
+                $excelColumns = ['County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Remote Logged Samples', 'Total Samples'];
+                $selectStr =  "view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility , view_facilitys.facilitycode, COUNT(IF($table.site_entry = 1, 1, null)) as remotelogged, COUNT($table.id) as totaltests";
 
                 $title .= "EID SITES DIONG REMOTE SAMPLE ENTRY FOR ";
                 $briefTitle .= "EID SITES DIONG REMOTE SAMPLE ENTRY ";
@@ -923,7 +922,7 @@ class ReportController extends Controller
                                 ->leftJoin('hei_categories as hc', 'hc.id', '=', "$table.enrollment_status");
             //Additional Joins
 
-            if (!($request->indicatortype == 5 || $request->indicatortype == 9 || $request->indicatortype == 10)) {
+            if (!($request->indicatortype == 5 || $request->indicatortype == 9)) {
                 $model = $model->where(['repeatt' => 0, "$table.flag" => 1]);
             }
 
@@ -961,8 +960,7 @@ class ReportController extends Controller
                     $parent = ViewFacility::select('county','subcounty','partner','name','facilitycode')->where('subcounty_id', '=', auth()->user()->level);
                 }
             } else if ($request->indicatortype == 10) {
-                $model = $model->where("$table.site_entry", '=', 1)
-                                ->groupBy('facility')
+                $model = $model->groupBy('facility')
                                 ->groupBy('facilitycode')
                                 ->groupBy('subcounty')
                                 ->groupBy('county')
