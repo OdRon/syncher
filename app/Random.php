@@ -6,6 +6,8 @@ use Excel;
 use DB;
 use App\Facilitys;
 
+use Carbon\Carbon;
+
 class Random
 {
 
@@ -73,9 +75,21 @@ class Random
 		})->get();
 
 		foreach ($data as $row) {
-			dd($row);
-			$s = \App\ViralsampleView::find($row->System_ID);
-			echo " {$s->id} ";
+			$s = \App\ViralsampleView::find($row->system_id);
+
+			if($s->original_batch_id == $row->batch)
+			{
+				$d = Carbon::createFromFormat('m/d/Y', $sample->actual_date_collected);
+				$dc = $d->toDateString();
+				echo "{$s->id} {dc} \n";
+
+				// $sample = \App\Viralsample::find($row->system_id);
+				// $sample->datecollected = $dc;
+				// $sample->pre_update();
+			}
+			else{
+				echo "{$s->id} could not be found \n";
+			}
 		}
 	}
 
