@@ -138,7 +138,7 @@ class Synch
 
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
-		$samples = $sampleview_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->where('lab_id', 1)->get();
+		$samples = $sampleview_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->where('lab_id', 9)->get();
 
 		foreach ($samples as $s) {
 			$sample = $sample_class::find($s->id);
