@@ -151,6 +151,7 @@ class Synch
 				$sample = $sample_class::find($s->id);
 				self::send_update($sample, $s->lab);
 			}
+			break;
 		}
 
 		$labs = Lab::all();
