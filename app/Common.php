@@ -125,7 +125,7 @@ class Common
 
 	// $view_model will be \App\SampleView::class || \App\ViralsampleView::class
 	// $sample_model will be \App\Sample::class || \App\Viralsample::class
-	public function save_tat($view_model, $sample_model, $batch_id = NULL)
+	public static function save_tat($view_model, $sample_model, $batch_id = NULL)
 	{
 		$samples = $view_model::where(['synched' => 2])
 		->when($batch_id, function($query) use ($batch_id){
@@ -143,9 +143,9 @@ class Common
 
 			if($sample_model == "App\\Viralsample"){
 				$viral_data = [
-					'age_category' => $this->set_age_cat($sample->age),
+					'age_category' => self::set_age_cat($sample->age),
 				];
-				$viral_data = array_merge($viral_data, $this->set_rcategory($sample->result, $sample->repeatt));
+				// $viral_data = array_merge($viral_data, $this->set_rcategory($sample->result, $sample->repeatt));
 				$data = array_merge($data, $viral_data);
 				if($sample->synched == 1 || $sample->synched == 0) $data['synched'] = 2;				
 			}
@@ -180,7 +180,7 @@ class Common
 					$viral_data = [
 						'age_category' => $this->set_age_cat($sample->age),
 					];
-					$viral_data = array_merge($viral_data, $this->set_rcategory($sample->result, $sample->repeatt));	
+					// $viral_data = array_merge($viral_data, $this->set_rcategory($sample->result, $sample->repeatt));	
 					$data = array_merge($data, $viral_data);				
 				}
 				$sample_model::where('id', $sample->id)->update($data);
