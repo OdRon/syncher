@@ -81,7 +81,7 @@ class Random
 			{
 				$d = Carbon::createFromFormat('m/d/Y', $row->actual_date_collected);
 				$dc = $d->toDateString();
-				echo "{$s->id} {dc} \n";
+				echo "{$s->id} {$dc} \n";
 
 				// $sample = \App\Viralsample::find($row->system_id);
 				// $sample->datecollected = $dc;
