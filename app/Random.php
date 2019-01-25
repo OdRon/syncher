@@ -73,6 +73,7 @@ class Random
 		})->get();
 
 		foreach ($data as $row) {
+			dd($row);
 			$s = \App\ViralsampleView::find($row->System_ID);
 			echo " {$s->id} ";
 		}
