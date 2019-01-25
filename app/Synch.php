@@ -224,6 +224,9 @@ class Synch
 		]);
 
 		$body = json_decode($response->getBody());
+
+		print_r($body); die();
+
 		if($response->getStatusCode() < 400)
 		{
 			$model->fill($data);
