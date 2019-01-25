@@ -107,16 +107,12 @@ class Synch
 
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
-		while(true)
-		{
-			$batches = $batch_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->limit(50)->get();
-			if($batches->isEmpty()) break;
+		$batches = $batch_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->limit(50)->get();
 
-			foreach ($batches as $batch) {
-				$lab = $batch->lab;
-				unset($batch->lab);
-				self::send_update($batch, $lab);
-			}
+		foreach ($batches as $batch) {
+			$lab = $batch->lab;
+			unset($batch->lab);
+			self::send_update($batch, $lab);
 		}
 
 		$labs = Lab::all();
@@ -142,16 +138,11 @@ class Synch
 
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
-		while(true)
-		{
-			$samples = $sampleview_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->where('lab_id', 1)->limit(50)->get();
-			if($samples->isEmpty()) break;
+		$samples = $sampleview_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->where('lab_id', 1)->get();
 
-			foreach ($samples as $s) {
-				$sample = $sample_class::find($s->id);
-				self::send_update($sample, $s->lab);
-			}
-			break;
+		foreach ($samples as $s) {
+			$sample = $sample_class::find($s->id);
+			self::send_update($sample, $s->lab);
 		}
 
 		// $labs = Lab::all();
@@ -224,8 +215,6 @@ class Synch
 		]);
 
 		$body = json_decode($response->getBody());
-
-		print_r($body); die();
 
 		if($response->getStatusCode() < 400)
 		{
