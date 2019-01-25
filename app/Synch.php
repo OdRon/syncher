@@ -138,21 +138,21 @@ class Synch
 
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
-		$samples = $sampleview_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->where('lab_id', 9)->get();
+		$samples = $sampleview_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->get();
 
 		foreach ($samples as $s) {
 			$sample = $sample_class::find($s->id);
 			self::send_update($sample, $s->lab);
 		}
 
-		// $labs = Lab::all();
-		// $samples = $sampleview_class::where('synched', 2)->where('site_entry', 2)->get();
+		$labs = Lab::all();
+		$samples = $sampleview_class::where('synched', 2)->where('site_entry', 2)->get();
 
-		// foreach ($samples as $samples) {
-		// 	foreach ($labs as $lab) {
-		// 		if(self::send_update($sample, $lab)) break;
-		// 	}
-		// }
+		foreach ($samples as $samples) {
+			foreach ($labs as $lab) {
+				if(self::send_update($sample, $lab)) break;
+			}
+		}
 	}
 
 
