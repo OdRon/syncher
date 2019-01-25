@@ -81,11 +81,10 @@ class Random
 			{
 				$d = Carbon::createFromFormat('m/d/Y', $row->actual_date_collected);
 				$dc = $d->toDateString();
-				echo "{$s->id} {$dc} \n";
 
-				// $sample = \App\Viralsample::find($row->system_id);
-				// $sample->datecollected = $dc;
-				// $sample->pre_update();
+				$sample = \App\Viralsample::find($row->system_id);
+				$sample->datecollected = $dc;
+				$sample->pre_update();
 			}
 			else{
 				echo "{$s->id} could not be found \n";
