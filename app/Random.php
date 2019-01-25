@@ -79,7 +79,7 @@ class Random
 
 			if($s->original_batch_id == $row->batch)
 			{
-				$d = Carbon::createFromFormat('m/d/Y', $sample->actual_date_collected);
+				$d = Carbon::createFromFormat('m/d/Y', $row->actual_date_collected);
 				$dc = $d->toDateString();
 				echo "{$s->id} {dc} \n";
 
