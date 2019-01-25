@@ -22,19 +22,21 @@ class Common
     }
 
 
-	public static function get_days($start, $finish)
+	public static function get_days($start, $finish, $with_holidays=true)
 	{
 		if(!$start || !$finish) return null;
 		// $workingdays= self::working_days($start, $finish);
 		$s = Carbon::parse($start);
 		$f = Carbon::parse($finish);
-		$workingdays = $s->diffInWeekdays($f);
+		$totaldays = $s->diffInWeekdays($f);
 
+		if($totaldays < 0) return null;
+		
 		$start_time = strtotime($start);
 		$month = (int) date('m', $start_time);
 		$holidays = self::get_holidays($month);
 
-		$totaldays = $workingdays - $holidays;
+		if($with_holidays) $totaldays -= $holidays;
 		if ($totaldays < 1)		$totaldays=1;
 		return $totaldays;
 	}
@@ -125,7 +127,7 @@ class Common
 	// $sample_model will be \App\Sample::class || \App\Viralsample::class
 	public function save_tat($view_model, $sample_model, $batch_id = NULL)
 	{
-		$samples = $view_model::where(['batch_complete' => 1])
+		$samples = $view_model::where(['synched' => 2])
 		->whereRaw("(synched = 0 or synched = 2)")
 		->when($batch_id, function($query) use ($batch_id){
 			return $query->where(['batch_id' => $batch_id]);
@@ -142,8 +144,6 @@ class Common
 
 			if($sample_model == "App\\Viralsample"){
 				$viral_data = [
-					'justification' => $this->set_justification($sample->justification),
-					'prophylaxis' => $this->set_prophylaxis($sample->prophylaxis),
 					'age_category' => $this->set_age_cat($sample->age),
 				];
 				$viral_data = array_merge($viral_data, $this->set_rcategory($sample->result, $sample->repeatt));
@@ -178,8 +178,6 @@ class Common
 
 				if($sample_model == "App\\Viralsample"){
 					$viral_data = [
-						'justification' => $this->set_justification($sample->justification),
-						'prophylaxis' => $this->set_prophylaxis($sample->prophylaxis),
 						'age_category' => $this->set_age_cat($sample->age),
 					];
 					$viral_data = array_merge($viral_data, $this->set_rcategory($sample->result, $sample->repeatt));	
@@ -212,8 +210,6 @@ class Common
 
 		if($sample_model == "App\\Viralsample"){
 			$viral_data = [
-				'justification' => $this->set_justification($sample->justification),
-				'prophylaxis' => $this->set_prophylaxis($sample->prophylaxis),
 				'age_category' => $this->set_age_cat($sample->age),
 			];
 			$viral_data = array_merge($viral_data, $this->set_rcategory($sample->result, $sample->repeatt));	
@@ -222,33 +218,6 @@ class Common
 		$sample_model::where('id', $sample->id)->update($data);
 
 		dd($data);
-	}
-
-
-	public static function check_worklist($view_model, $worklist_id=null)
-	{	
-		if(!$worklist_id) return null;
-        $samples = $view_model::where('worksheet_id', $worklist_id)
-        	->where('site_entry', 2)
-        	->whereNull('result')
-        	->get();
-
-        if($samples->isEmpty()){
-        	$worklist = \App\Worklist::find($worklist_id);
-        	$worklist->status_id = 3;
-        	$worklist->pre_update();
-        }
-	}
-
-	public static function input_complete_batches($type)
-	{
-		if($type == 'eid'){
-			$batch_model = \App\Batch::class;
-		}else{
-			$batch_model = \App\Viralbatch::class;
-		}
-		$batch_model::where(['input_complete' => false])->update(['input_complete' => true]);
-		return "Batches of {$type} have been marked as input complete";
 	}
 
 	public static function set_age($type)
