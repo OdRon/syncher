@@ -63,6 +63,21 @@ class Random
 		}
 	}
 
+	public static function alter_dc()
+	{
+		ini_set("memory_limit", "-1");
+        config(['excel.import.heading' => true]);
+		$path = public_path('actual_dates.csv');
+		$data = Excel::load($path, function($reader){
+
+		})->get();
+
+		foreach ($data as $row) {
+			$s = \App\ViralsampleView::find($row->System_ID);
+			echo " {$s->id} ";
+		}
+	}
+
 	public static function facilitys()
 	{
 		self::alter_facilitys();
