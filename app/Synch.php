@@ -144,7 +144,7 @@ class Synch
 
 		while(true)
 		{
-			$samples = $sampleview_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->limit(50)->get();
+			$samples = $sampleview_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->where('lab_id', 1)->limit(50)->get();
 			if($samples->isEmpty()) break;
 
 			foreach ($samples as $s) {
