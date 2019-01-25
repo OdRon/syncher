@@ -154,14 +154,14 @@ class Synch
 			break;
 		}
 
-		$labs = Lab::all();
-		$samples = $sample_class::where('synched', 2)->where('site_entry', 2)->get();
+		// $labs = Lab::all();
+		// $samples = $sampleview_class::where('synched', 2)->where('site_entry', 2)->get();
 
-		foreach ($samples as $samples) {
-			foreach ($labs as $lab) {
-				if(self::send_update($sample, $lab)) break;
-			}
-		}
+		// foreach ($samples as $samples) {
+		// 	foreach ($labs as $lab) {
+		// 		if(self::send_update($sample, $lab)) break;
+		// 	}
+		// }
 	}
 
 
@@ -219,7 +219,7 @@ class Synch
 			],
 			'json' => [
 				$param => $model->toJson(),
-				'site_entry' => 2,
+				'site_entry' => $site_entry,
 			],
 		]);
 
