@@ -138,6 +138,8 @@ class Synch
 		$sample_class = $classes['sample_class'];
 		$sampleview_class = $classes['sampleview_class'];
 
+		\App\Common::save_tat($sampleview_class, $sample_class);
+
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
 		while(true)
