@@ -6,6 +6,8 @@ use Excel;
 use DB;
 use App\Facilitys;
 
+use Carbon\Carbon;
+
 class Random
 {
 
@@ -60,6 +62,35 @@ class Random
 					$s->delete();
 				}
 			}
+		}
+	}
+
+	public static function alter_dc()
+	{
+		ini_set("memory_limit", "-1");
+        config(['excel.import.heading' => true]);
+		$path = public_path('actual_dates.csv');
+		$data = Excel::load($path, function($reader){
+
+		})->get();
+
+		foreach ($data as $row) {
+			$s = \App\ViralsampleView::find($row->system_id);
+
+			echo "{$s->id} {$s->datecollected} {$s->synched} \n";
+
+			// if($s->original_batch_id == $row->batch)
+			// {
+			// 	$d = Carbon::createFromFormat('m/d/Y', $row->actual_date_collected);
+			// 	$dc = $d->toDateString();
+
+			// 	$sample = \App\Viralsample::find($row->system_id);
+			// 	$sample->datecollected = $dc;
+			// 	$sample->pre_update();
+			// }
+			// else{
+			// 	echo "{$s->id} could not be found \n";
+			// }
 		}
 	}
 
