@@ -12,4 +12,10 @@ class Allocation extends Model
      * @var array
      */
     protected $guarded = [];
+
+
+    public function scopeExisting($query, $year, $month, $testtype, $kit)
+    {
+        return $query->where(['year' => $year, 'month' => $month, 'testtype' => $testtype, 'kit_id' => $kit]);
+    }
 }
