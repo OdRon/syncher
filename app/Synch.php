@@ -107,16 +107,12 @@ class Synch
 
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
-		while(true)
-		{
-			$batches = $batch_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->limit(50)->get();
-			if($batches->isEmpty()) break;
+		$batches = $batch_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->limit(50)->get();
 
-			foreach ($batches as $batch) {
-				$lab = $batch->lab;
-				unset($batch->lab);
-				self::send_update($batch, $lab);
-			}
+		foreach ($batches as $batch) {
+			$lab = $batch->lab;
+			unset($batch->lab);
+			self::send_update($batch, $lab);
 		}
 
 		$labs = Lab::all();
@@ -138,21 +134,19 @@ class Synch
 		$sample_class = $classes['sample_class'];
 		$sampleview_class = $classes['sampleview_class'];
 
+		\App\Common::save_tat($sampleview_class, $sample_class);
+
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
-		while(true)
-		{
-			$samples = $sampleview_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->limit(50)->get();
-			if($samples->isEmpty()) break;
+		$samples = $sampleview_class::with(['lab'])->where('synched', 2)->where('site_entry', '!=', 2)->get();
 
-			foreach ($samples as $s) {
-				$sample = $sample_class::find($s->id);
-				self::send_update($sample, $s->lab);
-			}
+		foreach ($samples as $s) {
+			$sample = $sample_class::find($s->id);
+			self::send_update($sample, $s->lab);
 		}
 
 		$labs = Lab::all();
-		$samples = $sample_class::where('synched', 2)->where('site_entry', 2)->get();
+		$samples = $sampleview_class::where('synched', 2)->where('site_entry', 2)->get();
 
 		foreach ($samples as $samples) {
 			foreach ($labs as $lab) {
@@ -216,11 +210,12 @@ class Synch
 			],
 			'json' => [
 				$param => $model->toJson(),
-				'site_entry' => 2,
+				'site_entry' => $site_entry,
 			],
 		]);
 
 		$body = json_decode($response->getBody());
+
 		if($response->getStatusCode() < 400)
 		{
 			$model->fill($data);
@@ -228,6 +223,7 @@ class Synch
 			return true;
 		}
 		else{
+			print_r($body);
 			return false;
 		}
 	}
