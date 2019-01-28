@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kits extends Model
 {
+    protected $guarded = [];
 	protected $year;
     protected $previousYear;
     protected $month;
