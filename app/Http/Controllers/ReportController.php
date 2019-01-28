@@ -1137,6 +1137,9 @@ class ReportController extends Controller
                         $model = $model->where('view_facilitys.partner_id2', '=', auth()->user()->level);
                     }
                 }
+            } else if ($request->category == 'poc') {
+                $model = $model->where('site_entry', '=', 2);
+                $title .= 'POC';
             }
         }
 

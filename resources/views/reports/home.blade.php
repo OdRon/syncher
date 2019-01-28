@@ -66,7 +66,7 @@
                             @if(!(Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 2))
                             <div class="row">
                                 <label class="col-sm-3 control-label">
-                                    <input type="radio" name="category" class="i-checks" value="overall">Overall
+                                    <input type="radio" name="category" class="i-checks" value="overall" required>Overall
                                 </label>
                                 <div class="col-sm-9">
                                     @if(Auth::user()->user_type_id == 9)
@@ -80,7 +80,7 @@
                             @if(Auth::user()->user_type_id == 9 || Auth::user()->user_type_id == 10)
                                 <div class="row">
                                     <label class="col-sm-3 control-label">
-                                        <input type="radio" name="category" value="lab" class="i-checks">Select Lab
+                                        <input type="radio" name="category" value="lab" class="i-checks" required>Select Lab
                                     </label>
                                     <div class="col-sm-9">
                                         <select class="form-control" name="lab" id="lab">
@@ -98,7 +98,7 @@
                                 @if(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 10)
                                     <div class="row">
                                         <label class="col-sm-3 control-label">
-                                            <input type="radio" name="category" value="partner" class="i-checks">Select Partner
+                                            <input type="radio" name="category" value="partner" class="i-checks" required>Select Partner
                                         </label>
                                         <div class="col-sm-9">
                                             <select class="form-control" name="partner" id="partner">
@@ -116,7 +116,7 @@
                                     @if(Auth::user()->user_type_id != 7 || Auth::user()->level == 85)
                                     <div class="row">
                                         <label class="col-sm-3 control-label">
-                                            <input type="radio" name="category" value="county" class="i-checks">Select County
+                                            <input type="radio" name="category" value="county" class="i-checks" required>Select County
                                         </label>
                                         <div class="col-sm-9">
                                             <select class="form-control" name="county" id="county">
@@ -134,7 +134,7 @@
                                 @if(!(Auth::user()->user_type_id == 5 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
                                     <div class="row">
                                         <label class="col-sm-3 control-label">
-                                            <input type="radio" name="category" value="subcounty" class="i-checks">Select Sub County
+                                            <input type="radio" name="category" value="subcounty" class="i-checks" required>Select Sub County
                                         </label>
                                         <div class="col-sm-9">
                                             <select class="form-control" name="district" id="district">
@@ -151,7 +151,7 @@
                                 @if(Auth::user()->user_type_id != 6)
                                 <div class="row">
                                     <label class="col-sm-3 control-label">
-                                        <input type="radio" name="category" value="facility" class="i-checks">Select Facility
+                                        <input type="radio" name="category" value="facility" class="i-checks" required>Select Facility
                                     </label>
                                     <div class="col-sm-9">
                                         <select class="form-control" name="facility" id="facility">
@@ -166,6 +166,14 @@
                                 </div>
                                 @endif
                             @endif
+                            <div class="row">
+                                    <label class="col-sm-3 control-label">
+                                        <input type="radio" name="category" value="poc" class="i-checks" required>POC
+                                    </label>
+                                    <div class="col-sm-9">
+                                        << For all POC Sites >>
+                                    </div>
+                                </div>
                         </div>
                         @if(Auth::user()->user_type_id == 9)
                         <hr>
