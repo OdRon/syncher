@@ -79,9 +79,9 @@ class Random
 
 		foreach ($data as $key => $row) {
 
-			$s = DB::table('apidb.vl_current_suppression')
-				->join('apidb.facilitys', 'vl_current_suppression.facility', '=', 'facilitys.id')
-				->select('vl_current_suppression.*')
+			$s = DB::table('apidb.vl_site_suppression')
+				->join('apidb.facilitys', 'vl_site_suppression.facility', '=', 'facilitys.id')
+				->select('vl_site_suppression.*')
 				->where('facilitycode', $row->mfl_code)
 				->first();
 
