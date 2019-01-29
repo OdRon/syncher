@@ -109,7 +109,7 @@ class Random
 
 			}
 		}
-		$file = storage_path('exports/patients_report.csv');
+		$file = 'patients_report';
 
 		Excel::create($file, function($excel) use($rows){
 			$excel->sheet('Sheetname', function($sheet) use($rows) {
