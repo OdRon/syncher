@@ -172,7 +172,10 @@ class Random
 		})->get();
 
 		foreach ($data as $row) {
-			Facility::where(['facilitycode' => $row->code])->update(['poc' => 1]);
+			$update_data = ['poc' => 1, 'has_alere' => 1];
+			if(str_contains($row->platform, 'Gene')) $update_data = ['poc' => 1, 'has_gene' => 1];
+
+			Facility::where(['facilitycode' => $row->code])->update($update_data);
 		}
 	} 
 
