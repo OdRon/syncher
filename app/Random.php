@@ -65,6 +65,24 @@ class Random
 		}
 	}
 
+
+	public static function save_results()
+	{
+		ini_set("memory_limit", "-1");
+        config(['excel.import.heading' => true]);
+		$path = public_path('facilities.csv');
+		$data = Excel::load($path, function($reader){
+
+		})->get();
+
+		foreach ($data as $row) {
+
+			dd($row);
+			
+		}
+
+	}
+
 	public static function alter_dc()
 	{
 		ini_set("memory_limit", "-1");
