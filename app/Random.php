@@ -89,7 +89,7 @@ class Random
 				->where('facilitycode', $row->mfl_code)
 				->first();
 
-			if($s) dd($s);
+			// if($s) dd($s);
 
 			$rows[] = [
 				'MFL Code' => $row->mfl_code,
