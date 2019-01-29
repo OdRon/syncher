@@ -89,15 +89,25 @@ class Random
 				->where('facilitycode', $row->mfl_code)
 				->first();
 
-			// if($s) dd($s);
+			if($s){
+				$rows[] = [
+					'MFL Code' => $row->mfl_code,
+					'Facility' => $row->facilities,
+					'LDL' => $s->Undetected,
+					'Less 1000 cp/ml' => $s->less1000,
+					'Greater 1000 cp/ml' => ($s->less5000 + $s->above5000),
+				];
+			}
+			else{
+				$rows[] = [
+					'MFL Code' => $row->mfl_code,
+					'Facility' => $row->facilities,
+					'LDL' => 'Not Found',
+					'Less 1000 cp/ml' => 'Not Found',
+					'Greater 1000 cp/ml' => 'Not Found',
+				];
 
-			$rows[] = [
-				'MFL Code' => $row->mfl_code,
-				'Facility' => $row->facilities,
-				'LDL' => $s->Undetected,
-				'Less 1000 cp/ml' => $s->less1000,
-				'Greater 1000 cp/ml' => ($s->less5000 + $s->above5000),
-			];
+			}
 		}
 		$file = storage_path('exports/patients_report.csv');
 
