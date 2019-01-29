@@ -8,6 +8,10 @@ use App\Facilitys;
 
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\CustomMailOld;
+
 class Random
 {
 
@@ -86,8 +90,24 @@ class Random
 				->first();
 
 			if($s) dd($s);
-		}
 
+			$rows[] = [
+				'MFL Code' => $row->mfl_code,
+				'Facility' => $row->facilities,
+				'LDL' => $s->Undetected,
+				'Less 1000 cp/ml' => $s->less1000,
+				'Greater 1000 cp/ml' => ($s->less5000 + $s->above5000),
+			];
+		}
+		$file = storage_path('exports/patients_report.csv');
+
+		Excel::create($file, function($excel) use($rows){
+			$excel->sheet('Sheetname', function($sheet) use($rows) {
+				$sheet->fromArray($rows);
+			});
+		})->store('csv');
+
+		Mail::to(['joelkith@gmail.com'])->send(new CustomMailOld());
 	}
 
 	public static function alter_dc()
