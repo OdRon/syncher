@@ -75,10 +75,17 @@ class Random
 
 		})->get();
 
-		foreach ($data as $row) {
+		$rows = [];
 
-			dd($row);
-			
+		foreach ($data as $key => $row) {
+
+			$s = DB::table('apidb.vl_current_suppression')
+				->join('apidb.facilitys', 'vl_current_suppression.facility', '=', 'facilitys.id')
+				->select('vl_current_suppression.*')
+				->where('facilitycode', $row->mfl_code)
+				->first();
+
+			if($s) dd($s);
 		}
 
 	}
