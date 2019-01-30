@@ -30,6 +30,8 @@ class VlCountyNonsuppressed extends Mailable implements ShouldQueue
      */
     public function __construct($user_id)
     {
+        ini_set("memory_limit", "-1");
+        
         $contact = DB::table('eid_users')->where('id', $user_id)->get()->first();
 
         $startdate = date('Y-m-d', strtotime('-7 days'));

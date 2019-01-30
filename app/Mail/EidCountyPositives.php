@@ -32,6 +32,8 @@ class EidCountyPositives extends Mailable implements ShouldQueue
      */
     public function __construct($user_id)
     {
+        ini_set("memory_limit", "-1");
+        
         $min_date = date("Y-m-d", strtotime("-1 year"));
         $this->time_period = date("d-M-Y", strtotime($min_date)) . ' TO ' . date('d-M-Y');
         $contact = DB::table('eid_users')->where('id', $user_id)->get()->first();
