@@ -12,7 +12,7 @@ use Mpdf\Mpdf;
 use DB;
 use \App\SampleAlertView;
 
-class EidPartnerPositives extends Mailable
+class EidPartnerPositives extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -24,6 +24,7 @@ class EidPartnerPositives extends Mailable
     public $division;
     public $path;
     public $time_period;
+    public $partner_contact_id;
 
     /**
      * Create a new message instance.
@@ -32,10 +33,20 @@ class EidPartnerPositives extends Mailable
      */
     public function __construct($partner_contact_id)
     {
+        $this->partner_contact_id = $partner_contact_id;
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
         ini_set("memory_limit", "-1");
         $min_date = date("Y-m-d", strtotime("-1 year"));
         $this->time_period = date("d-M-Y", strtotime($min_date)) . ' TO ' . date('d-M-Y');
-        $contact = DB::table('eid_partner_contacts_for_alerts')->where('id', $partner_contact_id)->get()->first();
+        $contact = DB::table('eid_partner_contacts_for_alerts')->where('id', $this->partner_contact_id)->get()->first();
         $samples = SampleAlertView::where('facility_id', '!=', 7148)
             ->whereIn('pcrtype', [1, 2, 3])
             ->where(['result' => 2, 'repeatt' => 0, 'hei_validation' => 0, 'partner_id' => $contact->partner])
@@ -143,15 +154,7 @@ class EidPartnerPositives extends Mailable
         $view_data = view('exports.hei_followup', $pdf_data)->render();
         $mpdf->WriteHTML($view_data);
         $mpdf->Output($path, \Mpdf\Output\Destination::FILE);
-    }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
         $this->attach($this->path, ['as' => $this->title . '.pdf']);
         $this->attach(public_path('downloads/HEIValidationToolGuide.pdf'));
         return $this->subject($this->title)->view('mail.hei_validation');

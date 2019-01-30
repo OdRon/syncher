@@ -31,7 +31,9 @@ class Report
 		$partner_contacts = DB::table('eid_partner_contacts_for_alerts')
             ->when($partner_contact, function($query) use ($partner_contact){
                 return $query->where('id', $partner_contact);
-            })->where('active', 1)->where('lastalertsent', '!=', date('Y-m-d'))->get();
+            })->where('active', 1)
+            // ->where('lastalertsent', '!=', date('Y-m-d'))
+            ->get();
         $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($partner_contacts as $key => $contact) {

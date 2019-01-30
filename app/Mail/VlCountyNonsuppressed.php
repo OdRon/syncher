@@ -13,7 +13,7 @@ use DB;
 use \App\ViralsampleAlertView;
 use \App\Lookup;
 
-class VlCountyNonsuppressed extends Mailable
+class VlCountyNonsuppressed extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -22,6 +22,7 @@ class VlCountyNonsuppressed extends Mailable
     public $name;
     public $division;
     public $path;
+    public $user_id;
 
     /**
      * Create a new message instance.
@@ -30,13 +31,22 @@ class VlCountyNonsuppressed extends Mailable
      */
     public function __construct($user_id)
     {
-        $contact = DB::table('eid_users')->where('id', $user_id)->get()->first();
+        $this->user_id = $user_id;
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        ini_set("memory_limit", "-1");
+
+        $contact = DB::table('eid_users')->where('id', $this->user_id)->get()->first();
 
         $startdate = date('Y-m-d', strtotime('-7 days'));
         $enddate = date("Y-m-d", strtotime('-1 days'));
-
-        // $startdate = date('Y-m-d', strtotime('-9 days'));
-        // $enddate = date("Y-m-d", strtotime('-3 days'));
 
         $displayfromdate=date("d-M-Y",strtotime($startdate));
         $displaytodate=date("d-M-Y",strtotime($enddate));
@@ -121,15 +131,7 @@ class VlCountyNonsuppressed extends Mailable
         // $mpdf->SetHTMLHeader($header);
         $mpdf->WriteHTML($view_data);
         $mpdf->Output($path, \Mpdf\Output\Destination::FILE);
-    }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
         $this->attach($this->path, ['as' => $this->title . '.pdf']);
         return $this->subject($this->title)->view('mail.suppression');
     }
