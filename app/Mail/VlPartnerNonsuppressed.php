@@ -22,6 +22,7 @@ class VlPartnerNonsuppressed extends Mailable implements ShouldQueue
     public $name;
     public $division;
     public $path;
+    public $partner_contact_id;
 
     /**
      * Create a new message instance.
