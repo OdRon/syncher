@@ -40,7 +40,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('/home', 'HomeController@index')->name('home');
 
 	Route::middleware(['only_utype:12'])->group(function(){
-		Route::get('allocations', 'AllocationsController@index')->name('allocations');
+		Route::get('allocations/{testtype?}', 'AllocationsController@index')->name('allocations');
 	});
 
 	Route::group(['middleware' => ['only_utype:10,15']], function () {

@@ -34,7 +34,7 @@
             <hr />
             <li><a href="{{ url('reports/utilization/VL') }}">VL Utilization Report</a></li>
             <hr />
-        @else
+        @elseif (Auth::user()->user_type_id != 12)
             @if(Auth::user()->user_type_id == 8)
                 <li><a href="{{ url('results/EID') }}">EID Batch Results</a></li>
                 <hr />
@@ -94,6 +94,11 @@
                 <li><a href="#"><select class="form-control" id="sidebar_batch_search"></select></a></li>
                 <li><a href="#"><select class="form-control" id="sidebar_patient_search"></select></a></li>
             @endif
+        @else
+            <li><a href="">EID Allocation List</a></li>
+            <hr />
+            <li><a href="">VL Allocation List</a></li>
+            <hr />
         @endif
         </ul>
     </div>
