@@ -30,6 +30,8 @@ class VlPartnerNonsuppressed extends Mailable implements ShouldQueue
      */
     public function __construct($partner_contact_id)
     {
+        ini_set("memory_limit", "-1");
+        
         $contact = DB::table('vl_partner_contacts_for_alerts')->where('id', $partner_contact_id)->get()->first();
 
         // $startdate = date('Y-m-d', strtotime('-7 days'));
