@@ -13,7 +13,7 @@ use DB;
 use \App\ViralsampleAlertView;
 use \App\Lookup;
 
-class VlPartnerNonsuppressed extends Mailable
+class VlPartnerNonsuppressed extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -32,8 +32,8 @@ class VlPartnerNonsuppressed extends Mailable
     {
         $contact = DB::table('vl_partner_contacts_for_alerts')->where('id', $partner_contact_id)->get()->first();
 
-        $startdate = date('Y-m-d', strtotime('-7 days'));
-        $enddate = date("Y-m-d", strtotime('-1 days'));
+        // $startdate = date('Y-m-d', strtotime('-7 days'));
+        // $enddate = date("Y-m-d", strtotime('-1 days'));
 
         $startdate = date('Y-m-d', strtotime('-9 days'));
         $enddate = date("Y-m-d", strtotime('-3 days'));
