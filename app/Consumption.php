@@ -16,4 +16,10 @@ class Consumption extends Model
     public function kit() {
     	return $this->belongsTo('App\Kits');
     }
+
+
+    public function scopeExisting($query, $year, $month, $testtype, $kit)
+    {
+        return $query->where(['year' => $year, 'month' => $month, 'testtype' => $testtype, 'kit_id' => $kit]);
+    }
 }

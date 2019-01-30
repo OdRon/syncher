@@ -8,6 +8,10 @@ use App\Facilitys;
 
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\CustomMailOld;
+
 class Random
 {
 
@@ -65,6 +69,57 @@ class Random
 		}
 	}
 
+
+	public static function save_results()
+	{
+		ini_set("memory_limit", "-1");
+        config(['excel.import.heading' => true]);
+		$path = public_path('facilities.csv');
+		$data = Excel::load($path, function($reader){
+
+		})->get();
+
+		$rows = [];
+
+		foreach ($data as $key => $row) {
+
+			$s = DB::table('apidb.vl_site_suppression')
+				->join('apidb.facilitys', 'vl_site_suppression.facility', '=', 'facilitys.id')
+				->select('vl_site_suppression.*')
+				->where('facilitycode', $row->mfl_code)
+				->first();
+
+			if($s){
+				$rows[] = [
+					'MFL Code' => $row->mfl_code,
+					'Facility' => $row->facilities,
+					'LDL' => $s->Undetected,
+					'Less 1000 cp/ml' => $s->less1000,
+					'Greater 1000 cp/ml' => ($s->less5000 + $s->above5000),
+				];
+			}
+			else{
+				$rows[] = [
+					'MFL Code' => $row->mfl_code,
+					'Facility' => $row->facilities,
+					'LDL' => 'Not Found',
+					'Less 1000 cp/ml' => 'Not Found',
+					'Greater 1000 cp/ml' => 'Not Found',
+				];
+
+			}
+		}
+		$file = 'patients_report';
+
+		Excel::create($file, function($excel) use($rows){
+			$excel->sheet('Sheetname', function($sheet) use($rows) {
+				$sheet->fromArray($rows);
+			});
+		})->store('csv');
+
+		Mail::to(['joelkith@gmail.com'])->send(new CustomMailOld());
+	}
+
 	public static function alter_dc()
 	{
 		ini_set("memory_limit", "-1");
@@ -117,7 +172,10 @@ class Random
 		})->get();
 
 		foreach ($data as $row) {
-			Facility::where(['facilitycode' => $row->code])->update(['poc' => 1]);
+			$update_data = ['poc' => 1, 'has_alere' => 1];
+			if(str_contains($row->platform, 'Gene')) $update_data = ['poc' => 1, 'has_gene' => 1];
+
+			Facility::where(['facilitycode' => $row->code])->update($update_data);
 		}
 	} 
 

@@ -39,7 +39,11 @@ Route::post('facility/search/', 'FacilityController@search')->name('facility.sea
 Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('/home', 'HomeController@index')->name('home');
 
-	Route::group(['middleware' => ['only_utype:10,12']], function () {
+	Route::middleware(['only_utype:12'])->group(function(){
+		Route::get('allocations', 'AllocationsController@index')->name('allocations');
+	});
+
+	Route::group(['middleware' => ['only_utype:10,15']], function () {
 		Route::prefix('email')->name('email.')->group(function () {
 			Route::get('preview/{email}', 'EmailController@demo')->name('demo');
 			Route::post('preview/{email}', 'EmailController@demo_email')->name('demo_email');

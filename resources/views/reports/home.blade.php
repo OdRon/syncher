@@ -72,7 +72,7 @@
                                     @if(Auth::user()->user_type_id == 9)
                                         << By County / Partner / Lab >>
                                     @else
-                                        << For all Sites Under {{ $user->name }} >>
+                                        << For all Sites Under {{ $user->name ?? '' }} >>
                                     @endif
                                 </div>
                             </div>

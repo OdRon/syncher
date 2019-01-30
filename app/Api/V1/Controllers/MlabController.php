@@ -63,7 +63,7 @@ class MlabController extends Controller
                 return $query->whereBetween('datedispatched', [$date_dispatched_start, $date_dispatched_end]);
             })
             ->where(['repeatt' => 0, 'smsprinter' => 1])          
-            ->orderBy('created_at', 'desc')
+            ->orderBy('datecollected', 'desc')
             ->paginate(50);
 
         $result->transform(function ($sample, $key) use ($test){
