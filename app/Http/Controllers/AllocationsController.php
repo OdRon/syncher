@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Allocation;
+use App\Machine;
 use App\Lab;
 
 class AllocationsController extends Controller
@@ -43,6 +44,7 @@ class AllocationsController extends Controller
 	}
 
     public function index($testtype = null) {
+        $testtype = strtoupper($testtype);
     	if (!isset($testtype) || !($testtype == 'EID' || $testtype == 'VL'))
     		$testtype = 'EID';
     	$labs = Lab::get();
@@ -64,6 +66,7 @@ class AllocationsController extends Controller
                 }
     			
     			$allocations_data[] = (object)[
+                    'testtype' => $testtype,
     				'year' => $year,
     				'month' => $month,
     				'all_labs' => $labs->count(),
@@ -74,6 +77,49 @@ class AllocationsController extends Controller
     	}
     	$allocations_data = (object)$allocations_data;
     	
-    	return view('forms.allocations', compact('allocations_data'))->with('pageTitle',"$testtype Allocation List");
+    	return view('tables.allocations', compact('allocations_data'))->with('pageTitle',"$testtype Allocation List");
+    }
+
+    public function view_allocations($testtype = null, $year = null, $month = null) {
+        $testtype = strtoupper($testtype);
+        if (!isset($testtype) || !($testtype == 'EID' || $testtype == 'VL'))
+            $testtype = 'EID';
+        if (!isset($year))
+            $year = $this->year[0];
+        if (!isset($month))
+            $month = date('m');
+        $columntesttype = $this->testtypes[$testtype];
+        $labs = Lab::with(array('allocations' => function($query) use($year, $month, $columntesttype) {
+                         $query->where('allocations.year', $year);
+                         $query->where('allocations.month', $month);
+                         $query->where('allocations.testtype', $columntesttype);
+                    }))->get();
+        
+        $month_name = date("F", mktime(null, null, null, $month));
+        $data = (object)['year' => $year, 'month' => $month, 'labs' => $labs, 'testtype' => $testtype];
+        
+        return view('tables.viewallocations', compact('data'))->with('pageTitle',"$testtype Allocations $month_name, $year");
+    }
+
+    public function approve_allocations(Lab $lab, $testtype = null, $year = null, $month = null) {
+        if(empty($lab)){
+            session(['toast_message'=>'This lab does not exist', 'toast_error' => 1]);
+            return back();
+        }
+        $testtype = strtoupper($testtype);
+        if (!isset($testtype) || !($testtype == 'EID' || $testtype == 'VL'))
+            $testtype = 'EID';
+        if (!isset($year))
+            $year = $this->year[0];
+        if (!isset($month))
+            $month = date('m');
+
+        $columntesttype = $this->testtypes[$testtype];
+        $allocations = $lab->allocations->where('testtype', $columntesttype);
+        $lab_name = $lab->labdesc;
+        $month_name = date("F", mktime(null, null, null, $month));
+        $data = (object)['allocations' => $allocations, 'testtype' => $testtype];
+        
+        return view('forms.allocations', compact('data'))->with('pageTitle',"$lab_name Allocation Approval ($month_name, $year)");
     }
 }

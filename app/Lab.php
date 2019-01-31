@@ -15,15 +15,15 @@ class Lab extends Model
     }
 
     public function allocations(){
-    	return $this->hasMany('App\Allocation', 'lab_id');
+    	return $this->hasMany('App\Allocation');
     }
 
-    public function getallocations($testtype) {
-    	$data = [];
-    	foreach($this->allocations as $key => $allocations) {
-    		if ($allocations->testtype == $testtype)
-    			$data[] = $allocations;
-    	}
-    	return $data;
-    }
+    // public function getallocations($testtype) {
+    // 	$data = [];
+    // 	foreach($this->allocations as $key => $allocations) {
+    // 		if ($allocations->testtype == $testtype)
+    // 			$data[] = $allocations;
+    // 	}
+    // 	return $data;
+    // }
 }

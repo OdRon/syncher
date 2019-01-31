@@ -22,49 +22,59 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="hpanel">
-            {{ Form::open(['url' => '/approveallocation', 'method' => 'post', 'class'=>'form-horizontal']) }}
-            @foreach($data->allocations as $allocation)
                 <div class="panel-body">
-                    <div class="alert alert-info">
-                        <center>Allocation for {{ $allocation->machine->machine}}, {{ $data->testtype }}</center>
-                    </div>
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover">
+                        <table class="table table-striped table-bordered table-hover data-table">
                             <thead>
                                 <tr>
-                                    <th>Name of Commodity</th>
-                                    <th>Average Monthly Consumption(AMC)</th>
-                                    <th>Months of Stock(MOS)</th>
-                                    <th>Ending Balance</th>
-                                    <th>Recommended Quantity to Allocate (by System)</th>
-                                    <th>Quantity Allocated by Lab</th>
+                                    <th>#</th>
+                                    <th>Allocation Month</th>
+                                    <th>Labs Allocated</th>
+                                    <th>Allocation Status</th>
+                                    <th>Labs Allocations Approved</th>
+                                    <th>Approval Satus</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($allocation->details as $detail)
+                            @forelse($allocations_data as $key => $allocation)
                                 <tr>
-                                    <td>{{ $detail->kit->name }}</td>
-                                    <td>AMC</td>
-                                    <td>MOS</td>
-                                    <td>EB</td>
-                                    <td>Reco</td>
-                                    <td>{{ $detail->allocated }}</td>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ date("F", mktime(null, null, null, $allocation->month)) }}, {{ $allocation->year }}</td>
+                                    <td>{{ $allocation->allocated_labs }} Out of {{ $allocation->all_labs }}</td>
+                                    <td>
+                                    @if($allocation->allocated_labs < $allocation->all_labs)
+                                        Incomplete
+                                    @elseif($allocation->allocated_labs > $allocation->all_labs)
+                                        Erroneous Data
+                                    @else
+                                        Complete
+                                    @endif
+                                    </td>
+                                    <td>{{ $allocation->approved_labs}} Out of {{ $allocation->all_labs }}</td>
+                                    <td>
+                                    @if($allocation->approved_labs < $allocation->all_labs)
+                                        Incomplete
+                                    @elseif($allocation->approved_labs > $allocation->all_labs)
+                                        Erroneous Data
+                                    @else
+                                        Complete
+                                    @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ url('viewallocation/'.$allocation->testtype.'/'.$allocation->year.'/'.$allocation->month) }}">View</a> 
+                                    @if($allocation->approved_labs == $allocation->all_labs)
+                                        | <a href="">Download</a>
+                                    @endif
+                                    </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr><td colspan="7"><center>No Allocation Data Available</center></td></tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="panel-body" style="padding: 20px;box-shadow: none; border-radius: 0px;">
-                    <div class="form-group">
-                        <label class="col-md-4 control-label">Lab Allocation Comments</label>
-                        <div class="col-md-8">
-                            <textarea disabled class="form-control">{{ $allocation->allocationcomments }}</textarea>
-                        </div>                            
-                    </div>
-                </div>
-            @endforeach
-            {{ Form::close() }}
             </div>
         </div>
     </div>

@@ -41,6 +41,9 @@ Route::middleware(['web', 'auth'])->group(function(){
 
 	Route::middleware(['only_utype:12'])->group(function(){
 		Route::get('allocations/{testtype?}', 'AllocationsController@index')->name('allocations');
+		Route::get('viewallocation/{testtype?}/{year?}/{month?}', 'AllocationsController@view_allocations')->name('viewallocation');
+		Route::get('approveallocation/{lab}/{testtype?}/{year?}/{month?}', 'AllocationsController@approve_allocations')->name('approveallocation');
+		Route::post('approveallocation', 'AllocationsController@save_allocation_approval')->name('approveallocation');
 	});
 
 	Route::group(['middleware' => ['only_utype:10,15']], function () {

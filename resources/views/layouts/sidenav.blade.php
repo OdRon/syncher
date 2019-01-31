@@ -95,9 +95,9 @@
                 <li><a href="#"><select class="form-control" id="sidebar_patient_search"></select></a></li>
             @endif
         @else
-            <li><a href="">EID Allocation List</a></li>
+            <li><a href="{{ url('allocations/EID') }}">EID Allocation List</a></li>
             <hr />
-            <li><a href="">VL Allocation List</a></li>
+            <li><a href="{{ url('allocations/VL') }}">VL Allocation List</a></li>
             <hr />
         @endif
         </ul>
