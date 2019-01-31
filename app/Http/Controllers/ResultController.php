@@ -8,6 +8,7 @@ use App\Batch;
 use App\Viralbatch;
 use App\ViralsampleView as VLView;
 use App\SampleView as EIDView;
+use Excel;
 
 class ResultController extends Controller
 {
@@ -90,7 +91,7 @@ class ResultController extends Controller
                 ];
             }
         }
-        
+        $data = collect($data);
         $title = $year;
         if($data->isNotEmpty()) {
             Excel::create($title, function($excel) use ($data, $title) {
