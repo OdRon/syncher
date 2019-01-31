@@ -19,6 +19,10 @@ class Allocation extends Model
         return $query->where(['year' => $year, 'month' => $month, 'testtype' => $testtype, 'machine_id' => $machine]);
     }
 
+    public function machine(){
+        return $this->belongsTo('App\Machine');
+    }
+
     public function details() {
         return $this->hasMany('App\AllocationDetail');
     }

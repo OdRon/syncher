@@ -33,9 +33,9 @@ class AllocationsController extends Controller
             $saveallocation->submittedby = $allocation->submittedby;
             $saveallocation->lab_id = $allocation->lab_id;
             $saveallocation->allocationcomments = $allocation->allocationcomments;
-            $saveallocation->submittedby = $allocation->issuedcomments;
-            $saveallocation->lab_id = $allocation->approve;
-            $saveallocation->allocationcomments = $allocation->disapprovereason;
+            $saveallocation->issuedcomments = $allocation->issuedcomments;
+            $saveallocation->approve = $allocation->approve;
+            $saveallocation->disapprovereason = $allocation->disapprovereason;
             $saveallocation->original_id = $allocation->id;
             $saveallocation->synched = 1;
             $saveallocation->datesynched = date('Y-m-d');
