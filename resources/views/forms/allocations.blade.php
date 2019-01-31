@@ -18,6 +18,15 @@
 @endsection
 
 @section('content')
+@php
+    $globaltesttype = $data->testtype;
+    $replace = 'Quantitative';
+    if($globaltesttype == 'EID')
+        $replace = 'Quanlitative';
+    $globaltesttypevalue = 1;
+    if($globaltesttype == 'VL')
+        $globaltesttypevalue = 2;
+@endphp
 <div class="content">
     <div class="row">
         <div class="col-lg-12">
@@ -26,7 +35,7 @@
             @foreach($data->allocations as $allocation)
                 <div class="panel-body">
                     <div class="alert alert-info">
-                        <center>Allocation for {{ $allocation->machine->machine}}, {{ $data->testtype }}</center>
+                        <center>Allocation for {{ $allocation->machine->machine}}, {{ $globaltesttype }}</center>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover">
@@ -41,13 +50,44 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            @php
+                                $tests = $allocation->machine->testsforLast3Months()->$globaltesttype;
+                                $qualamc = 0;
+                            @endphp
                             @foreach($allocation->details as $detail)
+                                @php
+                                    $test_factor = json_decode($detail->kit->testFactor);
+                                    $factor = json_decode($detail->kit->factor);
+                                    if ($detail->kit->alias == 'qualkit')
+                                        $qualamc = (($tests / $test_factor->$globaltesttype) / 3);
+
+                                    if ($allocation->machine->id == 2)
+                                        $amc = $qualamc * $factor->$globaltesttype;
+                                    else
+                                        $amc = $qualamc * $factor;
+
+                                    $ending = 0;
+                                    $consumption = $detail->kit->consumption
+                                                        ->where('month', $data->last_month)->where('year', $data->last_year)
+                                                        ->where('testtype', $globaltesttypevalue)->where('lab_id', $data->lab->id)
+                                                        ->pluck('ending');
+                                    foreach($consumption as $value) {
+                                        $ending += $value;
+                                    }
+                                    $mos = @($ending / $amc);
+                                @endphp
                                 <tr>
-                                    <td>{{ $detail->kit->name }}</td>
-                                    <td>AMC</td>
-                                    <td>MOS</td>
-                                    <td>EB</td>
-                                    <td>Reco</td>
+                                    <td>{{ str_replace("REPLACE", $replace, $detail->kit->name) }}</td>
+                                    <td>{{ $amc }}</td>
+                                    <td>
+                                    @if(is_nan($mos))
+                                        {{ 0 }}
+                                    @else
+                                        {{ $mos }}
+                                    @endif
+                                    </td>
+                                    <td>{{ $ending }}</td>
+                                    <td>{{ ($amc * 2) - $ending }}</td>
                                     <td>{{ $detail->allocated }}</td>
                                 </tr>
                             @endforeach

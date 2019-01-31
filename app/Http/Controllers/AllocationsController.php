@@ -23,6 +23,13 @@ class AllocationsController extends Controller
      */
 	public $allocation_months = NULL;
 
+    /**
+     * The last month of consumption.
+     *
+     * @var array
+     */
+    public $last_month = NULL;
+
 
 	/**
      * The years for allocations.
@@ -30,6 +37,13 @@ class AllocationsController extends Controller
      * @var array
      */
 	public $allocation_years = NULL;
+
+    /**
+     * The last year of consumption.
+     *
+     * @var array
+     */
+    public $last_year = NULL;
 
 	/**
      * The years for allocations.
@@ -41,6 +55,12 @@ class AllocationsController extends Controller
 	public function __construct() {
 		$this->testtypes = ['EID' => 1, 'VL' => 2];
 		$this->years = [date('Y'), date('Y')-1];
+        $this->last_month = date('m')-1;
+        $this->last_year = date('Y');
+        if (date('m') == 1) {
+            $this->last_year -= 1;
+            $this->last_month = 12;
+        }
 	}
 
     public function index($testtype = null) {
@@ -118,7 +138,7 @@ class AllocationsController extends Controller
         $allocations = $lab->allocations->where('testtype', $columntesttype);
         $lab_name = $lab->labdesc;
         $month_name = date("F", mktime(null, null, null, $month));
-        $data = (object)['allocations' => $allocations, 'testtype' => $testtype];
+        $data = (object)['allocations' => $allocations, 'testtype' => $testtype, 'last_year' => $this->last_year, 'last_month' => $this->last_month, 'lab' => $lab];
         
         return view('forms.allocations', compact('data'))->with('pageTitle',"$lab_name Allocation Approval ($month_name, $year)");
     }
