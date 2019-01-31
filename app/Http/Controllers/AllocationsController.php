@@ -142,4 +142,8 @@ class AllocationsController extends Controller
         
         return view('forms.allocations', compact('data'))->with('pageTitle',"$lab_name Allocation Approval ($month_name, $year)");
     }
+
+    public function save_allocation_approval(Request $request) {
+        dd($request->all());
+    }
 }
