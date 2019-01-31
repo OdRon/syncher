@@ -75,6 +75,7 @@ class ResultController extends Controller
             foreach($labs as $lab) {
                 $completed = 0;
                 $incomplete = 0;
+                ini_set("memory_limit", "-1");
                 foreach ($collection as $key => $collectionValue) {
                     if ($lab->id == $collectionValue->lab_id){
                         if (strlen($collectionValue->patient) < 10)
@@ -83,6 +84,7 @@ class ResultController extends Controller
                             $completed++;
                     }
                 }
+                ini_set("memory_limit", "-1");
                 $data[] = [
                     'lab' => $lab->labdesc,
                     'quarter' => $year . ' Q'.$value,
@@ -91,6 +93,7 @@ class ResultController extends Controller
                 ];
             }
         }
+        ini_set("memory_limit", "-1");
         $data = collect($data);
         $title = $year;
         if($data->isNotEmpty()) {
