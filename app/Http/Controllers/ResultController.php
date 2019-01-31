@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Lookup;
 use App\Batch;
 use App\Viralbatch;
+use App\ViralsampleView as VLView;
+use App\SampleView as EIDView;
 
 class ResultController extends Controller
 {
@@ -55,5 +57,53 @@ class ResultController extends Controller
 	        	return back();
 	        }
         } else {}
+    }
+
+    public function get_incomplient_patient_record($year, $quarter = [1,2,3,4]) {
+        $quarters = [1=>'(1,2,3)', 2 =>'(4,5,6)', 3 => '(7,8,9)', 4 => '(10,11,12)'];
+        $data = [];
+        $data[] = ['Lab', 'Quarter', 'Complient', 'Non-complient'];
+        ini_set("memory_limit", "-1");
+        foreach ($quarter as $key => $value) {
+            $wanted = $quarters[$value];
+            $model = VLView::orderBy('month', 'asc')->selectRaw("distinct patient, lab_id, year(datetested) as year, month(datetested) as month")
+                        ->whereYear('datetested', $year)->whereRaw("month(datetested) in $wanted")->where('repeatt', 0)->limit(1)->get();
+            $collection = $model;
+            
+            $labs = \App\Lab::get();
+            foreach($labs as $lab) {
+                $completed = 0;
+                $incomplete = 0;
+                foreach ($collection as $key => $collectionValue) {
+                    if ($lab->id == $collectionValue->lab_id){
+                        if (strlen($collectionValue->patient) < 10)
+                            $incomplete++;
+                        else
+                            $completed++;
+                    }
+                }
+                $data[] = [
+                    'lab' => $lab->labdesc,
+                    'quarter' => $year . ' Q'.$value,
+                    'complient' => $completed,
+                    'incomplient' => $incomplete
+                ];
+            }
+        }
+        
+        $title = $year;
+        if($data->isNotEmpty()) {
+            Excel::create($title, function($excel) use ($data, $title) {
+                $excel->setTitle($title);
+                $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP.ORG');
+                $excel->setDescription($title);
+
+                $excel->sheet($title, function($sheet) use ($data) {
+                    $sheet->fromArray($data, null, 'A1', false, false);
+                });
+            })->download('csv');
+        } else {
+            session(['toast_message' => 'No data available for the criteria provided']);
+        }
     }
 }
