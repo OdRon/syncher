@@ -58,14 +58,17 @@ class AllocationsController extends Controller
     		foreach ($this->allocation_months as $key => $month) {
     			$filtered = $allocations->where('year', $year)->where('month', $month);
     			$allocated_labs = 0;
-    			if ($filtered->count() > 0)
-    				$allocated_labs = $filtered->unique('lab_id')->count();
+    			if ($filtered->count() > 0){
+                    $allocated_labs = $filtered->unique('lab_id');
+                    $approved_labs = $allocated_labs->where('approve', 1);
+                }
     			
     			$allocations_data[] = (object)[
     				'year' => $year,
     				'month' => $month,
     				'all_labs' => $labs->count(),
-    				'allocated_labs' => $allocated_labs,
+    				'allocated_labs' => $allocated_labs->count(),
+                    'approved_labs' => $approved_labs->count(),
     			];
     		}
     	}

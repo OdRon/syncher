@@ -52,8 +52,16 @@
                                         Complete
                                     @endif
                                     </td>
-                                    <td>6 Out of 7</td>
-                                    <td>Incomplete</td>
+                                    <td>{{ $allocation->approved_labs}} Out of {{ $allocation->all_labs }}</td>
+                                    <td>
+                                    @if($allocation->approved_labs < $allocation->all_labs)
+                                        Incomplete
+                                    @elseif($allocation->approved_labs > $allocation->all_labs)
+                                        Erroneous Data
+                                    @else
+                                        Complete
+                                    @endif
+                                    </td>
                                     <td>View</td>
                                 </tr>
                             @empty
