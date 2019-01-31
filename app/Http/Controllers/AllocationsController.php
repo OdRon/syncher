@@ -144,6 +144,20 @@ class AllocationsController extends Controller
     }
 
     public function save_allocation_approval(Request $request) {
-        dd($request->all());
+        $collection = collect($request->except(['_token', 'allocation-form']));
+        
+        foreach ($collection['id'] as $key => $value) {
+            $allocation = Allocation::find($value);
+            $allocation->approve = $collection['approve'][$key];
+            if ($collection['approve'][$key] == 2)
+                $allocation->disapprovereason = $collection['issuedcomments'][$key];
+            $allocation->issuedcomments = $collection['issuedcomments'][$key];
+            $allocation->synched = 2;
+            $allocation->update();
+        }
+        $testtype = collect($this->testtypes)->search($allocation->testtype);
+        $url = 'allocations/'.$testtype;
+        session(['toast_message' => 'Allocation Review successfull for '. $testtype]);
+        return redirect($url);
     }
 }

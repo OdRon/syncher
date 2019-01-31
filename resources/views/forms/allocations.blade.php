@@ -26,6 +26,8 @@
     $globaltesttypevalue = 1;
     if($globaltesttype == 'VL')
         $globaltesttypevalue = 2;
+
+    $counter = 0;
 @endphp
 <div class="content">
     <div class="row">
@@ -102,22 +104,24 @@
                             <textarea disabled class="form-control">{{ $allocation->allocationcomments }}</textarea>
                         </div>                            
                     </div>
+                    <input type="hidden" name="id[]" value="{{ $allocation->id }}">
                     <div class="form-group">
                         <label class="col-md-4 control-label">Approval Status</label>
                         <div class="col-md-4">
-                            <center><input type="radio" name="approve-{{ $allocation->id }}" class="i-checks" value="1" required><strong><font color="#1e824c"> Approve</font></strong></center>
+                            <center><input type="radio" name="approve[{{ $counter }}]" class="i-checks" value="1" required><strong><font color="#1e824c"> Approve</font></strong></center>
                         </div>
                         <div class="col-md-4">
-                            <center><input type="radio" name="approve-{{ $allocation->id }}" class="i-checks" value="2" required> <strong><font color="#FF0000">Reject</font></strong></center>
+                            <center><input type="radio" name="approve[{{ $counter }}]" class="i-checks" value="2" required> <strong><font color="#FF0000">Reject</font></strong></center>
                         </div>                            
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Allocation Committee Feedback</label>
                         <div class="col-md-8">
-                            <textarea name="issuedcomments-{{ $allocation->id }}" class="form-control"></textarea>
+                            <textarea name="issuedcomments[]" class="form-control"></textarea>
                         </div>                            
                     </div>
                 </div>
+                @php $counter ++; @endphp
             @endforeach
             <center>
                 <button type="submit" name="allocation-form" class="btn btn-primary btn-lg" value="true" style="margin-top: 2em;margin-bottom: 2em; width: 200px; height: 30px;">Save {{ $globaltesttype }} Allocations</button>
