@@ -68,23 +68,21 @@ class ResultController extends Controller
         foreach ($quarter as $key => $value) {
             $wanted = $quarters[$value];
             $model = VLView::orderBy('month', 'asc')->selectRaw("distinct patient, lab_id, year(datetested) as year, month(datetested) as month")
-                        ->whereYear('datetested', $year)->whereRaw("month(datetested) in $wanted")->where('repeatt', 0)->limit(1)->get();
-            $collection = $model;
-            
+                        ->whereYear('datetested', $year)->whereRaw("month(datetested) in $wanted")->where('repeatt', 0)->limit(100)->get();
+            // dd($model->toArray());
             $labs = \App\Lab::get();
             foreach($labs as $lab) {
                 $completed = 0;
                 $incomplete = 0;
-                ini_set("memory_limit", "-1");
-                foreach ($collection as $key => $collectionValue) {
-                    if ($lab->id == $collectionValue->lab_id){
-                        if (strlen($collectionValue->patient) < 10)
+                foreach ($model as $key => $modelValue) {
+                    if($lab->id == $modelValue->lab_id){
+                        $patient = trim($modelValue->patient);
+                        if (strlen($patient) < 10)
                             $incomplete++;
                         else
                             $completed++;
                     }
                 }
-                ini_set("memory_limit", "-1");
                 $data[] = [
                     'lab' => $lab->labdesc,
                     'quarter' => $year . ' Q'.$value,
@@ -93,6 +91,7 @@ class ResultController extends Controller
                 ];
             }
         }
+        
         ini_set("memory_limit", "-1");
         $data = collect($data);
         $title = $year;
