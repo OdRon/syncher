@@ -68,7 +68,7 @@ class ResultController extends Controller
         foreach ($quarter as $key => $value) {
             $wanted = $quarters[$value];
             $model = VLView::orderBy('month', 'asc')->selectRaw("distinct patient, lab_id, year(datetested) as year, month(datetested) as month")
-                        ->whereYear('datetested', $year)->whereRaw("month(datetested) in $wanted")->where('repeatt', 0)->limit(100)->get();
+                        ->whereYear('datetested', $year)->whereRaw("month(datetested) in $wanted")->where('repeatt', 0)->get();
             // dd($model->toArray());
             $labs = \App\Lab::get();
             foreach($labs as $lab) {
