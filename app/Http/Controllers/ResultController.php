@@ -65,33 +65,43 @@ class ResultController extends Controller
         $data = [];
         $data[] = ['Lab', 'Quarter', 'Complient', 'Non-complient'];
         ini_set("memory_limit", "-1");
-        foreach ($quarter as $key => $value) {
-            $wanted = $quarters[$value];
-            $model = VLView::orderBy('month', 'asc')->selectRaw("distinct patient, lab_id, year(datetested) as year, month(datetested) as month")
-                        ->whereYear('datetested', $year)->whereRaw("month(datetested) in $wanted")->where('repeatt', 0)->get();
-            // dd($model->toArray());
-            $labs = \App\Lab::get();
-            foreach($labs as $lab) {
-                $completed = 0;
-                $incomplete = 0;
-                foreach ($model as $key => $modelValue) {
-                    if($lab->id == $modelValue->lab_id){
-                        $patient = trim($modelValue->patient);
-                        if (strlen($patient) < 10)
-                            $incomplete++;
-                        else
-                            $completed++;
+        $current_page = null;
+        $last_page = null;
+        $true = true;
+        while ($true) {
+            foreach ($quarter as $key => $value) {
+                $wanted = $quarters[$value];
+                $model = VLView::orderBy('month', 'asc')->selectRaw("distinct patient, lab_id, year(datetested) as year, month(datetested) as month")
+                            ->whereYear('datetested', $year)->whereRaw("month(datetested) in $wanted")->where('repeatt', 0)->paginate(400);
+                
+                $labs = \App\Lab::get();
+                foreach($labs as $lab) {
+                    $completed = 0;
+                    $incomplete = 0;
+                    foreach ($model as $key => $modelValue) {
+                        if($lab->id == $modelValue->lab_id){
+                            $patient = trim($modelValue->patient);
+                            if (strlen($patient) < 10)
+                                $incomplete++;
+                            else
+                                $completed++;
+                        }
                     }
+                    $data[] = [
+                        'lab' => $lab->labdesc,
+                        'quarter' => $year . ' Q'.$value,
+                        'complient' => (int)$completed,
+                        'incomplient' => (int)$incomplete
+                    ];
                 }
-                $data[] = [
-                    'lab' => $lab->labdesc,
-                    'quarter' => $year . ' Q'.$value,
-                    'complient' => (int)$completed,
-                    'incomplient' => (int)$incomplete
-                ];
             }
-        }
 
+            $current_page = $model->current_page();
+            $last_page = $model->last_page();
+            if ($current_page == $last_page)
+                $true = false;
+        }
+        
         ini_set("memory_limit", "-1");
         $data = collect($data);
         $title = $year;
