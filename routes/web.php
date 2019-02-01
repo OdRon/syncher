@@ -38,7 +38,7 @@ Route::post('facility/search/', 'FacilityController@search')->name('facility.sea
 
 Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('/home', 'HomeController@index')->name('home');
-	Route::get('elvis/{year}', 'ResultController@get_incomplient_patient_record');
+	Route::get('elvis/{year}/{quarter}', 'ResultController@get_incomplient_patient_record');
 
 	Route::middleware(['only_utype:12'])->group(function(){
 		Route::get('allocations/{testtype?}', 'AllocationsController@index')->name('allocations');
