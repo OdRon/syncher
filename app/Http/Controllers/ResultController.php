@@ -60,48 +60,37 @@ class ResultController extends Controller
         } else {}
     }
 
-    public function get_incomplient_patient_record($year, $quarter = [1,2,3,4]) {
+    public function get_incomplient_patient_record($year, $quarter) {
         $quarters = [1=>'(1,2,3)', 2 =>'(4,5,6)', 3 => '(7,8,9)', 4 => '(10,11,12)'];
         $data = [];
         $data[] = ['Lab', 'Quarter', 'Complient', 'Non-complient'];
         ini_set("memory_limit", "-1");
-        $current_page = null;
-        $last_page = null;
-        $true = true;
-        while ($true) {
-            foreach ($quarter as $key => $value) {
-                $wanted = $quarters[$value];
-                $model = VLView::orderBy('month', 'asc')->selectRaw("distinct patient, lab_id, year(datetested) as year, month(datetested) as month")
-                            ->whereYear('datetested', $year)->whereRaw("month(datetested) in $wanted")->where('repeatt', 0)->paginate(400);
-                
-                $labs = \App\Lab::get();
-                foreach($labs as $lab) {
-                    $completed = 0;
-                    $incomplete = 0;
-                    foreach ($model as $key => $modelValue) {
-                        if($lab->id == $modelValue->lab_id){
-                            $patient = trim($modelValue->patient);
-                            if (strlen($patient) < 10)
-                                $incomplete++;
-                            else
-                                $completed++;
-                        }
-                    }
-                    $data[] = [
-                        'lab' => $lab->labdesc,
-                        'quarter' => $year . ' Q'.$value,
-                        'complient' => (int)$completed,
-                        'incomplient' => (int)$incomplete
-                    ];
+        
+        $wanted = $quarters[$quarter];
+        $model = VLView::orderBy('month', 'asc')->selectRaw("distinct patient, lab_id, year(datetested) as year, month(datetested) as month")
+                    ->whereYear('datetested', $year)->whereRaw("month(datetested) in $wanted")->where('repeatt', 0)->get();
+        
+        $labs = \App\Lab::get();
+        foreach($labs as $lab) {
+            $completed = 0;
+            $incomplete = 0;
+            foreach ($model as $key => $modelValue) {
+                if($lab->id == $modelValue->lab_id){
+                    $patient = trim($modelValue->patient);
+                    if (strlen($patient) < 10)
+                        $incomplete++;
+                    else
+                        $completed++;
                 }
             }
-
-            $current_page = $model->current_page();
-            $last_page = $model->last_page();
-            if ($current_page == $last_page)
-                $true = false;
+            $data[] = [
+                'lab' => $lab->labdesc,
+                'quarter' => $year . ' Q'.$quarter,
+                'complient' => (int)$completed,
+                'incomplient' => (int)$incomplete
+            ];
         }
-        
+
         ini_set("memory_limit", "-1");
         $data = collect($data);
         $title = $year;
