@@ -86,12 +86,12 @@ class ResultController extends Controller
                 $data[] = [
                     'lab' => $lab->labdesc,
                     'quarter' => $year . ' Q'.$value,
-                    'complient' => $completed,
-                    'incomplient' => $incomplete
+                    'complient' => (int)$completed,
+                    'incomplient' => (int)$incomplete
                 ];
             }
         }
-        
+
         ini_set("memory_limit", "-1");
         $data = collect($data);
         $title = $year;
