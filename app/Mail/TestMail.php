@@ -36,6 +36,6 @@ class TestMail extends Mailable
                 $this->attach($value);
             }
         }
-        return $this->view('mails.test');
+        return $this->view('mail.test');
     }
 }
