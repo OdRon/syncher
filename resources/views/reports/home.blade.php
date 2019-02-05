@@ -374,7 +374,7 @@
                                     @if(Auth::user()->user_type_id != 2)
                                         <!-- <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label> -->
                                         <label> <input type="radio" name="indicatortype" value="9" class="i-checks" required> Dormant Sites ( Not Sent Samples) </label>
-                                        <label> <input type="radio" name="indicatortype" value="10" class="i-checks" required> Sites Doing Remote Data Entry of Samples </label>
+                                        <label> <input type="radio" name="indicatortype" value="10" class="i-checks" required>Site Entry Samples</label>
                                     @endif
                                 @endif
                             @elseif($testtype == 'VL')
@@ -384,7 +384,7 @@
                                     <label><input type="radio" name="indicatortype" value="4" class="i-checks" required>Non Suppressed ( > 1000 cp/ml)</label>
                                     <label><input type="radio" name="indicatortype" value="6" class="i-checks" required>Pregnant & Lactating</label>
                                     <label><input type="radio" name="indicatortype" value="9" class="i-checks" required>Dormant Sites ( Not Sent Samples)</label>
-                                    <label><input type="radio" name="indicatortype" value="10" class="i-checks" required>Sites Doing Remote Data Entry of Samples</label>
+                                    <label><input type="radio" name="indicatortype" value="10" class="i-checks" required>Site Entry Samples</label>
                                 @endif
                                 @if(Auth::user()->user_type_id == 10)
                                     <label><input type="radio" name="indicatortype" value="17" class="i-checks" required>Test Outcomes</label>
