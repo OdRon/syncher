@@ -79,7 +79,9 @@ class Random
 		$one = DB::select($sql);
 
 		foreach ($one as $key => $value) {
-			dd($value);
+			print_r($value);
+
+			if($key == 5) break;
 		}
 	}
 
