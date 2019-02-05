@@ -74,22 +74,54 @@ class Random
 	public static function current_suppression()
 	{
 		ini_set("memory_limit", "-1");
+
 		$sql = self::get_current_query(1);
+		$one = collect(DB::select($sql));
 
-		$one = DB::select($sql);
+		$sql = self::get_current_query(2);
+		$two = collect(DB::select($sql));
 
-		foreach ($one as $key => $value) {
-			print_r($value);
+		$sql = self::get_current_query(4);
+		$four = collect(DB::select($sql));
 
-			if($key == 5) break;
+		$facilities = DB::table('view_facilitys')->get();
+
+		$rows = [];
+
+		foreach ($facilities as $key => $facility) {
+			$ldl = $one->where('facility_id', $facility->id)->first()->totals ?? null;
+			$ok = $two->where('facility_id', $facility->id)->first()->totals ?? null;
+			$nonsup = $four->where('facility_id', $facility->id)->first()->totals ?? null;
+
+			if(!$ldl && !$ok && !$nonsup) continue;
+
+			$rows[] = [
+				'MFL Code' => $facility->facilitycode,
+				'Facility' => $facility->name,
+				'200 and less' => $ldl,
+				'Above 200 Less 1000' => $ok,
+				'Above 1000' => $nonsup,
+			];
 		}
+
+		$file = '2018_totals_by_most_recent_test';
+		
+		Excel::create($file, function($excel) use($rows){
+			$excel->sheet('Sheetname', function($sheet) use($rows) {
+				$sheet->fromArray($rows);
+			});
+		})->store('csv');
+
+		$data = [storage_path("exports/" . $file . ".csv")];
+
+		Mail::to(['joelkith@gmail.com'])->send(new TestMail($data));
 	}
 
 
 
 	public static function get_current_query($param)
 	{
-    	$sql = 'SELECT facility_id as facility, count(*) as totals ';
+    	$sql = 'SELECT facility_id, count(*) as totals ';
 		$sql .= 'FROM ';
 		$sql .= '(SELECT v.id, v.facility_id, v.rcategory, v.result ';
 		$sql .= 'FROM viralsamples_view v ';
