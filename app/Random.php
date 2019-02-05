@@ -100,7 +100,7 @@ class Random
 		$sql .= 'AND justification != 10 and facility_id != 7148 ';
 		$sql .= 'GROUP BY patient_id) gv ';
 		$sql .= 'ON v.id=gv.id) tb ';
-		$sql .= 'WHERE '
+		$sql .= 'WHERE ';
 		if($param == 1) $sql .= '(rcategory = 1 or result < 201)';
 		if($param == 2) $sql .= '(rcategory = 2 and result > 200)';
 		if($param == 4) $sql .= '(rcategory IN (3,4))';
