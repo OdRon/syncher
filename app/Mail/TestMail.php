@@ -37,4 +37,5 @@ class TestMail extends Mailable
             }
         }
         return $this->view('mails.test');
+    }
 }
