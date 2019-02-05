@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 use App\Mail\CustomMailOld;
+use App\Mail\TestMail;
 
 class Random
 {
@@ -68,6 +69,48 @@ class Random
 			}
 		}
 	}
+
+
+	public static function current_suppression()
+	{
+		ini_set("memory_limit", "-1");
+		$sql = self::get_current_query(1);
+
+		$one = DB::select($sql);
+
+		foreach ($one as $key => $value) {
+			dd($value);
+		}
+	}
+
+
+
+	public static function get_current_query($param)
+	{
+    	$sql = 'SELECT facility_id as facility, count(*) as totals ';
+		$sql .= 'FROM ';
+		$sql .= '(SELECT v.id, v.facility_id, v.rcategory, v.sex ';
+		$sql .= 'FROM viralsamples_view v ';
+		$sql .= 'RIGHT JOIN ';
+		$sql .= '(SELECT ID, patient_id, max(datetested) as maxdate ';
+		$sql .= 'FROM viralsamples_view ';
+		$sql .= 'WHERE ( datetested between "2018-01-01" and "2018-12-31" ) ';
+		$sql .= "AND patient != '' AND patient != 'null' AND patient is not null ";
+		$sql .= 'AND flag=1 AND repeatt=0 AND rcategory in (1, 2, 3, 4) ';
+		$sql .= 'AND justification != 10 and facility_id != 7148 ';
+		$sql .= 'GROUP BY patient_id) gv ';
+		$sql .= 'ON v.id=gv.id) tb ';
+		$sql .= 'WHERE '
+		if($param == 1) $sql .= '(rcategory = 1 or result < 201)';
+		if($param == 2) $sql .= '(rcategory = 2 and result > 200)';
+		if($param == 4) $sql .= '(rcategory IN (3,4))';
+		$sql .= 'GROUP BY facility_id ';
+		$sql .= 'ORDER BY facility_id ';
+
+		return $sql;
+	}
+
+
 
 
 	public static function save_results()
