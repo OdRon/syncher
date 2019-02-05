@@ -89,7 +89,7 @@ class Random
 	{
     	$sql = 'SELECT facility_id as facility, count(*) as totals ';
 		$sql .= 'FROM ';
-		$sql .= '(SELECT v.id, v.facility_id, v.rcategory, v.sex ';
+		$sql .= '(SELECT v.id, v.facility_id, v.rcategory, v.result ';
 		$sql .= 'FROM viralsamples_view v ';
 		$sql .= 'RIGHT JOIN ';
 		$sql .= '(SELECT ID, patient_id, max(datetested) as maxdate ';
