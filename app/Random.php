@@ -104,7 +104,7 @@ class Random
 			];
 		}
 
-		$file = '2018_totals_by_most_recent_test';
+		$file = '2017_totals_by_most_recent_test';
 		
 		Excel::create($file, function($excel) use($rows){
 			$excel->sheet('Sheetname', function($sheet) use($rows) {
@@ -128,7 +128,7 @@ class Random
 		$sql .= 'RIGHT JOIN ';
 		$sql .= '(SELECT ID, patient_id, max(datetested) as maxdate ';
 		$sql .= 'FROM viralsamples_view ';
-		$sql .= 'WHERE ( datetested between "2018-01-01" and "2018-12-31" ) ';
+		$sql .= 'WHERE ( datetested between "2017-01-01" and "2017-12-31" ) ';
 		$sql .= "AND patient != '' AND patient != 'null' AND patient is not null ";
 		$sql .= 'AND flag=1 AND repeatt=0 AND rcategory in (1, 2, 3, 4) ';
 		$sql .= 'AND justification != 10 and facility_id != 7148 ';
