@@ -29,7 +29,7 @@ class HEIController extends Controller
     	$data['outcomes'] = $outcomes;
         $data['unknown'] = ($outcomes->positives - ($outcomes->enrolled+$outcomes->ltfu+$outcomes->dead+$outcomes->transferOut+$outcomes->other+$outcomes->adult+$outcomes->vl+$outcomes->unkownfacility+$outcomes->repeatt));
     	$data = (object)$data;
-        // dd($data);
+        dd($data);
         return view('hei.validate', compact('data'))->with('pageTitle','HEI Follow Up');
     }
 
@@ -91,7 +91,7 @@ class HEIController extends Controller
         
     	if (null !== $month) 
     		$monthName = "- ".date("F", mktime(null, null, null, $month));
-
+        // dd($outcomes);
     	return view('hei.followup', compact('data'))->with('pageTitle', "HEI Folow Up:$year $monthName");
     }
 
@@ -121,12 +121,13 @@ class HEIController extends Controller
     public static function __outcomes($year=null, $month=null)
     {
         $usertype = auth()->user()->user_type_id;
-        $rawQueary = "COUNT(distinct sample_complete_view.patient_id) as positives,
+        $rawQueary = "COUNT(DISTINCT sample_complete_view.patient_id) as positives,
                      COUNT(DISTINCT CASE WHEN sample_complete_view.enrollment_status = 1 THEN patient_id END) as enrolled,
                      COUNT(DISTINCT CASE WHEN sample_complete_view.enrollment_status = 2 THEN patient_id END) as ltfu,
                      COUNT(DISTINCT CASE WHEN sample_complete_view.enrollment_status = 3 THEN patient_id END) as dead,
                      COUNT(DISTINCT CASE WHEN sample_complete_view.enrollment_status = 5 THEN patient_id END) as transferOut,
                      COUNT(DISTINCT CASE WHEN sample_complete_view.enrollment_status = 6 THEN patient_id END) as other,
+                     COUNT(DISTINCT CASE WHEN sample_complete_view.hei_validation = 1 THEN patient_id END) as confirmedpos,
                      COUNT(DISTINCT CASE WHEN sample_complete_view.hei_validation = 2 THEN patient_id END) as adult,
                      COUNT(DISTINCT CASE WHEN sample_complete_view.hei_validation = 3 THEN patient_id END) as vl,
                      COUNT(DISTINCT CASE WHEN sample_complete_view.hei_validation = 5 THEN patient_id END) as unkownfacility,
