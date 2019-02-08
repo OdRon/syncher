@@ -29,7 +29,7 @@ class HEIController extends Controller
     	$data['outcomes'] = $outcomes;
         $data['unknown'] = ($outcomes->positives - ($outcomes->enrolled+$outcomes->ltfu+$outcomes->dead+$outcomes->transferOut+$outcomes->other+$outcomes->adult+$outcomes->vl+$outcomes->unkownfacility+$outcomes->repeatt));
     	$data = (object)$data;
-        dd($data);
+        // dd($data);
         return view('hei.validate', compact('data'))->with('pageTitle','HEI Follow Up');
     }
 
@@ -91,7 +91,7 @@ class HEIController extends Controller
         
     	if (null !== $month) 
     		$monthName = "- ".date("F", mktime(null, null, null, $month));
-        // dd($outcomes);
+        
     	return view('hei.followup', compact('data'))->with('pageTitle', "HEI Folow Up:$year $monthName");
     }
 
@@ -146,69 +146,6 @@ class HEIController extends Controller
                         if ($usertype == 5) return $query->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
                         if ($usertype == 8) return $query->where('view_facilitys.id', '=', auth()->user()->facility_id);
                     })->first();
-    }
-
-    // public static function __cumulativeOutcomes()
-    // {
-    // 	$positiveOutcomes = self::__getOutcomes(null,null);
-    // 	$enrolled = self::__getOutcomes(1,null);
-    // 	$ltfu = self::__getOutcomes(2,null);
-    // 	$dead = self::__getOutcomes(3,null);
-    //     $adult = self::__getOutcomes(null,2);
-    // 	$transferOut = self::__getOutcomes(5,null);
-    // 	$other = self::__getOutcomes(6,null);
-    // 	$othervalidation = self::__getOutcomes('others',null);
-    // 	$unknown = ($positiveOutcomes - ($enrolled+$ltfu+$dead+$transferOut+$other+$adult));
-        
-    // 	return (object)['positiveOutcomes' => $positiveOutcomes,
-		  //   			'enrolled' => $enrolled,
-		  //   			'ltfu' => $ltfu,
-		  //   			'dead' => $dead,
-    //                     'adult' => $adult,
-		  //   			'transferOut' => $transferOut,
-		  //   			'other' => $other,
-		  //   			'othervalidation' => $othervalidation,
-		  //   			'unknown' => $unknown
-		  //   			];
-    // }
-
-    public static function __getOutcomes($status,$validate,$year=null, $month=null)
-    {
-        $usertype = auth()->user()->user_type_id;
-    	$model = SampleCompleteView::selectRaw("COUNT(distinct sample_complete_view.patient_id) as totalPositives")
-					->join('view_facilitys', 'view_facilitys.id', '=', 'sample_complete_view.facility_id')
-					->where('sample_complete_view.repeatt', '=', 0)
-                    ->where('sample_complete_view.flag', '=', 1)
-                    ->whereIn('sample_complete_view.pcrtype', [1,2,3])
-                    ->where('sample_complete_view.result', '=', 2)
-                    ->when($year, function($query) use ($year){
-                        return $query->whereRaw("YEAR(sample_complete_view.datetested) = $year");
-                    })
-                    ->when($month, function($query) use ($month){
-                        return $query->whereRaw("MONTH(sample_complete_view.datetested) = $month");
-                    })
-                    ->when($usertype, function($query) use ($usertype){
-                        if($usertype == 3)
-                            return $query->where('view_facilitys.partner_id', '=', auth()->user()->level);
-                        if ($usertype == 4) 
-                            return $query->where('view_facilitys.county_id', '=', auth()->user()->level);
-                        if ($usertype == 5) 
-                            return $query->where('view_facilitys.subcounty_id', '=', auth()->user()->level);
-                        if ($usertype == 8) 
-                            return $query->where('view_facilitys.id', '=', auth()->user()->facility_id);
-                    })
-                    ->when($validate, function($query) use ($validate){
-                        return $query->where('sample_complete_view.hei_validation', '=', $validate);
-                    })
-					->when($status, function($query) use ($status){
-                    	if ($status == 'others') {
-                    		return $query->where('sample_complete_view.hei_validation', '<>', '0')->where('sample_complete_view.hei_validation', '<>', '1');
-                    	} else {
-                        	return $query->where('sample_complete_view.enrollment_status', '=', $status);
-                        }
-                    })->first()->totalPositives;
-                    // })->toSql();
-        return $model;
     }
 
     public static function __getPatients($year=null,$month=null,$duration=null,$validation=null,$count=false)
