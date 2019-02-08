@@ -167,7 +167,7 @@
                                     <div class="alert alert-warning">
                                         {{ number_format($data->unknown) }}
                                         <strong>[{{ round(@(($data->unknown/$data->outcomes->positives)*100),1) }}%]</strong>
-                                        @if($data->outcomes->unknown > 0)
+                                        @if($data->unknown > 0)
                                             <a href="{{ url('hei/followup') }}" style="color: blue;">Click to View Full Listing</a>
                                         @endif
                                     </div>
