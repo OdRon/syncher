@@ -91,7 +91,7 @@ class HEIController extends Controller
         
     	if (null !== $month) 
     		$monthName = "- ".date("F", mktime(null, null, null, $month));
-        
+        dd($data->patients->where('hei_validation', 1));
     	return view('hei.followup', compact('data'))->with('pageTitle', "HEI Folow Up:$year $monthName");
     }
 
