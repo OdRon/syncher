@@ -364,6 +364,8 @@ class Synch
 
 				$body = json_decode($response->getBody());
 
+				dd($body);
+
 				if($response->getStatusCode() < 400)
 				{		
 					$patient = $patient_class::find($sample->patient_id);		
