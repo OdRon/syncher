@@ -317,7 +317,6 @@ class Synch
 						{
 							$sample->batch_id = $body->batch->national_batch_id;
 							$sample->save();
-							break;
 						}
 					}
 					
@@ -343,7 +342,7 @@ class Synch
 
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
-		$samples = $sampleview_class::where(['sex' => 3, 'lab_id' => 3])->where('datecollected', '>', '2019-01-01')->where('site_entry', '!=', 2)->get();
+		$samples = $sampleview_class::where(['sex' => 3])->where('datecollected', '>', '2017-01-01')->where('site_entry', '!=', 2)->get();
 
 		foreach ($samples as $key => $sample) {
 			
@@ -371,14 +370,11 @@ class Synch
 					$patient = $patient_class::find($sample->patient_id);		
 					if($patient->patient == $body->patient->patient)
 					{
-						return "true";
 						$patient->sex = $body->patient->sex;
 						$patient->save();
 						break;
 					}
-				}
-						return "false";
-				
+				}				
 			} catch (Exception $e) {
 				
 			}
