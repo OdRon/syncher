@@ -88,7 +88,7 @@ class HEIController extends Controller
         }
         $data = (object)$data;
         $monthName = "";
-        
+        // dd($data);
     	if (null !== $month) 
     		$monthName = "- ".date("F", mktime(null, null, null, $month));
         // dd($data->patients->where('hei_validation', 1));
