@@ -348,7 +348,7 @@ class Synch
 		foreach ($samples as $key => $sample) {
 			
 			$url = $base . $sample->original_sample_id;
-			$lab = $labs->where('id', $sample->lab_id);
+			$lab = $labs->where('id', $sample->lab_id)->first();
 			$client = new Client(['base_uri' => $lab->base_url]);
 
 			try {
