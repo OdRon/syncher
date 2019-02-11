@@ -364,18 +364,20 @@ class Synch
 
 				$body = json_decode($response->getBody());
 
-				dd($body);
+				// dd($body);
 
 				if($response->getStatusCode() < 400)
 				{		
 					$patient = $patient_class::find($sample->patient_id);		
 					if($patient->patient == $body->patient->patient)
 					{
+						return "true";
 						$patient->sex = $body->patient->sex;
 						$patient->save();
 						break;
 					}
 				}
+						return "false";
 				
 			} catch (Exception $e) {
 				
