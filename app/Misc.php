@@ -293,7 +293,7 @@ class Misc extends Common
 
     public static function get_mlab_facilities()
     {
-    	Facility::where('id', '>', 0)->update(['smsprinter' => 0]);
+    	// Facility::where('id', '>', 0)->update(['smsprinter' => 0]);
 
     	$client = new Client(['base_uri' => 'https://api.mhealthkenya.co.ke/api/active_facilities']);
 
