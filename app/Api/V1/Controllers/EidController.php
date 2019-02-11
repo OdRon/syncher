@@ -176,6 +176,7 @@ class EidController extends Controller
             unset($temp->id);            
             $batch->fill(get_object_vars($temp));
             unset($batch->national_batch_id);
+            unset($batch->tat5);
             $batch->save();
 
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
@@ -369,8 +370,8 @@ class EidController extends Controller
                 // else{
 
                 // }
-
             }
+            if($input == 'batches') unset($update_data['tat5']);
 
             $new_model->fill($update_data);
             $new_model->$original_column = $value->id;
