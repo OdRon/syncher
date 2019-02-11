@@ -27,9 +27,9 @@ class HEIController extends Controller
             session(['followupMonth'=>(strlen($month)==1) ? '0'.$month : $month]);
         $outcomes = self::__outcomes(session('followupYear'), session('followupMonth'));
     	$data['outcomes'] = $outcomes;
-        $data['unknown'] = ($outcomes->positives - ($outcomes->enrolled+$outcomes->ltfu+$outcomes->dead+$outcomes->transferOut+$outcomes->other+$outcomes->adult+$outcomes->vl+$outcomes->unkownfacility+$outcomes->repeatt));
+        $data['unknown'] = ($outcomes->positives - ($outcomes->confirmedpos + $outcomes->adult + $outcomes->vl + $outcomes->unkownfacility + $outcomes->repeatt));
     	$data = (object)$data;
-        // dd($data);
+        
         return view('hei.validate', compact('data'))->with('pageTitle','HEI Follow Up');
     }
 

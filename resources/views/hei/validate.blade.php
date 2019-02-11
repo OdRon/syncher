@@ -82,7 +82,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    &nbsp;&nbsp;Actual Infants Validated at Site:<i>va = (zz+a+v+f+r)</i>
+                                    &nbsp;&nbsp;&nbsp; Actual Infants Validated at Site:<i>va = (zz+a+v+f+r)</i>
                                 </th>
                                 <td>
                                     {{ number_format(($data->outcomes->confirmedpos + $data->outcomes->adult + $data->outcomes->vl + $data->outcomes->unkownfacility + $data->outcomes->repeatt)) }}
@@ -92,7 +92,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    &nbsp;&nbsp;Confirmed Positives at Site:<i>(zz = e+l+d+t+o)</i>
+                                    &nbsp;&nbsp;&nbsp; Confirmed Positives at Site:<i>(zz = e+l+d+t+o)</i>
                                 </th>
                                 <td>
                                     {{ number_format(($data->outcomes->enrolled + $data->outcomes->ltfu + $data->outcomes->dead + $data->outcomes->transferOut + $data->outcomes->other)) }}
@@ -102,7 +102,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Initiated onto Treatment <i>(e)</i>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Initiated onto Treatment <i>(e)</i>
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->enrolled) }}
@@ -113,7 +113,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Lost to Follow up <i>(l)</i>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Lost to Follow up <i>(l)</i>
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->ltfu) }}
@@ -124,7 +124,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Died <i>(d)</i>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Died <i>(d)</i>
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->dead) }}
@@ -135,7 +135,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Transferred Out <i>(t)</i>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Transferred Out <i>(t)</i>
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->transferOut) }}
@@ -146,7 +146,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants with (Other Reasons) <i>(o)</i>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants with (Other Reasons) <i>(o)</i>
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->other) }}
@@ -157,7 +157,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    &nbsp;&nbsp; Adult Test <i>(a)</i>
+                                    &nbsp;&nbsp;&nbsp; Adult Test <i>(a)</i>
                                 </th>
                                 <td>
                                     {{ $data->outcomes->adult }}
@@ -168,7 +168,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                   &nbsp;&nbsp; Viral load Test <i>(v)</i>
+                                   &nbsp;&nbsp;&nbsp; Viral load Test <i>(v)</i>
                                 </th>
                                 <td>
                                     {{ $data->outcomes->vl }}
@@ -179,7 +179,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    &nbsp;&nbsp; Sample from Unknown Facility <i>(f)</i>
+                                    &nbsp;&nbsp;&nbsp; Sample from Unknown Facility <i>(f)</i>
                                 </th>
                                 <td>
                                     {{ $data->outcomes->unkownfacility }}
@@ -190,7 +190,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    &nbsp;&nbsp; Repeat Test <i>(r)</i>
+                                    &nbsp;&nbsp;&nbsp; Repeat Test <i>(r)</i>
                                 </th>
                                 <td>
                                     {{ $data->outcomes->repeatt }}
@@ -213,7 +213,7 @@
                             <tr>
                                 <th style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
                                     <div class="alert alert-warning">
-                                        Infants NOT Documented Online (pp-va)
+                                        Infants NOT Documented Online <i>(pp-va)</i>
                                     </div>
                                 </th>
                                 <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
