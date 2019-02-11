@@ -326,7 +326,59 @@ class Synch
 				}
 			}
 		}
+	}
 
+	public static function correct_no_gender($type)
+	{
+        ini_set("memory_limit", "-1");
+		$classes = self::$synch_arrays[$type];
+
+		$sampleview_class = $classes['sampleview_class'];
+		$sample_class = $classes['sample_class'];
+		$patient_class = $classes['patient_class'];
+
+		$labs = Lab::all();
+		$base = str_replace('App\\', '', $sample_class);
+		$base = strtolower($base) . '/';
+
+		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
+
+		$samples = $sampleview_class::where('sex', 3)->where('datecollected', '>', '2017-01-01')->where('site_entry', '!=', 2)->get();
+
+		foreach ($samples as $key => $sample) {
+			
+			$url = $base . $sample->original_sample_id;
+			$lab = $labs->where('id', $sample->lab_id);
+			$client = new Client(['base_uri' => $lab->base_url]);
+
+			try {
+				$response = $client->request('get', $url, [
+					'headers' => [
+						'Accept' => 'application/json',
+						'Authorization' => 'Bearer ' . self::get_token($lab),
+					],
+		            'connect_timeout' => 1.5,
+					'http_errors' => false,
+					'verify' => false,
+				]);
+
+				$body = json_decode($response->getBody());
+
+				if($response->getStatusCode() < 400)
+				{		
+					$patient = $patient_class::find($sample->patient_id);		
+					if($patient->patient == $body->patient->patient)
+					{
+						$patient->sex = $body->patient->sex;
+						$patient->save();
+						break;
+					}
+				}
+				
+			} catch (Exception $e) {
+				
+			}
+		}
 	}
 
 
