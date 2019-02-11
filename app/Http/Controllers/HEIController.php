@@ -150,6 +150,7 @@ class HEIController extends Controller
 
     public static function __getPatients($year=null,$month=null,$duration=null,$validation=null,$count=false)
     {
+        // dd($duration . " <--> " . $validation);
         if(!($duration == 'outcomes' || $duration || 'cumulative' || $duration == null))
             return back();
         
@@ -188,7 +189,6 @@ class HEIController extends Controller
         if(isset($validation)) {
             $model = $model->when($validation, function($query) use  ($validation){
                             if (strtolower($validation) == 'positives') {}
-
                             if (strtolower($validation) == 'enrolled')
                                 return $query->where('sample_complete_view.enrollment_status', '=', 1);
                             if (strtolower($validation) == 'ltfu')
