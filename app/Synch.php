@@ -340,8 +340,6 @@ class Synch
 		$base = str_replace('App\\', '', $sample_class);
 		$base = strtolower($base) . '/';
 
-		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
-
 		$samples = $sampleview_class::where(['sex' => 3])->where('datecollected', '>', '2017-01-01')->where('site_entry', '!=', 2)->get();
 
 		foreach ($samples as $key => $sample) {
@@ -368,7 +366,7 @@ class Synch
 				if($response->getStatusCode() < 400)
 				{		
 					$patient = $patient_class::find($sample->patient_id);		
-					if($patient->patient == $body->patient->patient)
+					if($patient->id == $body->patient->national_patient_id)
 					{
 						$patient->sex = $body->patient->sex;
 						$patient->save();
