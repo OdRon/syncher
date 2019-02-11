@@ -343,7 +343,7 @@ class Synch
 
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
-		$samples = $sampleview_class::where('sex', 3)->where('datecollected', '>', '2017-01-01')->where('site_entry', '!=', 2)->get();
+		$samples = $sampleview_class::where(['sex' => 3, 'lab_id' => 3])->where('datecollected', '>', '2019-01-01')->where('site_entry', '!=', 2)->get();
 
 		foreach ($samples as $key => $sample) {
 			
@@ -363,6 +363,8 @@ class Synch
 				]);
 
 				$body = json_decode($response->getBody());
+
+				dd($body);
 
 				if($response->getStatusCode() < 400)
 				{		
