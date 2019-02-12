@@ -198,7 +198,7 @@ class Random
 	}
 
 
-	public static function get_current_gender_query($param, $facility)
+	public static function get_current_gender_query($param, $facility_id)
 	{
     	$sql = 'SELECT sex, count(*) as totals ';
 		$sql .= 'FROM ';
@@ -211,6 +211,7 @@ class Random
 		$sql .= "AND patient != '' AND patient != 'null' AND patient is not null ";
 		$sql .= 'AND flag=1 AND repeatt=0 AND rcategory in (1, 2, 3, 4) ';
 		$sql .= 'AND justification != 10 and facility_id != 7148 ';
+		$sql .= "AND facility_id={$facility_id} ";
 		$sql .= 'GROUP BY patient_id) gv ';
 		$sql .= 'ON v.id=gv.id) tb ';
 		$sql .= 'WHERE ';
