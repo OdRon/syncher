@@ -238,15 +238,16 @@ class Random
 
 		foreach ($data as $key => $row) {
 
-			$facility_id = \App\Facility::where(['facilitycode' => $row->mfl_code])->first()->id;
+			$facility = \App\Facility::where(['facilitycode' => $row->mfl_code])->first();
+			if(!$facility) continue;
 
-			$sql = self::get_current_gender_query(1, $facility_id);
+			$sql = self::get_current_gender_query(1, $facility->id);
 			$one = collect(DB::select($sql));
 
-			$sql = self::get_current_query(2, $facility_id);
+			$sql = self::get_current_query(2, $facility->id);
 			$two = collect(DB::select($sql));
 
-			$sql = self::get_current_query(4, $facility_id);
+			$sql = self::get_current_query(4, $facility->id);
 			$four = collect(DB::select($sql));
 
 			$rows[] = [
