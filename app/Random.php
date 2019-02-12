@@ -4,7 +4,7 @@ namespace App;
 
 use Excel;
 use DB;
-use App\Facilitys;
+use App\Facility;
 
 use Carbon\Carbon;
 
@@ -104,7 +104,7 @@ class Random
 			];
 		}
 
-		$file = '2017_totals_by_most_recent_test';
+		$file = '2018_totals_by_most_recent_test';
 		
 		Excel::create($file, function($excel) use($rows){
 			$excel->sheet('Sheetname', function($sheet) use($rows) {
@@ -128,7 +128,7 @@ class Random
 		$sql .= 'RIGHT JOIN ';
 		$sql .= '(SELECT ID, patient_id, max(datetested) as maxdate ';
 		$sql .= 'FROM viralsamples_view ';
-		$sql .= 'WHERE ( datetested between "2017-01-01" and "2017-12-31" ) ';
+		$sql .= 'WHERE ( datetested between "2018-01-01" and "2018-12-31" ) ';
 		$sql .= "AND patient != '' AND patient != 'null' AND patient is not null ";
 		$sql .= 'AND flag=1 AND repeatt=0 AND rcategory in (1, 2, 3, 4) ';
 		$sql .= 'AND justification != 10 and facility_id != 7148 ';
@@ -195,6 +195,83 @@ class Random
 		})->store('csv');
 
 		Mail::to(['joelkith@gmail.com'])->send(new CustomMailOld());
+	}
+
+
+	public static function get_current_gender_query($param, $facility)
+	{
+    	$sql = 'SELECT sex, count(*) as totals ';
+		$sql .= 'FROM ';
+		$sql .= '(SELECT v.id, v.facility_id, v.sex, v.rcategory, v.result ';
+		$sql .= 'FROM viralsamples_view v ';
+		$sql .= 'RIGHT JOIN ';
+		$sql .= '(SELECT ID, patient_id, max(datetested) as maxdate ';
+		$sql .= 'FROM viralsamples_view ';
+		$sql .= 'WHERE ( datetested between "2018-01-01" and "2018-12-31" ) ';
+		$sql .= "AND patient != '' AND patient != 'null' AND patient is not null ";
+		$sql .= 'AND flag=1 AND repeatt=0 AND rcategory in (1, 2, 3, 4) ';
+		$sql .= 'AND justification != 10 and facility_id != 7148 ';
+		$sql .= 'GROUP BY patient_id) gv ';
+		$sql .= 'ON v.id=gv.id) tb ';
+		$sql .= 'WHERE ';
+		if($param == 1) $sql .= ' (rcategory = 1 or result < 401) ';
+		if($param == 2) $sql .= ' (rcategory = 2 and result > 400) ';
+		if($param == 4) $sql .= ' (rcategory IN (3,4)) ';
+		$sql .= 'GROUP BY sex ';
+		$sql .= 'ORDER BY sex ';
+
+		return $sql;
+	}
+
+
+
+
+	public static function save_gender_results()
+	{
+		ini_set("memory_limit", "-1");
+        config(['excel.import.heading' => true]);
+		$path = public_path('facilities.csv');
+		$data = Excel::load($path, function($reader){})->get();
+
+		$rows = [];
+
+		foreach ($data as $key => $row) {
+
+			$facility_id = \App\Facility::where(['facilitycode' => $row->mfl_code])->first()->id;
+
+			$sql = self::get_current_gender_query(1, $facility_id);
+			$one = collect(DB::select($sql));
+
+			$sql = self::get_current_query(2, $facility_id);
+			$two = collect(DB::select($sql));
+
+			$sql = self::get_current_query(4, $facility_id);
+			$four = collect(DB::select($sql));
+
+			$rows[] = [
+				'MFL Code' => $facility->facilitycode,
+				'Facility' => $facility->name,
+				'Male 400 and less' => $one->where('sex', 1)->first()->totals ?? null,
+				'Female 400 and less' => $one->where('sex', 2)->first()->totals ?? null,
+				'Male Above 400 Less 1000' => $two->where('sex', 1)->first()->totals ?? null,
+				'Female Above 400 Less 1000' => $two->where('sex', 2)->first()->totals ?? null,
+				'Male Above 1000' => $four->where('sex', 1)->first()->totals ?? null,
+				'Female Above 1000' => $four->where('sex', 2)->first()->totals ?? null,
+			];
+
+		}
+		$file = '2018_gender_totals_by_most_recent_test';
+		
+		Excel::create($file, function($excel) use($rows){
+			$excel->sheet('Sheetname', function($sheet) use($rows) {
+				$sheet->fromArray($rows);
+			});
+		})->store('csv');
+
+		$data = [storage_path("exports/" . $file . ".csv")];
+
+		Mail::to(['joelkith@gmail.com'])->send(new TestMail($data));
+
 	}
 
 	public static function alter_dc()
