@@ -68,6 +68,12 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::get('utilization/{testtype?}/{year?}/{month?}', 'ReportController@utilization')->name('utilization');
 		Route::post('/', 'ReportController@generate');
 	});
+
+	Route::group(['middleware' => ['only_utype:8']], function () {
+		Route::prefix('patients')->name('patients.')->group(function () {
+			Route::get('/{testtype}', 'PatientsController@index');
+		});
+	});
 	
 	Route::get('results/{testtype?}', 'ResultController@index')->name('results');
 	Route::get('results/{id}/{testtype}/{type}', 'ResultController@specific')->name('specific.results');

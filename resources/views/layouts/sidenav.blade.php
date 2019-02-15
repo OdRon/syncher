@@ -51,6 +51,12 @@
                 <hr />
                 <li><a href="{{ url('#') }}">HEI Validation Guide</a></li>
                 <hr />
+                @if(Auth::user()->user_type_id == 8)
+                <li><a href="{{ url('patients/EID') }}">EID Patient List</a></li>
+                <hr />
+                <li><a href="{{ url('patients/VL') }}">VL Patient List</a></li>
+                <hr />
+                @endif
                 @if(Auth::user()->user_type_id != 2)
                     @if(Auth::user()->user_type_id != 8)
                         <li><a href="{{ url('sites') }}">Facilities</a></li>
