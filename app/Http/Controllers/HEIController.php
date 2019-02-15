@@ -27,9 +27,9 @@ class HEIController extends Controller
             session(['followupMonth'=>(strlen($month)==1) ? '0'.$month : $month]);
         $outcomes = self::__outcomes(session('followupYear'), session('followupMonth'));
     	$data['outcomes'] = $outcomes;
-        $data['unknown'] = ($outcomes->positives - ($outcomes->enrolled+$outcomes->ltfu+$outcomes->dead+$outcomes->transferOut+$outcomes->other+$outcomes->adult+$outcomes->vl+$outcomes->unkownfacility+$outcomes->repeatt));
+        $data['unknown'] = ($outcomes->positives - ($outcomes->confirmedpos + $outcomes->adult + $outcomes->vl + $outcomes->unkownfacility + $outcomes->repeatt));
     	$data = (object)$data;
-        // dd($data);
+        
         return view('hei.validate', compact('data'))->with('pageTitle','HEI Follow Up');
     }
 
@@ -88,10 +88,10 @@ class HEIController extends Controller
         }
         $data = (object)$data;
         $monthName = "";
-        
+        // dd($data);
     	if (null !== $month) 
     		$monthName = "- ".date("F", mktime(null, null, null, $month));
-        dd($data->patients->where('hei_validation', 1));
+        // dd($data->patients->where('hei_validation', 1));
     	return view('hei.followup', compact('data'))->with('pageTitle', "HEI Folow Up:$year $monthName");
     }
 
@@ -150,6 +150,7 @@ class HEIController extends Controller
 
     public static function __getPatients($year=null,$month=null,$duration=null,$validation=null,$count=false)
     {
+        // dd($duration . " <--> " . $validation);
         if(!($duration == 'outcomes' || $duration || 'cumulative' || $duration == null))
             return back();
         
@@ -188,7 +189,6 @@ class HEIController extends Controller
         if(isset($validation)) {
             $model = $model->when($validation, function($query) use  ($validation){
                             if (strtolower($validation) == 'positives') {}
-
                             if (strtolower($validation) == 'enrolled')
                                 return $query->where('sample_complete_view.enrollment_status', '=', 1);
                             if (strtolower($validation) == 'ltfu')

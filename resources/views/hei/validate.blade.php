@@ -72,7 +72,7 @@
                         <tbody>
                             <tr>
                                 <th>
-                                    Infants with Positive Outcomes
+                                    Actual Infants Tested Positive: <i>(pp)</i>
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->positives) }}
@@ -82,7 +82,27 @@
                             </tr>
                             <tr>
                                 <th>
-                                    Infants Initiated onto Treatment 
+                                    &nbsp;&nbsp;&nbsp; Actual Infants Validated at Site: <i>(va = (zz+a+v+f+r))</i>
+                                </th>
+                                <td>
+                                    {{ number_format(($data->outcomes->confirmedpos + $data->outcomes->adult + $data->outcomes->vl + $data->outcomes->unkownfacility + $data->outcomes->repeatt)) }}
+                                    &nbsp;&nbsp;
+                                    {{-- <a href="{{ url('hei/followup/outcomes/positives') }}" style="color: blue;">Click to View</a> --}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    &nbsp;&nbsp;&nbsp; Confirmed Positives at Site: <i>((zz = e+l+d+t+o))</i>
+                                </th>
+                                <td>
+                                    {{ number_format(($data->outcomes->enrolled + $data->outcomes->ltfu + $data->outcomes->dead + $data->outcomes->transferOut + $data->outcomes->other)) }}
+                                    &nbsp;&nbsp;
+                                    {{-- <a href="{{ url('hei/followup/outcomes/positives') }}" style="color: blue;">Click to View</a> --}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Initiated onto Treatment <i>(e)</i>
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->enrolled) }}
@@ -93,7 +113,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    Infants Lost to Follow up 
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Lost to Follow up: <i>(l)</i>
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->ltfu) }}
@@ -104,7 +124,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    Infants Died 
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Died: <i>(d)</i>
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->dead) }}
@@ -115,18 +135,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    Infants who were Adult Sample
-                                </th>
-                                <td>
-                                    {{ $data->outcomes->adult }}
-                                    <strong>[{{ round(@(($data->outcomes->adult/$data->outcomes->positives)*100),1) }}%]</strong>
-                                    &nbsp;&nbsp;
-                                    <a href="{{ url('hei/followup/outcomes/adult') }}" style="color: blue;">Click to View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    Infants Transferred Out 
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants Transferred Out: <i>(t)</i>
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->transferOut) }}
@@ -137,13 +146,57 @@
                             </tr>
                             <tr>
                                 <th>
-                                    Infants with (Other Reasons) 
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Infants with (Other Reasons): <i>(o)</i>
                                 </th>
                                 <td>
                                     {{ number_format($data->outcomes->other) }}
                                     <strong>[{{ round(@(($data->outcomes->other/$data->outcomes->positives)*100),1) }}%]</strong>
                                     &nbsp;&nbsp;
                                     <a href="{{ url('hei/followup/outcomes/other') }}" style="color: blue;">Click to View</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    &nbsp;&nbsp;&nbsp; Adult Test: <i>(a)</i>
+                                </th>
+                                <td>
+                                    {{ $data->outcomes->adult }}
+                                    <strong>[{{ round(@(($data->outcomes->adult/$data->outcomes->positives)*100),1) }}%]</strong>
+                                    &nbsp;&nbsp;
+                                    <a href="{{ url('hei/followup/outcomes/adult') }}" style="color: blue;">Click to View</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                   &nbsp;&nbsp;&nbsp; Viral load Test: <i>(v)</i>
+                                </th>
+                                <td>
+                                    {{ $data->outcomes->vl }}
+                                    <strong>[{{ round(@(($data->outcomes->vl/$data->outcomes->positives)*100),1) }}%]</strong>
+                                    &nbsp;&nbsp;
+                                    {{-- <a href="{{ url('hei/followup/outcomes/adult') }}" style="color: blue;">Click to View</a> --}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    &nbsp;&nbsp;&nbsp; Sample from Unknown Facility: <i>(f)</i>
+                                </th>
+                                <td>
+                                    {{ $data->outcomes->unkownfacility }}
+                                    <strong>[{{ round(@(($data->outcomes->unkownfacility/$data->outcomes->positives)*100),1) }}%]</strong>
+                                    &nbsp;&nbsp;
+                                    {{-- <a href="{{ url('hei/followup/outcomes/adult') }}" style="color: blue;">Click to View</a> --}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    &nbsp;&nbsp;&nbsp; Repeat Test: <i>(r)</i>
+                                </th>
+                                <td>
+                                    {{ $data->outcomes->repeatt }}
+                                    <strong>[{{ round(@(($data->outcomes->repeatt/$data->outcomes->positives)*100),1) }}%]</strong>
+                                    &nbsp;&nbsp;
+                                    {{-- <a href="{{ url('hei/followup/outcomes/adult') }}" style="color: blue;">Click to View</a> --}}
                                 </td>
                             </tr>
                             {{--<tr>
@@ -160,7 +213,7 @@
                             <tr>
                                 <th style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
                                     <div class="alert alert-warning">
-                                        Infants NOT Documented Online 
+                                        Infants NOT Documented Online: <i>(pp-va)</i>
                                     </div>
                                 </th>
                                 <td style="padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;">
