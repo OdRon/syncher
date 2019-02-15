@@ -108,16 +108,16 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Approval Status</label>
                         <div class="col-md-4">
-                            <center><input type="radio" name="approve[{{ $counter }}]" class="i-checks" value="1" required><strong><font color="#1e824c"> Approve</font></strong></center>
+                            <center><input type="radio" name="approve[{{ $counter }}]" class="i-checks" value="1" required @if($allocation->approve == 1) checked @endif><strong><font color="#1e824c"> Approve</font></strong></center>
                         </div>
                         <div class="col-md-4">
-                            <center><input type="radio" name="approve[{{ $counter }}]" class="i-checks" value="2" required> <strong><font color="#FF0000">Reject</font></strong></center>
+                            <center><input type="radio" name="approve[{{ $counter }}]" class="i-checks" value="2" required  @if($allocation->approve == 2) checked @endif> <strong><font color="#FF0000">Reject</font></strong></center>
                         </div>                            
                     </div>
                     <div class="form-group">
                         <label class="col-md-4 control-label">Allocation Committee Feedback</label>
                         <div class="col-md-8">
-                            <textarea name="issuedcomments[]" class="form-control"></textarea>
+                            <textarea name="issuedcomments[]" class="form-control">{{ $allocation->issuedcomments }}</textarea>
                         </div>                            
                     </div>
                 </div>

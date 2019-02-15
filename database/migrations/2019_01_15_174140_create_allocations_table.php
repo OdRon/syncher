@@ -15,7 +15,7 @@ class CreateAllocationsTable extends Migration
     {
         Schema::create('allocations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('original_id')->nullable();
+            $table->bigInteger('original_allocation_id')->nullable();
             $table->integer('year');
             $table->tinyInteger('month');
             $table->tinyInteger('testtype');
