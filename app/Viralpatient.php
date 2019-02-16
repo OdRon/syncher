@@ -13,6 +13,11 @@ class Viralpatient extends BaseModel
     	return $this->hasMany('App\Viralsample', 'patient_id');
     }
 
+    public function facility()
+    {
+        return $this->belongsTo('App\Facility');
+    }
+
     public function scopeExisting($query, $facility_id, $ccc_number)
     {
         return $query->where(['facility_id' => $facility_id, 'patient' => $ccc_number]);

@@ -24,6 +24,44 @@ class PatientsController extends Controller
     	return view('tables.patients', compact('data'))->with('pageTitle','');
     }
 
+    public function merge(Request $request, $testtype = 'EID', $patient) {
+        $testtype = strtolower($testtype);
+        if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
+
+        $prefix = 'eid';
+        if ($testtype == 'vl') $prefix = 'viral';
+        
+        if ($request->method() == "PUT") {
+
+        } else {
+            if ($prefix == 'eid') $prefix = '';
+            $data['patient'] = Synch::$synch_arrays[$testtype]['patient_class']
+                                    ::findOrFail($patient);
+            $data['url'] = url($prefix . 'patient/search/' . $data['patient']->facility->id);
+            $data['submit_url'] = url()->current();
+            
+            $data['testtype'] = strtoupper($testtype);
+            $data = (object)$data;
+            // dd($data);
+            return view('forms.merge_patients', compact('data'))->with('pageTitle', '');
+        }
+    }
+
+    public function transfer(Request $request, $testtype = 'EID', $patient) {
+        $testtype = strtolower($testtype);
+        if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
+        
+        if ($request->method() == "PUT"){
+
+        } else {
+            $data['testtype'] = strtoupper($testtype);
+            $data['patient'] = Synch::$synch_arrays[$testtype]['patient_class']
+                                    ::findOrFail($patient);
+            $data = (object)$data;
+            return view('forms.transfer_patient', compact('data'))->with('pageTitle', '');
+        }
+    }
+
     public function edit(Request $request, $testtype = 'EID', $patient) {
     	$testtype = strtolower($testtype);
     	if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
@@ -66,28 +104,6 @@ class PatientsController extends Controller
 	    		return view('forms.patients', compact('data'))->with('pageTitle', '');
             } else
 	    		return view('forms.viralpatients', compact('data'))->with('pageTitle', '');
-    	}
-    }
-
-    public function merge(Request $request, $testtype = 'EID', $patient) {
-    	$testtype = strtolower($testtype);
-    	if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
-		
-		if ($request->mehtod() == "PUT") {
-
-		} else {
-    		return view('forms.merge_patients', compact('data'))->with('pageTitle', '');
-    	}
-    }
-
-    public function transfer(Request $request, $testtype = 'EID', $patient) {
-    	$testtype = strtolower($testtype);
-    	if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
-		
-		if ($request->mehtod() == "PUT"){
-
-		} else {
-    		return view('forms.transfer_patient', compact('data'))->with('pageTitle', '');
     	}
     }
 }
