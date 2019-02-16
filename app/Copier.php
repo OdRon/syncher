@@ -167,7 +167,7 @@ class Copier
         $bookmark = Bookmark::find(1);
 		$start = $bookmark->samples ?? 0;
 		ini_set("memory_limit", "-1");
-		$fields = Lookup::samples_arrays();	
+		$fields = Lookup::eidsamples_arrays();	
         $sample_date_array = ['datecollected', 'datetested', 'datemodified', 'dateapproved', 'dateapproved2'];
         $batch_date_array = ['datedispatchedfromfacility', 'datereceived', 'datedispatched', 'dateindividualresultprinted', 'datebatchprinted'];
 

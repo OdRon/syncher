@@ -123,9 +123,11 @@
                 </div>
                 @php $counter ++; @endphp
             @endforeach
+            @if($allocation->approve == 0)
             <center>
                 <button type="submit" name="allocation-form" class="btn btn-primary btn-lg" value="true" style="margin-top: 2em;margin-bottom: 2em; width: 200px; height: 30px;">Save {{ $globaltesttype }} Allocations</button>
             </center>
+            @endif
             {{ Form::close() }}
             </div>
         </div>

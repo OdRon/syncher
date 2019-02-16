@@ -72,6 +72,12 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::group(['middleware' => ['only_utype:8']], function () {
 		Route::prefix('patients')->name('patients.')->group(function () {
 			Route::get('/{testtype}', 'PatientsController@index');
+			Route::get('/{testtype}/{patient}/edit', 'PatientsController@edit');
+			Route::put('/{testtype}/{patient}/edit', 'PatientsController@edit');
+			Route::get('/{testtype}/{patient}/merge', 'PatientsController@merge');
+			Route::put('/{testtype}/{patient}/merge', 'PatientsController@merge');
+			Route::get('/{testtype}/{patient}/transfer', 'PatientsController@transfer');
+			Route::put('/{testtype}/{patient}/transfer', 'PatientsController@transfer');
 		});
 	});
 	

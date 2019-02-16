@@ -39,15 +39,15 @@
                                         <td> {{ $patient->sample_count ?? '' }} </td>
 
                                         <td>
-                                            <a href="{{ url('/viralpatient/' . $patient->id . '/edit' ) }} " target='_blank'>Edit</a>
+                                            <a href="{{ url('/patients/' . $data->testtype . '/' . $patient->id . '/edit' ) }} " {{-- target='_blank' --}}>Edit</a>
                                         </td>
 
                                         <td>
-                                            <a href="{{ url('/viralpatient/' . $patient->id . '/merge' ) }} " target='_blank'>Merge</a>
+                                            <a href="{{ url('/patients/' . $data->testtype . '/' . $patient->id . '/merge' ) }} " {{-- target='_blank' --}}>Merge</a>
                                         </td>
 
                                         <td>
-                                            <a href="{{ url('/viralpatient/' . $patient->id . '/transfer' ) }} " target='_blank'>Transfer</a>
+                                            <a href="{{ url('/patients/' . $data->testtype . '/' . $patient->id . '/transfer' ) }} " {{-- target='_blank' --}}>Transfer</a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -22,5 +22,13 @@ class Mother extends BaseModel
         return $query->where(['original_mother_id' => $original->id]);
     }
 
+    public function calc_age()
+    {
+        if($this->mother_dob){
+            $today = date("Y-m-d");
+            $this->age = \App\Lookup::calculate_viralage($today, $this->mother_dob);
+        }
+    }
+
     
 }
