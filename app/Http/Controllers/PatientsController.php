@@ -24,12 +24,34 @@ class PatientsController extends Controller
     	return view('tables.patients', compact('data'))->with('pageTitle','');
     }
 
+    public function transfer(Request $request, $testtype = 'EID', $patient) {
+        $testtype = strtolower($testtype);
+        if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
+        $patient = Synch::$synch_arrays[$testtype]['patient_class']
+                                    ::findOrFail($patient);
+        if ($request->method() == "PUT"){
+            $patient->facility_id = $request->input('facility_id');
+            $patient->pre_update();
+
+            session(['toast_message' => "The patient has been transferred to another facility."]);
+            $redirect = 'patients/' . $testtype;
+            return redirect($redirect);
+        } else {
+            $data['testtype'] = strtoupper($testtype);
+            $data['patient'] = $patient;
+            $data['submit_url'] = url()->current();
+            $data = (object)$data;
+            return view('forms.transfer_patient', compact('data'))->with('pageTitle', '');
+        }
+    }
+
     public function merge(Request $request, $testtype = 'EID', $patient) {
         $testtype = strtolower($testtype);
         if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
 
         $prefix = 'eid';
         if ($testtype == 'vl') $prefix = 'viral';
+
         $patient = Synch::$synch_arrays[$testtype]['patient_class']
                                     ::findOrFail($patient);
         
@@ -59,21 +81,6 @@ class PatientsController extends Controller
             $data = (object)$data;
 
             return view('forms.merge_patients', compact('data'))->with('pageTitle', '');
-        }
-    }
-
-    public function transfer(Request $request, $testtype = 'EID', $patient) {
-        $testtype = strtolower($testtype);
-        if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
-        
-        if ($request->method() == "PUT"){
-
-        } else {
-            $data['testtype'] = strtoupper($testtype);
-            $data['patient'] = Synch::$synch_arrays[$testtype]['patient_class']
-                                    ::findOrFail($patient);
-            $data = (object)$data;
-            return view('forms.transfer_patient', compact('data'))->with('pageTitle', '');
         }
     }
 
