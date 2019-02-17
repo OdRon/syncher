@@ -84,35 +84,6 @@ class PatientsController extends Controller
         }
     }
 
-    public function search(Request $request, $testtype='EID', $facility_id=null)
-    {
-        $testtype = strtolower($testtype);
-        if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
-       
-        $table = 'patients';
-        if($testtype == 'vl') $table = 'viralpatients';
-
-        $user = auth()->user();
-        $facility_user = false;
-        if($user->user_type_id == 5) $facility_user=true;
-        $string = "(facility_id='{$user->facility_id}')";
-        $search = $request->input('search');
-        
-        $patients = Synch::$synch_arrays[$testtype]['patient_class']
-                    ::select("$table.id", "$table.patient", 'facilitys.name', 'facilitys.facilitycode')
-                    ->join('facilitys', 'facilitys.id', '=', "$table.facility_id")
-                    ->whereRaw("patient like '" . $search . "%'")
-                    ->when($facility_user, function($query) use ($string){
-                        return $query->whereRaw($string);
-                    })->when($facility_id, function($query) use ($facility_id){
-                        return $query->where('facility_id', $facility_id);
-                    })->paginate(10);
-        
-        $patients->setPath(url()->current());
-        return $patients;
-
-    }
-
     public function edit(Request $request, $testtype = 'EID', $patient) {
     	$testtype = strtolower($testtype);
     	if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
@@ -156,5 +127,34 @@ class PatientsController extends Controller
             } else
 	    		return view('forms.viralpatients', compact('data'))->with('pageTitle', '');
     	}
+    }
+
+    public function search(Request $request, $testtype='EID', $facility_id=null)
+    {
+        $testtype = strtolower($testtype);
+        if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
+       
+        $table = 'patients';
+        if($testtype == 'vl') $table = 'viralpatients';
+
+        $user = auth()->user();
+        $facility_user = false;
+        if($user->user_type_id == 5) $facility_user=true;
+        $string = "(facility_id='{$user->facility_id}')";
+        $search = $request->input('search');
+        
+        $patients = Synch::$synch_arrays[$testtype]['patient_class']
+                    ::select("$table.id", "$table.patient", 'facilitys.name', 'facilitys.facilitycode')
+                    ->join('facilitys', 'facilitys.id', '=', "$table.facility_id")
+                    ->whereRaw("patient like '" . $search . "%'")
+                    ->when($facility_user, function($query) use ($string){
+                        return $query->whereRaw($string);
+                    })->when($facility_id, function($query) use ($facility_id){
+                        return $query->where('facility_id', $facility_id);
+                    })->paginate(10);
+        
+        $patients->setPath(url()->current());
+        return $patients;
+
     }
 }
