@@ -30,19 +30,34 @@ class PatientsController extends Controller
 
         $prefix = 'eid';
         if ($testtype == 'vl') $prefix = 'viral';
+        $patient = Synch::$synch_arrays[$testtype]['patient_class']
+                                    ::findOrFail($patient);
         
         if ($request->method() == "PUT") {
+            $patients = $request->input('patients');
+            $samples = Synch::$synch_arrays[$testtype]['sample_class']
+                    ::whereIn('patient_id', $patients)->get();
 
+            foreach ($samples as $key => $sample) {
+                $sample->patient_id = $patient->id;
+                $sample->pre_update();
+            }
+
+            $patient_array = Synch::$synch_arrays[$testtype]['patient_class']
+                            ::whereIn('id', $patients)->where('id', '!=', $patient->id)->update(['synched' => 3]);
+
+            session(['toast_message' => "The patient records have been merged."]);
+            $redirect = 'patients/' . $testtype;
+            return redirect($redirect);
         } else {
             if ($prefix == 'eid') $prefix = '';
-            $data['patient'] = Synch::$synch_arrays[$testtype]['patient_class']
-                                    ::findOrFail($patient);
-            $data['url'] = url($prefix . 'patient/search/' . $data['patient']->facility->id);
+            $data['patient'] = $patient;
+            $data['url'] = url('patients/search/' . $testtype. '/' . $data['patient']->facility->id);
             $data['submit_url'] = url()->current();
             
             $data['testtype'] = strtoupper($testtype);
             $data = (object)$data;
-            // dd($data);
+
             return view('forms.merge_patients', compact('data'))->with('pageTitle', '');
         }
     }
@@ -60,6 +75,35 @@ class PatientsController extends Controller
             $data = (object)$data;
             return view('forms.transfer_patient', compact('data'))->with('pageTitle', '');
         }
+    }
+
+    public function search(Request $request, $testtype='EID', $facility_id=null)
+    {
+        $testtype = strtolower($testtype);
+        if(!($testtype == 'eid' || $testtype == 'vl')) abort(404);
+       
+        $table = 'patients';
+        if($testtype == 'vl') $table = 'viralpatients';
+
+        $user = auth()->user();
+        $facility_user = false;
+        if($user->user_type_id == 5) $facility_user=true;
+        $string = "(facility_id='{$user->facility_id}')";
+        $search = $request->input('search');
+        
+        $patients = Synch::$synch_arrays[$testtype]['patient_class']
+                    ::select("$table.id", "$table.patient", 'facilitys.name', 'facilitys.facilitycode')
+                    ->join('facilitys', 'facilitys.id', '=', "$table.facility_id")
+                    ->whereRaw("patient like '" . $search . "%'")
+                    ->when($facility_user, function($query) use ($string){
+                        return $query->whereRaw($string);
+                    })->when($facility_id, function($query) use ($facility_id){
+                        return $query->where('facility_id', $facility_id);
+                    })->paginate(10);
+        
+        $patients->setPath(url()->current());
+        return $patients;
+
     }
 
     public function edit(Request $request, $testtype = 'EID', $patient) {

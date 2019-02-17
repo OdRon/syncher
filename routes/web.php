@@ -78,6 +78,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 			Route::put('/{testtype}/{patient}/merge', 'PatientsController@merge');
 			Route::get('/{testtype}/{patient}/transfer', 'PatientsController@transfer');
 			Route::put('/{testtype}/{patient}/transfer', 'PatientsController@transfer');
+			Route::post('search/{testtype}/{facility}', 'PatientsController@search');
 		});
 	});
 	
