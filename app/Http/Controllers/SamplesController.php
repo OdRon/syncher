@@ -100,7 +100,7 @@ class SamplesController extends Controller
             $patientData = $request->only(['dob', 'initiation_date']);
             $patient = $sample->patient;
             $sample->fill($sampleData);
-            $patient->fill($sampleData);
+            $patient->fill($patientData);
             $sample->pre_update();
             $patient->pre_update();
         }
