@@ -43,6 +43,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Date of Birth</label>
+                            <div class="col-sm-8">
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" id="dob" required class="form-control lockable" value="{{ $data->sample->patient->dob ?? '' }}" name="dob">
+                                </div>
+                            </div>                            
+                        </div>
+
                         @if($data->testtype == 'EID')
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">PCR Type:</label>
@@ -50,25 +60,52 @@
                                     <select class="form-control" name="pcrtype" id="pcrtype">
                                         @foreach($data->pcrtypes as $pcrtype)
                                             @if($data->sample->pcrtype == $pcrtype->id)
-                                                <option value="{{ $pcrtype->id }}" selected>{{ $pcrtype->name }}</option>
+                                                <option value="{{ $pcrtype->id }}" selected>{!! $pcrtype->name !!}</option>
                                             @else
-                                                <option value="{{ $pcrtype->id }}">{{ $pcrtype->name }}</option>
+                                                <option value="{{ $pcrtype->id }}">{!! $pcrtype->name !!}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        @elseif($data->testtype == 'VL')
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Date Initiated on Treatment</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group date">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" id="initiation_date" required class="form-control lockable" value="{{ $data->sample->patient->initiation_date ?? '' }}" name="initiation_date">
+                                    </div>
+                                </div>                            
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Justification:</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" name="justification" id="justification">
+                                        @foreach($data->justifications as $justification)
+                                            @if($data->sample->justification == $justification->id)
+                                                <option value="{{ $justification->id }}" selected>{!! $justification->displaylabel !!}</option>
+                                            @else
+                                                <option value="{{ $justification->id }}">{!! $justification->displaylabel !!}</option>
                                             @endif
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">Date of Birth</label>
+                                <label class="col-sm-4 control-label">Regimen:</label>
                                 <div class="col-sm-8">
-                                    <div class="input-group date">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" id="dob" required class="form-control lockable" value="{{ $data->sample->patient->dob ?? '' }}" name="dob">
-                                    </div>
-                                </div>                            
+                                    <select class="form-control" name="prophylaxis" id="prophylaxis">
+                                        @foreach($data->prophylaxis as $regimen)
+                                            @if($data->sample->prophylaxis == $regimen->id)
+                                                <option value="{{ $regimen->id }}" selected>{!! $regimen->displaylabel !!}</option>
+                                            @else
+                                                <option value="{{ $regimen->id }}">{!! $regimen->displaylabel !!}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        @elseif($data->testtype == 'VL')
-
                         @endif
 
                         <div class="hr-line-dashed"></div>
