@@ -104,7 +104,7 @@ class SamplesController extends Controller
             $sample->pre_update();
             $patient->pre_update();
         }
-        session(['toast_message' => 'Sample successfully updated']);
+        session(['toast_message' => 'Sample successfully updated. The changes will be propagated to the lab.']);
         return back();
     }
 
