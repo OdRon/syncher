@@ -425,8 +425,7 @@ class GenerealController extends Controller
                     <a href='". url("printindividualbatch/$testingSystem/$value->batch_id") ."'>
                         <img src='".asset('img/print.png')."' />&nbsp;Batch-Individual</a>";
             if (auth()->user()->user_type_id == 3 || auth()->user()->user_type_id == 8) // Edit only available to partners and facility users 
-                $action .= "&nbsp;|&nbsp;<a href='". url("sample/$testingSystem/$value->id/edit") ."'>
-                        <img src='".asset('img/print.png')."' />&nbsp;Edit</a>";
+                $action .= "&nbsp;|&nbsp;<a href='". url("sample/$testingSystem/$value->id/edit") ."'>Edit</a>";
 
             if ($testingSystem == 'eid') {
                 if ($value->result == "Negative") {
