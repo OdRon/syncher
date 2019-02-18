@@ -49,6 +49,9 @@
 
                             </tbody>
                         </table>
+                        <center>
+                            {{-- $data->links() --}}
+                        </center>
                     </div>
                 </div>
             </div>
