@@ -96,6 +96,13 @@ $api->version('v1', function (Router $api) {
 
         });
 
+        $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
+
+            $api->group(['prefix' => 'hit'], function(Router $api) {
+                $api->post('eid', 'HitController@eid');
+            });
+        });
+
 
 
     });
