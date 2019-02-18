@@ -69,6 +69,14 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::post('/', 'ReportController@generate');
 	});
 
+	Route::group(['middleware' => ['only_utype:3,8']], function(){
+		Route::prefix('sample')->name('sample.')->group(function(){
+			Route::get('{testtype}/{patient}/edit', 'SamplesController@edit')->name('edit');
+			Route::put('{testtype}/{patient}/update', 'SamplesController@update')->name('update');
+		});
+		Route::resource('sample', 'SamplesController');
+	});
+
 	Route::group(['middleware' => ['only_utype:8']], function () {
 		Route::prefix('patients')->name('patients.')->group(function () {
 			Route::get('/{testtype}', 'PatientsController@index');
