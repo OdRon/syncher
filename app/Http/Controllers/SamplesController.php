@@ -72,7 +72,7 @@ class SamplesController extends Controller
         $data['sample'] = $sample;
         $data['testtype'] = strtoupper($testtype);
         $data = (object)$data;
-        // dd($data);
+        
         return view('forms.sample', compact('data'))->with("Update {$testtype} Sample {$sample->id} ");
     }
 
@@ -90,13 +90,19 @@ class SamplesController extends Controller
         $sample_class = Synch::$synch_arrays[$testtype]['sample_class'];
         $sample = $sample_class::findOrFail($id);
         if ($testtype == 'eid') {
-            $sample->pcrtype = $request->input('pcrtype');
-            $sample->pre_update();
             $patient = $sample->patient;
+            $sample->pcrtype = $request->input('pcrtype');
             $patient->dob = $request->input('dob');
+            $sample->pre_update();
             $patient->pre_update();
         } else if ($testtype == 'vl') {
-
+            $sampleData = $request->only(['justification', 'prophylaxis']);
+            $patientData = $request->only(['dob', 'initiation_date']);
+            $patient = $sample->patient;
+            $sample->fill($sampleData);
+            $patient->fill($sampleData);
+            $sample->pre_update();
+            $patient->pre_update();
         }
         session(['toast_message' => 'Sample successfully updated']);
         return back();

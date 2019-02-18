@@ -98,7 +98,7 @@
                                     <select class="form-control" name="prophylaxis" id="prophylaxis">
                                         @foreach($data->prophylaxis as $regimen)
                                             @if($data->sample->prophylaxis == $regimen->id)
-                                                <option value="{{ $regimen->id }}" selected>{{ $regimen->displaylabel }}</option>
+                                                <option value="{{ $regimen->id }}" selected>{!! $regimen->displaylabel !!}</option>
                                             @else
                                                 <option value="{{ $regimen->id }}">{!! $regimen->displaylabel !!}</option>
                                             @endif
