@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Lookup;
 use App\Batch;
 use App\Viralbatch;
+use App\ViralsampleView as VLView;
+use App\SampleView as EIDView;
+use Excel;
 
 class ResultController extends Controller
 {
@@ -55,5 +58,54 @@ class ResultController extends Controller
 	        	return back();
 	        }
         } else {}
+    }
+
+    public function get_incomplient_patient_record($year, $quarter) {
+        $quarters = [1=>'(1,2,3)', 2 =>'(4,5,6)', 3 => '(7,8,9)', 4 => '(10,11,12)'];
+        $data = [];
+        $data[] = ['Lab', 'Quarter', 'Complient', 'Non-complient'];
+        ini_set("memory_limit", "-1");
+        
+        $wanted = $quarters[$quarter];
+        $model = VLView::orderBy('month', 'asc')->selectRaw("distinct patient, lab_id, year(datetested) as year, month(datetested) as month")
+                    ->whereYear('datetested', $year)->whereRaw("month(datetested) in $wanted")->where('repeatt', 0)->get();
+        
+        $labs = \App\Lab::get();
+        foreach($labs as $lab) {
+            $completed = 0;
+            $incomplete = 0;
+            foreach ($model as $key => $modelValue) {
+                if($lab->id == $modelValue->lab_id){
+                    $patient = trim($modelValue->patient);
+                    if (strlen($patient) < 10)
+                        $incomplete++;
+                    else
+                        $completed++;
+                }
+            }
+            $data[] = [
+                'lab' => $lab->labdesc,
+                'quarter' => $year . ' Q'.$quarter,
+                'complient' => (int)$completed,
+                'incomplient' => (int)$incomplete
+            ];
+        }
+
+        ini_set("memory_limit", "-1");
+        $data = collect($data);
+        $title = $year;
+        if($data->isNotEmpty()) {
+            Excel::create($title, function($excel) use ($data, $title) {
+                $excel->setTitle($title);
+                $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP.ORG');
+                $excel->setDescription($title);
+
+                $excel->sheet($title, function($sheet) use ($data) {
+                    $sheet->fromArray($data, null, 'A1', false, false);
+                });
+            })->download('csv');
+        } else {
+            session(['toast_message' => 'No data available for the criteria provided']);
+        }
     }
 }

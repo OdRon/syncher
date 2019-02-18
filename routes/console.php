@@ -112,6 +112,11 @@ Artisan::command('test:connection', function(){
     $this->info($str);
 })->describe('Check connection to the labs.');
 
+Artisan::command('synch:allocations', function(){
+    $str = \App\Synch::synch_allocations();
+    $this->info($str);
+})->describe('Synch Allocations');
+
 // Artisan::command('testPassword:email', function(){
 //     $str = \App\Report::send_password();
 //     $this->info($str);

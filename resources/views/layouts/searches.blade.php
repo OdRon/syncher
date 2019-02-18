@@ -49,7 +49,7 @@
 	
 	function set_select_patient(div_name, url, minimum_length, placeholder, send_url=true) {
 		div_name = '#' + div_name;		
-
+		
 		$(div_name).select2({
 			minimumInputLength: minimum_length,
 			placeholder: placeholder,
@@ -69,10 +69,17 @@
 				processResults: function(data, params){
 					return {
 						results 	: $.map(data.data, function (row){
-							return {
-								text	: row.patient + ' - ' + row.type,
-								id		: row.type + '/' + row.id		
-							};
+							if (row.type == undefined){
+								return {
+									text	: row.patient,
+									id		: row.id		
+								};	
+							} else {
+								return {
+									text	: row.patient + ' - ' + row.type,
+									id		: row.type + '/' + row.id		
+								};	
+							}					
 						}),
 						pagination	: {
 							more: data.to < data.total

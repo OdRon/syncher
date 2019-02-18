@@ -64,6 +64,10 @@ $api->version('v1', function (Router $api) {
                 $api->post('viralbatches', 'VlController@batches');
                 $api->post('viralworksheets', 'VlController@worksheets');
 
+                $api->post('allocations', 'AllocationsController@create');
+                $api->post('deliveries', 'DeliveriesController@create');
+                $api->post('consumptions', 'ConsumptionsController@create');
+
             });
 
             $api->group(['prefix' => 'update'], function(Router $api) {

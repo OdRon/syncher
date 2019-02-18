@@ -184,6 +184,14 @@ class Synch
 		}
 	}
 
+	public static function synch_allocations() {
+		$allocations = Allocation::where('synched', '=', 2)->get();
+		$labs = Lab::all();
+		foreach ($allocations as $key => $allocation) {
+			$lab = $labs->where('id', $allocation->lab_id)->first();
+			$synch_data = self::send_update($allocation, $lab);
+		}
+	}
 
 	private static function send_update($model, $lab, $site_entry=false)
 	{
@@ -194,13 +202,13 @@ class Synch
 		if(str_contains($class, 'sample')) $param = 'sample';
 		if(str_contains($class, 'patient')) $param = 'patient';
 		if(str_contains($class, 'batch')) $param = 'batch';
+		if(str_contains($class, 'Allocation')) $param = 'allocation';
 		$col .= $param . '_id';
 
 		$url = str_replace('App\\', '', $class);
 		$url = strtolower($url) . '/' . $model->$col;
-
+		
 		$client = new Client(['base_uri' => $lab->base_url]);
-
 		$response = $client->request('put', $url, [
 			'http_errors' => false,
 			'verify' => false,
@@ -213,7 +221,7 @@ class Synch
 				'site_entry' => $site_entry,
 			],
 		]);
-
+		
 		$body = json_decode($response->getBody());
 
 		if($response->getStatusCode() < 400)
@@ -227,7 +235,6 @@ class Synch
 			return false;
 		}
 	}
-
 
 	public static function correct_no_patient($type)
 	{
@@ -379,8 +386,7 @@ class Synch
 	}
 
 
-	public static function test_connection()
-	{
+	public static function test_connection() {
 		$labs = Lab::all();
 
 		foreach ($labs as $lab) {
@@ -411,7 +417,4 @@ class Synch
 			self::login($lab);
 		}
 	}
-
-
-
 }

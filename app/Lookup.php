@@ -82,6 +82,14 @@ class Lookup
         return null;
     }
 
+    public static function calculate_mother_dob($date_collected, $age = null)
+    {
+        if(!$age) return null;
+        $dc = Carbon::parse( $date_collected );
+        $dc->subYears($age);
+        return $dc->toDateString();
+    }
+
     public static function resolve_gender($value, $class_name=null, $patient=null, $facility_id=null)
     {
         $value = trim($value);
@@ -122,13 +130,13 @@ class Lookup
     }
 
 
-    public static function samples_arrays()
+    public static function eidsamples_arrays()
     {
         return [
 
             'batch' => ['original_batch_id' , 'highpriority', 'input_complete', 'batch_complete', 'site_entry', 'sent_email', 'printedby', 'user_id', 'lab_id', 'facility_id', 'datedispatchedfromfacility', 'datereceived', 'datebatchprinted', 'datedispatched', 'dateindividualresultprinted'],
 
-            'mother' => ['hiv_status', 'facility_id', 'ccc_no'],
+            'mother' => ['hiv_status', 'facility_id', 'ccc_no', 'mother_dob'],
 
             'patient' => ['original_patient_id', 'patient', 'patient_name', 'sex', 'facility_id', 'caregiver_phone', 'dob', 'entry_point', 'hei_validation', 'enrollment_ccc_no', 'enrollment_status', 'referredfromsite', 'otherreason', 'dateinitiatedontreatment'],
 
