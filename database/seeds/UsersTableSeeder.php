@@ -14,15 +14,20 @@ class UsersTableSeeder extends Seeder
     {
         //
 
-  //       DB::table('user_types')->insert([
-		//     ['id' => '1', 'user_type' => 'Lab User'],
-		//     ['id' => '2', 'user_type' => 'System Administrator'],
-		//     ['id' => '3', 'user_type' => 'Program Officers'],
-		//     ['id' => '4', 'user_type' => 'Data Clerk'],
-		//     ['id' => '5', 'user_type' => 'Facility Users'],
-		//     ['id' => '6', 'user_type' => 'Hub Data Uploaders'],
-		//     ['id' => '7', 'user_type' => 'POC Admin'],
-		// ]);
+        DB::table('user_types')->insert([
+		//     ['id' => '1', 'user_type' => 'System Administrator'],
+		//     ['id' => '2', 'user_type' => 'Program Officers'],
+		//     ['id' => '3', 'user_type' => 'Partner'],
+		//     ['id' => '4', 'user_type' => 'CASCO/CHRIO'],
+		//     ['id' => '5', 'user_type' => 'Sub CASCO'],
+		//     ['id' => '6', 'user_type' => 'Super Counites'],
+		//     ['id' => '7', 'user_type' => 'Super Partner'],
+		//     ['id' => '8', 'user_type' => 'Facility Users'],
+		//     ['id' => '9', 'user_type' => 'Maryland Support Team'],
+		//     ['id' => '10', 'user_type' => 'Super Administrator'],
+		//     ['id' => '11', 'user_type' => 'SCMS / Kit Management'],
+		    ['id' => '12', 'user_type' => 'Allocation Committee'],
+		]);
 
 		// $old_users = DB::connection('old')->table('users')->get();
 
@@ -44,80 +49,80 @@ class UsersTableSeeder extends Seeder
 
 
 
-        $users = factory(App\User::class, 1)->create([
-	        'user_type_id' => 10,
-	        'surname' => 'Kithinji',
-	        'oname' => 'Joel',
-	        'email' => 'joelkith@gmail.com',
-	        'username' => 'joelkith@gmail.com',
-    	]);
+     //    $users = factory(App\User::class, 1)->create([
+	    //     'user_type_id' => 10,
+	    //     'surname' => 'Kithinji',
+	    //     'oname' => 'Joel',
+	    //     'email' => 'joelkith@gmail.com',
+	    //     'username' => 'joelkith@gmail.com',
+    	// ]);
 
-        $users = factory(App\User::class, 1)->create([
-	        'user_type_id' => 10,
-	        'surname' => 'Bakasa',
-	        'oname' => 'Joshua',
-	        'email' => 'bakasa@gmail.com',
-	        'username' => 'bakasa@gmail.com',
-    	]);
+     //    $users = factory(App\User::class, 1)->create([
+	    //     'user_type_id' => 10,
+	    //     'surname' => 'Bakasa',
+	    //     'oname' => 'Joshua',
+	    //     'email' => 'bakasa@gmail.com',
+	    //     'username' => 'bakasa@gmail.com',
+    	// ]);
 
-        $users = factory(App\User::class, 1)->create([
-	        'user_type_id' => 10,
-	        'surname' => 'Ngugi',
-	        'oname' => 'Tim',
-	        'email' => 'tim@gmail.com',
-	        'username' => 'tim@gmail.com',
-    	]);
+     //    $users = factory(App\User::class, 1)->create([
+	    //     'user_type_id' => 10,
+	    //     'surname' => 'Ngugi',
+	    //     'oname' => 'Tim',
+	    //     'email' => 'tim@gmail.com',
+	    //     'username' => 'tim@gmail.com',
+    	// ]);
 
-        $users = factory(App\User::class, 1)->create([
-	        'user_type_id' => 10,
-	        'surname' => 'Lusike',
-	        'oname' => 'Judy',
-	        'email' => 'judy@gmail.com',
-	        'username' => 'judy@gmail.com',
-    	]);
+     //    $users = factory(App\User::class, 1)->create([
+	    //     'user_type_id' => 10,
+	    //     'surname' => 'Lusike',
+	    //     'oname' => 'Judy',
+	    //     'email' => 'judy@gmail.com',
+	    //     'username' => 'judy@gmail.com',
+    	// ]);
 
-        $users = factory(App\User::class, 1)->create([
-	        'user_type_id' => 2,
-	        'surname' => 'Default',
-	        'oname' => 'Admin',
-	        'email' => 'admin@admin.com',
-	        'username' => 'admin@admin.com',
-    	]);
+     //    $users = factory(App\User::class, 1)->create([
+	    //     'user_type_id' => 2,
+	    //     'surname' => 'Default',
+	    //     'oname' => 'Admin',
+	    //     'email' => 'admin@admin.com',
+	    //     'username' => 'admin@admin.com',
+    	// ]);
 
-    	$facilitys = DB::table('facilitys')->get();
+    	// $facilitys = DB::table('facilitys')->get();
 
-    	$i=0;
-    	$data= null;
+    	// $i=0;
+    	// $data= null;
 
-    	foreach ($facilitys as $key => $facility) {
-    		$fac = factory(App\User::class, 1)->create([
-		        'user_type_id' => 8,
-		        'surname' => '',
-		        'oname' => '',
-		        'facility_id' => $facility->id,
-		        'email' => 'facility' . $facility->id . '@nascop-lab.com',
-		        'username' => 'facility' . $facility->id . '@nascop-lab.com',
-		        'password' => encrypt($facility->name)
-	    	]);
+    	// foreach ($facilitys as $key => $facility) {
+    	// 	$fac = factory(App\User::class, 1)->create([
+		   //      'user_type_id' => 8,
+		   //      'surname' => '',
+		   //      'oname' => '',
+		   //      'facility_id' => $facility->id,
+		   //      'email' => 'facility' . $facility->id . '@nascop-lab.com',
+		   //      'username' => 'facility' . $facility->id . '@nascop-lab.com',
+		   //      'password' => encrypt($facility->name)
+	    // 	]);
 
-	    	// if($key==100) break;
+	    // 	// if($key==100) break;
 
-    		// $data[$i] = [
-		    //     'user_type_id' => 5,
-		    //     'surname' => '',
-		    //     'oname' => '',
-		    //     'facility_id' => $facility->id,
-		    //     'email' => 'facility' . $facility->id . '@nascop-lab.com',
-		    //     'password' => bcrypt(encrypt($facility->name)),
-	    	// ];
+    	// 	// $data[$i] = [
+		   //  //     'user_type_id' => 5,
+		   //  //     'surname' => '',
+		   //  //     'oname' => '',
+		   //  //     'facility_id' => $facility->id,
+		   //  //     'email' => 'facility' . $facility->id . '@nascop-lab.com',
+		   //  //     'password' => bcrypt(encrypt($facility->name)),
+	    // 	// ];
 
-	    	// if($i == 200){
-	    	// 	DB::table('users')->insert($data);
-	    	// 	$i=0;
-	    	// 	$data = NULL;
-	    	// }
-    	}
-    	// DB::table('users')->insert($data);
+	    // 	// if($i == 200){
+	    // 	// 	DB::table('users')->insert($data);
+	    // 	// 	$i=0;
+	    // 	// 	$data = NULL;
+	    // 	// }
+    	// }
+    	// // DB::table('users')->insert($data);
 
     }
 }

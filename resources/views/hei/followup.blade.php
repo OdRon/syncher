@@ -70,7 +70,7 @@
                                     <th>Facility</th>
                                     <th>MFL Code</th>
                                     <th>Sample/Patient ID</th>
-                                    <th>Patient Age (Months)</th>
+                                    <th>Patient DOB</th>
                                     <th>PCR Type</th>
                                     <th>Validation (CP,A,VL,RT,UF)</th>
                                     <th>Enrollment Status</th>
@@ -102,7 +102,7 @@
                                             <input type="hidden" name="patient{{ $count }}" id="patient{{ $count }}" value="{{ $sample->patient }}">
                                         </td>
                                         <td>
-                                            {{ $sample->age }}
+                                            {{ $sample->dob }}
                                         </td>
                                         <td>
                                             {{ $sample->pcrtype }}
@@ -110,6 +110,7 @@
                                         <td>
                                             <select class="form-control" name="hei_validation{{ $count }}" id="hei_validation{{ $count }}" style="width: 150px;">
                                                 @if($data->edit)
+                                                    <option selected disabled value="">Select Validation</option>
                                                     @forelse($data->hei_validation as $validation)
                                                         @if($sample->hei_validation == $validation->id)
                                                             <option value="{{ $validation->id }}" selected>{{ $validation->desc }} - {{ $validation->name }}</option>
@@ -132,6 +133,7 @@
                                         <td>
                                             <select class="form-control" name="enrollment_status{{ $count }}" id="enrollment_status{{ $count }}" disabled style="width: 150px;">
                                             @if($data->edit)
+                                               <option selected disabled value="">Select Enrollment Status</option>
                                                 @forelse($data->hei_categories as $followup)
                                                     @if($followup->id == $sample->enrollment_status)
                                                         <option value="{{ $followup->id }}" selected>{{ $followup->name }}</option>

@@ -18,7 +18,7 @@
    <div class="content">
         <div>
 
-        {{ Form::open(['url' => $submit_url, 'method' => 'put', 'class'=>'form-horizontal confirmSubmit', 'confirm_message' => 'Are you sure you would like to merge these patient records?']) }}
+        {{ Form::open(['url' => $data->submit_url, 'method' => 'put', 'class'=>'form-horizontal confirmSubmit', 'confirm_message' => 'Are you sure you would like to merge these patient records?']) }}
 
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
@@ -31,14 +31,14 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Facility</label>
                             <div class="col-sm-8">
-                                <input class="form-control" disabled type="text" value="{{ $patient->facility->name ?? '' }}">
+                                <input class="form-control" disabled type="text" value="{{ $data->patient->facility->name ?? '' }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Patient</label>
                             <div class="col-sm-8">
-                                <input class="form-control" disabled type="text" value="{{ $patient->patient ?? '' }}">
+                                <input class="form-control" disabled type="text" value="{{ $data->patient->patient ?? '' }}">
                             </div>
                         </div>  
 
@@ -74,7 +74,7 @@
 @section('scripts')
 
     @component('/forms/scripts')
-        set_select_patient("patients", "{{ $url }}", 2, "Search for patient", false);
+        set_select_patient("patients", "{{ $data->url }}", 2, "Search for patient", false);
     @endcomponent
 
 @endsection

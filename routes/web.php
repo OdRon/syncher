@@ -38,8 +38,16 @@ Route::post('facility/search/', 'FacilityController@search')->name('facility.sea
 
 Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('elvis/{year}/{quarter}', 'ResultController@get_incomplient_patient_record');
 
-	Route::group(['middleware' => ['only_utype:10,12']], function () {
+	Route::middleware(['only_utype:12'])->group(function(){
+		Route::get('allocations/{testtype?}', 'AllocationsController@index')->name('allocations');
+		Route::get('viewallocation/{testtype?}/{year?}/{month?}', 'AllocationsController@view_allocations')->name('viewallocation');
+		Route::get('approveallocation/{lab}/{testtype?}/{year?}/{month?}', 'AllocationsController@approve_allocations')->name('approveallocation');
+		Route::post('approveallocation', 'AllocationsController@save_allocation_approval')->name('approveallocation');
+	});
+
+	Route::group(['middleware' => ['only_utype:10,15']], function () {
 		Route::prefix('email')->name('email.')->group(function () {
 			Route::get('preview/{email}', 'EmailController@demo')->name('demo');
 			Route::post('preview/{email}', 'EmailController@demo_email')->name('demo_email');
@@ -59,6 +67,27 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::get('nodata/{testtype?}/{year?}/{month?}', 'ReportController@nodata')->name('nodata');
 		Route::get('utilization/{testtype?}/{year?}/{month?}', 'ReportController@utilization')->name('utilization');
 		Route::post('/', 'ReportController@generate');
+	});
+
+	Route::group(['middleware' => ['only_utype:3,8']], function(){
+		Route::prefix('sample')->name('sample.')->group(function(){
+			Route::get('{testtype}/{patient}/edit', 'SamplesController@edit')->name('edit');
+			Route::put('{testtype}/{patient}/update', 'SamplesController@update')->name('update');
+		});
+		Route::resource('sample', 'SamplesController');
+	});
+
+	Route::group(['middleware' => ['only_utype:8']], function () {
+		Route::prefix('patients')->name('patients.')->group(function () {
+			Route::get('/{testtype}', 'PatientsController@index');
+			Route::get('/{testtype}/{patient}/edit', 'PatientsController@edit');
+			Route::put('/{testtype}/{patient}/edit', 'PatientsController@edit');
+			Route::get('/{testtype}/{patient}/merge', 'PatientsController@merge');
+			Route::put('/{testtype}/{patient}/merge', 'PatientsController@merge');
+			Route::get('/{testtype}/{patient}/transfer', 'PatientsController@transfer');
+			Route::put('/{testtype}/{patient}/transfer', 'PatientsController@transfer');
+			Route::post('search/{testtype}/{facility}', 'PatientsController@search');
+		});
 	});
 	
 	Route::get('results/{testtype?}', 'ResultController@index')->name('results');

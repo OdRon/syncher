@@ -52,6 +52,7 @@
                                     <th colspan="6">Patient Information</th>
                                     <th colspan="3">Sample Information</th>
                                     <th colspan="7">Mother Information</th>
+                                    <th></th>
                                 </tr>
                                 <tr> 
                                     <th>No</th>
@@ -72,6 +73,7 @@
                                     <th>Feeding Type</th>
                                     <th>Entry Point</th>
                                     <th>Result</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody> 
@@ -138,6 +140,7 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        <td><center><a href="{{ url('sample/EID/'.$sample->id.'/edit') }}">Edit</a></center></td>
                                     </tr>
                                     @endif
                                 @endforeach
