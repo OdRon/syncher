@@ -31,6 +31,7 @@ $api->version('v1', function (Router $api) {
         $api->get('hello', 'RandomController@hello');
 
         $api->post('mlab', 'MlabController@api');
+        $api->post('hit/eid', 'HitController@eid');
 
 
 
@@ -98,13 +99,6 @@ $api->version('v1', function (Router $api) {
 
             });
 
-        });
-
-        $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
-
-            $api->group(['prefix' => 'hit'], function(Router $api) {
-                $api->post('eid', 'HitController@eid');
-            });
         });
 
 
