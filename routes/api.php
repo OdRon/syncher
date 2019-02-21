@@ -32,6 +32,7 @@ $api->version('v1', function (Router $api) {
 
         $api->post('mlab', 'MlabController@api');
         $api->post('hit/eid', 'HitController@eid');
+        $api->post('pull/vl', 'PullController@vl');
 
 
 
