@@ -5,6 +5,8 @@ namespace App\Api\V1\Controllers;
 use App\Http\Controllers\Controller;
 use App\Api\V1\Requests\BlankRequest;
 
+use \App\Partner;
+
 use \App\SampleCompleteView;
 use \App\ViralsampleCompleteView;
 
@@ -85,6 +87,11 @@ class PullController extends Controller
 
     public function vl(BlankRequest $request)
     {     
+        $p = Partner::where(['passkey' => $request->headers->get('apikey')])->first();
+
+        // if(!$p) abort(403, 'Unauthorized');
+        if(!$p) throw new Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Unauthorized');
+
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
         $date_dispatched_start = $request->input('date_dispatched_start');
@@ -129,7 +136,7 @@ class PullController extends Controller
             ->when(($date_dispatched_start && $date_dispatched_end), function($query) use($date_dispatched_start, $date_dispatched_end){
                 return $query->whereBetween('datedispatched', [$date_dispatched_start, $date_dispatched_end]);
             })
-            ->where(['repeatt' => 0])          
+            ->where(['repeatt' => 0, 'partner_id' => $p->id])          
             ->orderBy('datecollected', 'desc')
             ->paginate(50);
 
