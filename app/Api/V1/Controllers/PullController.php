@@ -90,7 +90,7 @@ class PullController extends Controller
         $p = Partner::where(['passkey' => $request->headers->get('apikey')])->first();
 
         // if(!$p) abort(403, 'Unauthorized');
-        if(!$p) throw new Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Unauthorized');
+        if(!$p) throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Unauthorized');
 
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
