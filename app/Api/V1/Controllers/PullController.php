@@ -49,7 +49,7 @@ class PullController extends Controller
             ->when($facilities, function($query) use($facilities){
                 return $query->whereIn('facilitycode', $facilities);
             })
-            ->when($patients, function($query) use($patients, $test){
+            ->when($patients, function($query) use($patients){
                 return $query->whereIn('patient', $patients);
             })
             ->when($ids, function($query) use($ids){
@@ -117,7 +117,7 @@ class PullController extends Controller
             ->when($facilities, function($query) use($facilities){
                 return $query->whereIn('facilitycode', $facilities);
             })
-            ->when($patients, function($query) use($patients, $test){
+            ->when($patients, function($query) use($patients){
                 return $query->whereIn('patient', $patients);
             })
             ->when($ids, function($query) use($ids){
