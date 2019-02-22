@@ -3,17 +3,16 @@
 namespace App\Api\V1\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Api\V1\Requests\MlabRequest;
+use App\Api\V1\Requests\HitRequest;
 
 use \App\SampleView;
 use \App\ViralsampleView;
 
-class MlabController extends Controller
+class HitController extends Controller
 {
 
-    public function api(MlabRequest $request)
+    public function eid(HitRequest $request)
     {     
-        $test = $request->input('test');
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
         $date_dispatched_start = $request->input('date_dispatched_start');
@@ -23,14 +22,14 @@ class MlabController extends Controller
         $dispatched = $request->input('dispatched');   
         $ids = $request->input('ids');   
 
-        if($test == 2){
+        // if($test == 2){
             $class = SampleView::class;
             $table = 'samples_view';
-        }
-        else if($test == 1){
-            $class = ViralsampleView::class;
-            $table = 'viralsamples_view';
-        }
+        // }
+        // else if($test == 1){
+        //     $class = ViralsampleView::class;
+        //     $table = 'viralsamples_view';
+        // }
 
         if($patients){
             $patients = str_replace(' ', '', $patients);
@@ -45,8 +44,9 @@ class MlabController extends Controller
             $facilities = explode(',', $facilities);
         }
  
-        $result = $class::select("{$table}.*", 'facilitys.facilitycode')
-            ->join('facilitys', 'facilitys.id', '=', "{$table}.facility_id")
+        $result = $class::select("{$table}.*", 'view_facilitys.facilitycode')
+            ->join('view_facilitys', 'view_facilitys.id', '=', "{$table}.facility_id")
+            ->whereIn('county_id', [2, 33, 43])
             ->when($facilities, function($query) use($facilities){
                 return $query->whereIn('facilitycode', $facilities);
             })
@@ -54,7 +54,7 @@ class MlabController extends Controller
                 return $query->whereIn('patient', $patients);
             })
             ->when($ids, function($query) use($ids){
-                return $query->whereIn('id', $ids);
+                return $query->whereIn('original_sample_id', $ids);
             })
             ->when(($start_date && $end_date), function($query) use($start_date, $end_date){
                 return $query->whereBetween('datecollected', [$start_date, $end_date]);
@@ -62,36 +62,25 @@ class MlabController extends Controller
             ->when(($date_dispatched_start && $date_dispatched_end), function($query) use($date_dispatched_start, $date_dispatched_end){
                 return $query->whereBetween('datedispatched', [$date_dispatched_start, $date_dispatched_end]);
             })
-            ->where(['repeatt' => 0, 'smsprinter' => 1])          
+            ->where(['repeatt' => 0])          
             ->orderBy('datecollected', 'desc')
             ->paginate(50);
 
-        $result->transform(function ($sample, $key) use ($test){
-            $result = $sample->result;
-            if($test == 2) $result = $sample->result_name;
+        $result->transform(function ($sample, $key){
 
-            return [                
-                'source' => '1',
-                'result_id' => "{$sample->id}",
-                'result_type' => "{$test}",
-                'request_id' => '',
-                'client_id' => $sample->patient,
-                'age' => "{$sample->age}",
-                'gender' => $sample->gender,
-                'result_content' => "{$result}",
-                'units' => $sample->units ?? '',
-                'mfl_code' => "{$sample->facilitycode}",
-                'lab_id' => "{$sample->lab_id}",
-                'date_collected' => $sample->datecollected ?? '0000-00-00',
-                'cst' => $sample->my_string_format('sampletype'),
-                'cj' => $sample->my_string_format('justification'),
-                'csr' =>  "{$sample->rejectedreason}",
-                'lab_order_date' => $sample->datetested ?? '0000-00-00',
+            return [        
+                'lab_id' => $sample->id,
+                'patient_id' => $sample->patient,
+                'MFLCode' => $sample->facility_code,
+                'date_collected' => $sample->datecollected,
+                'date_received' => $sample->datereceived,
+                'date_tested' => $sample->datetested,
+                'date_dispatched' => $sample->datedispatched,
+                'result' => $sample->result_name,
             ];
         });
 
         return $result;
-
     }
 
 }

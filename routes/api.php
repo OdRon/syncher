@@ -31,6 +31,10 @@ $api->version('v1', function (Router $api) {
         $api->get('hello', 'RandomController@hello');
 
         $api->post('mlab', 'MlabController@api');
+        $api->post('hit/eid', 'HitController@eid');
+
+        $api->get('pull/facilities', 'PullController@facilities');
+        $api->post('pull/vl', 'PullController@vl');
 
 
 
