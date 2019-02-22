@@ -108,10 +108,10 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Approval Status</label>
                         <div class="col-md-4">
-                            <center><input type="radio" name="approve[{{ $counter }}]" class="i-checks" value="1" required @if($allocation->approve == 1) checked @endif><strong><font color="#1e824c"> Approve</font></strong></center>
+                            <center><input type="radio" name="approve[{{ $counter }}]" class="i-checks" value="1" required @if($allocation->approve == 1) checked @endif @if($allocation->approve != 0) disabled @endif><strong><font color="#1e824c"> Approve</font></strong></center>
                         </div>
                         <div class="col-md-4">
-                            <center><input type="radio" name="approve[{{ $counter }}]" class="i-checks" value="2" required  @if($allocation->approve == 2) checked @endif> <strong><font color="#FF0000">Reject</font></strong></center>
+                            <center><input type="radio" name="approve[{{ $counter }}]" class="i-checks" value="2" required  @if($allocation->approve == 2) checked @endif @if($allocation->approve != 0) disabled @endif> <strong><font color="#FF0000">Reject</font></strong></center>
                         </div>                            
                     </div>
                     <div class="form-group">
@@ -123,9 +123,9 @@
                 </div>
                 @php $counter ++; @endphp
             @endforeach
-            @if($allocation->approve == 0)
+            @if($data->forapproval)
             <center>
-                <button type="submit" name="allocation-form" class="btn btn-primary btn-lg" value="true" style="margin-top: 2em;margin-bottom: 2em; width: 200px; height: 30px;">Save {{ $globaltesttype }} Allocations</button>
+                <button type="submit" name="allocation-form" class="btn btn-primary btn-lg" value="true" style="margin-top: 2em;margin-bottom: 2em; width: 200px; height: 30px;">Save {{ $globaltesttype }} Approval Allocations</button>
             </center>
             @endif
             {{ Form::close() }}
