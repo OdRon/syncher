@@ -14,7 +14,7 @@ class AlterAllocationDropColumns extends Migration
     public function up()
     {
         Schema::table('allocations', function(Blueprint $table){
-            $table->integer('machine_id')->after('original_id');
+            $table->integer('machine_id')->after('original_allocation_details_id');
             $table->text('allocationcomments')->change()->nullable();
             $table->text('issuedcomments')->change()->nullable();
             $table->dropColumn('kit_id');
