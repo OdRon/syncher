@@ -26,7 +26,7 @@ class UsersTableSeeder extends Seeder
 		//     ['id' => '9', 'user_type' => 'Maryland Support Team'],
 		//     ['id' => '10', 'user_type' => 'Super Administrator'],
 		//     ['id' => '11', 'user_type' => 'SCMS / Kit Management'],
-		    ['id' => '12', 'user_type' => 'Allocation Committee'],
+		    ['user_type' => 'Allocation Committee'],
 		]);
 
 		// $old_users = DB::connection('old')->table('users')->get();
