@@ -23,6 +23,7 @@ class PullRequest extends FormRequest
     public function authorize()
     {
     	$apikey = $this->headers->get('apikey');
+        return true;
         // $actual_key = env('HIT_KEY');
         // if($apikey != $actual_key || !$actual_key) return false;
         // else{
