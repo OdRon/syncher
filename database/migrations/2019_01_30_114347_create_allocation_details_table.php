@@ -15,7 +15,7 @@ class CreateAllocationDetailsTable extends Migration
     {
         Schema::create('allocation_details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('original_id')->nullable();
+            $table->bigInteger('original_allocation_details_id')->nullable();
             $table->bigInteger('allocation_id');
             $table->bigInteger('kit_id');
             $table->integer('allocated')->default(0);
