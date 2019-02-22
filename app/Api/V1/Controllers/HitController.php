@@ -3,7 +3,7 @@
 namespace App\Api\V1\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Api\V1\Requests\BlankRequest;
+use App\Api\V1\Requests\HitRequest;
 
 use \App\SampleView;
 use \App\ViralsampleView;
@@ -11,7 +11,7 @@ use \App\ViralsampleView;
 class HitController extends Controller
 {
 
-    public function eid(BlankRequest $request)
+    public function eid(HitRequest $request)
     {     
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
@@ -44,12 +44,13 @@ class HitController extends Controller
             $facilities = explode(',', $facilities);
         }
  
-        $result = $class::select("{$table}.*", 'facilitys.facilitycode')
-            ->join('facilitys', 'facilitys.id', '=', "{$table}.facility_id")
+        $result = $class::select("{$table}.*", 'view_facilitys.facilitycode')
+            ->join('view_facilitys', 'view_facilitys.id', '=', "{$table}.facility_id")
+            ->whereIn('county_id', [2, 33, 43])
             ->when($facilities, function($query) use($facilities){
                 return $query->whereIn('facilitycode', $facilities);
             })
-            ->when($patients, function($query) use($patients, $test){
+            ->when($patients, function($query) use($patients){
                 return $query->whereIn('patient', $patients);
             })
             ->when($ids, function($query) use($ids){

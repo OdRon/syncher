@@ -137,27 +137,30 @@ class AllocationsController extends Controller
         $columntesttype = $this->testtypes[$testtype];
         $allocations = $lab->allocations->where('testtype', $columntesttype);
         $lab_name = $lab->labdesc;
+        $forapproval = $allocations->contains('approve', 0);
         $month_name = date("F", mktime(null, null, null, $month));
-        $data = (object)['allocations' => $allocations, 'testtype' => $testtype, 'last_year' => $this->last_year, 'last_month' => $this->last_month, 'lab' => $lab];
-        
+        $data = (object)['allocations' => $allocations, 'testtype' => $testtype, 'last_year' => $this->last_year, 'last_month' => $this->last_month, 'lab' => $lab, 'forapproval' => $forapproval];
+        // dd($data);
         return view('forms.allocations', compact('data'))->with('pageTitle',"$lab_name Allocation Approval ($month_name, $year)");
     }
 
     public function save_allocation_approval(Request $request) {
         $collection = collect($request->except(['_token', 'allocation-form']));
-        
         foreach ($collection['id'] as $key => $value) {
-            $allocation = Allocation::find($value);
-            $allocation->approve = $collection['approve'][$key];
-            if ($collection['approve'][$key] == 2)
-                $allocation->disapprovereason = $collection['issuedcomments'][$key];
-            $allocation->issuedcomments = $collection['issuedcomments'][$key];
-            $allocation->synched = 2;
-            $allocation->update();
+            if (isset($collection['approve'][$key])) {
+                $allocation = Allocation::find($value);
+                $allocation->approve = $collection['approve'][$key];
+                if ($collection['approve'][$key] == 2)
+                    $allocation->disapprovereason = $collection['issuedcomments'][$key];
+                $allocation->issuedcomments = $collection['issuedcomments'][$key];
+                $allocation->synched = 2;
+                $allocation->update();
+            }
         }
         $testtype = collect($this->testtypes)->search($allocation->testtype);
         $url = 'allocations/'.$testtype;
-        session(['toast_message' => 'Allocation Review successfull for '. $testtype]);
+        session(['toast_message' => 'Allocation Review successfull for '. $testtype .' and the approvals propagated to the lab']);
+        \App\Synch::synch_allocations();
         return redirect($url);
     }
 }
