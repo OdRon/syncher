@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
     {
         //
 
-        DB::table('user_types')->insert([
+        // DB::table('user_types')->insert([
 		//     ['id' => '1', 'user_type' => 'System Administrator'],
 		//     ['id' => '2', 'user_type' => 'Program Officers'],
 		//     ['id' => '3', 'user_type' => 'Partner'],
@@ -26,8 +26,9 @@ class UsersTableSeeder extends Seeder
 		//     ['id' => '9', 'user_type' => 'Maryland Support Team'],
 		//     ['id' => '10', 'user_type' => 'Super Administrator'],
 		//     ['id' => '11', 'user_type' => 'SCMS / Kit Management'],
-		    ['user_type' => 'Allocation Committee'],
-		]);
+		// 	['id' => '12', 'user_type' => 'Allocation Committee'],
+		// 	['id' => '13', 'user_type' => 'Lab Administrator'],
+		// ]);
 
 		// $old_users = DB::connection('old')->table('users')->get();
 
