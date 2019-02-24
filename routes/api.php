@@ -102,6 +102,9 @@ $api->version('v1', function (Router $api) {
 
             });
 
+            // Transfer Samples Between Labs
+            $api->post('transfer', 'TransferController@transfer');
+
         });
 
 
