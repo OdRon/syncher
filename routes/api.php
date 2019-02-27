@@ -31,6 +31,10 @@ $api->version('v1', function (Router $api) {
         $api->get('hello', 'RandomController@hello');
 
         $api->post('mlab', 'MlabController@api');
+        $api->post('hit/eid', 'HitController@eid');
+
+        $api->get('pull/facilities', 'PullController@facilities');
+        $api->post('pull/vl', 'PullController@vl');
 
 
 
@@ -83,6 +87,8 @@ $api->version('v1', function (Router $api) {
                 $api->post('viralbatches', 'VlController@update_batches');
                 $api->post('viralsamples', 'VlController@update_samples');
 
+                $api->post('allocations', 'AllocationsController@update');
+
             });
 
             $api->group(['prefix' => 'delete'], function(Router $api) {
@@ -97,6 +103,9 @@ $api->version('v1', function (Router $api) {
                 $api->post('viralsamples', 'VlController@delete_samples');
 
             });
+
+            // Transfer Samples Between Labs
+            $api->post('transfer', 'TransferController@transfer');
 
         });
 
