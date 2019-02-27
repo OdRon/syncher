@@ -10,7 +10,7 @@ class BaseModel extends Model
     protected $revisionEnabled = true;
     // protected $revisionCleanup = true; 
     // protected $historyLimit = 500; 
-    protected $revisionCreationsEnabled = true;
+    // protected $revisionCreationsEnabled = true;
     // protected $keepRevisionOf = [];
     protected $dontKeepRevisionOf = ['synched', 'datesynched'];
     
