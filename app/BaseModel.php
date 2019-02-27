@@ -12,7 +12,7 @@ class BaseModel extends Model
     // protected $historyLimit = 500; 
     // protected $revisionCreationsEnabled = true;
     // protected $keepRevisionOf = [];
-    protected $dontKeepRevisionOf = ['synched', 'datesynched'];
+    protected $dontKeepRevisionOf = ['synched', 'datesynched', 'created_at', 'updated_at'];
     
     protected $guarded = [];
 
