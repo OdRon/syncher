@@ -51,12 +51,12 @@ class AllocationsController extends Controller
 	public function update(BlankRequest $request) {
 		
 		// dd($request->all());
-		return $this->update_dash($request, Allocation::class, 'allocations', 'national_id', 'original_allocation_id');
+		// return $this->update_dash($request, Allocation::class, 'allocations', 'national_id', 'original_allocation_id');
 		// $allocations = json_decode($request->input('allocations'));
 		// // dd($allocations);
-		// return response()->json([
-		// 	'allocation' => $request->all(),
-		// ]);
+		return response()->json([
+			'allocation' => $request->all(),
+		]);
 	}
 	
 	protected function update_dash($request, $update_class, $input, $nat_column, $original_column)
