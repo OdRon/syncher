@@ -8,7 +8,7 @@ class BaseModel extends Model
 {
     use \Venturecraft\Revisionable\RevisionableTrait;
     protected $revisionEnabled = true;
-    protected $revisionCleanup = true; 
+    // protected $revisionCleanup = true; 
     // protected $historyLimit = 500; 
     protected $revisionCreationsEnabled = true;
     // protected $keepRevisionOf = [];
