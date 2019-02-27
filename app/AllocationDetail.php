@@ -14,7 +14,6 @@ class AllocationDetail extends Model
     protected $guarded = [];
 
     public function kit(){
-        dd(Kits::where('id', '=', $this->kit_id)->get());
-    	return $this->belongsTo('App\Kits', 'kit_id');
+        return $this->belongsTo('App\Kits');
     }
 }

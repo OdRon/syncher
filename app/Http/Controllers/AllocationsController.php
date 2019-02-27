@@ -136,17 +136,11 @@ class AllocationsController extends Controller
 
         $columntesttype = $this->testtypes[$testtype];
         $allocations = $lab->allocations->where('testtype', $columntesttype);
-        foreach($allocations as $allocation) {
-            foreach($allocation->details as $detail){
-                dd($detail->kit);
-            }
-            dd($allocation->details);
-        }
         $lab_name = $lab->labdesc;
         $forapproval = $allocations->contains('approve', 0);
         $month_name = date("F", mktime(null, null, null, $month));
         $data = (object)['allocations' => $allocations, 'testtype' => $testtype, 'last_year' => $this->last_year, 'last_month' => $this->last_month, 'lab' => $lab, 'forapproval' => $forapproval];
-        dd($data);
+        
         return view('forms.allocations', compact('data'))->with('pageTitle',"$lab_name Allocation Approval ($month_name, $year)");
     }
 
