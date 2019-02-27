@@ -207,7 +207,7 @@ class Synch
 
 		$url = str_replace('App\\', '', $class);
 		$url = strtolower($url) . '/' . $model->$col;
-		
+		dd(url()->current());
 		$client = new Client(['base_uri' => $lab->base_url]);
 		$response = $client->request('put', $url, [
 			'http_errors' => false,
