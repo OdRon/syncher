@@ -58,7 +58,7 @@
                             @endphp
                             @foreach($allocation->details as $detail)
                                 @php
-                                    dd($detail->kit);
+                                    dd($detail);
                                     $test_factor = json_decode($detail->kit->testFactor);
                                     $factor = json_decode($detail->kit->factor);
                                     if ($detail->kit->alias == 'qualkit')
