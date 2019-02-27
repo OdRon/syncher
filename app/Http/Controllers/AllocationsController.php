@@ -117,7 +117,7 @@ class AllocationsController extends Controller
         
         $month_name = date("F", mktime(null, null, null, $month));
         $data = (object)['year' => $year, 'month' => $month, 'labs' => $labs, 'testtype' => $testtype];
-        dd($data);
+        
         return view('tables.viewallocations', compact('data'))->with('pageTitle',"$testtype Allocations $month_name, $year");
     }
 
@@ -140,7 +140,7 @@ class AllocationsController extends Controller
         $forapproval = $allocations->contains('approve', 0);
         $month_name = date("F", mktime(null, null, null, $month));
         $data = (object)['allocations' => $allocations, 'testtype' => $testtype, 'last_year' => $this->last_year, 'last_month' => $this->last_month, 'lab' => $lab, 'forapproval' => $forapproval];
-        // dd($data);
+        dd($data);
         return view('forms.allocations', compact('data'))->with('pageTitle',"$lab_name Allocation Approval ($month_name, $year)");
     }
 
