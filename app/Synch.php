@@ -223,9 +223,9 @@ class Synch
 				'site_entry' => $site_entry,
 			],
 		]);
-		dd($body);
+		
 		$body = json_decode($response->getBody());
-
+		dd($body);
 		if($response->getStatusCode() < 400)
 		{
 			$model->fill($data);
