@@ -66,7 +66,7 @@ class PullController extends Controller
             })
             ->where(['repeatt' => 0])          
             ->orderBy('datecollected', 'desc')
-            ->paginate(50);
+            ->paginate(100);
 
         $result->transform(function ($sample, $key){
 
@@ -139,7 +139,7 @@ class PullController extends Controller
             })
             ->where(['repeatt' => 0, 'partner_id' => $p->id])          
             ->orderBy('datecollected', 'desc')
-            ->paginate(50);
+            ->paginate(100);
 
         return $result;
     }
