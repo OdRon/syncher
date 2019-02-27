@@ -138,7 +138,7 @@ class AllocationsController extends Controller
         $allocations = $lab->allocations->where('testtype', $columntesttype);
         foreach($allocations as $allocation) {
             foreach($allocation->details as $detail){
-                dd($detail);
+                dd($detail->kit);
             }
             dd($allocation->details);
         }
