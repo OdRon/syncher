@@ -210,7 +210,7 @@ class Synch
 		if (strpos(url()->current(), "lab-2.test"))
 			$lab->base_url = "http://lab.test.nascop.org/api";
 		$client = new Client(['base_uri' => $lab->base_url]);
-		
+		dd(self::get_token($lab));
 		$response = $client->request('put', $url, [
 			'http_errors' => false,
 			'verify' => false,
@@ -225,7 +225,7 @@ class Synch
 		]);
 		
 		$body = json_decode($response->getBody());
-		dd($body);
+		
 		if($response->getStatusCode() < 400)
 		{
 			$model->fill($data);
