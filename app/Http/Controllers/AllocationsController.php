@@ -136,6 +136,9 @@ class AllocationsController extends Controller
 
         $columntesttype = $this->testtypes[$testtype];
         $allocations = $lab->allocations->where('testtype', $columntesttype);
+        foreach($allocations as $allocation) {
+            dd($allocation->details);
+        }
         $lab_name = $lab->labdesc;
         $forapproval = $allocations->contains('approve', 0);
         $month_name = date("F", mktime(null, null, null, $month));
