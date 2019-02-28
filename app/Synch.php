@@ -58,7 +58,7 @@ class Synch
 	{
 		Cache::forget($lab->token_name);
 		$client = new Client(['base_uri' => $lab->base_url]);
-		dd($lab->base_url);
+		// dd($lab->base_url);
 		try {
 			$response = $client->request('post', 'auth/login', [
 	            'http_errors' => false,
@@ -84,12 +84,11 @@ class Synch
 
 	public static function get_token($lab)
 	{
-		if(Cache::has($lab->token_name)){dd('There is no token');}
+		if(Cache::has($lab->token_name)){}
 		else{
-			dd('Trying to login');
 			self::login($lab);
 		}
-		dd($lab);
+		// dd($lab);
 		return Cache::get($lab->token_name);
 	}
 
@@ -213,7 +212,7 @@ class Synch
 		if (strpos(url()->current(), "lab-2.test"))
 			$lab->base_url = "http://lab.test.nascop.org/api";
 		$client = new Client(['base_uri' => $lab->base_url]);
-		dd(self::get_token($lab));
+		// dd(self::get_token($lab));
 		$response = $client->request('put', $url, [
 			'http_errors' => false,
 			'verify' => false,
