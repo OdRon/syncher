@@ -58,7 +58,7 @@ class Synch
 	{
 		Cache::forget($lab->token_name);
 		$client = new Client(['base_uri' => $lab->base_url]);
-
+		dd($lab->base_url);
 		try {
 			$response = $client->request('post', 'auth/login', [
 	            'http_errors' => false,
