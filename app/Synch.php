@@ -84,7 +84,7 @@ class Synch
 
 	public static function get_token($lab)
 	{
-		if(Cache::has($lab->token_name)){}
+		if(Cache::has($lab->token_name)){dd('There is no token');}
 		else{
 			self::login($lab);
 		}
