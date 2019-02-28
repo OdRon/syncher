@@ -86,6 +86,7 @@ class Synch
 	{
 		if(Cache::has($lab->token_name)){dd('There is no token');}
 		else{
+			dd('Trying to login');
 			self::login($lab);
 		}
 		dd($lab);
