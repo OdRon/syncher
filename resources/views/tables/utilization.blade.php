@@ -56,10 +56,10 @@
                                <td>{{ $datavalue->c8800 }}</td>
                                <td>{{ $datavalue->panther }}</td>
                                <td>{{ ($totals) ? number_format($totals) : 0 }}</td>
-                               <td>{{ @($datavalue->abbott*100)/$totals) }}</td>
+                               {{-- <td>{{ @($datavalue->abbott*100)/$totals) }}</td>
                                <td>{{ @($datavalue->taqman*100)/$totals) }}</td>
                                <td>{{ @($datavalue->c8800*100)/$totals) }}</td>
-                               <td>{{ @($datavalue->panther*100)/$totals) }}</td>
+                               <td>{{ @($datavalue->panther*100)/$totals) }}</td> --}}
                            </tr>
                            @endforeach
                         </tbody>
