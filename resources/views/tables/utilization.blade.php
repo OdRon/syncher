@@ -54,16 +54,15 @@
                                         $totals = @($labdata->abbott + $labdata->taqman + $labdata->c8800 + $labdata->panther);
                                 @endphp
                                 <td>{{ $lab->labname }}</td>
-                                <td>{{ $labdata->abbott ?? 0 }}</td>
                                 <td>{{ $labdata->taqman ?? 0 }}</td>
+                                <td>{{ $labdata->abbott ?? 0 }}</td>
                                 <td>{{ $labdata->c8800 ?? 0 }}</td>
                                 <td>{{ $labdata->panther ?? 0 }}</td>
                                 <td>{{ ($totals) ? number_format($totals) : 0 }}</td>
-                                <td>{{ ($labdata->abbott) ? number_format($labdata->abbott * 100) : 0 }}</td>
-                               {{-- <td>{{ @($datavalue->abbott*100)/$totals) }}</td>
-                               <td>{{ @($datavalue->taqman*100)/$totals) }}</td>
-                               <td>{{ @($datavalue->c8800*100)/$totals) }}</td>
-                               <td>{{ @($datavalue->panther*100)/$totals) }}</td> --}}
+                                <td>{{ ($labdata) ? number_format(@(($labdata->taqman * 100)/$totals)) : 0 }}</td>
+                                <td>{{ ($labdata) ? number_format(@(($labdata->abbott * 100)/$totals)) : 0 }}</td>
+                                <td>{{ ($labdata) ? number_format(@(($labdata->c8800 * 100)/$totals)) : 0 }}</td>
+                                <td>{{ ($labdata) ? number_format(@(($labdata->panther * 100)/$totals)) : 0 }}</td>
                            </tr>
                            @endforeach
                         </tbody>
