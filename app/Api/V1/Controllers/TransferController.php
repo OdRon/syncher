@@ -12,6 +12,7 @@ use App\Synch;
 
 class TransferController extends Controller
 {
+    use Dingo\Api\Routing\Helpers;
 
     /**
      * Store a newly created resource in storage.
@@ -40,8 +41,15 @@ class TransferController extends Controller
                 'samples' => $request->input('samples'),
             ],
         ]);
-        
+
+        $code = $response->getStatusCode();
         $body = json_decode($response->getBody());
+
+        if($code < 400){
+            return $body;
+        }
+        
+        
 
         $data = [
             'ok' => $body->ok ?? null,
