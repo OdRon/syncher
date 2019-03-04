@@ -399,9 +399,9 @@
                                 <label><input type="radio" name="indicatortype" value="19" class="i-checks" required>EID No Data Summary</label>
                                 <label><input type="radio" name="indicatortype" value="20" class="i-checks" required>VL No Data Summary</label>
                                 --}}
-                                <label><input type="radio" name="indicatortype" value="" class="i-checks" required>VL Utilization & Outcomes</label>
+                                <label><input type="radio" name="indicatortype" value="22" class="i-checks" required>VL Utilization & Outcomes</label>
                                 <label><input type="radio" name="indicatortype" value="18" class="i-checks" required>Low Level Viremia (LLV)</label>
-                                <label><input type="radio" name="indicatortype" value="18" class="i-checks" required>Lab Tracker</label>
+                                <label><input type="radio" name="indicatortype" value="21" class="i-checks" required>Lab Tracker</label>
                                 <label><input type="radio" name="indicatortype" value="13" class="i-checks" required>Quarterly VL Report (only for labs)</label>
                                 <label><input type="radio" name="indicatortype" value="14" class="i-checks" required>EID Sample Referral Network</label>
                                 <label><input type="radio" name="indicatortype" value="15" class="i-checks" required>VL Sample Referral Network</label>
