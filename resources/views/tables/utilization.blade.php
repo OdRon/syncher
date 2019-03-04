@@ -49,6 +49,7 @@
                            <tr>
                                 @php
                                     $labdata = $viewdata->data->where('lab_id', $lab->id)->first();
+                                    dd($labdata);
                                     $totals = @($labdata->abbott + $labdata->taqman + $labdata->c8800 + $labdata->panther);
                                 @endphp
                                 <td>{{ $labdata->lab_name }}</td>
