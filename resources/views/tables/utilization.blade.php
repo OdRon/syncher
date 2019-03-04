@@ -47,24 +47,19 @@
                         <tbody>
                            @foreach($viewdata->data as $datakey => $datavalue)
                            <tr>
-                               <td>{{ $datavalue['lab'] }}</td>
                                @php
-                                    $totals = 0;
+                                   $totals = ($datavalue->abbott + $datavalue->taqman + $datavalue->c8800 + $datavalue->panther);
                                @endphp
-                               @foreach($viewdata->machines as $machinekey => $machinevalue)
-                                    @php
-                                        $machine = $machinevalue->machine;
-                                        $totals += (isset($datavalue[$machine])) ? $datavalue[$machine] : 0;
-                                    @endphp
-                                    <td>{{ (isset($datavalue[$machine])) ? number_format($datavalue[$machine]) : 0 }}</td>
-                               @endforeach
+                               <td>{{ $datavalue->lab_name }}</td>
+                               <td>{{ $datavalue->abbott }}</td>
+                               <td>{{ $datavalue->taqman }}</td>
+                               <td>{{ $datavalue->c8800 }}</td>
+                               <td>{{ $datavalue->panther }}</td>
                                <td>{{ ($totals) ? number_format($totals) : 0 }}</td>
-                               @foreach($viewdata->machines as $machinekey => $machinevalue)
-                                    @php
-                                        $machine = $machinevalue->machine;
-                                    @endphp
-                                    <td>{{ (isset($datavalue[$machine])) ? round((@(($datavalue[$machine]/$totals) * 100)), 2) : 0 }} %</td>
-                               @endforeach
+                               <td>{{ @($datavalue->abbott*100)/$totals) }}</td>
+                               <td>{{ @($datavalue->taqman*100)/$totals) }}</td>
+                               <td>{{ @($datavalue->c8800*100)/$totals) }}</td>
+                               <td>{{ @($datavalue->panther*100)/$totals) }}</td>
                            </tr>
                            @endforeach
                         </tbody>
