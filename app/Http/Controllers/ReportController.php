@@ -208,7 +208,7 @@ class ReportController extends Controller
         
         // $machines = DB::table('machines')->select('id','machine')->get();
         $lab = DB::table('labs')->get();
-
+        dd($lab);
         if($testtype=='EID'){
             $table = 'samples';
             $join_table = 'worksheets';
