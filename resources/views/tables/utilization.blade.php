@@ -52,11 +52,11 @@
                                     dd($labdata);
                                     $totals = @($labdata->abbott + $labdata->taqman + $labdata->c8800 + $labdata->panther);
                                 @endphp
-                                <td>{{ $labdata->lab_name }}</td>
-                                <td>{{ $labdata->abbott }}</td>
-                                <td>{{ $labdata->taqman }}</td>
-                                <td>{{ $labdata->c8800 }}</td>
-                                <td>{{ $labdata->panther }}</td>
+                                <td>{{ $lab->labname }}</td>
+                                <td>{{ $labdata->abbott ?? 0 }}</td>
+                                <td>{{ $labdata->taqman ?? 0 }}</td>
+                                <td>{{ $labdata->c8800 ?? 0 }}</td>
+                                <td>{{ $labdata->panther ?? 0 }}</td>
                                 <td>{{ ($totals) ? number_format($totals) : 0 }}</td>
                                 <td>{{ ($labdata->abbott) ? number_format($labdata->abbott * 100) : 0 }}</td>
                                {{-- <td>{{ @($datavalue->abbott*100)/$totals) }}</td>
