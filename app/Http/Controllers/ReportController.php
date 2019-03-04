@@ -231,7 +231,6 @@ class ReportController extends Controller
             foreach($lab->where('id', $data->lab_id) as $labselect) {
                 $newlab = $labselect;
             }
-            dd($newlab->id);
             $dbData->lab_name = $lab->labname;
         }
         // foreach ($lab as $labkey => $labvalue) {
