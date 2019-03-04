@@ -208,7 +208,7 @@ class ReportController extends Controller
         
         // $machines = DB::table('machines')->select('id','machine')->get();
         $lab = DB::table('labs')->get();
-        dd($lab);
+        
         if($testtype=='EID'){
             $table = 'samples';
             $join_table = 'worksheets';
@@ -229,6 +229,7 @@ class ReportController extends Controller
                     })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
         foreach($dbData as $key => $data) {
             $lab = $lab->where('id', $data->lab_id);
+            dd($lab);
             $dbData->lab_name = $lab->labname;
         }
         // foreach ($lab as $labkey => $labvalue) {
