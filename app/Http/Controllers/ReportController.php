@@ -231,7 +231,7 @@ class ReportController extends Controller
             foreach($lab->where('id', $data->lab_id) as $labselect) {
                 $newlab = $labselect;
             }
-            $dbData->lab_name = $lab->labname;
+            $dbData[$key]->lab_name = $newlab->labname;
         }
         // foreach ($lab as $labkey => $labvalue) {
         //     $data[$labvalue->id] = ['lab' => $labvalue->labname];
