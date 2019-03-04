@@ -44,7 +44,7 @@ class TransferController extends BaseController
         $body = json_decode($response->getBody());
 
         if($code > 399){
-            dd($body);
+            // dd($body);
             return response()->json(get_object_vars($body), $response->getStatusCode());
         }
         
@@ -54,6 +54,7 @@ class TransferController extends BaseController
             'samples' => $body->samples ?? null,
             'batches' => $body->batches ?? null,
             'patients' => $body->patients ?? null,
+            'others' => $body->others ?? null,
         ];
 
         if($type == 'eid') $data ['mothers'] = $body->mothers ?? null;
