@@ -45,17 +45,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                           @foreach($viewdata->data as $datakey => $datavalue)
+                           @foreach($viewdata->lab as $datakey => $lab)
                            <tr>
-                               @php
-                                   $totals = ($datavalue->abbott + $datavalue->taqman + $datavalue->c8800 + $datavalue->panther);
-                               @endphp
-                               <td>{{ $datavalue->lab_name }}</td>
-                               <td>{{ $datavalue->abbott }}</td>
-                               <td>{{ $datavalue->taqman }}</td>
-                               <td>{{ $datavalue->c8800 }}</td>
-                               <td>{{ $datavalue->panther }}</td>
-                               <td>{{ ($totals) ? number_format($totals) : 0 }}</td>
+                                @php
+                                    $labdata = $viewdata->data->where('lab_id', $lab->id)->first();
+                                    $totals = @($labdata->abbott + $labdata->taqman + $labdata->c8800 + $labdata->panther);
+                                @endphp
+                                <td>{{ $labdata->lab_name }}</td>
+                                <td>{{ $labdata->abbott }}</td>
+                                <td>{{ $labdata->taqman }}</td>
+                                <td>{{ $labdata->c8800 }}</td>
+                                <td>{{ $labdata->panther }}</td>
+                                <td>{{ ($totals) ? number_format($totals) : 0 }}</td>
+                                <td>{{ ($labdata->abbott) ? number_format($labdata->abbott * 100) : 0 }}</td>
                                {{-- <td>{{ @($datavalue->abbott*100)/$totals) }}</td>
                                <td>{{ @($datavalue->taqman*100)/$totals) }}</td>
                                <td>{{ @($datavalue->c8800*100)/$totals) }}</td>
