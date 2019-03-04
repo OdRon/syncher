@@ -206,40 +206,48 @@ class ReportController extends Controller
 
         ini_set("memory_limit", "-1");
         
-        $machines = DB::table('machines')->select('id','machine')->get();
+        // $machines = DB::table('machines')->select('id','machine')->get();
         $lab = DB::table('labs')->get();
-
-        foreach ($machines as $machinekey => $machinevalue) {
-            if($testtype=='EID'){
-                $table = 'samples';
-                $dbData = Sample::selectRaw("worksheets.lab_id, count(*) as totalSamples")
-                                        ->leftJoin('worksheets', 'worksheets.id', '=', 'samples.worksheet_id')
-                                        ->where('worksheets.machine_type', '=', $machinevalue->id);
-            } else if($testtype=='VL'){
-                $table = 'viralsamples';
-                $dbData = Viralsample::selectRaw("viralworksheets.lab_id, count(*) as totalSamples")
-                                        ->leftJoin('viralworksheets', 'viralworksheets.id', '=', 'viralsamples.worksheet_id')
-                                        ->where('viralworksheets.machine_type', '=', $machinevalue->id);
-            } else { return back(); }
-            $newdata[$machinevalue->machine] = $dbData->when($month, function($query) use ($month, $table){
-                    return $query->whereRaw("MONTH($table.datetested) = $month");
-                })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
-        }
         
-        foreach ($lab as $labkey => $labvalue) {
-            $data[$labvalue->id] = ['lab' => $labvalue->labname];
-            foreach ($newdata as $newdatakey => $newdatavalue) {
-                foreach ($newdatavalue as $newkey => $newvalue) {
-                    if ($labvalue->id == $newvalue->lab_id) {
-                        $data[$labvalue->id][$newdatakey] = $newvalue->totalSamples;
-                    } else {
-                        if (!isset($data[$labvalue->id][$newdatakey]) || $data[$labvalue->id][$newdatakey] == 0) 
-                            $data[$labvalue->id][$newdatakey] = 0;
-                    }
-                }
+        if($testtype=='EID'){
+            $table = 'samples';
+            $join_table = 'worksheets';
+            $model = Sample::class;
+        } else if($testtype=='VL'){
+            $table = 'viralsamples';
+            $join_table = 'viralworksheets';
+            $model = Viralsample::class;
+        } else { return back(); }
+        $dbData = $model::selectRaw("$join_table.lab_id, 
+                        COUNT(IF($join_table.machine_type = 1, 1, NULL)) AS `taqman`, 
+                        COUNT(IF($join_table.machine_type = 2, 1, NULL)) AS `abbott`,
+                        COUNT(IF($join_table.machine_type = 3, 1, NULL)) AS `c8800`,
+                        COUNT(IF($join_table.machine_type = 4, 1, NULL)) AS `panther`")
+                    ->join($join_table, "$join_table.id", '=', "$table.worksheet_id")
+                    ->when($month, function($query) use ($month, $table){
+                        return $query->whereRaw("MONTH($table.datetested) = $month");
+                    })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->toSql();
+        dd($dbData);
+        foreach($dbData as $key => $data) {
+            foreach($lab->where('id', $data->lab_id) as $labselect) {
+                $newlab = $labselect;
             }
+            $dbData[$key]->lab_name = $newlab->labname;
         }
-        
+        // foreach ($lab as $labkey => $labvalue) {
+        //     $data[$labvalue->id] = ['lab' => $labvalue->labname];
+        //     foreach ($newdata as $newdatakey => $newdatavalue) {
+        //         foreach ($newdatavalue as $newkey => $newvalue) {
+        //             if ($labvalue->id == $newvalue->lab_id) {
+        //                 $data[$labvalue->id][$newdatakey] = $newvalue->totalSamples;
+        //             } else {
+        //                 if (!isset($data[$labvalue->id][$newdatakey]) || $data[$labvalue->id][$newdatakey] == 0) 
+        //                     $data[$labvalue->id][$newdatakey] = 0;
+        //             }
+        //         }
+        //     }
+        // }
+        dd($dbData);
         $viewdata['machines'] = $machines;
         $viewdata['testingSystem'] = $testtype;
         $viewdata['labs'] = $lab;
