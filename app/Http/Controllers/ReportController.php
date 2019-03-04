@@ -192,6 +192,7 @@ class ReportController extends Controller
     }
 
     public function utilization($testtype='EID', $year=null, $month=null) {
+        dd("nothing here");
         $testtype = strtoupper($testtype);
         $data = [];
         $newdata = [];
