@@ -48,8 +48,10 @@
                            @foreach($viewdata->labs as $datakey => $lab)
                            <tr>
                                 @php
+                                    $totals = 0;
                                     $labdata = $viewdata->data->where('lab_id', $lab->id)->first();
-                                    $totals = @($labdata->abbott + $labdata->taqman + $labdata->c8800 + $labdata->panther);
+                                    if (!empty($labdata))
+                                        $totals = @($labdata->abbott + $labdata->taqman + $labdata->c8800 + $labdata->panther);
                                 @endphp
                                 <td>{{ $lab->labname }}</td>
                                 <td>{{ $labdata->abbott ?? 0 }}</td>
