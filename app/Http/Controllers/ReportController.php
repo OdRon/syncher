@@ -206,7 +206,7 @@ class ReportController extends Controller
 
         ini_set("memory_limit", "-1");
         
-        // $machines = DB::table('machines')->select('id','machine')->get();
+        $machines = DB::table('machines')->select('id','machine')->get();
         $lab = DB::table('labs')->get();
         
         if($testtype=='EID'){
@@ -244,11 +244,11 @@ class ReportController extends Controller
         //         }
         //     }
         // }
-        dd($dbData);
+        // dd($dbData);
         $viewdata['machines'] = $machines;
         $viewdata['testingSystem'] = $testtype;
         $viewdata['labs'] = $lab;
-        $viewdata['data'] = (object)$data;
+        $viewdata['data'] = $dbData;
         $viewdata = (object) $viewdata;
         $monthName = "";
         $year = session('reportYear');
