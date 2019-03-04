@@ -228,7 +228,9 @@ class ReportController extends Controller
                         return $query->whereRaw("MONTH($table.datetested) = $month");
                     })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
         foreach($dbData as $key => $data) {
-            $newlab = $lab->where('id', $data->lab_id)->last();
+            foreach($lab->where('id', $data->lab_id) as $labselect) {
+                $newlab = $labselect;
+            }
             dd($newlab);
             $dbData->lab_name = $lab->labname;
         }
