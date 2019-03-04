@@ -45,7 +45,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                           @foreach($viewdata->lab as $datakey => $lab)
+                           @foreach($viewdata->labs as $datakey => $lab)
                            <tr>
                                 @php
                                     $labdata = $viewdata->data->where('lab_id', $lab->id)->first();
