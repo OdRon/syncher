@@ -43,10 +43,7 @@ class TransferController extends BaseController
         $code = $response->getStatusCode();
         $body = json_decode($response->getBody());
 
-        if($code > 399){
-            return $body;
-        }
-        
+        if($code > 399) return response()->json(get_object_vars($body), $response->getStatusCode());
         
 
         $data = [
