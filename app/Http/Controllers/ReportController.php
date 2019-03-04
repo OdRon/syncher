@@ -226,7 +226,7 @@ class ReportController extends Controller
                     ->join($join_table, "$join_table.id", '=', "$table.worksheet_id")
                     ->when($month, function($query) use ($month, $table){
                         return $query->whereRaw("MONTH($table.datetested) = $month");
-                    })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
+                    })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->toSql();
         dd($dbData);
         foreach($dbData as $key => $data) {
             foreach($lab->where('id', $data->lab_id) as $labselect) {
