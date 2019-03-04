@@ -2,7 +2,6 @@
 
 namespace App\Api\V1\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Api\V1\Requests\BlankRequest;
 use GuzzleHttp\Client;
 
@@ -10,9 +9,8 @@ use GuzzleHttp\Client;
 use App\Lab;
 use App\Synch;
 
-class TransferController extends Controller
+class TransferController extends BaseController
 {
-    use Dingo\Api\Routing\Helpers;
 
     /**
      * Store a newly created resource in storage.
