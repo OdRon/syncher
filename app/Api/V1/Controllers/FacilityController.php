@@ -38,6 +38,7 @@ class FacilityController extends Controller
             $fac = Facility::where(['facilitycode' => $value->facilitycode])->first();
 
             if(!$fac){
+                unset($value->facility_contact);
                 $fac = new Facility;
                 $fac->fill(get_object_vars($value));
                 $fac->synched = 1;
