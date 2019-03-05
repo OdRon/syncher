@@ -41,6 +41,7 @@ class FacilityController extends Controller
                 unset($value->facility_contact);
                 $fac = new Facility;
                 $fac->fill(get_object_vars($value));
+                unset($fac->id);
                 $fac->synched = 1;
                 $fac->save();
 
