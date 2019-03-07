@@ -334,5 +334,11 @@ class Misc extends Common
         }
     }
 
+    public static function create_facility_users()
+    {
+    	$facilities = \App\Facility::whereRaw("id not in (select facility_id from users)")->get();
+    	dd($facilities);
+    }
+
 
 }
