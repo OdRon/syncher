@@ -337,7 +337,17 @@ class Misc extends Common
     public static function create_facility_users()
     {
     	$facilities = \App\Facility::whereRaw("id not in (select facility_id from users)")->get();
-    	dd($facilities);
+    	foreach ($facilities as $facility) {
+    		\App\User::create([
+    			'user_type_id' => 8,
+		        'surname' => '',
+		        'oname' => '',
+		        'facility_id' => $facility->id,
+		        'email' => 'facility' . $facility->id . '@nascop-lab.com',
+		        'username' => 'facility' . $facility->id . '@nascop-lab.com',
+		        'password' => encrypt($facility->name),
+    		]);
+    	}
     }
 
 
