@@ -338,7 +338,7 @@ class Misc extends Common
     {
     	$facilities = \App\Facility::whereRaw("id not in (select facility_id from users)")->get();
     	foreach ($facilities as $facility) {
-    		\App\User::create([
+    		$u = \App\User::create([
     			'user_type_id' => 8,
 		        'surname' => '',
 		        'oname' => '',
