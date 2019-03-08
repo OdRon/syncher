@@ -7,6 +7,7 @@ use App\Api\V1\Requests\BlankRequest;
 
 use App\Allocation;
 use App\AllocationDetail;
+use App\AllocationDetailsBreakdown;
 /**
  * 
  */
@@ -14,38 +15,78 @@ class AllocationsController extends Controller
 {
 	public function create(BlankRequest $request) {
 		$allocations_array = [];
-		$allocations = json_decode($request->input('allocations'));
+		$allocations_data = json_decode($request->input('allocations'));
+		foreach($allocations_data as $allocation) {
+			$allocation_details = $allocation->details;
+			unset($allocation->details);
+			$saveallocation = Allocation::existing($allocation->year, $allocation->month, $allocation->lab_id)
+									->with(['details', 'details.breakdown'])->first();
+			if(empty($saveallocation)) { // If allocation was never synched synch it
+				$saveallocation = new Allocation();
+				$saveallocation->fill(get_object_vars($allocation));
+				$saveallocation->original_allocation_id = $allocation->id;
+				$saveallocation->synched = 1;
+				$saveallocation->datesynched = date('Y-m-d');
+				unset($saveallocation->id);
+				unset($saveallocation->national_id);
+				$saveallocation->save();
 
-		foreach ($allocations as $key => $allocation) {
-			$existing = Allocation::existing($allocation->year, $allocation->month, $allocation->testtype, $allocation->machine_id)->with(['details'])->first();
-			if ($existing){
-				$allocations_array[] = ['original_id' => $allocation->id, 'national_id' => $existing->id, 'details' => $this->allocationDetails($allocation, $existing)];
-				continue;
+				$saveallocation = [
+					'original_allocation_id' => $allocation->id,
+					'id' => $saveallocation->id,
+					'details' => $this->saveAllocationDetails($saveallocation, $allocation_details)
+				];
 			}
 			
-			// New allocation to be saved
-			$saveallocation = new Allocation();
-            $saveallocation->machine_id = $allocation->machine_id;
-            $saveallocation->testtype = $allocation->testtype;
-            $saveallocation->year = $allocation->year;
-            $saveallocation->month = $allocation->month;
-            $saveallocation->datesubmitted = $allocation->datesubmitted;
-            $saveallocation->submittedby = $allocation->submittedby;
-            $saveallocation->lab_id = $allocation->lab_id;
-            $saveallocation->allocationcomments = $allocation->allocationcomments;
-            $saveallocation->issuedcomments = $allocation->issuedcomments;
-            $saveallocation->approve = $allocation->approve;
-            $saveallocation->disapprovereason = $allocation->disapprovereason;
-            $saveallocation->original_allocation_id = $allocation->id;
-            $saveallocation->synched = 1;
-            $saveallocation->datesynched = date('Y-m-d');
-            $saveallocation->save();
-            $allocations_array[] = ['original_id' => $saveallocation->original_allocation_id, 'national_id' => $saveallocation->id, 'details' => $this->allocationDetails($allocation, null, $saveallocation) ];
+			$allocations_array[] = $saveallocation;
 		}
 		return response()->json([
             'status' => 'ok',
             'allocations' => $allocations_array,
         ], 201);
+	}
+
+	protected function saveAllocationDetails($allocation, $details) {
+		$allocation_details_array = [];
+		foreach($details as $allocation_details) {
+			$allocation_details_breakdown = $allocation_details->breakdowns;
+			unset($allocation_details->breakdowns);
+			$saveallocationdetails = new AllocationDetail();
+			$saveallocationdetails->allocation_id = $allocation->id;
+			$saveallocationdetails->fill(get_object_vars($allocation_details));
+			$saveallocationdetails->original_allocation_detail_id = $allocation_details->id;
+			$saveallocationdetails->synched = 1;
+			$saveallocationdetails->datesynched = date('Y-m-d');
+			unset($saveallocationdetails->id);
+			unset($saveallocationdetails->national_id);
+			$saveallocationdetails->save();
+			$allocation_details_array[] = [
+						'original_allocation_detail_id' => $allocation_details->id,
+						'id' => $saveallocationdetails->id,
+						'breakdown' => $this->saveAllocationDetailBreakdown($saveallocationdetails, $allocation_details_breakdown)
+					];
+		}
+		return $allocation_details_array;
+	}
+
+	protected function saveAllocationDetailBreakdown($allocation_details, $breakdown) {
+		$allocation_details_breakdown_array = [];
+		foreach($breakdown as $allocation_details_breakdown) {
+			$saveallocationdetailsbreakdown = new AllocationDetailsBreakdown();
+			$saveallocationdetailsbreakdown->allocation_detail_id = $allocation_details->id;
+			$saveallocationdetailsbreakdown->fill(get_object_vars($allocation_details_breakdown));
+			$saveallocationdetailsbreakdown->original_allocation_details_breakdown_id = $allocation_details_breakdown->id;
+			$saveallocationdetailsbreakdown->synched = 1;
+			$saveallocationdetailsbreakdown->datesynched = date('Y-m-d');
+			unset($saveallocationdetailsbreakdown->id);
+			unset($saveallocationdetailsbreakdown->national_id);
+			$saveallocationdetailsbreakdown->save();
+			$allocation_details_breakdown_array[] = [
+						'original_allocation_details_breakdown_id' => $allocation_details_breakdown->id,
+						'id' => $saveallocationdetailsbreakdown->id
+					];
+		}
+		return $allocation_details_breakdown_array;
 	}
 
 	public function update(BlankRequest $request) {
@@ -55,7 +96,7 @@ class AllocationsController extends Controller
 		// $allocations = json_decode($request->input('allocations'));
 		// // dd($allocations);
 		// return response()->json([
-		// 	'allocation' => $request->all(),
+		// 	'allocation' => json_decode($request->all()),
 		// ]);
 	}
 	
@@ -79,13 +120,17 @@ class AllocationsController extends Controller
 			
 			$update_data = $value;
             $new_model->$original_column = $value->id;
-			$new_model->allocationcomments = $update_data->allocationcomments;
-			$new_model->approve = $update_data->approve;
-			$new_model->submissions = $update_data->submissions;
+			// $new_model->allocationcomments = $update_data->allocationcomments;
+			// $new_model->approve = $update_data->approve;
+			// $new_model->submissions = $update_data->submissions;
             $new_model->synched = 1;
+			$new_model->datesynched = date('Y-m-d');
 			$new_model->save();
 			
-			$models_array[] = ['original_id' => $new_model->$original_column, $nat_column => $new_model->id, 'details' => $this->updateAllocationDetails($value->details, $new_model->details, $nat_column, 'original_allocation_detail_id')];
+			$models_array[] = [
+				'original_allocation_id' => $new_model->$original_column, 
+				$nat_column => $new_model->id, 
+				'details' => $this->updateAllocationDetails($value->details, $new_model->details, $nat_column, 'original_allocation_detail_id')];
 		}
 
         if(count($errors_array) == 0) $errors_array = null;
@@ -96,6 +141,43 @@ class AllocationsController extends Controller
 			'errors_array' => $errors_array,
         ], 201);
     }
+
+	protected function updateAllocationDetails($lab_allocation_details, $national_allocation_details, $nat_column, $original_column) {
+		$return_data = [];
+		foreach ($lab_allocation_details as $key => $lab_detail) {
+			$nat_details = $national_allocation_details->where('id', $lab_detail->$nat_column)->first();
+            // $nat_details->$original_column = $lab_detail->id;
+			$nat_details->allocationcomments = $lab_detail->allocationcomments;
+			$nat_details->approve = $lab_detail->approve;
+			$nat_details->submissions = $lab_detail->submissions;
+			// $nat_details->allocated = $lab_detail->allocated;
+			$nat_details->synched = 1;
+			$nat_details->datesynched = date('Y-m-d');
+			$nat_details->save();
+			$return_data[] = [
+						$nat_column => $nat_details->id, 
+						$original_column => $lab_detail->id, 
+						'breakdowns' => $this->updateAllocationDetailsBreakdown($lab_detail->breakdowns, $nat_details->breakdown, $nat_column, 'original_allocation_details_breakdown_id')
+					];
+		}
+		return $return_data;
+	}
+
+	protected function updateAllocationDetailsBreakdown($lab_allocation_breakdown, $nat_allocation_breakdown, $nat_column, $original_column) {
+		$return_data = [];
+		foreach ($lab_allocation_breakdown as $eky => $breakdown) {
+			$nat_breakdown = $nat_allocation_breakdown->where('id', $breakdown->$nat_column)->first();
+			$nat_breakdown->allocated = $breakdown->allocated;
+			$nat_breakdown->synched = 1;
+			$nat_breakdown->datesynched = date('Y-m-d');
+			$nat_breakdown->save();
+			$return_data[] = [
+					$nat_column => $nat_breakdown->id,
+					$original_column => $breakdown->id,
+				];
+		}
+		return $return_data;
+	}
 
 	protected function allocationDetails($allocation, $existing = null, $newallocation = null){
 		$details_array = [];
@@ -112,34 +194,6 @@ class AllocationsController extends Controller
 			}			
 		}
 		return $details_array;
-	}
-
-	protected function saveAllocationDetails($details, $allocation) {
-		$saveallocationdetails = new AllocationDetail();
-		$allocation_details_data = get_object_vars($details);
-		$saveallocationdetails->fill($allocation_details_data);
-		$saveallocationdetails->allocation_id = $allocation->id;
-		$saveallocationdetails->original_allocation_detail_id = $details->id;
-		$saveallocationdetails->synched = 1;
-		$saveallocationdetails->datesynched = date('Y-m-d');
-		unset($saveallocationdetails->id);
-		unset($saveallocationdetails->national_id);
-		$saveallocationdetails->save();
-
-		return ['original_id' => $saveallocationdetails->original_allocation_detail_id, 'national_id' => $saveallocationdetails->id];
-	}
-
-	protected function updateAllocationDetails($lab_allocation_details, $national_allocation_details, $nat_column, $original_column) {
-		$return_data = [];
-		foreach ($lab_allocation_details as $key => $lab_detail) {
-			$nat_details = $national_allocation_details->where('id', $lab_detail->$nat_column)->first();
-			$nat_details->allocated = $lab_detail->allocated;
-			$nat_details->synched = 1;
-			$nat_details->datesynched = date('Y-m-d');
-			$nat_details->save();
-			$return_data[] = ['national_id' => $nat_details->id, 'original_id' => $lab_detail->id, 'synched' => $nat_details->synched, 'datesynched' => $nat_details->datesynched];
-		}
-		return $return_data;
 	}
 }
 ?>

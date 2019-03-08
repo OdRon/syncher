@@ -14,13 +14,9 @@ class Allocation extends Model
     protected $guarded = [];
 
 
-    public function scopeExisting($query, $year, $month, $testtype, $machine)
+    public function scopeExisting($query, $year, $month, $lab_id)
     {
-        return $query->where(['year' => $year, 'month' => $month, 'testtype' => $testtype, 'machine_id' => $machine]);
-    }
-
-    public function machine(){
-        return $this->belongsTo('App\Machine');
+        return $query->where(['year' => $year, 'month' => $month, 'lab_id' => $lab_id]);
     }
 
     public function details() {
