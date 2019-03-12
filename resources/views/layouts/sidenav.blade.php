@@ -113,6 +113,8 @@
             <hr />
             <li><a href="{{ url('allocations/VL') }}">VL Allocation List</a></li>
             <hr />
+            <li><a href="{{ url('allocations/Consumables') }}">Consumable Allocation List</a></li>
+            <hr />
         @endif
         </ul>
     </div>

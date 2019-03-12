@@ -231,20 +231,6 @@ class ReportController extends Controller
             $newlab = $lab->where('id', $data->lab_id)->first();
             $dbData[$key]->lab_name = $newlab->labname;
         }
-        // foreach ($lab as $labkey => $labvalue) {
-        //     $data[$labvalue->id] = ['lab' => $labvalue->labname];
-        //     foreach ($newdata as $newdatakey => $newdatavalue) {
-        //         foreach ($newdatavalue as $newkey => $newvalue) {
-        //             if ($labvalue->id == $newvalue->lab_id) {
-        //                 $data[$labvalue->id][$newdatakey] = $newvalue->totalSamples;
-        //             } else {
-        //                 if (!isset($data[$labvalue->id][$newdatakey]) || $data[$labvalue->id][$newdatakey] == 0) 
-        //                     $data[$labvalue->id][$newdatakey] = 0;
-        //             }
-        //         }
-        //     }
-        // }
-        // dd($dbData);
         $viewdata['machines'] = $machines;
         $viewdata['testingSystem'] = $testtype;
         $viewdata['labs'] = $lab;

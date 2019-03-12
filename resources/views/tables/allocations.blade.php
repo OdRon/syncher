@@ -31,8 +31,8 @@
                                     <th>Allocation Month</th>
                                     <th>Labs Allocated</th>
                                     <th>Allocation Status</th>
-                                    <th>Labs Allocations Approved</th>
-                                    <th>Approval Satus</th>
+                                    <th>Labs Allocations Reviewed</th>
+                                    <th>Review Satus</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

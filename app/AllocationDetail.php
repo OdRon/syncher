@@ -12,8 +12,23 @@ class AllocationDetail extends Model
      * @var array
      */
     protected $guarded = [];
-
-    public function kit(){
-        return $this->belongsTo('App\Kits');
+    
+    public function scopeExisting($query, $original_id) {
+        return $query->where(['original_allocation_detail_id' => $original_id]);
     }
+
+    public function machine(){
+        return $this->belongsTo('App\Machine');
+    }
+
+    public function allocation() {
+        return $this->belongsTo('App\Allocation');
+    }
+
+    public function breakdowns(){
+        return $this->hasMany('App\AllocationDetailsBreakdown');
+    }
+    // public function kit(){
+    //     return $this->belongsTo('App\Kits');
+    // }
 }
