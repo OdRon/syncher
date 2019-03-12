@@ -43,17 +43,26 @@
                                     <td>{{ $lab->labdesc }}</td>
                                     <td>
                                     @if($lab->allocations->count() > 0)
-                                        Complete
+                                        <span class="label label-success">Complete</span>
                                     @else
-                                        Incomplete
+                                        <span class="label label-warning">Incomplete</span>
                                     @endif
                                     </td>
                                     <td>
+                                    @php
+                                        $pending = 0;
+                                        if (!$lab->allocations->isEmpty()) {
+                                            foreach($lab->allocations as $allocation) {
+                                                if ($allocation->details->where('approve', 0)->count() > 0)
+                                                    $pending ++;
+                                            }
+                                        }
+                                    @endphp
                                     @if($lab->allocations->count() > 0)
-                                        @if($lab->allocations->where('approve', 0)->count() > 0)
-                                            Pending Approval
+                                        @if($pending > 0)
+                                            <span class="label label-warning">Pending Approval</span>
                                         @else
-                                            Complete
+                                            <span class="label label-success">Complete</span>
                                         @endif
                                     @else
                                         N/A
@@ -61,7 +70,7 @@
                                     </td>
                                     <td>
                                     @if($lab->allocations->count() > 0)
-                                        <a href="{{ url('approveallocation/'.$lab->id.'/'.$data->testtype.'/'.$data->year.'/'.$data->month) }}">View</a>
+                                        <a href="{{ url('approveallocation/'.$lab->id.'/'.$data->testtype.'/'.$data->year.'/'.$data->month) }}" class="btn btn-info">View</a>
                                     @else
                                         N/A
                                     @endif

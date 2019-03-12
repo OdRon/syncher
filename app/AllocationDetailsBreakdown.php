@@ -13,4 +13,8 @@ class AllocationDetailsBreakdown extends Model
      * @var array
      */
     protected $guarded = [];
+
+    public function breakdown() {
+        return $this->morphTo();
+    }
 }

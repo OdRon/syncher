@@ -22,4 +22,18 @@ class Allocation extends Model
     public function details() {
         return $this->hasMany('App\AllocationDetail');
     }
+
+    public function reviewed($testtype=null){
+        $details = $this->details->when($testtype, function($query) use ($testtype){
+                            if ($testtype == 'EID')
+                                return $query->where('testtype', '=', 1);
+                            else if ($testtype == 'VL')
+                                return $query->where('testtype', '=', 2);
+                            else if ($testtype == 'CONSUMABLES')
+                                return $query->where('testtype', '=', NULL);         
+                        })->where('approve', '<>', 0)->count();
+        if ($details > 0)
+            return true;
+        return false;
+    }
 }

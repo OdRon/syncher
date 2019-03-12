@@ -21,7 +21,11 @@ class AllocationDetail extends Model
         return $this->belongsTo('App\Machine');
     }
 
-    public function breakdown(){
+    public function allocation() {
+        return $this->belongsTo('App\Allocation');
+    }
+
+    public function breakdowns(){
         return $this->hasMany('App\AllocationDetailsBreakdown');
     }
     // public function kit(){

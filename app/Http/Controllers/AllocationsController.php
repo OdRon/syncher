@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Allocation;
+use App\AllocationDetail;
 use App\Machine;
 use App\Lab;
 
@@ -53,7 +54,7 @@ class AllocationsController extends Controller
 	public $years = NULL;
 
 	public function __construct() {
-		$this->testtypes = ['EID' => 1, 'VL' => 2];
+		$this->testtypes = ['EID' => 1, 'VL' => 2, 'CONSUMABLES' => NULL];
 		$this->years = [date('Y'), date('Y')-1];
         $this->last_month = date('m')-1;
         $this->last_year = date('Y');
@@ -65,54 +66,51 @@ class AllocationsController extends Controller
 
     public function index($testtype = null) {
         $testtype = strtoupper($testtype);
-    	if (!isset($testtype) || !($testtype == 'EID' || $testtype == 'VL'))
-    		$testtype = 'EID';
+    	if (!isset($testtype) || !($testtype == 'EID' || $testtype == 'VL' || $testtype == 'CONSUMABLES'))
+            $testtype = 'EID';
+        
     	$labs = Lab::get();
-    	$allocations = Allocation::where('testtype', '=', $this->testtypes[$testtype])
-    							->whereIn('year', $this->years)
-    							->orderBy('year', 'desc')->orderBy('month', 'desc')
-    							->get();
     	$allocations_data = [];
-    	$this->allocation_years = $allocations->unique('year')->pluck('year');
-    	$this->allocation_months = $allocations->unique('month')->pluck('month');
-    	
-    	foreach ($this->allocation_years as $key => $year) {
-    		foreach ($this->allocation_months as $key => $month) {
-    			$filtered = $allocations->where('year', $year)->where('month', $month);
-    			$allocated_labs = 0;
-    			if ($filtered->count() > 0){
-                    $allocated_labs = $filtered->unique('lab_id');
-                    $approved_labs = $allocated_labs->where('approve', 1);
+        $allocations = Allocation::whereIn('year', $this->years)->get();
+        $this->allocation_years = $allocations->unique('year')->pluck('year');
+        $this->allocation_months = $allocations->unique('month')->pluck('month');
+        foreach ($this->allocation_years as $key => $year) {
+            foreach ($this->allocation_months as $key => $month) {
+                $filtered = $allocations->where('year', $year)->where('month', $month);
+                $allocated_labs = $filtered->count();
+                $reviewed_labs = 0;
+                foreach ($filtered as $lab_allocation) {
+                    if ($lab_allocation->reviewed($testtype))
+                        $reviewed_labs ++;
                 }
-    			
-    			$allocations_data[] = (object)[
-                    'testtype' => $testtype,
-    				'year' => $year,
-    				'month' => $month,
-    				'all_labs' => $labs->count(),
-    				'allocated_labs' => $allocated_labs->count(),
-                    'approved_labs' => $approved_labs->count(),
-    			];
-    		}
-    	}
-    	$allocations_data = (object)$allocations_data;
+                $allocations_data[] = (object)[
+                        'testtype' => strtolower($testtype),
+                        'year' => $year,
+                        'month' => $month,
+                        'all_labs' => $labs->count(),
+                        'allocated_labs' => $allocated_labs,
+                        'approved_labs' => $reviewed_labs,
+                    ];
+            }
+        }
     	
     	return view('tables.allocations', compact('allocations_data'))->with('pageTitle',"$testtype Allocation List");
     }
 
     public function view_allocations($testtype = null, $year = null, $month = null) {
         $testtype = strtoupper($testtype);
-        if (!isset($testtype) || !($testtype == 'EID' || $testtype == 'VL'))
+        if (!isset($testtype) || !($testtype == 'EID' || $testtype == 'VL' || $testtype == 'CONSUMABLES'))
             $testtype = 'EID';
         if (!isset($year))
             $year = $this->year[0];
         if (!isset($month))
             $month = date('m');
         $columntesttype = $this->testtypes[$testtype];
-        $labs = Lab::with(array('allocations' => function($query) use($year, $month, $columntesttype) {
-                         $query->where('allocations.year', $year);
-                         $query->where('allocations.month', $month);
-                         $query->where('allocations.testtype', $columntesttype);
+        $labs = Lab::with(array('allocations' => function($query) use($year, $month) {
+                        $query->where('allocations.year', $year);
+                        $query->where('allocations.month', $month);
+                    }, 'allocations.details' => function($childQuery) use ($columntesttype) {
+                            $childQuery->where('testtype', $columntesttype);
                     }))->get();
         
         $month_name = date("F", mktime(null, null, null, $month));
@@ -127,20 +125,24 @@ class AllocationsController extends Controller
             return back();
         }
         $testtype = strtoupper($testtype);
-        if (!isset($testtype) || !($testtype == 'EID' || $testtype == 'VL'))
+        if (!isset($testtype) || !($testtype == 'EID' || $testtype == 'VL' || $testtype == 'CONSUMABLES'))
             $testtype = 'EID';
         if (!isset($year))
             $year = $this->year[0];
         if (!isset($month))
             $month = date('m');
-
+            
         $columntesttype = $this->testtypes[$testtype];
-        $allocations = $lab->allocations->where('testtype', $columntesttype);
+        $allocation = $lab->allocations->where('year', $year)->where('month', $month)->first();
+        $allocations = $allocation->load(array('details' => function($query) use ($columntesttype) {
+                $query->where('testtype', '=', $columntesttype);                    
+            }))->details;
+        
         $lab_name = $lab->labdesc;
         $forapproval = $allocations->contains('approve', 0);
         $month_name = date("F", mktime(null, null, null, $month));
         $data = (object)['allocations' => $allocations, 'testtype' => $testtype, 'last_year' => $this->last_year, 'last_month' => $this->last_month, 'lab' => $lab, 'forapproval' => $forapproval];
-        
+        // dd($data);
         return view('forms.allocations', compact('data'))->with('pageTitle',"$lab_name Allocation Approval ($month_name, $year)");
     }
 
@@ -148,7 +150,7 @@ class AllocationsController extends Controller
         $collection = collect($request->except(['_token', 'allocation-form']));
         foreach ($collection['id'] as $key => $value) {
             if (isset($collection['approve'][$key])) {
-                $allocation = Allocation::find($value);
+                $allocation = AllocationDetail::find($value);
                 $allocation->approve = $collection['approve'][$key];
                 if ($collection['approve'][$key] == 2)
                     $allocation->disapprovereason = $collection['issuedcomments'][$key];
@@ -160,7 +162,7 @@ class AllocationsController extends Controller
         $testtype = collect($this->testtypes)->search($allocation->testtype);
         $url = 'allocations/'.$testtype;
         session(['toast_message' => 'Allocation Review successfull for '. $testtype .' and the approvals propagated to the lab']);
-        \App\Synch::synch_allocations();
+        // \App\Synch::synch_allocations();
         return redirect($url);
     }
 }
