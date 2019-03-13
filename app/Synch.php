@@ -420,6 +420,7 @@ class Synch
 					{
 						$patient->sex = $body->patient->sex;
 						$patient->save();
+						echo "Fixed One \n";
 					}
 				}	
 				else{
