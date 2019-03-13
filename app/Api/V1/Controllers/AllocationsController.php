@@ -30,7 +30,10 @@ class AllocationsController extends Controller
 				unset($saveallocation->id);
 				unset($saveallocation->national_id);
 				$saveallocation->save();
-
+				return response()->json([
+					'status' => 'ok',
+					'allocations' => $allocation,
+				], 201);
 				$saveallocation = [
 					'original_allocation_id' => $allocation->id,
 					'id' => $saveallocation->id,
