@@ -30,10 +30,7 @@ class AllocationsController extends Controller
 				unset($saveallocation->id);
 				unset($saveallocation->national_id);
 				$saveallocation->save();
-				return response()->json([
-					'status' => 'ok',
-					'allocations' => $allocation,
-				], 201);
+				
 				$saveallocation = [
 					'original_allocation_id' => $allocation->id,
 					'id' => $saveallocation->id,
@@ -50,18 +47,14 @@ class AllocationsController extends Controller
 	}
 
 	protected function saveAllocationDetails($allocation, $details) {
-		return response()->json([
-            'status' => 'ok',
-            'allocations' => $allocation,
-        ], 201);
 		$allocation_details_array = [];
 		foreach($details as $allocation_details) {
 			$allocation_details_breakdown = $allocation_details->breakdowns;
 			unset($allocation_details->breakdowns);
 			$saveallocationdetails = new AllocationDetail();
-			$saveallocationdetails->allocation_id = $allocation->id;
 			$saveallocationdetails->fill(get_object_vars($allocation_details));
 			$saveallocationdetails->original_allocation_detail_id = $allocation_details->id;
+			$saveallocationdetails->allocation_id = $allocation->id;
 			$saveallocationdetails->synched = 1;
 			$saveallocationdetails->datesynched = date('Y-m-d');
 			unset($saveallocationdetails->id);
@@ -80,9 +73,9 @@ class AllocationsController extends Controller
 		$allocation_details_breakdown_array = [];
 		foreach($breakdown as $allocation_details_breakdown) {
 			$saveallocationdetailsbreakdown = new AllocationDetailsBreakdown();
-			$saveallocationdetailsbreakdown->allocation_detail_id = $allocation_details->id;
 			$saveallocationdetailsbreakdown->fill(get_object_vars($allocation_details_breakdown));
 			$saveallocationdetailsbreakdown->original_allocation_details_breakdown_id = $allocation_details_breakdown->id;
+			$saveallocationdetailsbreakdown->allocation_detail_id = $allocation_details->id;
 			$saveallocationdetailsbreakdown->synched = 1;
 			$saveallocationdetailsbreakdown->datesynched = date('Y-m-d');
 			unset($saveallocationdetailsbreakdown->id);
