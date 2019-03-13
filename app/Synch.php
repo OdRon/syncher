@@ -58,7 +58,7 @@ class Synch
 	{
 		Cache::forget($lab->token_name);
 		$client = new Client(['base_uri' => $lab->base_url]);
-		dd($lab->base_url);
+		// dd($lab->base_url);
 		try {
 			$response = $client->request('get', 'hello', [
 	            'http_errors' => false,
@@ -80,6 +80,7 @@ class Synch
 			// ]);
 			// $status_code = $response->getStatusCode();
 			// // if($status_code > 399) die();
+			dd($response);
 			$body = json_decode($response->getBody());
 			// echo "<pre>";print_r('Message');echo "</pre>";
 			dd($body);
