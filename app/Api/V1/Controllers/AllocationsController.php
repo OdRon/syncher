@@ -47,6 +47,10 @@ class AllocationsController extends Controller
 	}
 
 	protected function saveAllocationDetails($allocation, $details) {
+		return response()->json([
+            'status' => 'ok',
+            'allocations' => $allocation,
+        ], 201);
 		$allocation_details_array = [];
 		foreach($details as $allocation_details) {
 			$allocation_details_breakdown = $allocation_details->breakdowns;
