@@ -186,11 +186,32 @@ class Synch
 	}
 
 	public static function synch_allocations() {
-		$allocations = Allocation::where('synched', '=', 2)->get();
+		$allocations = Allocation::with(['details' => function($query){
+									$query->where('synched', 2);
+								},'details.breakdowns' => function($query){
+									$query->where('synched', 2);
+								}])->where('synched', '=', 2)->get();
 		$labs = Lab::all();
-		foreach ($allocations as $key => $allocation) {
-			$lab = $labs->where('id', $allocation->lab_id)->first();
-			$synch_data = self::send_update($allocation, $lab);
+		foreach ($allocations as $key => $model) {
+			$lab = $labs->where('id', $model->lab_id)->first();
+			// $synch_data = self::send_update($model, $lab);
+			if (strpos(url()->current(), "lab-2.test"))
+				$lab->base_url = "http://lab.test.nascop.org/api";
+			$client = new Client(['base_uri' => $lab->base_url]);
+			// dd(self::get_token($lab));
+			$response = $client->request('put', 'allocation', [
+				'http_errors' => false,
+				'verify' => false,
+				'headers' => [
+					'Accept' => 'application/json',
+					'Authorization' => 'Bearer ' . self::get_token($lab),
+				],
+				'json' => [
+					'allocation' => $model->toJson(),
+				],
+			]);
+			$body = json_decode($response->getBody());
+			dd($body);
 		}
 	}
 
