@@ -226,7 +226,7 @@ class Synch
 				return true;
 			} else{
 				print_r($body);
-				return false;
+				// return false;
 			}
 		}
 	}
