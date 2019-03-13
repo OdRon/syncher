@@ -56,7 +56,6 @@ class Synch
 
 	public static function login($lab)
 	{
-		dd($lab);
 		Cache::forget($lab->token_name);
 		$client = new Client(['base_uri' => $lab->base_url]);
 		// dd($lab->base_url);
@@ -75,6 +74,7 @@ class Synch
 			$status_code = $response->getStatusCode();
 			// if($status_code > 399) die();
 			$body = json_decode($response->getBody());
+			dd($body);
 			Cache::put($lab->token_name, $body->token, 60);	
 			// echo $lab->token_name . " is {$body->token} \n";		
 		} catch (Exception $e) {
