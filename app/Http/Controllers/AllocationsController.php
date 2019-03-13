@@ -112,7 +112,7 @@ class AllocationsController extends Controller
                     }, 'allocations.details' => function($childQuery) use ($columntesttype) {
                             $childQuery->where('testtype', $columntesttype);
                     }))->get();
-        
+        dd($labs);
         $month_name = date("F", mktime(null, null, null, $month));
         $data = (object)['year' => $year, 'month' => $month, 'labs' => $labs, 'testtype' => $testtype];
         dd($data);
