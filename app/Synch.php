@@ -209,7 +209,7 @@ class Synch
 			$lab = $labs->where('id', $model->lab_id)->first();
 			// $synch_data = self::send_update($model, $lab);
 			if (strpos(url()->current(), "lab-2.test"))
-				$lab->base_url = "http://lab.test.nascop.org/api/";
+				$lab->base_url = "http://lab.test.nascop.org/api";
 			$client = new Client(['base_uri' => $lab->base_url]);
 			
 			dd(self::get_token($lab));
