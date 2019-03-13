@@ -60,21 +60,28 @@ class Synch
 		$client = new Client(['base_uri' => $lab->base_url]);
 		// dd($lab->base_url);
 		try {
-			$response = $client->request('post', 'auth/login', [
+			$response = $client->request('get', 'hello', [
 	            'http_errors' => false,
 	            'connect_timeout' => 1.5,
 				'headers' => [
 					'Accept' => 'application/json',
-				],
-				'json' => [
-					'email' => env('LAB_USERNAME', null),
-					'password' => env('LAB_PASSWORD', null),
-				],
+				]
 			]);
-			$status_code = $response->getStatusCode();
-			// if($status_code > 399) die();
+			// $response = $client->request('post', 'auth/login', [
+	        //     'http_errors' => false,
+	        //     'connect_timeout' => 1.5,
+			// 	'headers' => [
+			// 		'Accept' => 'application/json',
+			// 	],
+			// 	'json' => [
+			// 		'email' => env('LAB_USERNAME', null),
+			// 		'password' => env('LAB_PASSWORD', null),
+			// 	],
+			// ]);
+			// $status_code = $response->getStatusCode();
+			// // if($status_code > 399) die();
 			$body = json_decode($response->getBody());
-			echo "<pre>";print_r('Message');echo "</pre>";
+			// echo "<pre>";print_r('Message');echo "</pre>";
 			dd($body);
 			Cache::put($lab->token_name, $body->token, 60);	
 			// echo $lab->token_name . " is {$body->token} \n";		
