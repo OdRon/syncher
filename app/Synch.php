@@ -390,7 +390,7 @@ class Synch
 		$base = str_replace('App\\', '', $sample_class);
 		$base = strtolower($base) . '/';
 
-		$samples = $sampleview_class::where(['sex' => 3])->where('datecollected', '>', '2017-01-01')->where('site_entry', '!=', 2)->get();
+		$samples = $sampleview_class::where(['sex' => 3])->where('datecollected', '>', '2018-01-01')->where('site_entry', '!=', 2)->get();
 
 		foreach ($samples as $key => $sample) {
 			
