@@ -74,12 +74,9 @@ class Synch
 			$status_code = $response->getStatusCode();
 			// if($status_code > 399) die();
 			$body = json_decode($response->getBody());
-			// echo "<pre>";print_r('Message');echo "</pre>";
-			dd($body);
 			Cache::put($lab->token_name, $body->token, 60);	
 			// echo $lab->token_name . " is {$body->token} \n";		
 		} catch (Exception $e) {
-			dd('No response');
 			Cache::put($lab->token_name, 'null', 60);	
 			// echo $lab->token_name . " is {$e->getMessage()}. \n";			
 		}
@@ -204,8 +201,6 @@ class Synch
 				$lab->base_url = "http://lab.test.nascop.org/api/";
 			$client = new Client(['base_uri' => $lab->base_url]);
 			
-			dd(self::get_token($lab));
-			dd($lab->base_url);
 			$response = $client->request('put', 'allocation', [
 				'http_errors' => false,
 				'verify' => false,
