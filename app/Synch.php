@@ -78,6 +78,7 @@ class Synch
 			Cache::put($lab->token_name, $body->token, 60);	
 			// echo $lab->token_name . " is {$body->token} \n";		
 		} catch (Exception $e) {
+			dd('No response');
 			Cache::put($lab->token_name, 'null', 60);	
 			// echo $lab->token_name . " is {$e->getMessage()}. \n";			
 		}
