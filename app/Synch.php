@@ -198,6 +198,7 @@ class Synch
 			if (strpos(url()->current(), "lab-2.test"))
 				$lab->base_url = "http://lab.test.nascop.org/api";
 			$client = new Client(['base_uri' => $lab->base_url]);
+			dd($lab);
 			dd(self::get_token($lab));
 			dd($lab->base_url);
 			$response = $client->request('put', 'allocation', [
