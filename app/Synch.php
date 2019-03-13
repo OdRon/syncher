@@ -56,6 +56,7 @@ class Synch
 
 	public static function login($lab)
 	{
+		dd($lab);
 		Cache::forget($lab->token_name);
 		$client = new Client(['base_uri' => $lab->base_url]);
 		// dd($lab->base_url);
@@ -84,9 +85,10 @@ class Synch
 
 	public static function get_token($lab)
 	{
-		dd(Cache::get($lab->token_name));
-		if(Cache::has($lab->token_name)){}
-		else{
+		if(Cache::has($lab->token_name)){
+			if (Cache::get($lab->token_name) == null || Cache::get($lab->token_name) == 'null')
+				self::login($lab);
+		} else{
 			self::login($lab);
 		}
 		// dd($lab);
