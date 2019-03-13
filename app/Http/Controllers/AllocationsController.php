@@ -171,7 +171,7 @@ class AllocationsController extends Controller
         $testtype = collect($this->testtypes)->search($allocation->testtype);
         $url = 'allocations/'.$testtype;
         session(['toast_message' => 'Allocation Review successfull for '. $testtype .' and the approvals propagated to the lab']);
-        // \App\Synch::synch_allocations();
+        \App\Synch::synch_allocations();
         return redirect($url);
     }
 }
