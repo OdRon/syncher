@@ -211,7 +211,22 @@ class Synch
 				],
 			]);
 			$body = json_decode($response->getBody());
-			dd($body);
+			if($response->getStatusCode() < 400) {
+				$model->fill($data);
+				$model->save();
+				foreach($model->details as $details) {
+					$details->fill($data);
+					$details->save();
+					foreach ($details->breakdowns as $breakdown) {
+						$breakdown->fill($data);
+						$breakdown->save();
+					}
+				}
+				return true;
+			} else{
+				print_r($body);
+				return false;
+			}
 		}
 	}
 
