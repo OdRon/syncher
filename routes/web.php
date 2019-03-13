@@ -132,8 +132,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 Route::get('patientstatus', 'HEIController@placeResults');
 Route::get('sendsms', 'GenerealController@send_sms');
 
-Route::get('synch', function(){
-	// echo max([3,5]);
-	\App\Synch::synch_allocations();
-});
+// Route::get('synch', function(){
+// 	\App\Synch::synch_allocations();
+// });
 // $connected = @fsockopen("www.example.com", 80); 
