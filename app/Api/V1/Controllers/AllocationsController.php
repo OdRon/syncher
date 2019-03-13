@@ -90,8 +90,6 @@ class AllocationsController extends Controller
 	}
 
 	public function update(BlankRequest $request) {
-		
-		// dd($request->all());
 		return $this->update_dash($request, Allocation::class, 'allocations', 'national_id', 'original_allocation_id');
 		// $allocations = json_decode($request->input('allocations'));
 		// // dd($allocations);
@@ -102,11 +100,11 @@ class AllocationsController extends Controller
 	
 	protected function update_dash($request, $update_class, $input, $nat_column, $original_column)
     {
-        $models_array = [];
+		$models_array = [];
         $errors_array = [];
         $models = json_decode($request->input($input));
         $lab_id = json_decode($request->input('lab_id'));
-		
+		        
         foreach ($models as $key => $value) {
             if($value->$nat_column)
                 $new_model = $update_class::find($value->$nat_column);
@@ -120,9 +118,6 @@ class AllocationsController extends Controller
 			
 			$update_data = $value;
             $new_model->$original_column = $value->id;
-			// $new_model->allocationcomments = $update_data->allocationcomments;
-			// $new_model->approve = $update_data->approve;
-			// $new_model->submissions = $update_data->submissions;
             $new_model->synched = 1;
 			$new_model->datesynched = date('Y-m-d');
 			$new_model->save();
@@ -157,7 +152,7 @@ class AllocationsController extends Controller
 			$return_data[] = [
 						$nat_column => $nat_details->id, 
 						$original_column => $lab_detail->id, 
-						'breakdowns' => $this->updateAllocationDetailsBreakdown($lab_detail->breakdowns, $nat_details->breakdown, $nat_column, 'original_allocation_details_breakdown_id')
+						'breakdowns' => $this->updateAllocationDetailsBreakdown($lab_detail->breakdowns, $nat_details->breakdowns, $nat_column, 'original_allocation_details_breakdown_id')
 					];
 		}
 		return $return_data;
