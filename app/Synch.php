@@ -421,7 +421,10 @@ class Synch
 						$patient->sex = $body->patient->sex;
 						$patient->save();
 					}
-				}				
+				}	
+				else{
+					print_r($body);
+				}			
 			} catch (Exception $e) {
 				
 			}
