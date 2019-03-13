@@ -115,7 +115,7 @@ class AllocationsController extends Controller
         
         $month_name = date("F", mktime(null, null, null, $month));
         $data = (object)['year' => $year, 'month' => $month, 'labs' => $labs, 'testtype' => $testtype];
-        
+        dd($data);
         return view('tables.viewallocations', compact('data'))->with('pageTitle',"$testtype Allocations $month_name, $year");
     }
 
