@@ -124,12 +124,15 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::resource('user', 'UserController');
 
 	Route::get('test', function(){
-		echo max([3,5]);
+		// echo max([3,5]);
+		\App\Synch::synch_allocations();
 	});
 });
 
 Route::get('patientstatus', 'HEIController@placeResults');
 Route::get('sendsms', 'GenerealController@send_sms');
 
-
+Route::get('synch', function(){
+	\App\Synch::synch_allocations();
+});
 // $connected = @fsockopen("www.example.com", 80); 

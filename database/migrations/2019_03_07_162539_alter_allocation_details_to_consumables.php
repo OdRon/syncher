@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAllocationDetailsTable extends Migration
+class AlterAllocationDetailsToConsumables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,18 @@ class CreateAllocationDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('allocation_details', function (Blueprint $table) {
+        Schema::dropIfExists('allocation_details');
+        Schema::create('allocation_details', function(Blueprint $table){
             $table->bigIncrements('id');
-            $table->bigInteger('original_allocation_details_id')->nullable();
+            $table->bigInteger('original_allocation_detail_id')->nullable();
             $table->bigInteger('allocation_id');
-            $table->bigInteger('kit_id');
-            $table->integer('allocated')->default(0);
+            $table->integer('machine_id')->nullable();
+            $table->tinyInteger('testtype')->nullable();
+            $table->text('allocationcomments')->nullable();
+            $table->text('issuedcomments')->nullable();
+            $table->tinyInteger('approve')->default(0);
+            $table->text('disapprovereason')->nullable();
+            $table->integer('submissions')->default(1);
             $table->tinyInteger('synched')->default(0)->comment("0:Awaiting synching; 1:Synched; 2:Update awaiting synching;");
             $table->date('datesynched')->nullable();
             $table->softDeletes();
@@ -33,6 +39,6 @@ class CreateAllocationDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('allocation_details');
+        //
     }
 }

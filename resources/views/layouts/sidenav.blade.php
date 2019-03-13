@@ -26,13 +26,21 @@
         @elseif(Auth::user()->user_type_id == 9)
             <li><a href="{{ url('reports/support') }}">Reports Download</a></li>
             <hr />
-            <li><a href="{{ url('reports/nodata/EID') }}">EID No Data Reports</a></li>
+            <li><a href="{{ url('#') }}">Remote Log In Reports</a></li>
+            <hr/>
+            <li><a href="{{ url('#') }}">No Data Summary Reports</a></li>
+            <hr/>
+            {{-- <li><a href="{{ url('reports/nodata/EID') }}">EID No Data Reports</a></li>
             <hr />
             <li><a href="{{ url('reports/nodata/VL') }}">VL No Data Reports</a></li>
+            <hr /> --}}
+            <li><a href="{{ url('reports/utilization/EID') }}">EID Equipment Utilization Report</a></li>
             <hr />
-            <li><a href="{{ url('reports/utilization/EID') }}">EID Utilization Report</a></li>
+            <li><a href="{{ url('reports/utilization/VL') }}">VL Equipment Utilization Report</a></li>
             <hr />
-            <li><a href="{{ url('reports/utilization/VL') }}">VL Utilization Report</a></li>
+            <li><a href="{{ url('#') }}">EID No Data Sample Listing</a></li>
+            <hr />
+            <li><a href="{{ url('#') }}">VL No Data Sample Listing</a></li>
             <hr />
         @elseif (Auth::user()->user_type_id != 12)
             @if(Auth::user()->user_type_id == 8)
@@ -104,6 +112,8 @@
             <li><a href="{{ url('allocations/EID') }}">EID Allocation List</a></li>
             <hr />
             <li><a href="{{ url('allocations/VL') }}">VL Allocation List</a></li>
+            <hr />
+            <li><a href="{{ url('allocations/Consumables') }}">Consumable Allocation List</a></li>
             <hr />
         @endif
         </ul>

@@ -87,6 +87,8 @@ $api->version('v1', function (Router $api) {
                 $api->post('viralbatches', 'VlController@update_batches');
                 $api->post('viralsamples', 'VlController@update_samples');
 
+                $api->post('allocations', 'AllocationsController@update');
+
             });
 
             $api->group(['prefix' => 'delete'], function(Router $api) {

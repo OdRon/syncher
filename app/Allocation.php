@@ -14,16 +14,26 @@ class Allocation extends Model
     protected $guarded = [];
 
 
-    public function scopeExisting($query, $year, $month, $testtype, $machine)
+    public function scopeExisting($query, $year, $month, $lab_id)
     {
-        return $query->where(['year' => $year, 'month' => $month, 'testtype' => $testtype, 'machine_id' => $machine]);
-    }
-
-    public function machine(){
-        return $this->belongsTo('App\Machine');
+        return $query->where(['year' => $year, 'month' => $month, 'lab_id' => $lab_id]);
     }
 
     public function details() {
         return $this->hasMany('App\AllocationDetail');
+    }
+
+    public function reviewed($testtype=null){
+        $details = $this->details->when($testtype, function($query) use ($testtype){
+                            if ($testtype == 'EID')
+                                return $query->where('testtype', '=', 1);
+                            else if ($testtype == 'VL')
+                                return $query->where('testtype', '=', 2);
+                            else if ($testtype == 'CONSUMABLES')
+                                return $query->where('testtype', '=', NULL);         
+                        })->where('approve', '<>', 0)->count();
+        if ($details > 0)
+            return true;
+        return false;
     }
 }

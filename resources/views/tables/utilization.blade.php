@@ -45,26 +45,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                           @foreach($viewdata->data as $datakey => $datavalue)
+                           @foreach($viewdata->labs as $datakey => $lab)
                            <tr>
-                               <td>{{ $datavalue['lab'] }}</td>
-                               @php
+                                @php
                                     $totals = 0;
-                               @endphp
-                               @foreach($viewdata->machines as $machinekey => $machinevalue)
-                                    @php
-                                        $machine = $machinevalue->machine;
-                                        $totals += (isset($datavalue[$machine])) ? $datavalue[$machine] : 0;
-                                    @endphp
-                                    <td>{{ (isset($datavalue[$machine])) ? number_format($datavalue[$machine]) : 0 }}</td>
-                               @endforeach
-                               <td>{{ ($totals) ? number_format($totals) : 0 }}</td>
-                               @foreach($viewdata->machines as $machinekey => $machinevalue)
-                                    @php
-                                        $machine = $machinevalue->machine;
-                                    @endphp
-                                    <td>{{ (isset($datavalue[$machine])) ? round((@(($datavalue[$machine]/$totals) * 100)), 2) : 0 }} %</td>
-                               @endforeach
+                                    $labdata = $viewdata->data->where('lab_id', $lab->id)->first();
+                                    if (!empty($labdata))
+                                        $totals = @($labdata->abbott + $labdata->taqman + $labdata->c8800 + $labdata->panther);
+                                @endphp
+                                <td>{{ $lab->labname }}</td>
+                                <td>{{ $labdata->taqman ?? 0 }}</td>
+                                <td>{{ $labdata->abbott ?? 0 }}</td>
+                                <td>{{ $labdata->c8800 ?? 0 }}</td>
+                                <td>{{ $labdata->panther ?? 0 }}</td>
+                                <td>{{ ($totals) ? number_format($totals) : 0 }}</td>
+                                <td>{{ ($labdata) ? number_format(@(($labdata->taqman * 100)/$totals)) : 0 }}</td>
+                                <td>{{ ($labdata) ? number_format(@(($labdata->abbott * 100)/$totals)) : 0 }}</td>
+                                <td>{{ ($labdata) ? number_format(@(($labdata->c8800 * 100)/$totals)) : 0 }}</td>
+                                <td>{{ ($labdata) ? number_format(@(($labdata->panther * 100)/$totals)) : 0 }}</td>
                            </tr>
                            @endforeach
                         </tbody>
