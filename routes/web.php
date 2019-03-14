@@ -135,5 +135,6 @@ Route::get('sendsms', 'GenerealController@send_sms');
 Route::get('synch/', function(){
 	// \App\Synch::synch_allocations();
 });
-Route::get('test/{year?}/{month?}', 'HomeController@test');
+Route::get('positives/{year?}/{month?}', 'HomeController@test');
+Route::get('negatives/{year?}/{month?}','HomeController@negatives_report');
 // $connected = @fsockopen("www.example.com", 80); 
