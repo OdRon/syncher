@@ -9,6 +9,7 @@ use App\Batch;
 use App\Viralbatch;
 use App\Lookup;
 use DB;
+use Excel;
 
 class HomeController extends Controller
 {
