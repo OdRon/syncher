@@ -64,7 +64,7 @@ class HomeController extends Controller
     }
 
     public function test($year = null, $month = null) {
-        echo "Method start \n";
+        // echo "Method start \n";
     	if($year==null){
     		$year = Date('Y');
     	}
@@ -121,7 +121,7 @@ class HomeController extends Controller
 				$result[$i]['positive_pcr'] = $patient->pcrtype;
 				$i++;
 
-				echo "Found 1 \n";
+				// echo "Found 1 \n";
 				$d = null;
 			}
 
@@ -129,6 +129,88 @@ class HomeController extends Controller
 		}
 
 		Excel::create('Negative_to_Positive', function($excel) use($result)  {
+
+		    // Set sheets
+
+		    $excel->sheet('Sheetname', function($sheet) use($result) {
+
+		        $sheet->fromArray($result);
+
+		    });
+
+		})->download('csv');
+
+		// return $result;
+    }
+
+    
+
+    public function negatives_report($year=null, $month=null){
+    	// echo "Method start \n";
+    	if($year==null){
+    		$year = Date('Y');
+    	}
+
+    	$raw = "samples_view.id, samples_view.patient, samples_view.facility_id, labs.name as lab, view_facilitys.name as facility_name, samples_view.pcrtype,  datetested";
+    	$raw2 = "samples_view.id, samples_view.patient, samples_view.facility_id, samples_view.pcrtype, datetested";
+
+    	$data = DB::table("samples_view")
+		->select(DB::raw($raw))
+		->join('view_facilitys', 'samples_view.facility_id', '=', 'view_facilitys.id')
+		->join('labs', 'samples_view.lab_id', '=', 'labs.id')
+		->orderBy('samples_view.facility_id', 'desc')
+		->whereYear('datetested', $year)
+		->when($month, function($query) use ($month){
+			if($month != null || $month != 0){
+				return $query->whereMonth('datetested', $month);
+			}
+		})
+		->where('result', 1)
+		->where('samples_view.repeatt', 0)
+		->where('samples_view.flag', 1)
+		->where('samples_view.eqa', 0)
+		->get();
+
+		// echo "Total {$data->count()} \n";
+
+		$i = 0;
+		$result = null;
+
+		foreach ($data as $patient) {
+
+	    	$d = DB::table("samples_view")
+			->select(DB::raw($raw2))
+			->where('facility', $patient->facility_id)
+			->where('patient', $patient->patient)
+			->where('datetested', '<', $patient->datetested)
+			->where('result', 2)
+			->where('repeatt', 0)
+			->where('flag', 1)
+			->where('eqa', 0)
+			->first();
+
+			if($d){
+				$result[$i]['laboratory'] = $patient->lab;
+				$result[$i]['facility'] = $patient->facility_id;
+				$result[$i]['patient_id'] = $patient->patient;
+
+				$result[$i]['negative_sample_id'] = $patient->id; 
+				$result[$i]['negative_date'] = $patient->datetested;
+				$result[$i]['negative_pcr'] = $patient->pcrtype;
+
+				$result[$i]['positive_sample_id'] = $d->id;
+				$result[$i]['positive_date'] =  $d->datetested;
+				$result[$i]['positive_pcr'] = $d->pcrtype;
+				$i++;
+
+				// echo "Found 1 \n";
+				$d = null;
+			}
+
+
+		}
+
+		Excel::create('Positive_to_Negative', function($excel) use($result)  {
 
 		    // Set sheets
 
