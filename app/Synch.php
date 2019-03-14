@@ -432,6 +432,61 @@ class Synch
 		}
 	}
 
+	public static function correct_no_dob($type)
+	{
+        ini_set("memory_limit", "-1");
+		$classes = self::$synch_arrays[$type];
+
+		$sampleview_class = $classes['sampleview_class'];
+		$sample_class = $classes['sample_class'];
+		$patient_class = $classes['patient_class'];
+
+		$labs = Lab::all();
+		$base = str_replace('App\\', '', $sample_class);
+		$base = strtolower($base) . '/';
+
+		$samples = $sampleview_class::whereNull('dob')->where('datecollected', '>', '2018-01-01')->where('site_entry', '!=', 2)->get();
+
+		foreach ($samples as $key => $sample) {
+			
+			$url = $base . $sample->original_sample_id;
+			$lab = $labs->where('id', $sample->lab_id)->first();
+			$client = new Client(['base_uri' => $lab->base_url]);
+
+			try {
+				$response = $client->request('get', $url, [
+					'headers' => [
+						'Accept' => 'application/json',
+						'Authorization' => 'Bearer ' . self::get_token($lab),
+					],
+		            'connect_timeout' => 1.5,
+					'http_errors' => false,
+					'verify' => false,
+				]);
+
+				$body = json_decode($response->getBody());
+
+				// dd($body);
+
+				if($response->getStatusCode() < 400)
+				{		
+					$patient = $patient_class::find($sample->patient_id);		
+					if($patient->id == $body->patient->national_patient_id)
+					{
+						$patient->dob = $body->patient->dob;
+						$patient->save();
+						echo "Fixed One \n";
+					}
+				}	
+				else{
+					print_r($body);
+				}			
+			} catch (Exception $e) {
+				
+			}
+		}
+	}
+
 
 	public static function test_connection() {
 		$labs = Lab::all();
