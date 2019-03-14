@@ -65,6 +65,7 @@ class HomeController extends Controller
 
     public function test($year = null, $month = null) {
         // echo "Method start \n";
+        ini_set("memory_limit", "-1");
     	if($year==null){
     		$year = Date('Y');
     	}
@@ -147,7 +148,8 @@ class HomeController extends Controller
     
 
     public function negatives_report($year=null, $month=null){
-    	// echo "Method start \n";
+        // echo "Method start \n";
+        ini_set("memory_limit", "-1");
     	if($year==null){
     		$year = Date('Y');
     	}
