@@ -224,7 +224,7 @@ class HomeController extends Controller
 
 		    });
 
-		})->download('csv');
+		})->store('csv');
 
 		// return $result;
     }

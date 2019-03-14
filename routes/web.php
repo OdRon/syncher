@@ -136,5 +136,4 @@ Route::get('synch/', function(){
 	// \App\Synch::synch_allocations();
 });
 Route::get('positives/{year?}/{month?}', 'HomeController@test');
-Route::get('negatives/{year?}/{month?}','HomeController@negatives_report');
 // $connected = @fsockopen("www.example.com", 80); 
