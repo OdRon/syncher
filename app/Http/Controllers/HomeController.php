@@ -61,4 +61,84 @@ class HomeController extends Controller
         
         return redirect('reports/EID');
     }
+
+    public function test($year = null, $month = null) {
+        echo "Method start \n";
+    	if($year==null){
+    		$year = Date('Y');
+    	}
+
+    	$raw = "samples_view.id, samples_view.patient, samples_view.facility_id, labs.name as lab, view_facilitys.name as facility_name, samples_view.pcrtype, datetested";
+    	$raw2 = "samples_view.id, samples_view.patient, samples_view.facility_id, samples_view.pcrtype, datetested";
+
+    	$data = DB::table("samples_view")
+		->select(DB::raw($raw))
+		->join('view_facilitys', 'samples_view.facility_id', '=', 'view_facilitys.id')
+		->join('labs', 'samples_view.lab_id', '=', 'labs.id')
+		->orderBy('samples_view.facility_id', 'desc')
+		->whereYear('datetested', $year)
+		->when($month, function($query) use ($month){
+			if($month != null || $month != 0){
+				return $query->whereMonth('datetested', $month);
+			}
+		})
+		->where('result', 2)
+		->where('samples_view.repeatt', 0)
+		->where('samples_view.flag', 1)
+		->where('samples_view.eqa', 0)
+		->get();
+
+		// return $data;
+
+
+		$i = 0;
+		$result = null;
+
+		foreach ($data as $patient) {
+			
+
+	    	$d = DB::table("samples_view")
+			->select(DB::raw($raw2))
+			->where('facility_id', $patient->facility_id)
+			->where('patient', $patient->patient)
+			->where('datetested', '<', $patient->datetested)
+			->where('result', 1)
+			->where('repeatt', 0)
+			->where('flag', 1)
+			->where('eqa', 0)
+			->first();
+
+			if($d){
+				$result[$i]['laboratory'] = $patient->lab;
+				$result[$i]['facility'] = $patient->facility_name;
+				$result[$i]['patient_id'] = $patient->patient;
+				$result[$i]['negative_sample_id'] = $d->id;
+				$result[$i]['negative_date'] = $d->datetested;
+				$result[$i]['negative_pcr'] = $d->pcrtype;
+				$result[$i]['positive_sample_id'] = $patient->id;
+				$result[$i]['positive_date'] = $patient->datetested;
+				$result[$i]['positive_pcr'] = $patient->pcrtype;
+				$i++;
+
+				echo "Found 1 \n";
+				$d = null;
+			}
+
+
+		}
+
+		Excel::create('Negative_to_Positive', function($excel) use($result)  {
+
+		    // Set sheets
+
+		    $excel->sheet('Sheetname', function($sheet) use($result) {
+
+		        $sheet->fromArray($result);
+
+		    });
+
+		})->download('csv');
+
+		// return $result;
+    }
 }
