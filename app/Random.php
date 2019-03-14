@@ -1532,7 +1532,7 @@ class Random
 		}
 	}
 
-	public function negatives_report($year=2018, $month=null){
+	public static function negatives_report($year=2018, $month=null){
         // echo "Method start \n";
         ini_set("memory_limit", "-1");
     	if($year==null){
