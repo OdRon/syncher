@@ -69,7 +69,7 @@ class HomeController extends Controller
     		$year = Date('Y');
     	}
 
-    	$raw = "samples_view.id, samples_view.patient, samples_view.facility_id, labs.name as lab, view_facilitys.name as facility_name, samples_view.pcrtype, datetested";
+    	$raw = "samples_view.id, samples_view.patient, samples_view.facility_id, labs.name as lab, view_facilitys.name as facility_name, view_facilitys.county, samples_view.pcrtype, datetested";
     	$raw2 = "samples_view.id, samples_view.patient, samples_view.facility_id, samples_view.pcrtype, datetested";
 
     	$data = DB::table("samples_view")
@@ -111,7 +111,8 @@ class HomeController extends Controller
 
 			if($d){
 				$result[$i]['laboratory'] = $patient->lab;
-				$result[$i]['facility'] = $patient->facility_name;
+                $result[$i]['facility'] = $patient->facility_name;
+                $result[$i]['county'] = $patient->county;
 				$result[$i]['patient_id'] = $patient->patient;
 				$result[$i]['negative_sample_id'] = $d->id;
 				$result[$i]['negative_date'] = $d->datetested;
@@ -151,7 +152,7 @@ class HomeController extends Controller
     		$year = Date('Y');
     	}
 
-    	$raw = "samples_view.id, samples_view.patient, samples_view.facility_id, labs.name as lab, view_facilitys.name as facility_name, samples_view.pcrtype,  datetested";
+    	$raw = "samples_view.id, samples_view.patient, samples_view.facility_id, labs.name as lab, view_facilitys.name as facility_name, view_facilitys.county, samples_view.pcrtype,  datetested";
     	$raw2 = "samples_view.id, samples_view.patient, samples_view.facility_id, samples_view.pcrtype, datetested";
 
     	$data = DB::table("samples_view")
@@ -191,7 +192,8 @@ class HomeController extends Controller
 
 			if($d){
 				$result[$i]['laboratory'] = $patient->lab;
-				$result[$i]['facility'] = $patient->facility_id;
+                $result[$i]['facility'] = $patient->facility_id;
+                $result[$i]['county'] = $patient->county;
 				$result[$i]['patient_id'] = $patient->patient;
 
 				$result[$i]['negative_sample_id'] = $patient->id; 
