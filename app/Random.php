@@ -1557,6 +1557,7 @@ class Random
 		->where('samples_view.repeatt', 0)
 		->where('samples_view.flag', 1)
 		->where('samples_view.eqa', 0)
+		->where('age', '<', '2.01')
 		->get();
 
 		// echo "Total {$data->count()} \n";
@@ -1613,8 +1614,8 @@ class Random
 
 		
 
-		$data = [storage_path("exports/" . $file . ".csv")];
+		// $data = [storage_path("exports/" . $file . ".csv")];
 
-		Mail::to(['baksajoshua09@gmail.com'])->send(new TestMail($data));
+		// Mail::to(['baksajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
     }
 }
