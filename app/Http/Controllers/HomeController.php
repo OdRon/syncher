@@ -180,7 +180,7 @@ class HomeController extends Controller
 
 	    	$d = DB::table("samples_view")
 			->select(DB::raw($raw2))
-			->where('facility', $patient->facility_id)
+			->where('facility_id', $patient->facility_id)
 			->where('patient', $patient->patient)
 			->where('datetested', '<', $patient->datetested)
 			->where('result', 2)
