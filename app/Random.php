@@ -256,7 +256,7 @@ class Random
 			$sql = self::get_current_gender_query(1, $facility->id, $date_params);
 			$one = collect(DB::select($sql));
 
-			$sql = self::get_current_gender_query(2, $facility->id, $date_params;
+			$sql = self::get_current_gender_query(2, $facility->id, $date_params);
 			$two = collect(DB::select($sql));
 
 			$sql = self::get_current_gender_query(4, $facility->id, $date_params);
