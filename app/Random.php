@@ -245,7 +245,7 @@ class Random
 		$days = $start_date->day;
 
 		$start_date = $start_date->subDays($days-1)->toDateString();
-		$end_date = Carbon::now()->subDays($days)->addMonth()->toDateString();
+		$end_date = Carbon::now()->subDays($days)->toDateString();
 		$date_params = [$start_date, $end_date];
 
 		foreach ($data as $key => $row) {
