@@ -242,7 +242,7 @@ class Random
 		$rows = [];
 
 		$start_date = Carbon::now()->subYear();
-		$days = $start_date->dayOfMonth();
+		$days = $start_date->day;
 
 		$start_date = $start_date->subDays($days-1)->toDateString();
 		$end_date = Carbon::now()->subDays($days)->addMonth()->toDateString();
