@@ -121,6 +121,7 @@ class Random
 
 	public static function get_current_query($param)
 	{
+
     	$sql = 'SELECT facility_id, count(*) as totals ';
 		$sql .= 'FROM ';
 		$sql .= '(SELECT v.id, v.facility_id, v.rcategory, v.result ';
@@ -199,7 +200,7 @@ class Random
 
 
 
-	public static function get_current_gender_query($param, $facility_id)
+	public static function get_current_gender_query($param, $facility_id, $date_params=null)
 	{
     	$sql = 'SELECT sex, count(*) as totals ';
 		$sql .= 'FROM ';
@@ -208,7 +209,10 @@ class Random
 		$sql .= 'RIGHT JOIN ';
 		$sql .= '(SELECT ID, patient_id, max(datetested) as maxdate ';
 		$sql .= 'FROM viralsamples_view ';
-		$sql .= 'WHERE ( datetested between "2018-01-01" and "2018-12-31" ) ';
+		if($date_params) $sql .= 'WHERE ( datetested between "' . $date_params[0] . '" and "' . $date_params[1] . '" ) ';
+		else {
+			$sql .= 'WHERE ( datetested between "2018-01-01" and "2018-12-31" ) ';
+		}
 		$sql .= "AND patient != '' AND patient != 'null' AND patient is not null ";
 		$sql .= 'AND flag=1 AND repeatt=0 AND rcategory in (1, 2, 3, 4) ';
 		$sql .= 'AND justification != 10 and facility_id != 7148 ';
@@ -237,18 +241,25 @@ class Random
 
 		$rows = [];
 
+		$start_date = Carbon::now()->subYear();
+		$days = $start_date->dayOfMonth();
+
+		$start_date = $start_date->subDays($days-1)->toDateString();
+		$end_date = Carbon::now()->subDays($days)->addMonth()->toDateString();
+		$date_params = [$start_date, $end_date];
+
 		foreach ($data as $key => $row) {
 
 			$facility = \App\Facility::where(['facilitycode' => $row->mfl_code])->first();
 			if(!$facility) continue;
 
-			$sql = self::get_current_gender_query(1, $facility->id);
+			$sql = self::get_current_gender_query(1, $facility->id, $date_params);
 			$one = collect(DB::select($sql));
 
-			$sql = self::get_current_gender_query(2, $facility->id);
+			$sql = self::get_current_gender_query(2, $facility->id, $date_params;
 			$two = collect(DB::select($sql));
 
-			$sql = self::get_current_gender_query(4, $facility->id);
+			$sql = self::get_current_gender_query(4, $facility->id, $date_params);
 			$four = collect(DB::select($sql));
 
 			$rows[] = [
@@ -263,7 +274,7 @@ class Random
 			];
 
 		}
-		$file = '2018_gender_totals_by_most_recent_test';
+		$file = "gender_totals_between_{$start_date}_and_{$end_date}_by_most_recent_test";
 		
 		Excel::create($file, function($excel) use($rows){
 			$excel->sheet('Sheetname', function($sheet) use($rows) {
