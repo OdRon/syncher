@@ -69,7 +69,7 @@ class ReportController extends Controller
             if ($usertype != 5) {
                 if ($usertype != 5) 
                     $countys = ViewFacility::when($usertype, function($query) use ($usertype) { 
-                                                if ($usertype != 10)
+                                                if (!($usertype == 10 || $usertype == 2))
                                                     return $query->where('partner_id', '=', auth()->user()->level);
                                             })->groupBy('county_id')->orderBy('county', 'asc')->get();
                 if ($usertype == 6 || $usertype == 10)
