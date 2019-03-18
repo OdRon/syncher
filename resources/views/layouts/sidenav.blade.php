@@ -65,16 +65,10 @@
                 <li><a href="{{ url('patients/VL') }}">VL Patient List</a></li>
                 <hr />
                 @endif
-                @if(Auth::user()->user_type_id != 2)
-                    @if(Auth::user()->user_type_id != 8)
-                        <li><a href="{{ url('sites') }}">Facilities</a></li>
-                        <hr />
-                        <li><a href="#">User Guide</a></li>
-                        <hr />
-                    @endif
-                @endif
                 @if(Auth::user()->user_type_id != 8)
-                    <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
+                    <li><a href="{{ url('sites') }}">Facilities</a></li>
+                    <hr />
+                    <li><a href="#">User Guide</a></li>
                     <hr />
                 @endif
                 @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 8 || Auth::user()->user_type_id == 10)
@@ -103,6 +97,10 @@
                 <hr />
             @endif
             
+            @if(Auth::user()->user_type_id != 8)
+                <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
+                <hr />
+            @endif
             @if(!(Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7 || Auth::user()->user_type_id == 2))
                 @if(Auth::user()->user_type_id != 8)
                 <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
