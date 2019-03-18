@@ -71,9 +71,11 @@
                         <hr />
                         <li><a href="#">User Guide</a></li>
                         <hr />
-                        <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
-                        <hr />
                     @endif
+                @endif
+                @if(Auth::user()->user_type_id != 8)
+                    <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
+                    <hr />
                 @endif
                 @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 8 || Auth::user()->user_type_id == 10)
                     <li>
