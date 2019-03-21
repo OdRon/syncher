@@ -51,15 +51,22 @@
                                     <td>
                                     @php
                                         $pending = 0;
+                                        $complete = 0;
                                         if (!$lab->allocations->isEmpty()) {
                                             foreach($lab->allocations as $allocation) {
                                                 if ($allocation->details->where('approve', 0)->count() > 0)
                                                     $pending ++;
+                                                if ($allocation->details->where('approve', 1)->count() > 0)
+                                                    $complete ++;
+                                                if ($allocation->details->where('approve', 2)->count() > 0)
+                                                    $complete ++;
                                             }
                                         }
                                     @endphp
                                     @if($lab->allocations->count() > 0)
-                                        @if($pending > 0)
+                                        @if(($pending > 0) && ($complete > 0))
+                                            <span class="label label-warning">Update Pending Approval</span>
+                                        @elseif(($pending > 0) && ($complete == 0))
                                             <span class="label label-warning">Pending Approval</span>
                                         @else
                                             <span class="label label-success">Complete</span>
