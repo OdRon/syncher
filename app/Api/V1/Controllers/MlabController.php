@@ -47,7 +47,7 @@ class MlabController extends Controller
  
         $result = $class::select("{$table}.*", 'facilitys.facilitycode', 'labs.name as lab_name')
             ->join('facilitys', 'facilitys.id', '=', "{$table}.facility_id")
-            ->join('labs', 'labs.id', '=', "{$table}.lab_id")
+            ->leftJoin('labs', 'labs.id', '=', "{$table}.lab_id")
             ->when($facilities, function($query) use($facilities){
                 return $query->whereIn('facilitycode', $facilities);
             })
