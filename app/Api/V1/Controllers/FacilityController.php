@@ -8,6 +8,7 @@ use App\Api\V1\Requests\BlankRequest;
 use App\Jobs\NewFacility;
 
 use App\Facility;
+use DB;
 
 class FacilityController extends Controller
 {
@@ -29,18 +30,43 @@ class FacilityController extends Controller
      */
     public function store(BlankRequest $request)
     {
-        $facility_data = json_decode($request->input('facility'));
-        $lab_id = $request->input('lab_id');
-        $facility = new Facility;
-        $facility->fill($facility_data);
-        // unset($facility->id);
-        $facility->save();
+        $facilities = json_decode($request->input('facilities'));
 
-        NewFacility::dispatch($facility);
+        $facility_data = [];
+
+        foreach ($facilities as $key => $value) {
+            $fac = Facility::where(['facilitycode' => $value->facilitycode])->first();
+
+            if(!$fac){
+                unset($value->facility_contact);
+                $fac = new Facility;
+                $fac->fill(get_object_vars($value));
+                unset($fac->id);
+                $fac->synched = 1;
+                $fac->save();
+
+                $fac_array = $fac->toArray();
+                unset($fac_array['poc']);
+                unset($fac_array['has_gene']);
+                unset($fac_array['has_alere']);
+
+                DB::table("apidb.facilitys")->insert($fac_array);
+            }
+
+            $facility_data[] = ['old_facility_id' => $value->id, 'new_facility_id' => $fac->id];
+        }
+
+        // $lab_id = $request->input('lab_id');
+        // $facility = new Facility;
+        // $facility->fill($facility_data);
+        // // unset($facility->id);
+        // $facility->save();
+
+        // NewFacility::dispatch($facility);
 
         return response()->json([
           'status' => 'ok',
-          'facility' => $facility,
+          'facilities' => $facility_data,
         ], 201);
     }
 
