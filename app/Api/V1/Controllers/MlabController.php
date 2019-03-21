@@ -45,8 +45,9 @@ class MlabController extends Controller
             $facilities = explode(',', $facilities);
         }
  
-        $result = $class::select("{$table}.*", 'facilitys.facilitycode')
+        $result = $class::select("{$table}.*", 'facilitys.facilitycode', 'labs.name as lab_name')
             ->join('facilitys', 'facilitys.id', '=', "{$table}.facility_id")
+            ->join('labs', 'labs.id', '=', "{$table}.lab_id")
             ->when($facilities, function($query) use($facilities){
                 return $query->whereIn('facilitycode', $facilities);
             })
@@ -82,6 +83,7 @@ class MlabController extends Controller
                 'units' => $sample->units ?? '',
                 'mfl_code' => "{$sample->facilitycode}",
                 'lab_id' => "{$sample->lab_id}",
+                'lab_name' => "{$sample->lab_name}",
                 'date_collected' => $sample->datecollected ?? '0000-00-00',
                 'cst' => $sample->my_string_format('sampletype'),
                 'cj' => $sample->my_string_format('justification'),
