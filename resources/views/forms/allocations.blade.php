@@ -36,51 +36,62 @@
             {{ Form::open(['url' => '/approveallocation', 'method' => 'post', 'class'=>'form-horizontal']) }}
             @foreach($data->allocations as $allocation)
                 <div class="panel-body">
-                    <div class="alert alert-info">
-                        <center>Allocation for {{ $allocation->machine->machine}}, {{ $globaltesttype }}</center>
+                    <div class="alert 
+                        @if($allocation->approve == 0)
+                            alert-warning
+                        @else
+                            alert-info
+                        @endif">
+                        <center>Allocation for {{ $allocation->machine->machine ?? ''}}, {{ $globaltesttype }}</center>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>Name of Commodity</th>
+                                    @if ($globaltesttype != 'CONSUMABLES')
                                     <th>Average Monthly Consumption(AMC)</th>
                                     <th>Months of Stock(MOS)</th>
                                     <th>Ending Balance</th>
                                     <th>Recommended Quantity to Allocate (by System)</th>
+                                    @endif
                                     <th>Quantity Allocated by Lab</th>
                                 </tr>
                             </thead>
                             <tbody>
                             @php
-                                $tests = $allocation->machine->testsforLast3Months()->$globaltesttype;
-                                $qualamc = 0;
+                                if ($globaltesttype != 'CONSUMABLES') {
+                                    $tests = $allocation->machine->testsforLast3Months()->$globaltesttype;
+                                    $qualamc = 0;
+                                }
                             @endphp
-                            @foreach($allocation->details as $detail)
+                            @foreach($allocation->breakdowns as $detail)
                                 @php
-                                    dd($detail->kit);
-                                    $test_factor = json_decode($detail->kit->testFactor);
-                                    $factor = json_decode($detail->kit->factor);
-                                    if ($detail->kit->alias == 'qualkit')
-                                        $qualamc = (($tests / $test_factor->$globaltesttype) / 3);
+                                    if ($globaltesttype != 'CONSUMABLES') {
+                                        $test_factor = json_decode($detail->breakdown->testFactor);
+                                        $factor = json_decode($detail->breakdown->factor);
+                                        if ($detail->breakdown->alias == 'qualkit')
+                                            $qualamc = (($tests / $test_factor->$globaltesttype) / 3);
 
-                                    if ($allocation->machine->id == 2)
-                                        $amc = $qualamc * $factor->$globaltesttype;
-                                    else
-                                        $amc = $qualamc * $factor;
+                                        if ($allocation->machine->id == 2)
+                                            $amc = $qualamc * $factor->$globaltesttype;
+                                        else
+                                            $amc = $qualamc * $factor;
 
-                                    $ending = 0;
-                                    $consumption = $detail->kit->consumption
-                                                        ->where('month', $data->last_month)->where('year', $data->last_year)
-                                                        ->where('testtype', $globaltesttypevalue)->where('lab_id', $data->lab->id)
-                                                        ->pluck('ending');
-                                    foreach($consumption as $value) {
-                                        $ending += $value;
+                                        $ending = 0;
+                                        $consumption = $detail->breakdown->consumption
+                                                            ->where('month', $data->last_month)->where('year', $data->last_year)
+                                                            ->where('testtype', $globaltesttypevalue)->where('lab_id', $data->lab->id)
+                                                            ->pluck('ending');
+                                        foreach($consumption as $value) {
+                                            $ending += $value;
+                                        }
+                                        $mos = @($ending / $amc);
                                     }
-                                    $mos = @($ending / $amc);
                                 @endphp
                                 <tr>
-                                    <td>{{ str_replace("REPLACE", $replace, $detail->kit->name) }}</td>
+                                    <td>{{ str_replace("REPLACE", $replace, $detail->breakdown->name) }}</td>
+                                    @if ($globaltesttype != 'CONSUMABLES') {
                                     <td>{{ $amc }}</td>
                                     <td>
                                     @if(is_nan($mos))
@@ -91,6 +102,7 @@
                                     </td>
                                     <td>{{ $ending }}</td>
                                     <td>{{ ($amc * 2) - $ending }}</td>
+                                    @endif
                                     <td>{{ $detail->allocated }}</td>
                                 </tr>
                             @endforeach
@@ -118,7 +130,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Allocation Committee Feedback</label>
                         <div class="col-md-8">
-                            <textarea name="issuedcomments[]" class="form-control">{{ $allocation->issuedcomments }}</textarea>
+                            <textarea name="issuedcomments[{{ $counter }}]" class="form-control" @if($allocation->approve != 0) disabled @endif>{{ $allocation->issuedcomments }}</textarea>
                         </div>                            
                     </div>
                 </div>

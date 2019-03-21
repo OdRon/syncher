@@ -121,6 +121,7 @@ class Random
 
 	public static function get_current_query($param)
 	{
+
     	$sql = 'SELECT facility_id, count(*) as totals ';
 		$sql .= 'FROM ';
 		$sql .= '(SELECT v.id, v.facility_id, v.rcategory, v.result ';
@@ -199,7 +200,7 @@ class Random
 
 
 
-	public static function get_current_gender_query($param, $facility_id)
+	public static function get_current_gender_query($param, $facility_id, $date_params=null)
 	{
     	$sql = 'SELECT sex, count(*) as totals ';
 		$sql .= 'FROM ';
@@ -208,7 +209,10 @@ class Random
 		$sql .= 'RIGHT JOIN ';
 		$sql .= '(SELECT ID, patient_id, max(datetested) as maxdate ';
 		$sql .= 'FROM viralsamples_view ';
-		$sql .= 'WHERE ( datetested between "2018-01-01" and "2018-12-31" ) ';
+		if($date_params) $sql .= 'WHERE ( datetested between "' . $date_params[0] . '" and "' . $date_params[1] . '" ) ';
+		else {
+			$sql .= 'WHERE ( datetested between "2018-01-01" and "2018-12-31" ) ';
+		}
 		$sql .= "AND patient != '' AND patient != 'null' AND patient is not null ";
 		$sql .= 'AND flag=1 AND repeatt=0 AND rcategory in (1, 2, 3, 4) ';
 		$sql .= 'AND justification != 10 and facility_id != 7148 ';
@@ -237,18 +241,25 @@ class Random
 
 		$rows = [];
 
+		$start_date = Carbon::now()->subYear();
+		$days = $start_date->day;
+
+		$start_date = $start_date->subDays($days-1)->toDateString();
+		$end_date = Carbon::now()->subDays($days)->toDateString();
+		$date_params = [$start_date, $end_date];
+
 		foreach ($data as $key => $row) {
 
 			$facility = \App\Facility::where(['facilitycode' => $row->mfl_code])->first();
 			if(!$facility) continue;
 
-			$sql = self::get_current_gender_query(1, $facility->id);
+			$sql = self::get_current_gender_query(1, $facility->id, $date_params);
 			$one = collect(DB::select($sql));
 
-			$sql = self::get_current_gender_query(2, $facility->id);
+			$sql = self::get_current_gender_query(2, $facility->id, $date_params);
 			$two = collect(DB::select($sql));
 
-			$sql = self::get_current_gender_query(4, $facility->id);
+			$sql = self::get_current_gender_query(4, $facility->id, $date_params);
 			$four = collect(DB::select($sql));
 
 			$rows[] = [
@@ -263,7 +274,7 @@ class Random
 			];
 
 		}
-		$file = '2018_gender_totals_by_most_recent_test';
+		$file = "gender_totals_between_{$start_date}_and_{$end_date}_by_most_recent_test";
 		
 		Excel::create($file, function($excel) use($rows){
 			$excel->sheet('Sheetname', function($sheet) use($rows) {
@@ -1531,4 +1542,91 @@ class Random
 			}
 		}
 	}
+
+	public static function negatives_report($year=2018, $month=null){
+        // echo "Method start \n";
+        ini_set("memory_limit", "-1");
+    	if($year==null){
+    		$year = Date('Y');
+    	}
+
+    	$raw = "samples_view.id, samples_view.patient, samples_view.facility_id, labs.name as lab, view_facilitys.name as facility_name, view_facilitys.county, samples_view.pcrtype,  datetested";
+    	$raw2 = "samples_view.id, samples_view.patient, samples_view.facility_id, samples_view.pcrtype, datetested";
+
+    	$data = DB::table("samples_view")
+		->select(DB::raw($raw))
+		->join('view_facilitys', 'samples_view.facility_id', '=', 'view_facilitys.id')
+		->join('labs', 'samples_view.lab_id', '=', 'labs.id')
+		->orderBy('samples_view.facility_id', 'desc')
+		->whereYear('datetested', $year)
+		->when($month, function($query) use ($month){
+			if($month != null || $month != 0){
+				return $query->whereMonth('datetested', $month);
+			}
+		})
+		->where('result', 1)
+		->where('samples_view.repeatt', 0)
+		->where('samples_view.flag', 1)
+		->where('samples_view.eqa', 0)
+		->where('age', '<', '2.01')
+		->get();
+
+		// echo "Total {$data->count()} \n";
+
+		$i = 0;
+		$result = null;
+
+		foreach ($data as $patient) {
+
+	    	$d = DB::table("samples_view")
+			->select(DB::raw($raw2))
+			->where('facility_id', $patient->facility_id)
+			->where('patient', $patient->patient)
+			->where('datetested', '<', $patient->datetested)
+			->where('result', 2)
+			->where('repeatt', 0)
+			->where('flag', 1)
+			->where('eqa', 0)
+			->first();
+
+			if($d){
+				$result[$i]['laboratory'] = $patient->lab;
+                $result[$i]['facility'] = $patient->facility_id;
+                $result[$i]['county'] = $patient->county;
+				$result[$i]['patient_id'] = $patient->patient;
+
+				$result[$i]['negative_sample_id'] = $patient->id; 
+				$result[$i]['negative_date'] = $patient->datetested;
+				$result[$i]['negative_pcr'] = $patient->pcrtype;
+
+				$result[$i]['positive_sample_id'] = $d->id;
+				$result[$i]['positive_date'] =  $d->datetested;
+				$result[$i]['positive_pcr'] = $d->pcrtype;
+				$i++;
+
+				// echo "Found 1 \n";
+				$d = null;
+			}
+
+
+		}
+		$file = $year . 'Positive_to_Negative';
+		Excel::create($file, function($excel) use($result)  {
+
+		    // Set sheets
+
+		    $excel->sheet('Sheetname', function($sheet) use($result) {
+
+		        $sheet->fromArray($result);
+
+		    });
+
+		})->store('csv');
+
+		
+
+		// $data = [storage_path("exports/" . $file . ".csv")];
+
+		// Mail::to(['baksajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
+    }
 }

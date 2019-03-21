@@ -2,7 +2,6 @@
 
 namespace App\Api\V1\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Api\V1\Requests\BlankRequest;
 use GuzzleHttp\Client;
 
@@ -10,7 +9,7 @@ use GuzzleHttp\Client;
 use App\Lab;
 use App\Synch;
 
-class TransferController extends Controller
+class TransferController extends BaseController
 {
 
     /**
@@ -40,14 +39,22 @@ class TransferController extends Controller
                 'samples' => $request->input('samples'),
             ],
         ]);
-        
+
+        $code = $response->getStatusCode();
         $body = json_decode($response->getBody());
+
+        if($code > 399){
+            // dd($body);
+            return response()->json(get_object_vars($body), $response->getStatusCode());
+        }
+        
 
         $data = [
             'ok' => $body->ok ?? null,
             'samples' => $body->samples ?? null,
             'batches' => $body->batches ?? null,
             'patients' => $body->patients ?? null,
+            'others' => $body->others ?? null,
         ];
 
         if($type == 'eid') $data ['mothers'] = $body->mothers ?? null;

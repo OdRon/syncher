@@ -353,9 +353,7 @@
                             <label class="col-sm-3 control-label">Select Report Type</label>
                             <div class="col-sm-9">
                             @if($testtype == 'EID')
-                                @if(!(Auth::user()->user_type_id == 2))
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks" required> All Outcomes (+/-) </label>
-                                @endif
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks" required> + Outcomes </label>
                                 @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
                                 <label> <input type="radio" name="indicatortype" value="3" class="i-checks" required> + Outcomes for Follow Up </label>
@@ -399,9 +397,9 @@
                                 <label><input type="radio" name="indicatortype" value="19" class="i-checks" required>EID No Data Summary</label>
                                 <label><input type="radio" name="indicatortype" value="20" class="i-checks" required>VL No Data Summary</label>
                                 --}}
-                                <label><input type="radio" name="indicatortype" value="" class="i-checks" required>VL Utilization & Outcomes</label>
+                                <label><input type="radio" name="indicatortype" value="22" class="i-checks" required>VL Utilization & Outcomes</label>
                                 <label><input type="radio" name="indicatortype" value="18" class="i-checks" required>Low Level Viremia (LLV)</label>
-                                <label><input type="radio" name="indicatortype" value="18" class="i-checks" required>Lab Tracker</label>
+                                <label><input type="radio" name="indicatortype" value="21" class="i-checks" required>Lab Tracker</label>
                                 <label><input type="radio" name="indicatortype" value="13" class="i-checks" required>Quarterly VL Report (only for labs)</label>
                                 <label><input type="radio" name="indicatortype" value="14" class="i-checks" required>EID Sample Referral Network</label>
                                 <label><input type="radio" name="indicatortype" value="15" class="i-checks" required>VL Sample Referral Network</label>

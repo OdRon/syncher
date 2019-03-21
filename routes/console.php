@@ -117,6 +117,10 @@ Artisan::command('synch:allocations', function(){
     $this->info($str);
 })->describe('Synch Allocations');
 
+Artisan::command('send:negatives2018', function(){
+    $str = \App\Random::negatives_report();
+    $this->info($str);
+})->describe('Send Negatives');
 // Artisan::command('testPassword:email', function(){
 //     $str = \App\Report::send_password();
 //     $this->info($str);

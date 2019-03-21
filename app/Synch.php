@@ -58,7 +58,7 @@ class Synch
 	{
 		Cache::forget($lab->token_name);
 		$client = new Client(['base_uri' => $lab->base_url]);
-
+		// dd($lab->base_url);
 		try {
 			$response = $client->request('post', 'auth/login', [
 	            'http_errors' => false,
@@ -78,16 +78,19 @@ class Synch
 			// echo $lab->token_name . " is {$body->token} \n";		
 		} catch (Exception $e) {
 			Cache::put($lab->token_name, 'null', 60);	
-			// echo $lab->token_name . " is {$e->getMessage()}. \n";			
+			echo $lab->token_name . " is {$e->getMessage()}. \n";			
 		}
 	}
 
 	public static function get_token($lab)
 	{
-		if(Cache::has($lab->token_name)){}
-		else{
+		if(Cache::has($lab->token_name)){
+			if (Cache::get($lab->token_name) == null || Cache::get($lab->token_name) == 'null')
+				self::login($lab);
+		} else{
 			self::login($lab);
 		}
+		// dd($lab);
 		return Cache::get($lab->token_name);
 	}
 
@@ -185,11 +188,48 @@ class Synch
 	}
 
 	public static function synch_allocations() {
-		$allocations = Allocation::where('synched', '=', 2)->get();
+		$allocations = Allocation::with(['details' => function($query){
+									$query->where('synched', 2);
+								},'details.breakdowns' => function($query){
+									$query->where('synched', 2);
+								}])->where('synched', '=', 2)->get();
 		$labs = Lab::all();
-		foreach ($allocations as $key => $allocation) {
-			$lab = $labs->where('id', $allocation->lab_id)->first();
-			$synch_data = self::send_update($allocation, $lab);
+		foreach ($allocations as $key => $model) {
+			$lab = $labs->where('id', $model->lab_id)->first();
+			// $synch_data = self::send_update($model, $lab);
+			if (strpos(url()->current(), "lab-2.test"))
+				$lab->base_url = "http://lab.test.nascop.org/api/";
+			$client = new Client(['base_uri' => $lab->base_url]);
+			
+			$response = $client->request('put', 'allocation', [
+				'http_errors' => false,
+				'verify' => false,
+				'headers' => [
+					'Accept' => 'application/json',
+					'Authorization' => 'Bearer ' . self::get_token($lab),
+				],
+				'json' => [
+					'allocation' => $model->toJson(),
+				],
+			]);
+			$body = json_decode($response->getBody());
+			$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
+			if($response->getStatusCode() < 400) {
+				$model->fill($data);
+				$model->save();
+				foreach($model->details as $details) {
+					$details->fill($data);
+					$details->save();
+					foreach ($details->breakdowns as $breakdown) {
+						$breakdown->fill($data);
+						$breakdown->save();
+					}
+				}
+				return true;
+			} else{
+				print_r($body);
+				return false;
+			}
 		}
 	}
 
@@ -204,11 +244,14 @@ class Synch
 		if(str_contains($class, 'batch')) $param = 'batch';
 		if(str_contains($class, 'Allocation')) $param = 'allocation';
 		$col .= $param . '_id';
-
+		
 		$url = str_replace('App\\', '', $class);
 		$url = strtolower($url) . '/' . $model->$col;
 		
+		if (strpos(url()->current(), "lab-2.test"))
+			$lab->base_url = "http://lab.test.nascop.org/api";
 		$client = new Client(['base_uri' => $lab->base_url]);
+		// dd(self::get_token($lab));
 		$response = $client->request('put', $url, [
 			'http_errors' => false,
 			'verify' => false,
@@ -223,7 +266,7 @@ class Synch
 		]);
 		
 		$body = json_decode($response->getBody());
-
+		
 		if($response->getStatusCode() < 400)
 		{
 			$model->fill($data);
@@ -347,7 +390,7 @@ class Synch
 		$base = str_replace('App\\', '', $sample_class);
 		$base = strtolower($base) . '/';
 
-		$samples = $sampleview_class::where(['sex' => 3])->where('datecollected', '>', '2017-01-01')->where('site_entry', '!=', 2)->get();
+		$samples = $sampleview_class::whereNotIn('sex', [1,2])->where('datecollected', '>', '2018-01-01')->where('site_entry', '!=', 2)->get();
 
 		foreach ($samples as $key => $sample) {
 			
@@ -377,8 +420,67 @@ class Synch
 					{
 						$patient->sex = $body->patient->sex;
 						$patient->save();
+						echo "Fixed One \n";
 					}
-				}				
+				}	
+				else{
+					print_r($body);
+				}			
+			} catch (Exception $e) {
+				
+			}
+		}
+	}
+
+	public static function correct_no_dob($type)
+	{
+        ini_set("memory_limit", "-1");
+		$classes = self::$synch_arrays[$type];
+
+		$sampleview_class = $classes['sampleview_class'];
+		$sample_class = $classes['sample_class'];
+		$patient_class = $classes['patient_class'];
+
+		$labs = Lab::all();
+		$base = str_replace('App\\', '', $sample_class);
+		$base = strtolower($base) . '/';
+
+		$samples = $sampleview_class::whereNull('dob')->where('datecollected', '>', '2018-01-01')->where('site_entry', '!=', 2)->get();
+
+		foreach ($samples as $key => $sample) {
+			
+			$url = $base . $sample->original_sample_id;
+			$lab = $labs->where('id', $sample->lab_id)->first();
+			$client = new Client(['base_uri' => $lab->base_url]);
+
+			try {
+				$response = $client->request('get', $url, [
+					'headers' => [
+						'Accept' => 'application/json',
+						'Authorization' => 'Bearer ' . self::get_token($lab),
+					],
+		            'connect_timeout' => 1.5,
+					'http_errors' => false,
+					'verify' => false,
+				]);
+
+				$body = json_decode($response->getBody());
+
+				// dd($body);
+
+				if($response->getStatusCode() < 400)
+				{		
+					$patient = $patient_class::find($sample->patient_id);		
+					if($patient->id == $body->patient->national_patient_id)
+					{
+						$patient->dob = $body->patient->dob;
+						$patient->save();
+						echo "Fixed One \n";
+					}
+				}	
+				else{
+					print_r($body);
+				}			
 			} catch (Exception $e) {
 				
 			}

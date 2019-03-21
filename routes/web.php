@@ -41,7 +41,10 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('elvis/{year}/{quarter}', 'ResultController@get_incomplient_patient_record');
 
 	Route::middleware(['only_utype:12'])->group(function(){
-		Route::get('allocations/{testtype?}', 'AllocationsController@index')->name('allocations');
+		Route::prefix('allocations')->name('allocations.')->group(function(){
+			Route::get('{testtype?}', 'AllocationsController@index');
+			Route::get('drf', 'AllocationsController@drf')->('drf');
+		});
 		Route::get('viewallocation/{testtype?}/{year?}/{month?}', 'AllocationsController@view_allocations')->name('viewallocation');
 		Route::get('approveallocation/{lab}/{testtype?}/{year?}/{month?}', 'AllocationsController@approve_allocations')->name('approveallocation');
 		Route::post('approveallocation', 'AllocationsController@save_allocation_approval')->name('approveallocation');
@@ -124,12 +127,16 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::resource('user', 'UserController');
 
 	Route::get('test', function(){
-		echo max([3,5]);
+		// echo max([3,5]);
+		\App\Synch::synch_allocations();
 	});
 });
 
 Route::get('patientstatus', 'HEIController@placeResults');
 Route::get('sendsms', 'GenerealController@send_sms');
 
-
+Route::get('synch/', function(){
+	// \App\Synch::synch_allocations();
+});
+Route::get('positives/{year?}/{month?}', 'HomeController@test');
 // $connected = @fsockopen("www.example.com", 80); 
