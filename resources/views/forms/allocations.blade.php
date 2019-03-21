@@ -130,7 +130,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Allocation Committee Feedback</label>
                         <div class="col-md-8">
-                            <textarea name="issuedcomments[]" class="form-control">{{ $allocation->issuedcomments }}</textarea>
+                            <textarea name="issuedcomments[{{ $counter }}]" class="form-control" @if($allocation->approve != 0) disabled @endif>{{ $allocation->issuedcomments }}</textarea>
                         </div>                            
                     </div>
                 </div>

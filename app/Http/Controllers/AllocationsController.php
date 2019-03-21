@@ -157,15 +157,16 @@ class AllocationsController extends Controller
                 $allocation->issuedcomments = $collection['issuedcomments'][$key];
                 $allocation->synched = 2;
                 $allocation->update();
-            }
-            $parent = $allocation->allocation;
-            $parent->synched = 2;
-            $parent->update();
+                
+                $parent = $allocation->allocation;
+                $parent->synched = 2;
+                $parent->update();
 
-            $children = $allocation->breakdowns;
-            foreach($children as $child){
-                $child->synched = 2;
-                $child->update();
+                $children = $allocation->breakdowns;
+                foreach($children as $child){
+                    $child->synched = 2;
+                    $child->update();
+                }
             }
         }
         $testtype = collect($this->testtypes)->search($allocation->testtype);
