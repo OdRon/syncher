@@ -41,10 +41,8 @@ Route::middleware(['web', 'auth'])->group(function(){
 	Route::get('elvis/{year}/{quarter}', 'ResultController@get_incomplient_patient_record');
 
 	Route::middleware(['only_utype:12'])->group(function(){
-		Route::prefix('allocations')->name('allocations.')->group(function(){
-			Route::get('{testtype?}', 'AllocationsController@index');
-			Route::get('drf', 'AllocationsController@drf')->('drf');
-		});
+		Route::get('allocations/{testtype?}', 'AllocationsController@index')->name('allocations');
+		Route::get('allocationdrfs/{lab?}', 'AllocationsController@drf')->name('drf');
 		Route::get('viewallocation/{testtype?}/{year?}/{month?}', 'AllocationsController@view_allocations')->name('viewallocation');
 		Route::get('approveallocation/{lab}/{testtype?}/{year?}/{month?}', 'AllocationsController@approve_allocations')->name('approveallocation');
 		Route::post('approveallocation', 'AllocationsController@save_allocation_approval')->name('approveallocation');
