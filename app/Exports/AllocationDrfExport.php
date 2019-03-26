@@ -36,6 +36,7 @@ class AllocationDrfExport implements WithMultipleSheets
     	$lab = $this->allocation->lab;
     	$lab_allocation_contact = $this->allocation->lab->allocation_contacts;
     	$kemsa_data = AllocationContact::where('lab_id', '=', 0)->first();
+        // setBackground()
     	return collect([
     				'to' => [
 	    				'name' => $lab->labdesc,
