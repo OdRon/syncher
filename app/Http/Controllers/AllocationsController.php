@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Allocation;
 use App\AllocationDetail;
+use App\Exports\AllocationDrfExport;
 use App\Machine;
 use App\Lab;
 
@@ -176,7 +177,20 @@ class AllocationsController extends Controller
         return redirect($url);
     }
 
-    public function drf() {
-        
+    public function drf(Lab $lab) {
+        if (!isset($lab->id)) {
+            $year = date('Y');
+            $month = date('m');
+            $labs = Lab::with(array('allocations' => function($query) use($year, $month) {
+                            $query->where('allocations.year', $year);
+                            $query->where('allocations.month', $month);
+                        }, 'allocations.details'))->get();
+
+            $monthname = date('F', mktime(null, null, null, $month));
+            return view('tables.allocationdrf', compact('labs'))->with('pageTitle', "Distribution Request Form $year - $monthname");
+        } else {
+            $allocation = $lab->allocations->where('year', date('Y'))->where('month', date('m'))->first();
+            return (new AllocationDrfExport($allocation))->download('invoices.xlsx');
+        }        
     }
 }

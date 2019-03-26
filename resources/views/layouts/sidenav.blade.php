@@ -115,7 +115,7 @@
             <hr />
             <li><a href="{{ url('allocations/Consumables') }}">Consumable Allocation List</a></li>
             <hr />
-            <li><a href="{{ url('allocations/drf') }}">DRFs</a></li>
+            <li><a href="{{ url('allocationdrfs') }}">DRFs</a></li>
             <hr />
         @endif
         </ul>
