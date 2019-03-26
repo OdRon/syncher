@@ -190,7 +190,7 @@ class AllocationsController extends Controller
             return view('tables.allocationdrf', compact('labs'))->with('pageTitle', "Distribution Request Form $year - $monthname");
         } else {
             $allocation = $lab->allocations->where('year', date('Y'))->where('month', date('m'))->first();
-            return (new AllocationDrfExport($allocation))->download('invoices.xlsx');
+            return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
         }        
     }
 }

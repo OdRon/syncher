@@ -23,6 +23,10 @@ class Allocation extends Model
         return $this->hasMany('App\AllocationDetail');
     }
 
+    public function lab() {
+        return $this->belongsTo('App\Lab');
+    }
+
     public function reviewed($testtype=null){
         $details = $this->details->when($testtype, function($query) use ($testtype){
                             if ($testtype == 'EID')
