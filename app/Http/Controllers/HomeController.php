@@ -59,6 +59,8 @@ class HomeController extends Controller
 
         if (auth()->user()->user_type_id == 12)
             return redirect('allocations');
+        if (auth()->user()->user_type_id == 14 || auth()->user()->user_type_id == 14)
+        	return redirect('national/allocation');
         
         return redirect('reports/EID');
     }

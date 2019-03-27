@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Allocation;
 use App\AllocationDetail;
+use App\AllocationDetailsBreakdown;
 use App\Exports\AllocationDrfExport;
 use App\Machine;
 use App\Lab;
+use App\GeneralConsumables;
+use App\Kits;
 
 class AllocationsController extends Controller
 {
@@ -48,11 +51,18 @@ class AllocationsController extends Controller
     public $last_year = NULL;
 
 	/**
-     * The years for allocations.
+     * The years for allocations displayed.
      *
      * @var array
      */
 	public $years = NULL;
+
+    /**
+     * The NHRL or EDARP user initialized.
+     *
+     * @var array
+     */
+    public $lab_id = NULL;
 
 	public function __construct() {
 		$this->testtypes = ['EID' => 1, 'VL' => 2, 'CONSUMABLES' => NULL];
@@ -192,5 +202,130 @@ class AllocationsController extends Controller
             $allocation = $lab->allocations->where('year', date('Y'))->where('month', date('m'))->first();
             return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
         }        
+    }
+
+    public function lab_allocation() {
+        $this->initialize_lab_id();
+
+    }
+
+    public function national_allocation(Request $request) {
+        $this->initialize_lab_id();
+        $lab = Lab::find($this->lab_id);
+        if ($request->method() == 'GET' && $this->check_submitted_allocation()){
+            $machines = Machine::get();
+            return view('tasks.allocation', compact('machines'))->with('pageTitle', $lab->labdesc . ' Allocation::'.date("F", mktime(null, null, null, date('m'))).', '.date('Y'));
+        } else if ($request->method() == 'POST') {
+            if ($request->has(['machine-form'])){ // This is to fill the allocation form for the previously slected machines
+                $testtypes = collect($this->testtypes)->except(['CONSUMABLES']);
+                $machines = Machine::whereIn('id',$request->input('machine'))->get();
+                $generalconsumables = GeneralConsumables::get();
+                $data['machines'] = $machines;
+                $data['testtypes'] = $testtypes;
+                $data['generalconsumables'] = $generalconsumables;
+                $data['lab_id'] = $this->lab_id;
+                $data = (object) $data;
+                
+                return view('forms.nationalallocation', compact('data'))->with('pageTitle',  $lab->labdesc . ' Allocation::'.date("F", mktime(null, null, null, date('m'))).', '.date('Y'));
+            } else { // Save the allocations from the previous if section
+                $saveAllocation = $this->saveAllocation($request);
+                return redirect()->route('lab/allocation');
+            }
+        }
+    }
+
+    private function saveAllocation($request) {
+        $this->initialize_lab_id();
+        $form = $request->except(['_token', 'kits-form']);
+        $allocation = Allocation::create([
+                        'year' => date('Y'),
+                        'month' => date('m'),
+                        'datesubmitted' => date('Y-m-d'),
+                        'submittedby' => auth()->user()->full_name,
+                        'lab_id' => $this->lab_id,
+                    ]);
+        $allocation_details = $this->saveAllocationDetails($allocation, $form);
+        
+        return $allocation;
+    }
+
+    private function saveAllocationDetails($allocation, $form_data) {
+        foreach ($form_data as $key => $datum) {
+            $column = explode('-', $key);
+            $build = false;
+            $machine_id = NULL;
+            $testtype = NULL;
+            if ($column[0] == 'allocation') { // Create a new allocation at this point
+                $machine_id = $column[1];
+                $testtype = $column[2];
+                $allocationcomments = 'allocationcomments-'.$machine_id.'-'.$testtype;
+                $build = true;
+            } else if ($key == 'consumablecomments'){
+                $allocationcomments = 'consumablecomments';
+                $build = true;
+            }
+            if ($build) {
+                $allocation_details = AllocationDetail::create([
+                    'allocation_id' => $allocation->id,
+                    'machine_id' => $machine_id,
+                    'testtype' => $testtype,
+                    'allocationcomments' => $form_data[$allocationcomments]]);
+                $allocationDetailsBreakdown = $this->getAllocationDetailsBreakdownData($allocation_details, $machine_id, $testtype, $form_data);
+            }
+        }
+        return $allocation_details;
+    }
+
+    // Format the Allocation Details data to fit laravel way to insert
+    private function getAllocationDetailsBreakdownData($allocation_details, $machine, $testtype, $form_data) {
+        if (!$machine)
+            $this->getConsumableAllocationData($allocation_details, $form_data);
+        else {
+            $kits = Kits::where('machine_id', '=', $machine)->get();
+            $allocation_details_array = [];
+            foreach ($kits as $key => $kit) {
+                foreach ($form_data as $formkey => $form) {
+                    $column = 'allocate-'.$testtype.'-'.$kit->id;
+                    if ($column == $formkey){
+                        $allocation_detail = AllocationDetailsBreakdown::create([
+                            'allocation_detail_id' => $allocation_details->id,
+                            'breakdown_id' => $kit->id,
+                            'breakdown_type' => Kits::class,
+                            'allocated' => $form
+                        ]);
+                    }
+                }
+            }
+        }
+        
+        return true;
+    }
+
+    // Format the consumable allocation data to fit laravel way to insert
+    private function getConsumableAllocationData($allocation_detail, $form_data) {
+        $consumables = GeneralConsumables::get();
+        $consumables_array = [];
+        foreach($consumables as $key => $consumable) {
+            $column = 'consumable-'.$consumable->id;
+            $allocation_details = AllocationDetailsBreakdown::create([
+                'allocation_detail_id' => $allocation_detail->id,
+                'breakdown_id' => $consumable->id,
+                'breakdown_type' => GeneralConsumables::class,
+                'allocated' => $form_data[$column]
+            ]);
+        }
+        return true;
+    }
+
+    private function check_submitted_allocation() {
+        return  Allocation::where('lab_id', '=', $this->lab_id)->where('year', '=', date('Y'))
+                                        ->where('month', '=', date('m'))->get()->isEmpty();
+    }
+
+    private function initialize_lab_id(){
+        if(auth()->user()->user_type_id == 14) // NHRL national commodities user
+            $this->lab_id = 7;
+        else if (auth()->user()->user_type_id == 15) // EDARP national commodities user
+            $this->lab_id = 10;
     }
 }

@@ -48,6 +48,12 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::post('approveallocation', 'AllocationsController@save_allocation_approval')->name('approveallocation');
 	});
 
+	Route::middleware(['only_utype:14,15'])->group(function(){
+		Route::get('national/allocation', 'AllocationsController@national_allocation')->name('national.allocation');
+		Route::post('national/allocation', 'AllocationsController@national_allocation');
+		Route::get('lab/allocation', 'AllocationsController@lab_allocation')->name('lab.allocation');
+	});
+
 	Route::group(['middleware' => ['only_utype:10,15']], function () {
 		Route::prefix('email')->name('email.')->group(function () {
 			Route::get('preview/{email}', 'EmailController@demo')->name('demo');
