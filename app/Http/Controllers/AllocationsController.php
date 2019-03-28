@@ -166,16 +166,19 @@ class AllocationsController extends Controller
                 if ($collection['approve'][$key] == 2)
                     $allocation->disapprovereason = $collection['issuedcomments'][$key];
                 $allocation->issuedcomments = $collection['issuedcomments'][$key];
-                $allocation->synched = 2;
+                $allocation->synched = 1;
+                $allocation->datesynched = date('Y-m-d');
                 $allocation->update();
 
                 $parent = $allocation->allocation;
-                $parent->synched = 2;
+                $parent->synched = 1;
+                $parent->datesynched = date('Y-m-d');
                 $parent->update();
 
                 $children = $allocation->breakdowns;
                 foreach($children as $child){
-                    $child->synched = 2;
+                    $child->synched = 1;
+                    $child->datesynched = date('Y-m-d');
                     $child->update();
                 }
             }
@@ -183,7 +186,7 @@ class AllocationsController extends Controller
         $testtype = collect($this->testtypes)->search($allocation->testtype);
         $url = 'allocations/'.$testtype;
         session(['toast_message' => 'Allocation Review successfull for '. $testtype .' and the approvals propagated to the lab']);
-        \App\Synch::synch_allocations();
+        // \App\Synch::synch_allocations();
         return redirect($url);
     }
 
@@ -204,9 +207,85 @@ class AllocationsController extends Controller
         }        
     }
 
-    public function lab_allocation() {
+    public function lab_allocation($allocation = null, $type = null, $approval = null) {
         $this->initialize_lab_id();
+        if (isset($allocation) && isset($type))
+        {
+            $type = strtoupper($type);
+            if (!($type == 'EID' || $type == 'VL' || $type == 'CONSUMABLES')) abort(404);
 
+            $dballocation = Allocation::where(['id' => $allocation, 'lab_id' => $this->lab_id])->first();
+            $allocation_details = $dballocation->details->when($type, function($details) use ($type){
+                                            if ($type == 'EID')
+                                                return $details->where('testtype', 1);
+                                            if ($type == 'VL')
+                                                return $details->where('testtype', 2);
+                                            if ($type == 'CONSUMABLES')
+                                                return $details->where('testtype', NULL);
+                                        })->when($approval, function($details) use ($approval) {
+                                            return $details->where('approve', 2);
+                                        });
+            
+            $data = (object)[
+                'allocations' => $allocation_details,
+                'last_year' => $this->last_year,
+                'last_month' => $this->last_month,
+                'testtype' => $type,
+                'approval' => $approval,
+                'lab_id' => $this->lab_id
+            ];
+            return view('forms.nationalallocationdetails', compact('data'))->with('pageTitle', $data->testtype . ' Kits Allocations');
+        } else 
+        {
+            $allocationSQL = "`allocations`.`id`, `year`, `month`, `testtype`,
+                        COUNT(IF(approve=0, 1, NULL)) AS `pending`,
+                        COUNT(IF(approve=1, 1, NULL)) AS `approved`,
+                        COUNT(IF(approve=2, 1, NULL)) AS `rejected`";
+            $data = [
+                'allocations' => AllocationDetail::selectRaw($allocationSQL)->groupBy(['year','month','testtype','id'])
+                                    ->orderBy('id','desc')->orderBy('year','desc')->orderBy('month','desc')->where('lab_id', '=', $this->lab_id)
+                                    ->join('allocations', 'allocations.id', '=', 'allocation_details.allocation_id')->get(),
+                'badge' => function($value, $type) {
+                    $badge = "success";
+                    if ($type == 1) {// Pending approval
+                        if ($value > 0)
+                            $badge = "warning";
+                    } else if ($type == 2) {// Approved
+                        if ($value == 0)
+                            $badge = "warning";
+                    } else if ($type == 3) { // Rejected
+                        if ($value > 0)
+                            $badge = "danger";
+                    }
+                    return $badge;
+                }
+            ];
+            return view('tables.laballocations', compact('data'))->with('pageTitle', '');
+        }        
+    }
+
+
+
+    public function edit_lab_allocation(Request $request, $allocation_details) {
+        $allocation_details = AllocationDetail::findOrFail($allocation_details);
+        // dd($allocation_details);
+        $data = $request->except(['_method', '_token', 'allocationcomments', 'allocation-form']);
+        foreach($data as $key => $breakdown) {
+            $breakdown_data = AllocationDetailsBreakDown::find($key);
+            $breakdown_data->allocated = $breakdown;
+            $breakdown_data->save();
+        }
+        $allocation_details->approve = 0;
+        $allocation_details->allocationcomments = $request->input('allocationcomments');
+        $allocation_details->submissions = $allocation_details->submissions + 1;
+        $allocation_details->save();
+        $allocation = $allocation_details->allocation;
+        $allocation->synched = 1;
+        $allocation->datesynched = date('Y-m-d');
+        $allocation->save();
+        session(['toast_message' => 'Allocation(s) edited successfully.']);
+        // \App\Synch::synch_allocations_updates();
+        return redirect('home');
     }
 
     public function national_allocation(Request $request) {

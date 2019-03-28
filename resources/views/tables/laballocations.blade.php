@@ -50,12 +50,12 @@
                                     <td><center><span class="label label-{{ $data['badge']($allocation->approved, 2) }}">{{ $allocation->approved }}</span></center></td>
                                     <td><center><span class="label label-{{ $data['badge']($allocation->rejected, 3) }}">{{ $allocation->rejected }}</span></center></td>
                                     <td>
-                                        <a href="{{ url('report/allocation/'.$allocation->id.'/'.$type) }}" class="btn btn-default">
+                                        <a href="{{ url('lab/allocation/'.$allocation->id.'/'.$type) }}" class="btn btn-default">
                                             View
                                         </a>
                                         @if($allocation->rejected > 0)
                                          | 
-                                        <a href="{{ url('report/allocation/'.$allocation->id.'/'.$type.'/1') }}" class="btn btn-warning">
+                                        <a href="{{ url('lab/allocation/'.$allocation->id.'/'.$type.'/1') }}" class="btn btn-warning">
                                             Update Rejected
                                         </a>
                                         @endif

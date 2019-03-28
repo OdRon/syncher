@@ -54,9 +54,11 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::get('national/allocation', 'AllocationsController@national_allocation')->name('national.allocation');
 		Route::post('national/allocation', 'AllocationsController@national_allocation');
 		Route::get('lab/allocation', 'AllocationsController@lab_allocation')->name('lab.allocation');
+		Route::get('lab/allocation/{allocation?}/{type?}/{approval?}', 'AllocationsController@lab_allocation')->name('lab.allocation');
+		Route::put('lab/allocation/{allocation_detail}/edit', 'AllocationsController@edit_lab_allocation');
 	});
 
-	Route::group(['middleware' => ['only_utype:10,15']], function () {
+	Route::group(['middleware' => ['only_utype:10,16']], function () {
 		Route::prefix('email')->name('email.')->group(function () {
 			Route::get('preview/{email}', 'EmailController@demo')->name('demo');
 			Route::post('preview/{email}', 'EmailController@demo_email')->name('demo_email');
