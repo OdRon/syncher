@@ -46,6 +46,8 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::get('viewallocation/{testtype?}/{year?}/{month?}', 'AllocationsController@view_allocations')->name('viewallocation');
 		Route::get('approveallocation/{lab}/{testtype?}/{year?}/{month?}', 'AllocationsController@approve_allocations')->name('approveallocation');
 		Route::post('approveallocation', 'AllocationsController@save_allocation_approval')->name('approveallocation');
+
+		Route::resource('labcontacts', 'AllocationContactsController');
 	});
 
 	Route::middleware(['only_utype:14,15'])->group(function(){

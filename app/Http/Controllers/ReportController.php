@@ -13,7 +13,9 @@ use App\ViralsampleCompleteView;
 use App\ViewFacility;
 use App\Partner;
 use App\Lab;
-use Excel;
+// use Excel;
+use App\Exports\ReportExport;
+use App\Exports\ReportExportWithSheets;
 
 class ReportController extends Controller
 {
@@ -1344,8 +1346,10 @@ class ReportController extends Controller
         $sheetTitle = [];
         $mergeCellsArray = [];
         ini_set("memory_limit", "-1");
+        $withSheets = false;
         if (is_array($data)) {
             $count = 0;
+            $withSheets = true;
             foreach ($data as $key => $value) {
                 $newValue = $value->get();
                 $newdataArray[] = $dataArray[$count];
@@ -1362,30 +1366,35 @@ class ReportController extends Controller
                 $count++;
             }
         } else {
-            $data = $data->get();
-            if($data->isNotEmpty()) {
-                $newdataArray[] = $dataArray;
-                foreach ($data as $report) {
-                    $newdataArray[] = $report->toArray();
-                }
-            } else {
-                $newdataArray[] = [];
-            }
-            $sheetTitle[] = 'Sheet1';
-            $finaldataArray[] = $newdataArray;
+            $titleArray = $dataArray;
+            // $data = $data;
+            // if($data->isNotEmpty()) {
+            //     $titleArray = $dataArray;
+            //     // foreach ($data as $report) {
+            //     //     $newdataArray[] = $report->toArray();
+            //     // }
+            // } else {
+            //     $newdataArray[] = [];
+            // }
+            // $sheetTitle[] = 'Sheet1';
+            // $finaldataArray[] = $newdataArray;
         }
-        ini_set("memory_limit", "-1");
-        Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
-            $excel->setTitle($title);
-            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
-            $excel->setDescription($title);
-            foreach ($finaldataArray as $key => $value) {
-                $stitle = $sheetTitle[$key];
-                $excel->sheet($stitle, function($sheet) use ($value) {
-                    $sheet->fromArray($value, null, 'A1', false, false);
-                });
-            }
-        })->download('csv');
+        
+        if($withSheets)
+            return (new ReportExportWithSheets($titleArray, $data))->download($title);
+        else
+            return (new ReportExport)->download($title . '.csv', \Maatwebsite\Excel\Excel::CSV);
+        // Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
+        //     $excel->setTitle($title);
+        //     $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+        //     $excel->setDescription($title);
+        //     foreach ($finaldataArray as $key => $value) {
+        //         $stitle = $sheetTitle[$key];
+        //         $excel->sheet($stitle, function($sheet) use ($value) {
+        //             $sheet->fromArray($value, null, 'A1', false, false);
+        //         });
+        //     }
+        // })->download('csv');
     }
 
 

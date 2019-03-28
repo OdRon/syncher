@@ -117,6 +117,8 @@
             <hr />
             <li><a href="{{ url('allocationdrfs') }}">DRFs</a></li>
             <hr />
+            <li><a href="{{ url('labcontacts') }}">Lab Contacts List</a></li>
+            <hr />
         @endif
         </ul>
     </div>

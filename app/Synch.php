@@ -195,6 +195,8 @@ class Synch
 								}])->where('synched', '=', 2)->get();
 		$labs = Lab::all();
 		foreach ($allocations as $key => $model) {
+			if($model->lab_id == 7 || $model->lab_id == 10)
+				continue; // Skip NHRL and EDARP
 			$lab = $labs->where('id', $model->lab_id)->first();
 			// $synch_data = self::send_update($model, $lab);
 			if (strpos(url()->current(), "lab-2.test"))

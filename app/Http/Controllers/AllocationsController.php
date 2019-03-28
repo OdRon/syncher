@@ -229,9 +229,10 @@ class AllocationsController extends Controller
                 return view('forms.nationalallocation', compact('data'))->with('pageTitle',  $lab->labdesc . ' Allocation::'.date("F", mktime(null, null, null, date('m'))).', '.date('Y'));
             } else { // Save the allocations from the previous if section
                 $saveAllocation = $this->saveAllocation($request);
-                return redirect()->route('lab/allocation');
+                return redirect('lab/allocation');
             }
-        }
+        } else 
+            return redirect('lab/allocation');
     }
 
     private function saveAllocation($request) {
