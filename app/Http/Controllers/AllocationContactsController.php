@@ -58,7 +58,8 @@ class AllocationContactsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $contact = AllocationContact::findOrFail($id);
+        return view('forms.allocationcontacts', compact('contact'))->with('pageTitle', 'Edit Lab Contacts');
     }
 
     /**
@@ -70,7 +71,11 @@ class AllocationContactsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $contact = AllocationContact::findOrFail($id);
+        $contact->fill($request->except(['_token', '_method']));
+        $contact->save();
+        session(['toast_message' => 'Lab Contact Updated successfully.']);
+        return redirect('labcontacts');
     }
 
     /**
