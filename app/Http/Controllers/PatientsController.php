@@ -19,7 +19,7 @@ class PatientsController extends Controller
     				::where('facility_id', '=', auth()->user()->facility_id)
     				->withCount(['sample' => function ($query){
 			            $query->where('repeatt', 0);
-			        }])->limit(20)->get();
+			        }])->get();
     	$data = (object)$data;
     	return view('tables.patients', compact('data'))->with('pageTitle','');
     }
