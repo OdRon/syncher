@@ -819,7 +819,7 @@ CREATE TABLE IF NOT EXISTS `rejectedreasons` (
   `name` varchar(50) DEFAULT NULL,
   `alias` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1 COMMENT='eid rejected reasons';
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1 COMMENT='eid rejected reasons';
 
 -- Dumping data for table apidb.rejectedreasons: ~17 rows (approximately)
 /*!40000 ALTER TABLE `rejectedreasons` DISABLE KEYS */;
@@ -840,7 +840,10 @@ INSERT INTO `rejectedreasons` (`id`, `name`, `alias`) VALUES
 	(14, 'Over Saturation', NULL),
 	(15, 'Scratched DBS Spots', NULL),
 	(16, 'Double Entry', NULL),
-	(17, 'Insufficient sample volume', NULL);
+	(17, 'Insufficient sample volume', NULL),
+	(18, 'Delayed Sample Shipment', NULL),
+	(19, 'Hemolysed Sample', NULL),
+	(20, 'Requisition and sample mismatch', NULL);
 /*!40000 ALTER TABLE `rejectedreasons` ENABLE KEYS */;
 
 
