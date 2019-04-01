@@ -23,6 +23,7 @@ class VlCountyNonsuppressed extends Mailable implements ShouldQueue
     public $division;
     public $path;
     public $user_id;
+    public $range;
 
     /**
      * Create a new message instance.
@@ -53,6 +54,7 @@ class VlCountyNonsuppressed extends Mailable implements ShouldQueue
         $displaytodate=date("d-M-Y",strtotime($enddate));
 
         $range = strtoupper($displayfromdate . ' TO ' . $displaytodate);
+        $this->range = $range;
 
         $samples = ViralsampleAlertView::where('facility_id', '!=', 7148)
             ->whereIn('rcategory', [1, 2, 3, 4])
