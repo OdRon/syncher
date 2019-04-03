@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 use App\Mail\CustomMail;
 use Carbon\Carbon;
+use DB;
 
 class Common
 {
@@ -259,7 +260,14 @@ class Common
     public static function add_missing_facilities()
     {
     	$facilities = \App\Facility::whereRaw("id NOT IN (select id from apidb.facilitys) ")->get();
-    	dd($facilities);
+    	// dd($facilities);
+
+        $fac_array = $fac->toArray();
+        unset($fac_array['poc']);
+        unset($fac_array['has_gene']);
+        unset($fac_array['has_alere']);
+
+        DB::table("apidb.facilitys")->insert($fac_array);
     }
 
 
