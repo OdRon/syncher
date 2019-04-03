@@ -256,6 +256,12 @@ class Common
         else{ return 0; }
     }
 
+    public static function add_missing_facilities()
+    {
+    	$facilities = \App\Facility::whereRaw("id NOT IN (select id from apidb.facilitys) ")->get();
+    	dd($facilities);
+    }
+
 
 
 }
