@@ -262,12 +262,14 @@ class Common
     	$facilities = \App\Facility::whereRaw("id NOT IN (select id from apidb.facilitys) ")->get();
     	// dd($facilities);
 
-        $fac_array = $fac->toArray();
-        unset($fac_array['poc']);
-        unset($fac_array['has_gene']);
-        unset($fac_array['has_alere']);
+    	foreach ($facilities as $fac) {
+	        $fac_array = $fac->toArray();
+	        unset($fac_array['poc']);
+	        unset($fac_array['has_gene']);
+	        unset($fac_array['has_alere']);
 
-        DB::table("apidb.facilitys")->insert($fac_array);
+	        DB::table("apidb.facilitys")->insert($fac_array);
+    	}
     }
 
 
