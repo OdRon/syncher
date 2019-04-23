@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 use App\Mail\CustomMail;
 use Carbon\Carbon;
+use DB;
 
 class Common
 {
@@ -254,6 +255,21 @@ class Common
         else if($age >= 19 && $age < 25) return 10;
         else if($age >= 25) return 11;
         else{ return 0; }
+    }
+
+    public static function add_missing_facilities()
+    {
+    	$facilities = \App\Facility::whereRaw("id NOT IN (select id from apidb.facilitys) ")->get();
+    	// dd($facilities);
+
+    	foreach ($facilities as $fac) {
+	        $fac_array = $fac->toArray();
+	        unset($fac_array['poc']);
+	        unset($fac_array['has_gene']);
+	        unset($fac_array['has_alere']);
+
+	        DB::table("apidb.facilitys")->insert($fac_array);
+    	}
     }
 
 

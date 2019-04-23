@@ -35,7 +35,7 @@ class FacilityController extends Controller
         $facility_data = [];
 
         foreach ($facilities as $key => $value) {
-            $fac = Facility::where(['facilitycode' => $value->facilitycode])->first();
+            $fac = Facility::where(['facilitycode' => $value->facilitycode])->where('facilitycode', '!=', 0)->first();
 
             if(!$fac){
                 unset($value->facility_contact);

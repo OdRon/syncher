@@ -144,6 +144,7 @@ class VlController extends Controller
                 $batch->fill(get_object_vars($temp));
                 unset($batch->national_batch_id);
                 unset($batch->tat5);
+                unset($batch->time_received);
                 $batch->save();
 
                 $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
@@ -402,7 +403,10 @@ class VlController extends Controller
                 unset($update_data['areaname']);
                 unset($update_data['label_id']);
             }
-            if($input == 'batches') unset($update_data['tat5']);
+            if($input == 'batches'){
+                unset($update_data['tat5']);
+                unset($update_data['time_received']);
+            }
 
             $new_model->fill($update_data);
             $new_model->$original_column = $value->id;

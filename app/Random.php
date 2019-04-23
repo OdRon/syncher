@@ -1625,8 +1625,8 @@ class Random
 
 		
 
-		// $data = [storage_path("exports/" . $file . ".csv")];
+		$data = [storage_path("exports/" . $file . ".csv")];
 
-		// Mail::to(['baksajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
+		Mail::to(['baksajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
     }
 }

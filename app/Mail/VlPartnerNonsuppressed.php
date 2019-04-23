@@ -23,6 +23,7 @@ class VlPartnerNonsuppressed extends Mailable implements ShouldQueue
     public $division;
     public $path;
     public $partner_contact_id;
+    public $range;
 
     /**
      * Create a new message instance.
@@ -44,13 +45,15 @@ class VlPartnerNonsuppressed extends Mailable implements ShouldQueue
         ini_set("memory_limit", "-1");
         $contact = DB::table('vl_partner_contacts_for_alerts')->where('id', $this->partner_contact_id)->get()->first();
 
-        $startdate = date('Y-m-d', strtotime('-7 days'));
+        // $startdate = date('Y-m-d', strtotime('-21 days'));
+        $startdate = date('Y-m-d', strtotime('-8 days'));
         $enddate = date("Y-m-d", strtotime('-1 days'));
         
         $displayfromdate=date("d-M-Y",strtotime($startdate));
         $displaytodate=date("d-M-Y",strtotime($enddate));
 
         $range = strtoupper($displayfromdate . ' TO ' . $displaytodate);
+        $this->range = $range;
 
         $samples = ViralsampleAlertView::where('facility_id', '!=', 7148)
             ->whereIn('rcategory', [1, 2, 3, 4])
