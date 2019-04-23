@@ -50,6 +50,10 @@ Artisan::command('ages {type}', function ($type) {
     $str = \App\Common::set_age($type);
 })->describe('Set age for samples that have a dob but no age.');
 
+Artisan::command('facilities', function () {
+    $str = \App\Common::add_missing_facilities();
+})->describe('Add facilities that are in national DB but are not in API DB.');
+
 
 Artisan::command('copy:test {limit}', function () {
 	ini_set("memory_limit", "-1");
