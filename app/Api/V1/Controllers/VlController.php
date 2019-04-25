@@ -113,6 +113,7 @@ class VlController extends Controller
             $patient->original_patient_id = $patient->id;
             unset($patient->id);
             unset($patient->national_patient_id);
+            $patient->synched = 1;
             $patient->save();
             $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
         }
@@ -200,6 +201,7 @@ class VlController extends Controller
                     unset($sample->label_id);
 
                     $sample->batch_id = $batch->id;
+                    $sample->synched = 1;
                     $sample->save();
                     
                     $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];               
