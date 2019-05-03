@@ -36,7 +36,7 @@ $api->version('v1', function (Router $api) {
         $api->get('pull/facilities', 'PullController@facilities');
         $api->post('pull/vl', 'PullController@vl');
 
-
+        $api->post('consumption', 'ConsumptionsController@api_create');
 
         $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
 
