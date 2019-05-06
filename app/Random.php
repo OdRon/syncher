@@ -284,7 +284,7 @@ class Random
 
 		$data = [storage_path("exports/" . $file . ".csv")];
 
-		Mail::to(['joelkith@gmail.com'])->send(new TestMail($data));
+		Mail::to(['joelkith@gmail.com', 'kmugambi@clintonhealthaccess.org'])->send(new TestMail($data));
 	}
 
 	public static function alter_dc()
