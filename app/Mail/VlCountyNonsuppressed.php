@@ -94,7 +94,7 @@ class VlCountyNonsuppressed extends Mailable implements ShouldQueue
             if($sample->pmtct == 2) $data[$i]['breast_feeding'] += 1;
             if($sample->age >= 10 && $sample->age <= 19) $data[$i]['adolescents'] += 1;
             if($sample->age < 10) $data[$i]['children'] += 1;
-            if($sample->age > 20) $data[$i]['adults'] += 1;
+            if($sample->age > 19) $data[$i]['adults'] += 1;
             if($sample->age == 0) $data[$i]['no_age'] += 1;
         }
 
