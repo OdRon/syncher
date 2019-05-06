@@ -54,7 +54,7 @@
 				<th>Breast Feeding</th>
 				<th>Adolescent (10-19)</th>
 				<th>Children (&lt;10)</th>
-				<th>Adults (&gt;20)</th>
+				<th>Adults (&gt;=20)</th>
 				<th>No Data On Age</th>
 			</tr>
 		</thead>
