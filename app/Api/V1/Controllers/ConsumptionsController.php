@@ -89,7 +89,7 @@ class ConsumptionsController extends Controller
 		$consumption = $this->saveAPIConsumption($machine, $testtype, $request);
 		if(null !== $consumption) 
 			$response = [
-				'message' => 'Consumption Data saved successfully',
+				'message' => 'Consumption Data saved successfully to '.session('lab')->name,
 				'status' => 201,
 			];
 		return response()->json($response);
