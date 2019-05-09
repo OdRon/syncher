@@ -96,6 +96,7 @@ class ConsumptionsController extends Controller
 	}
 
 	private function saveAPIConsumption($machine, $testtype, $request) {
+		return response()->json(session('lab'));
 		$response = false;
 		$date = explode(" ", $request->input('month_end_date'));
 		$date = str_replace('/', '-', $date);
