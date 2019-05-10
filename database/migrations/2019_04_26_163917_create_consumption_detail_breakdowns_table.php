@@ -17,8 +17,8 @@ class CreateConsumptionDetailBreakdownsTable extends Migration
             $table->increments('id');
             $table->bigInteger('original_consumption_details_breakdown_id')->nullable();
             $table->bigInteger('consumption_details_id');
-            $table->integer('breakdown_id');
-            $table->string('breakdown_type');
+            $table->integer('consumption_breakdown_id');
+            $table->string('consumption_breakdown_type');
             $table->float('opening')->default(0);
             $table->float('consumed')->default(0);
             $table->float('qty_received')->default(0);
