@@ -19,6 +19,13 @@ class ConsumptionDetail extends Model
         return $query->where(['consumption_id' => $consumption_id, 'testtype' => $testtype, 'machine_id' => $machine]);
     }
 
+    public function breakdown(){
+        return $this->hasMany('App\ConsumptionDetailBreakdown', 'consumption_details_id');
+    }
+
+    public function machine() {
+        return $this->belongsTo('App\Machine');
+    }
 
     public function apisave() {
         $this->synched = 1;

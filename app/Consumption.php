@@ -20,7 +20,7 @@ class Consumption extends Model
     }
 
     public function details() {
-        return $this->hasMany('App\AllocationDetail');
+        return $this->hasMany('App\ConsumptionDetail');
     }
 
     public function lab() {

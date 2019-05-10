@@ -19,6 +19,9 @@ class ConsumptionDetailBreakdown extends Model
         return $query->where(['consumption_details_id' => $details_id, 'breakdown_id' => $breakdown_id, 'breakdown_type' => $breakdown_type]);
     }
 
+    public function consumption_breakdown() {
+        return $this->morphTo();
+    }
 
     public function apisave() {
         $this->synched = 1;
