@@ -67,26 +67,34 @@
                                 <tr>
                                     <td>{{ str_replace("REPLACE", "", $kit->name) }}</td>
                                     <td>{{ $amc }}</td>
-                                    @forelse($kit->consumption as $consumption)
-                                        @if($consumption->testtype == $testtype)
-                                            @php
-                                                $mos = @($consumption->ending / $amc);
-                                            @endphp
-                                            <td>
-                                            @if(is_nan($mos))
-                                                {{ 0 }}
-                                            @else
-                                                {{ $mos }}
+                                    @if(isset($data->consumption))
+                                        @foreach($data->consumption->details as $detail)
+                                            @if($detail->testtype == $testtype)
+                                                @if($detail->machine_id == $machine->id)
+                                                    @foreach($detail->breakdown as $breakdown)
+                                                        @if($breakdown->kit_id == $kit->id)
+                                                            @php
+                                                                $mos = @($breakdown->closing / $amc);
+                                                            @endphp
+                                                            <td>
+                                                            @if(is_nan($mos))
+                                                                {{ 0 }}
+                                                            @else
+                                                                {{ $mos }}
+                                                            @endif
+                                                            </td>
+                                                            <td>{{ $breakdown->closing }}</td>
+                                                            <td>{{ ($amc * 2) -$breakdown->closing }}</td>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
                                             @endif
-                                            </td>
-                                            <td>{{ $consumption->ending }}</td>
-                                            <td>{{ ($amc * 2) -$consumption->ending }}</td>
-                                        @endif
-                                    @empty
+                                        @endforeach
+                                    @else
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                    @endforelse
+                                    @endif
                                     <td><input class="form-control input-edit" type="number" step="any" min="0" name="allocate-{{ $testtype }}-{{ $kit->id }}" id="{{ $testtype }}-{{ $kit->id }}" required></td>
                                 </tr>
                             @endforeach
