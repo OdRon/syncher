@@ -11,6 +11,7 @@ use App\Machine;
 use App\Lab;
 use App\GeneralConsumables;
 use App\Kits;
+use App\Consumption;
 
 class AllocationsController extends Controller
 {
@@ -235,8 +236,7 @@ class AllocationsController extends Controller
                 'lab_id' => $this->lab_id
             ];
             return view('forms.nationalallocationdetails', compact('data'))->with('pageTitle', $data->testtype . ' Kits Allocations');
-        } else 
-        {
+        } else {
             $allocationSQL = "`allocations`.`id`, `year`, `month`, `testtype`,
                         COUNT(IF(approve=0, 1, NULL)) AS `pending`,
                         COUNT(IF(approve=1, 1, NULL)) AS `approved`,
@@ -296,12 +296,15 @@ class AllocationsController extends Controller
             return view('tasks.allocation', compact('machines'))->with('pageTitle', $lab->labdesc . ' Allocation::'.date("F", mktime(null, null, null, date('m'))).', '.date('Y'));
         } else if ($request->method() == 'POST') {
             if ($request->has(['machine-form'])){ // This is to fill the allocation form for the previously slected machines
+                $lasmonthfulldate = date("Y-n-j", strtotime("first day of previous month"));
                 $testtypes = collect($this->testtypes)->except(['CONSUMABLES']);
                 $machines = Machine::whereIn('id',$request->input('machine'))->get();
                 $generalconsumables = GeneralConsumables::get();
                 $data['machines'] = $machines;
                 $data['testtypes'] = $testtypes;
                 $data['generalconsumables'] = $generalconsumables;
+                $data['consumption'] = $lab->consumptions->where('year', date('Y', strtotime($lasmonthfulldate)))->where('month', 9)->where('lab_id', $lab->id)->first();
+                
                 $data['lab_id'] = $this->lab_id;
                 $data = (object) $data;
                 

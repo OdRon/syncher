@@ -18,6 +18,10 @@ class Lab extends Model
     	return $this->hasMany('App\Allocation');
     }
 
+    public function consumptions(){
+        return $this->hasMany('App\Consumption');
+    }
+
     public function allocation_contacts() {
         return $this->hasOne('App\AllocationContact');
     }
