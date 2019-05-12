@@ -199,6 +199,63 @@
 		</table>
 	@endif
 
+	@if($viremia)	
+		<p class="breakhere"></p>
+		<pagebreak sheet-size='A4-L'>
+			
+		<div align='center' style='text-align: center; align-content: center;'>
+		    <img src="{{ asset('img/naslogo.jpg') }}" alt='NASCOP'>
+		    <h3>MINISTRY OF HEALTH</h3>
+		    <h3>NATIONAL AIDS AND STD CONTROL PROGRAM (NASCOP)</h3> 
+		</div>
+
+		<h3>INDIVIDUAL PATIENTS WITH OUTCOMES 401-1000 cp/ml FOR FOLLOW UP BETWEEN {{ $range }} </h3>
+
+		<table>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>County</th>
+					<th>Facility Name</th>
+					<th>MFL</th>
+					<th>Patient CCC</th>
+					<th>Age</th>
+					<th>Sex</th>
+					<th>Date Drawn</th>
+					<th>Date Tested</th>
+					<th>Result</th>
+					<th>Justification</th>
+					<th>Regimen</th>
+					<th>Previous VL</th>
+					<th>Date Tested</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($viremia as $key => $sample)
+					<tr>
+						<td> {{ $key+1 }} </td>
+						<td> {{ $sample->county }} </td>
+						<td> {{ $sample->facility }} </td>
+						<td> {{ $sample->facilitycode }} </td>
+						<td> {{ $sample->patient }} </td>
+						<td> {{ $sample->age }} </td>
+						<td> {{ $sample->gender_short }} </td>
+						<td> {{ $sample->datecollected }} </td>
+						<td> {{ $sample->datetested }} </td>
+						<td> {{ $sample->result }} </td>
+						<td> {{ $justifications->where('id', $sample->justification)->first()->name ?? '' }} </td>
+						<td> {{ $prophylaxis->where('id', $sample->prophylaxis)->first()->name ?? '' }} </td>
+						<?php
+							$sample->vl_prev_test();
+						?>
+						<td> {{ $sample->previous->result ?? '' }} </td>
+						<td> {{ $sample->previous->datetested ?? '' }} </td>
+					</tr>
+				@endforeach
+			</tbody>
+		</table>
+	@endif
+
 
 </body>
 </html>
