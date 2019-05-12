@@ -67,7 +67,7 @@ class VlCountyNonsuppressed extends Mailable implements ShouldQueue
         $i=0;
         $first = true;
         $nonsup_absent = true;
-        $data = $non_suppressed = $adolescents = [];
+        $data = $non_suppressed = $viremia = $adolescents = [];
 
         foreach ($samples as $key => $sample) {
             if($first){
@@ -90,6 +90,7 @@ class VlCountyNonsuppressed extends Mailable implements ShouldQueue
                 if($sample->age >= 10 && $sample->age <= 19) $adolescents[] = $sample;
             }
 
+            if($sample->rcategory == 2) $viremia[] = $sample;
             if($sample->pmtct == 1) $data[$i]['pregnant'] += 1;
             if($sample->pmtct == 2) $data[$i]['breast_feeding'] += 1;
             if($sample->age >= 10 && $sample->age <= 19) $data[$i]['adolescents'] += 1;
