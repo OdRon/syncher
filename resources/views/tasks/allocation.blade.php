@@ -45,11 +45,11 @@
                                         </center>
                                     </div>
                                     <div class="modal-body">
-                                        <p>Please note that you have responded with <strong>NO</strong> to kit allocation. Before anything is set to stone, ensure you have enough stock to last this month. If not select Cancel, but if stock is sufficient enough you can select OK and proceed.</p>
+                                        <p>Please note that you have responded with <strong class="btn btn-danger">NO</strong> to kit allocation. Before anything is set to stone, ensure you have enough stock to last this month. If not select <strong class="btn btn-primary">Cancel</strong>, but if stock is sufficient enough you can select <strong class="btn btn-default">OK</strong> and proceed.</p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                                        <a href="{{ url('pending') }}">
+                                        <a href="{{ url('cancelallocation') }}">
                                             <button type="button" class="btn btn-default">OK</button>
                                         </a>
                                     </div>

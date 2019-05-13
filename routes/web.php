@@ -58,6 +58,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::put('lab/allocation/{allocation_detail}/edit', 'AllocationsController@edit_lab_allocation');
 
 		Route::get('lab/consumption/{consumption?}', 'ConsumptionController@history');
+		Route::get('cancelallocation', 'AllocationsController@cancel_lab_allocation');
 	});
 
 	Route::group(['middleware' => ['only_utype:10,16']], function () {
