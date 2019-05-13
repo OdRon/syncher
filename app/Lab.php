@@ -6,10 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lab extends Model
 {
-    private $testtypes = [
-            'EID' => SamplView::class,
-            'VL' => ViralsamplView::class
-    ];
     //
     public $timestamps = false;
 
@@ -28,15 +24,5 @@ class Lab extends Model
 
     public function allocation_contacts() {
         return $this->hasOne('App\AllocationContact');
-    }
-
-    public function samples_breakdown_count($testtype, $year, $month = null) {
-        $ordinary_samples = self::get_ordinary_samples($testtype, $year, $month);
-    }
-
-    private function get_ordinary_samples($testtype, $year, $month = null) {
-        $class = $this->testtypes[$testtype];
-        $samples = $class->selectRaw(" count(*) as `samples`, year(datereceived) as `actualyear`, monthname(datereceived) as `actualmonth`")->where('site_entry', '=', '0')->where('lab_id', $this->id)->get();
-        return $samples;
     }
 }

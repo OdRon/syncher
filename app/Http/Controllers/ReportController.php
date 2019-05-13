@@ -1348,8 +1348,18 @@ class ReportController extends Controller
             session(['toast_message' => 'Invaid parameters received', 'toast_error' => 1]);
             return back();
         }
-        $labs = Lab::samples_breakdown_count($testtype, '2018');
-        dd($labs);
+
+        $testtypes = [
+                'EID' => ['class' => SamplView::class, 'table' => 'samples_view'],
+                'VL' => ['class' => ViralsampleView::class, 'table' => 'viralsamples_view']
+            ];
+        $class = $testtypes[$testtype]['class'];
+        $table = $testtypes[$testtype]['table'];
+        $samples = $class::selectRaw("count(*) as `samples`, monthname(datereceived) as `actualmonth`, month(datereceived) as `month`")
+                        ->join('labs', 'labs.id', '=', $table.'.lab_id')
+                        ->whereYear('datereceived', 2018)
+                        ->groupBy('actualmonth')->orderBy("month", "asc")->get();
+        dd($samples);
     }
 
     public static function __getExcel($data, $title, $dataArray, $briefTitle)
