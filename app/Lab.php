@@ -30,11 +30,11 @@ class Lab extends Model
         return $this->hasOne('App\AllocationContact');
     }
 
-    public static function samples_breakdown_count($testtype, $year, $month = null) {
+    public function samples_breakdown_count($testtype, $year, $month = null) {
         $ordinary_samples = self::get_ordinary_samples($testtype, $year, $month);
     }
 
-    private static function get_ordinary_samples($testtype, $year, $month = null) {
+    private function get_ordinary_samples($testtype, $year, $month = null) {
         $class = $this->testtypes[$testtype];
         $samples = $class->selectRaw(" count(*) as `samples`, year(datereceived) as `actualyear`, monthname(datereceived) as `actualmonth`")->where('site_entry', '=', '0')->where('lab_id', $this->id)->get();
         return $samples;
