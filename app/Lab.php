@@ -31,7 +31,7 @@ class Lab extends Model
     }
 
     public static function samples_breakdown_count($testtype, $year, $month = null) {
-        $ordinary_samples = $this->get_ordinary_samples($testtype, $year, $month);
+        $ordinary_samples = self->get_ordinary_samples($testtype, $year, $month);
     }
 
     private function get_ordinary_samples($testtype, $year, $month = null) {
