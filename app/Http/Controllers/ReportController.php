@@ -1343,12 +1343,20 @@ class ReportController extends Controller
         })->download('csv');
     }
 
-    public function remote_login($testtype = 'EID'){
+    public function remote_login($testtype = 'EID', $year = null, $month = null){
         if (!in_array(strtoupper($testtype), $this->testtypes)) {
             session(['toast_message' => 'Invaid parameters received', 'toast_error' => 1]);
             return back();
         }
-
+        $year = (int) $year;
+        if (!$year)
+            $year = date('Y');
+        else {
+            if (($year < 2010) || ($year > date('Y'))){
+                session(['toast_message' => 'Incorrect date values provided', 'toast_error' => 1]);
+                return back();
+            }
+        }
         $testtypes = [
                 'EID' => ['class' => SampleView::class, 'table' => 'samples_view'],
                 'VL' => ['class' => ViralsampleView::class, 'table' => 'viralsamples_view']
@@ -1357,7 +1365,7 @@ class ReportController extends Controller
         $table = $testtypes[$testtype]['table'];
         $samples = $class::selectRaw("count(*) as `samples`, monthname(datereceived) as `actualmonth`, month(datereceived) as `month`")
                         ->join('labs', 'labs.id', '=', $table.'.lab_id')
-                        ->whereYear('datereceived', 2018)
+                        ->whereYear('datereceived', $year)
                         ->groupBy('actualmonth')->orderBy("month", "asc")->get();
         dd($samples);
     }
