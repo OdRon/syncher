@@ -212,20 +212,23 @@ class ReportController extends Controller
         $lab = DB::table('labs')->get();
         
         if($testtype=='EID'){
-            $table = 'samples';
+            $table = 'samples_view';
             $join_table = 'worksheets';
-            $model = Sample::class;
+            $model = SampleView::class;
         } else if($testtype=='VL'){
-            $table = 'viralsamples';
+            $table = 'viralsamples_view';
             $join_table = 'viralworksheets';
-            $model = Viralsample::class;
+            $model = ViralsampleView::class;
         } else { return back(); }
         $dbData = $model::selectRaw("$join_table.lab_id, 
                         COUNT(IF($join_table.machine_type = 1, 1, NULL)) AS `taqman`, 
                         COUNT(IF($join_table.machine_type = 2, 1, NULL)) AS `abbott`,
                         COUNT(IF($join_table.machine_type = 3, 1, NULL)) AS `c8800`,
                         COUNT(IF($join_table.machine_type = 4, 1, NULL)) AS `panther`")
-                    ->join($join_table, "$join_table.id", '=', "$table.worksheet_id")
+                    ->join($table, function($join) use ($table, $join_table) {
+                        $join->on($join_table . '.original_id', '=',  $table . '.worksheet_id');
+                        $join->on($join_table . '.lab_id','=', $table . '.lab_id');
+                    })
                     ->when($month, function($query) use ($month, $table){
                         return $query->whereRaw("MONTH($table.datetested) = $month");
                     })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
