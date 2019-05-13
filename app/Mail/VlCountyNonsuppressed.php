@@ -126,6 +126,7 @@ class VlCountyNonsuppressed extends Mailable implements ShouldQueue
         $pdf_data = Lookup::get_viral_lookups();
         $pdf_data['summary'] = $data;
         $pdf_data['non_suppressed'] = $non_suppressed;
+        $pdf_data['viremia'] = $viremia;
         $pdf_data['adolescents'] = $adolescents;
         $pdf_data['title'] = $this->title; 
         $pdf_data['range'] = $range; 
