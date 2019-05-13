@@ -226,7 +226,7 @@ class ReportController extends Controller
                         COUNT(IF($join_table.machine_type = 3, 1, NULL)) AS `c8800`,
                         COUNT(IF($join_table.machine_type = 4, 1, NULL)) AS `panther`")
                     ->join($join_table, function($join) use ($table, $join_table) {
-                        $join->on($join_table . '.original_id', '=',  $table . '.worksheet_id');
+                        $join->on($join_table . '.original_worksheet_id', '=',  $table . '.worksheet_id');
                         $join->on($join_table . '.lab_id','=', $table . '.lab_id');
                     })
                     ->when($month, function($query) use ($month, $table){
