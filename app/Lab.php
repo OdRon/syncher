@@ -31,10 +31,10 @@ class Lab extends Model
     }
 
     public static function samples_breakdown_count($testtype, $year, $month = null) {
-        $ordinary_samples = self->get_ordinary_samples($testtype, $year, $month);
+        $ordinary_samples = self::get_ordinary_samples($testtype, $year, $month);
     }
 
-    private function get_ordinary_samples($testtype, $year, $month = null) {
+    private static function get_ordinary_samples($testtype, $year, $month = null) {
         $class = $this->testtypes[$testtype];
         $samples = $class->selectRaw(" count(*) as `samples`, year(datereceived) as `actualyear`, monthname(datereceived) as `actualmonth`")->where('site_entry', '=', '0')->where('lab_id', $this->id)->get();
         return $samples;
