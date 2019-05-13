@@ -105,7 +105,7 @@ class AllocationsController extends Controller
                     ];
             }
         }
-    	
+    	dd($testtype);
     	return view('tables.allocations', compact('allocations_data'))->with('pageTitle',"$testtype Allocation List");
     }
 
@@ -260,7 +260,7 @@ class AllocationsController extends Controller
                     return $badge;
                 }
             ];
-            return view('tables.laballocations', compact('data'))->with('pageTitle', '');
+            return view('tables.laballocations', compact('data'))->with('pageTitle', auth()->user()->lab->labdesc.' Allocation List');
         }        
     }
 
@@ -292,6 +292,10 @@ class AllocationsController extends Controller
         $this->initialize_lab_id();
         $lab = Lab::find($this->lab_id);
         if ($request->method() == 'GET' && $this->check_submitted_allocation()){
+            if (!$this->check_submitted_consumption()){
+                session(['toast_message' => 'Your last three months consumption report has not been submitted. Please submit for the last three months', 'toast_error' => 1]);
+                return redirect('lab/allocation');
+            }
             $machines = Machine::get();
             return view('tasks.allocation', compact('machines'))->with('pageTitle', $lab->labdesc . ' Allocation::'.date("F", mktime(null, null, null, date('m'))).', '.date('Y'));
         } else if ($request->method() == 'POST') {
@@ -405,10 +409,39 @@ class AllocationsController extends Controller
                                         ->where('month', '=', date('m'))->get()->isEmpty();
     }
 
+    private function check_submitted_consumption() {
+        $return = false;
+        // Check if consumption report submitted over the past 3 months
+        $consumption = consumption::whereNotNull('datesubmitted');
+        for ($i=1; $i <4 ; $i++) {
+            if ($i == 1)
+                $consumption = $consumption->whereRaw("(month = ".date('m', strtotime('- '.$i.' months'))." and year = ".date('Y', strtotime('- '.$i.' months')).")");
+            else
+                $consumption = $consumption->orWhereRaw("(month = ".date('m', strtotime('- '.$i.' months'))." and year = ".date('Y', strtotime('- '.$i.' months')).")");
+        }
+        $consumption = $consumption->where('lab_id', '=', auth()->user()->lab_id)->get();
+        if ($consumption->count() == 3)
+            $return = true;
+        return $return;
+    }
+
     private function initialize_lab_id(){
         if(auth()->user()->user_type_id == 14) // NHRL national commodities user
             $this->lab_id = 7;
         else if (auth()->user()->user_type_id == 15) // EDARP national commodities user
             $this->lab_id = 10;
+    }
+
+    public function cancel_lab_allocation(){
+        $data = ['year' => date('Y'), 'month' => date('m'), 'lab_id' => auth()->user()->lab_id];
+        $allocation = Allocation::where($data)->get();
+        if ($allocation->isEmpty()){
+            $allocation = new Allocation;
+            $allocation->fill($data);
+            $allocation->save();
+            return redirect('home');
+        } else {
+            return redirect('home');
+        }
     }
 }
