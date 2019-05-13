@@ -80,6 +80,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::get('{testtype?}', 'ReportController@index')->name('reports');
 		Route::get('nodata/{testtype?}/{year?}/{month?}', 'ReportController@nodata')->name('nodata');
 		Route::get('utilization/{testtype?}/{year?}/{month?}', 'ReportController@utilization')->name('utilization');
+		Route::get('remotelogin/{testtype?}', 'ReportController@remote_login');
 		Route::post('/', 'ReportController@generate');
 	});
 
