@@ -1350,7 +1350,7 @@ class ReportController extends Controller
         }
 
         $testtypes = [
-                'EID' => ['class' => SamplView::class, 'table' => 'samples_view'],
+                'EID' => ['class' => SampleView::class, 'table' => 'samples_view'],
                 'VL' => ['class' => ViralsampleView::class, 'table' => 'viralsamples_view']
             ];
         $class = $testtypes[$testtype]['class'];
