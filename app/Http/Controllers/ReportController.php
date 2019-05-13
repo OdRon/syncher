@@ -25,6 +25,7 @@ class ReportController extends Controller
                         'Q2'=>['name'=>'Apr-Jun', 'start'=>4, 'end'=>6],
                         'Q3'=>['name'=>'Jul-Sep', 'start'=>7, 'end'=>9],
                         'Q4'=>['name'=>'Oct-Dec', 'start'=>10, 'end'=>12]];
+    private $testtypes = ['EID', 'VL'];
     public function index($testtype = NULL)
     {   
         if (NULL == $testtype) 
@@ -1340,6 +1341,15 @@ class ReportController extends Controller
             });
              
         })->download('csv');
+    }
+
+    public function remote_login($testtype = 'EID'){
+        if (!in_array(strtoupper($testtype), $this->testtypes)) {
+            session(['toast_message' => 'Invaid parameters received', 'toast_error' => 1]);
+            return back();
+        }
+        $labs = Lab::samples_breakdown_count('2018');
+        dd($labs);
     }
 
     public static function __getExcel($data, $title, $dataArray, $briefTitle)
