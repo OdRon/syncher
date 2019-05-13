@@ -1348,7 +1348,7 @@ class ReportController extends Controller
             session(['toast_message' => 'Invaid parameters received', 'toast_error' => 1]);
             return back();
         }
-        $labs = Lab::samples_breakdown_count('2018');
+        $labs = Lab::samples_breakdown_count($testtype, '2018');
         dd($labs);
     }
 
