@@ -1390,7 +1390,7 @@ class ReportController extends Controller
                 } else {
                     $remote = $remote->first();
                     $data[] = (object)[
-                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->actualmonth,
+                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->actualmonth,, 'monthNo' => $total->month,
                         'remotelogged' => $remote->samples ?? 0,
                         'totallogged' => $total->samples ?? 0
                     ];
@@ -1398,7 +1398,7 @@ class ReportController extends Controller
             }
         }
 
-        $data['sampleslogs'] = collect($data);
+        $data['sampleslogs'] = collect($data)->sortBy('month');
 
         return view('tables.remoteloginreport', $data)->with('pageTitle', 'Remote Login Reports '.$year);
     }
