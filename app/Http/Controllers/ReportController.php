@@ -1348,15 +1348,33 @@ class ReportController extends Controller
             session(['toast_message' => 'Invaid parameters received', 'toast_error' => 1]);
             return back();
         }
-        $year = (int) $year;
-        if (!$year)
-            $year = date('Y');
-        else {
-            if (($year < 2010) || ($year > date('Y'))){
+        $year = strtolower($year);
+        if (!($year == 'null' || $year == null)) {
+            if (isset($year) && ($year < 2010) || ($year > date('Y'))){
                 session(['toast_message' => 'Incorrect date values provided', 'toast_error' => 1]);
                 return back();
-            }
+            } 
+        }        
+
+        if ($year==null || $year=='null'){
+            if (session('remoteloginyear')==null)
+                session(['remoteloginyear' => Date('Y')]);
+        } else {
+            session(['remoteloginyear'=>$year]);
         }
+
+        if ($month==null || $month=='null'){
+            session()->forget('remoteloginmonth');
+        } else {
+            session(['remoteloginmonth'=>$month]);
+        }
+        $year = session('remoteloginyear');
+        $month = session('remoteloginmonth');
+        $monthName = "";
+        
+        if (null !== $month) 
+            $monthName = "- ".date("F", mktime(null, null, null, $month));
+
         $testtypes = [
                 'EID' => ['class' => SampleView::class, 'table' => 'samples_view'],
                 'VL' => ['class' => ViralsampleView::class, 'table' => 'viralsamples_view']
@@ -1399,8 +1417,11 @@ class ReportController extends Controller
         }
 
         $data['sampleslogs'] = collect($data)->sortBy('monthNo');
+        $data['testtype'] = $testtype;
+        $data['year'] = $year;
+        $data['month'] = $monthName;
 
-        return view('tables.remoteloginreport', $data)->with('pageTitle', 'Remote Login Reports '.$year);
+        return view('tables.remoteloginreport', $data)->with('pageTitle', 'Remote Login Reports '. $year . $monthName);
     }
 
     public static function __getExcel($data, $title, $dataArray, $briefTitle)
