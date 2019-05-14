@@ -1398,7 +1398,7 @@ class ReportController extends Controller
             }
         }
 
-        $data['sampleslogs'] = collect($data);
+        $data['sampleslogs'] = collect((object)$data);
         return view('tables.remoteloginreport', $data)->with('pageTitle', 'Remote Login Reports '.$year);
     }
 
