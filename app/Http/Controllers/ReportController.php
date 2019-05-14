@@ -1416,7 +1416,7 @@ class ReportController extends Controller
             }
         }
 
-        $data['sampleslogs'] = collect($data)->sortBy('monthNo')->sortBy('year');
+        $data['sampleslogs'] = collect($data)->shuffle()->sortBy('year')->sortBy('monthNo');
         $data['testtype'] = $testtype;
         $data['year'] = $year;
         $data['month'] = $monthName;
