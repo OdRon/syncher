@@ -1363,11 +1363,29 @@ class ReportController extends Controller
             ];
         $class = $testtypes[$testtype]['class'];
         $table = $testtypes[$testtype]['table'];
-        $samples = $class::selectRaw("count(*) as `samples`, monthname(datereceived) as `actualmonth`, month(datereceived) as `month`")
+        $samples = $class::selectRaw("labs.id, labs.labdesc, year(datereceived) as `year`, monthname(datereceived) as `actualmonth`, month(datereceived) as `month`, count(*) as `samples`")
                         ->join('labs', 'labs.id', '=', $table.'.lab_id')
-                        ->whereYear('datereceived', $year)
-                        ->groupBy('actualmonth')->orderBy("month", "asc")->get();
-        dd($samples);
+                        ->whereYear('datereceived', $year)->where('site_entry', '<>', 2)
+                        ->groupBy('actualmonth')->orderBy("month", "asc")->orderBy("year", "asc")->get();
+        $remotesamples = $class::selectRaw("labs.id, year(datereceived) as `year`, monthname(datereceived) as `actualmonth`, month(datereceived) as `month`, count(*) as `samples`")
+                        ->join('labs', 'labs.id', '=', $table.'.lab_id')
+                        ->whereYear('datereceived', $year)->where('site_entry', '=', 1)
+                        ->groupBy('actualmonth')->orderBy("month", "asc")->orderBy("year", "asc")->get();
+        $data = [];
+        foreach ($samples as $key => $sample) {
+            foreach ($remotesamples as $key => $remotesample) {
+                if (($remotesample->id == $sample->id) && ($remotesample->month == $sample->month) && ($remotesample->year == $sample->year)) {
+                    $data[] = [
+                        'labname' => $sample->labdesc,
+                        'year' => $sample->year,
+                        'month' => $sample->monthname,
+                        'remotelogged' => $remotesample->samples ?? 0,
+                        'totallogged' => $sample->samples ?? 0,
+                    ]
+                }
+            }
+        }
+        dd($data);
     }
 
     public static function __getExcel($data, $title, $dataArray, $briefTitle)
