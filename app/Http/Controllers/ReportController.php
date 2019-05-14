@@ -1380,7 +1380,7 @@ class ReportController extends Controller
             $totallogged = $samples->where('id', $lab->id);
             $remotelogged = $remotesamples->where('id', $lab->id);
             foreach ($totallogged as $key => $total) {
-                $remote = $remotelogged->where('year', $total->year)->where('month', $total->month)->flatten(1);
+                $remote = $remotelogged->where('year', $total->year)->where('month', $total->month)->flatten(2);
                 dd($remote);
             }
             dd($totallogged);
