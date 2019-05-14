@@ -137,6 +137,7 @@ class EidController extends Controller
             $mother->original_mother_id = $mother->id;
             unset($mother->id);
             unset($mother->national_mother_id);
+            $mother->synched = 1;
             $mother->save();
             $mothers_array[] = ['original_id' => $mother->original_mother_id, 'national_mother_id' => $mother->id ];
 
@@ -147,6 +148,7 @@ class EidController extends Controller
             $patient->original_patient_id = $patient->id;
             unset($patient->id);
             unset($patient->national_patient_id);
+            $patient->synched = 1;
             $patient->save();
             $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
         }
@@ -178,6 +180,7 @@ class EidController extends Controller
             unset($batch->national_batch_id);
             unset($batch->tat5);
             unset($batch->time_received);
+            $batch->synched = 1;
             $batch->save();
 
             $batches_array[] = ['original_id' => $batch->original_batch_id, 'national_batch_id' => $batch->id ];
@@ -227,6 +230,7 @@ class EidController extends Controller
                 // if($sample->parentid != 0) $sample->parentid = Misc::get_new_id($samples_array, $sample->parentid);
                     
                 $sample->batch_id = $batch->id;
+                $sample->synched = 1;
                 $sample->save();
 
                 $samples_array[] = ['original_id' => $sample->original_sample_id, 'national_sample_id' => $sample->id ];                

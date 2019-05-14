@@ -13,7 +13,9 @@ use App\ViralsampleCompleteView;
 use App\ViewFacility;
 use App\Partner;
 use App\Lab;
-use Excel;
+// use Excel;
+use App\Exports\ReportExport;
+use App\Exports\ReportExportWithSheets;
 
 class ReportController extends Controller
 {
@@ -23,6 +25,7 @@ class ReportController extends Controller
                         'Q2'=>['name'=>'Apr-Jun', 'start'=>4, 'end'=>6],
                         'Q3'=>['name'=>'Jul-Sep', 'start'=>7, 'end'=>9],
                         'Q4'=>['name'=>'Oct-Dec', 'start'=>10, 'end'=>12]];
+    private $testtypes = ['EID', 'VL'];
     public function index($testtype = NULL)
     {   
         if (NULL == $testtype) 
@@ -210,20 +213,23 @@ class ReportController extends Controller
         $lab = DB::table('labs')->get();
         
         if($testtype=='EID'){
-            $table = 'samples';
+            $table = 'samples_view';
             $join_table = 'worksheets';
-            $model = Sample::class;
+            $model = SampleView::class;
         } else if($testtype=='VL'){
-            $table = 'viralsamples';
+            $table = 'viralsamples_view';
             $join_table = 'viralworksheets';
-            $model = Viralsample::class;
+            $model = ViralsampleView::class;
         } else { return back(); }
         $dbData = $model::selectRaw("$join_table.lab_id, 
                         COUNT(IF($join_table.machine_type = 1, 1, NULL)) AS `taqman`, 
                         COUNT(IF($join_table.machine_type = 2, 1, NULL)) AS `abbott`,
                         COUNT(IF($join_table.machine_type = 3, 1, NULL)) AS `c8800`,
                         COUNT(IF($join_table.machine_type = 4, 1, NULL)) AS `panther`")
-                    ->join($join_table, "$join_table.id", '=', "$table.worksheet_id")
+                    ->join($join_table, function($join) use ($table, $join_table) {
+                        $join->on($join_table . '.original_worksheet_id', '=',  $table . '.worksheet_id');
+                        $join->on($join_table . '.lab_id','=', $table . '.lab_id');
+                    })
                     ->when($month, function($query) use ($month, $table){
                         return $query->whereRaw("MONTH($table.datetested) = $month");
                     })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
@@ -1253,7 +1259,7 @@ class ReportController extends Controller
         $briefTitle .= " - ".$dateString;
         $title = strtoupper($title);
         $briefTitle = strtoupper($briefTitle);
-        
+        // dd($model->toSql());
     	return $model;
     }
 
@@ -1337,6 +1343,91 @@ class ReportController extends Controller
         })->download('csv');
     }
 
+    public function remote_login($testtype = 'EID', $year = null, $month = null){
+        if (!in_array(strtoupper($testtype), $this->testtypes)) {
+            session(['toast_message' => 'Invaid parameters received', 'toast_error' => 1]);
+            return back();
+        }
+        $year = strtolower($year);
+        if (!($year == 'null' || $year == null)) {
+            if (isset($year) && ($year < 2010) || ($year > date('Y'))){
+                session(['toast_message' => 'Incorrect date values provided', 'toast_error' => 1]);
+                return back();
+            } 
+        }        
+
+        if ($year==null || $year=='null'){
+            if (session('remoteloginyear')==null)
+                session(['remoteloginyear' => Date('Y')]);
+        } else {
+            session(['remoteloginyear'=>$year]);
+        }
+
+        if ($month==null || $month=='null'){
+            session()->forget('remoteloginmonth');
+        } else {
+            session(['remoteloginmonth'=>$month]);
+        }
+        $year = session('remoteloginyear');
+        $month = session('remoteloginmonth');
+        $monthName = "";
+        
+        if (null !== $month) 
+            $monthName = "- ".date("F", mktime(null, null, null, $month));
+
+        $testtypes = [
+                'EID' => ['class' => SampleView::class, 'table' => 'samples_view'],
+                'VL' => ['class' => ViralsampleView::class, 'table' => 'viralsamples_view']
+            ];
+        $class = $testtypes[$testtype]['class'];
+        $table = $testtypes[$testtype]['table'];
+        $samples = $class::selectRaw("labs.id, labs.labdesc, year(datereceived) as `year`, monthname(datereceived) as `actualmonth`, month(datereceived) as `month`, count(*) as `samples`")
+                        ->join('labs', 'labs.id', '=', $table.'.lab_id')
+                        ->whereYear('datereceived', $year)->where('site_entry', '<>', 2)
+                        ->when($month, function($query) use ($month){
+                            return $query->whereMonth('datereceived', $month);
+                        })->groupBy('id')->groupBy('year')->groupBy('month')->groupBy('actualmonth')
+                        ->orderBy("month", "asc")->orderBy("year", "asc")->get();
+        $remotesamples = $class::selectRaw("labs.id, year(datereceived) as `year`, month(datereceived) as `month`, count(*) as `samples`")
+                        ->join('labs', 'labs.id', '=', $table.'.lab_id')
+                        ->whereYear('datereceived', $year)->where('site_entry', '=', 1)
+                        ->when($month, function($query) use ($month){
+                            return $query->whereMonth('datereceived', $month);
+                        })->groupBy('id')->groupBy('year')->groupBy('month')
+                        ->orderBy("month", "asc")->orderBy("year", "asc")->get();
+        // dd($remotesamples);
+        $data = [];
+        $labs = Lab::get();
+        foreach ($labs as $key => $lab) {
+            $totallogged = $samples->where('id', $lab->id);
+            $remotelogged = $remotesamples->where('id', $lab->id);
+            foreach ($totallogged as $key => $total) {
+                $remote = $remotelogged->where('year', $total->year)->where('month', $total->month);
+                if ($remote->isEmpty()){
+                    $data[] = (object)[
+                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->actualmonth, 'monthNo' => $total->month,
+                        'remotelogged' => 0,
+                        'totallogged' => $total->samples ?? 0
+                    ];
+                } else {
+                    $remote = $remote->first();
+                    $data[] = (object)[
+                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->actualmonth, 'monthNo' => $total->month,
+                        'remotelogged' => $remote->samples ?? 0,
+                        'totallogged' => $total->samples ?? 0
+                    ];
+                }
+            }
+        }
+
+        $data['sampleslogs'] = collect($data)->shuffle()->sortBy('year')->sortBy('monthNo');
+        $data['testtype'] = $testtype;
+        $data['year'] = $year;
+        $data['month'] = $monthName;
+
+        return view('tables.remoteloginreport', $data)->with('pageTitle', 'Remote Login Reports '. $year . $monthName);
+    }
+
     public static function __getExcel($data, $title, $dataArray, $briefTitle)
     {
         $newdataArray = [];
@@ -1344,8 +1435,10 @@ class ReportController extends Controller
         $sheetTitle = [];
         $mergeCellsArray = [];
         ini_set("memory_limit", "-1");
+        $withSheets = false;
         if (is_array($data)) {
             $count = 0;
+            $withSheets = true;
             foreach ($data as $key => $value) {
                 $newValue = $value->get();
                 $newdataArray[] = $dataArray[$count];
@@ -1362,30 +1455,35 @@ class ReportController extends Controller
                 $count++;
             }
         } else {
-            $data = $data->get();
-            if($data->isNotEmpty()) {
-                $newdataArray[] = $dataArray;
-                foreach ($data as $report) {
-                    $newdataArray[] = $report->toArray();
-                }
-            } else {
-                $newdataArray[] = [];
-            }
-            $sheetTitle[] = 'Sheet1';
-            $finaldataArray[] = $newdataArray;
+            $titleArray = $dataArray;
+            // $data = $data;
+            // if($data->isNotEmpty()) {
+            //     $titleArray = $dataArray;
+            //     // foreach ($data as $report) {
+            //     //     $newdataArray[] = $report->toArray();
+            //     // }
+            // } else {
+            //     $newdataArray[] = [];
+            // }
+            // $sheetTitle[] = 'Sheet1';
+            // $finaldataArray[] = $newdataArray;
         }
-        ini_set("memory_limit", "-1");
-        Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
-            $excel->setTitle($title);
-            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
-            $excel->setDescription($title);
-            foreach ($finaldataArray as $key => $value) {
-                $stitle = $sheetTitle[$key];
-                $excel->sheet($stitle, function($sheet) use ($value) {
-                    $sheet->fromArray($value, null, 'A1', false, false);
-                });
-            }
-        })->download('csv');
+        
+        if($withSheets)
+            return (new ReportExportWithSheets($titleArray, $data))->download($title);
+        else
+            return (new ReportExport)->download($title . '.csv', \Maatwebsite\Excel\Excel::CSV);
+        // Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
+        //     $excel->setTitle($title);
+        //     $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+        //     $excel->setDescription($title);
+        //     foreach ($finaldataArray as $key => $value) {
+        //         $stitle = $sheetTitle[$key];
+        //         $excel->sheet($stitle, function($sheet) use ($value) {
+        //             $sheet->fromArray($value, null, 'A1', false, false);
+        //         });
+        //     }
+        // })->download('csv');
     }
 
 

@@ -69,7 +69,7 @@ class VlPartnerNonsuppressed extends Mailable implements ShouldQueue
         $i=0;
         $first = true;
         $nonsup_absent = true;
-        $data = $non_suppressed = $adolescents = [];
+        $data = $non_suppressed = $viremia = $adolescents = [];
 
         foreach ($samples as $key => $sample) {
             if($first){
@@ -92,11 +92,12 @@ class VlPartnerNonsuppressed extends Mailable implements ShouldQueue
                 if($sample->age >= 10 && $sample->age <= 19) $adolescents[] = $sample;
             }
 
+            if($sample->rcategory == 2) $viremia[] = $sample;
             if($sample->pmtct == 1) $data[$i]['pregnant'] += 1;
             if($sample->pmtct == 2) $data[$i]['breast_feeding'] += 1;
             if($sample->age >= 10 && $sample->age <= 19) $data[$i]['adolescents'] += 1;
             if($sample->age < 10) $data[$i]['children'] += 1;
-            if($sample->age > 20) $data[$i]['adults'] += 1;
+            if($sample->age > 19) $data[$i]['adults'] += 1;
             if($sample->age == 0) $data[$i]['no_age'] += 1;
         }
 
@@ -131,6 +132,7 @@ class VlPartnerNonsuppressed extends Mailable implements ShouldQueue
         $pdf_data = Lookup::get_viral_lookups();
         $pdf_data['summary'] = $data;
         $pdf_data['non_suppressed'] = $non_suppressed;
+        $pdf_data['viremia'] = $viremia;
         $pdf_data['adolescents'] = $adolescents;
         $pdf_data['title'] = $this->title; 
         $pdf_data['range'] = $range; 

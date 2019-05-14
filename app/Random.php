@@ -220,8 +220,8 @@ class Random
 		$sql .= 'GROUP BY patient_id) gv ';
 		$sql .= 'ON v.id=gv.id) tb ';
 		$sql .= 'WHERE ';
-		if($param == 1) $sql .= ' (rcategory = 1 or result < 401) ';
-		if($param == 2) $sql .= ' (rcategory = 2 and result > 400) ';
+		if($param == 1) $sql .= ' rcategory = 1 ';
+		if($param == 2) $sql .= ' rcategory = 2 ';
 		if($param == 4) $sql .= ' (rcategory IN (3,4)) ';
 		$sql .= 'GROUP BY sex ';
 		$sql .= 'ORDER BY sex ';
@@ -274,7 +274,7 @@ class Random
 			];
 
 		}
-		$file = "gender_totals_between_{$start_date}_and_{$end_date}_by_most_recent_test";
+		$file = "gender_totals_ordering_sites_between_{$start_date}_and_{$end_date}_by_most_recent_test";
 		
 		Excel::create($file, function($excel) use($rows){
 			$excel->sheet('Sheetname', function($sheet) use($rows) {
@@ -284,8 +284,7 @@ class Random
 
 		$data = [storage_path("exports/" . $file . ".csv")];
 
-		Mail::to(['joelkith@gmail.com'])->send(new TestMail($data));
-
+		Mail::to(['joelkith@gmail.com', 'kmugambi@clintonhealthaccess.org'])->send(new TestMail($data));
 	}
 
 	public static function alter_dc()
