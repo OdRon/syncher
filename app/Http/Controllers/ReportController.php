@@ -1381,7 +1381,7 @@ class ReportController extends Controller
                         'month' => $sample->monthname,
                         'remotelogged' => $remotesample->samples ?? 0,
                         'totallogged' => $sample->samples ?? 0,
-                    ]
+                    ];
                 }
             }
         }
