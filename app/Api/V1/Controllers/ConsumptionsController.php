@@ -154,8 +154,8 @@ class ConsumptionsController extends Controller
 					$test_factor = $test_factor->$testtypename;
 				$breakdown = new ConsumptionDetailBreakdown;
 				$breakdown->consumption_details_id = $details->id;
-				$breakdown->breakdown_id = $kit->id;
-				$breakdown->breakdown_type = \App\Kits::class;
+				$breakdown->consumption_breakdown_id = $kit->id;
+				$breakdown->consumption_breakdown_type = \App\Kits::class;
 				foreach ($this->generalAddings as $keyAddings => $value) {
 					// Consumed are calculated from the test count
 					if ($value == 'consumed'){
