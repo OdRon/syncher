@@ -54,7 +54,7 @@
                 @if(in_array(Auth::user()->user_type_id, [14, 15]))
                     <li><a href="{{ url('lab/allocation') }}">Allocation List</a></li>
                     <hr />
-                    <li><a href="{{ url('lab/consumption') }}">Consumption List</a></li>
+                    <li><a href="{{ url('lab/consumption') }}">Consumption Reports List</a></li>
                     <hr />
                 @else
                     <li><a href="{{ url('reports/EID') }}">EID Results/Reports</a></li>
