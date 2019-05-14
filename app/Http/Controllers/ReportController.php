@@ -1368,7 +1368,7 @@ class ReportController extends Controller
                         ->whereYear('datereceived', $year)->where('site_entry', '<>', 2)
                         ->groupBy('id')->groupBy('year')->groupBy('month')->groupBy('actualmonth')
                         ->orderBy("month", "asc")->orderBy("year", "asc")->get();
-        $remotesamples = $class::selectRaw("labs.id, year(datereceived) as `year`, monthname(datereceived) as `actualmonth`, month(datereceived) as `month`, count(*) as `samples`")
+        $remotesamples = $class::selectRaw("labs.id, year(datereceived) as `year`, month(datereceived) as `month`, count(*) as `samples`")
                         ->join('labs', 'labs.id', '=', $table.'.lab_id')
                         ->whereYear('datereceived', $year)->where('site_entry', '=', 1)
                         ->groupBy('id')->groupBy('year')->groupBy('month')->groupBy('actualmonth')
@@ -1380,24 +1380,25 @@ class ReportController extends Controller
             $totallogged = $samples->where('id', $lab->id);
             $remotelogged = $remotesamples->where('id', $lab->id);
             foreach ($totallogged as $key => $total) {
+                dd($total);
                 $remote = $remotelogged->where('year', $total->year)->where('month', $total->month);
                 if ($remote->isEmpty()){
                     $data[] = [
-                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->monthname,
+                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->actualmonth,
                         'remotelogged' => 0,
                         'totallogged' => $total->samples ?? 0
                     ];
                 } else {
                     $remote = $remote->first();
                     $data[] = [
-                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->monthname,
+                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->actualmonth,
                         'remotelogged' => $remote->samples ?? 0,
                         'totallogged' => $total->samples ?? 0
                     ];
                 }
             }
         }
-        
+
         // foreach ($samples as $key => $sample) {
         //     foreach ($remotesamples as $key => $remotesample) {
         //         if (($remotesample->id == $sample->id) && ($remotesample->month == $sample->month) && ($remotesample->year == $sample->year)) {
