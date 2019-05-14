@@ -92,8 +92,7 @@ class ConsumptionsController extends Controller
 				'message' => 'Consumption Data saved successfully to '.session('lab')->name,
 				'status' => 201,
 			];
-		return response()->json($consumption);
-		// return response()->json($response);
+		return response()->json($response);
 	}
 
 	private function saveAPIConsumption($machine, $testtype, $request) {
@@ -117,8 +116,7 @@ class ConsumptionsController extends Controller
         $details = $this->saveAPIConsumptionDetails($consumption, $testtype, $machine, $request);
 		if ($details)
 			$response = true;
-		return $details;
-		// return $response;
+		return $response;
 	}
 
 	private function saveAPIConsumptionDetails($consumption, $testtype, $machine, $request) {
@@ -137,8 +135,7 @@ class ConsumptionsController extends Controller
 		$details_breakdown = $this->saveAPIConsumptionDetailsBreakdown($consumption_details, $machine, $request, $testtype);
 		if ($details_breakdown)
 			$response = true;
-		return $details_breakdown;
-		// return $response;
+		return $response;
 	}
 
 	private function saveAPIConsumptionDetailsBreakdown($details, $machine, $request, $testtype) {
@@ -156,28 +153,28 @@ class ConsumptionsController extends Controller
 				if (is_object($test_factor))
 					$test_factor = $test_factor->$testtypename;
 				$breakdown = new ConsumptionDetailBreakdown;
-			// 	$breakdown->consumption_details_id = $details->id;
-			// 	$breakdown->consumption_breakdown_id = $kit->id;
-			// 	$breakdown->consumption_breakdown_type = \App\Kits::class;
-			// 	foreach ($this->generalAddings as $keyAddings => $value) {
-			// 		// Consumed are calculated from the test count
-			// 		if ($value == 'consumed'){
-			// 			if ($kit->alias == 'qualkit'){
-			// 				$qualkit = ($request->input('sample_count')/$test_factor);
-			// 			}
-			// 			$breakdown->$value = ($factor * $qualkit);
-			// 		} else {
-			// 			$breakdown->$value = ($factor * (int)$this->getcomputedkitvalue($value, $request));
-			// 		}
+				$breakdown->consumption_details_id = $details->id;
+				$breakdown->consumption_breakdown_id = $kit->id;
+				$breakdown->consumption_breakdown_type = \App\Kits::class;
+				foreach ($this->generalAddings as $keyAddings => $value) {
+					// Consumed are calculated from the test count
+					if ($value == 'consumed'){
+						if ($kit->alias == 'qualkit'){
+							$qualkit = ($request->input('sample_count')/$test_factor);
+						}
+						$breakdown->$value = ($factor * $qualkit);
+					} else {
+						$breakdown->$value = ($factor * (int)$this->getcomputedkitvalue($value, $request));
+					}
 
 				}
-			// 	$breakdown->apisave();
-			// } else 
-			// 	$breakdown = $existing->first();
+				$breakdown->apisave();
+			} else 
+				$breakdown = $existing->first();
 		}
-		// if ($breakdown)
-		// 	$response = true;
-		return $breakdown;
+		if ($breakdown)
+			$response = true;
+		return $response;
 	}
 
 	private function getcomputedkitvalue($adding, $request) {
