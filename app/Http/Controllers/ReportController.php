@@ -1401,7 +1401,7 @@ class ReportController extends Controller
                 $remote = $remotelogged->where('year', $total->year)->where('month', $total->month);
                 if ($remote->isEmpty()){
                     $data[] = (object)[
-                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->actualmonth,
+                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->actualmonth, 'monthNo' => $total->month,
                         'remotelogged' => 0,
                         'totallogged' => $total->samples ?? 0
                     ];
@@ -1416,7 +1416,7 @@ class ReportController extends Controller
             }
         }
 
-        $data['sampleslogs'] = collect($data)->sortBy('monthNo');
+        $data['sampleslogs'] = collect($data)->sortBy('monthNo')->sortBy('year');
         $data['testtype'] = $testtype;
         $data['year'] = $year;
         $data['month'] = $monthName;
