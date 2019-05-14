@@ -1382,14 +1382,14 @@ class ReportController extends Controller
             foreach ($totallogged as $key => $total) {
                 $remote = $remotelogged->where('year', $total->year)->where('month', $total->month);
                 if ($remote->isEmpty()){
-                    $data[] = [
+                    $data[] = (object)[
                         'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->actualmonth,
                         'remotelogged' => 0,
                         'totallogged' => $total->samples ?? 0
                     ];
                 } else {
                     $remote = $remote->first();
-                    $data[] = [
+                    $data[] = (object)[
                         'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->actualmonth,
                         'remotelogged' => $remote->samples ?? 0,
                         'totallogged' => $total->samples ?? 0
@@ -1398,7 +1398,8 @@ class ReportController extends Controller
             }
         }
 
-        $data['sampleslogs'] = collect((object)$data);
+        $data['sampleslogs'] = collect($data);
+
         return view('tables.remoteloginreport', $data)->with('pageTitle', 'Remote Login Reports '.$year);
     }
 
