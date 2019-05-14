@@ -16,7 +16,7 @@
                         @php
                             $year=gmdate('Y')-$i
                         @endphp
-                        <a href='{{ url("reports/remotelogin/EID/$year") }}'>{{ gmdate('Y')-$i }}</a> |
+                        <a href='{{ url("reports/remotelogin/$testtype/$year") }}'>{{ gmdate('Y')-$i }}</a> |
                     @endfor
                 </div>
                 <!-- Year -->
@@ -24,7 +24,7 @@
                 <div class="col-md-6">
                     <center><h5>Month Filter</h5></center>
                     @for ($i = 1; $i <= 12; $i++)
-                        <a href='{{ url("reports/remotelogin/EID/null/$i") }}'>{{ gmdate("F", mktime(null, null, null, $i)) }}</a> |
+                        <a href='{{ url("reports/remotelogin/$testtype/null/$i") }}'>{{ gmdate("F", mktime(null, null, null, $i)) }}</a> |
                     @endfor
                 </div>
                 <!-- Month -->
