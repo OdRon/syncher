@@ -16,7 +16,7 @@ class ConsumptionDetailBreakdown extends Model
 
     public function scopeExisting($query, $details_id, $breakdown_id, $breakdown_type)
     {
-        return $query->where(['consumption_details_id' => $details_id, 'breakdown_id' => $breakdown_id, 'breakdown_type' => $breakdown_type]);
+        return $query->where(['consumption_details_id' => $details_id, 'consumption_breakdown_id' => $breakdown_id, 'consumption_breakdown_type' => $breakdown_type]);
     }
 
     public function consumption_breakdown() {
