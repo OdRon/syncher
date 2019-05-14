@@ -1398,20 +1398,8 @@ class ReportController extends Controller
             }
         }
 
-        // foreach ($samples as $key => $sample) {
-        //     foreach ($remotesamples as $key => $remotesample) {
-        //         if (($remotesample->id == $sample->id) && ($remotesample->month == $sample->month) && ($remotesample->year == $sample->year)) {
-        //             $data[] = [
-        //                 'labname' => $sample->labdesc,
-        //                 'year' => $sample->year,
-        //                 'month' => $sample->monthname,
-        //                 'remotelogged' => $remotesample->samples ?? 0,
-        //                 'totallogged' => $sample->samples ?? 0,
-        //             ];
-        //         }
-        //     }
-        // }
-        dd($data);
+        $data['sampleslogs'] = collect($data);
+        return view('tables.remoteloginreport', $data)->with('pageTitle', 'Remote Login Reports '.$year);
     }
 
     public static function __getExcel($data, $title, $dataArray, $briefTitle)
