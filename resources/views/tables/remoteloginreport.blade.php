@@ -45,10 +45,10 @@
                         @foreach($sampleslogs as $logs)
                             <tr>
                                 <td>{{ $logs->labname ?? '' }}</td>
-                                <td>{{ $logs->year }}</td>
-                                <td>{{ $logs->month }}</td>
-                                <td>{{ $logs->remotelogged }}</td>
-                                <td>{{ $logs->totallogged }}</td>
+                                <td>{{ $logs->year ?? '' }}</td>
+                                <td>{{ $logs->month ?? '' }}</td>
+                                <td>{{ $logs->remotelogged ?? 0 }}</td>
+                                <td>{{ $logs->totallogged ?? 0 }}</td>
                             </tr>
                         @endforeach
                         </tbody>
