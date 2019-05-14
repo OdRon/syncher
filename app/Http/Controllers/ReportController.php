@@ -1385,14 +1385,14 @@ class ReportController extends Controller
                         ->join('labs', 'labs.id', '=', $table.'.lab_id')
                         ->whereYear('datereceived', $year)->where('site_entry', '<>', 2)
                         ->when($month, function($query) use ($month){
-                            return $query->whereMonth('datereceived', $month)
+                            return $query->whereMonth('datereceived', $month);
                         })->groupBy('id')->groupBy('year')->groupBy('month')->groupBy('actualmonth')
                         ->orderBy("month", "asc")->orderBy("year", "asc")->get();
         $remotesamples = $class::selectRaw("labs.id, year(datereceived) as `year`, month(datereceived) as `month`, count(*) as `samples`")
                         ->join('labs', 'labs.id', '=', $table.'.lab_id')
                         ->whereYear('datereceived', $year)->where('site_entry', '=', 1)
                         ->when($month, function($query) use ($month){
-                            return $query->whereMonth('datereceived', $month)
+                            return $query->whereMonth('datereceived', $month);
                         })->groupBy('id')->groupBy('year')->groupBy('month')
                         ->orderBy("month", "asc")->orderBy("year", "asc")->get();
         // dd($remotesamples);
