@@ -1380,24 +1380,37 @@ class ReportController extends Controller
             $totallogged = $samples->where('id', $lab->id);
             $remotelogged = $remotesamples->where('id', $lab->id);
             foreach ($totallogged as $key => $total) {
-                $remote = $remotelogged->where('year', $total->year)->where('month', $total->month)->first();
-                dd($remote);
-            }
-            dd($totallogged);
-        }
-        foreach ($samples as $key => $sample) {
-            foreach ($remotesamples as $key => $remotesample) {
-                if (($remotesample->id == $sample->id) && ($remotesample->month == $sample->month) && ($remotesample->year == $sample->year)) {
+                $remote = $remotelogged->where('year', $total->year)->where('month', $total->month);
+                if ($remote->isEmpty()){
                     $data[] = [
-                        'labname' => $sample->labdesc,
-                        'year' => $sample->year,
-                        'month' => $sample->monthname,
-                        'remotelogged' => $remotesample->samples ?? 0,
-                        'totallogged' => $sample->samples ?? 0,
+                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->monthname,
+                        'remotelogged' => 0,
+                        'totallogged' => $total->samples ?? 0
+                    ];
+                } else {
+                    $remote = $remote->first();
+                    $data[] = [
+                        'labname' => $lab->labdesc, 'year' => $total->year, 'month' => $total->monthname,
+                        'remotelogged' => $remote->samples ?? 0,
+                        'totallogged' => $total->samples ?? 0
                     ];
                 }
             }
         }
+        
+        // foreach ($samples as $key => $sample) {
+        //     foreach ($remotesamples as $key => $remotesample) {
+        //         if (($remotesample->id == $sample->id) && ($remotesample->month == $sample->month) && ($remotesample->year == $sample->year)) {
+        //             $data[] = [
+        //                 'labname' => $sample->labdesc,
+        //                 'year' => $sample->year,
+        //                 'month' => $sample->monthname,
+        //                 'remotelogged' => $remotesample->samples ?? 0,
+        //                 'totallogged' => $sample->samples ?? 0,
+        //             ];
+        //         }
+        //     }
+        // }
         dd($data);
     }
 
