@@ -1373,11 +1373,12 @@ class ReportController extends Controller
                         ->whereYear('datereceived', $year)->where('site_entry', '=', 1)
                         ->groupBy('id')->groupBy('year')->groupBy('month')->groupBy('actualmonth')
                         ->orderBy("month", "asc")->orderBy("year", "asc")->get();
-        dd($remotesamples);
+        // dd($remotesamples);
         $data = [];
         $labs = Lab::get();
         foreach ($labs as $key => $lab) {
-            
+            $totallogged = $samples->where('id', $lab->id);
+            dd($totallogged);
         }
         foreach ($samples as $key => $sample) {
             foreach ($remotesamples as $key => $remotesample) {
