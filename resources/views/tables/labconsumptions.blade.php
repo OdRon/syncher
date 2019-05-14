@@ -36,7 +36,7 @@
                                     </td>
                                     <td>
                                     	<a href="{{ url('lab/consumption/'.$consumption->id) }}" class="btn btn-primary">
-                                            View
+                                            View Consumption Breakdown
                                         </a>
                                     </td>
                                 </tr>
