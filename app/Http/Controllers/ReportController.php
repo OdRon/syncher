@@ -1371,7 +1371,12 @@ class ReportController extends Controller
                         ->join('labs', 'labs.id', '=', $table.'.lab_id')
                         ->whereYear('datereceived', $year)->where('site_entry', '=', 1)
                         ->groupBy('actualmonth')->orderBy("month", "asc")->orderBy("year", "asc")->get();
+        dd($remotesamples);
         $data = [];
+        $labs = Lab::get();
+        foreach ($labs as $key => $lab) {
+            
+        }
         foreach ($samples as $key => $sample) {
             foreach ($remotesamples as $key => $remotesample) {
                 if (($remotesample->id == $sample->id) && ($remotesample->month == $sample->month) && ($remotesample->year == $sample->year)) {
