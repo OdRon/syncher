@@ -15,7 +15,7 @@ class ConsumptionController extends Controller
     	} else {
     		$data['consumptions'] = Consumption::where('lab_id', auth()->user()->lab_id)->get();
 	    	$data = (object) $data;
-	    	return view('tables.labconsumptions', compact('data'))->with('pageTitle', auth()->user()->lab->labdesc." Consumptions");
+	    	return view('tables.labconsumptions', compact('data'))->with('pageTitle', auth()->user()->lab->labdesc." Consumption reports");
     	}
     }
 }
