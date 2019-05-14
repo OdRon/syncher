@@ -170,7 +170,7 @@ class ConsumptionsController extends Controller
 			// 			$breakdown->$value = ($factor * (int)$this->getcomputedkitvalue($value, $request));
 			// 		}
 
-			// 	}
+				}
 			// 	$breakdown->apisave();
 			// } else 
 			// 	$breakdown = $existing->first();
