@@ -1378,6 +1378,11 @@ class ReportController extends Controller
         $labs = Lab::get();
         foreach ($labs as $key => $lab) {
             $totallogged = $samples->where('id', $lab->id);
+            $remotelogged = $remotesamples->where('id', $lab->id);
+            foreach ($totallogged as $key => $total) {
+                $remote = $remotelogged->where('year', $total->year)->where('month', $total->month);
+                dd($remote);
+            }
             dd($totallogged);
         }
         foreach ($samples as $key => $sample) {
