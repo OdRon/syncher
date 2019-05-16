@@ -420,7 +420,7 @@
                                 <label><input type="radio" name="indicatortype" value="19" class="i-checks" required>EID No Data Summary</label>
                                 <label><input type="radio" name="indicatortype" value="20" class="i-checks" required>VL No Data Summary</label>
                             @endif
-                            <!-- Highest value 18 -->
+                            <!-- Highest value 22 -->
                             </div>
                         </div>
 

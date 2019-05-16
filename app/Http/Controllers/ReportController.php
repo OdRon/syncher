@@ -253,6 +253,8 @@ class ReportController extends Controller
 
     public function generate(Request $request)
     {
+        dd($request->all());
+        // Move this section to middleware
         if (!isset($request->category) && !($request->indicatortype == 19 || $request->indicatortype == 20)) {
             session(['toast_message'=>'Please Enter a category', 'toast_error'=>1]);
             return back();
@@ -267,12 +269,14 @@ class ReportController extends Controller
                 return back();
             }
         }
+        // End Move this section to middleware
         
         $dateString = '';
         $title = "";
         $briefTitle = "";
         $excelColumns = [];
 
+        // Move this section to middleware
         if ($request->indicatortype == 17) {
             if ($request->category == 'lab' || $request->period == 'annually') {
                 $this->__getTestOutComes($request,$dateString, $excelColumns, $title, $briefTitle);
@@ -282,6 +286,7 @@ class ReportController extends Controller
                 return back();
             }
         }
+        // End Move this section to middleware
 
         if($request->indicatortype == 16){
             $this->__getOutcomesByPlartform($request);
