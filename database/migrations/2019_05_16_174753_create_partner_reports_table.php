@@ -17,7 +17,7 @@ class CreatePartnerReportsTable extends Migration
             $table->increments('id');
             $table->string('name', 100);
             $table->text('description')->nullable();
-            $table->string('code');
+            $table->tinyInteger('code');
             $table->integer('testtype')->nullable();
             $table->integer('report_category_id');
             $table->softDeletes();

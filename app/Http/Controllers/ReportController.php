@@ -13,7 +13,10 @@ use App\ViralsampleCompleteView;
 use App\ViewFacility;
 use App\Partner;
 use App\Lab;
-// use Excel;
+use App\ReportCategory;
+use App\ReportPermission;
+use App\PartnerReport;
+use App\UserType;
 use App\Exports\ReportExport;
 use App\Exports\ReportExportWithSheets;
 
@@ -27,7 +30,7 @@ class ReportController extends Controller
                         'Q4'=>['name'=>'Oct-Dec', 'start'=>10, 'end'=>12]];
     private $testtypes = ['EID', 'VL'];
     public function index($testtype = NULL)
-    {   
+    {
         if (NULL == $testtype) 
             $testtype = 'EID';
         
@@ -91,6 +94,8 @@ class ReportController extends Controller
                                     })->groupBy('subcounty_id')->orderBy('subcounty', 'desc')->get();
             }
         }
+        $reports = auth()->user()->user_type->reports();
+        dd($reports);
         
         return view('reports.home', compact('facilitys','countys','subcountys','partners','labs','testtype'))->with('pageTitle', 'Reports '.$testtype);
     }
@@ -1489,6 +1494,25 @@ class ReportController extends Controller
         //         });
         //     }
         // })->download('csv');
+    }
+
+    public function setup(Request $request) {
+        if ($request->method() == 'POST') {
+            foreach($request->input('partner_report_id') as $report){
+                $permission = ReportPermission::where('partner_report_id', $report)->where('user_type_id', $request->input('user_type_id'))->get();
+                if($permission->isEmpty()) {
+                    $permission = new ReportPermission;
+                    $permission->fill(['partner_report_id' => $report, 'user_type_id' => $request->input('user_type_id')])->save();
+                }
+            }
+            return back();
+        } else {
+            $data['categroies'] = ReportCategory::with(['reports'])->get();
+            $data['reports'] = PartnerReport::get();
+            $data['usertypes'] = UserType::get();
+            
+            return view('tables.setup', $data)->with('pageTitle', 'Reports Setup');
+        }
     }
 
 

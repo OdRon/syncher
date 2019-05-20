@@ -81,6 +81,10 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::get('nodata/{testtype?}/{year?}/{month?}', 'ReportController@nodata')->name('nodata');
 		Route::get('utilization/{testtype?}/{year?}/{month?}', 'ReportController@utilization')->name('utilization');
 		Route::get('remotelogin/{testtype?}/{year?}/{month?}', 'ReportController@remote_login');
+		Route::group(['middleware' => ['only_utype:1,10']], function(){
+			Route::get('permission/setup', 'ReportController@setup')->name('setup');
+			Route::post('permission/setup', 'ReportController@setup')->name('setup');
+		});
 		Route::post('/', 'ReportController@generate');
 	});
 
