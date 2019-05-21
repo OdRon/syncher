@@ -630,7 +630,17 @@ class ReportController extends Controller
         $string = (strlen($title) > 31) ? substr($title,0,28).'...' : $title;
         $sheetTitle = "$string";
         //Export Data
-        Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
+        // Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
+        //     $excel->setTitle($title);
+        //     $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+        //     $excel->setDescription($title);
+            
+        //     $excel->sheet($sheetTitle, function($sheet) use ($newdataArray) {
+        //         $sheet->fromArray($newdataArray, null, 'A1', false, false);
+        //     });
+             
+        // })->download('csv');
+        Excel::download($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
             $excel->setTitle($title);
             $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
             $excel->setDescription($title);
@@ -639,7 +649,7 @@ class ReportController extends Controller
                 $sheet->fromArray($newdataArray, null, 'A1', false, false);
             });
              
-        })->download('csv');
+        }, 'csv');
     }
 
     public function __getLowLevelViremiaData($request, $result = null, $sampletype = null) {
