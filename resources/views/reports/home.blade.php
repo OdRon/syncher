@@ -426,8 +426,11 @@
 
                         <div class="form-group">
                             <center>
-                                <button type="submit" class="btn btn-default" id="generate_report">Generate Report</button>
-                                <button class="btn btn-default">Reset Options</button>
+                                <div class="alert alert-warning">
+                                    Reports are currntly unavailable. We apologise for the inconvinience caused. We are working as fast as possible to ensure they are back online. Thank you for your patience.
+                                </div>
+                                <!-- <button type="submit" class="btn btn-default" id="generate_report">Generate Report</button>
+                                <button class="btn btn-default">Reset Options</button> -->
                             </center>
                         </div>                  
                         {{ Form::close() }}
