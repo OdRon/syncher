@@ -16,7 +16,7 @@ use App\Lab;
 use Excel;
 use App\Exports\UsersExport;
 // use Maatwebsite\Excel\Facades\Excel;
-// use App\Exports\ReportExport;
+use App\Exports\ReportExport;
 // use App\Exports\ReportExportWithSheets;
 
 class ReportController extends Controller
