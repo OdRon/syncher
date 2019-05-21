@@ -13,9 +13,9 @@ use App\ViralsampleCompleteView;
 use App\ViewFacility;
 use App\Partner;
 use App\Lab;
-// use Excel;
-use App\Exports\ReportExport;
-use App\Exports\ReportExportWithSheets;
+use Excel;
+// use App\Exports\ReportExport;
+// use App\Exports\ReportExportWithSheets;
 
 class ReportController extends Controller
 {
