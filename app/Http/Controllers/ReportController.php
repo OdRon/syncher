@@ -629,6 +629,7 @@ class ReportController extends Controller
         $title = strtoupper($title);
         $string = (strlen($title) > 31) ? substr($title,0,28).'...' : $title;
         $sheetTitle = "$string";
+        dd($newdataArray);
         //Export Data
         // Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
         //     $excel->setTitle($title);
