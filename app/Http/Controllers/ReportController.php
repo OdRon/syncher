@@ -25,9 +25,9 @@ class ReportController extends Controller
     //
     public static $alphabets = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
     public static $quarters = ['Q1'=>['name'=>'Jan-Mar', 'start'=>1, 'end'=>3],
-                        'Q2'=>['name'=>'Apr-Jun', 'start'=>4, 'end'=>6],
-                        'Q3'=>['name'=>'Jul-Sep', 'start'=>7, 'end'=>9],
-                        'Q4'=>['name'=>'Oct-Dec', 'start'=>10, 'end'=>12]];
+                                'Q2'=>['name'=>'Apr-Jun', 'start'=>4, 'end'=>6],
+                                'Q3'=>['name'=>'Jul-Sep', 'start'=>7, 'end'=>9],
+                                'Q4'=>['name'=>'Oct-Dec', 'start'=>10, 'end'=>12]];
     private $testtypes = ['EID', 'VL'];
     public function index($testtype = NULL)
     {
@@ -94,10 +94,11 @@ class ReportController extends Controller
                                     })->groupBy('subcounty_id')->orderBy('subcounty', 'desc')->get();
             }
         }
-        $reports = auth()->user()->user_type->reports();
-        dd($reports);
+        $data['reports'] = auth()->user()->user_type->reports();
+        $data['facilitys'] = $facilitys;$data['countys'] = $countys; $data['subcountys'] = $subcountys;
+        $data['partners'] = $partners; $data['labs'] = $labs; $data['testtype'] = $testtype;
         
-        return view('reports.home', compact('facilitys','countys','subcountys','partners','labs','testtype'))->with('pageTitle', 'Reports '.$testtype);
+        return view('reports.home', $data)->with('pageTitle', 'Reports '.$testtype);
     }
 
     public static function __getDateRequested($request, $model, $table, &$dateString, $receivedOnly=true) {
@@ -258,7 +259,7 @@ class ReportController extends Controller
 
     public function generate(Request $request)
     {
-        dd($request->all());
+        $report = ReportExport::generate($request);
         // Move this section to middleware
         if (!isset($request->category) && !($request->indicatortype == 19 || $request->indicatortype == 20)) {
             session(['toast_message'=>'Please Enter a category', 'toast_error'=>1]);

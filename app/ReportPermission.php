@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReportPermission extends BaseModel
 {
-    public function reports () {
-    	return $this->belongsTo('App\PartnerReport');
+    public function report() {
+    	return $this->belongsTo('App\PartnerReport', 'partner_report_id');
     }
 
     public function user_type() {

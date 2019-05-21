@@ -12,10 +12,10 @@ class UserType extends Model
 
     public function reports () {
     	$permissions = $this->report_permissions;
+
     	$reports = [];
     	foreach ($permissions as $key => $permission) {
-    		dd($permission);
-    		$reports[] = $permission->reports;
+    		$reports[] = $permission->report;
     	}
     	return $reports;
     }
