@@ -3,11 +3,11 @@
 namespace App\Exports;
 
 // use App\SampleView;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
 // use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\Exportable;
 
-class ReportExport implements FromCollection/*, WithHeadings*/
+class ReportExport implements FromArray/*, WithHeadings*/
 {
     use Exportable;
 
@@ -30,7 +30,7 @@ class ReportExport implements FromCollection/*, WithHeadings*/
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function collection()
+    public function array()
     {
         dd($this->data);
         // dd(SampleView::query()->where('datetested', '=', '2008-09-16'));
