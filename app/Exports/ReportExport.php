@@ -32,7 +32,7 @@ class ReportExport implements FromArray/*, WithHeadings*/
     */
     public function array()
     {
-        dd($this->data);
+        // dd($this->data);
         // dd(SampleView::query()->where('datetested', '=', '2008-09-16'));
     	// return SampleView::query()->where('datetested', '=', '2008-09-16');
         return $this->data;
