@@ -30,6 +30,7 @@ class ReportController extends Controller
     private $testtypes = ['EID', 'VL'];
     public function index($testtype = NULL)
     {   
+        // echo phpinfo();die();
         if (NULL == $testtype) 
             $testtype = 'EID';
         
@@ -631,8 +632,9 @@ class ReportController extends Controller
         $title = strtoupper($title);
         $string = (strlen($title) > 31) ? substr($title,0,28).'...' : $title;
         $sheetTitle = "$string";
-        return Excel::download(new UsersExport, 'users.xlsx');
-        dd($newdataArray);
+        
+        // dd($newdataArray);
+        
         //Export Data
         // Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
         //     $excel->setTitle($title);
@@ -644,16 +646,17 @@ class ReportController extends Controller
         //     });
              
         // })->download('csv');
-        Excel::download($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
-            $excel->setTitle($title);
-            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
-            $excel->setDescription($title);
+        // Excel::download($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
+        //     $excel->setTitle($title);
+        //     $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+        //     $excel->setDescription($title);
             
-            $excel->sheet($sheetTitle, function($sheet) use ($newdataArray) {
-                $sheet->fromArray($newdataArray, null, 'A1', false, false);
-            });
+        //     $excel->sheet($sheetTitle, function($sheet) use ($newdataArray) {
+        //         $sheet->fromArray($newdataArray, null, 'A1', false, false);
+        //     });
              
-        }, 'csv');
+        // }, 'csv');
+        return Excel::download(new ReportExport($newdataArray), 'Low Level Viremia.xlsx');
     }
 
     public function __getLowLevelViremiaData($request, $result = null, $sampletype = null) {
