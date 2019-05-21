@@ -5,11 +5,11 @@ namespace App\Exports;
 // use App\SampleView;
 use Maatwebsite\Excel\Concerns\FromCollection;
 // use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\Exportable;
+// use Maatwebsite\Excel\Concerns\Exportable;
 
 class ReportExport implements FromCollection/*, WithHeadings*/
 {
-    use Exportable;
+    // use Exportable;
 
     // private $title = [];
     private $data;
