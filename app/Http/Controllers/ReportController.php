@@ -13,7 +13,9 @@ use App\ViralsampleCompleteView;
 use App\ViewFacility;
 use App\Partner;
 use App\Lab;
-use Excel;
+// use Excel;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 // use App\Exports\ReportExport;
 // use App\Exports\ReportExportWithSheets;
 
@@ -629,6 +631,7 @@ class ReportController extends Controller
         $title = strtoupper($title);
         $string = (strlen($title) > 31) ? substr($title,0,28).'...' : $title;
         $sheetTitle = "$string";
+        return Excel::download(new UsersExport, 'users.xlsx');
         dd($newdataArray);
         //Export Data
         // Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
