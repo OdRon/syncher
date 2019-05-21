@@ -13,9 +13,9 @@ use App\ViralsampleCompleteView;
 use App\ViewFacility;
 use App\Partner;
 use App\Lab;
-// use Excel;
-use App\Exports\ReportExport;
-use App\Exports\ReportExportWithSheets;
+use Excel;
+// use App\Exports\ReportExport;
+// use App\Exports\ReportExportWithSheets;
 
 class ReportController extends Controller
 {
@@ -1456,58 +1456,58 @@ class ReportController extends Controller
             }
         } else {
             $titleArray = $dataArray;
-            // $data = $data;
-            // if($data->isNotEmpty()) {
-            //     $titleArray = $dataArray;
-            //     // foreach ($data as $report) {
-            //     //     $newdataArray[] = $report->toArray();
-            //     // }
-            // } else {
-            //     $newdataArray[] = [];
-            // }
-            // $sheetTitle[] = 'Sheet1';
-            // $finaldataArray[] = $newdataArray;
+            $data = $data;
+            if($data->isNotEmpty()) {
+                $titleArray = $dataArray;
+                // foreach ($data as $report) {
+                //     $newdataArray[] = $report->toArray();
+                // }
+            } else {
+                $newdataArray[] = [];
+            }
+            $sheetTitle[] = 'Sheet1';
+            $finaldataArray[] = $newdataArray;
         }
         
-        if($withSheets)
-            return (new ReportExportWithSheets($titleArray, $data))->download($title);
-        else
-            return (new ReportExport)->download($title . '.csv', \Maatwebsite\Excel\Excel::CSV);
-        // Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
-        //     $excel->setTitle($title);
-        //     $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
-        //     $excel->setDescription($title);
-        //     foreach ($finaldataArray as $key => $value) {
-        //         $stitle = $sheetTitle[$key];
-        //         $excel->sheet($stitle, function($sheet) use ($value) {
-        //             $sheet->fromArray($value, null, 'A1', false, false);
-        //         });
-        //     }
-        // })->download('csv');
+        // if($withSheets)
+        //     return (new ReportExportWithSheets($titleArray, $data))->download($title);
+        // else
+        //     return (new ReportExport)->download($title . '.csv', \Maatwebsite\Excel\Excel::CSV);
+        Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
+            $excel->setTitle($title);
+            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+            $excel->setDescription($title);
+            foreach ($finaldataArray as $key => $value) {
+                $stitle = $sheetTitle[$key];
+                $excel->sheet($stitle, function($sheet) use ($value) {
+                    $sheet->fromArray($value, null, 'A1', false, false);
+                });
+            }
+        })->download('csv');
     }
 
 
 
-    // public static function __dupgetExcel($data, $title, $dataArray)
-    // {
-    //     ini_set("memory_limit", "-1");
-    //     if($data->isNotEmpty()) {
-    //         $newdataArray[] = $dataArray;
-    //         foreach ($data as $report) {
-    //             $newdataArray[] = $report->toArray();
-    //         }
+    public static function __dupgetExcel($data, $title, $dataArray)
+    {
+        ini_set("memory_limit", "-1");
+        if($data->isNotEmpty()) {
+            $newdataArray[] = $dataArray;
+            foreach ($data as $report) {
+                $newdataArray[] = $report->toArray();
+            }
             
-    //         Excel::create($title, function($excel) use ($newdataArray, $title) {
-    //             $excel->setTitle($title);
-    //             $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('NASCOP.ORG');
-    //             $excel->setDescription($title);
+            Excel::create($title, function($excel) use ($newdataArray, $title) {
+                $excel->setTitle($title);
+                $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('NASCOP.ORG');
+                $excel->setDescription($title);
 
-    //             $excel->sheet($title, function($sheet) use ($newdataArray) {
-    //                 $sheet->fromArray($newdataArray, null, 'A1', false, false);
-    //             });
-    //         })->download('xlsx');
-    //     } else {
-    //         session(['toast_message' => 'No data available for the criteria provided']);
-    //     }
-    // }
+                $excel->sheet($title, function($sheet) use ($newdataArray) {
+                    $sheet->fromArray($newdataArray, null, 'A1', false, false);
+                });
+            })->download('xlsx');
+        } else {
+            session(['toast_message' => 'No data available for the criteria provided']);
+        }
+    }
 }
