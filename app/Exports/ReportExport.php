@@ -30,7 +30,7 @@ class ReportExport implements FromCollection/*, WithHeadings*/
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function array()
+    public function collection()
     {
         // dd($this->data);
         // dd(SampleView::query()->where('datetested', '=', '2008-09-16'));
