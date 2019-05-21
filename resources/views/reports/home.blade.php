@@ -362,9 +362,6 @@
                             </div>
                         <div class="form-group">
                             <center>
-                                <div>
-                                    Reports currently unavailble. We are sorry for the inconvinice
-                                </div>
                                 <button type="submit" class="btn btn-default" id="generate_report">Generate Report</button>
                                 <button class="btn btn-default">Reset Options</button>
                             </center>
