@@ -29,7 +29,7 @@ Route::prefix('download')->name('download.')->group(function(){
 	Route::get('poc', 'DownloadController@poc')->name('poc');
 	Route::get('eid_req', 'DownloadController@eid_req')->name('eid_req');
 	Route::get('vl_req', 'DownloadController@vl_req')->name('vl_req');
-
+	Route::get('collection_guidelines', 'DownloadController@collection_guidelines')->name('collection_guidelines');
 });
 
 Auth::routes();
