@@ -32,7 +32,7 @@ class ReportExport implements FromCollection/*, WithHeadings*/
     */
     public function collection()
     {
-        // dd($this->data);
+        dd($this->data);
         // dd(SampleView::query()->where('datetested', '=', '2008-09-16'));
     	// return SampleView::query()->where('datetested', '=', '2008-09-16');
         return collect($this->data);
