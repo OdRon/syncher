@@ -433,16 +433,17 @@ class ReportController extends Controller
         
         ini_set("memory_limit", "-1");
         $title = strtoupper($dateString);
-        Excel::create($title, function($excel) use ($newdata, $title) {
-                $excel->setTitle($title);
-                $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('EID/VL System');
-                $excel->setDescription($title);
+        return Excel::download(new ReportExport($newdata), $title . '.xlsx');
+        // Excel::create($title, function($excel) use ($newdata, $title) {
+        //         $excel->setTitle($title);
+        //         $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('EID/VL System');
+        //         $excel->setDescription($title);
 
-                $excel->sheet('Sheet1', function($sheet) use ($newdata) {
-                    $sheet->fromArray($newdata, null, 'A1', false, false);
-                });
+        //         $excel->sheet('Sheet1', function($sheet) use ($newdata) {
+        //             $sheet->fromArray($newdata, null, 'A1', false, false);
+        //         });
 
-            })->download('csv');
+        //     })->download('csv');
 
     }
 
@@ -1490,17 +1491,21 @@ class ReportController extends Controller
         //     return (new ReportExportWithSheets($titleArray, $data))->download($title);
         // else
         //     return (new ReportExport)->download($title . '.csv', \Maatwebsite\Excel\Excel::CSV);
-        Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
-            $excel->setTitle($title);
-            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
-            $excel->setDescription($title);
-            foreach ($finaldataArray as $key => $value) {
-                $stitle = $sheetTitle[$key];
-                $excel->sheet($stitle, function($sheet) use ($value) {
-                    $sheet->fromArray($value, null, 'A1', false, false);
-                });
-            }
-        })->download('csv');
+
+        /****** Has multiple sheets options *****/
+        return Excel::download(new ReportExport($finaldataArray), $title . '.xlsx');
+
+        // Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
+        //     $excel->setTitle($title);
+        //     $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+        //     $excel->setDescription($title);
+        //     foreach ($finaldataArray as $key => $value) {
+        //         $stitle = $sheetTitle[$key];
+        //         $excel->sheet($stitle, function($sheet) use ($value) {
+        //             $sheet->fromArray($value, null, 'A1', false, false);
+        //         });
+        //     }
+        // })->download('csv');
     }
 
 
@@ -1513,16 +1518,17 @@ class ReportController extends Controller
             foreach ($data as $report) {
                 $newdataArray[] = $report->toArray();
             }
+            return Excel::download(new ReportExport($newdataArray), $title . '.xlsx');
             
-            Excel::create($title, function($excel) use ($newdataArray, $title) {
-                $excel->setTitle($title);
-                $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('NASCOP.ORG');
-                $excel->setDescription($title);
+            // Excel::create($title, function($excel) use ($newdataArray, $title) {
+            //     $excel->setTitle($title);
+            //     $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('NASCOP.ORG');
+            //     $excel->setDescription($title);
 
-                $excel->sheet($title, function($sheet) use ($newdataArray) {
-                    $sheet->fromArray($newdataArray, null, 'A1', false, false);
-                });
-            })->download('xlsx');
+            //     $excel->sheet($title, function($sheet) use ($newdataArray) {
+            //         $sheet->fromArray($newdataArray, null, 'A1', false, false);
+            //     });
+            // })->download('xlsx');
         } else {
             session(['toast_message' => 'No data available for the criteria provided']);
         }
