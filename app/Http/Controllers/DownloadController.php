@@ -38,4 +38,10 @@ class DownloadController extends Controller
     	$path = public_path('downloads/VL_REQUISITION_FORM.pdf');
     	return response()->download($path);
     }
+
+    public function collection_guidelines(){
+        $path = public_path('downloads/collection_manual.pdf', 'KEMRI Nairobi HIV Lab sample collection manual 2019.pdf');
+        return response()->download($path);
+    }
+
 }
