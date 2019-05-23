@@ -289,22 +289,15 @@ class ReportController extends Controller
 
         if($request->indicatortype == 16){
             $this->__getOutcomesByPlartform($request);
-            return back();
-        }
-
-        if ($request->indicatortype == 18) {
-            $this->__getLowLevelViremia($request);
-            return back();
-        }
-
-        if ($request->indicatortype == 19 || $request->indicatortype == 20) {
+        } else if ($request->indicatortype == 18) {
+            $data = $this->__getLowLevelViremia($request, $excelColumns, $title);
+        } else if ($request->indicatortype == 19 || $request->indicatortype == 20) {
             $this->__getNodataSummary($request);
-            return back();
+        } else {
+            $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
+            $data = $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         }
         
-        $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
-        $data = $this->__getExcel($data, $title, $excelColumns, $briefTitle);
-
         return (new ReportExport($data, $excelColumns))->download("$title.xlsx");
     }
 
@@ -569,7 +562,7 @@ class ReportController extends Controller
         return $model->get();
     }
 
-    public function __getLowLevelViremia($request) {
+    public function __getLowLevelViremia($request, &$columns, &$title) {
         ini_set("memory_limit", "-1");
         $data = [
                     [
@@ -598,7 +591,7 @@ class ReportController extends Controller
                         'plasma801to999' => $this->__getLowLevelViremiaData($request, 6, 1)
                     ]
                 ];
-        $newdataArray[] = ['Result Ranges', 'DBS', 'Plasma'];
+        $columns = ['Result Ranges', 'DBS', 'Plasma'];
         foreach ($data as $report) {
             $newdataArray[] = $report;
         }
@@ -635,6 +628,7 @@ class ReportController extends Controller
         $string = (strlen($title) > 31) ? substr($title,0,28).'...' : $title;
         $sheetTitle = "$string";
         
+        return $newdataArray;
         // dd($newdataArray);
         
         //Export Data
@@ -837,7 +831,7 @@ class ReportController extends Controller
                                 return $query->where('age_category', '=', 10);
                             if ($request->input('age') == 7)
                                 return $query->where('age_category', '=', 11);
-                });
+                        });
                 if ($request->input('age') == 2)
                     $title .= " less 2 ";
                 if ($request->input('age') == 3)
