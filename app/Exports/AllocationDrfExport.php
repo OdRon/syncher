@@ -26,7 +26,7 @@ class AllocationDrfExport implements WithMultipleSheets
     	$sheets = [];
     	$general_drf_data = $this->getallocationlabdetails();
     	foreach ($this->allocation->details as $key => $detail) {
-    		$sheets[] = new AllocationDetailsDrfExport($detail, $general_drf_data);
+    		$sheets[] = new Sheets\AllocationDetailsDrfExport($detail, $general_drf_data);
     	}
 
         return $sheets;

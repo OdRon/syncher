@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exports;
+namespace App\Exports\Sheets;
 
 use App\AllocationDetail;
 use Maatwebsite\Excel\Concerns\FromCollection;
