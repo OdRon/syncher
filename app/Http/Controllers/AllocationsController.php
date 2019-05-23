@@ -105,7 +105,7 @@ class AllocationsController extends Controller
                     ];
             }
         }
-    	dd($testtype);
+    	// dd($testtype);
     	return view('tables.allocations', compact('allocations_data'))->with('pageTitle',"$testtype Allocation List");
     }
 
