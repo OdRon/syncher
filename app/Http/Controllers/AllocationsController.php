@@ -194,7 +194,7 @@ class AllocationsController extends Controller
     public function drf(Lab $lab) {
         if (!isset($lab->id)) {
             $year = date('Y');
-            $month = date('m') - 1;
+            $month = date('m') - 2;
             $labs = Lab::with(array('allocations' => function($query) use($year, $month) {
                             $query->where('allocations.year', $year);
                             $query->where('allocations.month', $month);
