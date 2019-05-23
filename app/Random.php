@@ -1656,5 +1656,6 @@ class Random
             LEFT JOIN results r on r.id = s.result
         );
         ");
+        echo "Done!";
     }
 }

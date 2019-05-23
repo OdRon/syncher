@@ -1077,8 +1077,9 @@ class ReportController extends Controller
                         ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")->groupBy(['facility', 'facilitycode', 'county', 'partner', 'subcounty'])->where("$table.facility_id", '<>', 7148)->orderBy('totalSamples', 'desc');
             } else if ($request->indicatortype == 16) {
                 // $model = ;
+            } else {
+                
             }
-
         } else {
             return back();
         }
