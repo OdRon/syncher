@@ -203,8 +203,8 @@ class AllocationsController extends Controller
             $monthname = date('F', mktime(null, null, null, $month));
             return view('tables.allocationdrf', compact('labs'))->with('pageTitle', "Distribution Request Form $year - $monthname");
         } else {
-            $allocation = $lab->allocations->where('year', date('Y'))->where('month', date('m'))->first();
-            dd($allocation);
+            $allocation = $lab->allocations->where('year', date('Y'))->where('month', date('m')-2)->first();
+            
             return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
         }        
     }
