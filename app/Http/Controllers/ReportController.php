@@ -13,10 +13,11 @@ use App\ViralsampleCompleteView;
 use App\ViewFacility;
 use App\Partner;
 use App\Lab;
-use Excel;
+// use Excel;
 use App\Exports\UsersExport;
-// use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportExport;
+use \App\Exports\ReportGenericExport;
 // use App\Exports\ReportExportWithSheets;
 
 class ReportController extends Controller
@@ -302,9 +303,9 @@ class ReportController extends Controller
         }
         
         $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
-        $this->__getExcel($data, $title, $excelColumns, $briefTitle);
-        
-        return back();
+        $data = $this->__getExcel($data, $title, $excelColumns, $briefTitle);
+
+        return (new ReportExport($data, $excelColumns))->download("$title.xlsx");
     }
 
     protected function __getOutcomesByPlartform($request) {
@@ -1474,9 +1475,10 @@ class ReportController extends Controller
             }
         } else {
             $titleArray = $dataArray;
-            $data = $data;
+            $data = $data->get();
+            // dd($data);
             if($data->isNotEmpty()) {
-                $titleArray = $dataArray;
+                // $newdataArray[] = $dataArray;
                 // foreach ($data as $report) {
                 //     $newdataArray[] = $report->toArray();
                 // }
@@ -1484,16 +1486,20 @@ class ReportController extends Controller
                 $newdataArray[] = [];
             }
             $sheetTitle[] = 'Sheet1';
-            $finaldataArray[] = $newdataArray;
+            $finaldataArray = $data->toArray();
         }
         
+        return $finaldataArray;
         // if($withSheets)
         //     return (new ReportExportWithSheets($titleArray, $data))->download($title);
         // else
         //     return (new ReportExport)->download($title . '.csv', \Maatwebsite\Excel\Excel::CSV);
-
+        // dd($finaldataArray);
         /****** Has multiple sheets options *****/
-        return Excel::download(new ReportExport($finaldataArray), $title . '.xlsx');
+        // return Excel::download(new ReportExport($finaldataArray), "$title.xlsx");
+        // return Excel::download(new ReportExport, "$title.xlsx");
+        // return (new ReportExport($finaldataArray))->download("$title.xlsx");
+        // return Excel::download(new ReportGenericExport, "$title.xlsx");
 
         // Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
         //     $excel->setTitle($title);

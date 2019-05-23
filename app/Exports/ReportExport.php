@@ -3,38 +3,35 @@
 namespace App\Exports;
 
 // use App\SampleView;
-use Maatwebsite\Excel\Concerns\FromCollection;
-// use Maatwebsite\Excel\Concerns\WithHeadings;
+// use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class ReportExport implements FromCollection/*, WithHeadings*/
+class ReportExport implements FromArray ,WithHeadings, ShouldAutoSize
 {
     use Exportable;
 
-    // private $title = [];
-    private $data;
+    protected $data;
+    protected $title;
 
-    public function __construct(/*$title,*/ $data){
-    	// $this->title = $title;
+    public function __construct($data, $title){
     	$this->data = $data;
+        $this->title = $title;
     }
 
     /**
     * @return heading array()
     */
-	// public function headings(): array
- //    {
- //        return $this->title;
- //    }
+    public function headings(): array
+    {
+        return $this->title;
+    }
 
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    public function array(): array
     {
         // dd($this->data);
-        // dd(SampleView::query()->where('datetested', '=', '2008-09-16'));
-    	// return SampleView::query()->where('datetested', '=', '2008-09-16');
-        return collect($this->data);
+        return $this->data;
     }
 }
