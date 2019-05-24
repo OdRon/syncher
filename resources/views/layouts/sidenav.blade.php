@@ -26,7 +26,9 @@
         @elseif(Auth::user()->user_type_id == 9)
             <li><a href="{{ url('reports/support') }}">Reports Download</a></li>
             <hr />
-            <li><a href="{{ url('#') }}">Remote Log In Reports</a></li>
+            <li><a href="{{ url('reports/remotelogin/EID') }}">EID Remote Log In Reports</a></li>
+            <hr />
+            <li><a href="{{ url('reports/remotelogin/VL') }}">VL Remote Log In Reports</a></li>
             <hr/>
             <li><a href="{{ url('#') }}">No Data Summary Reports</a></li>
             <hr/>
@@ -49,12 +51,19 @@
                 <li><a href="{{ url('results/VL') }}">VL Batch Results</a></li>
                 <hr />
             @else
-                <li><a href="{{ url('reports/EID') }}">EID Results/Reports</a></li>
-                <hr />
-                <li><a href="{{ url('reports/VL') }}">VL Results/Reports</a></li>
-                <hr />
+                @if(in_array(Auth::user()->user_type_id, [14, 15]))
+                    <li><a href="{{ url('lab/allocation') }}">Allocation List</a></li>
+                    <hr />
+                    <li><a href="{{ url('lab/consumption') }}">Consumption Reports List</a></li>
+                    <hr />
+                @else
+                    <li><a href="{{ url('reports/EID') }}">EID Results/Reports</a></li>
+                    <hr />
+                    <li><a href="{{ url('reports/VL') }}">VL Results/Reports</a></li>
+                    <hr />
+                @endif
             @endif
-            @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+            @if(!in_array(Auth::user()->user_type_id, [2, 6, 7, 14, 15]))
                 <li><a href="{{ url('hei/validate') }}">HEI Patient Follow Up</a></li>
                 <hr />
                 <li><a href="{{ url('#') }}">HEI Validation Guide</a></li>
@@ -65,15 +74,11 @@
                 <li><a href="{{ url('patients/VL') }}">VL Patient List</a></li>
                 <hr />
                 @endif
-                @if(Auth::user()->user_type_id != 2)
-                    @if(Auth::user()->user_type_id != 8)
-                        <li><a href="{{ url('sites') }}">Facilities</a></li>
-                        <hr />
-                        <li><a href="#">User Guide</a></li>
-                        <hr />
-                        <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
-                        <hr />
-                    @endif
+                @if(Auth::user()->user_type_id != 8)
+                    <li><a href="{{ url('sites') }}">Facilities</a></li>
+                    <hr />
+                    <li><a href="#">User Guide</a></li>
+                    <hr />
                 @endif
                 @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 8 || Auth::user()->user_type_id == 10)
                     <li>
@@ -86,7 +91,7 @@
                     <hr />
                 @endif
             @endif
-            @if(in_array(Auth::user()->user_type_id, [10, 12]))
+            @if(in_array(Auth::user()->user_type_id, [10, 13]))
                 <li>
                     <a href="{{ url('email/create') }}">Add Email</a>
                 </li>                
@@ -101,19 +106,27 @@
                 <hr />
             @endif
             
-            @if(!(Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7 || Auth::user()->user_type_id == 2))
+            @if(Auth::user()->user_type_id != 8)
+                <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
+                <hr />
+            @endif
+            @if(!in_array(Auth::user()->user_type_id, [6, 7, 2, 14, 15]))
                 @if(Auth::user()->user_type_id != 8)
                 <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
                 @endif
                 <li><a href="#"><select class="form-control" id="sidebar_batch_search"></select></a></li>
                 <li><a href="#"><select class="form-control" id="sidebar_patient_search"></select></a></li>
             @endif
-        @else
+        @elseif(Auth::user()->user_type_id == 12)
             <li><a href="{{ url('allocations/EID') }}">EID Allocation List</a></li>
             <hr />
             <li><a href="{{ url('allocations/VL') }}">VL Allocation List</a></li>
             <hr />
             <li><a href="{{ url('allocations/Consumables') }}">Consumable Allocation List</a></li>
+            <hr />
+            <li><a href="{{ url('allocationdrfs') }}">DRFs</a></li>
+            <hr />
+            <li><a href="{{ url('labcontacts') }}">Lab Contacts List</a></li>
             <hr />
         @endif
         </ul>

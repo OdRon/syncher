@@ -28,10 +28,6 @@ class Kits extends Model
     	return $this->belongsTo('App\Machine');
     }
 
-    public function consumption(){
-    	return $this->hasMany('App\Consumption', 'Kit_id');
-    }
-
     public function lastMonth(){
     	return $this->consumption->where('year', '=', $this->previousYear)->where('month', '=', $this->previousMonth);
     }
@@ -39,5 +35,10 @@ class Kits extends Model
     public function commodities()
     {
         return $this->morphMany('App\AllocationDetailsBreakdown', 'breakdown');
+    }
+   
+    public function commodities_consumption()
+    {
+        return $this->morphMany('App\ConsumptionDetailBreakdown', 'consumption_breakdown');
     }
 }

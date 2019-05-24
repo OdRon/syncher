@@ -11,15 +11,25 @@ class Consumption extends Model
      *
      * @var array
      */
+
     protected $guarded = [];
 
-    public function kit() {
-    	return $this->belongsTo('App\Kits');
+    public function scopeExisting($query, $year, $month, $lab_id)
+    {
+        return $query->where(['year' => $year, 'month' => $month, 'lab_id' => $lab_id]);
     }
 
+    public function details() {
+        return $this->hasMany('App\ConsumptionDetail');
+    }
 
-    public function scopeExisting($query, $year, $month, $testtype, $kit)
-    {
-        return $query->where(['year' => $year, 'month' => $month, 'testtype' => $testtype, 'kit_id' => $kit]);
+    public function lab() {
+        return $this->belongsTo('App\Lab');
+    }
+
+    public function apisave() {
+        $this->synched = 1;
+        $this->datesynched = date('Y-m-d');
+        $this->save();
     }
 }

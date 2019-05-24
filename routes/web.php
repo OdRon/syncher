@@ -43,12 +43,26 @@ Route::middleware(['web', 'auth'])->group(function(){
 
 	Route::middleware(['only_utype:12'])->group(function(){
 		Route::get('allocations/{testtype?}', 'AllocationsController@index')->name('allocations');
+		Route::get('allocationdrfs/{lab?}', 'AllocationsController@drf')->name('drf');
 		Route::get('viewallocation/{testtype?}/{year?}/{month?}', 'AllocationsController@view_allocations')->name('viewallocation');
 		Route::get('approveallocation/{lab}/{testtype?}/{year?}/{month?}', 'AllocationsController@approve_allocations')->name('approveallocation');
 		Route::post('approveallocation', 'AllocationsController@save_allocation_approval')->name('approveallocation');
+
+		Route::resource('labcontacts', 'AllocationContactsController');
 	});
 
-	Route::group(['middleware' => ['only_utype:10,15']], function () {
+	Route::middleware(['only_utype:14,15'])->group(function(){
+		Route::get('national/allocation', 'AllocationsController@national_allocation')->name('national.allocation');
+		Route::post('national/allocation', 'AllocationsController@national_allocation');
+		Route::get('lab/allocation/{allocation?}/{type?}/{approval?}', 'AllocationsController@lab_allocation')->name('lab.allocation');
+		// Route::get('lab/allocation/{allocation?}/{type?}/{approval?}', 'AllocationsController@lab_allocation')->name('lab.allocation');
+		Route::put('lab/allocation/{allocation_detail}/edit', 'AllocationsController@edit_lab_allocation');
+
+		Route::get('lab/consumption/{consumption?}', 'ConsumptionController@history');
+		Route::get('cancelallocation', 'AllocationsController@cancel_lab_allocation');
+	});
+
+	Route::group(['middleware' => ['only_utype:10,16']], function () {
 		Route::prefix('email')->name('email.')->group(function () {
 			Route::get('preview/{email}', 'EmailController@demo')->name('demo');
 			Route::post('preview/{email}', 'EmailController@demo_email')->name('demo_email');
@@ -67,6 +81,7 @@ Route::middleware(['web', 'auth'])->group(function(){
 		Route::get('{testtype?}', 'ReportController@index')->name('reports');
 		Route::get('nodata/{testtype?}/{year?}/{month?}', 'ReportController@nodata')->name('nodata');
 		Route::get('utilization/{testtype?}/{year?}/{month?}', 'ReportController@utilization')->name('utilization');
+		Route::get('remotelogin/{testtype?}/{year?}/{month?}', 'ReportController@remote_login');
 		Route::post('/', 'ReportController@generate');
 	});
 

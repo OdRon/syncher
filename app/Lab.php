@@ -18,12 +18,11 @@ class Lab extends Model
     	return $this->hasMany('App\Allocation');
     }
 
-    // public function getallocations($testtype) {
-    // 	$data = [];
-    // 	foreach($this->allocations as $key => $allocations) {
-    // 		if ($allocations->testtype == $testtype)
-    // 			$data[] = $allocations;
-    // 	}
-    // 	return $data;
-    // }
+    public function consumptions(){
+        return $this->hasMany('App\Consumption');
+    }
+
+    public function allocation_contacts() {
+        return $this->hasOne('App\AllocationContact');
+    }
 }

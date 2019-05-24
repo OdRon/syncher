@@ -36,7 +36,12 @@
             {{ Form::open(['url' => '/approveallocation', 'method' => 'post', 'class'=>'form-horizontal']) }}
             @foreach($data->allocations as $allocation)
                 <div class="panel-body">
-                    <div class="alert alert-info">
+                    <div class="alert 
+                        @if($allocation->approve == 0)
+                            alert-warning
+                        @else
+                            alert-info
+                        @endif">
                         <center>Allocation for {{ $allocation->machine->machine ?? ''}}, {{ $globaltesttype }}</center>
                     </div>
                     <div class="table-responsive">
@@ -125,7 +130,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label">Allocation Committee Feedback</label>
                         <div class="col-md-8">
-                            <textarea name="issuedcomments[]" class="form-control">{{ $allocation->issuedcomments }}</textarea>
+                            <textarea name="issuedcomments[{{ $counter }}]" class="form-control" @if($allocation->approve != 0) disabled @endif>{{ $allocation->issuedcomments }}</textarea>
                         </div>                            
                     </div>
                 </div>

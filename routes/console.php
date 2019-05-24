@@ -134,3 +134,8 @@ Artisan::command('send:negatives2018', function(){
 //     $str = \App\Copier::deactivate_old_users();
 //     $this->info($str);
 // })->describe('Deactivaing inactive users');
+
+Artisan::command('recreate:sample_complete_view', function(){
+    $str = \App\Random::run_sample_complete_view();
+    $this->info($str);
+})->describe('Recreate samples view');

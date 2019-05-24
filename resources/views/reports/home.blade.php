@@ -250,7 +250,7 @@
                                                 <td>
                                                     <select class="form-control" id="year" name="year" style="width: 100%;">
                                                         <option selected="true" disabled="true">Select a Year</option>
-                                                        @for ($i = 0; $i <= 9; $i++)
+                                                        @for ($i = 0; $i <= 15; $i++)
                                                             @php
                                                                 $year=Date('Y')-$i
                                                             @endphp
@@ -278,7 +278,7 @@
                                                 <td>
                                                     <select class="form-control" id="year" name="year" style="width: 100%;">
                                                         <option selected="true" disabled="true">Select a Year</option>
-                                                        @for ($i = 0; $i <= 9; $i++)
+                                                        @for ($i = 0; $i <= 15; $i++)
                                                             @php
                                                                 $year=Date('Y')-$i
                                                             @endphp
@@ -318,7 +318,7 @@
                                                 <td>
                                                     <select class="form-control" id="year" name="year" style="width: 70%;">
                                                         <option selected="true" disabled="true">Select a Year</option>
-                                                        @for ($i = 0; $i <= 6; $i++)
+                                                        @for ($i = 0; $i <= 15; $i++)
                                                             @php
                                                                 $year=Date('Y')-$i
                                                             @endphp
@@ -353,9 +353,7 @@
                             <label class="col-sm-3 control-label">Select Report Type</label>
                             <div class="col-sm-9">
                             @if($testtype == 'EID')
-                                @if(!(Auth::user()->user_type_id == 2))
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks" required> All Outcomes (+/-) </label>
-                                @endif
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks" required> + Outcomes </label>
                                 @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
                                 <label> <input type="radio" name="indicatortype" value="3" class="i-checks" required> + Outcomes for Follow Up </label>
