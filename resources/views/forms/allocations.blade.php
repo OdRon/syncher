@@ -79,8 +79,9 @@
                                             $amc = $qualamc * $factor;
 
                                         $ending = 0;
-                                        $consumption = $detail->breakdown->consumption
-                                                            ->where('month', $data->last_month)->where('year', $data->last_year)
+                                        $consumption = $detail->breakdown->consumption;
+                                        if ($consumption)
+                                            $consumption = $consumption->where('month', $data->last_month)->where('year', $data->last_year)
                                                             ->where('testtype', $globaltesttypevalue)->where('lab_id', $data->lab->id)
                                                             ->pluck('ending');
                                         foreach($consumption as $value) {
