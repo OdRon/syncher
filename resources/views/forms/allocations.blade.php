@@ -84,9 +84,12 @@
                                             $consumption = $consumption->where('month', $data->last_month)->where('year', $data->last_year)
                                                             ->where('testtype', $globaltesttypevalue)->where('lab_id', $data->lab->id)
                                                             ->pluck('ending');
-                                        foreach($consumption as $value) {
-                                            $ending += $value;
+                                        if ($consumption) {
+                                            foreach($consumption as $value) {
+                                                $ending += $value;
+                                            }
                                         }
+                                        
                                         $mos = @($ending / $amc);
                                     }
                                 @endphp
