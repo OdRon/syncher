@@ -17,6 +17,10 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
+Artisan::command('alere', function () {
+    \App\Poc::alereq();
+})->describe('Display an inspiring quote');
+
 Artisan::command('report:hei-partner {contact_id?}', function ($contact_id=null) {
     $str = \App\Report::eid_partner($contact_id);
     $this->info($str);
@@ -134,3 +138,8 @@ Artisan::command('send:negatives2018', function(){
 //     $str = \App\Copier::deactivate_old_users();
 //     $this->info($str);
 // })->describe('Deactivaing inactive users');
+
+Artisan::command('recreate:sample_complete_view', function(){
+    $str = \App\Random::run_sample_complete_view();
+    $this->info($str);
+})->describe('Recreate samples view');

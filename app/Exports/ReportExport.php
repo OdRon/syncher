@@ -2,45 +2,37 @@
 
 namespace App\Exports;
 
-use DB;
-use App\SampleCompleteView;
-use App\ViralsampleCompleteView;
-use App\PartnerReport;
-// use Maatwebsite\Excel\Concerns\FromQuery;
-// use Maatwebsite\Excel\Concerns\WithHeadings;
-// use Maatwebsite\Excel\Concerns\Exportable;
+// use App\SampleView;
+// use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class ReportExport //implements FromQuery/*, WithHeadings*/
+class ReportExport implements FromArray ,WithHeadings, ShouldAutoSize
 {
  //    use Exportable;
 
- //    // private $title = [];
- //    // private $data;
+    protected $data;
+    protected $title;
 
- //    // public function __construct($title, $data){
- //    // 	$this->title = $title;
- //    // 	$this->data = $data;
- //    // }
+    public function __construct($data, $title){
+    	$this->data = $data;
+        $this->title = $title;
+    }
 
- //    /**
- //    * @return heading array()
- //    */
-	// // public function headings(): array
- // //    {
- // //        return $this->title;
- // //    }
+    /**
+    * @return heading array()
+    */
+    public function headings(): array
+    {
+        return $this->title;
+    }
 
- //    /**
- //    * @return \Illuminate\Support\Collection
- //    */
- //    public function query()
- //    {
- //        // dd(SampleView::query()->where('datetested', '=', '2008-09-16'));
- //    	return SampleView::query()->where('datetested', '=', '2008-09-16');
- //    }
-
-    public static function generate($request) {
-        self::query($request);
+    public function array(): array
+    {
+        // dd($this->data);
+        return $this->data;
     }
 
     private static function query($request) {
