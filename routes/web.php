@@ -17,6 +17,7 @@ Route::get('reset_password/{token}', ['as' => 'password.reset', function($token)
 }]);
 
 Route::redirect('/', 'login');
+Route::redirect('/performance', 'https://partnerperformance.org');
 
 Route::get('login/facility', 'Auth\\LoginController@fac_login')->name('login.facility');
 Route::post('login/facility', 'Auth\\LoginController@facility_login');
@@ -29,7 +30,7 @@ Route::prefix('download')->name('download.')->group(function(){
 	Route::get('poc', 'DownloadController@poc')->name('poc');
 	Route::get('eid_req', 'DownloadController@eid_req')->name('eid_req');
 	Route::get('vl_req', 'DownloadController@vl_req')->name('vl_req');
-
+	Route::get('collection_guidelines', 'DownloadController@collection_guidelines')->name('collection_guidelines');
 });
 
 Auth::routes();
