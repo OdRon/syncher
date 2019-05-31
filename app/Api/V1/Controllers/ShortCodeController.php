@@ -17,7 +17,7 @@ use GuzzleHttp\Client;
 class ShortCodeController extends Controller
 {
     public static $sms_url = 'http://sms.southwell.io/api/v1/messages';
-    
+
 	public function shortcode(ShortCodeRequest $request) {
 		$message = $request->input('smsmessage');
 		$phone = $request->input('smsphoneno');
@@ -137,7 +137,6 @@ class ShortCodeController extends Controller
                 'message' => $message,
             ],
         ]);
-
         return $response->getStatusCode();
     }
 }
