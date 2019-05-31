@@ -18,6 +18,8 @@ class ShortCodeController extends Controller
 {
     public static $sms_url = 'http://sms.southwell.io/api/v1/messages';
 
+    private $limit = 5;
+
 	public function shortcode(ShortCodeRequest $request) {
 		$message = $request->input('smsmessage');
 		$phone = $request->input('smsphoneno');
@@ -67,7 +69,7 @@ class ShortCodeController extends Controller
 						->where('patient_id', '=', $patient->id)
 						->where('repeatt', '=', 0)
 						->orderBy("$table.id", 'desc')
-						->limit(5)->get();
+						->limit($this->limit)->get();
 	}
 
 	private function buildTextMessage($tests = null, &$status, &$testtype){
