@@ -17,6 +17,10 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
+Artisan::command('alere', function () {
+    \App\Poc::alereq();
+})->describe('Display an inspiring quote');
+
 Artisan::command('report:hei-partner {contact_id?}', function ($contact_id=null) {
     $str = \App\Report::eid_partner($contact_id);
     $this->info($str);
@@ -49,6 +53,10 @@ Artisan::command('delete-pdfs', function(){
 Artisan::command('ages {type}', function ($type) {
     $str = \App\Common::set_age($type);
 })->describe('Set age for samples that have a dob but no age.');
+
+Artisan::command('facilities', function () {
+    $str = \App\Common::add_missing_facilities();
+})->describe('Add facilities that are in national DB but are not in API DB.');
 
 
 Artisan::command('copy:test {limit}', function () {
@@ -112,6 +120,15 @@ Artisan::command('test:connection', function(){
     $this->info($str);
 })->describe('Check connection to the labs.');
 
+Artisan::command('synch:allocations', function(){
+    $str = \App\Synch::synch_allocations();
+    $this->info($str);
+})->describe('Synch Allocations');
+
+Artisan::command('send:negatives2018', function(){
+    $str = \App\Random::negatives_report();
+    $this->info($str);
+})->describe('Send Negatives');
 // Artisan::command('testPassword:email', function(){
 //     $str = \App\Report::send_password();
 //     $this->info($str);
@@ -121,3 +138,8 @@ Artisan::command('test:connection', function(){
 //     $str = \App\Copier::deactivate_old_users();
 //     $this->info($str);
 // })->describe('Deactivaing inactive users');
+
+Artisan::command('recreate:sample_complete_view', function(){
+    $str = \App\Random::run_sample_complete_view();
+    $this->info($str);
+})->describe('Recreate samples view');

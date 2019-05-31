@@ -293,7 +293,7 @@ class Misc extends Common
 
     public static function get_mlab_facilities()
     {
-    	Facility::where('id', '>', 0)->update(['smsprinter' => 0]);
+    	// Facility::where('id', '>', 0)->update(['smsprinter' => 0]);
 
     	$client = new Client(['base_uri' => 'https://api.mhealthkenya.co.ke/api/active_facilities']);
 
@@ -332,6 +332,22 @@ class Misc extends Common
             }
             rmdir($path);
         }
+    }
+
+    public static function create_facility_users()
+    {
+    	$facilities = \App\Facility::whereRaw("id not in (select facility_id from users where user_type_id = 8)")->get();
+    	foreach ($facilities as $facility) {
+    		$u = \App\User::create([
+    			'user_type_id' => 8,
+		        'surname' => '',
+		        'oname' => '',
+		        'facility_id' => $facility->id,
+		        'email' => 'facility' . $facility->id . '@nascop-lab.com',
+		        'username' => 'facility' . $facility->id . '@nascop-lab.com',
+		        'password' => encrypt($facility->name),
+    		]);
+    	}
     }
 
 

@@ -16,9 +16,10 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    // protected $fillable = [
+    //     'name', 'email', 'password',
+    // ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -74,6 +75,11 @@ class User extends Authenticatable implements JWTSubject
     public function facility()
     {
         return $this->belongsTo('App\Facility');
+    }
+
+    public function lab()
+    {
+        return $this->belongsTo('App\Lab');
     }
 
     public function set_last_access()

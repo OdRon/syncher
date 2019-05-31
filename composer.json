@@ -17,10 +17,11 @@
         "guzzlehttp/guzzle": "^6.3",
         "predis/predis": "^1.1",
         "laravelcollective/html": "^5.4.0",
-        "maatwebsite/excel": "^2.1",
         "mpdf/mpdf": "^7.1",
         "fideloper/proxy": "^4.0",
-        "venturecraft/revisionable": "^1.28"
+        "venturecraft/revisionable": "^1.28",
+        "phpoffice/phpspreadsheet": "^1.6",
+        "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -3,7 +3,7 @@
 	<br />
 	@if($nonsup_absent),
 
-		No Samples Tested for the specified duration had > 1000 cp/ml  Outcomes ( Not Suppressed)
+		No Samples Tested for the period between {{ $range ?? '' }} had &gt; 1000 cp/ml  Outcomes ( Not Suppressed)
 		<br />
 
 		Thanks.
@@ -20,7 +20,7 @@
 
 	@else
 
-		Please find attached the Patients with  > 1000 cp/ml  Outcomes ( Not Suppressed) for the specified duration.
+		Please find attached the Patients with &gt; 1000 cp/ml  Outcomes (Not Suppressed) for the period between {{ $range ?? '' }}.
 
 		<br />
 

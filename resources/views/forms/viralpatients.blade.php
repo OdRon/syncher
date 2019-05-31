@@ -19,7 +19,7 @@
    <div class="content">
         <div>
 
-        {{ Form::open(['url' => url('viralpatient/' . $patient->id), 'method' => 'put', 'class'=>'form-horizontal', 'confirm_message' => 'Are you sure you would like to update this patient?']) }}
+        {{ Form::open(['url' => url('patients/' . $data->testtype . '/' . $data->patient->id . '/edit'), 'method' => 'put', 'class'=>'form-horizontal', 'confirm_message' => 'Are you sure you would like to update this patient?']) }}
 
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
@@ -32,14 +32,14 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Facility</label>
                             <div class="col-sm-8">
-                                <input class="form-control" disabled type="text" value="{{ $patient->facility->name ?? '' }}">
+                                <input class="form-control" disabled type="text" value="{{ $data->patient->facility->name ?? '' }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-4 control-label">Patient CCC number</label>
                             <div class="col-sm-8">
-                                <input class="form-control" type="text" value="{{ $patient->patient ?? '' }}">
+                                <input class="form-control" type="text" value="{{ $data->patient->patient ?? '' }}">
                             </div>
                         </div> 
 
@@ -48,7 +48,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" id="dob" required class="form-control lockable" value="{{ $patient->dob ?? '' }}" name="dob">
+                                    <input type="text" id="dob" required class="form-control lockable" value="{{ $data->patient->dob ?? '' }}" name="dob">
                                 </div>
                             </div>                            
                         </div>
@@ -58,10 +58,10 @@
                             <div class="col-sm-8">
                                 <select class="form-control lockable" required name="sex" id="sex">
                                     <option value=""> Select One </option>
-                                    @foreach ($genders as $gender)
+                                    @foreach ($data->genders as $gender)
                                         <option value="{{ $gender->id }}"
 
-                                        @if (isset($patient) && $patient->sex == $gender->id)
+                                        @if (isset($data->patient) && $data->patient->sex == $gender->id)
                                             selected
                                         @endif
 
@@ -77,7 +77,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" id="initiation_date" class="form-control lockable" value="{{ $patient->initiation_date ?? '' }}" name="initiation_date">
+                                    <input type="text" id="initiation_date" class="form-control lockable" value="{{ $data->patient->initiation_date ?? '' }}" name="initiation_date">
                                 </div>
                             </div>                            
                         </div>

@@ -86,6 +86,7 @@
                                     <th>ART Initiation Date</th>
                                     <th>Justification</th>
                                     <th>Result</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody> 
@@ -129,6 +130,7 @@
                                             @endforeach
                                         </td>
                                         <td> {{ $sample->result ?? '' }} </td>
+                                        <td><center><a href="{{ url('sample/VL/'.$sample->id.'/edit') }}">Edit</a></center></td>
                                     </tr>
                                     @endif
                                 @endforeach

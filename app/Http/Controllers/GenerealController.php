@@ -418,7 +418,14 @@ class GenerealController extends Controller
         $sessionData = (object)session('searchParams');
         
     	foreach ($dataSet as $key => $value) {
-            $print = "<a href='". url("printindividualresult/$testingSystem/$value->id") ."'><img src='".asset('img/print.png')."' />&nbsp;Result</a>&nbsp;|&nbsp;<a href='". url("printbatchsummary/$testingSystem/$value->batch_id") ."'><img src='".asset('img/print.png')."' />&nbsp;Summary</a>&nbsp;|&nbsp;<a href='". url("printindividualbatch/$testingSystem/$value->batch_id") ."'><img src='".asset('img/print.png')."' />&nbsp;Batch-Individual</a>";
+            $action = "<a href='". url("printindividualresult/$testingSystem/$value->id") ."'>
+                        <img src='".asset('img/print.png')."' />&nbsp;Result</a>&nbsp;|&nbsp;
+                    <a href='". url("printbatchsummary/$testingSystem/$value->batch_id") ."'>
+                        <img src='".asset('img/print.png')."' />&nbsp;Summary</a>&nbsp;|&nbsp;
+                    <a href='". url("printindividualbatch/$testingSystem/$value->batch_id") ."'>
+                        <img src='".asset('img/print.png')."' />&nbsp;Batch-Individual</a>";
+            if (auth()->user()->user_type_id == 3 || auth()->user()->user_type_id == 8) // Edit only available to partners and facility users 
+                $action .= "&nbsp;|&nbsp;<a href='". url("sample/$testingSystem/$value->id/edit") ."'>Edit</a>";
 
             if ($testingSystem == 'eid') {
                 if ($value->result == "Negative") {
@@ -444,7 +451,7 @@ class GenerealController extends Controller
                         ($value->datereceived) ? date('d-M-Y', strtotime($value->datereceived)) : '', 
                         ($value->datetested) ? date('d-M-Y', strtotime($value->datetested)) : '', 
                         ($value->datedispatched) ? date('d-M-Y', strtotime($value->datedispatched)) : '', 
-    					$result, $print
+    					$result, $action
     				];
     		$count++;
     	}

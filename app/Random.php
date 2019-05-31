@@ -4,13 +4,14 @@ namespace App;
 
 use Excel;
 use DB;
-use App\Facilitys;
+use App\Facility;
 
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Mail;
 
 use App\Mail\CustomMailOld;
+use App\Mail\TestMail;
 
 class Random
 {
@@ -70,6 +71,83 @@ class Random
 	}
 
 
+	public static function current_suppression()
+	{
+		ini_set("memory_limit", "-1");
+
+		$sql = self::get_current_query(1);
+		$one = collect(DB::select($sql));
+
+		$sql = self::get_current_query(2);
+		$two = collect(DB::select($sql));
+
+		$sql = self::get_current_query(4);
+		$four = collect(DB::select($sql));
+
+		$facilities = DB::table('view_facilitys')->get();
+
+		$rows = [];
+
+		foreach ($facilities as $key => $facility) {
+			$ldl = $one->where('facility_id', $facility->id)->first()->totals ?? null;
+			$ok = $two->where('facility_id', $facility->id)->first()->totals ?? null;
+			$nonsup = $four->where('facility_id', $facility->id)->first()->totals ?? null;
+
+			if(!$ldl && !$ok && !$nonsup) continue;
+
+			$rows[] = [
+				'MFL Code' => $facility->facilitycode,
+				'Facility' => $facility->name,
+				'400 and less' => $ldl,
+				'Above 400 Less 1000' => $ok,
+				'Above 1000' => $nonsup,
+			];
+		}
+
+		$file = '2018_totals_by_most_recent_test';
+		
+		Excel::create($file, function($excel) use($rows){
+			$excel->sheet('Sheetname', function($sheet) use($rows) {
+				$sheet->fromArray($rows);
+			});
+		})->store('csv');
+
+		$data = [storage_path("exports/" . $file . ".csv")];
+
+		Mail::to(['joelkith@gmail.com'])->send(new TestMail($data));
+	}
+
+
+
+	public static function get_current_query($param)
+	{
+
+    	$sql = 'SELECT facility_id, count(*) as totals ';
+		$sql .= 'FROM ';
+		$sql .= '(SELECT v.id, v.facility_id, v.rcategory, v.result ';
+		$sql .= 'FROM viralsamples_view v ';
+		$sql .= 'RIGHT JOIN ';
+		$sql .= '(SELECT ID, patient_id, max(datetested) as maxdate ';
+		$sql .= 'FROM viralsamples_view ';
+		$sql .= 'WHERE ( datetested between "2018-01-01" and "2018-12-31" ) ';
+		$sql .= "AND patient != '' AND patient != 'null' AND patient is not null ";
+		$sql .= 'AND flag=1 AND repeatt=0 AND rcategory in (1, 2, 3, 4) ';
+		$sql .= 'AND justification != 10 and facility_id != 7148 ';
+		$sql .= 'GROUP BY patient_id) gv ';
+		$sql .= 'ON v.id=gv.id) tb ';
+		$sql .= 'WHERE ';
+		if($param == 1) $sql .= ' (rcategory = 1 or result < 401) ';
+		if($param == 2) $sql .= ' (rcategory = 2 and result > 400) ';
+		if($param == 4) $sql .= ' (rcategory IN (3,4)) ';
+		$sql .= 'GROUP BY facility_id ';
+		$sql .= 'ORDER BY facility_id ';
+
+		return $sql;
+	}
+
+
+
+
 	public static function save_results()
 	{
 		ini_set("memory_limit", "-1");
@@ -118,6 +196,95 @@ class Random
 		})->store('csv');
 
 		Mail::to(['joelkith@gmail.com'])->send(new CustomMailOld());
+	}
+
+
+
+	public static function get_current_gender_query($param, $facility_id, $date_params=null)
+	{
+    	$sql = 'SELECT sex, count(*) as totals ';
+		$sql .= 'FROM ';
+		$sql .= '(SELECT v.id, v.facility_id, v.sex, v.rcategory, v.result ';
+		$sql .= 'FROM viralsamples_view v ';
+		$sql .= 'RIGHT JOIN ';
+		$sql .= '(SELECT ID, patient_id, max(datetested) as maxdate ';
+		$sql .= 'FROM viralsamples_view ';
+		if($date_params) $sql .= 'WHERE ( datetested between "' . $date_params[0] . '" and "' . $date_params[1] . '" ) ';
+		else {
+			$sql .= 'WHERE ( datetested between "2018-01-01" and "2018-12-31" ) ';
+		}
+		$sql .= "AND patient != '' AND patient != 'null' AND patient is not null ";
+		$sql .= 'AND flag=1 AND repeatt=0 AND rcategory in (1, 2, 3, 4) ';
+		$sql .= 'AND justification != 10 and facility_id != 7148 ';
+		$sql .= "AND facility_id={$facility_id} ";
+		$sql .= 'GROUP BY patient_id) gv ';
+		$sql .= 'ON v.id=gv.id) tb ';
+		$sql .= 'WHERE ';
+		if($param == 1) $sql .= ' rcategory = 1 ';
+		if($param == 2) $sql .= ' rcategory = 2 ';
+		if($param == 4) $sql .= ' (rcategory IN (3,4)) ';
+		$sql .= 'GROUP BY sex ';
+		$sql .= 'ORDER BY sex ';
+
+		return $sql;
+	}
+
+
+
+
+	public static function save_gender_results()
+	{
+		ini_set("memory_limit", "-1");
+        config(['excel.import.heading' => true]);
+		$path = public_path('facilities.csv');
+		$data = Excel::load($path, function($reader){})->get();
+
+		$rows = [];
+
+		$start_date = Carbon::now()->subYear();
+		$days = $start_date->day;
+
+		$start_date = $start_date->subDays($days-1)->toDateString();
+		$end_date = Carbon::now()->subDays($days)->toDateString();
+		$date_params = [$start_date, $end_date];
+
+		foreach ($data as $key => $row) {
+
+			$facility = \App\Facility::where(['facilitycode' => $row->mfl_code])->first();
+			if(!$facility) continue;
+
+			$sql = self::get_current_gender_query(1, $facility->id, $date_params);
+			$one = collect(DB::select($sql));
+
+			$sql = self::get_current_gender_query(2, $facility->id, $date_params);
+			$two = collect(DB::select($sql));
+
+			$sql = self::get_current_gender_query(4, $facility->id, $date_params);
+			$four = collect(DB::select($sql));
+
+			$rows[] = [
+				'MFL Code' => $facility->facilitycode,
+				'Facility' => $facility->name,
+				'Male 400 and less' => $one->where('sex', 1)->first()->totals ?? null,
+				'Female 400 and less' => $one->where('sex', 2)->first()->totals ?? null,
+				'Male Above 400 Less 1000' => $two->where('sex', 1)->first()->totals ?? null,
+				'Female Above 400 Less 1000' => $two->where('sex', 2)->first()->totals ?? null,
+				'Male Above 1000' => $four->where('sex', 1)->first()->totals ?? null,
+				'Female Above 1000' => $four->where('sex', 2)->first()->totals ?? null,
+			];
+
+		}
+		$file = "gender_totals_ordering_sites_between_{$start_date}_and_{$end_date}_by_most_recent_test";
+		
+		Excel::create($file, function($excel) use($rows){
+			$excel->sheet('Sheetname', function($sheet) use($rows) {
+				$sheet->fromArray($rows);
+			});
+		})->store('csv');
+
+		$data = [storage_path("exports/" . $file . ".csv")];
+
+		Mail::to(['joelkith@gmail.com', 'kmugambi@clintonhealthaccess.org'])->send(new TestMail($data));
 	}
 
 	public static function alter_dc()
@@ -1374,4 +1541,121 @@ class Random
 			}
 		}
 	}
+
+	public static function negatives_report($year=2018, $month=null){
+        // echo "Method start \n";
+        ini_set("memory_limit", "-1");
+    	if($year==null){
+    		$year = Date('Y');
+    	}
+
+    	$raw = "samples_view.id, samples_view.patient, samples_view.facility_id, labs.name as lab, view_facilitys.name as facility_name, view_facilitys.county, samples_view.pcrtype,  datetested";
+    	$raw2 = "samples_view.id, samples_view.patient, samples_view.facility_id, samples_view.pcrtype, datetested";
+
+    	$data = DB::table("samples_view")
+		->select(DB::raw($raw))
+		->join('view_facilitys', 'samples_view.facility_id', '=', 'view_facilitys.id')
+		->join('labs', 'samples_view.lab_id', '=', 'labs.id')
+		->orderBy('samples_view.facility_id', 'desc')
+		->whereYear('datetested', $year)
+		->when($month, function($query) use ($month){
+			if($month != null || $month != 0){
+				return $query->whereMonth('datetested', $month);
+			}
+		})
+		->where('result', 1)
+		->where('samples_view.repeatt', 0)
+		->where('samples_view.flag', 1)
+		->where('samples_view.eqa', 0)
+		->where('age', '<', '2.01')
+		->get();
+
+		// echo "Total {$data->count()} \n";
+
+		$i = 0;
+		$result = null;
+
+		foreach ($data as $patient) {
+
+	    	$d = DB::table("samples_view")
+			->select(DB::raw($raw2))
+			->where('facility_id', $patient->facility_id)
+			->where('patient', $patient->patient)
+			->where('datetested', '<', $patient->datetested)
+			->where('result', 2)
+			->where('repeatt', 0)
+			->where('flag', 1)
+			->where('eqa', 0)
+			->first();
+
+			if($d){
+				$result[$i]['laboratory'] = $patient->lab;
+                $result[$i]['facility'] = $patient->facility_id;
+                $result[$i]['county'] = $patient->county;
+				$result[$i]['patient_id'] = $patient->patient;
+
+				$result[$i]['negative_sample_id'] = $patient->id; 
+				$result[$i]['negative_date'] = $patient->datetested;
+				$result[$i]['negative_pcr'] = $patient->pcrtype;
+
+				$result[$i]['positive_sample_id'] = $d->id;
+				$result[$i]['positive_date'] =  $d->datetested;
+				$result[$i]['positive_pcr'] = $d->pcrtype;
+				$i++;
+
+				// echo "Found 1 \n";
+				$d = null;
+			}
+
+
+		}
+		$file = $year . 'Positive_to_Negative';
+		Excel::create($file, function($excel) use($result)  {
+
+		    // Set sheets
+
+		    $excel->sheet('Sheetname', function($sheet) use($result) {
+
+		        $sheet->fromArray($result);
+
+		    });
+
+		})->store('csv');
+
+		
+
+		$data = [storage_path("exports/" . $file . ".csv")];
+
+		Mail::to(['baksajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
+    }
+
+    public static function run_sample_complete_view(){
+    	DB::statement("
+        CREATE OR REPLACE VIEW sample_complete_view AS
+        (
+          SELECT s.*, b.original_batch_id, b.highpriority, b.datereceived, b.datedispatched, b.site_entry, b.lab_id, b.facility_id, b.user_id, b.batch_complete,
+          p.national_patient_id, p.patient, p.sex, p.dob, p.mother_id, m.national_mother_id, m.patient_id as mother_vl_patient_id, m.ccc_no as mother_ccc_no, p.dateinitiatedontreatment, p.ccc_no, 
+          p.hei_validation, p.enrollment_ccc_no, p.enrollment_status, p.referredfromsite, p.otherreason,
+
+
+           p.entry_point, g.gender_description, rs.name as receivedstatus_name, mp.name as mother_prophylaxis_name, ip.name as regimen_name, f.feeding as feeding_name, f.feeding_description,
+
+           pcr.name as pcrtypename, ep.name as entry_point_name, r.name as result_name
+
+          FROM samples s 
+            JOIN batches b ON b.id=s.batch_id
+            JOIN patients p ON p.id=s.patient_id
+            LEFT JOIN mothers m on m.id=p.mother_id
+            LEFT JOIN gender g on g.id=p.sex
+            LEFT JOIN receivedstatus rs on rs.id=s.receivedstatus
+            LEFT JOIN prophylaxis mp on mp.id=s.mother_prophylaxis
+            LEFT JOIN prophylaxis ip on ip.id=s.regimen
+            LEFT JOIN feedings f on f.id=s.feeding
+            LEFT JOIN pcrtype pcr on pcr.id = s.pcrtype
+            LEFT JOIN entry_points ep on ep.id = p.entry_point
+            LEFT JOIN results r on r.id = s.result
+        );
+        ");
+        echo "Done!";
+    }
 }
