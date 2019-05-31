@@ -105,7 +105,7 @@ class AllocationsController extends Controller
                     ];
             }
         }
-    	dd($testtype);
+    	// dd($testtype);
     	return view('tables.allocations', compact('allocations_data'))->with('pageTitle',"$testtype Allocation List");
     }
 
@@ -194,7 +194,7 @@ class AllocationsController extends Controller
     public function drf(Lab $lab) {
         if (!isset($lab->id)) {
             $year = date('Y');
-            $month = date('m');
+            $month = date('m') - 2;
             $labs = Lab::with(array('allocations' => function($query) use($year, $month) {
                             $query->where('allocations.year', $year);
                             $query->where('allocations.month', $month);
@@ -203,7 +203,8 @@ class AllocationsController extends Controller
             $monthname = date('F', mktime(null, null, null, $month));
             return view('tables.allocationdrf', compact('labs'))->with('pageTitle', "Distribution Request Form $year - $monthname");
         } else {
-            $allocation = $lab->allocations->where('year', date('Y'))->where('month', date('m'))->first();
+            $allocation = $lab->allocations->where('year', date('Y'))->where('month', date('m')-2)->first();
+            
             return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
         }        
     }

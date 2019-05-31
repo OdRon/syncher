@@ -13,12 +13,12 @@ use App\ViralsampleCompleteView;
 use App\ViewFacility;
 use App\Partner;
 use App\Lab;
-use App\ReportCategory;
-use App\ReportPermission;
-use App\PartnerReport;
-use App\UserType;
+// use Excel;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ReportExport;
-use App\Exports\ReportExportWithSheets;
+use \App\Exports\ReportGenericExport;
+// use App\Exports\ReportExportWithSheets;
 
 class ReportController extends Controller
 {
@@ -30,7 +30,8 @@ class ReportController extends Controller
                                 'Q4'=>['name'=>'Oct-Dec', 'start'=>10, 'end'=>12]];
     private $testtypes = ['EID', 'VL'];
     public function index($testtype = NULL)
-    {
+    {   
+        // echo phpinfo();die();
         if (NULL == $testtype) 
             $testtype = 'EID';
         
@@ -296,23 +297,16 @@ class ReportController extends Controller
 
         if($request->indicatortype == 16){
             $this->__getOutcomesByPlartform($request);
-            return back();
-        }
-
-        if ($request->indicatortype == 18) {
-            $this->__getLowLevelViremia($request);
-            return back();
-        }
-
-        if ($request->indicatortype == 19 || $request->indicatortype == 20) {
+        } else if ($request->indicatortype == 18) {
+            $data = $this->__getLowLevelViremia($request, $excelColumns, $title);
+        } else if ($request->indicatortype == 19 || $request->indicatortype == 20) {
             $this->__getNodataSummary($request);
-            return back();
+        } else {
+            $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
+            $data = $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         }
         
-        $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
-        $this->__getExcel($data, $title, $excelColumns, $briefTitle);
-        
-        return back();
+        return (new ReportExport($data, $excelColumns))->download("$title.xlsx");
     }
 
     protected function __getOutcomesByPlartform($request) {
@@ -441,16 +435,17 @@ class ReportController extends Controller
         
         ini_set("memory_limit", "-1");
         $title = strtoupper($dateString);
-        Excel::create($title, function($excel) use ($newdata, $title) {
-                $excel->setTitle($title);
-                $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('EID/VL System');
-                $excel->setDescription($title);
+        return Excel::download(new ReportExport($newdata), $title . '.xlsx');
+        // Excel::create($title, function($excel) use ($newdata, $title) {
+        //         $excel->setTitle($title);
+        //         $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('EID/VL System');
+        //         $excel->setDescription($title);
 
-                $excel->sheet('Sheet1', function($sheet) use ($newdata) {
-                    $sheet->fromArray($newdata, null, 'A1', false, false);
-                });
+        //         $excel->sheet('Sheet1', function($sheet) use ($newdata) {
+        //             $sheet->fromArray($newdata, null, 'A1', false, false);
+        //         });
 
-            })->download('csv');
+        //     })->download('csv');
 
     }
 
@@ -575,7 +570,7 @@ class ReportController extends Controller
         return $model->get();
     }
 
-    public function __getLowLevelViremia($request) {
+    public function __getLowLevelViremia($request, &$columns, &$title) {
         ini_set("memory_limit", "-1");
         $data = [
                     [
@@ -604,7 +599,7 @@ class ReportController extends Controller
                         'plasma801to999' => $this->__getLowLevelViremiaData($request, 6, 1)
                     ]
                 ];
-        $newdataArray[] = ['Result Ranges', 'DBS', 'Plasma'];
+        $columns = ['Result Ranges', 'DBS', 'Plasma'];
         foreach ($data as $report) {
             $newdataArray[] = $report;
         }
@@ -640,17 +635,32 @@ class ReportController extends Controller
         $title = strtoupper($title);
         $string = (strlen($title) > 31) ? substr($title,0,28).'...' : $title;
         $sheetTitle = "$string";
+        
+        return $newdataArray;
+        // dd($newdataArray);
+        
         //Export Data
-        Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
-            $excel->setTitle($title);
-            $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
-            $excel->setDescription($title);
+        // Excel::create($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
+        //     $excel->setTitle($title);
+        //     $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+        //     $excel->setDescription($title);
             
-            $excel->sheet($sheetTitle, function($sheet) use ($newdataArray) {
-                $sheet->fromArray($newdataArray, null, 'A1', false, false);
-            });
+        //     $excel->sheet($sheetTitle, function($sheet) use ($newdataArray) {
+        //         $sheet->fromArray($newdataArray, null, 'A1', false, false);
+        //     });
              
-        })->download('csv');
+        // })->download('csv');
+        // Excel::download($title, function($excel) use ($newdataArray, $title, $sheetTitle) {
+        //     $excel->setTitle($title);
+        //     $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
+        //     $excel->setDescription($title);
+            
+        //     $excel->sheet($sheetTitle, function($sheet) use ($newdataArray) {
+        //         $sheet->fromArray($newdataArray, null, 'A1', false, false);
+        //     });
+             
+        // }, 'csv');
+        return Excel::download(new ReportExport($newdataArray), 'Low Level Viremia.xlsx');
     }
 
     public function __getLowLevelViremiaData($request, $result = null, $sampletype = null) {
@@ -829,7 +839,7 @@ class ReportController extends Controller
                                 return $query->where('age_category', '=', 10);
                             if ($request->input('age') == 7)
                                 return $query->where('age_category', '=', 11);
-                });
+                        });
                 if ($request->input('age') == 2)
                     $title .= " less 2 ";
                 if ($request->input('age') == 3)
@@ -1069,8 +1079,9 @@ class ReportController extends Controller
                         ->leftJoin('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")->groupBy(['facility', 'facilitycode', 'county', 'partner', 'subcounty'])->where("$table.facility_id", '<>', 7148)->orderBy('totalSamples', 'desc');
             } else if ($request->indicatortype == 16) {
                 // $model = ;
+            } else {
+                
             }
-
         } else {
             return back();
         }
@@ -1467,23 +1478,32 @@ class ReportController extends Controller
             }
         } else {
             $titleArray = $dataArray;
-            // $data = $data;
-            // if($data->isNotEmpty()) {
-            //     $titleArray = $dataArray;
-            //     // foreach ($data as $report) {
-            //     //     $newdataArray[] = $report->toArray();
-            //     // }
-            // } else {
-            //     $newdataArray[] = [];
-            // }
-            // $sheetTitle[] = 'Sheet1';
-            // $finaldataArray[] = $newdataArray;
+            $data = $data->get();
+            // dd($data);
+            if($data->isNotEmpty()) {
+                // $newdataArray[] = $dataArray;
+                // foreach ($data as $report) {
+                //     $newdataArray[] = $report->toArray();
+                // }
+            } else {
+                $newdataArray[] = [];
+            }
+            $sheetTitle[] = 'Sheet1';
+            $finaldataArray = $data->toArray();
         }
         
-        if($withSheets)
-            return (new ReportExportWithSheets($titleArray, $data))->download($title);
-        else
-            return (new ReportExport)->download($title . '.csv', \Maatwebsite\Excel\Excel::CSV);
+        return $finaldataArray;
+        // if($withSheets)
+        //     return (new ReportExportWithSheets($titleArray, $data))->download($title);
+        // else
+        //     return (new ReportExport)->download($title . '.csv', \Maatwebsite\Excel\Excel::CSV);
+        // dd($finaldataArray);
+        /****** Has multiple sheets options *****/
+        // return Excel::download(new ReportExport($finaldataArray), "$title.xlsx");
+        // return Excel::download(new ReportExport, "$title.xlsx");
+        // return (new ReportExport($finaldataArray))->download("$title.xlsx");
+        // return Excel::download(new ReportGenericExport, "$title.xlsx");
+
         // Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
         //     $excel->setTitle($title);
         //     $excel->setCreator(auth()->user()->surname.' '.auth()->user()->oname)->setCompany('NASCOP');
@@ -1517,27 +1537,27 @@ class ReportController extends Controller
     }
 
 
-
-    // public static function __dupgetExcel($data, $title, $dataArray)
-    // {
-    //     ini_set("memory_limit", "-1");
-    //     if($data->isNotEmpty()) {
-    //         $newdataArray[] = $dataArray;
-    //         foreach ($data as $report) {
-    //             $newdataArray[] = $report->toArray();
-    //         }
+    public static function __dupgetExcel($data, $title, $dataArray)
+    {
+        ini_set("memory_limit", "-1");
+        if($data->isNotEmpty()) {
+            $newdataArray[] = $dataArray;
+            foreach ($data as $report) {
+                $newdataArray[] = $report->toArray();
+            }
+            return Excel::download(new ReportExport($newdataArray), $title . '.xlsx');
             
-    //         Excel::create($title, function($excel) use ($newdataArray, $title) {
-    //             $excel->setTitle($title);
-    //             $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('NASCOP.ORG');
-    //             $excel->setDescription($title);
+            // Excel::create($title, function($excel) use ($newdataArray, $title) {
+            //     $excel->setTitle($title);
+            //     $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('NASCOP.ORG');
+            //     $excel->setDescription($title);
 
-    //             $excel->sheet($title, function($sheet) use ($newdataArray) {
-    //                 $sheet->fromArray($newdataArray, null, 'A1', false, false);
-    //             });
-    //         })->download('xlsx');
-    //     } else {
-    //         session(['toast_message' => 'No data available for the criteria provided']);
-    //     }
-    // }
+            //     $excel->sheet($title, function($sheet) use ($newdataArray) {
+            //         $sheet->fromArray($newdataArray, null, 'A1', false, false);
+            //     });
+            // })->download('xlsx');
+        } else {
+            session(['toast_message' => 'No data available for the criteria provided']);
+        }
+    }
 }

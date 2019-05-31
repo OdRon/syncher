@@ -78,7 +78,10 @@ class FacilityController extends Controller
      */
     public function show(Facility $facility)
     {
-        //
+        return response()->json([
+          'status' => 'ok',
+          'facility' => $facility,
+        ], 200);
     }
 
     /**
@@ -94,7 +97,7 @@ class FacilityController extends Controller
         $facility->fill($data);
         $facility->save();
 
-        NewFacility::dispatch($facility, true);
+        // NewFacility::dispatch($facility, true);
 
         return response()->json([
           'status' => 'ok',
