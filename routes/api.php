@@ -38,6 +38,8 @@ $api->version('v1', function (Router $api) {
 
         $api->post('consumption', 'ConsumptionsController@api_create');
 
+        $api->post('shortcode', 'ShortCodeController@shortcode');
+
         $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
 
             $api->resource('facility', 'FacilityController');
