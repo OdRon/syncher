@@ -2,6 +2,7 @@
 namespace App\Api\V1\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\GenerealController;
 use App\Api\V1\Requests\ShortCodeRequest;
 use App\SampleCompleteView;
 use App\ViralSampleCompleteView;
@@ -9,12 +10,14 @@ use App\Patient;
 use App\ViralPatient;
 use App\Facility;
 use App\ShortCodeQueries;
-use App\Http\Controllers\GenerealController;
+use GuzzleHttp\Client;
 /**
  * 
  */
 class ShortCodeController extends Controller
 {
+    public static $sms_url = 'http://sms.southwell.io/api/v1/messages';
+    
 	public function shortcode(ShortCodeRequest $request) {
 		$message = $request->input('smsmessage');
 		$phone = $request->input('smsphoneno');
@@ -107,7 +110,7 @@ class ShortCodeController extends Controller
 			$msg = "The Patient Idenfier Provided Does not Exist in the Lab. Kindly confirm you have the correct one as on the Sample Request Form. Thanks.";
 		date_default_timezone_set('Africa/Nairobi');
         $dateresponded = date('Y-m-d H:i:s');
-		$responceCode = GenerealController::__sendMessage($phone, $msg);
+		$responceCode = self::__sendMessage($phone, $msg);
 		$shortcode = new ShortCodeQueries;
 		$shortcode->testtype = $testtype;
 		$shortcode->phoneno = $phone;
@@ -121,6 +124,22 @@ class ShortCodeController extends Controller
 		$shortcode->save();
 		return $shortcode;
 	}
+
+    static function __sendMessage($phone, $message) {
+        $client = new Client(['base_uri' => self::$sms_url]);
+
+        $response = $client->request('post', '', [
+            'auth' => [env('SMS_USERNAME'), env('SMS_PASSWORD')],
+            'http_errors' => false,
+            'json' => [
+                'sender' => env('SMS_SENDER_ID'),
+                'recipient' => $phone,
+                'message' => $message,
+            ],
+        ]);
+
+        return $response->getStatusCode();
+    }
 }
 
 ?>
