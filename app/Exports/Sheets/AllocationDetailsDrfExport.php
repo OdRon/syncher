@@ -5,10 +5,14 @@ namespace App\Exports\Sheets;
 use App\AllocationDetail;
 use Maatwebsite\Excel\Concerns\FromCollection;
 // use Maatwebsite\Excel\Concerns\WithHeadings;
-// use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\BeforeExport;
+use Maatwebsite\Excel\Events\BeforeSheet;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class AllocationDetailsDrfExport implements FromCollection/* ,WithHeadings, ShouldAutoSize*/, WithTitle
+class AllocationDetailsDrfExport implements FromCollection/* ,WithHeadings*/, ShouldAutoSize, WithTitle, WithEvents
 {
 
     protected $allocation_detail;
@@ -20,20 +24,6 @@ class AllocationDetailsDrfExport implements FromCollection/* ,WithHeadings, Shou
         $this->master_data = $master_data;
     }
 
-	/**
-    * @return heading array()
-    */
-	// public function headings(): array
- //    {
- //        return [
- //            'No.',
- //            'Description of Goods',
- //            'Unit',
- //            'Product No',
- //            'Quantity',
- //            'TOTALS',
- //        ];
- //    }
 
     /**
     * @return \Illuminate\Support\Collection
@@ -43,12 +33,13 @@ class AllocationDetailsDrfExport implements FromCollection/* ,WithHeadings, Shou
         $machine = $this->allocation_detail->machine;
     	$data = [];
         $data[] = [
-            ['title' => strtoupper($machine['machine'] . ' Distribution request form')],
-            ['Delivery Address', 'FROM'],
-            ['to_lab' => $this->master_data['to']['name'], 'from_lab' => $this->master_data['from']['name']],
-            ['to_lab_address' => $this->master_data['to']['address'], 'from_lab_address' => $this->master_data['from']['address']],
-            ['Contact Person 1', $this->master_data['to']['contact_name_1'], 'Contact Person 1', $this->master_data['from']['contact_name_1']],
-            ['Tel number', $this->master_data['to']['telephone_1'], 'Tel number', $this->master_data['from']['telephone_1']]
+            [strtoupper($machine['machine'] . ' Distribution request form'), '', '', '', '', ''],
+            ['Delivery Address', '', '', 'FROM', '', ''],
+            [$this->master_data['to']['name'], '', '', $this->master_data['from']['name'], '', ''],
+            [$this->master_data['to']['address'], '', '', $this->master_data['from']['address'], '', ''],
+            ['Contact Person 1', '', $this->master_data['to']['contact_name_1'], 'Contact Person 1', '', $this->master_data['from']['contact_name_1']],
+            ['Tel number', '', $this->master_data['to']['telephone_1'], 'Tel number', '', $this->master_data['from']['telephone_1']],
+            ['','','','','','']
         ];
         $data[] = [
             'No.',
@@ -58,6 +49,7 @@ class AllocationDetailsDrfExport implements FromCollection/* ,WithHeadings, Shou
             'Quantity',
             'TOTALS',
         ];
+        
     	foreach ($this->allocation_detail->breakdowns as $key => $allocation_breakdown) {
     		$data[] = [
     				'No.' => $key + 1,
@@ -78,6 +70,29 @@ class AllocationDetailsDrfExport implements FromCollection/* ,WithHeadings, Shou
     public function title(): string
     {
         return $this->getSheetTitle();
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            BeforeExport::class  => function(BeforeExport $event) {
+                $event->writer->setCreator(auth()->user()->full_name);
+            },
+            AfterSheet::class    => function(AfterSheet $event) {
+                $event->sheet->mergeCells('A1:F1');
+                $event->sheet->mergeCells('A2:C2');
+                $event->sheet->mergeCells('D2:F2');
+                $event->sheet->mergeCells('A3:C3');
+                $event->sheet->mergeCells('D3:F3');
+                $event->sheet->mergeCells('A4:C4');
+                $event->sheet->mergeCells('D4:F4');
+                $event->sheet->mergeCells('A5:B5');
+                $event->sheet->mergeCells('D5:E5');
+                $event->sheet->mergeCells('A6:B6');
+                $event->sheet->mergeCells('D6:E6');
+                $event->sheet->mergeCells('A7:F7');
+            },
+        ];
     }
 
     private function getSheetTitle() {
