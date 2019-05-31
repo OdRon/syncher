@@ -180,19 +180,19 @@ class ConsumptionsController extends Controller
 	private function getcomputedkitvalue($adding, $request) {
 		$return_value = 0;
 		if ($adding == 'opening')
-			$return_value = $request->input('opening_balance');
+			$return_value = $request->input('opening_balance') ?? 0;
 		if ($adding == 'wasted')
-			$return_value = $request->input('loss');
+			$return_value = $request->input('loss') ?? 0;
 		if ($adding == 'issued_out')
-			$return_value = $request->input('neg_adjust');
+			$return_value = $request->input('neg_adjust') ?? 0;
 		if ($adding == 'issued_in')
-			$return_value = $request->input('pos_adjust');
+			$return_value = $request->input('pos_adjust') ?? 0;
 		if ($adding == 'closing')
-			$return_value = $request->input('closing_balance');
+			$return_value = $request->input('closing_balance') ?? 0;
 		if ($adding == 'requested')
 			$return_value = $request->input('qty_requested') ?? $request->input('gty_requested');
 		if ($adding == 'qty_received')
-			$return_value = $request->input('qty_received');
+			$return_value = $request->input('qty_received') ?? 0;
 		return $return_value;
 	}
 
