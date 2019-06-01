@@ -12,6 +12,7 @@ use App\Lab;
 use App\GeneralConsumables;
 use App\Kits;
 use App\Consumption;
+use App\Synch;
 
 class AllocationsController extends Controller
 {
@@ -187,14 +188,14 @@ class AllocationsController extends Controller
         $testtype = collect($this->testtypes)->search($allocation->testtype);
         $url = 'allocations/'.$testtype;
         session(['toast_message' => 'Allocation Review successfull for '. $testtype .' and the approvals propagated to the lab']);
-        // \App\Synch::synch_allocations();
+        $synch = Synch::synch_allocations();
         return redirect($url);
     }
 
     public function drf(Lab $lab) {
         if (!isset($lab->id)) {
             $year = date('Y');
-            $month = date('m') - 2;
+            $month = date('m');
             $labs = Lab::with(array('allocations' => function($query) use($year, $month) {
                             $query->where('allocations.year', $year);
                             $query->where('allocations.month', $month);
@@ -203,8 +204,10 @@ class AllocationsController extends Controller
             $monthname = date('F', mktime(null, null, null, $month));
             return view('tables.allocationdrf', compact('labs'))->with('pageTitle', "Distribution Request Form $year - $monthname");
         } else {
-            $allocation = $lab->allocations->where('year', date('Y'))->where('month', date('m')-2)->first();
-            
+            $allocation = $lab->allocations->where('year', date('Y'))->where('month', date('m'))->first();
+            $allocation->orderdate = date('Y-m-d H:i:s');
+            $allocation->save();
+
             return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
         }        
     }
@@ -285,7 +288,7 @@ class AllocationsController extends Controller
         $allocation->datesynched = date('Y-m-d');
         $allocation->save();
         session(['toast_message' => 'Allocation(s) edited successfully.']);
-        // \App\Synch::synch_allocations_updates();
+        \App\Synch::synch_allocations_updates();
         return redirect('home');
     }
 
