@@ -168,18 +168,18 @@ class AllocationsController extends Controller
                 if ($collection['approve'][$key] == 2)
                     $allocation->disapprovereason = $collection['issuedcomments'][$key];
                 $allocation->issuedcomments = $collection['issuedcomments'][$key];
-                $allocation->synched = 1;
+                $allocation->synched = 2;
                 $allocation->datesynched = date('Y-m-d');
                 $allocation->update();
 
                 $parent = $allocation->allocation;
-                $parent->synched = 1;
+                $parent->synched = 2;
                 $parent->datesynched = date('Y-m-d');
                 $parent->update();
 
                 $children = $allocation->breakdowns;
                 foreach($children as $child){
-                    $child->synched = 1;
+                    $child->synched = 2;
                     $child->datesynched = date('Y-m-d');
                     $child->update();
                 }
