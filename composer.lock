@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "0b7bdf9cd558f9651e075ca32a29f15c",
@@ -766,6 +766,18 @@
         },
         {
             "name": "egulias/email-validator",
+<<<<<<< HEAD
+            "version": "2.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/egulias/EmailValidator.git",
+                "reference": "709f21f92707308cdf8f9bcfa1af4cb26586521e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/709f21f92707308cdf8f9bcfa1af4cb26586521e",
+                "reference": "709f21f92707308cdf8f9bcfa1af4cb26586521e",
+=======
             "version": "2.1.8",
             "source": {
                 "type": "git",
@@ -776,6 +788,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/c26463ff9241f27907112fbcd0c86fa670cfef98",
                 "reference": "c26463ff9241f27907112fbcd0c86fa670cfef98",
+>>>>>>> 7705c30e2f8e53d5c56e2770b6b986f529aad969
                 "shasum": ""
             },
             "require": {
@@ -819,7 +832,11 @@
                 "validation",
                 "validator"
             ],
+<<<<<<< HEAD
+            "time": "2018-12-04T22:38:24+00:00"
+=======
             "time": "2019-05-16T22:02:54+00:00"
+>>>>>>> 7705c30e2f8e53d5c56e2770b6b986f529aad969
         },
         {
             "name": "erusev/parsedown",
@@ -1464,7 +1481,23 @@
         },
         {
             "name": "lcobucci/jwt",
+<<<<<<< HEAD
             "version": "3.3.1",
+=======
+<<<<<<< HEAD
+            "version": "3.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lcobucci/jwt.git",
+                "reference": "82be04b4753f8b7693b62852b7eab30f97524f9b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/82be04b4753f8b7693b62852b7eab30f97524f9b",
+                "reference": "82be04b4753f8b7693b62852b7eab30f97524f9b",
+=======
+            "version": "3.3.0",
+>>>>>>> 0f7049907b84d3b2a9d92a570ad3482f61b8d074
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/jwt.git",
@@ -1472,8 +1505,14 @@
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/lcobucci/jwt/zipball/a11ec5f4b4d75d1fcd04e133dede4c317aac9e18",
                 "reference": "a11ec5f4b4d75d1fcd04e133dede4c317aac9e18",
+=======
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/8866a58fa866f6872f2a6ea0e04ad56480f0f440",
+                "reference": "8866a58fa866f6872f2a6ea0e04ad56480f0f440",
+>>>>>>> 7705c30e2f8e53d5c56e2770b6b986f529aad969
+>>>>>>> 0f7049907b84d3b2a9d92a570ad3482f61b8d074
                 "shasum": ""
             },
             "require": {
@@ -1515,7 +1554,15 @@
                 "JWS",
                 "jwt"
             ],
+<<<<<<< HEAD
             "time": "2019-05-24T18:30:49+00:00"
+=======
+<<<<<<< HEAD
+            "time": "2018-11-11T12:22:26+00:00"
+=======
+            "time": "2019-05-22T09:44:23+00:00"
+>>>>>>> 7705c30e2f8e53d5c56e2770b6b986f529aad969
+>>>>>>> 0f7049907b84d3b2a9d92a570ad3482f61b8d074
         },
         {
             "name": "league/flysystem",
@@ -3717,7 +3764,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -4843,6 +4890,72 @@
                 "testing"
             ],
             "time": "2019-02-12T16:07:13+00:00"
+<<<<<<< HEAD
+        },
+        {
+            "name": "phpoffice/phpexcel",
+            "version": "1.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPExcel.git",
+                "reference": "1441011fb7ecdd8cc689878f54f8b58a6805f870"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/1441011fb7ecdd8cc689878f54f8b58a6805f870",
+                "reference": "1441011fb7ecdd8cc689878f54f8b58a6805f870",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-xml": "*",
+                "ext-xmlwriter": "*",
+                "php": "^5.2|^7.0"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Erik Tilt"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://rootslabs.net"
+                },
+                {
+                    "name": "Mark Baker",
+                    "homepage": "http://markbakeruk.net"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+            "homepage": "https://github.com/PHPOffice/PHPExcel",
+            "keywords": [
+                "OpenXML",
+                "excel",
+                "php",
+                "spreadsheet",
+                "xls",
+                "xlsx"
+            ],
+            "abandoned": "phpoffice/phpspreadsheet",
+            "time": "2018-11-22T23:07:24+00:00"
+=======
+>>>>>>> 7705c30e2f8e53d5c56e2770b6b986f529aad969
         },
         {
             "name": "phpspec/prophecy",

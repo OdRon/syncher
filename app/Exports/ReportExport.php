@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class ReportExport implements FromArray ,WithHeadings, ShouldAutoSize
 {
- //    use Exportable;
+    use Exportable;
 
     protected $data;
     protected $title;
