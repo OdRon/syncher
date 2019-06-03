@@ -257,6 +257,7 @@ class ReportController extends Controller
 
     public function generate(Request $request)
     {
+        dd($request->all());
         if (!isset($request->category) && !($request->indicatortype == 19 || $request->indicatortype == 20)) {
             session(['toast_message'=>'Please Enter a category', 'toast_error'=>1]);
             return back();
