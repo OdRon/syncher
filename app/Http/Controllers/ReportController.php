@@ -297,7 +297,7 @@ class ReportController extends Controller
             $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
             $data = $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         }
-        
+        dd($data);
         return (new ReportExport($data, $excelColumns))->download("$title.xlsx");
     }
 
