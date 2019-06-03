@@ -1,0 +1,75 @@
+{
+	"info": {
+		"_postman_id": "1ba149c2-cee4-47ce-93c2-c7111792876b",
+		"name": "HIT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Fetch Eid Results",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "apikey",
+						"value": "B8i9Br7dML9bHS37DGu2Iit"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "start_date",
+							"value": "2018-01-01",
+							"type": "text"
+						},
+						{
+							"key": "end_date",
+							"value": "2019-06-06",
+							"type": "text"
+						},
+						{
+							"key": "date_dispatched_start",
+							"value": "2018-01-01",
+							"type": "text"
+						},
+						{
+							"key": "date_dispatched_end",
+							"value": "2019-06-06",
+							"type": "text"
+						},
+						{
+							"key": "patient_id",
+							"value": "10263-kljsd,10263-klj",
+							"type": "text"
+						},
+						{
+							"key": "facility_code",
+							"value": "13165,13050,13747",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://eiddash.nascop.org/api/hit/eid",
+					"protocol": "https",
+					"host": [
+						"eiddash",
+						"nascop",
+						"org"
+					],
+					"path": [
+						"api",
+						"hit",
+						"eid"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
