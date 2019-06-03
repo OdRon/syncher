@@ -25,9 +25,9 @@ class ReportController extends Controller
     //
     public static $alphabets = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
     public static $quarters = ['Q1'=>['name'=>'Jan-Mar', 'start'=>1, 'end'=>3],
-                        'Q2'=>['name'=>'Apr-Jun', 'start'=>4, 'end'=>6],
-                        'Q3'=>['name'=>'Jul-Sep', 'start'=>7, 'end'=>9],
-                        'Q4'=>['name'=>'Oct-Dec', 'start'=>10, 'end'=>12]];
+                                'Q2'=>['name'=>'Apr-Jun', 'start'=>4, 'end'=>6],
+                                'Q3'=>['name'=>'Jul-Sep', 'start'=>7, 'end'=>9],
+                                'Q4'=>['name'=>'Oct-Dec', 'start'=>10, 'end'=>12]];
     private $testtypes = ['EID', 'VL'];
     public function index($testtype = NULL)
     {   
@@ -95,8 +95,11 @@ class ReportController extends Controller
                                     })->groupBy('subcounty_id')->orderBy('subcounty', 'desc')->get();
             }
         }
+        $data['reports'] = auth()->user()->user_type->reports();
+        $data['facilitys'] = $facilitys;$data['countys'] = $countys; $data['subcountys'] = $subcountys;
+        $data['partners'] = $partners; $data['labs'] = $labs; $data['testtype'] = $testtype;
         
-        return view('reports.home', compact('facilitys','countys','subcountys','partners','labs','testtype'))->with('pageTitle', 'Reports '.$testtype);
+        return view('reports.home', $data)->with('pageTitle', 'Reports '.$testtype);
     }
 
     public static function __getDateRequested($request, $model, $table, &$dateString, $receivedOnly=true) {
@@ -271,12 +274,14 @@ class ReportController extends Controller
                 return back();
             }
         }
+        // End Move this section to middleware
         
         $dateString = '';
         $title = "";
         $briefTitle = "";
         $excelColumns = [];
 
+        // Move this section to middleware
         if ($request->indicatortype == 17) {
             if ($request->category == 'lab' || $request->period == 'annually') {
                 $this->__getTestOutComes($request,$dateString, $excelColumns, $title, $briefTitle);
@@ -286,6 +291,7 @@ class ReportController extends Controller
                 return back();
             }
         }
+        // End Move this section to middleware
 
         if($request->indicatortype == 16){
             $this->__getOutcomesByPlartform($request);
@@ -1509,6 +1515,24 @@ class ReportController extends Controller
         // })->download('csv');
     }
 
+    public function setup(Request $request) {
+        if ($request->method() == 'POST') {
+            foreach($request->input('partner_report_id') as $report){
+                $permission = ReportPermission::where('partner_report_id', $report)->where('user_type_id', $request->input('user_type_id'))->get();
+                if($permission->isEmpty()) {
+                    $permission = new ReportPermission;
+                    $permission->fill(['partner_report_id' => $report, 'user_type_id' => $request->input('user_type_id')])->save();
+                }
+            }
+            return back();
+        } else {
+            $data['categroies'] = ReportCategory::with(['reports'])->get();
+            $data['reports'] = PartnerReport::get();
+            $data['usertypes'] = UserType::get();
+            
+            return view('tables.setup', $data)->with('pageTitle', 'Reports Setup');
+        }
+    }
 
 
     public static function __dupgetExcel($data, $title, $dataArray)

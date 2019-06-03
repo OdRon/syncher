@@ -352,7 +352,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Select Report Type</label>
                             <div class="col-sm-9">
-                            @if($testtype == 'EID')
+                                @if($testtype == 'EID')
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks" required> All Outcomes (+/-) </label>
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks" required> + Outcomes </label>
                                 @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
@@ -420,10 +420,15 @@
                                 <label><input type="radio" name="indicatortype" value="19" class="i-checks" required>EID No Data Summary</label>
                                 <label><input type="radio" name="indicatortype" value="20" class="i-checks" required>VL No Data Summary</label>
                             @endif
-                            <!-- Highest value 18 -->
+                            <!-- Highest value 22 -->
+                            {{-- @forelse($reports as $report)
+                                <label> <input type="radio" name="indicatortype" value="{{ $report->code }}" class="i-checks" required> {{ $report->name }} </label>
+                            @empty
+                                <div class="alert alert-warning">
+                                    No reports available
+                                </div>
+                            @endforelse --}}
                             </div>
-                        </div>
-
                         <div class="form-group">
                             <center>
                                 <button type="submit" class="btn btn-default" id="generate_report">Generate Report</button>
