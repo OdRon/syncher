@@ -257,7 +257,6 @@ class ReportController extends Controller
 
     public function generate(Request $request)
     {
-        dd($request->all());
         if (!isset($request->category) && !($request->indicatortype == 19 || $request->indicatortype == 20)) {
             session(['toast_message'=>'Please Enter a category', 'toast_error'=>1]);
             return back();
@@ -298,7 +297,7 @@ class ReportController extends Controller
             $data = $this->__getDateData($request,$dateString, $excelColumns, $title, $briefTitle);
             $data = $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         }
-        dd($data);
+        
         return (new ReportExport($data, $excelColumns))->download("$title.xlsx");
     }
 
