@@ -84,7 +84,6 @@ class Synch
 
 	public static function get_token($lab)
 	{
-		return self::login($lab);
 		if(Cache::has($lab->token_name)){
 			if (Cache::get($lab->token_name) == null || Cache::get($lab->token_name) == 'null')
 				self::login($lab);
