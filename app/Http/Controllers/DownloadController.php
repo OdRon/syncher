@@ -44,4 +44,14 @@ class DownloadController extends Controller
         return response()->download($path, 'KEMRI Nairobi HIV Lab sample collection manual 2019.pdf');
     }
 
+    public function api(){
+        $path = public_path('downloads/Lab.postman_collection.json');
+        return response()->download($path);
+    }
+
+    public function hit_api(){
+        $path = public_path('downloads/HIT.postman_collection.json');
+        return response()->download($path);
+    }
+
 }
