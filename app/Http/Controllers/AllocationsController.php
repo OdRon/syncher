@@ -12,6 +12,7 @@ use App\Lab;
 use App\GeneralConsumables;
 use App\Kits;
 use App\Consumption;
+use App\Synch;
 
 class AllocationsController extends Controller
 {
@@ -167,18 +168,18 @@ class AllocationsController extends Controller
                 if ($collection['approve'][$key] == 2)
                     $allocation->disapprovereason = $collection['issuedcomments'][$key];
                 $allocation->issuedcomments = $collection['issuedcomments'][$key];
-                $allocation->synched = 1;
+                $allocation->synched = 2;
                 $allocation->datesynched = date('Y-m-d');
                 $allocation->update();
 
                 $parent = $allocation->allocation;
-                $parent->synched = 1;
+                $parent->synched = 2;
                 $parent->datesynched = date('Y-m-d');
                 $parent->update();
 
                 $children = $allocation->breakdowns;
                 foreach($children as $child){
-                    $child->synched = 1;
+                    $child->synched = 2;
                     $child->datesynched = date('Y-m-d');
                     $child->update();
                 }
@@ -187,7 +188,7 @@ class AllocationsController extends Controller
         $testtype = collect($this->testtypes)->search($allocation->testtype);
         $url = 'allocations/'.$testtype;
         session(['toast_message' => 'Allocation Review successfull for '. $testtype .' and the approvals propagated to the lab']);
-        // \App\Synch::synch_allocations();
+        $synch = Synch::synch_allocations();
         return redirect($url);
     }
 
