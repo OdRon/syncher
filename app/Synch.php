@@ -193,6 +193,7 @@ class Synch
 								},'details.breakdowns' => function($query){
 									$query->where('synched', 2);
 								}])->where('synched', '=', 2)->get();
+		dd($allocations);
 		$labs = Lab::all();
 		foreach ($allocations as $key => $model) {
 			if($model->lab_id == 7 || $model->lab_id == 10)
