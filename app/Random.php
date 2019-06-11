@@ -1662,19 +1662,19 @@ class Random
     }
 
     public static function checkMbNo(){
-    	$files = [['file' =>'public/docs/eid data Exsting.xlsx', 'name' => ''],
-    			['file' =>'public/docs/eidDataSecond.xlsx', 'name' => ''],
-    			['file' =>'public/docs/eidDataThird.xlsx', 'name' => ''],
-    			['file' =>'public/docs/eidDataFourth.xlsx', 'name' => ''],
-    			['file' =>'public/docs/eidDataFifth.xlsx', 'name' => ''],
-    			['file' =>'public/docs/eidDataSixth.xlsx', 'name' => ''],
-    			['file' =>'public/docs/eidDataSeventh.xlsx', 'name' => ''],
-    			['file' =>'public/docs/eidDataEighth.xlsx', 'name' => '']];
-    	$files = (object) $files;
+    	$files = [['file' =>'public/docs/eid data Exsting.xlsx', 'name' => 'eid data Exsting First'],
+    			['file' =>'public/docs/eidDataSecond.xlsx', 'name' => 'eid data Exsting Second'],
+    			['file' =>'public/docs/eidDataThird.xlsx', 'name' => 'eid data Exsting Third'],
+    			['file' =>'public/docs/eidDataFourth.xlsx', 'name' => 'eid data Exsting Fourth'],
+    			['file' =>'public/docs/eidDataFifth.xlsx', 'name' => 'eid data Exsting Fifth'],
+    			['file' =>'public/docs/eidDataSixth.xlsx', 'name' => 'eid data Exsting Sixth'],
+    			['file' =>'public/docs/eidDataSeventh.xlsx', 'name' => 'eid data Exsting Seventh'],
+    			['file' =>'public/docs/eidDataEighth.xlsx', 'name' => 'eid data Exsting Eighth']];
+    	
     	echo "==> Fetching Excel Data \n";
     	ini_set("memory_limit", "-1");
     	foreach ($files as $key => $file) {
-    		Excel::import(new NhrlImport($file->name), $file->file);
+    		Excel::import(new NhrlImport($file['name']), $file['file']);
     	}
         // $excelData = Excel::import($file, function($reader){
         //     $reader->toArray();
