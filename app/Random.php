@@ -1675,7 +1675,9 @@ class Random
     	ini_set("memory_limit", "-1");
     	foreach ($files as $key => $file) {
     		Excel::import(new NhrlImport($file['name']), $file['file']);
+    		echo "\t" . $file['name'] . " completed \n";
     	}
+    	echo "==> All Files completed";
         // $excelData = Excel::import($file, function($reader){
         //     $reader->toArray();
         // })->get();
