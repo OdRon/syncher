@@ -2,7 +2,7 @@
 namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromArray;
-use Maatwebsite\Excel\Concerns\Exportable;
+// use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 /**
@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
  */
 class NhrlExport implements FromArray ,WithHeadings, ShouldAutoSize
 {
-    use Exportable;
+    // use Exportable;
 
     protected $data;
     protected $title;
