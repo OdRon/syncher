@@ -13,6 +13,11 @@ class NhrlImport implements ToCollection/*, WithChunkReading, ShouldQueue*/
 {
 	private $data = [];
 	private $title = [];
+    private $name = '';
+
+    public function __construct($name) {
+        $this->name = $name;
+    }
 
 	public function collection(Collection $rows)
     {
@@ -28,13 +33,8 @@ class NhrlImport implements ToCollection/*, WithChunkReading, ShouldQueue*/
         		$this->data[$key][4] = $sample->patient ?? null;
         	}
         }
-        Excel::store(new NhrlExport($this->data, $this->title), 'invoices.xlsx');
+        Excel::store(new NhrlExport($this->data, $this->title), $this->name . '.xlsx');
     }
-    
-    // public function chunkSize(): int
-    // {
-    //     return 1000;
-    // }
 }
 
 ?>

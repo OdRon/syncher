@@ -1662,10 +1662,20 @@ class Random
     }
 
     public static function checkMbNo(){
-    	$file = 'public/docs/eid data Exsting.xlsx';
+    	$files = [['file' =>'public/docs/eid data Exsting.xlsx', 'name' => ''],
+    			['file' =>'public/docs/eidDataSecond.xlsx', 'name' => ''],
+    			['file' =>'public/docs/eidDataThird.xlsx', 'name' => ''],
+    			['file' =>'public/docs/eidDataFourth.xlsx', 'name' => ''],
+    			['file' =>'public/docs/eidDataFifth.xlsx', 'name' => ''],
+    			['file' =>'public/docs/eidDataSixth.xlsx', 'name' => ''],
+    			['file' =>'public/docs/eidDataSeventh.xlsx', 'name' => ''],
+    			['file' =>'public/docs/eidDataEighth.xlsx', 'name' => '']];
+    	$file = (object) $file;
     	echo "==> Fetching Excel Data \n";
     	ini_set("memory_limit", "-1");
-    	Excel::import(new NhrlImport, $file);
+    	foreach ($files as $key => $file) {
+    		Excel::import(new NhrlImport($file->name), $file->file);
+    	}
         // $excelData = Excel::import($file, function($reader){
         //     $reader->toArray();
         // })->get();
