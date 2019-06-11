@@ -1663,7 +1663,7 @@ class Random
     public static function checkMbNo(){
     	$file = 'public/docs/eid data Exsting.xlsx';
     	echo "==> Fetching Excel Data \n";
-        $excelData = Excel::load($file, function($reader){
+        $excelData = Excel::import($file, function($reader){
             $reader->toArray();
         })->get();
         $data = $excelData;
