@@ -27,7 +27,7 @@ class NhrlImport implements ToCollection/*, WithChunkReading, ShouldQueue*/
         		$row[4] = 'HEI';
         		$this->title = $row;
         	} else {
-        		$sample = SampleView::where('comments', 'like', $row[1])->first();
+        		$sample = SampleView::where('comments', 'like', '%'.$row[1].'%')->first();
         		$this->data[$key] = $row;
         		$this->data[$key][3] = $sample->comment ?? null;
         		$this->data[$key][4] = $sample->patient ?? null;
