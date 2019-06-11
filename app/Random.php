@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Mail\CustomMailOld;
 use App\Mail\TestMail;
+use App\Sample;
 
 class Random
 {
@@ -1657,5 +1658,19 @@ class Random
         );
         ");
         echo "Done!";
+    }
+
+    public static function checkMbNo(){
+    	$file = 'public/docs/eid data Exsting.xlsx';
+    	echo "==> Fetching Excel Data \n";
+        $excelData = Excel::load($file, function($reader){
+            $reader->toArray();
+        })->get();
+        $data = $excelData;
+        echo "==> Getting MB No \n";
+        dd($data);
+        foreach ($data as $key => $sample) {
+        	$dbsample = Sample::where('comment', '=', $sample[3])->get()->last();
+        }
     }
 }
