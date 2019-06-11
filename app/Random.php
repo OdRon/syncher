@@ -3,6 +3,7 @@
 namespace App;
 
 use Excel;
+use App\Imports\NhrlImport;
 use DB;
 use App\Facility;
 
@@ -1663,14 +1664,15 @@ class Random
     public static function checkMbNo(){
     	$file = 'public/docs/eid data Exsting.xlsx';
     	echo "==> Fetching Excel Data \n";
-        $excelData = Excel::import($file, function($reader){
-            $reader->toArray();
-        })->get();
-        $data = $excelData;
-        echo "==> Getting MB No \n";
-        dd($data);
-        foreach ($data as $key => $sample) {
-        	$dbsample = Sample::where('comment', '=', $sample[3])->get()->last();
-        }
+    	Excel::import(new NhrlImport, $file);
+        // $excelData = Excel::import($file, function($reader){
+        //     $reader->toArray();
+        // })->get();
+        // $data = $excelData;
+        // echo "==> Getting MB No \n";
+        // dd($data);
+        // foreach ($data as $key => $sample) {
+        // 	$dbsample = Sample::where('comment', '=', $sample[3])->get()->last();
+        // }
     }
 }
