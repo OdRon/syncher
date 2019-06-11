@@ -1670,7 +1670,7 @@ class Random
     			['file' =>'public/docs/eidDataSixth.xlsx', 'name' => ''],
     			['file' =>'public/docs/eidDataSeventh.xlsx', 'name' => ''],
     			['file' =>'public/docs/eidDataEighth.xlsx', 'name' => '']];
-    	$file = (object) $file;
+    	$files = (object) $files;
     	echo "==> Fetching Excel Data \n";
     	ini_set("memory_limit", "-1");
     	foreach ($files as $key => $file) {
