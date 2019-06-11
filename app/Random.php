@@ -1664,6 +1664,7 @@ class Random
     public static function checkMbNo(){
     	$file = 'public/docs/eid data Exsting.xlsx';
     	echo "==> Fetching Excel Data \n";
+    	ini_set("memory_limit", "-1");
     	Excel::import(new NhrlImport, $file);
         // $excelData = Excel::import($file, function($reader){
         //     $reader->toArray();
