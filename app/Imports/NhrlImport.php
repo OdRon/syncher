@@ -24,8 +24,8 @@ class NhrlImport implements ToCollection/*, WithChunkReading, ShouldQueue*/
         	} else {
         		$sample = SampleView::where('comment', 'like', $row[1])->first();
         		$this->data[$key] = $row;
-        		$this->data[$key][3] = $sample->comment;
-        		$this->data[$key][4] = $sample->patient;
+        		$this->data[$key][3] = $sample->comment ?? null;
+        		$this->data[$key][4] = $sample->patient ?? null;
         	}
         }
         Excel::store(new NhrlExport($this->data, $this->title), 'invoices.xlsx');
