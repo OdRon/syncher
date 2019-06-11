@@ -13,7 +13,9 @@ class NhrlImport implements ToCollection/*, WithChunkReading, ShouldQueue*/
 	public function collection(Collection $rows)
     {
         foreach ($rows as $key => $row) {
-        	dd($row);
+        	if ($key != 0){
+        		dd($row);
+        	}
         }
     }
     
