@@ -29,6 +29,7 @@ $api->version('v1', function (Router $api) {
         });
 
         $api->get('hello', 'RandomController@hello');
+        $api->get('time', 'RandomController@current_time');
 
         $api->post('mlab', 'MlabController@api');
         $api->post('hit/eid', 'HitController@eid');
