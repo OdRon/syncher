@@ -2,7 +2,7 @@
 
 @section('content')
 @php
-    $login_error = Session()->pull('login_error');
+    $login_error = session()->pull('login_error');
 @endphp
 @isset($login_error)
     <div class="alert alert-danger" id="login_error">
@@ -54,15 +54,13 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function(){
-           @php
-                if (isset($login_error)) {
-            @endphp
-                    setTimeout(function(){
-                        $("#login_error").fadeOut("slow");
-                    }, 4000);
-            @php
-                }
-            @endphp
+
+            @isset($login_error)
+                setTimeout(function(){
+                    $("#login_error").fadeOut("slow");
+                }, 4000);
+            @endisset
+            
         });
 
     </script>
