@@ -115,6 +115,7 @@ class LoginController extends Controller
         if($user->user_type_id == 16) return redirect('/email');
 
         // return redirect('/home');
+        dd($user->only(['email', 'surname', 'oname']));
         return '/api/hello';
     }
 
