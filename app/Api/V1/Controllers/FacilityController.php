@@ -76,9 +76,9 @@ class FacilityController extends Controller
      * @param  \App\Facility  $facility
      * @return \Illuminate\Http\Response
      */
-    public function show(Facility $facility)
+    public function show($id)
     {
-        $facility = Facility::find($facility);
+        $facility = Facility::findOrFail($id);
         return response()->json([
           'status' => 'ok',
           'facility' => $facility,
@@ -92,8 +92,9 @@ class FacilityController extends Controller
      * @param  \App\Facility  $facility
      * @return \Illuminate\Http\Response
      */
-    public function update(BlankRequest $request, Facility $facility)
+    public function update(BlankRequest $request, $id)
     {
+        $facility = Facility::findOrFail($id);
         $data = json_decode($request->input('facility'));
         $facility->fill($data);
         $facility->save();
