@@ -112,11 +112,11 @@ class LoginController extends Controller
         $user = auth()->user();
         $user->set_last_access();
 
-        if($user->user_type_id == 16) return redirect('/email');
+        if($user->user_type_id == 16) return '/email';
 
         // return redirect('/home');
-        dd($user->only(['email', 'surname', 'oname']));
-        return '/api/hello';
+        session(['login_error' => 'Looks like something went wrong']);
+        return '/home';
     }
 
     public function failed_facility_login()
