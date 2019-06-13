@@ -78,6 +78,7 @@ class FacilityController extends Controller
      */
     public function show(Facility $facility)
     {
+        $facility = Facility::find($facility);
         return response()->json([
           'status' => 'ok',
           'facility' => $facility,
