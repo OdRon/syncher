@@ -37,7 +37,8 @@ Auth::routes();
 
 Route::post('facility/search/', 'FacilityController@search')->name('facility.search');
 
-Route::middleware(['web', 'auth'])->group(function(){
+// Route::middleware(['web', 'auth'])->group(function(){
+Route::middleware(['auth'])->group(function(){
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('elvis/{year}/{quarter}', 'ResultController@get_incomplient_patient_record');
 

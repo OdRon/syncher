@@ -267,8 +267,30 @@ class Common
 	        unset($fac_array['poc']);
 	        unset($fac_array['has_gene']);
 	        unset($fac_array['has_alere']);
+	        unset($fac_array['eid_lab_id']);
+	        unset($fac_array['vl_lab_id']);
 
 	        DB::table("apidb.facilitys")->insert($fac_array);
+    	}
+    }
+
+    public static function facility_lab()
+    {
+		ini_set('memory_limit', -1);
+    	$facilities = \App\Facility::all();
+
+    	$min_date = date('Y-m-d', strtotime("-1 year -6 months"));
+
+    	foreach ($facilities as $key => $facility) {
+    		$eid = \App\Batch::selectRaw("lab_id, count(id) as my_count")->where(['facility_id' => $facility->id])->where('datereceived', '>', $min_date)->groupBy('lab_id')->orderBy('my_count', 'desc')->first()->lab_id ?? 0;
+    		$vl = \App\Viralbatch::selectRaw("lab_id, count(id) as my_count")->where(['facility_id' => $facility->id])->where('datereceived', '>', $min_date)->groupBy('lab_id')->orderBy('my_count', 'desc')->first()->lab_id ?? 0;
+
+    		if($eid > 10) $eid = 11;
+    		if($vl > 10) $vl = 11;
+
+    		$facility->eid_lab_id = $eid;
+    		$facility->vl_lab_id = $vl;
+    		$facility->save();
     	}
     }
 

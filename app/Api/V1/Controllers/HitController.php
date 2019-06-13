@@ -71,7 +71,7 @@ class HitController extends Controller
             return [        
                 'lab_id' => $sample->id,
                 'patient_id' => $sample->patient,
-                'MFLCode' => $sample->facility_code,
+                'MFLCode' => $sample->facilitycode,
                 'date_collected' => $sample->datecollected,
                 'date_received' => $sample->datereceived,
                 'date_tested' => $sample->datetested,
