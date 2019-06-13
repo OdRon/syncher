@@ -42,12 +42,12 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $e)
+    public function render($request, Exception $exception)
     {
         // return parent::render($request, $exception);
-        if ($e instanceof ModelNotFoundException) {
-            $e = new NotFoundHttpException($e->getMessage(), $e);
-        }
+        // if ($e instanceof ModelNotFoundException) {
+        //     $e = new NotFoundHttpException($e->getMessage(), $e);
+        // }
 
         if ($e instanceof \Illuminate\Session\TokenMismatchException) {            
             return redirect('/')->withErrors(['token_error' => 'Sorry, your session seems to have expired. Please try again.']);
