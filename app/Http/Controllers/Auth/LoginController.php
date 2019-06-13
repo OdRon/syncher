@@ -115,7 +115,7 @@ class LoginController extends Controller
         if($user->user_type_id == 16) return redirect('/email');
 
         // return redirect('/home');
-        return '/home';
+        return '/api/hello';
     }
 
     public function failed_facility_login()
