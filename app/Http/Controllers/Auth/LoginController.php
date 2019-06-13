@@ -51,15 +51,21 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request)
+    // public function login(Request $request)
+    // {
+    //     // $credentials = $request->only('username', 'password');
+    //     if (Auth::attempt(['username' => $request->username, 'password' => $request->password, 'deleted_at' => null])) {
+    //         session(['login_error' => 'Looks like something went wrong']);
+    //         return $this->set_access();
+    //     } else {
+    //         session(['login_error' => 'Wrong username or password']);
+    //         return redirect('login');
+    //     }
+    // }
+
+    public function username()
     {
-        // $credentials = $request->only('username', 'password');
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password, 'deleted_at' => null])) {
-            return $this->set_access();
-        } else {
-            session(['login_error' => 'Wrong username or password']);
-            return redirect('login');
-        }
+        return 'username';
     }
 
     public function fac_login()
@@ -108,7 +114,8 @@ class LoginController extends Controller
 
         if($user->user_type_id == 16) return redirect('/email');
 
-        return redirect('/home');
+        // return redirect('/home');
+        return '/home';
     }
 
     public function failed_facility_login()
