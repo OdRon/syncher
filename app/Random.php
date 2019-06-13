@@ -3,6 +3,7 @@
 namespace App;
 
 use Excel;
+use App\Imports\NhrlImport;
 use DB;
 use App\Facility;
 
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Mail\CustomMailOld;
 use App\Mail\TestMail;
+use App\Sample;
 
 class Random
 {
@@ -1657,5 +1659,33 @@ class Random
         );
         ");
         echo "Done!";
+    }
+
+    public static function checkMbNo(){
+    	$files = [['file' =>'public/docs/eid data Exsting.xlsx', 'name' => 'eid data Exsting First'],
+    			['file' =>'public/docs/eidDataSecond.xlsx', 'name' => 'eid data Exsting Second'],
+    			['file' =>'public/docs/eidDataThird.xlsx', 'name' => 'eid data Exsting Third'],
+    			['file' =>'public/docs/eidDataFourth.xlsx', 'name' => 'eid data Exsting Fourth'],
+    			['file' =>'public/docs/eidDataFifth.xlsx', 'name' => 'eid data Exsting Fifth'],
+    			['file' =>'public/docs/eidDataSixth.xlsx', 'name' => 'eid data Exsting Sixth'],
+    			['file' =>'public/docs/eidDataSeventh.xlsx', 'name' => 'eid data Exsting Seventh'],
+    			['file' =>'public/docs/eidDataEighth.xlsx', 'name' => 'eid data Exsting Eighth']];
+    	
+    	echo "==> Fetching Excel Data \n";
+    	ini_set("memory_limit", "-1");
+    	foreach ($files as $key => $file) {
+    		Excel::import(new NhrlImport($file['name']), $file['file']);
+    		echo "\t" . $file['name'] . " completed \n";
+    	}
+    	echo "==> All Files completed";
+        // $excelData = Excel::import($file, function($reader){
+        //     $reader->toArray();
+        // })->get();
+        // $data = $excelData;
+        // echo "==> Getting MB No \n";
+        // dd($data);
+        // foreach ($data as $key => $sample) {
+        // 	$dbsample = Sample::where('comment', '=', $sample[3])->get()->last();
+        // }
     }
 }

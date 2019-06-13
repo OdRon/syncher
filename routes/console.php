@@ -143,3 +143,8 @@ Artisan::command('recreate:sample_complete_view', function(){
     $str = \App\Random::run_sample_complete_view();
     $this->info($str);
 })->describe('Recreate samples view');
+
+Artisan::command('check:mb', function(){
+    $str = \App\Random::checkMbNo();
+    $this->info($str);
+})->describe('Get MB No');
