@@ -1,8 +1,3 @@
-
-
-
-
-
 <?php
 
 /*
@@ -36,11 +31,6 @@ Route::prefix('download')->name('download.')->group(function(){
 	Route::get('eid_req', 'DownloadController@eid_req')->name('eid_req');
 	Route::get('vl_req', 'DownloadController@vl_req')->name('vl_req');
 	Route::get('collection_guidelines', 'DownloadController@collection_guidelines')->name('collection_guidelines');
-
-	Route::get('api', 'DownloadController@api')->name('api');
-	Route::get('hit_api', 'DownloadController@hit_api')->name('hit_api');
-
-
 });
 
 Auth::routes();
