@@ -7,7 +7,7 @@ use App\Api\V1\Requests\ShortCodeRequest;
 use App\SampleCompleteView;
 use App\ViralSampleCompleteView;
 use App\Patient;
-use App\ViralPatient;
+use App\Viralpatient;
 use App\Facility;
 use App\ShortCodeQueries;
 use GuzzleHttp\Client;
