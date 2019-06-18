@@ -40,7 +40,7 @@ class LoginController extends Controller
                 'status' => 'ok',
                 'token' => $token,
                 'expires_in' => auth('api')->factory()->getTTL() * 60,
-                // 'expires_in' => Auth::guard()->factory()->getTTL() * 60
+                // 'expires_in' => Auth::guard('api')->factory()->getTTL() * 60
             ]);
     }
 }
