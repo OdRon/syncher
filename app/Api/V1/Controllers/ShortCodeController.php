@@ -48,6 +48,7 @@ class ShortCodeController extends Controller
 		if(empty($message))
 			return null;
 		$facility = Facility::select('id', 'facilitycode')->where('facilitycode', '=', $message->mflcode)->first();
+		if(!$facility) return null;
 		$patient = Patient::select('id', 'patient')->where('patient', '=', $message->sampleID)->where('facility_id', '=', $facility->id)->get(); // EID patient
 		$class = SampleCompleteView::class;
 		$table = 'sample_complete_view';
