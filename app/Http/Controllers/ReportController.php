@@ -304,7 +304,7 @@ class ReportController extends Controller
             $data = $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         }
         
-        return (new ReportExport($data, $excelColumns))->download("$title.xlsx");
+        return (new ReportExport($data, $excelColumns))->download("$title.csv");
     }
 
     protected function __getOutcomesByPlartform($request) {
@@ -1543,7 +1543,7 @@ class ReportController extends Controller
             foreach ($data as $report) {
                 $newdataArray[] = $report->toArray();
             }
-            return Excel::download(new ReportExport($newdataArray), $title . '.xlsx');
+            return Excel::download(new ReportExport($newdataArray), $title . '.csv');
             
             // Excel::create($title, function($excel) use ($newdataArray, $title) {
             //     $excel->setTitle($title);
