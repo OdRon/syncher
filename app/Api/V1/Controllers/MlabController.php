@@ -78,7 +78,7 @@ class MlabController extends Controller
                 'request_id' => '',
                 'client_id' => $sample->patient,
                 'age' => "{$sample->age}",
-                'gender' => $sample->gender,
+                'gender' => $sample->gender_name,
                 'result_content' => "{$result}",
                 'units' => $sample->units ?? '',
                 'mfl_code' => "{$sample->facilitycode}",
