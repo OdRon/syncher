@@ -58,6 +58,10 @@ Artisan::command('facilities', function () {
     $str = \App\Common::add_missing_facilities();
 })->describe('Add facilities that are in national DB but are not in API DB.');
 
+Artisan::command('facilities:labs', function () {
+    $str = \App\Common::facility_lab();
+})->describe('Set favoured lab for each facility.');
+
 
 Artisan::command('copy:test {limit}', function () {
 	ini_set("memory_limit", "-1");

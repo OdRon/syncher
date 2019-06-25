@@ -31,13 +31,15 @@ Route::prefix('download')->name('download.')->group(function(){
 	Route::get('eid_req', 'DownloadController@eid_req')->name('eid_req');
 	Route::get('vl_req', 'DownloadController@vl_req')->name('vl_req');
 	Route::get('collection_guidelines', 'DownloadController@collection_guidelines')->name('collection_guidelines');
+	Route::get('remotelogin', 'DownloadController@remotelogin')->name('remotelogin');
 });
 
 Auth::routes();
 
 Route::post('facility/search/', 'FacilityController@search')->name('facility.search');
 
-Route::middleware(['web', 'auth'])->group(function(){
+// Route::middleware(['web', 'auth'])->group(function(){
+Route::middleware(['auth'])->group(function(){
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('elvis/{year}/{quarter}', 'ResultController@get_incomplient_patient_record');
 

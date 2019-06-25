@@ -9,7 +9,10 @@ $api->version('v1', function (Router $api) {
     $api->group(['namespace' => 'App\\Api\\V1\\Controllers'], function(Router $api) {
         $api->group(['prefix' => 'auth'], function(Router $api) {
             $api->post('signup', 'SignUpController@signUp');
-            $api->post('login', 'LoginController@login');
+
+            $api->group(['middleware' => 'api.throttle', 'limit' => 1, 'expires' => 10], function(Router $api) {
+                $api->post('login', 'LoginController@login');
+            });
 
             $api->post('recovery', 'ForgotPasswordController@sendResetEmail');
             $api->post('reset', 'ResetPasswordController@resetPassword');
@@ -29,9 +32,12 @@ $api->version('v1', function (Router $api) {
         });
 
         $api->get('hello', 'RandomController@hello');
+        $api->get('time', 'RandomController@current_time');
 
         $api->post('mlab', 'MlabController@api');
         $api->post('hit/eid', 'HitController@eid');
+
+        $api->post('poc/genexpert', 'PocController@genexpert');
 
         $api->get('pull/facilities', 'PullController@facilities');
         $api->post('pull/vl', 'PullController@vl');

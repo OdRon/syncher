@@ -26,4 +26,13 @@ class RandomController extends Controller
                 'message' => 'This is a simple example of item returned by your APIs. Everyone can see it.'
             ]);
     }
+
+    public function current_time()
+    {
+        return response()->json([
+                'date' => date('Ymd'),
+                'time' => date('H:i:s'),
+                'message' => 'This is the current time.'
+            ]);
+    }
 }
