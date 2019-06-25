@@ -81,18 +81,6 @@ class ViewModel extends Model
     }
 
 
-    /**
-     * Get the patient's gender
-     *
-     * @return string
-     */
-    public function getGenderNameAttribute()
-    {
-        if($this->sex == 1){ return "Male"; }
-        else if($this->sex == 2){ return "Female"; }
-        else{ return "No Gender"; }
-    }
-
 
     /**
      * Get the patient's gender shortened
