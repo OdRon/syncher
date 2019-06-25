@@ -11,6 +11,12 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    // public function __construct(){
+    //     Session::flush();
+
+    //     Session::regenerate
+    // }
+
     public function _columnBuilder($columns = null)
     {
         $column = '<tr>';

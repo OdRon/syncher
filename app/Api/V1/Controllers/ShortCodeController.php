@@ -5,9 +5,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\GenerealController;
 use App\Api\V1\Requests\ShortCodeRequest;
 use App\SampleCompleteView;
-use App\ViralSampleCompleteView;
+use App\ViralsampleCompleteView;
 use App\Patient;
-use App\ViralPatient;
+use App\Viralpatient;
 use App\Facility;
 use App\ShortCodeQueries;
 use GuzzleHttp\Client;
@@ -48,12 +48,13 @@ class ShortCodeController extends Controller
 		if(empty($message))
 			return null;
 		$facility = Facility::select('id', 'facilitycode')->where('facilitycode', '=', $message->mflcode)->first();
+		if(!$facility) return null;
 		$patient = Patient::select('id', 'patient')->where('patient', '=', $message->sampleID)->where('facility_id', '=', $facility->id)->get(); // EID patient
 		$class = SampleCompleteView::class;
 		$table = 'sample_complete_view';
 		if ($patient->isEmpty()) { // Check if VL patient
 			$patient = Viralpatient::select('id', 'patient')->where('patient', '=', $message->sampleID)->where('facility_id', '=', $facility->id)->get();
-			$class = ViralSampleCompleteView::class;
+			$class = ViralsampleCompleteView::class;
 			$table = 'viralsample_complete_view';
 		}
 		if ($patient->isEmpty())
@@ -79,9 +80,9 @@ class ShortCodeController extends Controller
 		if (empty($tests))
 			return $msg;
 		foreach ($tests as $key => $test) {
-			$testtype = (get_class($test) == 'App\ViralSampleCompleteView') ? 2 : 1;
+			$testtype = (get_class($test) == 'App\ViralsampleCompleteView') ? 2 : 1;
 			$msg .= "Facility: " . $test->facility . " [ " . $test->facilitycode . " ]\n";
-			$msg .= (get_class($test) == 'App\ViralSampleCompleteView') ? "CCC #: " : "HEI #:";
+			$msg .= (get_class($test) == 'App\ViralsampleCompleteView') ? "CCC #: " : "HEI #:";
 			$msg .= $test->patient . "\n";
 			$msg .= "Batch #: " . $test->original_batch_id . "\n";
 			$msg .= "Date Drawn: " . $test->datecollected . "\n";
@@ -92,12 +93,12 @@ class ShortCodeController extends Controller
 					$msg .= $inprocessmsg . "\n";
 					$status = 0;
 				}
-				if (isset($test->result) && get_class($test) == 'App\ViralSampleCompleteView')
+				if (isset($test->result) && get_class($test) == 'App\ViralsampleCompleteView')
 					$msg .= "VL Result: " . $test->result . "\n";
 				else if (isset($test->result) && get_class($test) == 'App\SampleCompleteView')
 					$msg .= "EID Result: " . $test->result_name . "\n";
 			} else {
-				$msg .= (get_class($test) == 'App\ViralSampleCompleteView') ? " VL" : " EID";
+				$msg .= (get_class($test) == 'App\ViralsampleCompleteView') ? " VL" : " EID";
 				$msg .= " Rejected Sample: " . $test->rejected_reason->name . " - Collect New Sample.\n";
 			}
 

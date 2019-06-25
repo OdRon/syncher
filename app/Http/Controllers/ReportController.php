@@ -304,7 +304,7 @@ class ReportController extends Controller
             $data = $this->__getExcel($data, $title, $excelColumns, $briefTitle);
         }
         
-        return (new ReportExport($data, $excelColumns))->download("$title.xlsx");
+        return (new ReportExport($data, $excelColumns))->download("$title.csv");
     }
 
     protected function __getOutcomesByPlartform($request) {
@@ -433,7 +433,7 @@ class ReportController extends Controller
         
         ini_set("memory_limit", "-1");
         $title = strtoupper($dateString);
-        return Excel::download(new ReportExport($newdata), $title . '.xlsx');
+        return Excel::download(new ReportExport($newdata), $title . '.csv');
         // Excel::create($title, function($excel) use ($newdata, $title) {
         //         $excel->setTitle($title);
         //         $excel->setCreator(Auth()->user()->surname.' '.Auth()->user()->oname)->setCompany('EID/VL System');
@@ -658,7 +658,7 @@ class ReportController extends Controller
         //     });
              
         // }, 'csv');
-        return Excel::download(new ReportExport($newdataArray), 'Low Level Viremia.xlsx');
+        return Excel::download(new ReportExport($newdataArray), 'Low Level Viremia.csv');
     }
 
     public function __getLowLevelViremiaData($request, $result = null, $sampletype = null) {
@@ -1497,10 +1497,10 @@ class ReportController extends Controller
         //     return (new ReportExport)->download($title . '.csv', \Maatwebsite\Excel\Excel::CSV);
         // dd($finaldataArray);
         /****** Has multiple sheets options *****/
-        // return Excel::download(new ReportExport($finaldataArray), "$title.xlsx");
-        // return Excel::download(new ReportExport, "$title.xlsx");
-        // return (new ReportExport($finaldataArray))->download("$title.xlsx");
-        // return Excel::download(new ReportGenericExport, "$title.xlsx");
+        // return Excel::download(new ReportExport($finaldataArray), "$title.csv");
+        // return Excel::download(new ReportExport, "$title.csv");
+        // return (new ReportExport($finaldataArray))->download("$title.csv");
+        // return Excel::download(new ReportGenericExport, "$title.csv");
 
         // Excel::create($title, function($excel) use ($finaldataArray, $title, $sheetTitle) {
         //     $excel->setTitle($title);
@@ -1543,7 +1543,7 @@ class ReportController extends Controller
             foreach ($data as $report) {
                 $newdataArray[] = $report->toArray();
             }
-            return Excel::download(new ReportExport($newdataArray), $title . '.xlsx');
+            return Excel::download(new ReportExport($newdataArray), $title . '.csv');
             
             // Excel::create($title, function($excel) use ($newdataArray, $title) {
             //     $excel->setTitle($title);
@@ -1553,7 +1553,7 @@ class ReportController extends Controller
             //     $excel->sheet($title, function($sheet) use ($newdataArray) {
             //         $sheet->fromArray($newdataArray, null, 'A1', false, false);
             //     });
-            // })->download('xlsx');
+            // })->download('csv');
         } else {
             session(['toast_message' => 'No data available for the criteria provided']);
         }
