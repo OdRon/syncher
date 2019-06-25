@@ -75,9 +75,14 @@ class ViewModel extends Model
      */
     public function getGenderAttribute()
     {
-        if($this->sex == 1 || $this->getOriginal('gender') == 'Male'){ return "Male"; }
-        else if($this->sex == 2 || $this->getOriginal('gender') == 'Female'){ return "Female"; }
-        else{ return "No Gender"; }
+        if(!$this->getOriginal('gender')){
+            if($this->sex == 1){ return "Male"; }
+            else if($this->sex == 2){ return "Female"; }
+            else{ return "No Gender"; }
+        }
+        else{
+            return $this->getOriginal('gender');
+        }
     }
 
 
