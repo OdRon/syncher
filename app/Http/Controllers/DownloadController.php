@@ -54,4 +54,9 @@ class DownloadController extends Controller
         return response()->download($path);
     }
 
+    public function remotelogin() {
+        $path = public_path('downloads/NASCOP_Remote_Login_SOP.pdf');
+        return response()->download($path, 'NASCOP Lab Remote Login SOP.pdf');
+    }
+
 }
