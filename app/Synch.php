@@ -74,7 +74,7 @@ class Synch
 			$status_code = $response->getStatusCode();
 			// if($status_code > 399) die();
 			$body = json_decode($response->getBody());
-			print_r($body);
+			// print_r($body);
 			Cache::put($lab->token_name, $body->token, 60);	
 			// echo $lab->token_name . " is {$body->token} \n";		
 		} catch (Exception $e) {
