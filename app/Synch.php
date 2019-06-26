@@ -62,7 +62,7 @@ class Synch
 		try {
 			$response = $client->request('post', 'auth/login', [
 	            'http_errors' => false,
-	            'connect_timeout' => 1.5,
+	            'connect_timeout' => 3,
 				'headers' => [
 					'Accept' => 'application/json',
 				],
