@@ -503,6 +503,7 @@ class Synch
 						'Accept' => 'application/json',
 					],
 					// 'debug' => true,
+		            'connect_timeout' => 3,
 					'http_errors' => false,
 					// 'verify' => false,
 				]);
