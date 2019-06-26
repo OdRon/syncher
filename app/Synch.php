@@ -424,7 +424,7 @@ class Synch
 					{
 						$patient->sex = $body->patient->sex;
 						$patient->save();
-						echo "Fixed One \n";
+						echo "Fixed One {$patient->patient} to {$patient->sex} \n";
 					}
 				}	
 				else{
@@ -479,7 +479,7 @@ class Synch
 					{
 						$patient->dob = $body->patient->dob;
 						$patient->save();
-						echo "Fixed One \n";
+						echo "Fixed One {$patient->patient} to {$patient->dob} \n";
 					}
 				}	
 				else{
