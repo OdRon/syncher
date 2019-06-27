@@ -74,6 +74,7 @@ class Synch
 			$status_code = $response->getStatusCode();
 			// if($status_code > 399) die();
 			$body = json_decode($response->getBody());
+			// print_r($body);
 			Cache::put($lab->token_name, $body->token, 60);	
 			// echo $lab->token_name . " is {$body->token} \n";		
 		} catch (Exception $e) {
@@ -423,7 +424,7 @@ class Synch
 					{
 						$patient->sex = $body->patient->sex;
 						$patient->save();
-						echo "Fixed One \n";
+						echo "Fixed One {$patient->patient} to {$patient->sex} \n";
 					}
 				}	
 				else{
@@ -478,7 +479,7 @@ class Synch
 					{
 						$patient->dob = $body->patient->dob;
 						$patient->save();
-						echo "Fixed One \n";
+						echo "Fixed One {$patient->patient} to {$patient->dob} \n";
 					}
 				}	
 				else{
@@ -502,6 +503,7 @@ class Synch
 						'Accept' => 'application/json',
 					],
 					// 'debug' => true,
+		            'connect_timeout' => 3,
 					'http_errors' => false,
 					// 'verify' => false,
 				]);
