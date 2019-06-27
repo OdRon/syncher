@@ -31,6 +31,7 @@ Route::prefix('download')->name('download.')->group(function(){
 	Route::get('eid_req', 'DownloadController@eid_req')->name('eid_req');
 	Route::get('vl_req', 'DownloadController@vl_req')->name('vl_req');
 	Route::get('collection_guidelines', 'DownloadController@collection_guidelines')->name('collection_guidelines');
+	Route::get('remotelogin', 'DownloadController@remotelogin')->name('remotelogin');
 });
 
 Auth::routes();
