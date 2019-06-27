@@ -121,17 +121,15 @@ class EidController extends Controller
         $patients = json_decode($request->input('patients'));
 
         foreach ($patients as $key => $value) {
-            $p = Patient::existing($value->facility_id, $value->patient)->first();
-            if($p){
-                // $patients_array[] = ['original_id' => $p->original_patient_id, 'national_patient_id' => $p->id ];
-                // $mothers_array[] = ['original_id' => $p->mother->original_mother_id, 'national_mother_id' => $p->mother->id ];
-
-                $patients_array[] = ['original_id' => $value->id, 'national_patient_id' => $p->id ];
-                $mothers_array[] = ['original_id' => $value->mother->id, 'national_mother_id' => $p->mother->id ];
-                continue;
+            $patient = Patient::existing($value->facility_id, $value->patient)->first();
+            if($patient){
+                $mother = $patient->mother;
+            }
+            else{
+                $mother = new Mother;
+                $patient = new Patient;                
             }
 
-            $mother = new Mother;
             $mother_data = get_object_vars($value->mother);
             $mother->fill($mother_data);
             $mother->original_mother_id = $mother->id;
@@ -142,7 +140,6 @@ class EidController extends Controller
             $mothers_array[] = ['original_id' => $mother->original_mother_id, 'national_mother_id' => $mother->id ];
 
             unset($value->mother);
-            $patient = new Patient;
             $patient->fill(get_object_vars($value));
             $patient->mother_id = $mother->id;
             $patient->original_patient_id = $patient->id;

@@ -68,19 +68,23 @@ class ViewModel extends Model
         return $query->where(['facility_id' => $facility, 'patient' => $patient]);
     }
 
-
-
     /**
      * Get the patient's gender
      *
      * @return string
      */
-    public function getGenderNameAttribute()
+    public function getGenderAttribute()
     {
-        if($this->sex == 1){ return "Male"; }
-        else if($this->sex == 2){ return "Female"; }
-        else{ return "No Gender"; }
+        if(!$this->getOriginal('gender')){
+            if($this->sex == 1){ return "Male"; }
+            else if($this->sex == 2){ return "Female"; }
+            else{ return "No Gender"; }
+        }
+        else{
+            return $this->getOriginal('gender');
+        }
     }
+
 
 
     /**
