@@ -33,7 +33,7 @@ class ShortCodeController extends Controller
 		$status = 1;
 		$messageBreakdown = $this->messageBreakdown($message);
 		if (!$messageBreakdown) {
-			$message = "The correct message format is {$msgFormat}\n {$msgFormatDescription}";
+			$message = "The correct message format is {$this->msgFormat}\n {$this->msgFormatDescription}";
 			return response()->json(self::__sendMessage($phone, $message));
 		}
 		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility);
