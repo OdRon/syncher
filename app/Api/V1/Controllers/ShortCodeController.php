@@ -28,7 +28,7 @@ class ShortCodeController extends Controller
 		$testtype = null;
 		$status = 1;
 		$messageBreakdown = $this->messageBreakdown($message);
-		// return response()->json($messageBreakdown);
+		return response()->json($messageBreakdown);
 		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility);
 		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype);
 		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype);
@@ -38,6 +38,7 @@ class ShortCodeController extends Controller
 	private function messageBreakdown($message = null) {
 		if (!$message)
 			return null;
+		return $this->checkMessageFormat($message);
 		$data['querytype'] = substr($message,0,1);
 		$data['mflcode'] = substr($message,1,5);
 		$querytypeplusmfl = substr($message,0,6);
@@ -45,6 +46,14 @@ class ShortCodeController extends Controller
 
 		return (object) $data;
 	}
+
+	private function checkMessageFormat($message) {
+		$secondStr = (int) substr($message, 1, 1);
+		if (is_int($secondStr))
+			return "It is an int";
+		return is_int($secondStr);
+	}
+
 	private function getPatientData($message = null, &$patient, &$facility){
 		if(empty($message))
 			return null;
