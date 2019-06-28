@@ -49,6 +49,7 @@ class ShortCodeController extends Controller
 
 	private function checkMessageFormat($message) {
 		$secondStr = (int) substr($message, 1, 1);
+		return $secondStr;
 		if (is_int($secondStr))
 			return "It is an int";
 		else
