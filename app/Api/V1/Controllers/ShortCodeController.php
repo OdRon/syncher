@@ -51,6 +51,8 @@ class ShortCodeController extends Controller
 		$secondStr = (int) substr($message, 1, 1);
 		if (is_int($secondStr))
 			return "It is an int";
+		else
+			return "Not an int";
 		return is_int($secondStr);
 	}
 
