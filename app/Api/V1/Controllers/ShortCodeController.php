@@ -36,16 +36,16 @@ class ShortCodeController extends Controller
 			$message = "The correct message format is {$this->msgFormat}\n {$this->msgFormatDescription}";
 			return response()->json(self::__sendMessage($phone, $message));
 		}
-		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility);
-		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype);
-		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype);
+		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility); // Get the patient data
+		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype); // Get the message to send to the patient.
+		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype); // Save and send the message.
 		return response()->json($sendTextMsg);
 	}
 
 	private function messageBreakdown($message = null) {
 		if (!$message)
 			return null;
-		if (!$this->checkMessageFormat($message))
+		if (!$this->checkMessageFormat($message)) // Check if the correct message format was adhered to
 			return null;
 		$data['querytype'] = substr($message,0,1);
 		$data['mflcode'] = substr($message,1,5);
