@@ -28,10 +28,11 @@ class ShortCodeController extends Controller
 		$testtype = null;
 		$status = 1;
 		$messageBreakdown = $this->messageBreakdown($message);
+		return response()->json($sendTextMsg);
 		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility);
 		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype);
 		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype);
-		return response()->json($sendTextMsg);
+		
 	}
 
 	private function messageBreakdown($message = null) {

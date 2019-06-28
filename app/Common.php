@@ -233,7 +233,7 @@ class Common
 			$sample_model = \App\Viralsample::class;
 			$dob_function = 'calculate_viralage';
 		}
-		$samples = $view_model::whereNotNull('dob')->where(['age' => 0])->get();
+		$samples = $view_model::whereNotNull('dob')->where(['age' => 0])->where('datetested', '>', '2017-01-01')->get();
 
 		foreach ($samples as $key => $sample) {
 			$age = \App\Lookup::$dob_function($sample->datecollected, $sample->dob);
