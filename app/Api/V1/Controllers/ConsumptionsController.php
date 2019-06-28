@@ -205,6 +205,7 @@ class ConsumptionsController extends Controller
 				$machine_type = $key;
 			continue;
 		}
+		$request_testtype = '';
 
 		if (in_array('qualitative', $name))
 			$request_testtype = 'eid';

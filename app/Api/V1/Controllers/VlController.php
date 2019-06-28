@@ -100,15 +100,10 @@ class VlController extends Controller
         $patients = json_decode($request->input('patients'));
 
         foreach ($patients as $key => $value) {
-            $p = Viralpatient::existing($value->facility_id, $value->patient)->first();
-            if($p){
-                // $patients_array[] = ['original_id' => $p->original_patient_id, 'national_patient_id' => $p->id ];
-                $patients_array[] = ['original_id' => $value->id, 'national_patient_id' => $p->id ];
-                continue;
-            }
+            $patient = Viralpatient::existing($value->facility_id, $value->patient)->first();
 
-
-            $patient = new Viralpatient;
+            if(!$patient) $patient = new Viralpatient;
+            
             $patient->fill(get_object_vars($value));
             $patient->original_patient_id = $patient->id;
             unset($patient->id);

@@ -21,6 +21,14 @@ Artisan::command('alere', function () {
     \App\Poc::alereq();
 })->describe('Display an inspiring quote');
 
+Artisan::command('clean:no-gender {type}', function ($type) {
+    \App\Synch::correct_no_gender($type);
+})->describe('Fix no genders using data from the lab.');
+
+Artisan::command('clean:no-dob {type}', function ($type) {
+    \App\Synch::correct_no_dob($type);
+})->describe('Fix no dobs using data from the lab.');
+
 Artisan::command('report:hei-partner {contact_id?}', function ($contact_id=null) {
     $str = \App\Report::eid_partner($contact_id);
     $this->info($str);
