@@ -20,6 +20,10 @@ class ShortCodeController extends Controller
 
     private $limit = 5;
 
+    private $msgFormat = "R`MFLCode`-`Patient Number`";
+
+    private $msgFormatDescription = "This message should always begin with `R` this is immediatly followed by the MFLCode without any character between the `R` and the `MFLCode`. The MFLCode is immediatly followed by a hyphen (-). The hyphen is immediately followed by the patient number as it appears on the patient file.\nN/B The shortcode does not contain any spaces in it and there is no hyphen after the `R`";
+
 	public function shortcode(ShortCodeRequest $request) {
 		$message = $request->input('smsmessage');
 		$phone = $request->input('smsphoneno');
@@ -28,6 +32,10 @@ class ShortCodeController extends Controller
 		$testtype = null;
 		$status = 1;
 		$messageBreakdown = $this->messageBreakdown($message);
+		if (!$messageBreakdown) {
+			$message = "The correct message format is {$this->msgFormat}\n {$this->msgFormatDescription}";
+			return response()->json(self::__sendMessage($phone, $message));
+		}
 		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility);
 		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype);
 		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype);
@@ -37,6 +45,8 @@ class ShortCodeController extends Controller
 	private function messageBreakdown($message = null) {
 		if (!$message)
 			return null;
+		if (!$this->checkMessageFormat($message))
+			return null;
 		$data['querytype'] = substr($message,0,1);
 		$data['mflcode'] = substr($message,1,5);
 		$querytypeplusmfl = substr($message,0,6);
@@ -44,6 +54,12 @@ class ShortCodeController extends Controller
 
 		return (object) $data;
 	}
+
+	private function checkMessageFormat($message) {
+		$secondStr = substr($message, 1, 1);
+		return is_int($secondStr);
+	}
+
 	private function getPatientData($message = null, &$patient, &$facility){
 		if(empty($message))
 			return null;
