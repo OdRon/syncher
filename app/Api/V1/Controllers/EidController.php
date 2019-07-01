@@ -131,7 +131,7 @@ class EidController extends Controller
             }
 
             $mother_data = get_object_vars($value->mother);
-            $mother->fill($mother_data);
+            if($mother_data) $mother->fill($mother_data);
             $mother->original_mother_id = $mother->id;
             unset($mother->id);
             unset($mother->national_mother_id);
