@@ -34,7 +34,7 @@ class Report
             })->where('active', 1)
             // ->where('lastalertsent', '!=', date('Y-m-d'))
             ->get();
-        $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
+        $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($partner_contacts as $key => $contact) {
 
@@ -68,6 +68,7 @@ class Report
             ->when($county_id, function($query) use ($county_id){
                 return $query->where('partner', $county_id);
             })->where(['flag' => 1, 'account' => 7])->where('id', '>', 384)->get();
+        $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($county_contacts as $key => $contact) {
 
@@ -81,7 +82,7 @@ class Report
 	        if(env('APP_ENV') == 'production'){
 		        try {
 			        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
-			     	Mail::to($mail_array)->bcc($bcc_array)->send(new EidCountyPositives($contact->id));
+			     	Mail::to($email_array)->bcc($bcc_array)->send(new EidCountyPositives($contact->id));
 		        } catch (Exception $e) {
 		        	
 		        }
@@ -121,7 +122,7 @@ class Report
             ->when($partner_contact, function($query) use ($partner_contact){
                 return $query->where('id', $partner_contact);
             })->where('active', 2)->get();
-        $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
+        $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($partner_contacts as $key => $contact) {
 
@@ -152,7 +153,7 @@ class Report
             ->when($county_id, function($query) use ($county_id){
                 return $query->where('partner', $county_id);
             })->where(['flag' => 1, 'account' => 7])->where('id', '>', 384)->get();
-        $mail_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
+        $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($county_contacts as $key => $contact) {
 
