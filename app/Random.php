@@ -1690,16 +1690,54 @@ class Random
     }
 
     public static function run_ken_request() {
+    	$data = [];
     	echo "==> Getting Patients\n";
     	$patients = Viralpatient::select('id', 'dob')->whereYear('dob', '>', '2009')->get();
     	echo "==> Getting Patients Samples\n";
+    	$data[] = ['Patient', 'Current Regimen', 'Recent Result', 'Age Category'];
     	foreach ($patients as $key => $patient) {
     		echo ".";
-    		$samples = ViralsampleView::where('patient_id', $patient->id)->orderBy('datetested', 'desc')->limit(2)->get();
+    		$samples = ViralsampleCompleteView::where('patient_id', $patient->id)->orderBy('datetested', 'desc')->limit(2)->get();
     		if ($samples->count() == 2) {
-    			dd($samples->where('result', '>', '999')->count());
+    			$newsamples = $samples->whereIn('rcategory', [3,4]);
+    			if ($newsamples->count() == 2){
+    				$newsample = $newsamples->first();
+    				$data[] = [
+    					'patient' => $patient->patient,
+    					'regimen' => $newsample->prophylaxis_name,
+    					'result' => $newsample->result,
+    					'agecategory' => self::getMakeShiftAgeCategory($newsample->age),
+    				];
+    			}
     		}
     	}
-    	dd($patients->dob);
+    	$file = 'Requested Report';
+    	Excel::create($file, function($excel) use($data)  {
+
+		    // Set sheets
+
+		    $excel->sheet('Sheetname', function($sheet) use($data) {
+
+		        $sheet->fromArray($data);
+
+		    });
+
+		})->store('csv');
+
+		
+
+		$data = [storage_path("exports/" . $file . ".csv")];
+
+		Mail::to(['bakasajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
+    	
+    }
+
+    private static function getMakeShiftAgeCategory($age) {
+    	if ($age < 1)
+    		return '0-1';
+    	if ($age > 0.9999 && $age < 5)
+    		return '1- <5';
+    	if ($age > 5.9999 && $age < 10)
+    		return '5-<10';
     }
 }
