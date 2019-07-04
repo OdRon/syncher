@@ -457,7 +457,7 @@ class Copier
             $value->original_batch_id = self::set_batch_id($value->original_batch_id);
             $batch = null;
             if($value->original_batch_id != 0){
-                $batch = Batch::existing($value->original_batch_id, $value->lab_id)->get()->first();
+                $batch = Batch::existing($value->original_batch_id, $value->lab_id)->first();
             }
 
             if(!$batch){
