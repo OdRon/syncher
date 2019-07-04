@@ -521,7 +521,7 @@ class Synch
 
 				if($response->getStatusCode() < 400)
 				{	
-					$sample->patient_id = $body->sample->patient->national_patient_id;
+					$sample->patient_id = $body->patient->national_patient_id;
 					$sample->save();
 				}	
 				else{
