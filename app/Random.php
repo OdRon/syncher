@@ -1697,7 +1697,7 @@ class Random
     		echo ".";
     		$samples = ViralsampleView::where('patient_id', $patient->id)->orderBy('datetested', 'desc')->limit(2)->get();
     		if ($samples->count() == 2) {
-    			dd($samples);
+    			dd('Somthing found');
     		}
     	}
     	dd($patients->dob);
