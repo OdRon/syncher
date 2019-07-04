@@ -181,7 +181,7 @@ class Copier
 			
 
 			foreach ($samples as $key => $value) {
-				$patient = Patient::existing($value->facility_id, $value->patient)->get()->first();
+				$patient = Patient::existing($value->facility_id, $value->patient)->first();
 
 				if(!$patient){
 					$mother = new Mother($value->only($fields['mother']));
@@ -223,7 +223,7 @@ class Copier
 				$value->original_batch_id = self::set_batch_id($value->original_batch_id);
                 $batch = null;
                 if($value->original_batch_id != 0){
-    				$batch = Batch::existing($value->original_batch_id, $value->lab_id)->get()->first();
+    				$batch = Batch::existing($value->original_batch_id, $value->lab_id)->first();
                 }
 
 				if(!$batch){
@@ -285,7 +285,7 @@ class Copier
 			if($samples->isEmpty()) break;
 
 			foreach ($samples as $key => $value) {
-				$patient = Viralpatient::existing($value->facility_id, $value->patient)->get()->first();
+				$patient = Viralpatient::existing($value->facility_id, $value->patient)->first();
 
 				if(!$patient){
 					$patient = new Viralpatient($value->only($fields['patient']));
@@ -311,7 +311,7 @@ class Copier
 				$value->original_batch_id = self::set_batch_id($value->original_batch_id);
                 $batch = null;
                 if($value->original_batch_id != 0){
-    				$batch = Viralbatch::existing($value->original_batch_id, $value->lab_id)->get()->first();
+    				$batch = Viralbatch::existing($value->original_batch_id, $value->lab_id)->first();
                 }
 
 				if(!$batch){
@@ -415,7 +415,7 @@ class Copier
         foreach ($samples as $key => $sample) {
             $value = SampleView::find($sample->old_id);
 
-            $patient = Patient::existing($value->facility_id, $value->patient)->get()->first();
+            $patient = Patient::existing($value->facility_id, $value->patient)->first();
 
             if(!$patient){
                 $mother = new Mother($value->only($fields['mother']));
@@ -492,6 +492,78 @@ class Copier
             $sample->save();
         }
 
+    }
+
+
+    public static function fix_copy_vl()
+    {
+        ini_set("memory_limit", "-1");
+        $samples = Viralsample::where(['batch_id' => 0])->whereNotNull('old_id')->get();
+        $fields = Lookup::viralsamples_arrays();
+        $sample_date_array = ['datecollected', 'datetested', 'datemodified', 'dateapproved', 'dateapproved2'];
+        $batch_date_array = ['datedispatchedfromfacility', 'datereceived', 'datedispatched', 'dateindividualresultprinted', 'datebatchprinted']; 
+
+        foreach ($samples as $key => $sample) {
+            $value = ViralsampleView::find($sample->old_id);
+            $patient = Viralpatient::existing($value->facility_id, $value->patient)->first();
+
+            if(!$patient){
+                $patient = new Viralpatient($value->only($fields['patient']));
+
+                if($patient->dob) $patient->dob = Lookup::clean_date($patient->dob);
+
+                if(!$patient->dob) $patient->dob = Lookup::previous_dob(ViralsampleView::class, $value->patient, $value->facility_id);
+                if(!$patient->dob) $patient->dob = Lookup::calculate_dob($value->datecollected, $value->age, 0, ViralsampleView::class, $value->patient, $value->facility_id);
+
+                $patient->sex = Lookup::resolve_gender($value->gender, ViralsampleView::class, $value->patient, $value->facility_id);
+                $patient->save();
+            }else{
+                // $dob = Lookup::clean_date($value->dob);
+                // if(!$dob) $dob = Lookup::calculate_dob($value->datecollected, $value->age, 0);
+                // if($dob) $patient->dob = $dob;
+                // $sex = Lookup::resolve_gender($value->gender);
+                // if($sex != 3 && $patient->sex == 3) $patient->sex = $sex;
+                // $initiation_date = Lookup::clean_date($value->initiation_date);
+                // if($initiation_date) $patient->initiation_date = $initiation_date;
+                // $patient->save();
+            }
+
+            $value->original_batch_id = self::set_batch_id($value->original_batch_id);
+            $batch = null;
+            if($value->original_batch_id != 0){
+                $batch = Viralbatch::existing($value->original_batch_id, $value->lab_id)->first();
+            }
+
+            if(!$batch){
+                $batch = new Viralbatch($value->only($fields['batch']));
+                foreach ($batch_date_array as $date_field) {
+                    $batch->$date_field = Lookup::clean_date($batch->$date_field);
+                    if($batch->$date_field == '1970-01-01') $batch->$date_field = null;
+                }
+                if(!$batch->received_by) $batch->received_by = $value->user_id;
+                $batch->entered_by = $value->user_id;
+                $batch->save();
+            }
+
+            // $sample = new Viralsample($value->only($fields['sample']));
+            // foreach ($sample_date_array as $date_field) {
+            //     $sample->$date_field = Lookup::clean_date($sample->$date_field);
+            //     if($sample->$date_field == '1970-01-01') $sample->$date_field = null;
+            }
+            $sample->batch_id = $batch->id;
+            $sample->patient_id = $patient->id;
+
+            // if(!$sample->age && $batch->datecollected && $patient->dob){
+            //     $sample->age = Lookup::calculate_viralage($batch->datecollected, $patient->dob);
+            // }
+            
+            // if($sample->worksheet_id == 0) $sample->worksheet_id = null;
+            // if($sample->receivedstatus == 0) $sample->receivedstatus = null;
+            // if($sample->result == '') $sample->result = null;
+
+            $sample->old_id = $value->id;
+            $sample->save();
+        }
     }
 
 
