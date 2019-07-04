@@ -1691,7 +1691,7 @@ class Random
 
     public static function run_ken_request() {
     	echo "==> Getting Patients\n";
-    	$patients = Viralpatient::whereYear('dob', '>', '2009')->get();
+    	$patients = Viralpatient::select('id')->whereYear('dob', '>', '2009')->get();
     	echo "==> Getting Patients Samples\n";
     	foreach ($patients as $key => $patient) {
     		echo ".";
