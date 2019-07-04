@@ -517,21 +517,17 @@ class Synch
 
 				$body = json_decode($response->getBody());
 
-				dd($body);
-
 				if($response->getStatusCode() < 400)
 				{	
 					$sample->patient_id = $body->patient->national_patient_id;
 					$sample->save();
 				}	
 				else{
-					print_r($body);
+					echo "Error on sample {$sample->id}\n";
 				}			
 			} catch (Exception $e) {
-				
+				echo "Error on sample {$sample->id} - Error Message" . $e->getMessage() . "\n";				
 			}
-
-
 		}
 	}
 
