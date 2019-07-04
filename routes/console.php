@@ -160,3 +160,8 @@ Artisan::command('check:mb', function(){
     $str = \App\Random::checkMbNo();
     $this->info($str);
 })->describe('Get MB No');
+
+Artisan::command('get:ken', function(){
+    $str = \App\Random::run_ken_request();
+    $this->info($str);
+});
