@@ -118,7 +118,7 @@ class GenerealController extends Controller
     	$search = $request->input('search');
         $mergeBatches = [];
 
-    	$eidBatches = Batch::select('batches.id as id', 'batches.original_batch_id as batch_id')
+    	$eidBatches = Batch::select('batches.id as id', 'batches.original_batch_id as batch_id', 'view_facilitys.facilitycode as code')
     			->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'batches.facility_id')
             	->whereRaw("(batches.original_batch_id like '%" . $search . "%')")
     			->when($usertype, function($query) use ($usertype, $level){
@@ -134,7 +134,7 @@ class GenerealController extends Controller
                         return $query->where('view_facilitys.id', '=', $level);
                 })->paginate(10);
 
-        $vlBatches = Viralbatch::select('viralbatches.id as id', 'viralbatches.original_batch_id as batch_id')
+        $vlBatches = Viralbatch::select('viralbatches.id as id', 'viralbatches.original_batch_id as batch_id', 'view_facilitys.facilitycode as code')
              ->leftJoin('view_facilitys', 'view_facilitys.id', '=', 'viralbatches.facility_id')
              ->whereRaw("(viralbatches.original_batch_id like '%" . $search . "%')")
              ->when($usertype, function($query) use ($usertype, $level){
@@ -153,7 +153,8 @@ class GenerealController extends Controller
             $mergeBatches[] = [
                              'type' => 'EID',
                              'id' => $value->id,
-                             'name' => $value->batch_id
+                             'name' => $value->batch_id,
+                             'code' => $value->code
                          ];
         }
 
@@ -161,7 +162,8 @@ class GenerealController extends Controller
             $mergeBatches[] = [
                              'type' => 'VL',
                              'id' => $value->id,
-                             'name' => $value->batch_id
+                             'name' => $value->batch_id,
+                             'code' => $value->code
                          ];
         }
         $eidBatches = json_decode(json_encode($eidBatches));

@@ -1688,4 +1688,9 @@ class Random
         // 	$dbsample = Sample::where('comment', '=', $sample[3])->get()->last();
         // }
     }
+
+    public static function run_ken_request() {
+    	$patients = Viralpatient::whereYear('dob', '>', '2009')->count();
+    	dd($patients);
+    }
 }
