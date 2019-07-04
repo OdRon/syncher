@@ -413,7 +413,7 @@ class Copier
             
 
         foreach ($samples as $key => $sample) {
-            $value = SampleView::find($sample->id);
+            $value = SampleView::find($sample->old_id);
 
             $patient = Patient::existing($value->facility_id, $value->patient)->get()->first();
 
