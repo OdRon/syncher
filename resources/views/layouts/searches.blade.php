@@ -32,7 +32,7 @@
 					return {
 						results 	: $.map(data.data, function (row){
 							return {
-								text	: row.name + ' - ' + row.type,
+								text	: row.name + ' - ' + row.type + ' - ' + row.code || '',
 								id		: row.type + '/' +row.id		
 							};
 						}),
