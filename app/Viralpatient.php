@@ -40,4 +40,13 @@ class Viralpatient extends BaseModel
         else if($this->sex == 2){ return "Female"; }
         else{ return "No Gender"; }
     }
+
+    public function most_recent()
+    {
+        $sample = \App\Viralsample::where('patient_id', $this->id)
+                ->whereRaw("created_at=
+                    (SELECT max(created_at) FROM viralsamples WHERE patient_id={$this->id})")
+                ->get()->first();
+        $this->most_recent = $sample;
+    }
 }
