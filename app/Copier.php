@@ -400,6 +400,101 @@ class Copier
         }
     }
 
+
+
+    public static function fix_copy_eid()
+    {
+        ini_set("memory_limit", "-1");
+        $samples = Sample::where(['batch_id' => 0])->whereNotNull('old_id')->get();
+
+        $fields = Lookup::eidsamples_arrays();  
+        $sample_date_array = ['datecollected', 'datetested', 'datemodified', 'dateapproved', 'dateapproved2'];
+        $batch_date_array = ['datedispatchedfromfacility', 'datereceived', 'datedispatched', 'dateindividualresultprinted', 'datebatchprinted'];
+            
+
+        foreach ($samples as $key => $sample) {
+            $value = SampleView::find($sample->id);
+
+            $patient = Patient::existing($value->facility_id, $value->patient)->get()->first();
+
+            if(!$patient){
+                $mother = new Mother($value->only($fields['mother']));
+                if($value->mother_age) $mother->mother_dob = Lookup::calculate_dob($value->datecollected, $value->mother_age, 0);
+                $mother->save();
+                $patient = new Patient($value->only($fields['patient']));
+                $patient->mother_id = $mother->id;
+
+                if($patient->dob) $patient->dob = Lookup::clean_date($patient->dob);
+
+                if(!$patient->dob) $patient->dob = Lookup::previous_dob(SampleView::class, $value->patient, $value->facility_id);
+
+                if(!$patient->dob) $patient->dob = Lookup::calculate_dob($value->datecollected, 0, $value->age, SampleView::class, $value->patient, $value->facility_id);
+
+
+                $patient->sex = Lookup::resolve_gender($value->gender, SampleView::class, $value->patient, $value->facility_id);
+                $enrollment_data = self::get_enrollment_data($value->patient, $value->facility_id);
+                if($enrollment_data) $patient->fill($enrollment_data);
+                // $patient->ccc_no = $value->enrollment_ccc_no;
+                $patient->save();
+            }else{
+                $dob = Lookup::clean_date($value->dob);
+                $dateinitiatedontreatment = Lookup::clean_date($value->dateinitiatedontreatment);
+                if(!$dateinitiatedontreatment) $dateinitiatedontreatment = Lookup::previous_dob(SampleView::class, $value->patient, $value->facility_id, 'dateinitiatedontreatment');
+                $sex = Lookup::resolve_gender($value->gender);
+                if($dob) $patient->dob = $dob;
+                if(!$patient->dob) $patient->dob = Lookup::calculate_dob($value->datecollected, 0, $value->age);
+                if($dateinitiatedontreatment) $patient->dateinitiatedontreatment = $dateinitiatedontreatment;
+
+                if($patient->sex == 3 && $sex != 3) $patient->sex = $sex;
+                $patient->save();
+
+                $mother = $patient->mother;
+                $mother->fill($value->only($fields['mother']));
+                if($value->mother_age) $mother->mother_dob = Lookup::calculate_dob($value->datecollected, $value->mother_age, 0);
+                $mother->save();
+            }
+            
+            $value->original_batch_id = self::set_batch_id($value->original_batch_id);
+            $batch = null;
+            if($value->original_batch_id != 0){
+                $batch = Batch::existing($value->original_batch_id, $value->lab_id)->get()->first();
+            }
+
+            if(!$batch){
+                $batch = new Batch($value->only($fields['batch']));
+                foreach ($batch_date_array as $date_field) {
+                    $batch->$date_field = Lookup::clean_date($batch->$date_field);
+                    if($batch->$date_field == '1970-01-01') $batch->$date_field = null;
+                }
+                if(!$batch->received_by) $batch->received_by = $value->user_id;
+                $batch->entered_by = $value->user_id;
+                $batch->save();
+            }
+
+            /*$sample = new Sample($value->only($fields['sample']));
+            foreach ($sample_date_array as $date_field) {
+                $sample->$date_field = Lookup::clean_date($sample->$date_field);
+                if($sample->$date_field == '1970-01-01') $sample->$date_field = null;
+            }*/
+
+            $sample->batch_id = $batch->id;
+            $sample->patient_id = $patient->id;
+
+            /*if(!$sample->age && $batch->datecollected && $patient->dob){
+                $sample->age = Lookup::calculate_age($batch->datecollected, $patient->dob);
+            }
+
+            if($sample->worksheet_id == 0) $sample->worksheet_id = null;
+            if($sample->receivedstatus == 0) $sample->receivedstatus = null;
+            if($sample->result == '') $sample->result = null;*/
+
+            // $sample->old_id = $value->id;
+            $sample->save();
+        }
+
+    }
+
+
     public static function set_batch_id($batch_id)
     {
         if($batch_id == floor($batch_id)) return $batch_id;

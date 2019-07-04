@@ -501,12 +501,12 @@ class Synch
 			$sample = \App\Sample::find($row->system_id)->load(['batch']);
 
 			try {
-				if(!$sample->batch) throw new Exception('Cannot find the batch.');
+				if(!$sample->batch) throw new Exception('cannot find the batch.');
 				$lab = $labs->where('id', $sample->batch->lab_id)->first();
 				$client = new Client(['base_uri' => $lab->base_url]);
 
 				$url = 'sample/' . $sample->original_sample_id;
-			
+
 				$response = $client->request('get', $url, [
 					'headers' => [
 						'Accept' => 'application/json',
@@ -528,7 +528,7 @@ class Synch
 					echo "Error on sample {$sample->id}\n";
 				}			
 			} catch (Exception $e) {
-				echo "Error on sample {$sample->id} - Error Message" . $e->getMessage() . "\n";				
+				echo "Error on sample {$sample->id} - Error Message, " . $e->getMessage() . "\n";				
 			}
 		}
 	}
