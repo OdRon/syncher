@@ -1690,7 +1690,16 @@ class Random
     }
 
     public static function run_ken_request() {
-    	$patients = Viralpatient::whereYear('dob', '>', '2009')->get()->first();
+    	echo "==> Getting Patients\n";
+    	$patients = Viralpatient::whereYear('dob', '>', '2009')->get();
+    	echo "==> Getting Patients Samples\n";
+    	foreach ($patients as $key => $patient) {
+    		echo ".";
+    		$samples = ViralsampleView::where('patient_id', $patient->id)->orderBy('datetested', 'desc')->limit(2)->get();
+    		if ($samples->count() == 2) {
+    			dd($samples);
+    		}
+    	}
     	dd($patients->dob);
     }
 }
