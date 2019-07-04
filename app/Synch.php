@@ -499,13 +499,14 @@ class Synch
 
 		foreach ($data as $key => $row) {
 			$sample = \App\Sample::find($row->system_id)->load(['batch']);
-			if(!$sample->batch) throw new Exception('Cannot find the batch.');
-			$lab = $labs->where('id', $sample->batch->lab_id)->first();
-			$client = new Client(['base_uri' => $lab->base_url]);
-
-			$url = 'sample/' . $sample->original_sample_id;
 
 			try {
+				if(!$sample->batch) throw new Exception('Cannot find the batch.');
+				$lab = $labs->where('id', $sample->batch->lab_id)->first();
+				$client = new Client(['base_uri' => $lab->base_url]);
+
+				$url = 'sample/' . $sample->original_sample_id;
+			
 				$response = $client->request('get', $url, [
 					'headers' => [
 						'Accept' => 'application/json',
