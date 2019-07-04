@@ -1691,14 +1691,13 @@ class Random
 
     public static function run_ken_request() {
     	echo "==> Getting Patients\n";
-    	$patients = Viralpatient::select('id', 'dob')->whereYear('dob', '>', '2009')->orderBy('dob', 'asc')->limit(10)->get();
-    	dd($patients);
+    	$patients = Viralpatient::select('id', 'dob')->whereYear('dob', '>', '2009')->get();
     	echo "==> Getting Patients Samples\n";
     	foreach ($patients as $key => $patient) {
     		echo ".";
     		$samples = ViralsampleView::where('patient_id', $patient->id)->orderBy('datetested', 'desc')->limit(2)->get();
     		if ($samples->count() == 2) {
-    			print_r('Somthing found');
+    			dd($samples->where('result', '>', '999'));
     		}
     	}
     	dd($patients->dob);
