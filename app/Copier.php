@@ -549,7 +549,7 @@ class Copier
             // foreach ($sample_date_array as $date_field) {
             //     $sample->$date_field = Lookup::clean_date($sample->$date_field);
             //     if($sample->$date_field == '1970-01-01') $sample->$date_field = null;
-            }
+            // }
             $sample->batch_id = $batch->id;
             $sample->patient_id = $patient->id;
 
