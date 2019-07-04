@@ -493,7 +493,7 @@ class Synch
 	{		
 		ini_set("memory_limit", "-1");
         config(['excel.import.heading' => true]);
-		$path = public_path('facilities.csv');
+		$path = public_path('wrp_data.csv');
 		$data = Excel::load($path, function($reader){})->get();
 		$labs = Lab::all();	
 
