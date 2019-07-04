@@ -56,7 +56,7 @@ class ShortCodeController extends Controller
 	}
 
 	private function checkMessageFormat($message) {
-		return preg_match("/[rR][0-9]{5}[-][a-zA-Z0-9\/-_.]{3,}/", $message);
+		return preg_match("/[rR][0-9]{5,6}[-][a-zA-Z0-9\/-_.]{3,}/", $message);
 		// $secondStr = substr($message, 1, 1);
 		// return is_int($secondStr);
 	}
