@@ -505,6 +505,7 @@ class Copier
 
         foreach ($samples as $key => $sample) {
             $value = ViralsampleView::find($sample->old_id);
+            if(!$value) dd($sample);
             $patient = Viralpatient::existing($value->facility_id, $value->patient)->first();
 
             if(!$patient){
