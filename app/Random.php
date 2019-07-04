@@ -1691,6 +1691,6 @@ class Random
 
     public static function run_ken_request() {
     	$patients = Viralpatient::whereYear('dob', '>', '2009')->get()->first();
-    	dd($patients);
+    	dd($patients->dob);
     }
 }
