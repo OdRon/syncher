@@ -499,7 +499,7 @@ class Synch
 
 		foreach ($data as $key => $row) {
 			$sample = \App\Sample::find($row->system_id)->load(['batch']);
-			$lab = $lab->where('id', $sample->batch->lab_id)->first();
+			$lab = $labs->where('id', $sample->batch->lab_id)->first();
 			$client = new Client(['base_uri' => $lab->base_url]);
 
 			$url = 'sample/' . $sample->original_sample_id;
