@@ -124,6 +124,7 @@ class EidController extends Controller
             $patient = Patient::existing($value->facility_id, $value->patient)->first();
             if($patient){
                 $mother = $patient->mother;
+                if(!$mother) $mother = new Mother;
             }
             else{
                 $mother = new Mother;
