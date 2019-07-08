@@ -12,7 +12,7 @@ use Mpdf\Mpdf;
 use DB;
 use \App\SampleAlertView;
 
-class EidCountyPositives extends Mailable implements ShouldQueue
+class EidCountyPositives extends Mailable
 {
     use Queueable, SerializesModels;
 
