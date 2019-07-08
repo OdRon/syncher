@@ -114,6 +114,7 @@ class VlController extends Controller
             unset($patient->national_patient_id);
             $patient->synched = 1;
             $patient->save();
+            $patient->refresh();
             $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
         }
 
