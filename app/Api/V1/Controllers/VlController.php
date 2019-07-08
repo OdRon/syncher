@@ -107,14 +107,17 @@ class VlController extends Controller
                 $patient = new Viralpatient;
                 $not_existing = false;
             }
-            
-            $patient->fill(get_object_vars($value));
-            $patient->original_patient_id = $patient->id;
-            unset($patient->id);
-            unset($patient->national_patient_id);
+
+
+            $patient->original_patient_id = $value->id;
+            $data = get_object_vars($value);
+            unset($data['id']);
+            unset($data['national_patient_id']);            
+            $patient->fill($data);
+            // unset($patient->id);
+            // unset($patient->national_patient_id);
             $patient->synched = 1;
             $patient->save();
-            $patient->refresh();
             $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
         }
 
