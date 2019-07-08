@@ -122,9 +122,10 @@ class EidController extends Controller
 
         foreach ($patients as $key => $value) {
             $patient = Patient::existing($value->facility_id, $value->patient)->first();
+            $not_existing = true;
             if($patient){
                 $mother = $patient->mother;
-                if(!$mother) $mother = new Mother;
+                $not_existing = false;
             }
             else{
                 $mother = new Mother;
@@ -134,7 +135,7 @@ class EidController extends Controller
             $mother_data = get_object_vars($value->mother);
             if($mother_data) $mother->fill($mother_data);
             $mother->original_mother_id = $mother->id;
-            unset($mother->id);
+            if($not_existing) unset($mother->id);
             unset($mother->national_mother_id);
             $mother->synched = 1;
             $mother->save();
@@ -144,7 +145,7 @@ class EidController extends Controller
             $patient->fill(get_object_vars($value));
             $patient->mother_id = $mother->id;
             $patient->original_patient_id = $patient->id;
-            unset($patient->id);
+            if($not_existing) unset($patient->id);
             unset($patient->national_patient_id);
             $patient->synched = 1;
             $patient->save();

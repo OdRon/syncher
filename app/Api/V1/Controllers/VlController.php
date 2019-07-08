@@ -101,12 +101,16 @@ class VlController extends Controller
 
         foreach ($patients as $key => $value) {
             $patient = Viralpatient::existing($value->facility_id, $value->patient)->first();
+            $not_existing = true;
 
-            if(!$patient) $patient = new Viralpatient;
+            if(!$patient){
+                $patient = new Viralpatient;
+                $not_existing = false;
+            }
             
             $patient->fill(get_object_vars($value));
             $patient->original_patient_id = $patient->id;
-            unset($patient->id);
+            if($not_existing) unset($patient->id);
             unset($patient->national_patient_id);
             $patient->synched = 1;
             $patient->save();
