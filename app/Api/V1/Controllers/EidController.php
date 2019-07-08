@@ -139,6 +139,7 @@ class EidController extends Controller
             unset($mother->national_mother_id);
             $mother->synched = 1;
             $mother->save();
+            $mother->refresh();
             $mothers_array[] = ['original_id' => $mother->original_mother_id, 'national_mother_id' => $mother->id ];
 
             unset($value->mother);
@@ -149,6 +150,7 @@ class EidController extends Controller
             unset($patient->national_patient_id);
             $patient->synched = 1;
             $patient->save();
+            $patient->refresh();
             $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
         }
 
