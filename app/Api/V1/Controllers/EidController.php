@@ -135,7 +135,7 @@ class EidController extends Controller
             $mother_data = get_object_vars($value->mother);
             if($mother_data) $mother->fill($mother_data);
             $mother->original_mother_id = $mother->id;
-            if($not_existing) unset($mother->id);
+            unset($mother->id);
             unset($mother->national_mother_id);
             $mother->synched = 1;
             $mother->save();
@@ -145,7 +145,7 @@ class EidController extends Controller
             $patient->fill(get_object_vars($value));
             $patient->mother_id = $mother->id;
             $patient->original_patient_id = $patient->id;
-            if($not_existing) unset($patient->id);
+            unset($patient->id);
             unset($patient->national_patient_id);
             $patient->synched = 1;
             $patient->save();

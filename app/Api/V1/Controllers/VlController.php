@@ -110,7 +110,7 @@ class VlController extends Controller
             
             $patient->fill(get_object_vars($value));
             $patient->original_patient_id = $patient->id;
-            if($not_existing) unset($patient->id);
+            unset($patient->id);
             unset($patient->national_patient_id);
             $patient->synched = 1;
             $patient->save();
