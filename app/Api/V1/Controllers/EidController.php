@@ -125,6 +125,7 @@ class EidController extends Controller
             $not_existing = true;
             if($patient){
                 $mother = $patient->mother;
+                if(!$mother) $mother = new Mother;
                 $not_existing = false;
             }
             else{
