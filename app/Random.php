@@ -1714,14 +1714,14 @@ class Random
     		}
     	}
     	$file = 'Requested Report';
-    	return (new NhrlExport($data, $excelColumns))->store("$file.csv");
-  //   	Excel::create($file, function($excel) use($data)  {
-		//     $excel->sheet('Sheetname', function($sheet) use($data) {
-		//         $sheet->fromArray($data);
-		//     });
-		// })->store('csv');
-		// $data = [storage_path("exports/" . $file . ".csv")];
-		// Mail::to(['bakasajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
+    	// return (new NhrlExport($data, $excelColumns))->store("$file.csv");
+    	Excel::create($file, function($excel) use($data)  {
+		    $excel->sheet('Sheetname', function($sheet) use($data) {
+		        $sheet->fromArray($data);
+		    });
+		})->store('csv');
+		$data = [storage_path("exports/" . $file . ".csv")];
+		Mail::to(['bakasajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
     }
 
     private static function getMakeShiftAgeCategory($age) {

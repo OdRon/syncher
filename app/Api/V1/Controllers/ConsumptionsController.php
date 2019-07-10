@@ -100,6 +100,8 @@ class ConsumptionsController extends Controller
 		$date = explode(" ", $request->input('month_end_date'));
 		$date = str_replace('/', '-', $date);
 		$date = explode("-", $date[0]);
+		if (empty($date))
+			return null;
 		$existing = Consumption::existing($date[2], $date[1], session('lab')->id)->get();
 		if ($existing->isEmpty()) {
 			$consumption = new Consumption;
