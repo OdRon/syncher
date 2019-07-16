@@ -1279,7 +1279,7 @@ class ReportController extends Controller
         $briefTitle .= " - ".$dateString;
         $title = strtoupper($title);
         $briefTitle = strtoupper($briefTitle);
-        dd($model->toSql());
+        
     	return $model;
     }
 
