@@ -550,7 +550,7 @@ class Synch
 					// 'verify' => false,
 				]);
 				$body = json_decode($response->getBody());
-				echo $lab->name . ' '. $body->message . "\n";
+				echo $lab->name . ' '. $body->message . "<br /> \n";
 				
 			} catch (Exception $e) {
 				echo $lab->name . ' at ' . $lab->base_url .  ' has error ' . $e->getMessage() . "<br /> \n";
