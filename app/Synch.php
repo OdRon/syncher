@@ -553,7 +553,7 @@ class Synch
 				echo $lab->name . ' '. $body->message . "\n";
 				
 			} catch (Exception $e) {
-				echo $lab->name . ' has error ' . $e->getMessage() . "\n";
+				echo $lab->name . ' at ' . $lab->base_url .  ' has error ' . $e->getMessage() . "\n";
 			}
 		}
 	}
