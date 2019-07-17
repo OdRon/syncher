@@ -82,7 +82,7 @@ class Report
 	        if(env('APP_ENV') == 'production'){
 		        try {
 			        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
-			     	Mail::to($email_array)->bcc($bcc_array)->send(new EidCountyPositives($contact->id));
+			     	Mail::to($mail_array)->bcc($bcc_array)->send(new EidCountyPositives($contact->id));
 		        } catch (Exception $e) {
 		        	
 		        }

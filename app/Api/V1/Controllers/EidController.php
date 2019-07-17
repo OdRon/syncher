@@ -122,31 +122,39 @@ class EidController extends Controller
 
         foreach ($patients as $key => $value) {
             $patient = Patient::existing($value->facility_id, $value->patient)->first();
+            $not_existing = true;
             if($patient){
                 $mother = $patient->mother;
+                if(!$mother) $mother = new Mother;
+                $not_existing = false;
             }
             else{
                 $mother = new Mother;
                 $patient = new Patient;                
             }
 
+            $mother->original_mother_id = $value->mother->id;
             $mother_data = get_object_vars($value->mother);
+            unset($mother_data['id']);
+            unset($mother_data['national_mother_id']);
             if($mother_data) $mother->fill($mother_data);
-            $mother->original_mother_id = $mother->id;
-            unset($mother->id);
             unset($mother->national_mother_id);
             $mother->synched = 1;
             $mother->save();
             $mothers_array[] = ['original_id' => $mother->original_mother_id, 'national_mother_id' => $mother->id ];
 
             unset($value->mother);
-            $patient->fill(get_object_vars($value));
             $patient->mother_id = $mother->id;
-            $patient->original_patient_id = $patient->id;
-            unset($patient->id);
-            unset($patient->national_patient_id);
+            $patient->original_patient_id = $value->id;
+            $data = get_object_vars($value);
+            unset($data['id']);
+            unset($data['national_patient_id']);
+            $patient->fill($data);
+            // unset($patient->id);
+            // unset($patient->national_patient_id);
             $patient->synched = 1;
             $patient->save();
+            // $patient->refresh();
             $patients_array[] = ['original_id' => $patient->original_patient_id, 'national_patient_id' => $patient->id ];
         }
 

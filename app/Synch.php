@@ -250,10 +250,8 @@ class Synch
 		$col .= $param . '_id';
 		
 		$url = str_replace('App\\', '', $class);
-		$url = strtolower($url) . '/' . $model->$col;
-		
-		if (strpos(url()->current(), "lab-2.test"))
-			$lab->base_url = "http://lab.test.nascop.org/api";
+		$url = strtolower($url) . '/' . $model->$col;		
+
 		$client = new Client(['base_uri' => $lab->base_url]);
 		// dd(self::get_token($lab));
 		$response = $client->request('put', $url, [
@@ -491,6 +489,50 @@ class Synch
 		}
 	}
 
+	public static function correct_wrp_data()
+	{		
+		ini_set("memory_limit", "-1");
+        config(['excel.import.heading' => true]);
+		$path = public_path('wrp_data.csv');
+		$data = \Excel::load($path, function($reader){})->get();
+		$labs = Lab::all();	
+
+		foreach ($data as $key => $row) {
+			$sample = \App\Sample::find($row->system_id)->load(['batch']);
+
+			try {
+				if(!$sample->batch) throw new Exception('cannot find the batch.');
+				$lab = $labs->where('id', $sample->batch->lab_id)->first();
+				$client = new Client(['base_uri' => $lab->base_url]);
+
+				$url = 'sample/' . $sample->original_sample_id;
+
+				$response = $client->request('get', $url, [
+					'headers' => [
+						'Accept' => 'application/json',
+						'Authorization' => 'Bearer ' . self::get_token($lab),
+					],
+		            'connect_timeout' => 1.5,
+					'http_errors' => false,
+					'verify' => false,
+				]);
+
+				$body = json_decode($response->getBody());
+
+				if($response->getStatusCode() < 400)
+				{	
+					$sample->patient_id = $body->patient->national_patient_id;
+					$sample->save();
+				}	
+				else{
+					echo "Error on sample {$sample->id}\n";
+				}			
+			} catch (Exception $e) {
+				echo "Error on sample {$sample->id} - Error Message, " . $e->getMessage() . "\n";				
+			}
+		}
+	}
+
 
 	public static function test_connection() {
 		$labs = Lab::all();
@@ -511,7 +553,7 @@ class Synch
 				echo $lab->name . ' '. $body->message . "\n";
 				
 			} catch (Exception $e) {
-				echo $lab->name . ' has error ' . $e->getMessage() . "\n";
+				echo $lab->name . ' at ' . $lab->base_url .  ' has error ' . $e->getMessage() . "\n";
 			}
 		}
 	}
