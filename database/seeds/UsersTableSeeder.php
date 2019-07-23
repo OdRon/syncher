@@ -14,23 +14,23 @@ class UsersTableSeeder extends Seeder
     {
         //
 
-        // DB::table('user_types')->insert([
-		//     ['id' => '1', 'user_type' => 'System Administrator'],
-		//     ['id' => '2', 'user_type' => 'Program Officers'],
-		//     ['id' => '3', 'user_type' => 'Partner'],
-		//     ['id' => '4', 'user_type' => 'CASCO/CHRIO'],
-		//     ['id' => '5', 'user_type' => 'Sub CASCO'],
-		//     ['id' => '6', 'user_type' => 'Super Counites'],
-		//     ['id' => '7', 'user_type' => 'Super Partner'],
-		//     ['id' => '8', 'user_type' => 'Facility Users'],
-		//     ['id' => '9', 'user_type' => 'Maryland Support Team'],
-		//     ['id' => '10', 'user_type' => 'Super Administrator'],
-		//     ['id' => '11', 'user_type' => 'SCMS / Kit Management'],
-		// 	   ['id' => '12', 'user_type' => 'Allocation Committee'],
-		// 	   ['id' => '13', 'user_type' => 'Lab Administrator'],
-		// 	   ['id' => '14', 'user_type' => 'NHRL Commodities User'],
-		// 	   ['id' => '15', 'user_type' => 'EDARP Commodities User'],
-		// ]);
+        DB::table('user_types')->insert([
+		    ['id' => '1', 'user_type' => 'System Administrator'],
+		    ['id' => '2', 'user_type' => 'Program Officers'],
+		    ['id' => '3', 'user_type' => 'Partner'],
+		    ['id' => '4', 'user_type' => 'CASCO/CHRIO'],
+		    ['id' => '5', 'user_type' => 'Sub CASCO'],
+		    ['id' => '6', 'user_type' => 'Super Counites'],
+		    ['id' => '7', 'user_type' => 'Super Partner'],
+		    ['id' => '8', 'user_type' => 'Facility Users'],
+		    ['id' => '9', 'user_type' => 'Maryland Support Team'],
+		    ['id' => '10', 'user_type' => 'Super Administrator'],
+		    ['id' => '11', 'user_type' => 'SCMS / Kit Management'],
+			   ['id' => '12', 'user_type' => 'Allocation Committee'],
+			   ['id' => '13', 'user_type' => 'Lab Administrator'],
+			   ['id' => '14', 'user_type' => 'NHRL Commodities User'],
+			   ['id' => '15', 'user_type' => 'EDARP Commodities User'],
+		]);
 
 		// $old_users = DB::connection('old')->table('users')->get();
 
