@@ -62,7 +62,7 @@
 						<strong> Batch No.: {{ $sample->batch->original_batch_id ?? '' }} &nbsp;&nbsp; {{ $sample->batch->view_facility->name ?? '' }} </strong> 
 					</td>
 					<td colspan="4" class="comment style1 style4" align="right">
-						<strong>LAB: @isset($sample->batch->lab){{ $sample->batch->lab->name }}@else{{'POC'}}@endisset</strong>
+						<strong>LAB: {{ $sample->batch->lab->name ?? 'POC'}}</strong>
 					</td>
 				</tr>	
 				<tr>
@@ -394,7 +394,7 @@
 			</table>
 
 			<span class="style8" > 
-				If you have questions or problems regarding samples, please contact the @isset($sample->batch->lab){{ $sample->batch->lab->name }}@else{{'POC Facility'}}@endisset
+				If you have questions or problems regarding samples, please contact the {{ $sample->batch->lab->name ?? 'POC Facility'}}
 				<br> 
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				at {{ $sample->batch->lab->email ?? '' }}
