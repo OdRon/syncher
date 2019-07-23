@@ -392,7 +392,7 @@
 			If you have questions or problems regarding samples, please contact the {{ $sample->batch->lab->name ?? 'POC Facility' }}  
 			<br> 
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			at {{ $sample->batch->lab->email }}
+			at {{ $sample->batch->lab->email ?? '' }}
 			<br> 
 			<b> To Access & Download your current and past results go to : <u> https://eiddash.nascop.org/</u> </b>
 		</span>
