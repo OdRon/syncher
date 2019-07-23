@@ -19,6 +19,8 @@ Route::get('reset_password/{token}', ['as' => 'password.reset', function($token)
 Route::redirect('/', 'login');
 Route::redirect('/performance', 'https://partnerperformance.org');
 
+Route::get('connections', 'RandomController@test_connection')->name('connections');
+
 Route::get('login/facility', 'Auth\\LoginController@fac_login')->name('login.facility');
 Route::post('login/facility', 'Auth\\LoginController@facility_login');
 
