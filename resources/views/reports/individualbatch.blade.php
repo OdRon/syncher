@@ -59,10 +59,10 @@
 				</tr>
 				<tr>
 					<td colspan="5" class="comment style1 style4">
-						<strong> Batch No.: {{ $sample->batch->original_batch_id }} &nbsp;&nbsp; {{ $sample->batch->view_facility->name }} </strong> 
+						<strong> Batch No.: {{ $sample->batch->original_batch_id ?? '' }} &nbsp;&nbsp; {{ $sample->batch->view_facility->name ?? '' }} </strong> 
 					</td>
 					<td colspan="4" class="comment style1 style4" align="right">
-						<strong>LAB: {{ $sample->batch->lab->name }}</strong>
+						<strong>LAB: {{ $sample->batch->lab->name ?? 'POC' }}</strong>
 					</td>
 				</tr>	
 				<tr>
