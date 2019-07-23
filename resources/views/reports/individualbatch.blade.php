@@ -394,10 +394,10 @@
 			</table>
 
 			<span class="style8" > 
-				If you have questions or problems regarding samples, please contact the {{ $sample->batch->lab->name }}  
+				If you have questions or problems regarding samples, please contact the {{ $sample->batch->lab->name ?? 'POC' }}  
 				<br> 
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				at {{ $sample->batch->lab->email }}
+				at {{ $sample->batch->lab->email ?? '' }}
 				<br> 
 				<b> To Access & Download your current and past results go to : <u> http://eiddash.nascop.org/</u> </b>
 			</span>
