@@ -432,13 +432,14 @@ class GenerealController extends Controller
                     $result = "<span class='label label-danger'>$value->result</span>";
                 }
             } else if ($testingSystem == 'vl'){
-                if ($value->result == '< LDL copies/ml') {
-                    $result = "<span class='label label-success'>$value->result</span>";
-                } else if (intval($value->result) < 1000) {
-                    $result = "<span class='label label-success'>$value->interpretation</span>";
-                } else {
-                    $result = "<span class='label label-danger'>$value->interpretation</span>";
-                }
+                $result = "<span class='label label-success'>$value->result</span>";
+                // if ($value->result == '< LDL copies/ml') {
+                //     $result = "<span class='label label-success'>$value->result</span>";
+                // } else if (intval($value->result) < 1000) {
+                //     $result = "<span class='label label-success'>$value->interpretation</span>";
+                // } else {
+                //     $result = "<span class='label label-danger'>$value->interpretation</span>";
+                // }
             }
     		$data[] = [
     					$count, $value->patient,
