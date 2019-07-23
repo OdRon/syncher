@@ -389,7 +389,7 @@
 		</table>
 
 		<span class="style8" > 
-			If you have questions or problems regarding samples, please contact the {{ $sample->batch->lab->name }}  
+			If you have questions or problems regarding samples, please contact the {{ $sample->batch->lab->name ?? 'POC Facility' }}  
 			<br> 
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			at {{ $sample->batch->lab->email }}
