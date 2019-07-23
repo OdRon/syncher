@@ -432,12 +432,15 @@ class GenerealController extends Controller
                     $result = "<span class='label label-danger'>$value->result</span>";
                 }
             } else if ($testingSystem == 'vl'){
+                $copies = 'copies/ml';
                 if (($value->result == '< LDL copies/ml') || (intval($value->result) < 1000)) {
                     $span = 'success';
+                    if ($value->result == '< LDL copies/ml')
+                        $copies = '';
                 } else {
                     $span = 'danger';
                 }
-                $result = "<span class='label label-{$span}'>$value->result</span>";
+                $result = "<span class='label label-{$span}'>$value->result {$copies}</span>";
                 // if ($value->result == '< LDL copies/ml') {
                 //     $result = "<span class='label label-success'>$value->result</span>";
                 // } else if (intval($value->result) < 1000) {
