@@ -20,7 +20,7 @@
             <li><a href="{{ url('user/add') }}">Add Users</a></li>
             <hr />
         @endif
-        @if (Auth::user()->user_type_id == 1)
+        @if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 10)
             <li><a href="{{ url('reports/permission/setup') }}">Reports Setup</a></li>
             <hr />
             <li><a href="http://lab-2.test.nascop.org/resource">Resources</a></li>
