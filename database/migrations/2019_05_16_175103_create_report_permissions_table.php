@@ -13,13 +13,13 @@ class CreateReportPermissionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('report_permissions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('partner_report_id');
-            $table->integer('user_type_id');
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        // Schema::create('report_permissions', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->integer('partner_report_id');
+        //     $table->integer('user_type_id');
+        //     $table->softDeletes();
+        //     $table->timestamps();
+        // });
     }
 
     /**
