@@ -59,4 +59,8 @@ class DownloadController extends Controller
         return response()->download($path, 'NASCOP Lab Remote Login SOP.pdf');
     }
 
+    public function resource($resource) {
+        dd($resource);
+    }
+
 }
