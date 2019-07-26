@@ -38,8 +38,8 @@ class ResourceController extends Controller
     {
         if (null !== $request->resource){
             $imageName = time().'.'.$request->resource->getClientOriginalExtension();
-            $request->resource->move(public_path('/resources/'), $imageName);
-            $filename = '/resources/'.$imageName;
+            $request->resource->move(public_path('/resource/'), $imageName);
+            $filename = '/resource/'.$imageName;
             $data['uri'] = $filename;
             $data['link'] = env('APP_URL').'/download'.$filename;
             $resource = new Resource;
