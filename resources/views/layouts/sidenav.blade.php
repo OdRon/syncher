@@ -23,6 +23,8 @@
         @if (Auth::user()->user_type_id == 1)
             <li><a href="{{ url('reports/permission/setup') }}">Reports Setup</a></li>
             <hr />
+            <li><a href="{{ url('resource') }}">Resources</a></li>
+            <hr />
             <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
             <hr />
         @elseif(Auth::user()->user_type_id == 9)

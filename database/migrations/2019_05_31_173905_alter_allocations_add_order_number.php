@@ -13,9 +13,9 @@ class AlterAllocationsAddOrderNumber extends Migration
      */
     public function up()
     {
-        Schema::table('allocations', function(Blueprint $table){
-            $table->string('order_num', 20)->after('month')->nullable();
-        });
+        // Schema::table('allocations', function(Blueprint $table){
+        //     $table->string('order_num', 20)->after('month')->nullable();
+        // });
     }
 
     /**
