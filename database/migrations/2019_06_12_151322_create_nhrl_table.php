@@ -13,14 +13,14 @@ class CreateNhrlTable extends Migration
      */
     public function up()
     {
-        Schema::create('nhrl', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('c_posted')->nullable();
-            $table->string('label_id')->nullable();
-            $table->string('login_date')->nullable();
-            $table->string('patient')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('nhrl', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('c_posted')->nullable();
+        //     $table->string('label_id')->nullable();
+        //     $table->string('login_date')->nullable();
+        //     $table->string('patient')->nullable();
+        //     $table->timestamps();
+        // });
     }
 
     /**

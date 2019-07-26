@@ -13,14 +13,14 @@ class CreateReportCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('report_categories', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name', 50)->nullable();
-            $table->string('code_range', 50)->nullable();
-            $table->text('description')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        // Schema::create('report_categories', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('name', 50)->nullable();
+        //     $table->string('code_range', 50)->nullable();
+        //     $table->text('description')->nullable();
+        //     $table->softDeletes();
+        //     $table->timestamps();
+        // });
     }
 
     /**

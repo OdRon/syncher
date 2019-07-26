@@ -13,18 +13,18 @@ class CreateAllocationDetailsBreakdownsTable extends Migration
      */
     public function up()
     {
-        Schema::create('allocation_details_breakdowns', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('original_allocation_details_breakdown_id')->nullable();
-            $table->bigInteger('allocation_detail_id');
-            $table->integer('breakdown_id');
-            $table->string('breakdown_type');
-            $table->float('allocated');
-            $table->tinyInteger('synched')->default(0)->comment("0:Awaiting synching; 1:Synched; 2:Update awaiting synching;");
-            $table->date('datesynched')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        // Schema::create('allocation_details_breakdowns', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->bigInteger('original_allocation_details_breakdown_id')->nullable();
+        //     $table->bigInteger('allocation_detail_id');
+        //     $table->integer('breakdown_id');
+        //     $table->string('breakdown_type');
+        //     $table->float('allocated');
+        //     $table->tinyInteger('synched')->default(0)->comment("0:Awaiting synching; 1:Synched; 2:Update awaiting synching;");
+        //     $table->date('datesynched')->nullable();
+        //     $table->softDeletes();
+        //     $table->timestamps();
+        // });
     }
 
     /**

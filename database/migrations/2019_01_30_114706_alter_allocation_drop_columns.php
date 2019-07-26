@@ -13,14 +13,14 @@ class AlterAllocationDropColumns extends Migration
      */
     public function up()
     {
-        Schema::table('allocations', function(Blueprint $table){
-            $table->integer('machine_id')->after('original_allocation_id');
-            $table->text('allocationcomments')->change()->nullable();
-            $table->text('issuedcomments')->change()->nullable();
-            $table->dropColumn('kit_id');
-            $table->dropColumn('allocated');
-            $table->dropColumn('issued');
-        });
+        // Schema::table('allocations', function(Blueprint $table){
+        //     $table->integer('machine_id')->after('original_allocation_id');
+        //     $table->text('allocationcomments')->change()->nullable();
+        //     $table->text('issuedcomments')->change()->nullable();
+        //     $table->dropColumn('kit_id');
+        //     $table->dropColumn('allocated');
+        //     $table->dropColumn('issued');
+        // });
     }
 
     /**
