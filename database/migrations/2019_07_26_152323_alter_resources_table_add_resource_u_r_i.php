@@ -14,7 +14,7 @@ class AlterResourcesTableAddResourceURI extends Migration
     public function up()
     {
         Schema::table('resources', function(Blueprint $table){
-            $table->string('uri')->after('link');
+            $table->string('uri')->after('link')->nullable();
         });
     }
 
