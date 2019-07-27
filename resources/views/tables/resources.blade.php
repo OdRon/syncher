@@ -23,7 +23,7 @@
         <div class="col-lg-12">
             <div class="hpanel">
                 <div class="panel-body">
-                    <center style="margin-top: 1em;margin-bottom: 1em;"><a href="{{ url('resource/create') }}" class="btn btn-success">Add A Resource</a></center>
+                    <center style="margin-top: 1em;margin-bottom: 1em;"><a href="{{ url('files/create') }}" class="btn btn-success">Add A Resource</a></center>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover data-table">
                             <thead>
