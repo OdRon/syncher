@@ -30,6 +30,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+    	dd(auth()->user());
         if (auth()->user()->user_type_id == 1)
             return redirect('users');
             // return view('dashboard.home')->with('pageTitle', 'Dashboard');
