@@ -39,6 +39,6 @@ class RandomController extends Controller
 
     public function resources(){
         $resources = Resource::get();
-        return response()->json(['resources' =>$resources, 'status' => 200]);
+        return response()->json(['resources' =>$resources, 'count' => $resources->count(), 'status' => 200]);
     }
 }
