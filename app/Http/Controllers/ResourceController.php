@@ -36,6 +36,7 @@ class ResourceController extends Controller
      */
     public function store(Request $request)
     {
+        $data = $request->only('name');
         if (null !== $request->resource){
             $imageName = time().'.'.$request->resource->getClientOriginalExtension();
             $request->resource->move(public_path('/resource/'), $imageName);
@@ -82,7 +83,7 @@ class ResourceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {        
+    { 
         $data = $request->only('name');
         if (null !== $request->resource){
             $imageName = time().'.'.$request->resource->getClientOriginalExtension();
