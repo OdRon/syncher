@@ -148,10 +148,10 @@ Route::middleware(['auth'])->group(function(){
 	Route::get('user/passwordReset/{user?}', 'UserController@passwordreset')->name('passwordReset');
 	Route::resource('user', 'UserController');
 
-	// Route::group(['middleware' => ['only_utype:1,10']], function () {
-		
-	// });
-	// Route::resource('resources', 'ResourceController');
+	Route::group(['middleware' => ['only_utype:1,10']], function () {
+		Route::resource('resource', 'ResourceController');
+	});
+	// Route::resource('files', 'ResourceController');
 
 	Route::get('test', function(){
 		// echo max([3,5]);
