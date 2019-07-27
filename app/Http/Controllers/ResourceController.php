@@ -49,7 +49,7 @@ class ResourceController extends Controller
         } else {
             session(['toast_message' => 'Resource Document not provided', 'toast_error' => 1]);
         }
-        return back();
+        return redirect('files');
     }
 
     /**
@@ -95,7 +95,7 @@ class ResourceController extends Controller
         $resource = Resource::findOrFail($id);
         $resource->fill($data);
         $resource->save();
-        return back();
+        return redirect('files');
     }
 
     /**

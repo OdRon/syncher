@@ -22,9 +22,9 @@
     <div class="row">
         <div class="col-lg-12">
         @isset($resource)
-            {{ Form::open(['url' => '/resource/' . $resource->id, 'method' => 'put', 'class'=>'form-horizontal', 'enctype'=>'multipart/form-data']) }}
+            {{ Form::open(['url' => '/files/' . $resource->id, 'method' => 'put', 'class'=>'form-horizontal', 'enctype'=>'multipart/form-data']) }}
         @else
-            {{ Form::open(['url' => '/resource/', 'method' => 'post', 'class'=>'form-horizontal', 'enctype'=>'multipart/form-data']) }}
+            {{ Form::open(['url' => '/files/', 'method' => 'post', 'class'=>'form-horizontal', 'enctype'=>'multipart/form-data']) }}
         @endisset
             <div class="hpanel">
                 <div class="panel-heading" style="padding-bottom: 2px;padding-top: 4px;">
