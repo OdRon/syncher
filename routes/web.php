@@ -151,7 +151,7 @@ Route::middleware(['auth'])->group(function(){
 	Route::group(['middleware' => ['only_utype:1,10']], function () {
 		
 	});
-	Route::resource('resource', 'ResourceController');
+	Route::resource('resources', 'ResourceController');
 
 	Route::get('test', function(){
 		// echo max([3,5]);
