@@ -151,7 +151,6 @@ Route::middleware(['auth'])->group(function(){
 	Route::group(['middleware' => ['only_utype:1,10']], function () {
 		Route::resource('resource', 'ResourceController');
 	});
-	// Route::resource('files', 'ResourceController');
 
 	Route::get('test', function(){
 		// echo max([3,5]);
@@ -161,6 +160,7 @@ Route::middleware(['auth'])->group(function(){
 
 Route::get('patientstatus', 'HEIController@placeResults');
 Route::get('sendsms', 'GenerealController@send_sms');
+Route::resource('files', 'ResourceController');
 
 Route::get('synch/', function(){
 	// \App\Synch::synch_allocations();
