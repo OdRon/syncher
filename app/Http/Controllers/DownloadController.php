@@ -64,6 +64,7 @@ class DownloadController extends Controller
         $extension = explode(".", $resource);
         if (is_array($extension)){
             $resourcedb = Resource::where('uri', $extension[0])->first();
+            dd($resourcedb);
             $path = public_path('resource/'.$resource);
             return response()->download($path, $resourcedb->name . '.' . $extension[1]);
         } else {
