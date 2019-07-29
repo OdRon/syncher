@@ -66,7 +66,7 @@ class DownloadController extends Controller
             $resourcedb = Resource::where('uri', $extension[0])->get();
             if (!$resourcedb->isEmpty()){
                $path = public_path('resource/'.$resource);
-                return response()->download($path, $resourcedb->name . '.' . $extension[1]); 
+                return response()->download($path, $resourcedb->first()->name . '.' . $extension[1]); 
             }            
         }
         abort(404);
