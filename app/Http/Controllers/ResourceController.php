@@ -41,7 +41,7 @@ class ResourceController extends Controller
             $filename = time();
             $filenameWithExtension = $filename.'.'.$request->resource->getClientOriginalExtension();
             $request->resource->move(public_path('/resource/'), $filenameWithExtension);
-            $fullfilename = '/resource/'.$filenameWithExtension;
+            $filenameWithExtension = '/resource/'.$filenameWithExtension;
             $data['uri'] = $fullfilename;
             $data['link'] = env('APP_URL').'/download'.$fullfilename;
             $data['file'] = $filename;
