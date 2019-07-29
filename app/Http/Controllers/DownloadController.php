@@ -69,7 +69,7 @@ class DownloadController extends Controller
                 return response()->download($path, $resourcedb->name . '.' . $extension[1]); 
             }            
         }
-        abort(404);\
+        abort(404);
     }
 
 }
