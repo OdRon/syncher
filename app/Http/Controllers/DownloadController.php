@@ -63,7 +63,7 @@ class DownloadController extends Controller
     public function resource($resource) {
         $extension = explode(".", $resource);
         if (is_array($extension)){
-            $resourcedb = Resource::where('uri', $extension[0])->first();
+            $resourcedb = Resource::where('uri', $extension[0])->toSql();
             dd($resourcedb);
             $path = public_path('resource/'.$resource);
             return response()->download($path, $resourcedb->name . '.' . $extension[1]);
