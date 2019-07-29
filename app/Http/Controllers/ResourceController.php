@@ -38,11 +38,13 @@ class ResourceController extends Controller
     {
         $data = $request->only('name');
         if (null !== $request->resource){
-            $imageName = time().'.'.$request->resource->getClientOriginalExtension();
-            $request->resource->move(public_path('/resource/'), $imageName);
-            $filename = '/resource/'.$imageName;
-            $data['uri'] = $filename;
-            $data['link'] = env('APP_URL').'/download'.$filename;
+            $filename = time();
+            $filenameWithExtension = $filename.'.'.$request->resource->getClientOriginalExtension();
+            $request->resource->move(public_path('/resource/'), $filenameWithExtension);
+            $fullfilename = '/resource/'.$filenameWithExtension;
+            $data['uri'] = $fullfilename;
+            $data['link'] = env('APP_URL').'/download'.$fullfilename;
+            $data['file'] = $filename;
             $resource = new Resource;
             $resource->fill($data);
             $resource->save();
@@ -86,11 +88,12 @@ class ResourceController extends Controller
     { 
         $data = $request->only('name');
         if (null !== $request->resource){
-            $imageName = time().'.'.$request->resource->getClientOriginalExtension();
-            $request->resource->move(public_path('/resources/'), $imageName);
-            $filename = '/resources/'.$imageName;
+            $filename = time();
+            $filenameWithExtension = $filename.'.'.$request->resource->getClientOriginalExtension();
+            $request->resource->move(public_path('/resource/'), $filenameWithExtension);
+            $fullfilename = '/resource/'.$filenameWithExtension;
             $data['uri'] = $filename;
-            $data['link'] = env('APP_URL').'/download'.$filename;
+            $data['link'] = env('APP_URL').'/download'.$fullfilename;
         }
         $resource = Resource::findOrFail($id);
         $resource->fill($data);

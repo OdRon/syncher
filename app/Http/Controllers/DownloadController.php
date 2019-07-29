@@ -61,6 +61,7 @@ class DownloadController extends Controller
 
     public function resource($resource) {
         $extension = explode(".", $resource);
+        dd($extension);
         $path = public_path('resource/'.$resource);
         // return response()->download($path, );
     }
