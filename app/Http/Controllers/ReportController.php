@@ -925,8 +925,7 @@ class ReportController extends Controller
             }
             //Additional Joins
             if (($request->indicatortype == 1 || $request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4 || $request->indicatortype == 5 || $request->indicatortype == 6 || $request->indicatortype == 8) && $request->input('category') != 'poc')
-                $model = $model->leftJoin('labs as lab', 'lab.id', '=', "$table.lab_id")
-                            ->leftJoin('view_facilitys as poclab', 'poclab.id', '=', "$table.lab_id");
+                $model = $model->leftJoin('labs as lab', 'lab.id', '=', "$table.lab_id");
             else if(($request->indicatortype == 1 || $request->indicatortype == 2 || $request->indicatortype == 3 || $request->indicatortype == 4 || $request->indicatortype == 5 || $request->indicatortype == 6 || $request->indicatortype == 8) && $request->input('category') == 'poc')
                 $model = $model->leftJoin('view_facilitys as lab', 'lab.id', '=', "$table.lab_id");
 
@@ -1084,7 +1083,8 @@ class ReportController extends Controller
         } else {
             return back();
         }
-
+        $model = $model->leftJoin('view_facilitys as poclab', 'poclab.id', '=', "$table.lab_id");
+        
         if ($request->indicatortype == 7) {
             if (auth()->user()->user_type_id == 3) {
                 $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->level);
