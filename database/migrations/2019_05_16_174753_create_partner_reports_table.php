@@ -13,17 +13,17 @@ class CreatePartnerReportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('partner_reports', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name', 100);
-            $table->text('description')->nullable();
-            $table->tinyInteger('code');
-            $table->string('class')->nullable();
-            $table->integer('testtype')->nullable();
-            $table->integer('report_category_id');
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        // Schema::create('partner_reports', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('name', 100);
+        //     $table->text('description')->nullable();
+        //     $table->tinyInteger('code');
+        //     $table->string('class')->nullable();
+        //     $table->integer('testtype')->nullable();
+        //     $table->integer('report_category_id');
+        //     $table->softDeletes();
+        //     $table->timestamps();
+        // });
     }
 
     /**

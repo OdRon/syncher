@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Resource;
 
 class DownloadController extends Controller
 {
@@ -57,6 +58,18 @@ class DownloadController extends Controller
     public function remotelogin() {
         $path = public_path('downloads/NASCOP_Remote_Login_SOP.pdf');
         return response()->download($path, 'NASCOP Lab Remote Login SOP.pdf');
+    }
+
+    public function resource($resource) {
+        $extension = explode(".", $resource);
+        if (is_array($extension)){
+            $resourcedb = Resource::where('uri', $extension[0])->get();
+            if (!$resourcedb->isEmpty()){
+               $path = public_path('resource/'.$resource);
+                return response()->download($path, $resourcedb->first()->name . '.' . $extension[1]); 
+            }            
+        }
+        abort(404);
     }
 
 }

@@ -13,9 +13,9 @@ class AlterAllocationAddOrderDate extends Migration
      */
     public function up()
     {
-        Schema::table('allocations', function(Blueprint $table){
-            $table->dateTime('orderdate')->after('order_num')->nullable();
-        });
+        // Schema::table('allocations', function(Blueprint $table){
+        //     $table->dateTime('orderdate')->after('order_num')->nullable();
+        // });
     }
 
     /**

@@ -13,17 +13,17 @@ class CreateAllocationContactsTable extends Migration
      */
     public function up()
     {
-        Schema::create('allocation_contacts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('lab_id');
-            $table->text('address');
-            $table->string('contact_person');
-            $table->string('telephone');
-            $table->string('contact_person_2')->nullable();
-            $table->string('telephone_2')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        // Schema::create('allocation_contacts', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->integer('lab_id');
+        //     $table->text('address');
+        //     $table->string('contact_person');
+        //     $table->string('telephone');
+        //     $table->string('contact_person_2')->nullable();
+        //     $table->string('telephone_2')->nullable();
+        //     $table->softDeletes();
+        //     $table->timestamps();
+        // });
     }
 
     /**
