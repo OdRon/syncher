@@ -23,7 +23,7 @@
         @if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 10)
             <li><a href="{{ url('reports/permission/setup') }}">Reports Setup</a></li>
             <hr />
-            <li><a href="http://lab-2.test.nascop.org/resource">Resources</a></li>
+            <li><a href="{{ url('files') }}">Resources</a></li>
             <hr />
             <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
             <hr />

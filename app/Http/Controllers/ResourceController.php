@@ -36,19 +36,23 @@ class ResourceController extends Controller
      */
     public function store(Request $request)
     {
+        $data = $request->only('name');
         if (null !== $request->resource){
-            $imageName = time().'.'.$request->resource->getClientOriginalExtension();
-            $request->resource->move(public_path('/resources/'), $imageName);
-            $filename = 'resources/'.$imageName;
-            $data = $request->only('name');
-            $data['link'] = env('APP_URL').$filename;
+            $filename = time();
+            $fileextension = $request->resource->getClientOriginalExtension();
+            $filenameWithExtension = $filename.'.'.$fileextension;
+            $request->resource->move(public_path('/resource/'), $filenameWithExtension);
+            $fullfilename = '/resource/'.$filenameWithExtension;
+            $data['uri'] = $filename;
+            $data['link'] = env('APP_URL').'/download'.$fullfilename;
+            $data['extension'] = $fileextension;
             $resource = new Resource;
             $resource->fill($data);
             $resource->save();
         } else {
             session(['toast_message' => 'Resource Document not provided', 'toast_error' => 1]);
         }
-        return back();
+        return redirect('files');
     }
 
     /**
@@ -82,18 +86,22 @@ class ResourceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {        
+    { 
         $data = $request->only('name');
         if (null !== $request->resource){
-            $imageName = time().'.'.$request->resource->getClientOriginalExtension();
-            $request->resource->move(public_path('/resources/'), $imageName);
-            $filename = '/public/resources/'.$imageName;
-            $data['link'] = env('APP_URL').$filename;
+            $filename = time();
+            $fileextension = $request->resource->getClientOriginalExtension();
+            $filenameWithExtension = $filename.'.'.$fileextension;
+            $request->resource->move(public_path('/resource/'), $filenameWithExtension);
+            $fullfilename = '/resource/'.$filenameWithExtension;
+            $data['uri'] = $filename;
+            $data['link'] = env('APP_URL').'/download'.$fullfilename;
+            $data['extension'] = $fileextension;
         }
         $resource = Resource::findOrFail($id);
         $resource->fill($data);
         $resource->save();
-        return back();
+        return redirect('files');
     }
 
     /**

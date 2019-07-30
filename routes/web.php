@@ -34,6 +34,7 @@ Route::prefix('download')->name('download.')->group(function(){
 	Route::get('vl_req', 'DownloadController@vl_req')->name('vl_req');
 	Route::get('collection_guidelines', 'DownloadController@collection_guidelines')->name('collection_guidelines');
 	Route::get('remotelogin', 'DownloadController@remotelogin')->name('remotelogin');
+	Route::get('resource/{resource}', 'DownloadController@resource');
 });
 
 Auth::routes();
@@ -159,6 +160,7 @@ Route::middleware(['auth'])->group(function(){
 
 Route::get('patientstatus', 'HEIController@placeResults');
 Route::get('sendsms', 'GenerealController@send_sms');
+Route::resource('files', 'ResourceController');
 
 Route::get('synch/', function(){
 	// \App\Synch::synch_allocations();

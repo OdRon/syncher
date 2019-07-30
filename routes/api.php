@@ -46,6 +46,8 @@ $api->version('v1', function (Router $api) {
 
         $api->post('shortcode', 'ShortCodeController@shortcode');
 
+        $api->get('resources', 'RandomController@resources');
+
         $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
 
             $api->resource('facility', 'FacilityController');

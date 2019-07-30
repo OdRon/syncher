@@ -3,6 +3,7 @@
 namespace App\Api\V1\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Resource;
 
 class RandomController extends Controller
 {
@@ -34,5 +35,10 @@ class RandomController extends Controller
                 'time' => date('H:i:s'),
                 'message' => 'This is the current time.'
             ]);
+    }
+
+    public function resources(){
+        $resources = Resource::get();
+        return response()->json(['resources' =>$resources, 'count' => $resources->count(), 'status' => 200]);
     }
 }
