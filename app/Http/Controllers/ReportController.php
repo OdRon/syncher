@@ -741,7 +741,7 @@ class ReportController extends Controller
         
     	if ($request->testtype == 'VL') {
             $table = 'viralsample_complete_view';
-            $selectStr = "$table.id, $table.original_batch_id, $table.patient, IF(lab.name IS NULL, 'POC Sample', lab.name) as labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, $table.sampletype_name as sampletype, $table.datecollected, $table.justification_name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
+            $selectStr = "$table.id, $table.original_batch_id, $table.patient, IF(lab.name IS NULL, poclab.name, lab.name) as labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, $table.sampletype_name as sampletype, $table.datecollected, $table.justification_name as justification, $table.datereceived, $table.datetested, $table.datedispatched, $table.initiation_date";
 
             if ($request->indicatortype == 2) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Reasons for Repeat', 'Rejected Reason', 'Regimen', 'Regimen Line', 'PMTCT', 'Result'];
@@ -854,7 +854,7 @@ class ReportController extends Controller
             }
     	} else if ($request->testtype == 'EID') {
             $table = 'sample_complete_view';
-            $selectStr = "$table.id, $table.patient, $table.original_batch_id, IF(lab.name IS NULL, 'POC Sample', lab.name) as labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, IF($table.pcrtype=4, $table.enrollment_ccc_no, null) as enrolment_ccc_no, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
+            $selectStr = "$table.id, $table.patient, $table.original_batch_id, IF(lab.name IS NULL, poclab.name, lab.name) as labdesc, view_facilitys.county, view_facilitys.subcounty, view_facilitys.partner, view_facilitys.name as facility, view_facilitys.facilitycode, $table.gender_description, $table.dob, $table.age, pcrtype.alias as pcrtype, IF($table.pcrtype=4, $table.enrollment_ccc_no, null) as enrolment_ccc_no, $table.datecollected, $table.datereceived, $table.datetested, $table.datedispatched";
 
             if ($request->indicatortype == 1 || $request->indicatortype == 6) {
                 $excelColumns = ['System ID','Sample ID', 'Batch', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age (Months)', 'PCR Type', 'Enrollment CCC No', 'Date Collected', 'Date Received', 'Date Tested', 'Date Dispatched', 'Infant Prophylaxis', 'Received Status', 'Lab Comment', 'Reason for Repeat', 'Spots', 'Feeding', 'Entry Point', 'Result', 'PMTCT Intervention', 'Mother Result', 'Mother Age', 'Mother CCC No', 'Mother Last VL'];
@@ -1083,7 +1083,8 @@ class ReportController extends Controller
         } else {
             return back();
         }
-
+        $model = $model->leftJoin('view_facilitys as poclab', 'poclab.id', '=', "$table.lab_id");
+        
         if ($request->indicatortype == 7) {
             if (auth()->user()->user_type_id == 3) {
                 $model = $model->where('view_facilitys.partner_id', '=', auth()->user()->level);
