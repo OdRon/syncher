@@ -200,7 +200,7 @@ class Synch
 				continue; // Skip NHRL and EDARP
 			$lab = $labs->where('id', $model->lab_id)->first();
 			// $synch_data = self::send_update($model, $lab);
-			if (strpos(url()->current(), "lab-2.test"))
+			if (strpos(url()->current(), "lab-2.test.nascop.org/approveallocation"))
 				$lab->base_url = "http://lab.test.nascop.org/api/";
 			$client = new Client(['base_uri' => $lab->base_url]);
 			

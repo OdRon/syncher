@@ -20,7 +20,7 @@ class AllocationsController extends Controller
 			$allocation_details = $allocation->details;
 			unset($allocation->details);
 			$saveallocation = Allocation::existing($allocation->year, $allocation->month, $allocation->lab_id)
-									->with(['details', 'details.breakdown'])->first();
+									->with(['details', 'details.breakdowns'])->first();
 			if(empty($saveallocation)) { // If allocation was never synched synch it
 				$saveallocation = new Allocation();
 				$saveallocation->fill(get_object_vars($allocation));
