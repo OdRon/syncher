@@ -29,6 +29,11 @@ class AllocationsController extends Controller
 				$saveallocation->datesynched = date('Y-m-d');
 				unset($saveallocation->id);
 				unset($saveallocation->national_id);
+				return response()->json([
+		            'status' => 'ok',
+		            'allocations' => $saveallocation,
+		            'postedallocation' => $allocation,
+		        ], 201);
 				$saveallocation->save();
 				
 				$saveallocation = [
