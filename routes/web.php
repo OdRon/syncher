@@ -166,4 +166,7 @@ Route::get('synch/', function(){
 	// \App\Synch::synch_allocations();
 });
 Route::get('positives/{year?}/{month?}', 'HomeController@test');
+Route::get('phpinfo', function(){
+	echo phpinfo();
+});
 // $connected = @fsockopen("www.example.com", 80); 
