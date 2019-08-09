@@ -38,7 +38,6 @@ class ShortCodeController extends Controller
 		}
 		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility); // Get the patient data
 		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype); // Get the message to send to the patient.
-		echo "<pre>";print_r($patient);die();
 		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype); // Save and send the message
 		echo "<pre>";print_r($sendTextMsg);die();
 		return response()->json($sendTextMsg);
@@ -128,6 +127,7 @@ class ShortCodeController extends Controller
 	}
 
 	private function sendTextMessage($msg, $patient = null, $facility = null, $status, $receivedMsg, $phone, $testtype) {
+		echo "<pre>";print_r($patient);die();
 		if (empty($patient))
 			$msg = "The Patient Idenfier Provided Does not Exist in the Lab. Kindly confirm you have the correct one as on the Sample Request Form. Thanks.";
 		date_default_timezone_set('Africa/Nairobi');
