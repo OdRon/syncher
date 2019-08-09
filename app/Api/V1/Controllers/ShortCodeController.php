@@ -127,9 +127,10 @@ class ShortCodeController extends Controller
 	}
 
 	private function sendTextMessage($msg, $patient = null, $facility = null, $status, $receivedMsg, $phone, $testtype) {
-		echo "<pre>";print_r($patient);die();
-		if (empty($patient))
+		if (empty($patient)){
 			$msg = "The Patient Idenfier Provided Does not Exist in the Lab. Kindly confirm you have the correct one as on the Sample Request Form. Thanks.";
+		}
+		echo "<pre>";print_r($patient);die();
 		date_default_timezone_set('Africa/Nairobi');
         $dateresponded = date('Y-m-d H:i:s');
 		$responceCode = self::__sendMessage($phone, $msg);
