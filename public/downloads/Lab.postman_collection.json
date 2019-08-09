@@ -301,12 +301,7 @@
 						},
 						{
 							"key": "prophylaxis",
-							"value": "15",
-							"type": "text"
-						},
-						{
-							"key": "regimenline",
-							"value": "1",
+							"value": "AF2A",
 							"type": "text"
 						},
 						{
@@ -392,12 +387,7 @@
 						},
 						{
 							"key": "prophylaxis",
-							"value": "15",
-							"type": "text"
-						},
-						{
-							"key": "regimenline",
-							"value": "1",
+							"value": "AF2A",
 							"type": "text"
 						},
 						{

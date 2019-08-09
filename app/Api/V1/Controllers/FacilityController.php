@@ -49,6 +49,9 @@ class FacilityController extends Controller
                 unset($fac_array['poc']);
                 unset($fac_array['has_gene']);
                 unset($fac_array['has_alere']);
+                unset($fac_array['clinician_phone']);
+                unset($fac_array['clinician_name']);
+                unset($fac_array['hubcontacttelephone']);
 
                 DB::table("apidb.facilitys")->insert($fac_array);
             }

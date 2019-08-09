@@ -160,6 +160,7 @@ class AllocationsController extends Controller
     }
 
     public function save_allocation_approval(Request $request) {
+        // dd(url()->current());
         $collection = collect($request->except(['_token', 'allocation-form']));
         foreach ($collection['id'] as $key => $value) {
             if (isset($collection['approve'][$key])) {
