@@ -37,8 +37,8 @@ class ShortCodeController extends Controller
 			return response()->json(self::__sendMessage($phone, $message));
 		}
 		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility); // Get the patient data
-		echo "<pre>";print_r($patientTests);die();
 		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype); // Get the message to send to the patient.
+		echo "<pre>";print_r($textMsg);die();
 		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype); // Save and send the message.
 		return response()->json($sendTextMsg);
 	}
@@ -92,7 +92,7 @@ class ShortCodeController extends Controller
 	}
 
 	private function buildTextMessage($tests = null, &$status, &$testtype){
-		$msg = '';
+		$msg = '.';
 		$inprocessmsg="Sample Still In process at the ";
 		$inprocessmsg2=" The Result will be automatically sent to your number as soon as it is Available.";
 		if (empty($tests))
