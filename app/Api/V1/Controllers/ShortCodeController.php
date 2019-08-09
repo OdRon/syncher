@@ -39,7 +39,6 @@ class ShortCodeController extends Controller
 		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility); // Get the patient data
 		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype); // Get the message to send to the patient.
 		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype); // Save and send the message
-		echo "<pre>";print_r($sendTextMsg);die();
 		return response()->json($sendTextMsg);
 	}
 
@@ -128,10 +127,10 @@ class ShortCodeController extends Controller
 
 	private function sendTextMessage($msg, $patient = null, $facility = null, $status, $receivedMsg, $phone, $testtype) {
 		if (empty($patient)){
-			echo "<pre>";print_r("Patient");die();
 			$msg = "The Patient Idenfier Provided Does not Exist in the Lab. Kindly confirm you have the correct one as on the Sample Request Form. Thanks.";
+		} else {
+			$patient = $patient->first()->id;
 		}
-		echo "<pre>";print_r($patient);die();
 		date_default_timezone_set('Africa/Nairobi');
         $dateresponded = date('Y-m-d H:i:s');
 		$responceCode = self::__sendMessage($phone, $msg);
@@ -140,7 +139,7 @@ class ShortCodeController extends Controller
 		$shortcode->phoneno = $phone;
 		$shortcode->message = $receivedMsg;
 		$shortcode->facility_id = $facility->id ?? null;
-		$shortcode->patient_id = $patient->first()->id ?? null;
+		$shortcode->patient_id = $patient;
 		$shortcode->datereceived = $dateresponded;
 		$shortcode->status = $status;
 		if ($responceCode =='201')
