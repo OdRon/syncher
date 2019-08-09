@@ -26,6 +26,7 @@ Route::post('login/facility', 'Auth\\LoginController@facility_login');
 
 Route::prefix('download')->name('download.')->group(function(){
 
+	Route::get('api', 'DownloadController@api')->name('api');
 	Route::get('user_guide', 'DownloadController@user_guide')->name('user_guide');
 	Route::get('consumption', 'DownloadController@consumption')->name('consumption');
 	Route::get('hei', 'DownloadController@hei')->name('hei');
@@ -166,4 +167,7 @@ Route::get('synch/', function(){
 	// \App\Synch::synch_allocations();
 });
 Route::get('positives/{year?}/{month?}', 'HomeController@test');
+Route::get('phpinfo', function(){
+	echo phpinfo();
+});
 // $connected = @fsockopen("www.example.com", 80); 

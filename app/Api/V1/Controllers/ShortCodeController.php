@@ -38,7 +38,7 @@ class ShortCodeController extends Controller
 		}
 		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility); // Get the patient data
 		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype); // Get the message to send to the patient.
-		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype); // Save and send the message.
+		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype); // Save and send the message
 		return response()->json($sendTextMsg);
 	}
 
@@ -64,16 +64,18 @@ class ShortCodeController extends Controller
 			return null;
 		$facility = Facility::select('id', 'facilitycode')->where('facilitycode', '=', $message->mflcode)->first();
 		if(!$facility) return null;
-		$patient = Patient::select('id', 'patient')->where('patient', '=', $message->sampleID)->where('facility_id', '=', $facility->id)->get(); // EID patient
+		$dbPatient = Patient::select('id', 'patient')->where('patient', '=', $message->sampleID)->where('facility_id', '=', $facility->id)->get(); // EID patient
 		$class = SampleCompleteView::class;
 		$table = 'sample_complete_view';
-		if ($patient->isEmpty()) { // Check if VL patient
-			$patient = Viralpatient::select('id', 'patient')->where('patient', '=', $message->sampleID)->where('facility_id', '=', $facility->id)->get();
+		if ($dbPatient->isEmpty()) { // Check if VL patient
+			$dbPatient = Viralpatient::select('id', 'patient')->where('patient', '=', $message->sampleID)->where('facility_id', '=', $facility->id)->get();
 			$class = ViralsampleCompleteView::class;
 			$table = 'viralsample_complete_view';
 		}
-		if ($patient->isEmpty())
+		if ($dbPatient->isEmpty())
 			return null;
+
+		$patient = $dbPatient;
 		return $this->getTestData($patient->first(), $class, $table);
 	}
 
@@ -89,7 +91,7 @@ class ShortCodeController extends Controller
 	}
 
 	private function buildTextMessage($tests = null, &$status, &$testtype){
-		$msg = '';
+		$msg = '.';
 		$inprocessmsg="Sample Still In process at the ";
 		$inprocessmsg2=" The Result will be automatically sent to your number as soon as it is Available.";
 		if (empty($tests))
@@ -124,8 +126,11 @@ class ShortCodeController extends Controller
 	}
 
 	private function sendTextMessage($msg, $patient = null, $facility = null, $status, $receivedMsg, $phone, $testtype) {
-		if (empty($patient))
+		if (empty($patient)){
 			$msg = "The Patient Idenfier Provided Does not Exist in the Lab. Kindly confirm you have the correct one as on the Sample Request Form. Thanks.";
+		} else {
+			$patient = $patient->first()->id;
+		}
 		date_default_timezone_set('Africa/Nairobi');
         $dateresponded = date('Y-m-d H:i:s');
 		$responceCode = self::__sendMessage($phone, $msg);
@@ -134,7 +139,7 @@ class ShortCodeController extends Controller
 		$shortcode->phoneno = $phone;
 		$shortcode->message = $receivedMsg;
 		$shortcode->facility_id = $facility->id ?? null;
-		$shortcode->patient_id = $patient->first()->id ?? null;
+		$shortcode->patient_id = $patient;
 		$shortcode->datereceived = $dateresponded;
 		$shortcode->status = $status;
 		if ($responceCode =='201')
