@@ -128,6 +128,7 @@ class ShortCodeController extends Controller
 
 	private function sendTextMessage($msg, $patient = null, $facility = null, $status, $receivedMsg, $phone, $testtype) {
 		if (empty($patient)){
+			echo "<pre>";print_r("Patient");die();
 			$msg = "The Patient Idenfier Provided Does not Exist in the Lab. Kindly confirm you have the correct one as on the Sample Request Form. Thanks.";
 		}
 		echo "<pre>";print_r($patient);die();
