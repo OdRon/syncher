@@ -38,8 +38,9 @@ class ShortCodeController extends Controller
 		}
 		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility); // Get the patient data
 		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype); // Get the message to send to the patient.
-		echo "<pre>";print_r($textMsg);die();
-		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype); // Save and send the message.
+		echo "<pre>";print_r($patient);die();
+		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype); // Save and send the message
+		echo "<pre>";print_r($sendTextMsg);die();
 		return response()->json($sendTextMsg);
 	}
 
