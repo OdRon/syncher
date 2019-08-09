@@ -37,6 +37,7 @@ class ShortCodeController extends Controller
 			return response()->json(self::__sendMessage($phone, $message));
 		}
 		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility); // Get the patient data
+		echo "<pre>";print_r($patient);die();
 		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype); // Get the message to send to the patient.
 		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype); // Save and send the message.
 		return response()->json($sendTextMsg);
@@ -59,11 +60,10 @@ class ShortCodeController extends Controller
 		return preg_match("/^[rR][0-9]{5,6}[-][a-zA-Z0-9\/-_.]{3,}/", $message);
 	}
 
-	private function getPatientData($message = null, &$patient, &$facility){
+	private function getPatientData($message = null, &$patient=null, &$facility=null){
 		if(empty($message))
 			return null;
 		$facility = Facility::select('id', 'facilitycode')->where('facilitycode', '=', $message->mflcode)->first();
-		echo "<pre>";print_r($facility);die();
 		if(!$facility) return null;
 		$patient = Patient::select('id', 'patient')->where('patient', '=', $message->sampleID)->where('facility_id', '=', $facility->id)->get(); // EID patient
 		$class = SampleCompleteView::class;
