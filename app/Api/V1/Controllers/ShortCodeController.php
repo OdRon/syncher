@@ -36,7 +36,6 @@ class ShortCodeController extends Controller
 			$message = "The correct message format is {$this->msgFormat}\n {$this->msgFormatDescription}";
 			return response()->json(self::__sendMessage($phone, $message));
 		}
-		echo "<pre>";print_r($messageBreakdown);die();
 		$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility); // Get the patient data
 		$textMsg = $this->buildTextMessage($patientTests, $status, $testtype); // Get the message to send to the patient.
 		$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype); // Save and send the message.
@@ -64,6 +63,7 @@ class ShortCodeController extends Controller
 		if(empty($message))
 			return null;
 		$facility = Facility::select('id', 'facilitycode')->where('facilitycode', '=', $message->mflcode)->first();
+		echo "<pre>";print_r($facility);die();
 		if(!$facility) return null;
 		$patient = Patient::select('id', 'patient')->where('patient', '=', $message->sampleID)->where('facility_id', '=', $facility->id)->get(); // EID patient
 		$class = SampleCompleteView::class;
