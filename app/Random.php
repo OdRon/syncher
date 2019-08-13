@@ -1742,7 +1742,7 @@ class Random
     		}
     	}
 
-    	echo "=> Creating excel\n"
+    	echo "=> Creating excel\n";
     	Excel::create($file, function($excel) use($data)  {
 		    $excel->sheet('Sheetname', function($sheet) use($data) {
 		        $sheet->fromArray($data);
