@@ -120,7 +120,7 @@ class ShortCodeController extends Controller
 			}
 
 			$msg .= "Lab Tested In: " . $test->lab;
-			$msg .= (!$test->result && $test->receivedstatus != 2) ? "\n" . $inprocessmsg2 : "";
+			$msg .= (!$test->result && $test->receivedstatus != 2) ? "\n" . $inprocessmsg2 : "\n\n";
 		}
 		return $msg;
 	}
