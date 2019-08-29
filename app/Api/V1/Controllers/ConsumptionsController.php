@@ -110,6 +110,8 @@ class ConsumptionsController extends Controller
             $consumption->submittedby = $request->input('reported_by');
             $consumption->datesubmitted = date('Y-m-d');
             $consumption->lab_id = session('lab')->id;
+			if (strpos(env('APP_URL'), "lab-2.test.nascop.org"))
+            	$consumption->test = 1;
             $consumption->apisave();
 		} else {
 			$consumption = $existing->first();
