@@ -102,7 +102,10 @@ class ConsumptionsController extends Controller
 		$date = explode("-", $date[0]);
 		if (empty($date))
 			return null;
-		$existing = Consumption::existing($date[2], $date[1], session('lab')->id)->get();
+		$existing = Consumption::existing($date[2], $date[1], session('lab')->id)
+						->when((strpos(env('APP_URL'), "lab-2.test.nascop.org")), function($query){
+							return $query->where('test', 1);
+						})->get();
 		if ($existing->isEmpty()) {
 			$consumption = new Consumption;
 			$consumption->year = $date[2];
