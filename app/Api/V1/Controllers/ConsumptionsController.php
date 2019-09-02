@@ -204,8 +204,8 @@ class ConsumptionsController extends Controller
 	}
 
 	private function getMachine($request, &$testtype) {
-		
-		dd($request);
+
+		print_r($request);
 		$commodity = strtolower($request->input('commodity_name'));
 		$machine_type = '';
 		$name = explode(" ", $commodity);
