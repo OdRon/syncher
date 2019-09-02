@@ -204,11 +204,10 @@ class ConsumptionsController extends Controller
 	}
 
 	private function getMachine($request, &$testtype) {
-
-		print_r($request->all());
 		$commodity = strtolower($request->input('commodity_name'));
 		$machine_type = '';
 		$name = explode(" ", $commodity);
+		print_r($name);
 		foreach ($this->machine_check as $key => $machine_check) {
 			if (in_array($machine_check, $name))
 				$machine_type = $key;
