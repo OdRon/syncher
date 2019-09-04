@@ -37,6 +37,7 @@ class Controller extends BaseController
         if ($api)
             $api_path = 'api/';
         $path = 'app/logs/' . $api_path;
+        dd($path);
         if(!is_dir(storage_path($path))) mkdir(storage_path($path), 0777);
 
         $postData = file_get_contents('php://input');
