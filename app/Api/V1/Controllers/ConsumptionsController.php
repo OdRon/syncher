@@ -60,7 +60,7 @@ class ConsumptionsController extends Controller
 	}
 
 	public function api_create(CommodityRequest $request) {
-		$this->dump_log();
+		$r = $this->dump_log('consumption_api');
 		$testtype = null;
 		$response = [
 				'message' => 'Consumption Data save failed',
