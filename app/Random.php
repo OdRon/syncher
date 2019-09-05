@@ -1764,7 +1764,7 @@ class Random
 
     public static function getElvis()
     {
-		$data = [['Facility', 'MFL Code', 'Tests', 'Positives', 'Positivity', 'Rejected Samples', 'Collection to Receipt', 'Receipt to Processing', 'Processing to Dispatch', 'Collection to Dispatch']]
+		$data = [['Facility', 'MFL Code', 'Tests', 'Positives', 'Positivity', 'Rejected Samples', 'Collection to Receipt', 'Receipt to Processing', 'Processing to Dispatch', 'Collection to Dispatch']];
 		echo "==> Getting patient level data\n";
 		$model = SampleCompleteView::selectRaw("sample_complete_view.patient_id AS `uniqueOf`, sample_complete_view.id, sample_complete_view.result, sample_complete_view.receivedstatus, sample_complete_view.tat1, sample_complete_view.tat2, sample_complete_view.tat3, sample_complete_view.tat4, vf.name AS `facility`, vf.facilitycode")
 			->join('view_facilitys vf', 'vf.id', '=', 'sample_complete_view.facility_id')
