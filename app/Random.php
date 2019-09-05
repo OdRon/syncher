@@ -1785,7 +1785,7 @@ class Random
 			$tat2 = $facilityData->pluck('tat2')->avg();
 			$tat3 = $facilityData->pluck('tat3')->avg();
 			$tat4 = $facilityData->pluck('tat4')->avg();
-			dd($facilityData);
+			// dd($facilityData);
 			$data[] = [
 				$facility,
 				$value,
