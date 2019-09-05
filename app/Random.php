@@ -1777,7 +1777,7 @@ class Random
 		echo "==> Getting facilites data\n";
 		foreach ($facilities as $key => $value) {
 			$facilityData = $model->where('facilitycode', $value);
-			dd($facilityData);
+			$facility = $facilityData->first('facility');
 			$totalTests = $facilityData->count();
 			$totalPositives = $facilityData->where('result', 2)->count();
 			$totalRejected = $facilityData->where('receivedstatus', 2)->count();
@@ -1785,8 +1785,9 @@ class Random
 			$tat2 = $facilityData->pluck('tat2')->avg();
 			$tat3 = $facilityData->pluck('tat3')->avg();
 			$tat4 = $facilityData->pluck('tat4')->avg();
+			dd($facilityData);
 			$data[] = [
-				$facilityData->first('facility'),
+				$facility,
 				$value,
 				$totalTests,
 				$totalPositives,
