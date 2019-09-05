@@ -1761,4 +1761,67 @@ class Random
     	if ($age > 5.9999 && $age < 10)
     		return '5-<10';
     }
+
+    public static function getElvis()
+    {
+  //   	SELECT 
+		// `facility` AS `Facility`,
+		// facilitycode AS `MFL Code`,
+		// COUNT(uniqueOf) AS `Tests`,
+		// COUNT(IF(result = 2, 1, NULL)) AS `Positives`,
+		// ROUND((COUNT(IF(result = 2, 1, NULL))/COUNT(uniqueOf))*100, 2) AS `Positivity`,
+		// COUNT(IF(receivedstatus = 2, 1, NULL)) AS `Rejected Samples`,
+		// ROUND(AVG(tat1), 1) AS `Collection to Receipt`,
+		// ROUND(AVG(tat2), 1) AS `Receipt to Processing`,
+		// ROUND(AVG(tat3), 1) AS `Processing to Dispatch`,
+		// ROUND(AVG(tat4), 1) AS `Collection to Dispatch` 
+		// FROM (SELECT
+		// DISTINCT patient_id AS `uniqueOf`, scv.id, scv.result, scv.receivedstatus, scv.tat1,
+		// scv.tat2,scv.tat3,scv.tat4, vf.name AS `facility`, vf.facilitycode
+		// FROM sample_complete_view scv
+		// JOIN view_facilitys vf ON vf.id = scv.facility_id
+		// WHERE DATE(datetested) BETWEEN '2018-07-01' AND '2019-06-30' AND scv.repeatt = 0) AS `primary_data`
+		// GROUP BY facility, facilitycode ORDER BY `Tests` DESC
+		$data = [['Facility', 'MFL Code', 'Tests', 'Positives', 'Positivity', 'Rejected Samples', 'Collection to Receipt', 'Receipt to Processing', 'Processing to Dispatch', 'Collection to Dispatch']]
+		echo "==> Getting patient level data\n";
+		$model = SampleCompleteView::selectRaw("sample_complete_view.patient_id AS `uniqueOf`, sample_complete_view.id, sample_complete_view.result, sample_complete_view.receivedstatus, sample_complete_view.tat1, sample_complete_view.tat2, sample_complete_view.tat3, sample_complete_view.tat4, vf.name AS `facility`, vf.facilitycode")
+			->join('view_facilitys vf', 'vf.id', '=', 'sample_complete_view.facility_id')
+			->whereRaw("DATE(datetested) BETWEEN '2018-07-01' AND '2019-06-30' AND scv.repeatt = 0")->get()->unique('patient_id')->values()->all();
+		echo "==> Getting the unique facilities\n";
+		$facilities = $model->pluck('facilitycode');
+
+		echo "==> Getting facilites data\n";
+		foreach ($facilities as $key => $value) {
+			$facilityData = $model->where('facilitycode', $value);
+			$totalTests = $facilityData->count();
+			$totalPositives = $facilityData->where('result', 2)->count();
+			$totalRejected = $facilityData->where('receivedstatus', 2)->count();
+			$tat1 = $facilityData->pluck('tat1')->avg();
+			$tat2 = $facilityData->pluck('tat2')->avg();
+			$tat3 = $facilityData->pluck('tat3')->avg();
+			$tat4 = $facilityData->pluck('tat4')->avg();
+			$data[] = [
+				$facilityData->first('facility'),
+				$value,
+				$totalTests,
+				$totalPositives,
+				round($totalPositives/$totalTests, 2),
+				$totalRejected,
+				round($tat1, 2),
+				round($tat2, 2),
+				round($tat3, 2),
+				round($tat4, 2)
+			];
+		}
+		$file = "excel export";
+		echo "=> Creating excel\n";
+    	Excel::create($file, function($excel) use($data)  {
+		    $excel->sheet('Sheetname', function($sheet) use($data) {
+		        $sheet->fromArray($data);
+		    });
+		})->store('csv');
+		$data = [storage_path("exports/" . $file . ".csv")];
+		echo "==> Mailing excel";
+		Mail::to(['bakasajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
+    }
 }
