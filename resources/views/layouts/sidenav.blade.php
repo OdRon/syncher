@@ -27,7 +27,8 @@
             <hr />
             <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
             <hr />
-        @elseif(Auth::user()->user_type_id == 9)
+        @endif
+        @if(Auth::user()->user_type_id == 9)
             <li><a href="{{ url('reports/support') }}">Downloadable Reports</a></li>
             <hr />
             <li><a href="{{ url('reports/remotelogin/EID') }}">EID Remote Log In Reports</a></li>
