@@ -1777,6 +1777,7 @@ class Random
 		echo "==> Getting facilites data\n";
 		foreach ($facilities as $key => $value) {
 			$facilityData = $model->where('facilitycode', $value);
+			dd($facilityData);
 			$totalTests = $facilityData->count();
 			$totalPositives = $facilityData->where('result', 2)->count();
 			$totalRejected = $facilityData->where('receivedstatus', 2)->count();
