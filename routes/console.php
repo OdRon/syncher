@@ -156,8 +156,8 @@ Artisan::command('recreate:sample_complete_view', function(){
     $this->info($str);
 })->describe('Recreate samples view');
 
-Artisan::command('check:mb', function(){
-    $str = \App\Random::checkMbNo();
+Artisan::command('check:maryland', function(){
+    $str = \App\Random::getElvis();
     $this->info($str);
 })->describe('Get MB No');
 
