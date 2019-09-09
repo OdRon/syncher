@@ -51,7 +51,7 @@
         </tr>
     </table>
     <br />
-    <table class="table" border="1" style="width: 60%; border: 1px solid;">
+    <table class="table" border="1" style="width: 50%; border: 1px solid;">
         <tr>
             <td colspan="2">{{ $master_data['to']['name'] }}</td>
         </tr>
