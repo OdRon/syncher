@@ -96,6 +96,7 @@ class ShortCodeController extends Controller
 		$inprocessmsg2=" The Result will be automatically sent to your number as soon as it is Available.";
 		if (empty($tests))
 			return $msg;
+		dd($tests);
 		foreach ($tests as $key => $test) {
 			$testtype = (get_class($test) == 'App\ViralsampleCompleteView') ? 2 : 1;
 			$msg .= "Facility: " . $test->facility . " [ " . $test->facilitycode . " ]\n";
