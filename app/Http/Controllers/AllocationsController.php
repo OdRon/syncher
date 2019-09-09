@@ -209,8 +209,8 @@ class AllocationsController extends Controller
             $allocation->orderdate = date('Y-m-d H:i:s');
             $allocation->save();
             // dd($allocation); 
-
-            return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
+            return view('exports.drfs', ['allocation' => $allocation]);
+            // return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
         }        
     }
 
