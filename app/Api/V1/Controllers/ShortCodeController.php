@@ -145,7 +145,7 @@ class ShortCodeController extends Controller
 		if ($responceCode =='201')
 			$shortcode->dateresponded = $dateresponded;
 		$shortcode->save();
-		return $shortcode;
+		return $msg;
 	}
 
     static function __sendMessage($phone, $message) {
