@@ -46,7 +46,7 @@
         </tr>
         <tr>
             <td colspan="7" align="center" style="border: none;">
-                <strong><h5 style="text-transform: uppercase;">{{ $detail->machine->machine ?? '' }} {{ $testsTypes[$detail->testtype] }} DISTRIBUTION REQUEST FORM</h5></strong>
+                <strong><h5 style="text-transform: uppercase;">{{ $detail->machine->machine ?? '' }} {{ $testsTypes["$detail->testtype"] }} DISTRIBUTION REQUEST FORM</h5></strong>
             </td>
         </tr>
     </table>
