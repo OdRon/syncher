@@ -93,7 +93,7 @@ class ShortCodeController extends Controller
 	}
 
 	private function buildTextMessage($tests = null, &$status, &$testtype){
-		$msg = '.';
+		$msg = '';
 		$inprocessmsg="Sample Still In process at the ";
 		$inprocessmsg2=" The Result will be automatically sent to your number as soon as it is Available.";
 		if (empty($tests))
@@ -120,8 +120,10 @@ class ShortCodeController extends Controller
 				$msg .= (get_class($test) == 'App\ViralsampleCompleteView') ? " VL" : " EID";
 				$msg .= " Rejected Sample: " . $test->rejected_reason->name . " - Collect New Sample.\n";
 			}
-
-			$msg .= "Lab Tested In: " . $test->lab ?? 'POC';
+			$lab = $test->lab;
+			if ($test->lab == NULL)
+				$lab = 'POC';
+			$msg .= "Lab Tested In: " . $lab;
 			$msg .= (!$test->result && $test->receivedstatus != 2) ? "\n" . $inprocessmsg2 : "\n\n";
 		}
 		return $msg;
