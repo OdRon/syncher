@@ -53,50 +53,50 @@
     <br />
     <table class="table" border="1" style="width: 60%; border: 1px solid;">
         <tr>
-            <td colspan="2">{{ __('DELIVERY ADDRESS') }}</td>
+            <td colspan="2">{{ $master_data['to']['name'] }}</td>
         </tr>
         <tr>
-            <td colspan="2">{{ __('DELIVERY ADDRESS') }}</td>
+            <td colspan="2">{{ $master_data['to']['address'] }}</td>
         </tr>
         <tr>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('Contact Name 1') }}</td>
+            <td>{{ $master_data['to']['contact_name_1'] }}</td>
         </tr>
         <tr>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('Tel Number:') }}</td>
+            <td>{{ $master_data['to']['telephone_1'] }}</td>
         </tr>
         <tr>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('Contact Name 2:') }}</td>
+            <td>{{ $master_data['to']['contact_name_2'] }}</td>
         </tr>
         <tr>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('Tel Number') }}</td>
+            <td>{{ $master_data['to']['telephone_2'] }}</td>
         </tr>
     </table>
     <table class="table" border="1" style="width: 40%; border: 1px solid;">
         <tr>
-            <td colspan="2">{{ __('DELIVERY ADDRESS') }}</td>
+            <td colspan="2">{{ __('FROM') }}</td>
         </tr>
         <tr>
-            <td colspan="2">{{ __('DELIVERY ADDRESS') }}</td>
+            <td colspan="2">{{ $master_data['to']['address'] }}</td>
         </tr>
         <tr>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('Contact Name 1') }}</td>
+            <td>{{ $master_data['from']['contact_name_1'] }}</td>
         </tr>
         <tr>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('Tel Number:') }}</td>
+            <td>{{ $master_data['from']['telephone_1'] }}</td>
         </tr>
         <tr>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('Contact Name 2:') }}</td>
+            <td>{{ $master_data['from']['contact_name_2'] }}</td>
         </tr>
         <tr>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
-            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('Tel Number') }}</td>
+            <td>{{ $master_data['from']['telephone_2'] }}</td>
         </tr>
     </table>
     @php

@@ -211,7 +211,7 @@ class AllocationsController extends Controller
             $allocation->save();
             // dd($allocation);
             $master_data = $this->getallocationlabdetails($allocation);
-            dd($master_data);
+            // dd($master_data);
             return view('exports.drfs', ['allocation' => $allocation, 'master_data' => $master_data]);
             // return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
         }        
