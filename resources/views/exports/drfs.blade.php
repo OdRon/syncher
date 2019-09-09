@@ -100,6 +100,7 @@
         </tr>
     </table>
     @php
+        die();
         //dd($detail);
     @endphp
 @endforeach
