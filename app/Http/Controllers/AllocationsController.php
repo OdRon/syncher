@@ -208,8 +208,9 @@ class AllocationsController extends Controller
             $allocation = $lab->allocations->where('year', date('Y'))->where('month', date('m'))->first();
             $allocation->orderdate = date('Y-m-d H:i:s');
             $allocation->save();
-
-            return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
+            // dd($allocation); 
+            return view('exports.drfs', ['allocation' => $allocation]);
+            // return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
         }        
     }
 

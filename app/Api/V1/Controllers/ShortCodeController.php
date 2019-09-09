@@ -81,17 +81,19 @@ class ShortCodeController extends Controller
 
 	private function getTestData($patient, $class, $table) {
 		$select = "$table.*, view_facilitys.name as facility, view_facilitys.facilitycode, labs.labdesc as lab";
-		return $class::selectRaw($select)
+		$model = $class::selectRaw($select)
 						->join('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-						->join('labs', 'labs.id', '=', "$table.lab_id")
+						->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
 						->where('patient_id', '=', $patient->id)
 						->where('repeatt', '=', 0)
 						->orderBy("$table.id", 'desc')
-						->limit($this->limit)->get();
+						->limit($this->limit)
+						->get();
+		return $model;
 	}
 
 	private function buildTextMessage($tests = null, &$status, &$testtype){
-		$msg = '.';
+		$msg = '';
 		$inprocessmsg="Sample Still In process at the ";
 		$inprocessmsg2=" The Result will be automatically sent to your number as soon as it is Available.";
 		if (empty($tests))
@@ -118,8 +120,10 @@ class ShortCodeController extends Controller
 				$msg .= (get_class($test) == 'App\ViralsampleCompleteView') ? " VL" : " EID";
 				$msg .= " Rejected Sample: " . $test->rejected_reason->name . " - Collect New Sample.\n";
 			}
-
-			$msg .= "Lab Tested In: " . $test->lab;
+			$lab = $test->lab;
+			if ($test->lab == NULL)
+				$lab = 'POC';
+			$msg .= "Lab Tested In: " . $lab;
 			$msg .= (!$test->result && $test->receivedstatus != 2) ? "\n" . $inprocessmsg2 : "\n\n";
 		}
 		return $msg;
@@ -145,7 +149,7 @@ class ShortCodeController extends Controller
 		if ($responceCode =='201')
 			$shortcode->dateresponded = $dateresponded;
 		$shortcode->save();
-		return $shortcode;
+		return $msg;
 	}
 
     static function __sendMessage($phone, $message) {
