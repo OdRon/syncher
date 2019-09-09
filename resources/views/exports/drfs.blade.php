@@ -99,6 +99,31 @@
             <td>{{ $master_data['from']['telephone_2'] }}</td>
         </tr>
     </table>
+    <br>
+    <table class="table" border="1" style="border: 1px solid;">
+        <thead>
+            <tr>
+                <td>No.</td>
+                <td>Description of Goods</td>
+                <td>Unit</td>
+                <td>Product No</td>
+                <td>Quantity</td>
+                <td>TOTALS</td>    
+            </tr>
+        </thead>
+        <tbody>
+        @foreach($detail->breakdowns as $key => $allocation_breakdown)
+            <tr>
+                <td>{{ $key + 1 }}</td>
+                <td>{{ $allocation_breakdown->breakdown->name }}</td>
+                <td>{{ $allocation_breakdown->breakdown->unit ?? '' }}</td>
+                <td>{{ '' }}</td>
+                <td>{{ $allocation_breakdown->allocated }}</td>
+                <td>{{ $allocation_breakdown->allocated }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
     @php
         die();
         //dd($detail);
