@@ -34,8 +34,11 @@
     </style>
 </head>
 <body>
+@php
+    $testsTypes = ['1' => 'EID', '2' => 'VL'];
+@endphp
 @foreach($allocation->details as $detail)
-    <table class="table" border="0" style="width: 100%; border:none;">
+    <table class="table" border="0" style="width: 100%; border:1px solid;">
         <tr>
             <td colspan="7" align="center" style="border: none;">
                 <img src="http://lab-2.test.nascop.org/img/naslogo.jpg" alt="NASCOP">
@@ -43,14 +46,14 @@
         </tr>
         <tr>
             <td colspan="7" align="center" style="border: none;">
-                <h5>{{ $detail->machine->machine ?? '' }} DISTRIBUTION REQUEST FORM</h5>
+                <strong><h5 style="text-transform: uppercase;">{{ $detail->machine->machine ?? '' }} {{ $testsTypes[$detail->testtype] }} DISTRIBUTION REQUEST FORM</h5></strong>
             </td>
         </tr>
     </table>
 
     <br />
     @php
-        //dd($detail->machine->machine);
+        dd($detail);
     @endphp
 @endforeach
         
