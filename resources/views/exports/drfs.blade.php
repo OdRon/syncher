@@ -34,21 +34,26 @@
     </style>
 </head>
 <body>
+@foreach($allocation->details as $detail)
+    @php
+        dd($detail);
+    @endphp
+    <table class="table" border="0" style="width: 100%; border:none;">
+        <tr>
+            <td colspan="7" align="center" style="border: none;">
+                <img src="http://lab-2.test.nascop.org/img/naslogo.jpg" alt="NASCOP">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="7" align="center" style="border: none;">
+                <h5>{{-- $lab->name --}} DISTRIBUTION REQUEST FORM {{-- $data->year --}} {{-- date("F", mktime(null, null, null, $data->month)) --}}</h5>
+            </td>
+        </tr>
+    </table>
 
-        <table class="table" border="0" style="width: 100%; border:none;">
-            <tr>
-                <td colspan="7" align="center" style="border: none;">
-                    <img src="http://lab-2.test.nascop.org/img/naslogo.jpg" alt="NASCOP">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="7" align="center" style="border: none;">
-                    <h5>{{-- $lab->name --}} MONTHLY LAB TRACKER FOR {{-- $data->year --}} {{-- date("F", mktime(null, null, null, $data->month)) --}}</h5>
-                </td>
-            </tr>
-        </table>
-
-        <br />
+    <br />
+@endforeach
+        
         {{-- 
         @if(!$download)
         @forelse($data->performance as $performance)
