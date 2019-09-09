@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Allocation;
+use App\AllocationContact;
 use App\AllocationDetail;
 use App\AllocationDetailsBreakdown;
 use App\Exports\AllocationDrfExport;
@@ -208,8 +209,10 @@ class AllocationsController extends Controller
             $allocation = $lab->allocations->where('year', date('Y'))->where('month', date('m'))->first();
             $allocation->orderdate = date('Y-m-d H:i:s');
             $allocation->save();
-            // dd($allocation); 
-            return view('exports.drfs', ['allocation' => $allocation]);
+            // dd($allocation);
+            $master_data = $this->getallocationlabdetails($allocation);
+            dd($master_data);
+            return view('exports.drfs', ['allocation' => $allocation, 'master_data' => $master_data]);
             // return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
         }        
     }
@@ -449,5 +452,30 @@ class AllocationsController extends Controller
         } else {
             return redirect('home');
         }
+    }
+
+    private function getallocationlabdetails($allocation){
+        $lab = $allocation->lab;
+        $lab_allocation_contact = $allocation->lab->allocation_contacts;
+        $kemsa_data = AllocationContact::where('lab_id', '=', 0)->first();
+        // setBackground()
+        return collect([
+                    'to' => [
+                        'name' => $lab->labdesc,
+                        'address' => $lab_allocation_contact->address,
+                        'contact_name_1' => $lab_allocation_contact->contact_person,
+                        'telephone_1' => $lab_allocation_contact->telephone,
+                        'contact_name_2' => $lab_allocation_contact->contact_person_2,
+                        'telephone_2' => $lab_allocation_contact->telephone_2,
+                    ],
+                    'from' => [
+                        'name' => 'KENYA MEDICAL SUPPLIES AUTHORITY',
+                        'address' => $kemsa_data->address,
+                        'contact_name_1' => $kemsa_data->contact_person,
+                        'telephone_1' => $kemsa_data->telephone,
+                        'contact_name_2' => $kemsa_data->contact_person_2,
+                        'telephone_2' => $kemsa_data->telephone_2,
+                    ]
+                ]);
     }
 }
