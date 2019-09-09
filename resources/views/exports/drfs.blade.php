@@ -147,7 +147,7 @@
         </tbody>
     </table>
     @php
-        die();
+        //die();
         //dd($detail);
     @endphp
 @endforeach
