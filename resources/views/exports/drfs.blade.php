@@ -36,7 +36,12 @@
 <body>
 @foreach($allocation->details as $detail)
     @php
-        $testType = ($detail->testtype == 1) ? 'EID' : 'VL';
+        $testType = consumables;
+        if ($detail->testtype == 1) {
+            $testType = 'EID';
+        } else {
+            $testType = 'VL';
+        }
     @endphp
     <table class="table" border="0" style="width: 100%; border:none;">
         <tr>
