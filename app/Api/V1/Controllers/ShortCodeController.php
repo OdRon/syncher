@@ -85,9 +85,10 @@ class ShortCodeController extends Controller
 						->join('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
 						->join('labs', 'labs.id', '=', "$table.lab_id")
 						->where('patient_id', '=', $patient->id)
-						->where('repeatt', '=', 0)
+						// ->where('repeatt', '=', 0)
 						->orderBy("$table.id", 'desc')
-						->limit($this->limit)->get();
+						// ->limit($this->limit)
+						->get();
 		print_r($model);die();
 		return $model;
 	}
