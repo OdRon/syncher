@@ -39,7 +39,7 @@
         $testType = 'consumables';
         if ($detail->testtype == 1) {
             $testType = 'EID';
-        } else {
+        } else if ($detail->testtype == 2) {
             $testType = 'VL';
         }
     @endphp
