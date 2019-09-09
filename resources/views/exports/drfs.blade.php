@@ -36,6 +36,7 @@
 <body>
 @php
     $testsTypes = ['1' => 'EID', '2' => 'VL'];
+    $testType = ($detail->testtype == 1) ? 'EID' : 'VL';
 @endphp
 @foreach($allocation->details as $detail)
     <table class="table" border="0" style="width: 100%; border:none;">
@@ -46,7 +47,7 @@
         </tr>
         <tr>
             <td colspan="7" align="center" style="border: none;">
-                <strong><h5 style="text-transform: uppercase;">{{ $detail->machine->machine ?? '' }} {{ $testsTypes["$detail->testtype"] }} DISTRIBUTION REQUEST FORM</h5></strong>
+                <strong><h5 style="text-transform: uppercase;">{{ $detail->machine->machine ?? '' }} {{ $testType }} DISTRIBUTION REQUEST FORM</h5></strong>
             </td>
         </tr>
     </table>
