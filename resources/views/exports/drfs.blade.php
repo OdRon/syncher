@@ -112,7 +112,7 @@
       <table class="table" border="0" style="width: 100%; border:none;">
          <tr>
             <td>
-               <table class="table" border="1" style="width: 90%; border: 1px solid;">
+               <table class="table" border="1" style="width: 100%; border: 1px solid;">
                   <tr>
                      <td>{{ __('Order Date') }}</td>
                      <td>{{ date('d-M-Y', strtotime($allocation->orderdate)) }}</td>
@@ -124,7 +124,7 @@
                </table>
             </td>
             <td>
-               <table class="table" border="1" style="width: 90%; border: 1px solid;">
+               <table class="table" border="1" style="width: 100%; border: 1px solid;">
                   <tr>
                      <td colspan="4">{{ __('Delivery Date') }}</td>
                   </tr>
