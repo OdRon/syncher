@@ -43,14 +43,14 @@
         </tr>
         <tr>
             <td colspan="7" align="center" style="border: none;">
-                <h5>{{-- $detail->machine->machine --}} DISTRIBUTION REQUEST FORM</h5>
+                <h5>{{ $detail->machine->machine ?? '' }} DISTRIBUTION REQUEST FORM</h5>
             </td>
         </tr>
     </table>
 
     <br />
     @php
-        dd($detail->machine->machine);
+        //dd($detail->machine->machine);
     @endphp
 @endforeach
         
