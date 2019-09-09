@@ -80,6 +80,7 @@ class ShortCodeController extends Controller
 	}
 
 	private function getTestData($patient, $class, $table) {
+		print_r($patient);die();
 		$select = "$table.*, view_facilitys.name as facility, view_facilitys.facilitycode, labs.labdesc as lab";
 		return $class::selectRaw($select)
 						->join('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
@@ -96,7 +97,6 @@ class ShortCodeController extends Controller
 		$inprocessmsg2=" The Result will be automatically sent to your number as soon as it is Available.";
 		if (empty($tests))
 			return $msg;
-		print_r($tests);die();
 		foreach ($tests as $key => $test) {
 			$testtype = (get_class($test) == 'App\ViralsampleCompleteView') ? 2 : 1;
 			$msg .= "Facility: " . $test->facility . " [ " . $test->facilitycode . " ]\n";
