@@ -3,64 +3,64 @@
 <html>
 <head>
 
-	<style type="text/css">
-		body {
-			font-weight: 1px;
-		}
+    <style type="text/css">
+        body {
+            font-weight: 1px;
+        }
 
-		table {
-			border-collapse: collapse;
-			margin-bottom: .5em;
-		}
+        table {
+            border-collapse: collapse;
+            margin-bottom: .5em;
+        }
 
-		table, th, td {
-			border: 1px solid black;
-			border-style: solid;
-     		font-size: 8px;
-		}
+        table, th, td {
+            border: 1px solid black;
+            border-style: solid;
+            font-size: 8px;
+        }
 
-		h5 {
-			margin-top: 6px;
-		    margin-bottom: 6px;
-		}
+        h5 {
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
 
-		p {
-			margin-top: 2px;
-     		font-size: 8px;
-		}
-		* {
-			font-size: 8px;
-		}
-	</style>
+        p {
+            margin-top: 2px;
+            font-size: 8px;
+        }
+        * {
+            font-size: 8px;
+        }
+    </style>
 </head>
 <body>
 
-		<table class="table" border="0" style="width: 100%; border:none;">
-			<tr>
-				<td colspan="7" align="center" style="border: none;">
-					<img src="http://lab-2.test.nascop.org/img/naslogo.jpg" alt="NASCOP">
-				</td>
-			</tr>
-			<tr>
-				<td colspan="7" align="center" style="border: none;">
-					<h5>{{ $lab->name }} MONTHLY LAB TRACKER FOR {{ $data->year }} {{ date("F", mktime(null, null, null, $data->month)) }}</h5>
-				</td>
-			</tr>
-		</table>
+        <table class="table" border="0" style="width: 100%; border:none;">
+            <tr>
+                <td colspan="7" align="center" style="border: none;">
+                    <img src="http://lab-2.test.nascop.org/img/naslogo.jpg" alt="NASCOP">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7" align="center" style="border: none;">
+                    <h5>{{-- $lab->name --}} MONTHLY LAB TRACKER FOR {{-- $data->year --}} {{-- date("F", mktime(null, null, null, $data->month)) --}}</h5>
+                </td>
+            </tr>
+        </table>
 
-		<br />
+        <br />
         {{-- 
         @if(!$download)
-		@forelse($data->performance as $performance)
+        @forelse($data->performance as $performance)
             <table style="width: 100%;">
                 <tbody>
-                	<tr>
+                    <tr>
                         <th colspan="7">
-                    	@if($performance->testtype == 1)
-	                    	EID
-	                    @else
-	                    	VL - (@if($performance->sampletype == 1) Plasma @else DBS @endif)
-	                    @endif
+                        @if($performance->testtype == 1)
+                            EID
+                        @else
+                            VL - (@if($performance->sampletype == 1) Plasma @else DBS @endif)
+                        @endif
                         </th>
                     </tr>
                     <tr>
@@ -89,55 +89,55 @@
                             <center>{{ $performance->notlogged }}</center>
                         </td>
                         <td>
-                        	<center>
-                        	@if($performance->testtype == 1)
-		                    	{{ $data->eidcount }}
-		                    @elseif($performance->testtype == 2)
-		                    	@if($performance->sampletype == 1)
-		                    		{{ $data->vlplasmacount }}
-		                    	@else 
-		                    		{{ $data->vldbscount }}
-		                    	@endif
-		                    @endif
-		                    </center>
+                            <center>
+                            @if($performance->testtype == 1)
+                                {{ $data->eidcount }}
+                            @elseif($performance->testtype == 2)
+                                @if($performance->sampletype == 1)
+                                    {{ $data->vlplasmacount }}
+                                @else 
+                                    {{ $data->vldbscount }}
+                                @endif
+                            @endif
+                            </center>
                         </td>
                         <td>
                             <center>{{ $performance->reasonforbacklog }}</center>
                         </td>
                     </tr>
                     <tr>
-                    	<td colspan="7">
-                    		<strong>Rejected Reasons: </strong><br>
-                    	@if($performance->testtype == 1)
-                    		@foreach($data->eidrejected as $key => $rejected)
-                        		{{ $rejected->name }}&nbsp;;&nbsp;
-	                    	@endforeach
-	                    @elseif($performance->testtype == 2)
-	                    	@if($performance->sampletype == 1)
-	                    		@foreach($data->vlplasmarejected as $key => $rejected)
-	                        		{{ $rejected->name }}&nbsp;;&nbsp;
-		                    	@endforeach
-	                    	@else 
-	                    		@foreach($data->vldbsrejected as $key => $rejected)
-	                        		{{ $rejected->name }}&nbsp;;&nbsp;
-		                    	@endforeach
-	                    	@endif
-	                    @endif
-                    	</td>
+                        <td colspan="7">
+                            <strong>Rejected Reasons: </strong><br>
+                        @if($performance->testtype == 1)
+                            @foreach($data->eidrejected as $key => $rejected)
+                                {{ $rejected->name }}&nbsp;;&nbsp;
+                            @endforeach
+                        @elseif($performance->testtype == 2)
+                            @if($performance->sampletype == 1)
+                                @foreach($data->vlplasmarejected as $key => $rejected)
+                                    {{ $rejected->name }}&nbsp;;&nbsp;
+                                @endforeach
+                            @else 
+                                @foreach($data->vldbsrejected as $key => $rejected)
+                                    {{ $rejected->name }}&nbsp;;&nbsp;
+                                @endforeach
+                            @endif
+                        @endif
+                        </td>
                     </tr>
                 </tbody>
             </table>
         @empty
-        	<tr><td colspan="7"><center>No Data Available</center></td></tr>
+            <tr><td colspan="7"><center>No Data Available</center></td></tr>
         @endforelse
-		<br />
+        <br />
         @endif
-		<table style="width: 100%;">
+        <table style="width: 100%;">
             <tbody>
-            	<tr>
-            		<th colspan="10" align="center">EQUIPMENT LOG</th>
-            	</tr>
-            	 <tr>
+                <tr>
+                    <th colspan="10" align="center">EQUIPMENT LOG</th>
+                </tr>
+                 <tr>
                     <th>#</th>
                     <th>Equipment</th>
                     <th>Date of breakdown</th>
@@ -163,7 +163,7 @@
                     <td><center>{{ $equipment->breakdownreason ?? '' }}</center></td>
                 </tr>
             @empty
-            	<tr><td colspan="10"><center>No Data Available</center></td></tr>
+                <tr><td colspan="10"><center>No Data Available</center></td></tr>
             @endforelse
             </tbody>
         </table>
