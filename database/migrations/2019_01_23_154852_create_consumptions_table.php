@@ -34,6 +34,7 @@ class CreateConsumptionsTable extends Migration
         //     $table->text('disapprovereason')->nullable();
         //     $table->tinyInteger('synched')->default(0);
         //     $table->date('datesynched')->nullable();
+        //     $table->tinyInteger('test')->default(0);
         //     $table->timestamps();
         // });
     }

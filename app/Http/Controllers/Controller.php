@@ -30,4 +30,30 @@ class Controller extends BaseController
         $column .= '</tr>';
         return $column;
     }
+
+    public function dump_log($name, $api=true)
+    {
+        $api_path = '';
+        if ($api)
+            $api_path = 'api/';
+        $path = 'app/logs/' . $api_path;
+        // print_r($path);die();
+        if(!is_dir(storage_path($path))) mkdir(storage_path($path), 0777);
+
+        $postData = file_get_contents('php://input');
+        
+        $file = fopen(storage_path($path . $name .'.txt'), "a");
+        if(fwrite($file, $postData) === FALSE) fwrite("Error: no data written");
+        fwrite($file, "\r\n");
+        fclose($file);
+
+
+        try {
+            $postData = json_decode($postData);
+            return $postData;
+        } catch (Exception $e) {
+            print_r($e);
+        }
+        return $postData;
+    }
 }
