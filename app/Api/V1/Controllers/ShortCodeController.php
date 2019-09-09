@@ -80,15 +80,16 @@ class ShortCodeController extends Controller
 	}
 
 	private function getTestData($patient, $class, $table) {
-		print_r($patient);die();
 		$select = "$table.*, view_facilitys.name as facility, view_facilitys.facilitycode, labs.labdesc as lab";
-		return $class::selectRaw($select)
+		$model = $class::selectRaw($select)
 						->join('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
 						->join('labs', 'labs.id', '=', "$table.lab_id")
 						->where('patient_id', '=', $patient->id)
 						->where('repeatt', '=', 0)
 						->orderBy("$table.id", 'desc')
 						->limit($this->limit)->get();
+		print_r($model);die();
+		return $model;
 	}
 
 	private function buildTextMessage($tests = null, &$status, &$testtype){
