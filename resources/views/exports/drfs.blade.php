@@ -163,7 +163,9 @@
          @endforeach
          </tbody>
       </table>
-      <pagebreak sheet-size='A4'>
+      @if(!$loop->last)
+         <pagebreak sheet-size='A4'>
+      @endif
    @endforeach
    </body>
 </html>
