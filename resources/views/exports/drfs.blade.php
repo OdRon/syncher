@@ -38,7 +38,7 @@
     $testsTypes = ['1' => 'EID', '2' => 'VL'];
 @endphp
 @foreach($allocation->details as $detail)
-    <table class="table" border="0" style="width: 100%; border:1px solid;">
+    <table class="table" border="0" style="width: 100%; border:none;">
         <tr>
             <td colspan="7" align="center" style="border: none;">
                 <img src="http://lab-2.test.nascop.org/img/naslogo.jpg" alt="NASCOP">
@@ -50,8 +50,31 @@
             </td>
         </tr>
     </table>
-
     <br />
+    <table class="table" border="1" style="width: 60%; border: 1px solid;">
+        <tr>
+            <td colspan="2">{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+        <tr>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+        <tr>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+        <tr>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+        <tr>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+    </table>
     @php
         dd($detail);
     @endphp
