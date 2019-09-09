@@ -155,10 +155,8 @@
         //die();
         //dd($detail);
     @endphp
-@endforeach
-
     <pagebreak sheet-size='A4'>
-        
+@endforeach        
         {{-- 
         @if(!$download)
         @forelse($data->performance as $performance)
