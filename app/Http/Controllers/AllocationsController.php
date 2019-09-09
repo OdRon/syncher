@@ -15,6 +15,8 @@ use App\Kits;
 use App\Consumption;
 use App\Synch;
 
+use Mpdf\Mpdf;
+
 class AllocationsController extends Controller
 {
 	/**
@@ -212,7 +214,11 @@ class AllocationsController extends Controller
             // dd($allocation);
             $master_data = $this->getallocationlabdetails($allocation);
             // dd($master_data);
-            return view('exports.drfs', ['allocation' => $allocation, 'master_data' => $master_data]);
+            // return view('exports.drfs', ['allocation' => $allocation, 'master_data' => $master_data]);
+            $mpdf = new Mpdf();
+            $view_data = view('exports.drfs', ['allocation' => $allocation, 'master_data' => $master_data])->render();
+            $mpdf->WriteHTML($view_data);
+            $mpdf->Output($fileName.'.pdf', \Mpdf\Output\Destination::DOWNLOAD);
             // return (new AllocationDrfExport($allocation))->download('DRF.xlsx');
         }        
     }
