@@ -55,7 +55,7 @@
       <table class="table" border="0" style="width: 100%; border:none;">
          <tr>
             <td>
-               <table class="table" border="1" style="width: 50%; border: 1px solid;">
+               <table class="table" border="1" style="width: 100%; border: 1px solid;">
                   <tr>
                      <td colspan="2">{{ $master_data['to']['name'] }}</td>
                   </tr>
@@ -81,7 +81,7 @@
                </table>
             </td>
             <td>
-               <table class="table" border="1" style="width: 40%; border: 1px solid;">
+               <table class="table" border="1" style="width: 100%; border: 1px solid;">
                   <tr>
                      <td colspan="2">{{ __('FROM') }}</td>
                   </tr>
