@@ -34,11 +34,10 @@
     </style>
 </head>
 <body>
-@php
-    $testsTypes = ['1' => 'EID', '2' => 'VL'];
-    $testType = ($detail->testtype == 1) ? 'EID' : 'VL';
-@endphp
 @foreach($allocation->details as $detail)
+    @php
+        $testType = ($detail->testtype == 1) ? 'EID' : 'VL';
+    @endphp
     <table class="table" border="0" style="width: 100%; border:none;">
         <tr>
             <td colspan="7" align="center" style="border: none;">
