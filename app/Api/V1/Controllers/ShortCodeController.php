@@ -83,13 +83,12 @@ class ShortCodeController extends Controller
 		$select = "$table.*, view_facilitys.name as facility, view_facilitys.facilitycode, labs.labdesc as lab";
 		$model = $class::selectRaw($select)
 						->join('view_facilitys', 'view_facilitys.id', '=', "$table.facility_id")
-						->join('labs', 'labs.id', '=', "$table.lab_id")
+						->leftJoin('labs', 'labs.id', '=', "$table.lab_id")
 						->where('patient_id', '=', $patient->id)
-						// ->where('repeatt', '=', 0)
+						->where('repeatt', '=', 0)
 						->orderBy("$table.id", 'desc')
-						// ->limit($this->limit)
-						->toSql();
-		print_r($model);die();
+						->limit($this->limit)
+						->get();
 		return $model;
 	}
 
@@ -122,7 +121,7 @@ class ShortCodeController extends Controller
 				$msg .= " Rejected Sample: " . $test->rejected_reason->name . " - Collect New Sample.\n";
 			}
 
-			$msg .= "Lab Tested In: " . $test->lab;
+			$msg .= "Lab Tested In: " . $test->lab ?? 'POC';
 			$msg .= (!$test->result && $test->receivedstatus != 2) ? "\n" . $inprocessmsg2 : "\n\n";
 		}
 		return $msg;
