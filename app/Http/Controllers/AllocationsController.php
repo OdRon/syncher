@@ -214,7 +214,7 @@ class AllocationsController extends Controller
             // dd($allocation);
             $master_data = $this->getallocationlabdetails($allocation);
             // dd($master_data);
-            // return view('exports.drfs', ['allocation' => $allocation, 'master_data' => $master_data]);
+            return view('exports.drfs', ['allocation' => $allocation, 'master_data' => $master_data]);
             $fileName = $lab->name . ' DRF';
             $mpdf = new Mpdf();
             $view_data = view('exports.drfs', ['allocation' => $allocation, 'master_data' => $master_data])->render();
