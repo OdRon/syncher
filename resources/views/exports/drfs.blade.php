@@ -112,7 +112,7 @@
     </table>
     <table class="table" border="1" style="width: 40%; border: 1px solid;">
         <tr>
-            <td colspan="2">{{ __('Delivery Date') }}</td>
+            <td colspan="4">{{ __('Delivery Date') }}</td>
         </tr>
         <tr>
             <td>{{ __('From') }}</td>
