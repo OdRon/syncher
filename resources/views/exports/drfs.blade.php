@@ -36,7 +36,7 @@
 <body>
 @foreach($allocation->details as $detail)
     @php
-        $testType = consumables;
+        $testType = 'consumables';
         if ($detail->testtype == 1) {
             $testType = 'EID';
         } else {
