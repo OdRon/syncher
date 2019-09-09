@@ -75,8 +75,32 @@
             <td>{{ __('DELIVERY ADDRESS') }}</td>
         </tr>
     </table>
+    <table class="table" border="1" style="width: 40%; border: 1px solid;">
+        <tr>
+            <td colspan="2">{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+        <tr>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+        <tr>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+        <tr>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+        <tr>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+            <td>{{ __('DELIVERY ADDRESS') }}</td>
+        </tr>
+    </table>
     @php
-        dd($detail);
+        //dd($detail);
     @endphp
 @endforeach
         
