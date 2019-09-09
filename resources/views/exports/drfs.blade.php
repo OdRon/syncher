@@ -36,7 +36,7 @@
 <body>
 @foreach($allocation->details as $detail)
     @php
-        dd($detail);
+        dd($detail->machine);
     @endphp
     <table class="table" border="0" style="width: 100%; border:none;">
         <tr>
