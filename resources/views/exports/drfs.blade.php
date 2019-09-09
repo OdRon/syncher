@@ -35,9 +35,6 @@
 </head>
 <body>
 @foreach($allocation->details as $detail)
-    @php
-        dd($detail->machine);
-    @endphp
     <table class="table" border="0" style="width: 100%; border:none;">
         <tr>
             <td colspan="7" align="center" style="border: none;">
@@ -46,12 +43,15 @@
         </tr>
         <tr>
             <td colspan="7" align="center" style="border: none;">
-                <h5>{{-- $lab->name --}} DISTRIBUTION REQUEST FORM {{-- $data->year --}} {{-- date("F", mktime(null, null, null, $data->month)) --}}</h5>
+                <h5>{{ $detail->machine->machine }} DISTRIBUTION REQUEST FORM</h5>
             </td>
         </tr>
     </table>
 
     <br />
+    @php
+        //dd($detail->machine->machine);
+    @endphp
 @endforeach
         
         {{-- 
