@@ -156,6 +156,8 @@
         //dd($detail);
     @endphp
 @endforeach
+
+    <pagebreak sheet-size='A4'>
         
         {{-- 
         @if(!$download)
