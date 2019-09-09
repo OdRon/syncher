@@ -88,7 +88,7 @@ class ShortCodeController extends Controller
 						// ->where('repeatt', '=', 0)
 						->orderBy("$table.id", 'desc')
 						// ->limit($this->limit)
-						->get();
+						->toSql();
 		print_r($model);die();
 		return $model;
 	}
