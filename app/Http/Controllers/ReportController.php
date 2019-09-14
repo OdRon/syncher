@@ -720,6 +720,7 @@ class ReportController extends Controller
 
     public function __getDateData($request, &$dateString, &$excelColumns, &$title, &$briefTitle)
     {
+        dd($request->all());
         ini_set("memory_limit", "-1");
         
         if (auth()->user()->user_type_id == 3) {
