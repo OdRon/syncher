@@ -1083,8 +1083,8 @@ class ReportController extends Controller
         } else {
             return back();
         }
-        dd($request->all());
-        
+        dd($model);
+
         // $model = $model->leftJoin('view_facilitys as poclab', 'poclab.id', '=', "$table.lab_id");
         
         if ($request->indicatortype == 7) {
