@@ -239,7 +239,9 @@ class ReportController extends Controller
                     })
                     ->when($month, function($query) use ($month, $table){
                         return $query->whereRaw("MONTH($table.datetested) = $month");
-                    })->whereRaw("YEAR($table.datetested) = $year")->groupBy('lab_id')->get();
+                    })->whereRaw("YEAR($table.datetested) = $year")
+                    // ->whereRaw("date($table.datetested) BETWEEN '2018-09-01' AND '2019-08-31'")
+                    ->groupBy('lab_id')->get();
         foreach($dbData as $key => $data) {
             $newlab = $lab->where('id', $data->lab_id)->first();
             $dbData[$key]->lab_name = $newlab->labname;
