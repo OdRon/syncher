@@ -720,7 +720,6 @@ class ReportController extends Controller
 
     public function __getDateData($request, &$dateString, &$excelColumns, &$title, &$briefTitle)
     {
-        dd($request->all());
         ini_set("memory_limit", "-1");
         
         if (auth()->user()->user_type_id == 3) {
@@ -1084,9 +1083,8 @@ class ReportController extends Controller
         } else {
             return back();
         }
-        dd($model);
-
-        // $model = $model->leftJoin('view_facilitys as poclab', 'poclab.id', '=', "$table.lab_id");
+        if (isset($model))
+            $model = $model->leftJoin('view_facilitys as poclab', 'poclab.id', '=', "$table.lab_id");
         
         if ($request->indicatortype == 7) {
             if (auth()->user()->user_type_id == 3) {
