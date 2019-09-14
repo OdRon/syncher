@@ -1083,8 +1083,9 @@ class ReportController extends Controller
         } else {
             return back();
         }
-        if (isset($model))
-            $model = $model->leftJoin('view_facilitys as poclab', 'poclab.id', '=', "$table.lab_id");
+        
+        $model = $model->leftJoin('view_facilitys as poclab', 'poclab.id', '=', "$table.lab_id");
+
         
         if ($request->indicatortype == 7) {
             if (auth()->user()->user_type_id == 3) {
