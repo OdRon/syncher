@@ -21,6 +21,10 @@ Artisan::command('alere', function () {
     \App\Poc::alereq();
 })->describe('Display an inspiring quote');
 
+Artisan::command('alere-old', function () {
+    \App\Poc::alereq_old();
+})->describe('Display an inspiring quote');
+
 Artisan::command('clean:no-gender {type}', function ($type) {
     \App\Synch::correct_no_gender($type);
 })->describe('Fix no genders using data from the lab.');
