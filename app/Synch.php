@@ -4,6 +4,8 @@ namespace App;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+
 use DB;
 use Exception;
 
@@ -20,6 +22,8 @@ use App\Viralworksheet;
 
 use App\Facility;
 use App\Lab;
+
+use App\Mail\AllocationReview;
 
 /*
 	This is for the synching of updates down to the lab
@@ -531,6 +535,20 @@ class Synch
 				echo "Error on sample {$sample->id} - Error Message, " . $e->getMessage() . "\n";				
 			}
 		}
+	}
+
+	public static function sendAllocationReview($allocation)
+	{
+		$users = new User;
+		$allocationCommittee = $users->allocationCommittee()->get()->pluck('email')->toArray();
+		self::sendAllocationReviewEmail($allocation, $allocationCommittee);
+		return true;
+	}
+
+	private static function sendAllocationReviewEmail($allocation, $committee)
+	{
+		Mail::to($committee)->send(new AllocationReview($allocation));
+		return true;
 	}
 
 

@@ -91,4 +91,9 @@ class User extends Authenticatable implements JWTSubject
         $this->last_access = date('Y-m-d H:i:s');
         $this->save();
     }
+
+    public function allocationCommittee()
+    {
+        return $this->where('user_type_id', 12);
+    }
 }
