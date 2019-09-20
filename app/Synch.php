@@ -542,13 +542,11 @@ class Synch
 		$users = new User;
 		$allocationCommittee = $users->allocationCommittee()->get()->pluck('email')->toArray();
 		self::sendAllocationReviewEmail($allocation, $allocationCommittee);
-		return true;
 	}
 
 	private static function sendAllocationReviewEmail($allocation, $committee)
 	{
 		Mail::to($committee)->send(new AllocationReview($allocation));
-		return true;
 	}
 
 
