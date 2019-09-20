@@ -198,14 +198,13 @@ class Synch
 								},'details.breakdowns' => function($query){
 									$query->where('synched', 2);
 								}])->where('synched', '=', 2)->get();
+		dd($allocations);
 		$labs = Lab::all();
 		foreach ($allocations as $key => $model) {
 			if($model->lab_id == 7 || $model->lab_id == 10)
 				continue; // Skip NHRL and EDARP
 			$lab = $labs->where('id', $model->lab_id)->first();
 			// $synch_data = self::send_update($model, $lab);
-			if (strpos(url()->current(), "lab-2.test.nascop.org/approveallocation"))
-				$lab->base_url = "http://lab.test.nascop.org/api/";
 			$client = new Client(['base_uri' => $lab->base_url]);
 			
 			$response = $client->request('put', 'allocation', [
