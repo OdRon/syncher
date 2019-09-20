@@ -49,7 +49,7 @@ class AllocationsController extends Controller
 		}
 		$emailAllocation['lab'] = $lab;
 
-		$this->notifyForReview($emailAllocation);
+		// $this->notifyForReview($emailAllocation);
 		return response()->json([
             'status' => 'ok',
             'allocations' => $allocations_array,
