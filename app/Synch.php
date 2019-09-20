@@ -198,7 +198,6 @@ class Synch
 								},'details.breakdowns' => function($query){
 									$query->where('synched', 2);
 								}])->where('synched', '=', 2)->get();
-		dd($allocations);
 		$labs = Lab::all();
 		foreach ($allocations as $key => $model) {
 			if($model->lab_id == 7 || $model->lab_id == 10)
@@ -219,7 +218,7 @@ class Synch
 				],
 			]);
 			$body = json_decode($response->getBody());
-			// dd($body);
+			dd($body);
 			$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 			if($response->getStatusCode() < 400) {
 				$model->fill($data);
