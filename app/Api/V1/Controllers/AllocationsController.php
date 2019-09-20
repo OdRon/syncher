@@ -16,6 +16,10 @@ class AllocationsController extends Controller
 	public function create(BlankRequest $request) {
 		$allocations_array = $emailAllocation = [];
 		$allocations_data = json_decode($request->input('allocations'));
+		return response()->json([
+            'status' => 'ok',
+            'allocations' => $allocations_data,
+        ], 201);
 		foreach($allocations_data as $allocation) {
 			$allocation_details = $allocation->details;
 			unset($allocation->details);
