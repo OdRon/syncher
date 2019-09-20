@@ -205,7 +205,7 @@ class AllocationsController extends Controller
 	{
 		$allocation = (object)$allocation;
 		\App\Synch::sendAllocationReview($allocation);
-		return true;
+		// return true;
 	}
 }
 ?>
