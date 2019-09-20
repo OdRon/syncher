@@ -218,7 +218,7 @@ class Synch
 				],
 			]);
 			$body = json_decode($response->getBody());
-			dd($body);
+			// dd($body);
 			$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 			if($response->getStatusCode() < 400) {
 				$model->fill($data);
