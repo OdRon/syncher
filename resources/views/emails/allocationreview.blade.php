@@ -5,7 +5,7 @@
 	<br />
 	<br />
 
-	{{ $allocaton->lab->labname }} has submitted the allocation request for this month.<br/>
+	{{ $allocation->lab->labname }} has submitted the allocation request for this month.<br/>
 	Kindly log into the system and review the request.
 	
 	Regards
