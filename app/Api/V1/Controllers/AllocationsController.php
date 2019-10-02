@@ -14,10 +14,6 @@ use App\AllocationDetailsBreakdown;
 class AllocationsController extends Controller
 {
 	public function create(BlankRequest $request) {
-		return response()->json([
-            'status' => 'ok',
-            'allocations' => "Nothing",
-        ]);
 		$allocations_array = $emailAllocation = [];
 		$allocations_data = json_decode($request->input('allocations'));
 		
