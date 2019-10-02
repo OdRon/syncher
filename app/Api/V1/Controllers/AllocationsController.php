@@ -71,10 +71,10 @@ class AllocationsController extends Controller
 			unset($saveallocationdetails->id);
 			unset($saveallocationdetails->national_id);
 			$saveallocationdetails->save();
-			$allocation_details_array[] = [
+			$allocation_details_array[] = (object)[
 						'original_allocation_detail_id' => $allocation_details->id,
 						'id' => $saveallocationdetails->id,
-						'breakdown' => $this->saveAllocationDetailBreakdown($saveallocationdetails, $allocation_details_breakdown)
+						'breakdowns' => $this->saveAllocationDetailBreakdown($saveallocationdetails, $allocation_details_breakdown)
 					];
 		}
 		return $allocation_details_array;
