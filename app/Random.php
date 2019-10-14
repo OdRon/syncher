@@ -4,6 +4,7 @@ namespace App;
 
 use Excel;
 use App\Imports\NhrlImport;
+use App\Imports\FacilityImport;
 use DB;
 use App\Facility;
 
@@ -84,6 +85,11 @@ class Random
 				'start_date' => '2012-01-01',
 			]);
 		}
+	}
+
+	public static function ampath_turkana()
+	{		
+		Excel::import(new FacilityImport(55), public_path('turkana_facilities.xlsx'));	
 	}
 
 
