@@ -14,8 +14,9 @@ use App\AllocationDetailsBreakdown;
 class AllocationsController extends Controller
 {
 	public function create(BlankRequest $request) {
-		$allocations_array = [];
+		$allocations_array = $emailAllocation = [];
 		$allocations_data = json_decode($request->input('allocations'));
+		
 		foreach($allocations_data as $allocation) {
 			$allocation_details = $allocation->details;
 			unset($allocation->details);
@@ -35,16 +36,21 @@ class AllocationsController extends Controller
 		  //           'postedallocation' => $allocation,
 		  //       ], 201);
 				$saveallocation->save();
-				
+				$lab = $saveallocation->lab;
 				$saveallocation = [
 					'original_allocation_id' => $allocation->id,
 					'id' => $saveallocation->id,
 					'details' => $this->saveAllocationDetails($saveallocation, $allocation_details)
 				];
-			}
-			
+			} else {
+				$lab = $saveallocation->lab;
+			}	
 			$allocations_array[] = $saveallocation;
+			$emailAllocation['allocations'] = $saveallocation;
 		}
+		$emailAllocation['lab'] = $lab;
+
+		$this->notifyForReview($emailAllocation);
 		return response()->json([
             'status' => 'ok',
             'allocations' => $allocations_array,
@@ -65,10 +71,10 @@ class AllocationsController extends Controller
 			unset($saveallocationdetails->id);
 			unset($saveallocationdetails->national_id);
 			$saveallocationdetails->save();
-			$allocation_details_array[] = [
+			$allocation_details_array[] = (object)[
 						'original_allocation_detail_id' => $allocation_details->id,
 						'id' => $saveallocationdetails->id,
-						'breakdown' => $this->saveAllocationDetailBreakdown($saveallocationdetails, $allocation_details_breakdown)
+						'breakdowns' => $this->saveAllocationDetailBreakdown($saveallocationdetails, $allocation_details_breakdown)
 					];
 		}
 		return $allocation_details_array;
@@ -194,6 +200,13 @@ class AllocationsController extends Controller
 			}			
 		}
 		return $details_array;
+	}
+
+	private function notifyForReview($allocation)
+	{
+		$allocation = (object)$allocation;
+		\App\Synch::sendAllocationReview($allocation);
+		// return true;
 	}
 }
 ?>
