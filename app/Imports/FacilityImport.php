@@ -35,6 +35,7 @@ class FacilityImport implements OnEachRow, WithHeadingRow
 
 		$fac = Facility::where('facilitycode', $row->mfl_code)->first();
 		if($fac){
+			if($fac->partner == $this->partner_id) return;
 			$pf = PartnerFacility::where(['facility_id' => $fac->id])->whereNull('end_date')->where('partner_id', '!=', $this->partner_id)->first();
 			if($pf){
 				$pf->end_date = $this->end_date;
