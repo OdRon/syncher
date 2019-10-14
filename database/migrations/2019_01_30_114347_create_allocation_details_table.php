@@ -13,17 +13,17 @@ class CreateAllocationDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('allocation_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('original_allocation_details_id')->nullable();
-            $table->bigInteger('allocation_id');
-            $table->bigInteger('kit_id');
-            $table->integer('allocated')->default(0);
-            $table->tinyInteger('synched')->default(0)->comment("0:Awaiting synching; 1:Synched; 2:Update awaiting synching;");
-            $table->date('datesynched')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        // Schema::create('allocation_details', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->bigInteger('original_allocation_details_id')->nullable();
+        //     $table->bigInteger('allocation_id');
+        //     $table->bigInteger('kit_id');
+        //     $table->integer('allocated')->default(0);
+        //     $table->tinyInteger('synched')->default(0)->comment("0:Awaiting synching; 1:Synched; 2:Update awaiting synching;");
+        //     $table->date('datesynched')->nullable();
+        //     $table->softDeletes();
+        //     $table->timestamps();
+        // });
     }
 
     /**

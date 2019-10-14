@@ -13,12 +13,12 @@ class CreateGeneralConsumablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('general_consumables', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        // Schema::create('general_consumables', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('name');
+        //     $table->softDeletes();
+        //     $table->timestamps();
+        // });
     }
 
     /**

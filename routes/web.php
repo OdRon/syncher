@@ -35,6 +35,7 @@ Route::prefix('download')->name('download.')->group(function(){
 	Route::get('vl_req', 'DownloadController@vl_req')->name('vl_req');
 	Route::get('collection_guidelines', 'DownloadController@collection_guidelines')->name('collection_guidelines');
 	Route::get('remotelogin', 'DownloadController@remotelogin')->name('remotelogin');
+	Route::get('resource/{resource}', 'DownloadController@resource');
 });
 
 Auth::routes();
@@ -148,6 +149,10 @@ Route::middleware(['auth'])->group(function(){
 	Route::get('user/passwordReset/{user?}', 'UserController@passwordreset')->name('passwordReset');
 	Route::resource('user', 'UserController');
 
+	Route::group(['middleware' => ['only_utype:1,10']], function () {
+		Route::resource('resource', 'ResourceController');
+	});
+
 	Route::get('test', function(){
 		// echo max([3,5]);
 		\App\Synch::synch_allocations();
@@ -156,9 +161,13 @@ Route::middleware(['auth'])->group(function(){
 
 Route::get('patientstatus', 'HEIController@placeResults');
 Route::get('sendsms', 'GenerealController@send_sms');
+Route::resource('files', 'ResourceController');
 
 Route::get('synch/', function(){
 	// \App\Synch::synch_allocations();
 });
 Route::get('positives/{year?}/{month?}', 'HomeController@test');
+Route::get('phpinfo', function(){
+	echo phpinfo();
+});
 // $connected = @fsockopen("www.example.com", 80); 

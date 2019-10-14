@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterDeliveriesAddNullablesSynched extends Migration
+class AlterResourcesTableAgain extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AlterDeliveriesAddNullablesSynched extends Migration
      */
     public function up()
     {
-        // Schema::table('deliveries', function(Blueprint $table){
-        //     $table->date('datesynched')->nullable()->change();
-        // });
+        Schema::table('resources', function(Blueprint $table){
+            $table->string('extension')->after('uri')->nullable();
+        });
     }
 
     /**

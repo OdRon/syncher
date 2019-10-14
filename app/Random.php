@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\CustomMailOld;
 use App\Mail\TestMail;
 use App\Sample;
+use App\Exports\NhrlExport;
 
 class Random
 {
@@ -1687,5 +1688,126 @@ class Random
         // foreach ($data as $key => $sample) {
         // 	$dbsample = Sample::where('comment', '=', $sample[3])->get()->last();
         // }
+    }
+
+    public static function run_ken_request() {
+    	$data = [];
+    	echo "==> Getting Patients\n";
+    	// $patients = Viralpatient::select('id', 'dob')->whereYear('dob', '>', '2009')->get();
+    	// echo "==> Getting Patients Samples\n";
+    	// $excelColumns = ['Patient', 'Current Regimen', 'Recent Result', 'Age Category'];
+    	// ini_set("memory_limit", "-1");
+    	// foreach ($patients as $key => $patient) {
+    	// 	$samples = ViralsampleCompleteView::where('patient_id', $patient->id)->orderBy('datetested', 'desc')->limit(2)->get();
+    	// 	if ($samples->count() == 2) {
+    	// 		$newsamples = $samples->whereIn('rcategory', [3,4]);
+    	// 		if ($newsamples->count() == 2){
+    	// 			echo ".";
+    	// 			$newsample = $newsamples->first();
+    	// 			$data[] = [
+    	// 				'patient' => $patient->patient,
+    	// 				'regimen' => $newsample->prophylaxis_name,
+    	// 				'result' => $newsample->result,
+    	// 				'agecategory' => self::getMakeShiftAgeCategory($newsample->age),
+    	// 			];
+    	// 		}
+    	// 	}
+    	// }
+    	$file = 'VL_Line_List_TLD_2019_LLV';
+    	
+    	// New TLD patients
+    	ini_set("memory_limit", "-1");
+    	$patientsGroups = Viralsample::selectRaw('distinct patient_id')->whereYear('datetested', '=', '2019')->get()->split(10600);
+    	echo "==> Getting patients' data\n";
+    	foreach ($patientsGroups as $key => $patients) {
+    		echo "\tGetting patients` batch {$key}\n";
+    		// echo "==> Getting tests \n";
+    		$tests = ViralsampleCompleteView::selectRaw("distinct patient_id,viralsample_complete_view.id,batch_id,patient,labdesc,county,subcounty,partner,view_facilitys.name,view_facilitys.facilitycode,gender_description,dob,age,sampletype,datecollected,justification_name,datereceived,datetested,datedispatched,initiation_date,receivedstatus_name,reason_for_repeat,rejected_name,prophylaxis_name, regimenline,pmtct_name,result, month(datetested) as testmonth")
+    		// $dataArray = SampleCompleteView::select('sample_complete_view.id','patient','original_batch_id','labdesc','county','subcounty','partner','view_facilitys.name','view_facilitys.facilitycode','gender_description','dob','age','pcrtype','enrollment_ccc_no','datecollected','datereceived','datetested','datedispatched','regimen_name','receivedstatus_name','labcomment','reason_for_repeat','spots','feeding_name','entry_points.name as entrypoint','results.name as infantresult','mother_prophylaxis_name','motherresult','mother_age','mother_ccc_no','mother_last_result')
+    						->where('repeatt', 0)
+    						// ->whereIn('rcategory', [1,2,3,4])
+    						->whereIn('patient_id', $patients->toArray())
+    						->whereYear('datetested', 2019)
+    						->where('rcategory', 2)
+    						->where('regimen', 25)
+    						// ->whereRaw("month(datetested) IN (4, 5, 6)")
+    						->join('labs', 'labs.id', '=', 'viralsample_complete_view.lab_id')
+    						->join('view_facilitys', 'view_facilitys.id', '=', 'viralsample_complete_view.facility_id')
+    						// ->join('results', 'results.id', '=', 'sample_complete_view.result')
+    						// ->join('entry_points', 'entry_points.id', '=', 'sample_complete_view.entry_point')
+    						->orderBy('datetested', 'desc')->get();
+    		// dd($tests);
+    		foreach ($tests as $key => $test) {
+    			$data[] = $test;
+    		}
+    	}
+
+    	echo "=> Creating excel\n";
+    	Excel::create($file, function($excel) use($data)  {
+		    $excel->sheet('Sheetname', function($sheet) use($data) {
+		        $sheet->fromArray($data);
+		    });
+		})->store('csv');
+		$data = [storage_path("exports/" . $file . ".csv")];
+		echo "==> Mailing excel";
+		Mail::to(['bakasajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
+    }
+
+    private static function getMakeShiftAgeCategory($age) {
+    	if ($age < 1)
+    		return '0-1';
+    	if ($age > 0.9999 && $age < 5)
+    		return '1- <5';
+    	if ($age > 5.9999 && $age < 10)
+    		return '5-<10';
+    }
+
+    public static function getElvis()
+    {
+    	// New TLD patients
+    	ini_set("memory_limit", "-1");
+		$data = [['Facility', 'MFL Code', 'Tests', 'Positives', 'Positivity', 'Rejected Samples', 'Collection to Receipt', 'Receipt to Processing', 'Processing to Dispatch', 'Collection to Dispatch']];
+		echo "==> Getting patient level data\n";
+		$model = SampleCompleteView::selectRaw("sample_complete_view.patient_id AS `uniqueOf`, sample_complete_view.id, sample_complete_view.result, sample_complete_view.receivedstatus, sample_complete_view.tat1, sample_complete_view.tat2, sample_complete_view.tat3, sample_complete_view.tat4, vf.name AS `facility`, vf.facilitycode")
+			->join('view_facilitys as vf', 'vf.id', '=', 'sample_complete_view.facility_id')
+			->whereRaw("DATE(datetested) BETWEEN '2018-07-01' AND '2019-06-30' AND sample_complete_view.repeatt = 0")->get()->unique('patient_id');
+		echo "==> Getting the unique facilities\n";
+		$facilities = $model->pluck('facilitycode');
+
+		echo "==> Getting facilites data\n";
+		foreach ($facilities as $key => $value) {
+			$facilityData = $model->where('facilitycode', $value);
+			$facility = $facilityData->first()->facility;
+			$totalTests = $facilityData->count();
+			$totalPositives = $facilityData->where('result', 2)->count();
+			$totalRejected = $facilityData->where('receivedstatus', 2)->count();
+			$tat1 = $facilityData->pluck('tat1')->avg();
+			$tat2 = $facilityData->pluck('tat2')->avg();
+			$tat3 = $facilityData->pluck('tat3')->avg();
+			$tat4 = $facilityData->pluck('tat4')->avg();
+			// dd($facilityData);
+			$data[] = [
+				$facility,
+				$value,
+				$totalTests,
+				$totalPositives,
+				round($totalPositives/$totalTests, 2),
+				$totalRejected,
+				round($tat1, 2),
+				round($tat2, 2),
+				round($tat3, 2),
+				round($tat4, 2)
+			];
+		}
+		$file = "excel export";
+		echo "=> Creating excel\n";
+    	Excel::create($file, function($excel) use($data)  {
+		    $excel->sheet('Sheetname', function($sheet) use($data) {
+		        $sheet->fromArray($data);
+		    });
+		})->store('csv');
+		$data = [storage_path("exports/" . $file . ".csv")];
+		echo "==> Mailing excel";
+		Mail::to(['bakasajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
     }
 }

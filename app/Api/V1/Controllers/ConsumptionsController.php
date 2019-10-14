@@ -60,6 +60,10 @@ class ConsumptionsController extends Controller
 	}
 
 	public function api_create(CommodityRequest $request) {
+		$r = $this->dump_log('consumption_api');
+		if (isset($r))
+			$request = $r;
+		// print_r($r);die();
 		$testtype = null;
 		$response = [
 				'message' => 'Consumption Data save failed',
@@ -97,17 +101,24 @@ class ConsumptionsController extends Controller
 
 	private function saveAPIConsumption($machine, $testtype, $request) {
 		$response = false;
-		$date = explode(" ", $request->input('month_end_date'));
+		$date = explode(" ", $request->month_end_date);
 		$date = str_replace('/', '-', $date);
 		$date = explode("-", $date[0]);
-		$existing = Consumption::existing($date[2], $date[1], session('lab')->id)->get();
+		if (empty($date))
+			return null;
+		$existing = Consumption::existing($date[2], $date[1], session('lab')->id)
+						->when((strpos(env('APP_URL'), "lab-2.test.nascop.org")), function($query){
+							return $query->where('test', 1);
+						})->get();
 		if ($existing->isEmpty()) {
 			$consumption = new Consumption;
 			$consumption->year = $date[2];
             $consumption->month = $date[1];
-            $consumption->submittedby = $request->input('reported_by');
+            $consumption->submittedby = $request->reported_by;
             $consumption->datesubmitted = date('Y-m-d');
             $consumption->lab_id = session('lab')->id;
+			if (strpos(env('APP_URL'), "lab-2.test.nascop.org"))
+            	$consumption->test = 1;
             $consumption->apisave();
 		} else {
 			$consumption = $existing->first();
@@ -160,7 +171,7 @@ class ConsumptionsController extends Controller
 					// Consumed are calculated from the test count
 					if ($value == 'consumed'){
 						if ($kit->alias == 'qualkit'){
-							$qualkit = ($request->input('sample_count')/$test_factor);
+							$qualkit = ($request->sample_count/$test_factor);
 						}
 						$breakdown->$value = ($factor * $qualkit);
 					} else {
@@ -180,24 +191,24 @@ class ConsumptionsController extends Controller
 	private function getcomputedkitvalue($adding, $request) {
 		$return_value = 0;
 		if ($adding == 'opening')
-			$return_value = $request->input('opening_balance') ?? 0;
+			$return_value = $request->opening_balance ?? 0;
 		if ($adding == 'wasted')
-			$return_value = $request->input('loss') ?? 0;
+			$return_value = $request->loss ?? 0;
 		if ($adding == 'issued_out')
-			$return_value = $request->input('neg_adjust') ?? 0;
+			$return_value = $request->neg_adjust ?? 0;
 		if ($adding == 'issued_in')
-			$return_value = $request->input('pos_adjust') ?? 0;
+			$return_value = $request->pos_adjust ?? 0;
 		if ($adding == 'closing')
-			$return_value = $request->input('closing_balance') ?? 0;
+			$return_value = $request->closing_balance ?? 0;
 		if ($adding == 'requested')
-			$return_value = $request->input('qty_requested') ?? $request->input('gty_requested');
+			$return_value = $request->qty_requested ?? $request->gty_requested;
 		if ($adding == 'qty_received')
-			$return_value = $request->input('qty_received') ?? 0;
+			$return_value = $request->qty_received ?? 0;
 		return $return_value;
 	}
 
 	private function getMachine($request, &$testtype) {
-		$commodity = strtolower($request->input('commodity_name'));
+		$commodity = strtolower($request->commodity_name);
 		$machine_type = '';
 		$name = explode(" ", $commodity);
 		foreach ($this->machine_check as $key => $machine_check) {
@@ -205,6 +216,7 @@ class ConsumptionsController extends Controller
 				$machine_type = $key;
 			continue;
 		}
+		$request_testtype = '';
 
 		if (in_array('qualitative', $name))
 			$request_testtype = 'eid';

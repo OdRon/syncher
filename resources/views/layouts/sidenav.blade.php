@@ -20,12 +20,15 @@
             <li><a href="{{ url('user/add') }}">Add Users</a></li>
             <hr />
         @endif
-        @if (Auth::user()->user_type_id == 1)
+        @if (Auth::user()->user_type_id == 1 || Auth::user()->user_type_id == 10)
             <li><a href="{{ url('reports/permission/setup') }}">Reports Setup</a></li>
+            <hr />
+            <li><a href="{{ url('files') }}">Resources</a></li>
             <hr />
             <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
             <hr />
-        @elseif(Auth::user()->user_type_id == 9)
+        @endif
+        @if(Auth::user()->user_type_id == 9)
             <li><a href="{{ url('reports/support') }}">Downloadable Reports</a></li>
             <hr />
             <li><a href="{{ url('reports/remotelogin/EID') }}">EID Remote Log In Reports</a></li>

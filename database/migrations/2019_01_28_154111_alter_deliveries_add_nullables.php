@@ -13,12 +13,12 @@ class AlterDeliveriesAddNullables extends Migration
      */
     public function up()
     {
-        Schema::table('deliveries', function(Blueprint $table){
-            $table->integer('receivedby')->nullable()->change();
-            $table->date('datereceived')->nullable()->change();
-            $table->integer('enteredby')->nullable()->change();
-            $table->date('datesynched')->nullable()->change();
-        });
+        // Schema::table('deliveries', function(Blueprint $table){
+        //     $table->integer('receivedby')->nullable()->change();
+        //     $table->date('datereceived')->nullable()->change();
+        //     $table->integer('enteredby')->nullable()->change();
+        //     $table->date('datesynched')->nullable()->change();
+        // });
     }
 
     /**
