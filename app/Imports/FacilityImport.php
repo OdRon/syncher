@@ -30,7 +30,7 @@ class FacilityImport implements OnEachRow, WithHeadingRow
     public function onRow(Row $row)
     {
     	$row = json_decode(json_encode($row->toArray()));
-    	dd($row);
+    	// dd($row);
 		if(!is_numeric($row->mfl_code) || (is_numeric($row->mfl_code) && $row->mfl_code < 10000)) return;	
 
 		$fac = Facility::where('facilitycode', $row->mfl_code)->first();
