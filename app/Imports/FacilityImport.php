@@ -21,7 +21,7 @@ class FacilityImport implements OnEachRow, WithHeadingRow
 		$this->partner_id = $partner_id;
 		if(!$start_date){
 			$d = date('d') - 1;
-			$start_date = date('Y-m-d', strtotime("-{$d} days"))
+			$start_date = date('Y-m-d', strtotime("-{$d} days"));
 		}
 		$this->start_date = $start_date;
 		$this->end_date = date('Y-m-d', strtotime($start_date . ' -1 day'));
