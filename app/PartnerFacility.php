@@ -2,11 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class PartnerFacility extends Model
+class PartnerFacility extends BaseModel
 {	
     public $timestamps = false;
+
 
 
     public function partner()
