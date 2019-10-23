@@ -87,9 +87,9 @@ class Random
 		}
 	}
 
-	public static function ampath_turkana()
+	public static function uon_fac()
 	{		
-		Excel::import(new FacilityImport(55), public_path('turkana_facilities.xlsx'));	
+		Excel::import(new FacilityImport(23), public_path('uon_facilities.xlsx'));	
 	}
 
 
