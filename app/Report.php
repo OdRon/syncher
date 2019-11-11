@@ -64,12 +64,15 @@ class Report
 
 	        $cc_array = [];
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
+	        $mainrecipientmail = trim($contact->mainrecipientmail);
+
+	        if(in_array($mainrecipientmail, ['', null]) || !filter_var($mainrecipientmail, FILTER_VALIDATE_EMAIL)) continue;
 
 	        foreach ($contact as $column_name => $value) {
 	        	$value = trim($value);
 
 	        	// Check if email address is blocked
-	        	if(str_contains($column_name, ['ccc', 'bcc'])){
+	        	if(str_contains($column_name, ['ccc', 'bcc', 'mainrecipientmail'])){
 	        		$b = BlockedEmail::where('email', $value)->first();
 	        		if($b){
 	        			$contact->$column_name=null;
@@ -87,7 +90,7 @@ class Report
 
 	        if(env('APP_ENV') == 'production'){
 		        try {
-			        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
+			        Mail::to($mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
 			        DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
 		        } catch (Exception $e) {
 		        	echo $e->getMessage();
@@ -177,12 +180,15 @@ class Report
 
 	        $cc_array = [];
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
+	        $mainrecipientmail = trim($contact->mainrecipientmail);
+
+	        if(in_array($mainrecipientmail, ['', null]) || !filter_var($mainrecipientmail, FILTER_VALIDATE_EMAIL)) continue;
 
 	        foreach ($contact as $column_name => $value) {
 	        	$value = trim($value);
 
 	        	// Check if email address is blocked
-	        	if(str_contains($column_name, ['ccc', 'bcc'])){
+	        	if(str_contains($column_name, ['ccc', 'bcc', 'mainrecipientmail'])){
 	        		$b = BlockedEmail::where('email', $value)->first();
 	        		if($b){
 	        			$contact->$column_name=null;
@@ -197,7 +203,7 @@ class Report
 	        }
 	        if(env('APP_ENV') == 'production'){
 		        try {
-			        Mail::to(trim($contact->mainrecipientmail))->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
+			        Mail::to($mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
 			        DB::table('vl_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
 		        } catch (Exception $e) {
 		        	
