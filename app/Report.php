@@ -46,7 +46,7 @@ class Report
 		}
 		// if($iter == 1) dd($body);
 
-		if($iter > 300) die();
+		if($iter > 30) die();
 		self::clean_emails($body->paging->next, $iter++);
 	}
 
@@ -67,9 +67,19 @@ class Report
 
 	        foreach ($contact as $column_name => $value) {
 	        	$value = trim($value);
-	        	if(str_contains($column_name, ['ccc', 'bcc'])){
 
+	        	// Check if email address is blocked
+	        	if(str_contains($column_name, ['ccc', 'bcc'])){
+	        		$b = BlockedEmail::where('email', $value)->first();
+	        		if($b){
+	        			$contact->$column_name=null;
+	        			$contact->save();
+	        			echo "Removed blocked email {$value} \n";
+	        			continue;
+	        		}
 	        	}
+
+
 	        	if(str_contains($column_name, 'ccc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = trim($value);
 	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = trim($value);
 	        }
@@ -104,6 +114,18 @@ class Report
 
 	        foreach ($contact as $column_name => $value) {
 	        	$value = trim($value);
+
+	        	// Check if email address is blocked
+	        	if(str_contains($column_name, ['email'])){
+	        		$b = BlockedEmail::where('email', $value)->first();
+	        		if($b){
+	        			$contact->$column_name=null;
+	        			$contact->save();
+	        			echo "Removed blocked email {$value} \n";
+	        			continue;
+	        		}
+	        	}
+
 	        	if(str_contains($column_name, 'email') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $mail_array[] = trim($value);
 	        }
 
@@ -158,6 +180,18 @@ class Report
 
 	        foreach ($contact as $column_name => $value) {
 	        	$value = trim($value);
+
+	        	// Check if email address is blocked
+	        	if(str_contains($column_name, ['ccc', 'bcc'])){
+	        		$b = BlockedEmail::where('email', $value)->first();
+	        		if($b){
+	        			$contact->$column_name=null;
+	        			$contact->save();
+	        			echo "Removed blocked email {$value} \n";
+	        			continue;
+	        		}
+	        	}
+
 	        	if(str_contains($column_name, 'ccc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = trim($value);
 	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = trim($value);
 	        }
@@ -189,6 +223,18 @@ class Report
 
 	        foreach ($contact as $column_name => $value) {
 	        	$value = trim($value);
+
+	        	// Check if email address is blocked
+	        	if(str_contains($column_name, ['email'])){
+	        		$b = BlockedEmail::where('email', $value)->first();
+	        		if($b){
+	        			$contact->$column_name=null;
+	        			$contact->save();
+	        			echo "Removed blocked email {$value} \n";
+	        			continue;
+	        		}
+	        	}
+	        	
 	        	if(str_contains($column_name, 'email') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $mail_array[] = trim($value);
 	        }
 	        if(env('APP_ENV') == 'production'){
