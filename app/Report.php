@@ -44,6 +44,7 @@ class Report
 			// $emails[] = $value->address;
 			BlockedEmail::firstOrCreate(['email' => $value->address]);
 		}
+		dd($body);
 
 		if($iter > 200) die();
 		self::clean_emails($body->next, $iter++);
