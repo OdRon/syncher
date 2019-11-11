@@ -26,10 +26,32 @@ class Report
         Mail::to(['baksajoshua09@gmail.com', 'joelkith@gmail.com'])->send(new TestMail());
     }
 
+	public static function clean_emails($base = 'https://api.mailgun.net/v3/nascop.or.ke/complaints', $iter=0)
+	{
+		// $base = 'https://api.mailgun.net/v3/nascop.or.ke/complaints';
+		$client = new Client(['base_uri' => $base]);
+		$response = $client->request('get', '', [
+			'auth' => ['api', env('MAIL_API_KEY')],
+		]);
+		$body = json_decode($response->getBody());
+		if($response->getStatusCode() > 399) return false;
+		// dd($body);
+
+		// $emails = [];
+
+		foreach ($body->items as $key => $value) {
+			// $emails[] = $value->address;
+			BlockedEmail::firstOrCreate(['email' => $value->address]);
+		}
+
+		if($iter > 200) die();
+		self::clean_emails($body->next, $iter++);
+	}
+
 	public static function eid_partner($partner_contact=null)
 	{
-		$partner_contacts = DB::table('eid_partner_contacts_for_alerts')
-            ->when($partner_contact, function($query) use ($partner_contact){
+		// $partner_contacts = DB::table('eid_partner_contacts_for_alerts')
+		$partner_contacts = EidPartner::when($partner_contact, function($query) use ($partner_contact){
                 return $query->where('id', $partner_contact);
             })->where('active', 1)
             // ->where('lastalertsent', '!=', date('Y-m-d'))
@@ -43,6 +65,9 @@ class Report
 
 	        foreach ($contact as $column_name => $value) {
 	        	$value = trim($value);
+	        	if(str_contains($column_name, ['ccc', 'bcc'])){
+
+	        	}
 	        	if(str_contains($column_name, 'ccc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = trim($value);
 	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = trim($value);
 	        }
@@ -65,8 +90,7 @@ class Report
 
 	public static function eid_county($county_id=null)
 	{
-		$county_contacts = DB::table('eid_users')
-            ->when($county_id, function($query) use ($county_id){
+		$county_contacts = EidUser::when($county_id, function($query) use ($county_id){
                 return $query->where('partner', $county_id);
             })->where(['flag' => 1, 'account' => 7])->where('id', '>', 384)->get();
         $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
@@ -120,8 +144,7 @@ class Report
 
 	public static function vl_partner($partner_contact=null)
 	{
-		$partner_contacts = DB::table('vl_partner_contacts_for_alerts')
-            ->when($partner_contact, function($query) use ($partner_contact){
+		$partner_contacts = VlPartner::when($partner_contact, function($query) use ($partner_contact){
                 return $query->where('id', $partner_contact);
             })->where('active', 2)->get();
         $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
@@ -152,8 +175,7 @@ class Report
 
 	public static function vl_county($county_id=null)
 	{
-		$county_contacts = DB::table('eid_users')
-            ->when($county_id, function($query) use ($county_id){
+		$county_contacts = EidUser::when($county_id, function($query) use ($county_id){
                 return $query->where('partner', $county_id);
             })->where(['flag' => 1, 'account' => 7])->where('id', '>', 384)->get();
         $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
