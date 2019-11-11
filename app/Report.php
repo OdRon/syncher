@@ -44,10 +44,10 @@ class Report
 			// $emails[] = $value->address;
 			BlockedEmail::firstOrCreate(['email' => $value->address]);
 		}
-		if($iter == 1) dd($body);
+		// if($iter == 1) dd($body);
 
-		if($iter > 200) die();
-		self::clean_emails($body->next, $iter++);
+		if($iter > 300) die();
+		self::clean_emails($body->paging->next, $iter++);
 	}
 
 	public static function eid_partner($partner_contact=null)
