@@ -4,6 +4,7 @@ namespace App;
 
 use DB;
 use Exception;
+use GuzzleHttp\Client;
 
 use Illuminate\Support\Facades\Mail;
 
