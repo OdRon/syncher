@@ -134,7 +134,7 @@ class Report
 			        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
 			     	Mail::to($mail_array)->bcc($bcc_array)->send(new EidCountyPositives($contact->id));
 		        } catch (Exception $e) {
-		        	
+		        	echo $e->getMessage();		        	
 		        }
 		    }
 		    else{
@@ -234,7 +234,7 @@ class Report
 	        			continue;
 	        		}
 	        	}
-	        	
+
 	        	if(str_contains($column_name, 'email') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $mail_array[] = trim($value);
 	        }
 	        if(env('APP_ENV') == 'production'){
@@ -242,7 +242,7 @@ class Report
 			        DB::table('eid_users')->where('id', $contact->id)->update(['datelastsent' => date('Y-m-d')]);
 			     	Mail::to($mail_array)->bcc($bcc_array)->send(new VlCountyNonsuppressed($contact->id));
 		        } catch (Exception $e) {
-		        	
+		        	echo $e->getMessage();			        	
 		        }
 		    }
 		    else{
