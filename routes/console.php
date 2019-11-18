@@ -17,8 +17,16 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
+Artisan::command('clean:emails', function () {
+    \App\Report::clean_emails();
+})->describe('Get all blocked emails.');
+
 Artisan::command('alere', function () {
     \App\Poc::alereq();
+})->describe('Display an inspiring quote');
+
+Artisan::command('alere-old', function () {
+    \App\Poc::alereq_old();
 })->describe('Display an inspiring quote');
 
 Artisan::command('clean:no-gender {type}', function ($type) {
