@@ -52,17 +52,15 @@ class Report
 
 	public static function eid_partner($partner_contact=null)
 	{
-		// $partner_contacts = DB::table('eid_partner_contacts_for_alerts')
 		$partner_contacts = EidPartner::when($partner_contact, function($query) use ($partner_contact){
                 return $query->where('id', $partner_contact);
             })->where('active', 1)
-            // ->where('lastalertsent', '!=', date('Y-m-d'))
             ->get();
         $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($partner_contacts as $key => $contact) {
 
-			echo "Partner contact {$contact->id} \n";
+			echo "Eid Partner contact {$contact->id} \n";
 
 	        $cc_array = [];
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
@@ -76,7 +74,7 @@ class Report
 	        		if($b){
 	        			$contact->$column_name=null;
 	        			$contact->save();
-	        			echo "Removed blocked email {$value} \n";
+	        			echo "\t\t Removed blocked email {$value} \n";
 	        			continue;
 	        		}
 	        	}
@@ -85,17 +83,19 @@ class Report
 
 	        	if(str_contains($column_name, ['ccc', 'mainrecipientmail']) && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = $value;
 	        	else if(str_contains($column_name, 'ccc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
-		        	echo "Email {$column_name} {$value} is invalid \n";	        		
+		        	echo "\t\t Email {$column_name} {$value} is invalid \n";	        		
 	        	}
 	        	else{}
 	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = $value;
 	        	else if(str_contains($column_name, 'bcc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
-		        	echo "Email {$column_name} {$value} is invalid \n";	        		
+		        	echo "\t\t Email {$column_name} {$value} is invalid \n";	        		
 	        	}
 	        	else{}
 	        }
 
-	        echo "\n";
+	    	echo "\t\t CCC Array print_r(json_encode($cc_array)) \n";
+	    	echo "\t\t BCC Array print_r(json_encode($cc_array)) \n";
+
 
 
 	        if(env('APP_ENV') == 'production'){
