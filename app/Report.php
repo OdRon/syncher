@@ -95,7 +95,7 @@ class Report
 	        	else{}
 	        }
 
-	        echo "\n\n";
+	        echo "\n";
 
 
 	        if(env('APP_ENV') == 'production'){
