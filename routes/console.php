@@ -69,7 +69,7 @@ Artisan::command('report:suppression-county {contact_id?}', function ($contact_i
 })->describe('Send suppression follow up report for counties.');
 
 
-Artisan::command('delete-pdfs', function(){
+Artisan::command('delete:pdfs', function(){
     $str = \App\Report::delete_folder(storage_path('app/hei'));
     $str = \App\Report::delete_folder(storage_path('app/suppression'));
     $this->info($str);
