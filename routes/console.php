@@ -37,6 +37,17 @@ Artisan::command('clean:no-dob {type}', function ($type) {
     \App\Synch::correct_no_dob($type);
 })->describe('Fix no dobs using data from the lab.');
 
+
+
+Artisan::command('report', function () {
+    $str = '';
+    $str .= $this->call('report:hei-partner');
+    $str .= $this->call('report:hei-county');
+    $str .= $this->call('report:suppression-partner');
+    $str .= $this->call('report:suppression-county');
+    $this->info($str);
+})->describe('Send hei follow up and suppression reports to partners and counties.');
+
 Artisan::command('report:hei-partner {contact_id?}', function ($contact_id=null) {
     $str = \App\Report::eid_partner($contact_id);
     $this->info($str);

@@ -62,11 +62,16 @@ class Report
 
 		foreach ($partner_contacts as $key => $contact) {
 
+			echo "Partner contact {$contact->id} \n";
+
 	        $cc_array = [];
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 	        $mainrecipientmail = trim($contact->mainrecipientmail);
 
-	        if(in_array($mainrecipientmail, ['', null]) || !filter_var($mainrecipientmail, FILTER_VALIDATE_EMAIL)) continue;
+	        if(in_array($mainrecipientmail, ['', null]) || !filter_var($mainrecipientmail, FILTER_VALIDATE_EMAIL)){
+	        	echo "Main Email {$mainrecipientmail} is invalid \n";
+	        	continue;
+	        }
 
 	        foreach ($contact as $column_name => $value) {
 	        	$value = trim($value);
@@ -81,23 +86,30 @@ class Report
 	        			continue;
 	        		}
 	        	}
+	        	echo "Checking ccc and bcc \n";
 
 
 	        	if(str_contains($column_name, 'ccc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = $value;
+	        	else{
+		        	echo "Email {$column_name} {$value} is invalid \n";	        		
+	        	}
 	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = $value;
+	        	else{
+		        	echo "Email {$column_name} {$value} is invalid \n";	        		
+	        	}
 	        }
 
 
 	        if(env('APP_ENV') == 'production'){
 		        try {
-			        Mail::to($mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
+			        // Mail::to($mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
 			        DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
 		        } catch (Exception $e) {
 		        	echo $e->getMessage();
 		        }
 		    }
 		    else{
-		    	Mail::to(self::$email_array)->send(new EidPartnerPositives($contact->id));
+		    	// Mail::to(self::$email_array)->send(new EidPartnerPositives($contact->id));
 		    }
 
 		}
