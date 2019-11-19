@@ -79,6 +79,7 @@ class Report
 	        		}
 	        	}
 	        	else{}
+    			echo "\t\t Column {$column_name} Value {$value} \n";	
 
 	        	if(str_contains($column_name, ['ccc', 'mainrecipientmail']) && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])){
 	        		$cc_array[] = $value;
