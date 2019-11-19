@@ -69,17 +69,17 @@ class Report
 	        	$value = trim($value);
 
 	        	// Check if email address is blocked
-	        	/*if(str_contains($column_name, ['ccc', 'bcc', 'mainrecipientmail'])){
+	        	if(str_contains($column_name, ['ccc', 'bcc', 'mainrecipientmail'])){
 	        		$b = BlockedEmail::where('email', $value)->first();
 	        		if($b){
 	        			$contact->$column_name=null;
 	        			$contact->save();
-	        			echo "\t\t Removed blocked email {$value} \n";
+	        			echo "\t\t Removed blocked email {$value} from column {$column_name} \n";
 	        			// continue;
 	        		}
 	        	}
-	        	else{}*/
-    			echo "\t\t Column {$column_name} Value {$value} \n";	
+	        	else{}
+    			// echo "\t\t Column {$column_name} Value {$value} \n";	
 
 	        	if(str_contains($column_name, ['ccc', 'mainrecipientmail']) && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])){
 	        		$cc_array[] = $value;
@@ -88,9 +88,7 @@ class Report
 	        	else if(str_contains($column_name, 'ccc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
 		        	echo "\t\t Email {$column_name} {$value} is invalid \n";	        		
 	        	}
-	        	else{
-        			echo "\t\t Failed to Add {$column_name} CCC {$value} \n";	        		
-	        	}
+	        	else{}
 
 	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = $value;
 	        	else if(str_contains($column_name, 'bcc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
