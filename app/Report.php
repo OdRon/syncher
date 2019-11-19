@@ -81,7 +81,10 @@ class Report
 	        	$myvar = null;
 
 
-	        	if(str_contains($column_name, ['ccc', 'mainrecipientmail']) && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = $value;
+	        	if(str_contains($column_name, ['ccc', 'mainrecipientmail']) && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])){
+	        		$cc_array[] = $value;
+        			echo "\t\t Added CCC {$value} \n";	        		
+	        	}
 	        	else if(str_contains($column_name, 'ccc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
 		        	echo "\t\t Email {$column_name} {$value} is invalid \n";	        		
 	        	}
@@ -96,6 +99,7 @@ class Report
 	    	$bcc = json_encode($bcc_array);
 	    	echo "\t\t CCC Array {$cc} \n";
 	    	echo "\t\t BCC Array {$bcc} \n";
+	    	die();
 
 
 
