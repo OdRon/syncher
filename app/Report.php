@@ -90,14 +90,18 @@ class Report
 
 
 	        	if(str_contains($column_name, 'ccc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = $value;
-	        	else{
+	        	else if(str_contains($column_name, 'ccc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
 		        	echo "Email {$column_name} {$value} is invalid \n";	        		
 	        	}
+	        	else{}
 	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = $value;
-	        	else{
+	        	else if(str_contains($column_name, 'bcc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
 		        	echo "Email {$column_name} {$value} is invalid \n";	        		
 	        	}
+	        	else{}
 	        }
+
+	        echo "\n\n\n";
 
 
 	        if(env('APP_ENV') == 'production'){
