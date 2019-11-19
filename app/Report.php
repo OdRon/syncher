@@ -69,7 +69,7 @@ class Report
 	        	$value = trim($value);
 
 	        	// Check if email address is blocked
-	        	if(str_contains($column_name, ['ccc', 'bcc', 'mainrecipientmail'])){
+	        	/*if(str_contains($column_name, ['ccc', 'bcc', 'mainrecipientmail'])){
 	        		$b = BlockedEmail::where('email', $value)->first();
 	        		if($b){
 	        			$contact->$column_name=null;
@@ -78,7 +78,7 @@ class Report
 	        			// continue;
 	        		}
 	        	}
-	        	else{}
+	        	else{}*/
     			echo "\t\t Column {$column_name} Value {$value} \n";	
 
 	        	if(str_contains($column_name, ['ccc', 'mainrecipientmail']) && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])){
