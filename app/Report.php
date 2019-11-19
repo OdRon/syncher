@@ -92,9 +92,10 @@ class Report
 	        	}
 	        	else{}
 	        }
-
-	    	echo "\t\t CCC Array {json_encode($cc_array)} \n";
-	    	echo "\t\t BCC Array {json_encode($cc_array)} \n";
+	    	$cc = json_encode($cc_array);
+	    	$bcc = json_encode($bcc_array);
+	    	echo "\t\t CCC Array {$cc} \n";
+	    	echo "\t\t BCC Array {$bcc} \n";
 
 
 
