@@ -65,7 +65,7 @@ class Report
 	        $cc_array = [];
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 
-	        foreach ($contact as $column_name => $value) {
+	        foreach ($contact->toArray() as $column_name => $value) {
 	        	$value = trim($value);
 
 	        	// Check if email address is blocked
