@@ -75,7 +75,7 @@ class Report
 	        			$contact->$column_name=null;
 	        			$contact->save();
 	        			echo "\t\t Removed blocked email {$value} \n";
-	        			continue;
+	        			// continue;
 	        		}
 	        	}
 	        	else{}
