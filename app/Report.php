@@ -115,7 +115,6 @@ class Report
 		$county_contacts = EidUser::when($county_id, function($query) use ($county_id){
                 return $query->where('partner', $county_id);
             })->where(['flag' => 1, 'account' => 7])->where('id', '>', 384)->get();
-        $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($county_contacts as $key => $contact) {
 
@@ -158,7 +157,6 @@ class Report
 		$partner_contacts = VlPartner::when($partner_contact, function($query) use ($partner_contact){
                 return $query->where('id', $partner_contact);
             })->where('active', 2)->get();
-        $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($partner_contacts as $key => $contact) {
 
@@ -201,7 +199,6 @@ class Report
 		$county_contacts = EidUser::when($county_id, function($query) use ($county_id){
                 return $query->where('partner', $county_id);
             })->where(['flag' => 1, 'account' => 7])->where('id', '>', 384)->get();
-        $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($county_contacts as $key => $contact) {
 
