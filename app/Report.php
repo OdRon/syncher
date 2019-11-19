@@ -83,8 +83,8 @@ class Report
 	        	}
 
 
-	        	if(str_contains($column_name, 'ccc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = trim($value);
-	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = trim($value);
+	        	if(str_contains($column_name, 'ccc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = $value;
+	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = $value;
 	        }
 
 
