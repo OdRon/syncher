@@ -4,6 +4,7 @@ namespace App;
 
 use Excel;
 use App\Imports\NhrlImport;
+use App\Imports\FacilityImport;
 use DB;
 use App\Facility;
 
@@ -71,6 +72,24 @@ class Random
 				}
 			}
 		}
+	}
+
+	public static function set_partner_facilities()
+	{
+		$facilities = \App\Facility::all();
+
+		foreach ($facilities as $key => $facility) {
+			\App\PartnerFacility::create([
+				'facility_id' => $facility->id,
+				'partner_id' => $facility->partner,
+				'start_date' => '2012-01-01',
+			]);
+		}
+	}
+
+	public static function uon_fac()
+	{		
+		Excel::import(new FacilityImport(23), public_path('uon_facilities.xlsx'));	
 	}
 
 
