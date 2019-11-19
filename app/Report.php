@@ -88,7 +88,9 @@ class Report
 	        	else if(str_contains($column_name, 'ccc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
 		        	echo "\t\t Email {$column_name} {$value} is invalid \n";	        		
 	        	}
-	        	else{}
+	        	else{
+        			echo "\t\t Failed to Add {$column_name} CCC {$value} \n";	        		
+	        	}
 	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = $value;
 	        	else if(str_contains($column_name, 'bcc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
 		        	echo "\t\t Email {$column_name} {$value} is invalid \n";	        		
