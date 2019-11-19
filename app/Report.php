@@ -56,11 +56,10 @@ class Report
                 return $query->where('id', $partner_contact);
             })->where('active', 1)
             ->get();
-        $email_array = array('joelkith@gmail.com', 'tngugi@gmail.com', 'baksajoshua09@gmail.com');
 
 		foreach ($partner_contacts as $key => $contact) {
 
-			echo "Eid Partner contact {$contact->id} \n";
+			// echo "Eid Partner contact {$contact->id} \n";
 
 	        $cc_array = [];
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
@@ -75,7 +74,7 @@ class Report
 	        			$contact->$column_name=null;
 	        			$contact->save();
 	        			echo "\t\t Removed blocked email {$value} from column {$column_name} \n";
-	        			// continue;
+	        			continue;
 	        		}
 	        	}
 	        	else{}
@@ -85,35 +84,30 @@ class Report
 	        		$cc_array[] = $value;
         			echo "\t\t Added {$column_name} CCC {$value} \n";	        		
 	        	}
-	        	else if(str_contains($column_name, 'ccc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
+	        	/*else if(str_contains($column_name, 'ccc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
 		        	echo "\t\t Email {$column_name} {$value} is invalid \n";	        		
-	        	}
+	        	}*/
 	        	else{}
 
 	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = $value;
-	        	else if(str_contains($column_name, 'bcc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
+	        	/*else if(str_contains($column_name, 'bcc') && !filter_var($value, FILTER_VALIDATE_EMAIL)){
 		        	echo "\t\t Email {$column_name} {$value} is invalid \n";	        		
-	        	}
+	        	}*/
 	        	else{}
 	        }
-	    	$cc = json_encode($cc_array);
-	    	$bcc = json_encode($bcc_array);
-	    	echo "\t\t CCC Array {$cc} \n";
-	    	echo "\t\t BCC Array {$bcc} \n";
-	    	die();
 
 
 
 	        if(env('APP_ENV') == 'production'){
 		        try {
-			        // Mail::to($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
+			        Mail::to($cc_array)->bcc($bcc_array)->send(new EidPartnerPositives($contact->id));
 			        DB::table('eid_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
 		        } catch (Exception $e) {
 		        	echo $e->getMessage();
 		        }
 		    }
 		    else{
-		    	// Mail::to(self::$email_array)->send(new EidPartnerPositives($contact->id));
+		    	Mail::to(self::$email_array)->send(new EidPartnerPositives($contact->id));
 		    }
 
 		}
@@ -131,7 +125,7 @@ class Report
 	        $mail_array = [];
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 
-	        foreach ($contact as $column_name => $value) {
+	        foreach ($contact->toArray() as $column_name => $value) {
 	        	$value = trim($value);
 
 	        	// Check if email address is blocked
@@ -162,29 +156,6 @@ class Report
 		}
 	}
 
-	// public static function send_password()
-	// {
-	// 	$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 2)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->whereRaw("email not like '%example%'")->whereNull('email_sent')->get();
-		
-	// 	foreach ($users as $key => $value) {
-	// 		$user = \App\User::find($value->id);
-	// 		Mail::to($value->email)->send(new PasswordEmail($value->id));
-	// 		if( count(Mail::failures()) > 0 ) {
-	// 		   echo "==>There was one or more failures. They were: <br />";
-	// 		   foreach(Mail::failures() as $email_address) {
-	// 		   		$user->email_sent = NULL;
-	// 		   		$user->save();
-	// 		       	echo " - $email_address <br />";
-	// 		    }
-	// 		} else {
-	// 		    echo "==> No errors, all sent successfully!</br>";
-	// 		    $user->email_sent = date('Y-m-d H:i:s');
-	// 	   		$user->save();
-	// 		}
-	// 	}
-	// }
-
-
 	public static function vl_partner($partner_contact=null)
 	{
 		$partner_contacts = VlPartner::when($partner_contact, function($query) use ($partner_contact){
@@ -196,11 +167,8 @@ class Report
 
 	        $cc_array = [];
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
-	        $mainrecipientmail = trim($contact->mainrecipientmail);
 
-	        if(in_array($mainrecipientmail, ['', null]) || !filter_var($mainrecipientmail, FILTER_VALIDATE_EMAIL)) continue;
-
-	        foreach ($contact as $column_name => $value) {
+	        foreach ($contact->toArray() as $column_name => $value) {
 	        	$value = trim($value);
 
 	        	// Check if email address is blocked
@@ -214,12 +182,12 @@ class Report
 	        		}
 	        	}
 
-	        	if(str_contains($column_name, 'ccc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = trim($value);
+	        	if(str_contains($column_name, ['ccc', 'mainrecipientmail']) && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = trim($value);
 	        	if(str_contains($column_name, 'bcc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $bcc_array[] = trim($value);
 	        }
 	        if(env('APP_ENV') == 'production'){
 		        try {
-			        Mail::to($mainrecipientmail)->cc($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
+			        Mail::to($cc_array)->bcc($bcc_array)->send(new VlPartnerNonsuppressed($contact->id));
 			        DB::table('vl_partner_contacts_for_alerts')->where('id', $contact->id)->update(['lastalertsent' => date('Y-m-d')]);
 		        } catch (Exception $e) {
 		        	
@@ -243,7 +211,7 @@ class Report
 	        $mail_array = [];
 	        $bcc_array = ['joel.kithinji@dataposit.co.ke', 'joshua.bakasa@dataposit.co.ke', 'tngugi@clintonhealthaccess.org'];
 
-	        foreach ($contact as $column_name => $value) {
+	        foreach ($contact->toArray() as $column_name => $value) {
 	        	$value = trim($value);
 
 	        	// Check if email address is blocked
@@ -313,6 +281,29 @@ class Report
 
         return $totals;
 	}
+
+	// public static function send_password()
+	// {
+	// 	$users = \App\User::where('user_type_id', '<>', 8)->where('user_type_id', '<>', 2)->where('user_type_id', '<>', 10)->whereNull('deleted_at')->whereRaw("email like '%@%'")->whereRaw("email not like '%example%'")->whereNull('email_sent')->get();
+		
+	// 	foreach ($users as $key => $value) {
+	// 		$user = \App\User::find($value->id);
+	// 		Mail::to($value->email)->send(new PasswordEmail($value->id));
+	// 		if( count(Mail::failures()) > 0 ) {
+	// 		   echo "==>There was one or more failures. They were: <br />";
+	// 		   foreach(Mail::failures() as $email_address) {
+	// 		   		$user->email_sent = NULL;
+	// 		   		$user->save();
+	// 		       	echo " - $email_address <br />";
+	// 		    }
+	// 		} else {
+	// 		    echo "==> No errors, all sent successfully!</br>";
+	// 		    $user->email_sent = date('Y-m-d H:i:s');
+	// 	   		$user->save();
+	// 		}
+	// 	}
+	// }
+
 
 
 }
