@@ -86,7 +86,7 @@ class Report
 	        			continue;
 	        		}
 	        	}
-	        	echo "Checking ccc and bcc \n";
+	        	$myvar = null;
 
 
 	        	if(str_contains($column_name, 'ccc') && filter_var($value, FILTER_VALIDATE_EMAIL) && !str_contains($value, ['jbatuka'])) $cc_array[] = $value;
