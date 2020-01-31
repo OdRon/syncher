@@ -1,9 +1,9 @@
 @php
-dd($message);
+dd($data);
 @endphp
-@if(isset($message))
-<p>{{ $message->code ?? '' }}</p>
-<p>{{ print_r($message->body) }}</p>
+@if(isset($data))
+<p>{{ $data->code ?? '' }}</p>
+<p>{{ print_r($data->body) }}</p>
 @else
 <p>This is a test.</p>
 @endif

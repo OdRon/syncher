@@ -12,7 +12,7 @@ class TestMail extends Mailable
     use Queueable, SerializesModels;
 
     public $my_attachments;
-    public $message;
+    public $data;
 
     /**
      * Create a new message instance.
@@ -22,7 +22,7 @@ class TestMail extends Mailable
     public function __construct($my_attachments = null, $message = null)
     {
         $this->my_attachments = $my_attachments;
-        $this->message = $message;
+        $this->data = $message;
     }
 
     /**
