@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use GuzzleHttp\Client;
 
 class ShortCodeQueries extends Model
 {
@@ -37,7 +38,7 @@ class ShortCodeQueries extends Model
 			}
 			$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility); // Get the patient data
 			$textMsg = $this->buildTextMessage($patientTests, $status, $testtype); // Get the message to send to the patient.
-			$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype); // Save and send the message
+			$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype, $sms); // Save and send the message
     	}
     	echo "==>Completed sending SMS";
     }
@@ -132,7 +133,7 @@ class ShortCodeQueries extends Model
 		return $msg;
 	}
 
-	private function sendTextMessage($msg, $patient = null, $facility = null, $status, $receivedMsg, $phone, $testtype) {
+	private function sendTextMessage($msg, $patient = null, $facility = null, $status, $receivedMsg, $phone, $testtype, $shortcode = null) {
 		if (empty($patient)){
 			$msg = "The Patient Idenfier Provided Does not Exist in the Lab. Kindly confirm you have the correct one as on the Sample Request Form. Thanks.";
 		} else {
@@ -141,7 +142,8 @@ class ShortCodeQueries extends Model
 		date_default_timezone_set('Africa/Nairobi');
         $dateresponded = date('Y-m-d H:i:s');
 		$responseCode = self::__sendMessage($phone, $msg);
-		$shortcode = new ShortCodeQueries;
+		if (!isset($shortcode))
+			$shortcode = new ShortCodeQueries;
 		$shortcode->testtype = $testtype;
 		$shortcode->phoneno = $phone;
 		$shortcode->message = $receivedMsg;
