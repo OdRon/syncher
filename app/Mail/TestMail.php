@@ -22,8 +22,7 @@ class TestMail extends Mailable
     public function __construct($my_attachments = null, $message = null)
     {
         $this->my_attachments = $my_attachments;
-        if (isset($message))
-            $this->message = $message;
+        $this->message = $message;
     }
 
     /**
