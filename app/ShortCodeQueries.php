@@ -3,7 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 use GuzzleHttp\Client;
+
+use App\Mail\TestMail;
 
 class ShortCodeQueries extends Model
 {
@@ -142,8 +145,8 @@ class ShortCodeQueries extends Model
 
 		date_default_timezone_set('Africa/Nairobi');
         $dateresponded = date('Y-m-d H:i:s');
-		$responseCode = self::__sendMessage($phone, $msg);
-		print_r($responseCode);die();
+		$response = self::__sendMessage($phone, $msg);
+		
 		if (!isset($shortcode))
 			$shortcode = new ShortCodeQueries;
 		$shortcode->testtype = $testtype;
@@ -154,8 +157,12 @@ class ShortCodeQueries extends Model
 		$shortcode->datereceived = $dateresponded;
 		$shortcode->status = $status;
 
-		if ($responseCode < 400)
+		if ($response->code < 400){
 			$shortcode->dateresponded = $dateresponded;
+		} else {
+			$message = "{$response->code}\n{$response->body}";
+			Mail::to(['baksajoshua09@gmail.com'])->send(new TestMail($message))
+		}
 		$shortcode->save();
 		return $msg;
 	}

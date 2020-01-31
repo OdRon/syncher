@@ -12,15 +12,18 @@ class TestMail extends Mailable
     use Queueable, SerializesModels;
 
     public $my_attachments;
+    public $message;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($my_attachments = null)
+    public function __construct($my_attachments = null, $message = null)
     {
         $this->my_attachments = $my_attachments;
+        if (isset($message))
+            $this->message = $message;
     }
 
     /**
