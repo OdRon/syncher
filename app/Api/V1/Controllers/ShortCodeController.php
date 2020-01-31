@@ -16,7 +16,8 @@ use GuzzleHttp\Client;
  */
 class ShortCodeController extends Controller
 {
-    public static $sms_url = 'http://sms.southwell.io/api/v1/messages';
+    public static $sms_url = 'https://api.vaspro.co.ke/v3/BulkSMS/api/create';
+	public static $sms_callback = 'http://vaspro.co.ke/dlr';
 
     private $limit = 5;
 
@@ -137,7 +138,7 @@ class ShortCodeController extends Controller
 		}
 		date_default_timezone_set('Africa/Nairobi');
         $dateresponded = date('Y-m-d H:i:s');
-		$responceCode = self::__sendMessage($phone, $msg);
+		$responseCode = self::__sendMessage($phone, $msg);
 		$shortcode = new ShortCodeQueries;
 		$shortcode->testtype = $testtype;
 		$shortcode->phoneno = $phone;
@@ -146,14 +147,39 @@ class ShortCodeController extends Controller
 		$shortcode->patient_id = $patient;
 		$shortcode->datereceived = $dateresponded;
 		$shortcode->status = $status;
-		if ($responceCode =='201')
+
+		if ($responseCode < 400)
 			$shortcode->dateresponded = $dateresponded;
 		$shortcode->save();
 		return $msg;
 	}
 
     static function __sendMessage($phone, $message) {
-        $client = new Client(['base_uri' => self::$sms_url]);
+       $client = new Client(['base_uri' => self::$sms_url]);
+
+		$response = $client->request('post', '', [
+			// 'auth' => [env('SMS_USERNAME'), env('SMS_PASSWORD')],
+			'http_errors' => false,
+			'json' => [
+				// 'sender' => env('SMS_SENDER_ID'),
+                'apiKey' => env('SMS_KEY'),
+                'shortCode' => env('SMS_SENDER_ID'),
+				'recipient' => $phone,
+				'message' => $message,
+                'callbackURL' => self::$sms_callback,
+                'enqueue' => 0,
+			],
+		]);
+		return $response->getStatusCode();
+		
+		// $body = json_decode($response->getBody());
+  //       if($response->getStatusCode() == 402) die();
+		// // if($response->getStatusCode() == 201){
+  //       if($response->getStatusCode() < 300) return true;
+    }
+
+    static function __oldSendMessage() {
+    	 $client = new Client(['base_uri' => self::$sms_url]);
 
         $response = $client->request('post', '', [
             'auth' => [env('SMS_USERNAME'), env('SMS_PASSWORD')],
@@ -165,6 +191,7 @@ class ShortCodeController extends Controller
             ],
         ]);
         return $response->getStatusCode();
+    	
     }
 }
 
