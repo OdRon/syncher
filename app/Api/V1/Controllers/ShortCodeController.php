@@ -171,7 +171,7 @@ class ShortCodeController extends Controller
 			],
 		]);
 		return $response->getStatusCode();
-		
+
 		// $body = json_decode($response->getBody());
   //       if($response->getStatusCode() == 402) die();
 		// // if($response->getStatusCode() == 201){
@@ -190,8 +190,7 @@ class ShortCodeController extends Controller
                 'message' => $message,
             ],
         ]);
-        return $response->getStatusCode();
-    	
+        return $response->getStatusCode();    	
     }
 }
 
