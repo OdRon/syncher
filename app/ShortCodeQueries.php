@@ -26,7 +26,7 @@ class ShortCodeQueries extends Model
     		$message = $sms->message;
     		echo "\tSending message {$message}\n";
     		$message = $sms->message;
-			$phone = $sms->phone;
+			$phone = $sms->phoneno;
 			$patient = null;
 			$facility = null;
 			$testtype = null;
