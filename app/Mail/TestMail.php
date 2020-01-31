@@ -38,6 +38,8 @@ class TestMail extends Mailable
                 $this->attach($value);
             }
         }
+        if (null !== $this->data)
+            $this->subject('Error Encountered');
         return $this->view('mail.test');
     }
 }
