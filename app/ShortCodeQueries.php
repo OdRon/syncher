@@ -161,7 +161,7 @@ class ShortCodeQueries extends Model
 			$shortcode->dateresponded = $dateresponded;
 		} else {
 			$message = "{$response->code}\n{$response->body}";
-			Mail::to(['baksajoshua09@gmail.com'])->send(new TestMail($message))
+			Mail::to(['baksajoshua09@gmail.com'])->send(new TestMail($message));
 		}
 		$shortcode->save();
 		return $msg;
