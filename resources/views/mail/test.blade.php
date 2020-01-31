@@ -1,6 +1,3 @@
-@php
-dd($data);
-@endphp
 @if(isset($data))
 <p>{{ $data->code ?? '' }}</p>
 <p>{{ print_r($data->body) }}</p>
