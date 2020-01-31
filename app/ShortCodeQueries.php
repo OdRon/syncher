@@ -20,7 +20,7 @@ class ShortCodeQueries extends Model
     {
     	echo "==> Get unresponded SMS for date('Y')\n";
     	$smses = $this->getUnsentEmail();
-    	echo "==> Gotten {$sms->count()} requests\n";
+    	echo "==> Gotten {$smses->count()} requests\n";
     	foreach ($smses as $key => $sms) {
     		$message = $sms->message;
     		echo "\tSending message {$message}\n";
