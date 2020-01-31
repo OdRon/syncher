@@ -32,6 +32,7 @@ class TestMail extends Mailable
      */
     public function build()
     {
+        dd($this->message);
         if($this->my_attachments && is_array($this->my_attachments)){
             foreach ($this->my_attachments as $key => $value) {
                 // $this->attach($value, ['as' => $key]);
