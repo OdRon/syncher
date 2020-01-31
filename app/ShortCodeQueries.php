@@ -48,7 +48,7 @@ class ShortCodeQueries extends Model
 
     public function getUnsentEmail()
     {
-    	return $this->whereNull('dateresponded')->whereYear('created_at', date('Y'))->where('id', '=', 631046)->get();
+    	return $this->whereNull('dateresponded')->whereYear('created_at', date('Y'))->get();
     }
 
     private function messageBreakdown($message = null) {
