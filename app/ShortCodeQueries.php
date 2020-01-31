@@ -139,10 +139,11 @@ class ShortCodeQueries extends Model
 		} else {
 			$patient = $patient->first()->id;
 		}
-		print_r($shortcode);die();
+
 		date_default_timezone_set('Africa/Nairobi');
         $dateresponded = date('Y-m-d H:i:s');
 		$responseCode = self::__sendMessage($phone, $msg);
+		print_r($responseCode);die();
 		if (!isset($shortcode))
 			$shortcode = new ShortCodeQueries;
 		$shortcode->testtype = $testtype;
@@ -175,11 +176,10 @@ class ShortCodeQueries extends Model
                 'enqueue' => 0,
 			],
 		]);
-		return $response->getStatusCode();
 
-		// $body = json_decode($response->getBody());
-  //       if($response->getStatusCode() == 402) die();
-		// // if($response->getStatusCode() == 201){
-  //       if($response->getStatusCode() < 300) return true;
+		return (object)[
+				'code' => $response->getStatusCode(),
+				'body' => json_decode($response->getBody())
+			];
     }
 }
