@@ -38,7 +38,6 @@ class ShortCodeQueries extends Model
 			}
 			$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility); // Get the patient data
 			$textMsg = $this->buildTextMessage($patientTests, $status, $testtype); // Get the message to send to the patient.
-			print_r($textMsg);die();
 			$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype, $sms); // Save and send the message
     	}
     	echo "==>Completed sending SMS";
@@ -140,6 +139,7 @@ class ShortCodeQueries extends Model
 		} else {
 			$patient = $patient->first()->id;
 		}
+		print_r($shortcode);die();
 		date_default_timezone_set('Africa/Nairobi');
         $dateresponded = date('Y-m-d H:i:s');
 		$responseCode = self::__sendMessage($phone, $msg);
