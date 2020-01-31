@@ -161,6 +161,7 @@ class ShortCodeQueries extends Model
 			$shortcode->dateresponded = $dateresponded;
 		} else {
 			$message = strval(json_encode($response->code) . "\n" . json_encode($response->body));
+			print_r($message);die();
 			Mail::to(['baksajoshua09@gmail.com'])->send(new TestMail($message));
 		}
 		$shortcode->save();
