@@ -140,7 +140,6 @@ class ShortCodeQueries extends Model
 			$patient = $patient->first()->id;
 		}
 
-		print_r($msg . " <<<>>> " . $phone);die();
 		date_default_timezone_set('Africa/Nairobi');
         $dateresponded = date('Y-m-d H:i:s');
 		$responseCode = self::__sendMessage($phone, $msg);
