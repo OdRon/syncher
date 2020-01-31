@@ -37,8 +37,8 @@ class ShortCodeQueries extends Model
 				return response()->json(self::__sendMessage($phone, $message));
 			}
 			$patientTests = $this->getPatientData($messageBreakdown, $patient, $facility); // Get the patient data
-			print_r($patientTests);die();
 			$textMsg = $this->buildTextMessage($patientTests, $status, $testtype); // Get the message to send to the patient.
+			print_r($textMsg);die();
 			$sendTextMsg = $this->sendTextMessage($textMsg, $patient, $facility, $status, $message, $phone, $testtype, $sms); // Save and send the message
     	}
     	echo "==>Completed sending SMS";
