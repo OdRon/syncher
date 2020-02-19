@@ -184,7 +184,7 @@ class Lookup
             'genders' => Cache::get('genders'),
             'sample_types' => Cache::get('sample_types'),
             'received_statuses' => Cache::get('received_statuses'),
-            'prophylaxis' => Cache::get('viralregimen'),
+            'prophylaxis' => Cache::get('prophylaxis'),
             'justifications' => Cache::get('justifications'),
             'pmtct_types' => Cache::get('pmtct_types'),
         ];        
