@@ -184,3 +184,9 @@ Artisan::command('get:ken', function(){
     $str = \App\Random::run_ken_request();
     $this->info($str);
 });
+
+Artisan::command('resend:smsqueries', function() {
+    $model = new \App\ShortCodeQueries;
+    $str = $model->resendSMS();
+    $this->info($str);
+});

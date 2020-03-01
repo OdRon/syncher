@@ -231,7 +231,7 @@ class Lookup
         // Viralload Lookup Data
         $viral_rejected_reasons = DB::table('viralrejectedreasons')->get();
         $pmtct_types = DB::table('viralpmtcttype')->get();
-        $prophylaxis = DB::table('viralprophylaxis')->orderBy('category', 'asc')->get();
+        $prophylaxis = DB::table('viralregimen')->get();
         $justifications = DB::table('viraljustifications')->get();
         $sample_types = DB::table('viralsampletype')->where('flag', 1)->get();
         $regimen_lines = DB::table('viralregimenline')->where('flag', 1)->get();

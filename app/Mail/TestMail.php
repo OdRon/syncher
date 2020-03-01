@@ -12,15 +12,17 @@ class TestMail extends Mailable
     use Queueable, SerializesModels;
 
     public $my_attachments;
+    public $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($my_attachments = null)
+    public function __construct($my_attachments = null, $message = null)
     {
         $this->my_attachments = $my_attachments;
+        $this->data = $message;
     }
 
     /**
@@ -36,6 +38,8 @@ class TestMail extends Mailable
                 $this->attach($value);
             }
         }
+        if (null !== $this->data)
+            $this->subject('Error Encountered');
         return $this->view('mail.test');
     }
 }

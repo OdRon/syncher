@@ -4,6 +4,8 @@ namespace App;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+
 use DB;
 use Exception;
 
@@ -20,6 +22,8 @@ use App\Viralworksheet;
 
 use App\Facility;
 use App\Lab;
+
+use App\Mail\AllocationReview;
 
 /*
 	This is for the synching of updates down to the lab
@@ -200,8 +204,6 @@ class Synch
 				continue; // Skip NHRL and EDARP
 			$lab = $labs->where('id', $model->lab_id)->first();
 			// $synch_data = self::send_update($model, $lab);
-			if (strpos(url()->current(), "lab-2.test.nascop.org/approveallocation"))
-				$lab->base_url = "http://lab.test.nascop.org/api/";
 			$client = new Client(['base_uri' => $lab->base_url]);
 			
 			$response = $client->request('put', 'allocation', [
@@ -531,6 +533,18 @@ class Synch
 				echo "Error on sample {$sample->id} - Error Message, " . $e->getMessage() . "\n";				
 			}
 		}
+	}
+
+	public static function sendAllocationReview($allocation)
+	{
+		$users = new User;
+		$allocationCommittee = $users->allocationCommittee()->get()->pluck('email')->toArray();
+		self::sendAllocationReviewEmail($allocation, $allocationCommittee);
+	}
+
+	private static function sendAllocationReviewEmail($allocation, $committee)
+	{
+		Mail::to($committee)->send(new AllocationReview($allocation));
 	}
 
 
