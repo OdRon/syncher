@@ -751,6 +751,12 @@ class ReportController extends Controller
                 
                 $title .= "vl TEST OUTCOMES FOR ";
                 $briefTitle .= "vl TEST OUTCOMES ";
+            }else if ($request->indicatortype == 100) {
+                $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Reasons for Repeat', 'Rejected Reason', 'Regimen', 'Regimen Line', 'PMTCT', 'Result', 'Recency Number'];
+                $selectStr .= ", $table.receivedstatus_name as receivedstatus, $table.reason_for_repeat, viralrejectedreasons.name as rejectedreason, $table.prophylaxis_name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result, recency_number";
+                
+                $title .= "vl RECENCY TEST OUTCOMES FOR ";
+                $briefTitle .= "vl RECENCY TEST OUTCOMES ";
             } else if ($request->indicatortype == 5) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Rejected Reason', 'Lab Comment'];
                 $selectStr .= ", $table.receivedstatus_name as receivedstatus, viralrejectedreasons.name as rejectedreason, $table.labcomment";
@@ -790,12 +796,12 @@ class ReportController extends Controller
             if (!($request->indicatortype == 9)) {
                 $model = $model->where('repeatt', '=', 0);
             }
-            if (($request->indicatortype == 2 || $request->indicatortype == 4 || $request->indicatortype == 5 || $request->indicatortype == 6) && $request->input('category') != 'poc') 
+            if (in_array($request->indicatortype, [2,4,5,6]) && $request->input('category') != 'poc') 
                 $model = $model->leftJoin('labs as lab', 'lab.id', '=', "$table.lab_id");
-            else if (($request->indicatortype == 2 || $request->indicatortype == 4 || $request->indicatortype == 5 || $request->indicatortype == 6) && $request->input('category') == 'poc')
+            else if (in_array($request->indicatortype, [2,4,5,6]) && $request->input('category') == 'poc')
                 $model = $model->leftJoin('view_facilitys as lab', 'lab.id', '=', "$table.lab_id");
 
-            if ($request->indicatortype == 2 || $request->indicatortype == 5)
+            if (in_array($request->indicatortype, [2,5]))
                 $model = $model->leftJoin('viralrejectedreasons', 'viralrejectedreasons.id', '=', "$table.rejectedreason");
             if ($request->indicatortype == 2 || $request->indicatortype == 4 || $request->indicatortype == 6)
                 $model = $model->leftJoin('viralpmtcttype', 'viralpmtcttype.id', '=', "$table.pmtct")

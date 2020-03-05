@@ -377,6 +377,7 @@
                                 @endif
                             @elseif($testtype == 'VL')
                                 <label><input type="radio" name="indicatortype" value="2" class="i-checks" required>Detailed</label>
+                                <label><input type="radio" name="indicatortype" value="100" class="i-checks" required>Recency</label>
                                 <label><input type="radio" name="indicatortype" value="5" class="i-checks" required>Rejected</label>
                                 @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 10)
                                     <label><input type="radio" name="indicatortype" value="4" class="i-checks" required>Non Suppressed ( > 1000 cp/ml)</label>

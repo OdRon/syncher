@@ -42,6 +42,8 @@ $api->version('v1', function (Router $api) {
         $api->get('pull/facilities', 'PullController@facilities');
         $api->post('pull/vl', 'PullController@vl');
 
+        $api->post('recency', 'PullController@recency');
+
         $api->post('consumption', 'ConsumptionsController@api_create');
 
         $api->post('shortcode', 'ShortCodeController@shortcode');
