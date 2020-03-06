@@ -157,11 +157,11 @@ class PullController extends Controller
 
         return $result;
     }
-    
+
 
     public function recency(BlankRequest $request)
     {
-        if(!$p) throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Unauthorized');
+        if($request->headers->get('apikey') != env('RECENCY_KEY')) throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Unauthorized');
 
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
@@ -187,7 +187,7 @@ class PullController extends Controller
             $facilities = explode(',', $facilities);
         }
 
-        $sql = "{$table}.id AS `system_id`, original_batch_id AS `batch`, patient AS `ccc_number`, labs.name AS `lab_tested_in`, county, subcounty, partner, view_facilitys.name AS `facility`, facilitycode AS `facility_code`, gender_description AS `gender`, dob, age, sampletype_name as `sample_type`, datecollected as `date_collected`, justification_name as `justification`, datereceived as `date_received`, datetested as `date_tested`, datedispatched as `date_dispatched`, initiation_date as `art_initiation_date`, receivedstatus_name AS `received_status`, rejected_name as `rejected_reason`, prophylaxis_name as `regimen`, regimenline as `regimen_line`, pmtct_name as `pmtct`, result   ";
+        $sql = "{$table}.id AS `system_id`, original_batch_id AS `batch`, patient AS `ccc_number`, labs.name AS `lab_tested_in`, county, subcounty, partner, view_facilitys.name AS `facility`, facilitycode AS `facility_code`, gender_description AS `gender`, dob, age, sampletype_name as `sample_type`, datecollected as `date_collected`, justification_name as `justification`, datereceived as `date_received`, datetested as `date_tested`, datedispatched as `date_dispatched`, initiation_date as `art_initiation_date`, receivedstatus_name AS `received_status`, rejected_name as `rejected_reason`, prophylaxis_name as `regimen`, regimenline as `regimen_line`, pmtct_name as `pmtct`, result, recency_number   ";
  
         $result = $class::selectRaw($sql)
             ->join('view_facilitys', 'view_facilitys.id', '=', "{$table}.facility_id")
@@ -209,7 +209,7 @@ class PullController extends Controller
             })
             ->where(['repeatt' => 0, 'justification' => 12])          
             ->orderBy('datecollected', 'desc')
-            ->paginate(100);
+            ->paginate(50);
 
         return $result;
         
