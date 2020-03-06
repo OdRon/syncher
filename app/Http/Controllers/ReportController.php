@@ -752,8 +752,8 @@ class ReportController extends Controller
                 $title .= "vl TEST OUTCOMES FOR ";
                 $briefTitle .= "vl TEST OUTCOMES ";
             }else if ($request->indicatortype == 100) {
-                $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Reasons for Repeat', 'Regimen', 'Regimen Line', 'PMTCT', 'Result', 'Recency Number'];
-                $selectStr .= ", $table.receivedstatus_name as receivedstatus, $table.reason_for_repeat, $table.prophylaxis_name as regimen, viralregimenline.name as regimenline, viralpmtcttype.name as pmtct, $table.result, recency_number";
+                $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Reasons for Repeat', 'Regimen', 'Result', 'Recency Number'];
+                $selectStr .= ", $table.receivedstatus_name as receivedstatus, $table.reason_for_repeat, $table.prophylaxis_name as regimen, $table.result, recency_number";
                 
                 $title .= "vl RECENCY TEST OUTCOMES FOR ";
                 $briefTitle .= "vl RECENCY TEST OUTCOMES ";
