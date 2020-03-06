@@ -796,9 +796,9 @@ class ReportController extends Controller
             if (!($request->indicatortype == 9)) {
                 $model = $model->where('repeatt', '=', 0);
             }
-            if (in_array($request->indicatortype, [2,4,5,6]) && $request->input('category') != 'poc') 
+            if (in_array($request->indicatortype, [2,4,5,6,100]) && $request->input('category') != 'poc') 
                 $model = $model->leftJoin('labs as lab', 'lab.id', '=', "$table.lab_id");
-            else if (in_array($request->indicatortype, [2,4,5,6]) && $request->input('category') == 'poc')
+            else if (in_array($request->indicatortype, [2,4,5,6,100]) && $request->input('category') == 'poc')
                 $model = $model->leftJoin('view_facilitys as lab', 'lab.id', '=', "$table.lab_id");
 
             if (in_array($request->indicatortype, [2,5]))
