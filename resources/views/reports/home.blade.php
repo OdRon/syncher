@@ -333,7 +333,7 @@
                                 @endif
                             </div>
                         </div> 
-                        @if($testtype == 'VL' && (in_array(Auth::user()->user_type_id, [3,10]))
+                        @if($testtype == 'VL' && in_array(Auth::user()->user_type_id, [3,10]))
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Select Age Group</label>
                             <div class="col-sm-9">
