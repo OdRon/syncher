@@ -801,6 +801,7 @@ class ReportController extends Controller
             else if (in_array($request->indicatortype, [2,4,5,6,100]) && $request->input('category') == 'poc')
                 $model = $model->leftJoin('view_facilitys as lab', 'lab.id', '=', "$table.lab_id");
 
+            if($request->indicatortype == 100) $model = $model->where("$table.justification", "=", 12);
             if (in_array($request->indicatortype, [2,5]))
                 $model = $model->leftJoin('viralrejectedreasons', 'viralrejectedreasons.id', '=', "$table.rejectedreason");
             if ($request->indicatortype == 2 || $request->indicatortype == 4 || $request->indicatortype == 6)
