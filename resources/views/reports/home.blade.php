@@ -63,7 +63,7 @@
                         {{ Form::open(['url'=>'/reports', 'method' => 'post', 'class'=>'form-horizontal', 'id' => 'reports_form']) }}
                         <input type="hidden" name="testtype" value="{{ $testtype }}">
                         <div class="form-group">
-                            @if(!(Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 2))
+                            @if(!in_array(Auth::user()->user_type_id, [2,6]))
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" class="i-checks" value="overall" required>Overall
@@ -71,6 +71,8 @@
                                 <div class="col-sm-9">
                                     @if(Auth::user()->user_type_id == 9)
                                         << By County / Partner / Lab >>
+                                    @elseif(Auth::user()->user_type_id == 16)
+                                        << National >>
                                     @else
                                         << For all Sites Under {{ $user->name ?? '' }} >>
                                     @endif
