@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             @endif
-                            @if(Auth::user()->user_type_id == 9 || Auth::user()->user_type_id == 10)
+                            @if(in_array(Auth::user()->user_type_id, [9,10,16]))
                                 <div class="row">
                                     <label class="col-sm-3 control-label">
                                         <input type="radio" name="category" value="lab" class="i-checks" required>Select Lab
@@ -95,7 +95,7 @@
                                 </div>
                             @endif
                             @if(Auth::user()->user_type_id != 9)
-                                @if(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 10)
+                                @if(in_array(Auth::user()->user_type_id, [2,10,16]))
                                     <div class="row">
                                         <label class="col-sm-3 control-label">
                                             <input type="radio" name="category" value="partner" class="i-checks" required>Select Partner

@@ -48,7 +48,7 @@ class ReportController extends Controller
         $partners = (object)[];
         $labs = (object)[];
         
-        if ($usertype == 9 || $usertype == 10) 
+        if (in_array($usertype, [9,10,16])) 
             $labs = Lab::get();
 
         if ($usertype != 9) {
@@ -81,12 +81,12 @@ class ReportController extends Controller
                                                 if (!($usertype == 10 || $usertype == 2))
                                                     return $query->where('partner_id', '=', auth()->user()->level);
                                             })->groupBy('county_id')->orderBy('county', 'asc')->get();
-                if ($usertype == 6 || $usertype == 10)
+                if (in_array($usertype, [6,10,16]))
                     $countys = DB::table('countys')->select('id as county_id', 'name as county')->orderBy('name', 'asc')->get();
                 if ($usertype==7 && auth()->user()->level==85)
                     $countys = ViewFacility::where('partner_id5', '=', auth()->user()->level)->groupBy('county_id')->orderBy('county', 'asc')->get();
 
-                if ($usertype == 2 || $usertype == 10)
+                if (in_array($usertype, [2,10,16]))
                     $partners = Partner::orderBy('name', 'desc')->get();
 
                 $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
