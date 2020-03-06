@@ -39,6 +39,8 @@ class ReportController extends Controller
 
         if ($usertype == 9) 
             $testtype = 'support';
+
+        if($testtype == 'EID' && $usertype == 16) abort(403);
         
         $facilitys = (object)[];
         $countys = (object)[];

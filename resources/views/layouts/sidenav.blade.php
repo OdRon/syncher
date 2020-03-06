@@ -61,6 +61,9 @@
                     <hr />
                     <li><a href="{{ url('lab/consumption') }}">Consumption Reports List</a></li>
                     <hr />
+                @elseif(in_array(Auth::user()->user_type_id, [16]))
+                    <li><a href="{{ url('reports/VL') }}">VL Results/Reports</a></li>
+                    <hr />
                 @else
                     <li><a href="{{ url('reports/EID') }}">EID Results/Reports</a></li>
                     <hr />
@@ -115,9 +118,9 @@
                 <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
                 <hr />
             @endif
-            @if(!in_array(Auth::user()->user_type_id, [6, 7, 2, 14, 15]))
+            @if(!in_array(Auth::user()->user_type_id, [6, 7, 2, 14, 15,16]))
                 @if(Auth::user()->user_type_id != 8)
-                <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
+                    <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
                 @endif
                 <li><a href="#"><select class="form-control" id="sidebar_batch_search"></select></a></li>
                 <li><a href="#"><select class="form-control" id="sidebar_patient_search"></select></a></li>

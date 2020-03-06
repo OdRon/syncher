@@ -112,7 +112,8 @@ class LoginController extends Controller
         $user = auth()->user();
         $user->set_last_access();
 
-        if($user->user_type_id == 16) return '/email';
+        if($user->user_type_id == 13) return '/email';
+        if($user->user_type_id == 16) return '/reports/VL';
 
         // return redirect('/home');
         session(['login_error' => 'Looks like something went wrong']);
