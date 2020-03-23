@@ -167,16 +167,16 @@ class PullController extends Controller
         $end_date = $request->input('end_date');
         $date_dispatched_start = $request->input('date_dispatched_start');
         $date_dispatched_end = $request->input('date_dispatched_end');
-        $patients = $request->input('patient_id');
+        $recency_number = $request->input('recency_number');
         $facilities = $request->input('facility_code');
         $ids = $request->input('ids'); 
 
         $class = ViralsampleCompleteView::class;
         $table = 'viralsample_complete_view';
 
-        if($patients){
-            $patients = str_replace(' ', '', $patients);
-            $patients = explode(',', $patients);
+        if($recency_number){
+            $recency_number = str_replace(' ', '', $recency_number);
+            $recency_number = explode(',', $recency_number);
         }
         if($ids){
             $ids = str_replace(' ', '', $ids);
@@ -195,8 +195,8 @@ class PullController extends Controller
             ->when($facilities, function($query) use($facilities){
                 return $query->whereIn('facilitycode', $facilities);
             })
-            ->when($patients, function($query) use($patients){
-                return $query->whereIn('patient', $patients);
+            ->when($recency_number, function($query) use($recency_number){
+                return $query->whereIn('patient', $recency_number);
             })
             ->when($ids, function($query) use($ids){
                 return $query->whereIn('original_sample_id', $ids);
