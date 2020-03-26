@@ -49,6 +49,6 @@ return [
             'email' => 'required|email',
             'password' => 'required|confirmed'
         ]
-    ]
+    ],
 
 ];
