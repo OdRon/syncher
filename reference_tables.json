@@ -1,0 +1,240 @@
+{
+    "covid_sample_types": [
+        {
+            "id": 1,
+            "name": "Nasopharygneal swab in UTM"
+        },
+        {
+            "id": 2,
+            "name": "Oropharygneal swab in UTM"
+        },
+        {
+            "id": 3,
+            "name": "Serum"
+        },
+        {
+            "id": 4,
+            "name": "Sputum"
+        },
+        {
+            "id": 5,
+            "name": "Tracheal Aspirate"
+        },
+        {
+            "id": 6,
+            "name": "Other"
+        }
+    ],
+    "covid_symptoms": [
+        {
+            "id": 1,
+            "name": "Fever \/ Chills"
+        },
+        {
+            "id": 2,
+            "name": "Shortness of Breath"
+        },
+        {
+            "id": 3,
+            "name": "Muscular Pain"
+        },
+        {
+            "id": 4,
+            "name": "General Weakness"
+        },
+        {
+            "id": 5,
+            "name": "Diarrhoea"
+        },
+        {
+            "id": 6,
+            "name": "Chest Pain"
+        },
+        {
+            "id": 7,
+            "name": "Cough"
+        },
+        {
+            "id": 8,
+            "name": "Nausea \/ vomiting"
+        },
+        {
+            "id": 9,
+            "name": "Abdominal Pain"
+        },
+        {
+            "id": 10,
+            "name": "Sore Throat"
+        },
+        {
+            "id": 11,
+            "name": "Headache"
+        },
+        {
+            "id": 12,
+            "name": "Joint Pain"
+        },
+        {
+            "id": 13,
+            "name": "Runny Nose"
+        },
+        {
+            "id": 14,
+            "name": "Irritability \/ Confusion"
+        }
+    ],
+    "covid_test_types": [
+        {
+            "id": 1,
+            "name": "Initial Test"
+        },
+        {
+            "id": 2,
+            "name": "1st Follow Up"
+        },
+        {
+            "id": 3,
+            "name": "2nd Follow Up"
+        },
+        {
+            "id": 4,
+            "name": "3rd Follow Up"
+        },
+        {
+            "id": 5,
+            "name": "4th Follow Up"
+        },
+        {
+            "id": 6,
+            "name": "5th Follow Up"
+        }
+    ],
+    "health_statuses": [
+        {
+            "id": 1,
+            "name": "Stable"
+        },
+        {
+            "id": 2,
+            "name": "Severely ill"
+        },
+        {
+            "id": 3,
+            "name": "Dead"
+        },
+        {
+            "id": 4,
+            "name": "Unknown"
+        }
+    ],
+    "identifier_types": [
+        {
+            "id": 1,
+            "name": "National ID"
+        },
+        {
+            "id": 2,
+            "name": "Passport No"
+        },
+        {
+            "id": 3,
+            "name": "Foreign ID"
+        },
+        {
+            "id": 4,
+            "name": "National ID of parent"
+        },
+        {
+            "id": 5,
+            "name": "Passport No of parent"
+        },
+        {
+            "id": 6,
+            "name": "Foreign ID of parent"
+        }
+    ],
+    "observed_signs": [
+        {
+            "id": 1,
+            "name": "Pharyngeal exudate"
+        },
+        {
+            "id": 2,
+            "name": "Coma"
+        },
+        {
+            "id": 3,
+            "name": "Abnormal lung X-Ray findings"
+        },
+        {
+            "id": 4,
+            "name": "Conjunctival injection"
+        },
+        {
+            "id": 5,
+            "name": "Dyspnea \/ tachypnea"
+        },
+        {
+            "id": 6,
+            "name": "Seizure"
+        },
+        {
+            "id": 7,
+            "name": "Abnormal lung auscultation"
+        }
+    ],
+    "underlying_conditions": [
+        {
+            "id": 1,
+            "name": "Pregnancy (trimester 1)"
+        },
+        {
+            "id": 2,
+            "name": "Pregnancy (trimester 2)"
+        },
+        {
+            "id": 3,
+            "name": "Pregnancy (trimester 3)"
+        },
+        {
+            "id": 4,
+            "name": "Post-partum (&lt; 6 weeks)"
+        },
+        {
+            "id": 5,
+            "name": "Cardiovascular disease, including hypertension"
+        },
+        {
+            "id": 6,
+            "name": "Immunodeficiency, including HIV"
+        },
+        {
+            "id": 7,
+            "name": "Diabetes"
+        },
+        {
+            "id": 8,
+            "name": "Renal disease"
+        },
+        {
+            "id": 9,
+            "name": "Liver disease"
+        },
+        {
+            "id": 10,
+            "name": "Chronic lung disease"
+        },
+        {
+            "id": 11,
+            "name": "Chronic neurological or neuromuscular disease"
+        },
+        {
+            "id": 12,
+            "name": "Malignancy"
+        },
+        {
+            "id": 13,
+            "name": "Smoking"
+        }
+    ]
+}
