@@ -55,7 +55,7 @@ class CovidController extends Controller
      *      "date_isolation": "date", 
      *      "date_death": "date", 
      *      
-     *      "lab_id": "int", 
+     *      "lab_id": "int, refer to ref tables", 
      *      "test_type_id": "int", 
      *      "occupation": "string", 
      *      "temperature": "int, temp in Celcius", 
@@ -84,15 +84,28 @@ class CovidController extends Controller
         ], 201);
     }
 
+
     /**
      * Display the specified resource.
      *
-     * @param  \App\Facility  $facility
-     * @return \Illuminate\Http\Response
+     * @Get("/{id}")
+     * @Response(200, body={
+     *      "sample": {
+     *          "id": "int",    
+     *          "patient": {
+     *              "id": "int",
+     *          }    
+     *      }
+     * })
      */
     public function show($id)
     {
+        $s = CovidSample::find($id);
+        $s->load(['patient']);
 
+        return response()->json([
+          'sample' => $s,
+        ], 200);
     }
 
     /**
