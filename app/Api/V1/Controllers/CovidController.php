@@ -186,10 +186,10 @@ class CovidController extends Controller
      */
     public function multiple(BlankRequest $request)
     {
-        $samples = $request->input('samples');
+        $input_samples = $request->input('samples');
         $patients = $samples = [];
 
-        foreach ($samples as $key => $row) {
+        foreach ($input_samples as $key => $row) {
             $row = collect($row);
 
             $p = new CovidPatient;
