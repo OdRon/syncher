@@ -153,7 +153,7 @@ class CovidController extends Controller
      *
      * @Post("/")
      * @Request({
-     *      "sample": {{
+     *      "samples": {{
      *      "case_id": "int, case number", 
      *      "identifier_type": "int, identifier type", 
      *      "identifier": "string, actual identifier, National ID... ", 
