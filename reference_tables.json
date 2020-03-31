@@ -2,26 +2,30 @@
     "covid_sample_types": [
         {
             "id": 1,
-            "name": "Nasopharygneal swab in UTM"
+            "name": "Nasopharygneal & Oropharygneal swabs"
         },
         {
             "id": 2,
-            "name": "Oropharygneal swab in UTM"
+            "name": "Nasopharygneal swab in UTM"
         },
         {
             "id": 3,
-            "name": "Serum"
+            "name": "Oropharygneal swab in UTM"
         },
         {
             "id": 4,
-            "name": "Sputum"
+            "name": "Serum"
         },
         {
             "id": 5,
-            "name": "Tracheal Aspirate"
+            "name": "Sputum"
         },
         {
             "id": 6,
+            "name": "Tracheal Aspirate"
+        },
+        {
+            "id": 7,
             "name": "Other"
         }
     ],
@@ -151,6 +155,10 @@
         {
             "id": 6,
             "name": "Foreign ID of parent"
+        },
+        {
+            "id": 7,
+            "name": "Other"
         }
     ],
     "observed_signs": [
@@ -235,6 +243,90 @@
         {
             "id": 13,
             "name": "Smoking"
+        }
+    ],
+    "nationalities": [
+        {
+            "id": 1,
+            "name": "Kenyan"
+        },
+        {
+            "id": 2,
+            "name": "African"
+        },
+        {
+            "id": 3,
+            "name": "European"
+        },
+        {
+            "id": 4,
+            "name": "Asian"
+        },
+        {
+            "id": 5,
+            "name": "American"
+        },
+        {
+            "id": 6,
+            "name": "Other"
+        }
+    ],
+    "labs": [
+        {
+            "id": 1,
+            "name": "KEMRI,Nairobi HIV Lab"
+        },
+        {
+            "id": 2,
+            "name": "KEMRI CDC HIV\/R Lab,  Kisumu"
+        },
+        {
+            "id": 3,
+            "name": "KEMRI,Alupe HIV Lab"
+        },
+        {
+            "id": 4,
+            "name": "KEMRI\/Walter Reed CRC Lab, Kericho"
+        },
+        {
+            "id": 5,
+            "name": "AMPATH Care Lab, Eldoret"
+        },
+        {
+            "id": 6,
+            "name": "Coast Provincial General Hospital Molecular Lab"
+        },
+        {
+            "id": 7,
+            "name": "National HIV Reference Laboratory, Nairobi"
+        },
+        {
+            "id": 8,
+            "name": "Nyumbani Diagnostic Lab"
+        },
+        {
+            "id": 9,
+            "name": "Kenyatta National Hospial Lab, Nairobi"
+        },
+        {
+            "id": 10,
+            "name": "EDARP, Nairobi"
+        },
+        {
+            "id": 11,
+            "name": "NIC"
+        },
+        {
+            "id": 12,
+            "name": "KEMRI Kilifi"
+        },
+        {
+            "id": 13,
+            "name": "Aga Khan"
+        },
+        {
+            "id": 14,
+            "name": "Lancet"
         }
     ]
 }

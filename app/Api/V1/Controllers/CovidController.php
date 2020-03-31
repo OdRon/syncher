@@ -22,14 +22,27 @@ use DB;
  */
 class CovidController extends Controller
 {
+  
     /**
      * Display a listing of the resource.
+     * The response has links to navigate to the rest of the data.
      *
-     * @return \Illuminate\Http\Response
+     *
+     * @Get("{?page}")
+     * @Response(200, body={
+     *      "data": {
+     *          "sample": {
+     *              "id": "int",    
+     *              "patient": {
+     *                  "id": "int",
+     *              }    
+     *          }
+     *      }
+     * })
      */
     public function index()
     {
-        //
+        return CovidSample::with(['patient'])->where('repeatt', 0)->paginate();
     }
 
     
@@ -43,6 +56,7 @@ class CovidController extends Controller
      *      "identifier": "string, actual identifier, National ID... ", 
      *      "patient_name": "string", 
      *      "justification": "int, reason for the test", 
+     *      "facility": "string, MFL Code or DHIS Code of the facility if any", 
      *      "county": "string", 
      *      "subcounty": "string", 
      *      "ward": "string", 
@@ -56,7 +70,7 @@ class CovidController extends Controller
      *      "date_death": "date", 
      *      
      *      "lab_id": "int, refer to ref tables", 
-     *      "test_type_id": "int", 
+     *      "test_type": "int", 
      *      "occupation": "string", 
      *      "temperature": "int, temp in Celcius", 
      *      "sample_type": "int, refer to ref tables", 
@@ -74,7 +88,7 @@ class CovidController extends Controller
         $p->save();
 
         $s = new CovidSample;
-        $s->fill($request->only(['lab_id', 'test_type_id', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', 'occupation', ]));
+        $s->fill($request->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', 'occupation', ]));
         $s->save();
 
         return response()->json([
@@ -117,16 +131,7 @@ class CovidController extends Controller
      */
     public function update(BlankRequest $request, $id)
     {
-        $facility = Facility::findOrFail($id);
-        $data = json_decode($request->input('facility'));
-        $facility->fill($data);
-        $facility->save();
-
-        // NewFacility::dispatch($facility, true);
-
-        return response()->json([
-          'status' => 'ok',
-        ], 200);
+        
     }
 
     /**

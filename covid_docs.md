@@ -2,11 +2,48 @@ FORMAT: 1A
 
 # Covid
 
+# Login
+
+## Login as a user. [POST /auth/login]
+Middleware Guest
+
++ Request (application/json)
+    + Body
+
+            {
+                "email": "email",
+                "password": "string"
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "status": "ok",
+                "token": "token",
+                "expires_in": "ttl in seconds"
+            }
+
 # Covid [/covid]
 Covid Controller resource representation.
 
 + Parameters
     + id: (integer, required) - The id of the sample.
+
+## Display a listing of the resource. [GET /covid{?page}]
+The response has links to navigate to the rest of the data.
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "sample": {
+                    "id": "int",
+                    "patient": {
+                        "id": "int"
+                    }
+                }
+            }
 
 ## Register a resource. [POST /covid]
 
@@ -20,6 +57,7 @@ Covid Controller resource representation.
                 "identifier": "string, actual identifier, National ID... ",
                 "patient_name": "string",
                 "justification": "int, reason for the test",
+                "facility": "string, MFL Code or DHIS Code of the facility if any",
                 "county": "string",
                 "subcounty": "string",
                 "ward": "string",
@@ -30,7 +68,7 @@ Covid Controller resource representation.
                 "date_admission": "date",
                 "date_isolation": "date",
                 "date_death": "date",
-                "lab_id": "int",
+                "lab_id": "int, refer to ref tables",
                 "test_type_id": "int",
                 "occupation": "string",
                 "temperature": "int, temp in Celcius",
@@ -41,3 +79,18 @@ Covid Controller resource representation.
             }
 
 + Response 201 (application/json)
+
+## Display the specified resource. [GET /covid/{id}]
+
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "sample": {
+                    "id": "int",
+                    "patient": {
+                        "id": "int"
+                    }
+                }
+            }
