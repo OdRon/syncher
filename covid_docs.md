@@ -103,14 +103,14 @@ The response has links to navigate to the rest of the data.
                 }
             }
 
-## Register multiple resources. [POST /covid]
+## Register multiple resources. [POST /covid/save_multiple]
 
 
 + Request (application/json)
     + Body
 
             {
-                "sample": [
+                "samples": [
                     {
                         "case_id": "int, case number",
                         "identifier_type": "int, identifier type",
