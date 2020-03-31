@@ -187,6 +187,7 @@ class CovidController extends Controller
     public function save_multiple(BlankRequest $request)
     {
         $input_samples = $request->input('samples');
+        return $input_samples;
         $input_samples = json_decode($input_samples);
         $patients = $samples = [];
 
