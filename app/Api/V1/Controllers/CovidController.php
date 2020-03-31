@@ -115,7 +115,7 @@ class CovidController extends Controller
      */
     public function show($id)
     {
-        $s = CovidSample::find($id);
+        $s = CovidSample::findOrFail($id);
         $s->load(['patient']);
 
         return response()->json([
@@ -151,7 +151,7 @@ class CovidController extends Controller
     /**
      * Register multiple resources.
      *
-     * @Post("/")
+     * @Post("/save_multiple")
      * @Request({
      *      "samples": {{
      *      "case_id": "int, case number", 
@@ -184,7 +184,7 @@ class CovidController extends Controller
      * })
      * @Response(201)
      */
-    public function multiple(BlankRequest $request)
+    public function save_multiple(BlankRequest $request)
     {
         $input_samples = $request->input('samples');
         $patients = $samples = [];
