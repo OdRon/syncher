@@ -53,7 +53,7 @@ $api->version('v1', function (Router $api) {
         $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
 
             $api->group(['prefix' => 'covid'], function(Router $api) {
-                $api->resource('multiple', 'CovidController@multiple');
+                $api->post('multiple', 'CovidController@multiple');
             });
             $api->resource('covid', 'CovidController');
 
