@@ -187,6 +187,7 @@ class CovidController extends Controller
     public function save_multiple(BlankRequest $request)
     {
         $input_samples = $request->input('samples');
+        $input_samples = json_decode($input_samples);
         $patients = $samples = [];
 
         foreach ($input_samples as $key => $row) {
@@ -209,8 +210,8 @@ class CovidController extends Controller
 
         return response()->json([
           'status' => 'ok',
-          'patient' => $patients,
-          'sample' => $samples,
+          'patients' => $patients,
+          'samples' => $samples,
         ], 201);
     }
 
