@@ -89,6 +89,7 @@ class CovidController extends Controller
 
         $s = new CovidSample;
         $s->fill($request->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', ]));
+        $s->patient_id = $p->id;
         $s->save();
 
         return response()->json([
