@@ -83,12 +83,12 @@ class CovidController extends Controller
     public function store(BlankRequest $request)
     {
         $p = new CovidPatient;
-        $p->fill($request->only(['case_id', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death']));
+        $p->fill($request->only(['case_id', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death']));
         $p->facility_id = Facility::locate($request->input('facility'))->first()->id ?? '';
         $p->save();
 
         $s = new CovidSample;
-        $s->fill($request->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', 'occupation', ]));
+        $s->fill($request->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', ]));
         $s->save();
 
         return response()->json([
