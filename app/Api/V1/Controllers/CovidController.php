@@ -91,14 +91,14 @@ class CovidController extends Controller
 
         $p = new CovidPatient;
         $p->fill($request->only(['case_id', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death']));
-        $p->sif_patient_id = $request->input('patient_id');
+        $p->cif_patient_id = $request->input('patient_id');
         $p->facility_id = Facility::locate($request->input('facility'))->first()->id ?? '';
         $p->save();
 
         $s = new CovidSample;
         $s->fill($request->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', ]));
         $s->patient_id = $p->id;
-        $s->sif_sample_id = $request->input('specimen_id');
+        $s->cif_sample_id = $request->input('specimen_id');
         $s->save();
 
         return response()->json([
@@ -213,7 +213,7 @@ class CovidController extends Controller
 
             $p = new CovidPatient;
             $p->fill($request->only(['case_id', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death']));
-            $p->sif_patient_id = $row->patient_id;
+            $p->cif_patient_id = $row->patient_id;
             $p->facility_id = Facility::locate($request->input('facility'))->first()->id ?? '';
             $p->save();
 
@@ -222,7 +222,7 @@ class CovidController extends Controller
             $s = new CovidSample;
             $s->fill($request->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', ]));
             $s->patient_id = $p->id;
-            $s->sif_sample_id = $row->specimen_id;
+            $s->cif_sample_id = $row->specimen_id;
             $s->save();
 
             $samples[] = $s;
