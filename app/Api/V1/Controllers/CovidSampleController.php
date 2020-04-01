@@ -24,7 +24,7 @@ class CovidSampleController extends Controller
     
     public function store(BlankRequest $request)
     {
-        $s =  $request->input('sample');
+        $s =  json_decode($request->input('sample'));
         $p = $s->patient;
         if($p->national_patient_id){
             $patient = CovidPatient::find($p->national_patient_id);
