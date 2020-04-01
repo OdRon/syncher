@@ -50,13 +50,13 @@ $api->version('v1', function (Router $api) {
 
         $api->get('resources', 'RandomController@resources');
 
-        $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
+        $api->group(['prefix' => 'covid'], function(Router $api) {
+            $api->post('save_multiple', 'CovidController@save_multiple');
+        });
+        
+        $api->resource('covid', 'CovidController');
 
-            $api->group(['prefix' => 'covid'], function(Router $api) {
-                $api->post('save_multiple', 'CovidController@save_multiple');
-            });
-            
-            $api->resource('covid', 'CovidController');
+        $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
 
             $api->resource('facility', 'FacilityController');
             $api->post('lablogs', 'LablogController@lablogs');

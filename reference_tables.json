@@ -1,4 +1,46 @@
 {
+    "results": [
+        {
+            "id": 1,
+            "name": "Negative",
+            "alias": "NEG",
+            "name_colour": "<strong><div style='color: #00ff00;'>Negative<\/div><\/strong>"
+        },
+        {
+            "id": 2,
+            "name": "Positive",
+            "alias": "POS",
+            "name_colour": "<strong><div style='color: #ff0000;'>Positive<\/div><\/strong>"
+        },
+        {
+            "id": 3,
+            "name": "Failed",
+            "alias": "",
+            "name_colour": "<strong><div style='color: #cccc00;'>Failed<\/div><\/strong>"
+        },
+        {
+            "id": 4,
+            "name": "Unknown",
+            "alias": "",
+            "name_colour": "<strong><div style='color: #cccc00;'>Unknown<\/div><\/strong>"
+        },
+        {
+            "id": 5,
+            "name": "Collect New Sample",
+            "alias": "",
+            "name_colour": "<strong><div style='color: #cccc00;'>Collect New Sample<\/div><\/strong>"
+        }
+    ],
+    "receivedstatus": [
+        {
+            "id": 1,
+            "name": "Accepted"
+        },
+        {
+            "id": 2,
+            "name": "Rejected"
+        }
+    ],
     "covid_sample_types": [
         {
             "id": 1,
