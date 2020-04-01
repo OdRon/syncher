@@ -61,6 +61,10 @@ $api->version('v1', function (Router $api) {
             $api->resource('facility', 'FacilityController');
             $api->post('lablogs', 'LablogController@lablogs');
 
+
+            $api->resource('covid_sample', 'CovidSampleController');
+
+
             // Route group that matches records between national and lab
             $api->group(['prefix' => 'synch'], function(Router $api) {
 
@@ -93,6 +97,8 @@ $api->version('v1', function (Router $api) {
             });
 
             $api->group(['prefix' => 'update'], function(Router $api) {
+
+                $api->post('covid_samples', 'CovidSampleController@update_samples');
 
                 $api->post('worksheets', 'EidController@update_worksheets');
                 $api->post('mothers', 'EidController@update_mothers');
