@@ -204,7 +204,7 @@ class CovidController extends Controller
         if($actual_key != $apikey) abort(401);
 
         $input_samples = $request->input('samples');
-        return $input_samples;
+        // return $input_samples;
         $input_samples = json_decode($input_samples);
         $patients = $samples = [];
 
