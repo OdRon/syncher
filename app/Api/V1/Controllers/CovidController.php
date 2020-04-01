@@ -212,9 +212,9 @@ class CovidController extends Controller
             $row = collect($row);
 
             $p = new CovidPatient;
-            $p->fill($request->only(['case_id', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death']));
+            $p->fill($row->only(['case_id', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death']));
             $p->cif_patient_id = $row->patient_id ?? null;
-            $p->facility_id = Facility::locate($request->input('facility'))->first()->id ?? '';
+            if(isset($row->facility)) $p->facility_id = Facility::locate($row->facility)->first()->id ?? '';
             $p->save();
 
             $patients[] = $p;
