@@ -26,6 +26,7 @@ class CovidSampleController extends Controller
     {
         $s =  json_decode($request->input('sample'));
         $p = $s->patient;
+        unset($p->travel);
         if($p->national_patient_id){
             $patient = CovidPatient::find($p->national_patient_id);
         }else{
@@ -41,7 +42,11 @@ class CovidSampleController extends Controller
         unset($s->child);
         $sample_array = get_object_vars($s);
 
-        $sample = new CovidSample;
+        if($s->national_sample_id){
+            $sample = CovidSample::find($s->national_sample_id);
+        }else{
+            $sample = new CovidSample;
+        }
         $sample->fill($sample_array);
         $sample->original_sample_id = $s->id;
         $sample->save();
