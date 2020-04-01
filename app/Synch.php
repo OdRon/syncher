@@ -241,7 +241,7 @@ class Synch
 
 	public static function synch_covid()
 	{
-		$samples = CovidSample::where(['synched' => 5])->whereNull('original_sample_id')->with(['patient', 'lab'])->get();
+		$samples = CovidSample::where(['synched' => 0])->whereNull('original_sample_id')->with(['patient', 'lab'])->get();
 		foreach ($samples as $key => $sample) {
 			$lab = $sample->lab;
 			if(!$lab) continue;
