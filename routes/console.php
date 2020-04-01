@@ -156,6 +156,11 @@ Artisan::command('synch:allocations', function(){
     $this->info($str);
 })->describe('Synch Allocations');
 
+Artisan::command('synch:covid', function(){
+    $str = \App\Synch::synch_covid();
+    $this->info($str);
+})->describe('Synch Covid');
+
 Artisan::command('send:negatives2018', function(){
     $str = \App\Random::negatives_report();
     $this->info($str);

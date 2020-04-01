@@ -239,6 +239,39 @@ class Synch
 		}
 	}
 
+	public static function synch_covid()
+	{
+		$samples = CovidSample::where(['synched' => 5])->whereNull('original_sample_id')->with(['patient', 'lab'])->get();
+		foreach ($samples as $key => $sample) {
+			$lab = $sample->lab;
+			if(!$lab) continue;
+			unset($sample->lab);
+
+			$client = new Client(['base_uri' => $lab->base_url]);
+			// dd(self::get_token($lab));
+			$response = $client->request('post', 'covid_sample', [
+				'http_errors' => false,
+				'verify' => false,
+				'headers' => [
+					'Accept' => 'application/json',
+					'Authorization' => 'Bearer ' . self::get_token($lab),
+				],
+				'json' => [
+					'sample' => $sample->toJson(),
+				],
+			]);
+
+			$body = json_decode($response->getBody());
+			if($response->getStatusCode() < 400){
+				$sample->patient->original_patient_id = $body->patient->id;
+				$sample->patient->save();
+
+				$sample->original_sample_id = $body->sample->id;
+				$sample->save();
+			}
+		}
+	}
+
 	private static function send_update($model, $lab, $site_entry=false)
 	{
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
