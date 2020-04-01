@@ -212,7 +212,7 @@ class CovidController extends Controller
             $row = collect($row);
 
             $p = new CovidPatient;
-            $p->fill($row->only(['case_id', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death']));
+            $p->fill($row->only(['case_id', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death'])->toArray());
             $p->cif_patient_id = $row->patient_id ?? null;
             if(isset($row->facility)) $p->facility_id = Facility::locate($row->facility)->first()->id ?? '';
             $p->save();
@@ -220,7 +220,7 @@ class CovidController extends Controller
             $patients[] = $p;
 
             $s = new CovidSample;
-            $s->fill($request->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', ]));
+            $s->fill($row->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', ])->toArray());
             $s->patient_id = $p->id;
             $s->cif_sample_id = $row->specimen_id ?? null;
             $s->save();
