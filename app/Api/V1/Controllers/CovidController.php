@@ -40,9 +40,9 @@ class CovidController extends Controller
      *      }
      * })
      */
-    public function index()
+    public function index(BlankRequest $request)
     {
-        $apikey = $this->headers->get('apikey');
+        $apikey = $request->headers->get('apikey');
         $actual_key = env('COVID_KEY');
         if($actual_key != $apikey) abort(401);
         return CovidSample::with(['patient'])->where('repeatt', 0)->paginate();
@@ -85,7 +85,7 @@ class CovidController extends Controller
      */
     public function store(BlankRequest $request)
     {
-        $apikey = $this->headers->get('apikey');
+        $apikey = $request->headers->get('apikey');
         $actual_key = env('COVID_KEY');
         if($actual_key != $apikey) abort(401);
 
@@ -124,7 +124,7 @@ class CovidController extends Controller
      */
     public function show($id)
     {
-        $apikey = $this->headers->get('apikey');
+        $apikey = $request->headers->get('apikey');
         $actual_key = env('COVID_KEY');
         if($actual_key != $apikey) abort(401);
 
@@ -199,7 +199,7 @@ class CovidController extends Controller
      */
     public function save_multiple(BlankRequest $request)
     {
-        $apikey = $this->headers->get('apikey');
+        $apikey = $request->headers->get('apikey');
         $actual_key = env('COVID_KEY');
         if($actual_key != $apikey) abort(401);
 
