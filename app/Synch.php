@@ -268,6 +268,8 @@ class Synch
 
 				$sample->original_sample_id = $body->sample->id;
 				$sample->save();
+			}else{
+				dd($body);
 			}
 		}
 	}
