@@ -205,7 +205,7 @@ class CovidController extends Controller
 
         $input_samples = $request->input('samples');
         // return $input_samples;
-        $input_samples = json_decode($input_samples);
+        // $input_samples = json_decode($input_samples);
         $patients = $samples = [];
 
         foreach ($input_samples as $key => $row) {
