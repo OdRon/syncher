@@ -67,7 +67,7 @@ class CovidSampleController extends Controller
 
         return response()->json([
             'status' => 'ok',
-            'patient' => ['original_id' => $p->id, 'national_id' => $patient->id],
+            'patient' => $patient->id,
             'sample' => $sample_data,
         ], 201);        
     }
