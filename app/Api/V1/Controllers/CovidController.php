@@ -210,10 +210,10 @@ class CovidController extends Controller
         // $input_samples = json_decode($input_samples);
         $patients = $samples = [];
 
-        foreach ($input_samples as $key => $original_row) {
+        foreach ($input_samples as $key => $row_array) {
             // $row = collect($original_row);
 
-            $row_array = get_object_vars($original_row);
+            // $row_array = get_object_vars($original_row);
             foreach ($row_array as $key => $value) {
                 if(trim($value) == '') $row_array[$key] = null;
             }
