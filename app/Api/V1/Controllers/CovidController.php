@@ -203,36 +203,28 @@ class CovidController extends Controller
         $actual_key = env('COVID_KEY');
         if($actual_key != $apikey) abort(401);
 
-        // return $request->all();
-
         $input_samples = $request->input('samples', []);
-        // return $input_samples;
-        // $input_samples = json_decode($input_samples);
         $patients = $samples = [];
 
         foreach ($input_samples as $key => $row_array) {
-            // $row = collect($original_row);
 
-            // $row_array = get_object_vars($original_row);
             foreach ($row_array as $key => $value) {
                 if(is_array($value)) continue;
                 if(trim($value) == '') $row_array[$key] = null;
             }
 
             $p = new CovidPatient;
-            // $p->fill($row->only(['case_id', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death'])->toArray());
             $p->fill(array_only($row_array, ['case_id', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death']));
-            $p->cif_patient_id = $original_row->patient_id ?? null;
-            if(isset($row->facility)) $p->facility_id = Facility::locate($row->facility)->first()->id ?? '';
+            $p->cif_patient_id = $row_array['patient_id'] ?? null;
+            if(isset($row_array['facility'])) $p->facility_id = Facility::locate($row_array['facility'])->first()->id ?? '';
             $p->save();
 
             $patients[] = $p;
 
             $s = new CovidSample;
-            // $s->fill($row->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', ])->toArray());
             $s->fill(array_only($row_array, ['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', ]));
             $s->patient_id = $p->id;
-            $s->cif_sample_id = $original_row->specimen_id ?? null;
+            $s->cif_sample_id = $row_array['specimen_id'] ?? null;
             $s->save();
 
             $samples[] = $s;
