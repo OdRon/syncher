@@ -47,6 +47,7 @@ class CovidSampleController extends Controller
         }else{
             $sample = new CovidSample;
         }
+        if(!$sample) $sample = new CovidSample;
         $sample->fill($sample_array);
         $sample->original_sample_id = $s->id;
         $sample->save();
