@@ -1849,8 +1849,8 @@ class Random
         		'identifier' => $data[0],
         		'sex' => $data[11],
         		'county' => $data[12],
-        		// 'date_symptoms' => $date_symptoms,
-        		'date_admission' => $data[3],
+        		'date_symptoms' => $date_symptoms,
+        		// 'date_admission' => $data[3],
         	]);
         	$p->save();
 
