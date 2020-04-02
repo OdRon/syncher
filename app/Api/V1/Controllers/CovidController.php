@@ -215,6 +215,7 @@ class CovidController extends Controller
 
             // $row_array = get_object_vars($original_row);
             foreach ($row_array as $key => $value) {
+                if(is_array($value)) continue;
                 if(trim($value) == '') $row_array[$key] = null;
             }
 
