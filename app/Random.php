@@ -1852,8 +1852,8 @@ class Random
         		'date_symptoms' => date('Y-m-d', strtotime($data[1])),
         		'date_admission' => date('Y-m-d', strtotime($data[3])),
         	]);
-        	if($p->date_symptoms == '1970-01-01') $p->date_symptoms = null;
-        	if($p->date_admission == '1970-01-01') $p->date_admission = null;
+        	if($p->date_symptoms->lessThan('2000-01-01')) $p->date_symptoms = null;
+        	if($p->date_admission->lessThan('2000-01-01')) $p->date_admission = null;
         	$p->save();
 
         	$s = new CovidSample;
@@ -1864,8 +1864,8 @@ class Random
         		'result' => 2,
         		'patient_id' => $p->id
         	]);
-        	if($s->datecollected == '1970-01-01') $s->datecollected = null;
-        	if($s->datetested == '1970-01-01') $s->datetested = null;
+        	if($s->datecollected->lessThan('2000-01-01')) $s->datecollected = null;
+        	if($s->datetested->lessThan('2000-01-01')) $s->datetested = null;
         	$s->save();
 		}
     }
