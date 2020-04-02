@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\CovidPatient;
+use App\Facility;
 use DB;
 
 class CovidPatientObserver
@@ -18,6 +19,10 @@ class CovidPatientObserver
         if($covidPatient->county){
             $county = DB::table('countys')->where('name', $covidPatient->county)->first();
             $covidPatient->county_id = $county->id ?? null;
+        }
+        if($covidPatient->facility_id){
+            $facility = ViewFacility::find($covidPatient->facility_id);
+            if($facility) $covidPatient->county_id = $facility->county_id;
         }
     }
 
