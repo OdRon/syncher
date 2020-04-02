@@ -1838,10 +1838,10 @@ class Random
         {
         	if($data[0] == 'Case ID') continue;
         	$case = (int) str_replace('Case', '', $data[0]);
-        	if($data[1] == 'Asymptomatic') $date_symptoms = null;
+        	/*if($data[1] == 'Asymptomatic') $date_symptoms = null;
         	else{
-        		$date_symptoms = $data[1];
-        	}
+        		$date_symptoms = date('Y-m-d', strtotime($data[1]));
+        	}*/
 
         	$p = new CovidPatient;
         	$p->fill([
@@ -1849,19 +1849,24 @@ class Random
         		'identifier' => $data[0],
         		'sex' => $data[11],
         		'county' => $data[12],
-        		'date_symptoms' => $date_symptoms,
-        		// 'date_admission' => $data[3],
+        		'date_symptoms' => date('Y-m-d', strtotime($data[1])),
+        		'date_admission' => date('Y-m-d', strtotime($data[3])),
         	]);
+        	if($p->date_symptoms == '1970-01-01') $p->date_symptoms = null;
+        	if($p->date_admission == '1970-01-01') $p->date_admission = null;
         	$p->save();
 
         	$s = new CovidSample;
         	$s->fill([
-        		// 'datecollected' => $data[6],
-        		// 'datetested' => $data[9],
+        		'datecollected' => date('Y-m-d', strtotime($data[6])),
+        		'datetested' => date('Y-m-d', strtotime($data[9])),
         		'age' => $data[10],
         		'result' => 2,
         		'patient_id' => $p->id
         	]);
+        	if($s->datecollected == '1970-01-01') $s->datecollected = null;
+        	if($s->datetested == '1970-01-01') $s->datetested = null;
+        	$s->save();
 		}
     }
 }
