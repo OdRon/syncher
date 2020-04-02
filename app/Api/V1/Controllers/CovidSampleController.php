@@ -49,6 +49,7 @@ class CovidSampleController extends Controller
         }
         if(!$sample) $sample = new CovidSample;
         $sample->fill($sample_array);
+        $sample->patient_id = $patient->id;
         $sample->original_sample_id = $s->id;
         $sample->save();
         // $sample_data[0] = ['original_id' => $s->id, 'national_id' => $sample->id];
@@ -58,6 +59,7 @@ class CovidSampleController extends Controller
 
             $child_sample = new CovidSample;
             $child_sample->fill(get_object_vars($child));
+            $child_sample->patient_id = $patient->id;
             $child_sample->cif_sample_id = $sample->cif_sample_id;
             $child_sample->original_sample_id = $child->id;
             $child_sample->save();
