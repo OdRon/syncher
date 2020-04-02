@@ -1,0 +1,81 @@
+Case ID,Date of onset of symptoms,Where from,Date of visit (Hospital),Health facility Name,Sample collected,Date sample collected,Lab results,Lab site,Date of lab confirmation,Age (Years),Sex,County of Residence,Travel History(Last 14 days)
+Case 1,9/3/2020,USA via UK,11/3/2020,KNH IDU,Yes,19/3/2020,POSITIVE,NIC,22/3/2020,27,Female,Kajiado,Yes
+Case 2,Asymptomatic,UK,14/03/2020,KNH IDU,Yes,14/3/2020,POSITIVE,,14/3/2020,48,Female,Nairobi,Yes
+Case 3,Asymptomatic,Local,13/03/2020,KNH IDU,Yes,14/3/2020,POSITIVE,KEMRI NRBI,14/3/2020,27,Male,Nairobi,Yes
+Case 4,12/3/2020,UK,14/03/2020,Nairobi Hospital,Yes,16/3/2020,POSITIVE,NIC,17/3/2020,31,Female,Nairobi,Yes
+Case 5,13/03/2020,Spain via Dubai,14/03/2020,Self Isolation,Yes,17/3/2020,POSITIVE,NIC,17/3/2020,42,Female,Nairobi,Yes
+Case 6,Asymptomatic,Spain,17/03/2020,Self Isolation,Yes,17/3/2020,POSITIVE,NIC,17/3/2020,44,Male,Nairobi,Yes
+Case 7,17/03/2020,UAE,17/03/2020,KNH IDU,Yes,17/3/2020,POSITIVE,KEMRI NRBI,17/3/2020,27,Male,Nairobi,Yes
+Case 8,17/03/2020,Colombia via France,20/03/2020,KNH IDU,Yes,20/3/2020,POSITIVE,NIC,22/3/2020,46,Female,Nairobi,Yes
+Case 9,17/03/2020,USA via UK,21/03/2020,Nairobi Hospital,Yes,20/3/2020,POSITIVE,NIC,21/3/2020,31,Male,Nairobi,Yes
+Case 10,17/03/2020,France,17/03/2020,Tranferred from Agkhan to France,Yes,18/3/2020,POSITIVE,NIC,20/3/2020,57,Male,kwale,Yes
+Case 11,20/03/2020,Italy,20/3/2020,Mbangathi IDU,Yes,21/3/2020,POSITIVE,KEMRI NRBI,21/3/2020,38,Male,Nairobi,Yes
+Case 12,20/03/2020,France,21/03/2020,Self Isolation,Yes,21/3/2020,POSITIVE,KEMRI NRBI,21/3/2020,28,Female,Nairobi,Yes
+Case 13,20/03/2020,New york,20/03/2020,mbangathi IDU,Yes,21/3/2020,POSITIVE,KEMRI NRBI,21/3/2020,33,Male,Nairobi,Yes
+Case 14,5/3/2020,,,Coast General Hospita,Yes,17/3/2020,POSITIVE,KEMRI KILIFI,19/3/2020,63,Male,Kilifi,Yes
+Case 15,16/03/2020,,18/03/2020,Agakhan Hospital Mombasa,Yes,17/3/2020,POSITIVE,KEMRI KILIFI,19/3/2020,55,Male,Kilifi,No
+Case 16,20/3/2020,London,,Self Isolation,Yes,20/3/2020,POSITIVE,NIC,22/3/2020,20,Male,Mombasa,Yes
+Case 17,19/3/2020,Eswatini  via south Africa,22/3/2020,Agakhan,Yes,23/3/2020,POSITIVE,Agakhan,23/3/2020,66,Male,Nairobi,Yes
+Case 18,15/3/2020,Eswatini via south afarica,22/3/2020,Agakhan ,Yes,23/3/2020,POSITIVE,Agakhan,23/3/2020,54,,Nairobi,Yes
+Case 19,23/03/2020,Zambia,23/03/2020,Mbagathi,Yes,23/3/2020,POSITIVE,KEMRI NAIROBI,23/3/2020,27,Male,Nairobi,Yes
+Case 20,23/03/2020,Dubai,23/03/2020,Mbagathi,,23/03/2020,POSITIVE,KEMRI NAIROBI,23/3/2020,42,Male,Nairobi,Yes
+Case 21,23/3/2020,,,KNH IDU,Yes,23/3/2020,POSITIVE,KEMRI NAIROBI,23/3/2020,51,Female,Nairobi,No 
+Case 22,22/03/2020,,23/03/2020,Mbagathi,Yes,23/3/2020,POSITIVE,KEMRI NAIROBI,23/3/2020,31,Female,Nairobi,No 
+Case 23,15/03/2020,,19/032020,Self Isolation,Yes,23/3/2020,POSITIVE,KEMRI NAIROBI,23/3/2020,30,Male,Kilifi,No 
+Case 24,21/3/2020,Switzerland Geneva,,Self Isolation,Yes,23/3/2020,POSITIVE,NIC,24/3/2020,57,Male,Nairobi,yes
+Case 25,18/3/2020,France,18/3/2020,Coast General HospitaL,Yes,20/3/2020,POSITIVE,NIC,22/3/2020,43,Male,Mombasa,yes
+Case 26,,Dubai,,KNH IDU,Yes,24/3/2020,POSITIVE,NIC,24/3/2020,52,Female,Nairobi,yes
+Case 27,20/03/2020,Switzerland,20/03/2020,Mbangathi,Yes,24/3/2020,POSITIVE,KEMRI Nairobi,24/3/2020,19,Male,Kakamega,yes
+Case 28,,,,premier hospital Mombasa,Yes,24/3/2020,POSITIVE,KEMRI Kilifi,24/3/2020,57,Male,Kilifi,No 
+Case 29,Asymptomatic,,,Self Isolation,Yes,,POSITIVE,LANCET,19/3/2020,61,Female,Nairobi,No
+Case 30,19/03/2020,,20/3/2020,Self Isolation,Yes,25/3/2020,POSITIVE,KEMRI KILIFI,25/3/2020,30,Female,kilifi,No
+Case 31,Asymptomatic,,,Self Isolation,Yes,25/3/2020,POSITIVE,KEMRI KILIFI,25/3/2020,36,Female,Kilifi,No
+Casea 32 ,22/3/2020,Congo,,Mbangathi IDU,Yes,27/3/2020,POSITIVE,KEMRI NAIROBI,27/3/2020,31,Female,Nairobi,yes
+Casea 33,21/3/2020,Congo,,Mbangathi IDU,Yes,27/3/2020,POSITIVE,KEMRI NAIROBI,27/3/2020,42,Male,Nairobi,yes
+Casea 34,21/3/2020,,,Mbangathi IDU,Yes,26/3/2020,POSITIVE,NIC,27/3/2020,26,Female,Nairobi,No
+Casea 35,26/3/2020,London-Dubai-Nrbi,,Nairobi Hospital,Yes,26/3/2020,POSITIVE,NIC,27/3/2020,32,Male,Nairobi,yes
+Casea 36,24/3/2020,Turkey,,Mbanagathi Hospital IDU,Yes,27/3/2020,POSITIVE,NIC,27/3/2020,50,Female,Nairobi,yes
+Casea 37,23/3/2020,,,Nairobi Hospital,Yes,27/3/2020,POSITIVE,NIC,27/3/2020,46,Male,Nairobi,No
+Casea 38,17/3/2020,Mombasa- Nrbi,,Nairobi Hospital,Yes,,POSITIVE,NIC,27/3/2020,38,Female,Nairobi,No
+Case 39,20/3/2020,New york,,Nairobi Hospital,Yes,28/3/2020,Positive,Nic,29/3/2020,62,Male,Nairobi,yes
+Case 40,21/3/2020,Local,,Coastal general hospital,Yes,28/3/2020,Positive,Nic,28/3/2020,58,Female,Mombasa,No
+Case 41,17/3/2020,Dubai,29/3/2020,Mbangathi IDU,Yes,28/3/2020,Positive,Nic,28/3/2020,32,Male,Nairobi,Yes
+Case 42,27/3/2020,Burkina Faso,,Self Isolation,Yes,27/3/2020,Positive,Agakhan,27/3/2020,40,Female,Nairobi,yes
+Case 43,13/3/2020,,,Self Isolation,Yes,18/3/2020,Positive,Lancet,23/3/2020,49,Female,Kilifi,No
+Case 44,27/3/2020,dubai,,Agakhan Hos Nrbi,Yes,28/3/2020,Positive,Agakhan,29/3/2020,69,Male,Nairobi,yes
+Case 45,28/3/2020,Ireland,,Mbangath Hosptital IDU,Yes,29/3/2020,Positive,NIC,29/3/2020,59,Male,Kitui,yes
+Case 46,Asymptomatic,,,Mbangath Hosptital IDU,Yes,29/3/2020,Positive,NIC,29/3/2020,15,Male,Nairobi,No
+Case 47,Asymptomatic,,,Mbangath Hosptital IDU,Yes,29/3/2020,Positive,NIC,29/3/2020,45,Female,Nairobi,No
+Case 48,26/3/2020,,,self  isolation,Yes,27/3/2020,Positive,NIC,29/3/2020,61,Male,Mombasa,No
+Case 49,23/3/2020,,,Mbangathi Hospital  IDU,Yes,29/3/2020,Positive,NIC,29/3/2020,33,Male,Nairobi,No
+Case 50,,Nigeria,,,Yes,29/3/2020,Positive,NIC,29/3/2020,43,Male,Nairobi,yes
+Case 51,Asymptomatic,Qatar,,,Yes,30/3/2020,Positive,KEMRI NRBI,30/3/2020,27,Female,Nairobi,yes
+Case 52,Asymptomatic,"Mucat,Oman",,,Yes,30/3/2020,Positive,KEMRI NRBI,30/3/2020,33,Male,Nairobi,yes
+Case 53,Asymptomatic,Dubai,,,Yes,30/3/2020,Positive,KEMRI NRBI,30/3/2020,24,Male,Nairobi,yes
+Case 54,Asymptomatic,Doha-Qatar,,,Yes,30/3/2020,Positive,KEMRI NRBI,30/3/2020,28,Male,Nairobi,yes
+Case 55,23/3/2020,Uk via Dubai,31/3/2020,Mbangathi IDU,Yes,30/3/2020,Positive,KEMRI NRBI,30/3/2020,28,Male,Nairobi,yes
+Case 56,22/3/2020,,,Was admitted in kilifi referral Hos. And discharged on 24th march 20,Yes,22/3/2020,Positive,KEMRI KILIFI,30/3/2020,2y 8m,Male,Kilifi,NO
+Case 57,,,,,Yes,30/3/2020,Positive,NIC,31/3/2020,35,Female,,
+Case 58,,,,,,30/3/2020,Positive,NIC,31/3/2020,55,Male,,
+Case 59,Asymptomatic,"Tanzania, Pakistan",,,,,Positive,KEMRI,31/3/2020,46,M,Pakistan,Yes
+Case 60,Asymptomatic,"Tanzania, Pakistan",,,,,Positive,KEMRI,31/3/2020,36,M,Pakistan,Yes
+Case 61,Asymptomatic,Dubai,,,,,Positive,KEMRI,31/3/2020,30,M,Kiambu,Yes
+Case 62,Asymptomatic,Qatar,,,,,Positive,KEMRI,31/3/2020,28,M,Mombasa,Yes
+Case 63,Asymptomatic,Pakistan,,,,,Positive,KEMRI,31/3/2020,50,M,Not given,Yes
+Case 64,Asymptomatic,Pakistan,,,,,Positive,KEMRI,31/3/2020,65,M,Not given,Yes
+Case 65,Asymptomatic,Dubai,,,,,Positive,KEMRI,31/3/2020,43,M,Mombasa,Yes
+Case 66,Asymptomatic,USA,,,,,Positive,KEMRI,31/3/2020,42,M,Machakos,Yes
+Case 67,Asymptomatic,Hungary,,,,,Positive,KEMRI,31/3/2020,,F,Nairobi,Yes
+Case 68,Asymptomatic,Cameroon,,,,,Positive,KEMRI,31/3/2020,30,M,Cameroon,Yes
+Case 69,Asymptomatic,cameroon,,,,,Positive,KEMRI,31/3/2020,35,M,Cameroon,Yes
+Case 70,Asymptomatic,DUBAI,,,,,Positive,KEMRI,31/3/2020,29,F,Kilifi,Yes
+Case 71,Asymptomatic,DUBAI,,,,,Positive,KEMRI,31/3/2020,52,F,Kiambu,Yes
+Case 72,Asymptomatic,USA,,,,,Positive,KEMRI,31/3/2020,71,F,Kakamega,Yes
+Case 73,Asymptomatic,DUBAI,,,,,Positive,KEMRI,31/3/2020,23,F,Muranga,Yes
+Case 74,Asymptomatic,DUBAI,,,,,Positive,KEMRI,31/3/2020,25,M,Nyamira,Yes
+Case 75,,,,,,,Positive,MOH-NIC,31/3/2020,38,F,Mombasa,No
+Case 76,Asymptomatic,Dubai,,,,,Positive,MOH-NIC,31/3/2020,23,M,Mombasa,Yes
+Case 77,Asymptomatic,Dubai,,,,,Positive,MOH-NIC,31/3/2020,54,F,Mombasa,Yes
+Case 78,Asymptomatic,Dubai,,,,,Positive,MOH-NIC,31/3/2020,59,M,Mombasa,Yes
+Case 79,Asymptomatic,Dubai,,,,,Positive,MOH-NIC,31/3/2020,40,F,Mombasa,Yes
+Case 80,Asymptomatic,Tanzania,,,,,Positive,Kemri DLSP ,31/3/2020,31,F,,Yes

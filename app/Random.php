@@ -1829,4 +1829,39 @@ class Random
 		echo "==> Mailing excel";
 		Mail::to(['bakasajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
     }
+
+    public static function linelist()
+    {
+		$file = public_path('line_list.csv');
+        $handle = fopen($file, "r");
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+        {
+        	if($data[0] == 'Case ID') continue;
+        	$case = (int) str_replace('Case', '', $data[0]);
+        	if($data[1] == 'Asymptomatic') $date_symptoms = null;
+        	else{
+        		$date_symptoms = $data[1];
+        	}
+
+        	$p = new CovidPatient;
+        	$p->fill([
+        		'case_id' => $case,
+        		'identifier' => $data[0],
+        		'sex' => $data[11],
+        		'county' => $data[12],
+        		'date_symptoms' => $date_symptoms,
+        		'date_admission' => $data[3],
+        	]);
+        	$p->save();
+
+        	$s = new CovidSample;
+        	$s->fill([
+        		'datecollected' => $data[6],
+        		'datetested' => $data[9],
+        		'age' => $data[10],
+        		'result' => 2,
+        		'patient_id' => $p->id
+        	]);
+		}
+    }
 }
