@@ -1849,15 +1849,15 @@ class Random
         		'identifier' => $data[0],
         		'sex' => $data[11],
         		'county' => $data[12],
-        		'date_symptoms' => $date_symptoms,
+        		// 'date_symptoms' => $date_symptoms,
         		'date_admission' => $data[3],
         	]);
         	$p->save();
 
         	$s = new CovidSample;
         	$s->fill([
-        		'datecollected' => $data[6],
-        		'datetested' => $data[9],
+        		// 'datecollected' => $data[6],
+        		// 'datetested' => $data[9],
         		'age' => $data[10],
         		'result' => 2,
         		'patient_id' => $p->id
