@@ -1864,8 +1864,8 @@ class Random
         		'result' => 2,
         		'patient_id' => $p->id
         	]);
-        	if($s->datecollected->lessThan('2000-01-01')) $s->datecollected = null;
-        	if($s->datetested->lessThan('2000-01-01')) $s->datetested = null;
+        	// if($s->datecollected->lessThan('2000-01-01')) $s->datecollected = null;
+        	// if($s->datetested->lessThan('2000-01-01')) $s->datetested = null;
         	$s->save();
 		}
     }
