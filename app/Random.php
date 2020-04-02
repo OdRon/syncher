@@ -1832,6 +1832,7 @@ class Random
 
     public static function linelist()
     {
+		$file = public_path('line_list.csv'); $handle = fopen($file, "r"); while (($data = fgetcsv($handle, 1000, ",")) !== FALSE){ echo $data[6]; }
 		$file = public_path('line_list.csv');
         $handle = fopen($file, "r");
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
@@ -1849,8 +1850,8 @@ class Random
         		'identifier' => $data[0],
         		'sex' => $data[11],
         		'county' => $data[12],
-        		'date_symptoms' => date('Y-m-d', strtotime($data[1])),
-        		'date_admission' => date('Y-m-d', strtotime($data[3])),
+        		'date_symptoms' => date('Y-m-d', strtotime(str_replace('/', '-', $data[1]))),
+        		'date_admission' => date('Y-m-d', strtotime(str_replace('/', '-', $data[3]))),
         	]);
         	if($p->date_symptoms->lessThan('2000-01-01')) $p->date_symptoms = null;
         	if($p->date_admission->lessThan('2000-01-01')) $p->date_admission = null;
@@ -1858,14 +1859,16 @@ class Random
 
         	$s = new CovidSample;
         	$s->fill([
-        		'datecollected' => date('Y-m-d', strtotime($data[6])),
-        		'datetested' => date('Y-m-d', strtotime($data[9])),
+        		// 'datecollected' => date('Y-m-d', strtotime($data[6])),
+        		// 'datetested' => date('Y-m-d', strtotime($data[9])),
+        		'datecollected' => date('Y-m-d', strtotime(str_replace('/', '-', $data[6]))),
+        		'datetested' => date('Y-m-d', strtotime(str_replace('/', '-', $data[9]))),
         		'age' => $data[10],
         		'result' => 2,
         		'patient_id' => $p->id
         	]);
-        	// if($s->datecollected->lessThan('2000-01-01')) $s->datecollected = null;
-        	// if($s->datetested->lessThan('2000-01-01')) $s->datetested = null;
+        	if($s->datecollected->lessThan('2000-01-01')) $s->datecollected = null;
+        	if($s->datetested->lessThan('2000-01-01')) $s->datetested = null;
         	$s->save();
 		}
     }
