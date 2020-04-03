@@ -51,6 +51,8 @@ class CovidSampleController extends Controller
         $sample->fill($sample_array);
         $sample->patient_id = $patient->id;
         $sample->original_sample_id = $s->id;
+        if($sample->cif_sample_id) $sample->synched = 2;
+        $sample->date_synched = date('Y-m-d');
         $sample->save();
         // $sample_data[0] = ['original_id' => $s->id, 'national_id' => $sample->id];
         $sample_data[$s->id] = $sample->id;
@@ -62,6 +64,8 @@ class CovidSampleController extends Controller
             $child_sample->patient_id = $patient->id;
             $child_sample->cif_sample_id = $sample->cif_sample_id;
             $child_sample->original_sample_id = $child->id;
+            if($sample->cif_sample_id) $child_sample->synched = 2;
+            $child_sample->date_synched = date('Y-m-d');
             $child_sample->save();
             // $sample_data[] = ['original_id' => $child->id, 'national_id' => $child_sample->id];
             $sample_data[$child->id] = $child_sample->id;
@@ -105,10 +109,6 @@ class CovidSampleController extends Controller
         $s = $request->input('sample');
         $sample = CovidSample::findOrFail($s->id);
         $sample_array = get_object_vars($s);
-        unset($sample_array['id']);
-        unset($sample_array['national_sample_id']);
-        unset($sample_array['created_at']);
-        unset($sample_array['updated_at']);
         unset($sample_array['patient_id']);
         $sample->fill($sample_array);
         $sample->synched = 2;
@@ -169,9 +169,6 @@ class CovidSampleController extends Controller
             }
 
             $update_data = get_object_vars($value);
-            unset($update_data['id']);
-            unset($update_data['created_at']);
-            unset($update_data['updated_at']);
 
             if($input == 'samples'){
                 // $original_patient = $value->patient;

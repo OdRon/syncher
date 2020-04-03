@@ -245,8 +245,8 @@ class Synch
 		$samples = CovidSample::where(['synched' => 0])->whereNull('original_sample_id')->with(['patient'])->get();
 		foreach ($samples as $key => $sample) {
 			// $lab = $labs->where('id', $sample->lab_id)->first();
+			// if(!$lab || in_array($lab->id, [7,10]) || !$lab->base_url) continue;
 			$lab = $labs->where('id', 1)->first();
-			if(!$lab || in_array($lab->id, [7,10])) continue;
 
 			$client = new Client(['base_uri' => $lab->base_url]);
 			// dd(self::get_token($lab));
@@ -271,6 +271,43 @@ class Synch
 				$sample->save();
 			}else{
 				dd($body);
+			}
+		}
+	}
+
+	public static function synch_sif()
+	{
+		$client = new Client(['base_uri' => '']);
+
+		while (true) {
+			$samples = CovidSample::where('synched', '!=', 1)->where('repeatt', 0)->whereNotNull('cif_sample_id')->with(['patient'])->limit(20)->get();
+			$data = [];
+			if(!$samples->count()) break;
+
+			foreach ($samples as $key => $sample) {
+				$data[] = [
+					'patient_id' => (int) $sample->patient->cif_patient_id,
+					'specimen_id' => (int) $sample->cif_sample_id,
+					'result' => (int) $sample->result,
+					'receivedstatus' => (int) $sample->receivedstatus,
+					'rejectedreason' => '',
+				];
+			}
+
+			$response = $client->request('post', 'covid_sample', [
+				'http_errors' => false,
+				'verify' => false,
+				'headers' => [
+					'Accept' => 'application/json',
+				],
+				'json' => $data,
+			]);
+
+			if($response->getStatusCode() < 400){
+				$ids = $samples->pluck('id')->flatten()->toArray();
+				CovidSample::whereIn('id', $ids)->update(['synched' => 1, 'datesynched' => date('Y-m-d')]);
+			}else{
+				break;
 			}
 		}
 	}

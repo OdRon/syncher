@@ -1832,17 +1832,13 @@ class Random
 
     public static function linelist()
     {
-		$file = public_path('line_list.csv'); $handle = fopen($file, "r"); while (($data = fgetcsv($handle, 1000, ",")) !== FALSE){ echo $data[6]; }
+		// $file = public_path('line_list.csv'); $handle = fopen($file, "r"); while (($data = fgetcsv($handle, 1000, ",")) !== FALSE){ echo $data[6]; }
 		$file = public_path('line_list.csv');
         $handle = fopen($file, "r");
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
         {
         	if($data[0] == 'Case ID') continue;
         	$case = (int) str_replace('Case', '', $data[0]);
-        	/*if($data[1] == 'Asymptomatic') $date_symptoms = null;
-        	else{
-        		$date_symptoms = date('Y-m-d', strtotime($data[1]));
-        	}*/
 
         	$p = new CovidPatient;
         	$p->fill([
@@ -1859,8 +1855,6 @@ class Random
 
         	$s = new CovidSample;
         	$s->fill([
-        		// 'datecollected' => date('Y-m-d', strtotime($data[6])),
-        		// 'datetested' => date('Y-m-d', strtotime($data[9])),
         		'datecollected' => date('Y-m-d', strtotime(str_replace('/', '-', $data[6]))),
         		'datetested' => date('Y-m-d', strtotime(str_replace('/', '-', $data[9]))),
         		'age' => $data[10],
