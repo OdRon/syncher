@@ -161,6 +161,11 @@ Artisan::command('synch:covid', function(){
     $this->info($str);
 })->describe('Synch Covid');
 
+Artisan::command('synch:cif', function(){
+    $str = \App\Synch::synch_cif();
+    $this->info($str);
+})->describe('Synch back to CIF');
+
 Artisan::command('send:negatives2018', function(){
     $str = \App\Random::negatives_report();
     $this->info($str);

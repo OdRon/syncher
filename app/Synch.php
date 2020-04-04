@@ -275,7 +275,7 @@ class Synch
 		}
 	}
 
-	public static function synch_sif()
+	public static function synch_cif()
 	{
 		$client = new Client(['base_uri' => 'https://eoc.nascop.org:8084/openmrs/']);
 
