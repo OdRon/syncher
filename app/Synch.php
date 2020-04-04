@@ -304,6 +304,8 @@ class Synch
 				'json' => $data,
 			]);
 
+			echo "Status is " . $response->getStatusCode();
+
 			dd($response->getBody());
 
 			if($response->getStatusCode() < 400){
