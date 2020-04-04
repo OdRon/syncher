@@ -294,6 +294,8 @@ class Synch
 				];
 			}
 
+			print_r($data);
+
 			$response = $client->request('post', 'ws/rest/v1/shr/labresults', [
 				'debug' => true,
 				'http_errors' => false,
