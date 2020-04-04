@@ -277,10 +277,10 @@ class Synch
 
 	public static function synch_sif()
 	{
-		$client = new Client(['base_uri' => '']);
+		$client = new Client(['base_uri' => 'https://eoc.nascop.org:8084/openmrs/']);
 
 		while (true) {
-			$samples = CovidSample::where('synched', '!=', 1)->where('repeatt', 0)->whereNotNull('cif_sample_id')->with(['patient'])->limit(20)->get();
+			$samples = CovidSample::where('synched', '!=', 1)->where('repeatt', 0)->whereNotNull('cif_sample_id')->whereNotNull('receivedstatus')->with(['patient'])->limit(20)->get();
 			$data = [];
 			if(!$samples->count()) break;
 
@@ -294,7 +294,8 @@ class Synch
 				];
 			}
 
-			$response = $client->request('post', 'covid_sample', [
+			$response = $client->request('post', 'ws/rest/v1/shr/labresults', [
+				'debug' => true,
 				'http_errors' => false,
 				'verify' => false,
 				'headers' => [
@@ -302,6 +303,8 @@ class Synch
 				],
 				'json' => $data,
 			]);
+
+			dd($response->getBody());
 
 			if($response->getStatusCode() < 400){
 				$ids = $samples->pluck('id')->flatten()->toArray();
