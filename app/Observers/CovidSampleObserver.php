@@ -15,6 +15,7 @@ class CovidSampleObserver
     public function saving(CovidSample $covidSample)
     {
         if(($covidSample->patient->dob && !$covidSample->age)) $covidSample->calc_age();
+        if(!is_numeric($covidSample->age)) $covidSample->age = null;
         if($covidSample->age){
             $covidSample->age_category = ((int) ($covidSample->age / 10)) + 1;
         }
