@@ -16,7 +16,7 @@ class CovidSampleObserver
     {
         if(($covidSample->patient->dob && !$covidSample->age)) $covidSample->calc_age();
         if($covidSample->age){
-            $covidSample->age_category = int ($covidSample->age / 10) + 1;
+            $covidSample->age_category = (int) ($covidSample->age / 10) + 1;
         }
     }
 
