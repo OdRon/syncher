@@ -1845,7 +1845,6 @@ class Random
 
         	if($data[5] > 1) $p = CovidPatient::where('patient_name', $data[4])->first();
         	if(!$p) $p = new CovidPatient;
-
         	
         	$p->fill([
         		'identifier' => $data[2],
@@ -1872,6 +1871,5 @@ class Random
         	]);
         	$s->save();
 		}
-    }
-    
+    }    
 }
