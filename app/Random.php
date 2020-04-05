@@ -1859,7 +1859,7 @@ class Random
         	$s = new CovidSample;
         	$s->fill([
         		'lab_id' => 11,
-        		'temperature' => $data[13]
+        		'temperature' => $data[13],
         		'datecollected' => date('Y-m-d', strtotime($data[14])),
         		'datereceived' => date('Y-m-d', strtotime($data[15])),
         		'datetested' => date('Y-m-d', strtotime($data[1])),
