@@ -1830,39 +1830,46 @@ class Random
 		Mail::to(['bakasajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
     }
 
-    public static function linelist()
+    public static function linelist2()
     {
-		// $file = public_path('line_list.csv'); $handle = fopen($file, "r"); while (($data = fgetcsv($handle, 1000, ",")) !== FALSE){ echo $data[6]; }
-		$file = public_path('line_list.csv');
+		$file = public_path('nic-data.csv');
         $handle = fopen($file, "r");
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
         {
-        	if($data[0] == 'Case ID') continue;
-        	$case = (int) str_replace('Case', '', $data[0]);
+        	if($data[0] == 'LOGIN_DATE') continue;
 
-        	$p = new CovidPatient;
+        	$res = $data[8];
+        	$result = 1;
+        	if($res == 'POS') $result = 2;
+        	$p = null;
+
+        	if($data[5] > 1) $p = CovidPatient::where('patient_name', $data[4])->first();
+        	if(!$p) $p = new CovidPatient;
+
+        	
         	$p->fill([
-        		'case_id' => $case,
-        		'identifier' => $data[0],
-        		'sex' => $data[11],
-        		'county' => $data[12],
-        		'date_symptoms' => date('Y-m-d', strtotime(str_replace('/', '-', $data[1]))),
-        		'date_admission' => date('Y-m-d', strtotime(str_replace('/', '-', $data[3]))),
+        		'identifier' => $data[2],
+        		'sex' => $data[7],
+        		'county' => $data[3],
+        		'patient_name' => $data[4],
         	]);
-        	if($p->date_symptoms->lessThan('2000-01-01')) $p->date_symptoms = null;
-        	if($p->date_admission->lessThan('2000-01-01')) $p->date_admission = null;
+
+        	if($data[5] > 1 && $result == 1) $p->date_recovered = date('Y-m-d', strtotime($data[1]));
         	$p->save();
 
         	$s = new CovidSample;
         	$s->fill([
-        		'datecollected' => date('Y-m-d', strtotime(str_replace('/', '-', $data[6]))),
-        		'datetested' => date('Y-m-d', strtotime(str_replace('/', '-', $data[9]))),
-        		'age' => $data[10],
-        		'result' => 2,
+        		'lab_id' => 11,
+        		'temperature' => $data[13]
+        		'datecollected' => date('Y-m-d', strtotime($data[14])),
+        		'datereceived' => date('Y-m-d', strtotime($data[15])),
+        		'datetested' => date('Y-m-d', strtotime($data[1])),
+        		'datedispatched' => date('Y-m-d', strtotime($data[1])),
+        		'test_type' => $data[5],
+        		'age' => $data[6],
+        		'result' => $result,
         		'patient_id' => $p->id
         	]);
-        	if($s->datecollected->lessThan('2000-01-01')) $s->datecollected = null;
-        	if($s->datetested->lessThan('2000-01-01')) $s->datetested = null;
         	$s->save();
 		}
     }

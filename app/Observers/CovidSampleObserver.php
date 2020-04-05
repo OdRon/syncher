@@ -12,9 +12,12 @@ class CovidSampleObserver
      * @param  \App\CovidSample  $covidSample
      * @return void
      */
-    public function created(CovidSample $covidSample)
+    public function saving(CovidSample $covidSample)
     {
-        //
+        if(($covidSample->patient->dob && !$covidSample->age)) $covidSample->calc_age();
+        if($covidSample->age){
+            $covidSample->age_category = int ($covidSample->age / 10) + 1;
+        }
     }
 
     /**

@@ -14,10 +14,12 @@ use App\Observers\ViralsampleObserver;
 use App\Patient;
 use App\Viralpatient;
 use App\CovidPatient;
+use App\CovidSample;
 
 use App\Observers\PatientObserver;
 use App\Observers\ViralpatientObserver;
 use App\Observers\CovidPatientObserver;
+use App\Observers\CovidSampleObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         if(env('APP_SECURE_URL')) \Illuminate\Support\Facades\URL::forceScheme('https');
         
         CovidPatient::observe(CovidPatientObserver::class);
+        CovidSample::observe(CovidSampleObserver::class);
         
         // Sample::observe(SampleObserver::class);
         // Viralsample::observe(ViralsampleObserver::class);
