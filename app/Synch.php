@@ -294,10 +294,9 @@ class Synch
 				];
 			}
 
-			print_r($data);
-
 			$response = $client->request('post', 'ws/rest/v1/shr/labresults', [
-				'debug' => true,
+				// 'debug' => true,
+				'auth' => [env('CIF_USERNAME'), env('CIF_PASSWORD')]
 				'http_errors' => false,
 				'verify' => false,
 				'headers' => [
@@ -305,10 +304,6 @@ class Synch
 				],
 				'json' => $data,
 			]);
-
-			echo "Status is " . $response->getStatusCode();
-
-			dd($response->getBody());
 
 			if($response->getStatusCode() < 400){
 				$ids = $samples->pluck('id')->flatten()->toArray();
