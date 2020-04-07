@@ -9,8 +9,6 @@ class CovidSample extends BaseModel
 
 	protected $connection = 'covid';
 
-    protected $hidden = ['county_id'];
-
 	protected $dates = ['datecollected', 'datereceived', 'datetested', 'datedispatched', 'dateapproved', 'dateapproved2'];
 
 	protected $casts = [
