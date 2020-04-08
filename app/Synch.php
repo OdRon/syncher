@@ -296,7 +296,7 @@ class Synch
 
 			$response = $client->request('post', 'ws/rest/v1/shr/labresults', [
 				// 'debug' => true,
-				'auth' => [env('CIF_USERNAME'), env('CIF_PASSWORD')]
+				'auth' => [env('CIF_USERNAME'), env('CIF_PASSWORD')],
 				'http_errors' => false,
 				'verify' => false,
 				'headers' => [
