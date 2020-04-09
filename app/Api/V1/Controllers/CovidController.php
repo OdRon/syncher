@@ -229,7 +229,8 @@ class CovidController extends Controller
 
             $patients[] = $p;
 
-            $s = new CovidSample;
+            $s = CovidSample::where(['patient_id' => $p->id, 'cif_sample_id' => $row_array['specimen_id']])->first();
+            if(!$s) $s = new CovidSample;
             $s->fill(array_only($row_array, ['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', ]));
             $s->patient_id = $p->id;
             $s->cif_sample_id = $row_array['specimen_id'] ?? null;
