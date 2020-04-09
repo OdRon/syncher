@@ -238,7 +238,7 @@ class CovidController extends Controller
             $samples[] = $s;
         }
 
-        if($blank) abort(400, "Patient ID {$blank->cif_patient_id} does not have an identifier.");
+        // if($blank) abort(400, "Patient ID {$blank->cif_patient_id} does not have an identifier.");
 
         return response()->json([
           'status' => 'ok',
