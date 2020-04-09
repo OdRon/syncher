@@ -206,6 +206,8 @@ class CovidController extends Controller
         $input_samples = $request->input('samples', []);
         $patients = $samples = [];
 
+        $blank = null;
+
         foreach ($input_samples as $key => $row_array) {
 
             foreach ($row_array as $key => $value) {
@@ -213,8 +215,13 @@ class CovidController extends Controller
                 if(trim($value) == '') $row_array[$key] = null;
             }
 
-            $p = new CovidPatient;
+            $p = CovidPatient::where('cif_patient_id', $row_array['patient_id'])->first();
+            if(!$p) $p = new CovidPatient;            
             $p->fill(array_only($row_array, ['case_id', 'nationality', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death']));
+            if(!$p->identifier){
+                $blank = $p;
+                continue;
+            }
             $p->cif_patient_id = $row_array['patient_id'] ?? null;
             if(isset($row_array['facility'])) $p->facility_id = Facility::locate($row_array['facility'])->first()->id ?? null;
             $p->save();
@@ -229,6 +236,8 @@ class CovidController extends Controller
 
             $samples[] = $s;
         }
+
+        if($blank) abort(400, "Patient ID {$blank->cif_patient_id} does not have an identifier.");
 
         return response()->json([
           'status' => 'ok',
