@@ -219,6 +219,7 @@ class CovidController extends Controller
             if(!$p) $p = new CovidPatient;            
             $p->fill(array_only($row_array, ['case_id', 'nationality', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death']));
             if(!$p->identifier){
+                file_put_contents(public_path('bad_request.txt'), print_r($request->all(), true));
                 $blank = $p;
                 continue;
             }
