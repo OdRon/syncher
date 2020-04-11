@@ -202,7 +202,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 201,Josephine Wanjiru Nganga,KEN-KEM -20-3-0201,32,F,1,,3/25/2020,3/25/2020,Negative,No,,,Travel History to Germany (Berlin)
 202,Benson Magena,KEN-KEM -20-3-0202,27,M,1,Githurai,3/25/2020,3/25/2020,Negative,No,,,
 203,Gibert Mato,KEN-KEM -20-3-0203,36,M,1,,3/25/2020,3/25/2020,Negative,No,,,
-204,Rose Wanjiru,KEN-KEM -20-3-0204,,,1,Githurai,3/25/2020,3/25/2020,Negative,No,,,
+204,Rose Wanjiru,KEN-KEM -20-3-0204,,F,1,Githurai,3/25/2020,3/25/2020,Negative,No,,,
 205,Fred oloo,KEN-KEM -20-3-0205,40,M,1,,3/25/2020,3/25/2020,Negative,No,,,Fresh samples for repeat
 206,Eric Kithuku,KEN-KEM -20-3-0206,,M,1,Githurai,3/25/2020,3/25/2020,Negative,No,,,Fresh samples for repeat
 207,Debra Sinoi,KEN-KEM -20-3-0207,,M,44,,3/26/2020,3/26/2020,Negative,No,,,
@@ -269,15 +269,15 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 268,Yussuf Abdulahi,KEN-KEM -20-3-0268,29,M,1,,3/27/2020,3/27/2020,Negative,,,,
 269,Anthony Maina Mwai,KEN-KEM -20-3-0269,26,M,1,Umoja,3/27/2020,3/27/2020,Negative,,,,
 270,Kironce Kilunga,KEN-KEM -20-3-0270,21,,1,Limuru,3/27/2020,3/27/2020,Negative,,,,
-271,Doris Imali Otieno,KEN-KEM -20-3-0271,,,1,,3/27/2020,3/27/2020,Negative,,,,No case investigation form
-272,Kelvin Amimo,KEN-KEM -20-3-0272,,,1,,3/27/2020,3/27/2020,Negative,,,,No case investigation form
+271,Doris Imali Otieno,KEN-KEM -20-3-0271,,F,1,,3/27/2020,3/27/2020,Negative,,,,No case investigation form
+272,Kelvin Amimo,KEN-KEM -20-3-0272,,M,1,,3/27/2020,3/27/2020,Negative,,,,No case investigation form
 273,Ken-KEM-20-03-0273,KEN-KEM -20-3-0273,23,M,43,,3/28/2020,3/28/2020,Negative,,,,
 274,KEN-KEM-20-03-2020,KEN-KEM -20-3-0274,48,F,16,,3/28/2020,3/28/2020,Negative,,,,
 275,Alaka Kelvin Lateef,KEN-KEM -20-3-0275,41,M,1,,3/28/2020,3/28/2020,Negative,,,,DG kilifi contact
-276,Steven Theuri,KEN-KEM -20-3-0276,,,1,,3/28/2020,3/28/2020,Negative,,,,
+276,Steven Theuri,KEN-KEM -20-3-0276,,M,1,,3/28/2020,3/28/2020,Negative,,,,
 277,Samuel Njenga,KEN-KEM -20-3-0277,53,M,1,,3/28/2020,3/28/2020,Negative,,,,Healthcare worker
 278,Galton Mkorori,KEN-KEM -20-3-0278,25,M,1,Taita Taveta,3/28/2020,3/28/2020,Negative,,,,Travel history to USA via London
-279,Cetric Okolla,KEN-KEM -20-3-0279,23,,1,Kasarani,3/28/2020,3/28/2020,Negative,,,,
+279,Cetric Okolla,KEN-KEM -20-3-0279,23,M,1,Kasarani,3/28/2020,3/28/2020,Negative,,,,
 280,Humphrey Mugeni,KEN-KEM -20-3-0280,28,M,1,Bungoma,3/28/2020,3/28/2020,Negative,,,,Nurse
 281,Caroline Kioi,KEN-KEM -20-3-0281,47,F,1,,3/28/2020,3/28/2020,Negative,,,,Lawyer
 282,Mercy Kasifa,KEN-KEM -20-3-0282,28,F,1,Buruburu,3/28/2020,3/28/2020,Negative,,,,
@@ -346,7 +346,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 345,Martha Akinyi,KEN-KEM -20-3-0345,45,F,1,,3/30/2020,3/30/2020,Negative,,,,Contact with a German 12-14th march 2020
 346,Miikao Yannick,KEN-KEM -20-3-0346,25,M,1,Langata,3/30/2020,3/30/2020,Negative,,,,
 347,Abdishakur Ibrahim,KEN-KEM -20-3-0347,28,M,1,South B,3/30/2020,3/30/2020,Positive,,,,"Travel history to UK, Dubai"
-348,Afsha Ruhn Saiyed,KEN-KEM -20-3-0348,24,,1,,3/30/2020,3/30/2020,Negative,,,,Referral from Nairobi South C hospital
+348,Afsha Ruhn Saiyed,KEN-KEM -20-3-0348,24,F,1,,3/30/2020,3/30/2020,Negative,,,,Referral from Nairobi South C hospital
 349,Victor Juma,KEN-KEM -20-3-0349,21,M,1,,3/30/2020,3/30/2020,Negative,,,,
 350,Catherine Brenda,KEN-KEM -20-3-0350,,F,1,,3/30/2020,3/30/2020,Negative,,,,
 351,Dr. kimtai,KEN-KEM -20-3-0351,,F,1,,3/30/2020,3/30/2020,Negative,,,,
@@ -355,9 +355,9 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 354,Fauziya Lugago,KEN-KEM -20-3-0354,27,F,1,Roysambu,3/30/2020,3/30/2020,Negative,,,,
 355,Linah Mbuaganga,KEN-KEM -20-3-0355,29,F,1,,3/30/2020,3/30/2020,Negative,,,,
 356,Matondo Kambule,KEN-KEM -20-3-0356,52,M,1,,3/30/2020,3/30/2020,Negative,,,,Travel history to Congo
-357,Everlino Amoyio,KEN-KEM -20-3-0357,45,,1,,3/30/2020,3/30/2020,Negative,,,,
+357,Everlino Amoyio,KEN-KEM -20-3-0357,45,F,1,,3/30/2020,3/30/2020,Negative,,,,
 358,Lucy Magero,KEN-KEM -20-3-0358,44,F,1,,3/30/2020,3/30/2020,Negative,,,,
-359,Edith Mukoha,KEN-KEM -20-3-0359,,,1,,3/30/2020,3/30/2020,Negative,,,,
+359,Edith Mukoha,KEN-KEM -20-3-0359,,F,1,,3/30/2020,3/30/2020,Negative,,,,
 360,Rhoda Desire Nakibuule,KEN-KEM -20-3-0360,24,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel history to Oman
 361,Emanuel Mgandi,KEN-KEM -20-3-0361,34,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to US
 362,Crystal Mboza,KEN-KEM -20-3-0362,24,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to Doha
@@ -373,7 +373,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 372,Irene Akinyi,KEN-KEM -20-3-0372,29,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to Doha
 373,Janet Irene,KEN-KEM -20-3-0373,41,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to Panama
 374,Faith Mbori Mwanjala,KEN-KEM -20-3-0374,26,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel history to S.Sudan
-375,Harriet Nyanduku,KEN-KEM -20-3-0375,23,,18,,3/30/2020,3/30/2020,Negative,,,,Travel history to Finland
+375,Harriet Nyanduku,KEN-KEM -20-3-0375,23,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel history to Finland
 376,Joyce Rehema,KEN-KEM -20-3-0376,38,F,18,Kilifi,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
 377,Vincent Murimi,KEN-KEM -20-3-0377,35,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
 378,Mohamed Sebe,KEN-KEM -20-3-0378,50,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
@@ -400,7 +400,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 399,Abdalla Ali Chizondo,KEN-KEM -20-3-0399,28,M,18,Kwale,3/30/2020,3/30/2020,Negative,,,,USA
 400,Hamet Daoud Hassan,KEN-KEM -20-3-0400,24,M,18,,3/30/2020,3/30/2020,Positive,,,,Dubai
 401,Jarred Mose,KEN-KEM -20-3-0401,28,M,18,,3/30/2020,3/30/2020,Positive,,,,Doha
-402,Perminus njoroge,KEN-KEM -20-3-0402,37,,18,,3/30/2020,3/30/2020,Negative,,,,Qatar
+402,Perminus njoroge,KEN-KEM -20-3-0402,37,M,18,,3/30/2020,3/30/2020,Negative,,,,Qatar
 403,George James Tawa,KEN-KEM -20-3-0403,32,M,18,,3/30/2020,3/30/2020,Negative,,,,USA
 404,Camara Mariama,KEN-KEM -20-3-0404,32,M,18,,3/30/2020,3/30/2020,Negative,,,,Mozambique
 405,Ruth Rock,KEN-KEM -20-3-0405,33,F,18,,3/30/2020,3/30/2020,Negative,,,,Qatar
@@ -454,8 +454,8 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 453,Gladys Kiptoo,KEN-KEM -20-3-0453,30,M,18,Kitale,3/30/2020,3/31/2020,Negative,,,,Malaysia
 454,Abdi Katahr Mohammed,KEN-KEM -20-3-0454,31,F,18,,3/30/2020,3/31/2020,Negative,,,,UK
 455,Milka Manyala Mutano,KEN-KEM -20-3-0455,,F,18,Tasia,3/30/2020,3/31/2020,Negative,,,,S.Sudan
-456,Alia Sammy,KEN-KEM -20-3-0456,20,,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,Qatar
-457,Christine Kaweesi Nanyondo,KEN-KEM -20-3-0457,36,,18,,3/30/2020,3/31/2020,Negative,,,,Lusaka
+456,Alia Sammy,KEN-KEM -20-3-0456,20,F,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,Qatar
+457,Christine Kaweesi Nanyondo,KEN-KEM -20-3-0457,36,F,18,,3/30/2020,3/31/2020,Negative,,,,Lusaka
 458,Joram Munda Gintone,KEN-KEM -20-3-0458,,M,18,Shanzu,3/30/2020,3/31/2020,Negative,,,,USA
 459,Faith Nyambura,KEN-KEM -20-3-0459,29,F,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,USA
 460,Elvin Awuor,KEN-KEM -20-3-0460,43,M,18,Nairobi,3/30/2020,3/31/2020,Negative,,,,USA
@@ -464,20 +464,20 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 463,Japhaeth Kioko,KEN-KEM -20-3-0463,42,M,18,Machakos,3/30/2020,3/31/2020,Positive,,,,USA
 464,Winnie Otakwa Nandwa,KEN-KEM -20-3-0464,33,F,18,Kakamega,3/30/2020,3/31/2020,Negative,,,,S.Sudan
 465,Eunice Peris Achieng,KEN-KEM -20-3-0465,,F,18,Siaya,3/30/2020,3/31/2020,Negative,,,,S.Sudan
-466,Ebby Shiejero,KEN-KEM -20-3-0466,60,,18,Kakamega,3/30/2020,3/31/2020,Negative,,,,USA
+466,Ebby Shiejero,KEN-KEM -20-3-0466,60,F,18,Kakamega,3/30/2020,3/31/2020,Negative,,,,USA
 467,Joan Akello Kiera,KEN-KEM -20-3-0467,28,F,18,Nakuru,3/30/2020,3/31/2020,Negative,,,,S.Sudan
 468,Anthony Mwambaya,KEN-KEM -20-3-0468,24,M,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,USA
-469,Sammy Chengo,KEN-KEM -20-3-0469,,,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,
-470,Kimaiyo Netty Jeruto,KEN-KEM -20-3-0470,,,18,Nairobi,3/30/2020,3/31/2020,Positive,,,,
-471,Albert Ngale Dzuya,KEN-KEM -20-3-0471,,,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,
-472,Kamgang Kalla Jaques,KEN-KEM -20-3-0472,,,18,Doula Cameroon,3/30/2020,3/31/2020,Positive,,,,
-473,Konfor Ngafei,KEN-KEM -20-3-0473,,,18,Muscat-Oman,3/30/2020,3/31/2020,Negative,,,,
-474,Samuel Gitau Kamau,KEN-KEM -20-3-0474,,,18,Kiambu,3/30/2020,3/31/2020,Negative,,,,
-475,Levis Mutethia Muchai,KEN-KEM -20-3-0475,,,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,
-476,Mufu John,KEN-KEM -20-3-0476,,,18,Doula Cameroon,3/30/2020,3/31/2020,Positive,,,,
-477,Joan Odhiambo John,KEN-KEM -20-3-0477,,,18,Homabay,3/30/2020,3/31/2020,Negative,,,,
-478,Julius Njuguna,KEN-KEM -20-3-0478,,,18,Samburu,3/30/2020,3/31/2020,Negative,,,,
-479,Amina Gerisho,KEN-KEM -20-3-0479,,,18,Dar - Tanzania,3/30/2020,3/31/2020,Negative,,,,
+469,Sammy Chengo,KEN-KEM -20-3-0469,,M,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,
+470,Kimaiyo Netty Jeruto,KEN-KEM -20-3-0470,,M,18,Nairobi,3/30/2020,3/31/2020,Positive,,,,
+471,Albert Ngale Dzuya,KEN-KEM -20-3-0471,,M,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,
+472,Kamgang Kalla Jaques,KEN-KEM -20-3-0472,,M,18,Doula Cameroon,3/30/2020,3/31/2020,Positive,,,,
+473,Konfor Ngafei,KEN-KEM -20-3-0473,,M,18,Muscat-Oman,3/30/2020,3/31/2020,Negative,,,,
+474,Samuel Gitau Kamau,KEN-KEM -20-3-0474,,M,18,Kiambu,3/30/2020,3/31/2020,Negative,,,,
+475,Levis Mutethia Muchai,KEN-KEM -20-3-0475,,M,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,
+476,Mufu John,KEN-KEM -20-3-0476,,M,18,Doula Cameroon,3/30/2020,3/31/2020,Positive,,,,
+477,Joan Odhiambo John,KEN-KEM -20-3-0477,,F,18,Homabay,3/30/2020,3/31/2020,Negative,,,,
+478,Julius Njuguna,KEN-KEM -20-3-0478,,M,18,Samburu,3/30/2020,3/31/2020,Negative,,,,
+479,Amina Gerisho,KEN-KEM -20-3-0479,,F,18,Dar - Tanzania,3/30/2020,3/31/2020,Negative,,,,
 480,Duncan Obiero,KEN-KEM -20-3-0480,51,M,18,Nairobi,3/30/2020,3/31/2020,Negative,,,,Travel history to germany
 481,Judith Otieno  Akoth,KEN-KEM -20-3-0481,25,F,18,Nairobi,3/30/2020,3/31/2020,Negative,,,,Travel history to USA
 482,Noor Omar,KEN-KEM -20-3-0482,30,M,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,Travel history to UAE (Dubai)
@@ -493,7 +493,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 492,Kizito Omari Mochere,KEN-KEM -20-3-0492,37,M,18,Nairobi,3/30/2020,3/31/2020,Negative,,,,Travel history to Ireland
 493,Kenneth Ochieng Oborah ,KEN-KEM -20-3-0493,,M,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,Travel history to USa
 494,Jared Gambu,KEN-KEM -20-3-0494,35,M,18,Uasin ngishu,3/30/2020,3/31/2020,Negative,,,,Travel history to Netherlands
-495,Nancy Wambui,KEN-KEM -20-3-0495,,,18,,3/30/2020,3/31/2020,Negative,,,,
+495,Nancy Wambui,KEN-KEM -20-3-0495,,F,18,,3/30/2020,3/31/2020,Negative,,,,
 496,Namulesa Raila,KEN-KEM -20-3-0496,26,F,18,Uganda/Kampala,3/30/2020,3/31/2020,Negative,,,,Travel history to Oman
 497,Boniface Musyoki,KEN-KEM -20-3-0497,31,M,41,Kibwezi,3/30/2020,3/31/2020,Negative,,,,
 498,,KEN-KEM -20-3-0498,,,40,,3/30/2020,3/31/2020,Negative,,,,
@@ -590,7 +590,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 590,Muhumed Dubow,KEN-KEM -20-3-0590,35,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,USA
 591,Hindia Abubeker,KEN-KEM -20-3-0591,65,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Ethiopia
 592,Vanessa Amollo Awando,KEN-KEM -20-3-0592,20,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Canada
-593,Wess Jacques,KEN-KEM -20-3-0593,71,,4,,3/31/2020,4/2/2020,Negative,,,,Seychelles
+593,Wess Jacques,KEN-KEM -20-3-0593,71,M,4,,3/31/2020,4/2/2020,Negative,,,,Seychelles
 594,Rishabh Sanjeev,KEN-KEM -20-3-0594,21,M,4,Athi river,3/31/2020,4/2/2020,Negative,,,,Qatar
 595,Anthony Baraza Ounda,KEN-KEM -20-3-0595,46,M,4,,3/31/2020,4/2/2020,Negative,,,,Qatar
 596,Keval Shah,KEN-KEM -20-3-0596,33,M,4,,3/31/2020,4/2/2020,Negative,,,,USA
@@ -612,7 +612,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 612,Mercy Chepkemboi,KEN-KEM -20-3-0612,28,F,4,Uasingishu,3/31/2020,4/2/2020,Negative,,,,Qatar
 613,Charles Basomba,KEN-KEM -20-3-0613,38,M,4,Mombasa,3/31/2020,4/2/2020,Negative,,,,Uganda
 614,Terry Nyokabi Faith,KEN-KEM -20-3-0614,36,F,4,Kiambu,3/31/2020,4/2/2020,Negative,,,,Qatar
-615,Akeza Muhire,KEN-KEM -20-3-0615,21,,4,,3/31/2020,4/2/2020,Negative,,,,USA
+615,Akeza Muhire,KEN-KEM -20-3-0615,21,F,4,,3/31/2020,4/2/2020,Negative,,,,USA
 616,Julia Ekong,KEN-KEM -20-3-0616,68,F,4,,3/31/2020,4/2/2020,Negative,,,,USA
 617,Isha Riten Shah,KEN-KEM -20-3-0617,22,F,4,,3/31/2020,4/2/2020,Negative,,,,UK
 618,Robert Omondi,KEN-KEM -20-3-0618,21,M,4,,3/31/2020,4/2/2020,Negative,,,,UK
@@ -625,8 +625,8 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 625,Amika Patel,KEN-KEM -20-3-0625,20,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,UK
 626,Rutvik Sureshbhai Bodkas,KEN-KEM -20-3-0626,21,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,UK
 627,Johnny Musyoka,KEN-KEM -20-3-0627,,M,4,,3/31/2020,4/2/2020,Negative,,,,
-628,Purvi Gosrani,KEN-KEM -20-3-0628,32,,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,USA
-629,Husna Said Salim,KEN-KEM -20-3-0629,45,,4,Nairobi,3/31/2020,4/2/2020,Positive,,,,Dubai
+628,Purvi Gosrani,KEN-KEM -20-3-0628,32,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,USA
+629,Husna Said Salim,KEN-KEM -20-3-0629,45,F,4,Nairobi,3/31/2020,4/2/2020,Positive,,,,Dubai
 630,Chamon Said,KEN-KEM -20-4-0630,42,M,1,,4/1/2020,4/2/2020,Positive,,,,
 631,Maurice Njuguna,KEN-KEM -20-4-0631,41,M,1,Westlands,4/1/2020,4/2/2020,Negative,,,,UK
 633,Anthony Mahinge,KEN-KEM -20-4-0633,48,M,1,,4/1/2020,4/2/2020,Negative,,,,
@@ -683,7 +683,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 685,Samuel Chege,KEN-KEM -20-4-0685,,M,20,Kiambu,4/1/2020,4/2/2020,Negative,,,,Dahira-Qatar
 686,Edward Shiuma,KEN-KEM -20-4-0686,28,M,20,Kakamega,4/1/2020,4/2/2020,Negative,,,,Juba-South Sudan
 687,Grace Okumu,KEN-KEM -20-4-0687,41,F,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Muscat-Oman
-688,Hamad Rashid,KEN-KEM -20-4-0688,26,,20,Mombasa,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
+688,Hamad Rashid,KEN-KEM -20-4-0688,26,M,20,Mombasa,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
 689,Douglas Kyalo,KEN-KEM -20-4-0689,30,M,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Juba-South Sudan
 690,Elijah Kovo,KEN-KEM -20-4-0690,25,M,20,Taita Taveta,4/1/2020,4/2/2020,Negative,,,,Juba-South Sudan
 691,Hamadi Kipanda,KEN-KEM -20-4-0691,31,,20,Mombasa,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
@@ -700,36 +700,36 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 702,Victor Kimutai,KEN-KEM -20-4-0702,39,M,20,,4/1/2020,4/2/2020,Negative,,,,Muscat-Oman/Dubai-UAE
 703,Emiliana Wangeci Mungai,KEN-KEM -20-4-0703,25,F,20,,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
 704,Hannah Wachira,KEN-KEM -20-4-0704,32,F,20,,4/1/2020,4/2/2020,Negative,,,,Mahicha-Thailand/Doha-Qatar
-705,BrentaIvy Kabbia,KEN-KEM -20-4-0705,35,,20,,4/1/2020,4/2/2020,Negative,,,,Newcastle-England/Schipol-Netherlands
-706,Lenah Racheri Bundi,KEN-KEM -20-4-0706,33,,20,,4/1/2020,4/2/2020,Negative,,,,Basildon Essex-England
+705,BrentaIvy Kabbia,KEN-KEM -20-4-0705,35,F,20,,4/1/2020,4/2/2020,Negative,,,,Newcastle-England/Schipol-Netherlands
+706,Lenah Racheri Bundi,KEN-KEM -20-4-0706,33,F,20,,4/1/2020,4/2/2020,Negative,,,,Basildon Essex-England
 707,Lydia Muthoni Mugambi,KEN-KEM -20-4-0707,45,F,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
 708,Harriet Jerono Kosgei,KEN-KEM -20-4-0708,27,F,20,,4/1/2020,4/2/2020,Negative,,,,Kitue-Zambia/Malawi/AddisAbaba-Ethiopia
 709,Edith Wanjiku Kuria,KEN-KEM -20-4-0709,33,F,20,,4/1/2020,4/2/2020,Negative,,,,London-England
 710,Patrick Wanyumba,KEN-KEM -20-4-0710,,M,20,,4/1/2020,4/2/2020,Negative,,,,Johannesberg-South Africa
 711,Fredrick Arthur Odote,KEN-KEM -20-4-0711,32,M,20,,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
 712,Sammy Kipkosgei Rotich,KEN-KEM -20-4-0712,28,M,20,,4/1/2020,4/2/2020,Negative,,,,Ohio-USA/Paris-France
-713,Samuel Ngui Muteti,KEN-KEM -20-4-0713,,,20,,4/1/2020,4/2/2020,Negative,,,,Minneapolis-USA/AddisAbaba-Ethiopia
-714,Justin Davis Sure,KEN-KEM -20-4-0714,33,,20,,4/1/2020,4/2/2020,Negative,,,,Lusali-Qatar
+713,Samuel Ngui Muteti,KEN-KEM -20-4-0713,,M,20,,4/1/2020,4/2/2020,Negative,,,,Minneapolis-USA/AddisAbaba-Ethiopia
+714,Justin Davis Sure,KEN-KEM -20-4-0714,33,M,20,,4/1/2020,4/2/2020,Negative,,,,Lusali-Qatar
 715,Lawrence Karanja Njogu,KEN-KEM -20-4-0715,35,M,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
-716,Tracy Wambui Kimani,KEN-KEM -20-4-0716,,,20,,4/1/2020,4/2/2020,Negative,,,,Flick-En-Flac-Mauritius/Dubai-UAE
+716,Tracy Wambui Kimani,KEN-KEM -20-4-0716,,F,20,,4/1/2020,4/2/2020,Negative,,,,Flick-En-Flac-Mauritius/Dubai-UAE
 717,Serah Muraguri Njambi,KEN-KEM -20-4-0717,60,F,20,,4/1/2020,4/2/2020,Negative,,,,Sydney-Australia/Doha-Qatar
 718,Teddy Wellington Okula,KEN-KEM -20-4-0718,30,M,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
-719,Meshack Ondora Makori,KEN-KEM -20-4-0719,21,,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
-720,Peter Kihara Ndichu,KEN-KEM -20-4-0720,26,,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
-721,Kingi Kaingu Kalii,KEN-KEM -20-4-0721,41,,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+719,Meshack Ondora Makori,KEN-KEM -20-4-0719,21,M,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+720,Peter Kihara Ndichu,KEN-KEM -20-4-0720,26,M,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+721,Kingi Kaingu Kalii,KEN-KEM -20-4-0721,41,M,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
 722,Joshua Obata Omala,KEN-KEM -20-4-0722,46,M,20,,4/1/2020,4/2/2020,Negative,,,,Washington-USA/AddisAbaba-Ethiopia
-723,Mary Njoki Thuo,KEN-KEM -20-4-0723,24,,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+723,Mary Njoki Thuo,KEN-KEM -20-4-0723,24,F,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
 724,Elizabeth Wangui Gichuha,KEN-KEM -20-4-0724,,F,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
-725,Nicholas Irungu Gathiru,KEN-KEM -20-4-0725,28,,20,,4/1/2020,4/2/2020,Positive,,,,Dubai-UAE
+725,Nicholas Irungu Gathiru,KEN-KEM -20-4-0725,28,M,20,,4/1/2020,4/2/2020,Positive,,,,Dubai-UAE
 726,George Mukabalie Shihala,KEN-KEM -20-4-0726,45,M,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
-727,Samuel Ngambi Kiguta,KEN-KEM -20-4-0727,35,,20,,4/1/2020,4/2/2020,Negative,,,,Miami-USA/Heathrow-England
-728,Fatuma Mohammed Ali,KEN-KEM -20-4-0728,,,20,,4/1/2020,4/2/2020,Negative,,,,Hargisa-Somali/AddisAbaba-Ethiopia
-729,Abdirizak Mohamud Jama,KEN-KEM -20-4-0729,24,,20,,4/1/2020,4/2/2020,Negative,,,,Hargisa-Somali/AddisAbaba-Ethiopia
-730,Harun Ngure Kaburia,KEN-KEM -20-4-0730,41,,20,,4/1/2020,4/2/2020,Negative,,,,Kabul-Afghanistan/Dubai-UAE
-731,Asekenye Harriet,KEN-KEM -20-4-0731,35,,20,,4/1/2020,4/2/2020,Negative,,,,Vienna-Austria/Qatar
-732,Winnie Wambui Ndiga,KEN-KEM -20-4-0732,27,,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+727,Samuel Ngambi Kiguta,KEN-KEM -20-4-0727,35,M,20,,4/1/2020,4/2/2020,Negative,,,,Miami-USA/Heathrow-England
+728,Fatuma Mohammed Ali,KEN-KEM -20-4-0728,,F,20,,4/1/2020,4/2/2020,Negative,,,,Hargisa-Somali/AddisAbaba-Ethiopia
+729,Abdirizak Mohamud Jama,KEN-KEM -20-4-0729,24,M,20,,4/1/2020,4/2/2020,Negative,,,,Hargisa-Somali/AddisAbaba-Ethiopia
+730,Harun Ngure Kaburia,KEN-KEM -20-4-0730,41,M,20,,4/1/2020,4/2/2020,Negative,,,,Kabul-Afghanistan/Dubai-UAE
+731,Asekenye Harriet,KEN-KEM -20-4-0731,35,F,20,,4/1/2020,4/2/2020,Negative,,,,Vienna-Austria/Qatar
+732,Winnie Wambui Ndiga,KEN-KEM -20-4-0732,27,F,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
 733,Purity Waithera,KEN-KEM -20-4-0733,34,F,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
-734,Akeleus Elly Messo,KEN-KEM -20-4-0734,31,,20,,4/1/2020,4/2/2020,Negative,,,,Lagos-Nigeria
+734,Akeleus Elly Messo,KEN-KEM -20-4-0734,31,F,20,,4/1/2020,4/2/2020,Negative,,,,Lagos-Nigeria
 735,Moni Manyange,KEN-KEM -20-4-0735,42,,20,,4/1/2020,4/2/2020,Negative,,,,Oxford-England
 736,Simon Chege,KEN-KEM -20-4-0736,32,M,21,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
 737,Tabitha Muthoni,KEN-KEM -20-4-0737,30,F,21,,4/1/2020,4/2/2020,Negative,,,,Capetown-South Africa
@@ -789,13 +789,13 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 790,Wangechi Mwangi,KEN-KEM -20-4-0790,39,F,1,Langata,4/2/2020,4/3/2020,Negative,,,,
 791,Mary Ogega,KEN-KEM -20-4-0791,32,F,1,Ngara,4/2/2020,4/3/2020,Negative,,,,
 792,Magret Nthenya,KEN-KEM -20-4-0792,38,F ,1,Embakasi,4/2/2020,4/3/2020,Negative,,,,
-793,Nyule Karabu,KEN-KEM -20-4-0793,39,,1,Pipeline,4/2/2020,4/3/2020,Negative,,,,
+793,Nyule Karabu,KEN-KEM -20-4-0793,39,M,1,Pipeline,4/2/2020,4/3/2020,Negative,,,,
 794,Jonstone Kamau ,KEN-KEM -20-4-0794,57,M,1,Kawagware,4/2/2020,4/3/2020,Negative,,,,
 795,Phylis Ayangi,KEN-KEM -20-4-0795,38,F,1,Uthiru,4/2/2020,4/3/2020,Negative,,,,
 796,Esther Wambui,KEN-KEM -20-4-0796,32,F,1,Kabiria,4/2/2020,4/3/2020,Negative,,,,
 797,Collins Kibe,KEN-KEM -20-4-0797,21,M,1,Runda,4/2/2020,4/3/2020,Negative,,,,United Kingdom
 798,Kelvin Otieno,KEN-KEM -20-4-0798,40,M,1,Uthiru,4/2/2020,4/3/2020,Negative,,,,
-799,Edwin Chebon   ,KEN-KEM -20-4-0799,,,1,Upper Hill,4/2/2020,4/3/2020,Negative,,,,
+799,Edwin Chebon   ,KEN-KEM -20-4-0799,,M,1,Upper Hill,4/2/2020,4/3/2020,Negative,,,,
 800,Fredrick Mangisi,KEN-KEM -20-4-0800,32,M,1,Kibra,4/2/2020,4/3/2020,Negative,,,,
 801,Meyan Dianrra,KEN-KEM -20-4-0801,49,F,22,,4/2/2020,4/3/2020,Negative,,,,"Mogadishu, Somlia"
 802,Hellena De Oliveira,KEN-KEM -20-4-0802,19,F,22,,4/2/2020,4/3/2020,Negative,,,,Cananda
@@ -803,10 +803,10 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 804,Rhea Prabal,KEN-KEM -20-4-0804,21,F,22,,4/2/2020,4/3/2020,Negative,,,,
 805,Shoji Hisashi,KEN-KEM -20-4-0805,,,22,Lavington,4/2/2020,4/3/2020,Negative,,,,Japan
 806,Amadou Djamil Fall,KEN-KEM -20-4-0806,19,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
-807,Teresa Wajiri Muhiu,KEN-KEM -20-4-0807,,,22,Runda,4/2/2020,4/3/2020,Negative,,,,"United Kingdom, London"
+807,Teresa Wajiri Muhiu,KEN-KEM -20-4-0807,,F,22,Runda,4/2/2020,4/3/2020,Negative,,,,"United Kingdom, London"
 808,Sophie Machio,KEN-KEM -20-4-0808,56,F,22,,4/2/2020,4/3/2020,Negative,,,,Unites State of America
 809,Eric Kinyoti  ,KEN-KEM -20-4-0809,31,M,22,Kinoo,4/2/2020,4/3/2020,Negative,,,,"Somalia, Mogadishu"
-810,Atuhaire Ambala,KEN-KEM -20-4-0810,,,22,,4/2/2020,4/3/2020,Negative,,,,Thailand
+810,Atuhaire Ambala,KEN-KEM -20-4-0810,,F,22,,4/2/2020,4/3/2020,Negative,,,,Thailand
 811,Cespedes Garcia Jesus,KEN-KEM -20-4-0811,61,M,22,,4/2/2020,4/3/2020,Negative,,,,
 812,Sancia Wanjiru Njoroge,KEN-KEM -20-4-0812,20,F,22,,4/2/2020,4/3/2020,Negative,,,,Sydney
 813,Peta Meyer,KEN-KEM -20-4-0813,66,M,22,,4/2/2020,4/3/2020,Negative,,,,Singaphore
@@ -938,7 +938,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 939,Vivianne Yeda,KEN-KEM -20-4-0939,56,F,22,,4/2/2020,4/3/2020,Negative,,,,Sudan
 940,Benjamin Ihenacho,KEN-KEM -20-4-0940,19,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
 941,Suleinman Pal,KEN-KEM -20-4-0941,19,M,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
-942,Frida Mwere,KEN-KEM -20-4-0942,54,,22,,4/2/2020,4/3/2020,Negative,,,,Angola
+942,Frida Mwere,KEN-KEM -20-4-0942,54,F,22,,4/2/2020,4/3/2020,Negative,,,,Angola
 943,Binti Kambuni,KEN-KEM -20-4-0943,31,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
 944,Edward Achola,KEN-KEM -20-4-0944,48,Mm,22,,4/2/2020,4/3/2020,Negative,,,,USA
 945,Aaria Harania,KEN-KEM -20-4-0945,19,F,22,,4/2/2020,4/3/2020,Negative,,,,Newyork
@@ -950,25 +950,25 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 951,Dennis Mathenge,KEN-KEM -20-4-0951,39,M,1,,4/3/2020,4/3/2020,Negative,,,,
 952,Alpha Nyarera,KEN-KEM -20-4-0952,28,M,1,,4/3/2020,4/3/2020,Negative,,,,
 953,Ismael Juma,KEN-KEM -20-4-0953,61,M,1,,4/3/2020,4/3/2020,Negative,,,,
-954,Wachira Washika,KEN-KEM -20-4-0954,40,,1,,4/3/2020,4/3/2020,Negative,,,,
-955,Gaylord Ochieng,KEN-KEM -20-4-0955,22,,1,,4/3/2020,4/3/2020,Negative,,,,
-956,Kaunda Elishama,KEN-KEM -20-4-0956,28,,1,,4/3/2020,4/3/2020,Negative,,,,
+954,Wachira Washika,KEN-KEM -20-4-0954,40,M,1,,4/3/2020,4/3/2020,Negative,,,,
+955,Gaylord Ochieng,KEN-KEM -20-4-0955,22,M,1,,4/3/2020,4/3/2020,Negative,,,,
+956,Kaunda Elishama,KEN-KEM -20-4-0956,28,M,1,,4/3/2020,4/3/2020,Negative,,,,
 957,Maureen Rose Wanjiru,KEN-KEM -20-4-0957,30,F,1,,4/3/2020,4/3/2020,Negative,,,,
 958,John Githu ,KEN-KEM -20-4-0958,30,M,1,,4/3/2020,4/3/2020,Negative,,,,
-959,Sharom Utungi,KEN-KEM -20-4-0959,5,,1,,4/3/2020,4/3/2020,Negative,,,,
-960,Samuel Otieno,KEN-KEM -20-4-0960,23,,1,,4/3/2020,4/3/2020,Negative,,,,
+959,Sharom Utungi,KEN-KEM -20-4-0959,5,F,1,,4/3/2020,4/3/2020,Negative,,,,
+960,Samuel Otieno,KEN-KEM -20-4-0960,23,M,1,,4/3/2020,4/3/2020,Negative,,,,
 961,Fredrick Odhiambo,KEN-KEM -20-4-0961,26,M,1,,4/3/2020,4/3/2020,Negative,,,,
-962,Winnie Kamau,KEN-KEM -20-4-0962,37,,1,,4/3/2020,4/3/2020,Negative,,,,
-963,Patrick Gitonga,KEN-KEM -20-4-0963,45,,1,,4/3/2020,4/3/2020,Negative,,,,
-964,Fredah Kagwira Kibiti,KEN-KEM -20-4-0964,43,,1,,4/3/2020,4/3/2020,Negative,,,,
+962,Winnie Kamau,KEN-KEM -20-4-0962,37,F,1,,4/3/2020,4/3/2020,Negative,,,,
+963,Patrick Gitonga,KEN-KEM -20-4-0963,45,M,1,,4/3/2020,4/3/2020,Negative,,,,
+964,Fredah Kagwira Kibiti,KEN-KEM -20-4-0964,43,F,1,,4/3/2020,4/3/2020,Negative,,,,
 965,Carolyne Karimi,KEN-KEM -20-4-0965,39,F,1,,4/3/2020,4/3/2020,Negative,,,,
 966,Bibiana Khainga,KEN-KEM -20-4-0966,28,F,1,,4/3/2020,4/3/2020,Negative,,,,
-967,Isaac Andeche,KEN-KEM -20-4-0967,47,,1,,4/3/2020,4/3/2020,Negative,,,,
+967,Isaac Andeche,KEN-KEM -20-4-0967,47,M,1,,4/3/2020,4/3/2020,Negative,,,,
 968,Taya Ogada,KEN-KEM -20-4-0968,18,F,1,,4/3/2020,4/3/2020,Negative,,,,
-969,Emily Kakenya,KEN-KEM -20-4-0969,37,,1,,4/3/2020,4/3/2020,Negative,,,,
+969,Emily Kakenya,KEN-KEM -20-4-0969,37,F,1,,4/3/2020,4/3/2020,Negative,,,,
 970,Stephen Odeny,KEN-KEM -20-4-0970,33,M,1,,4/3/2020,4/3/2020,Negative,,,,
 971,Dematria Mugeni,KEN-KEM -20-4-0971,19,F,1,,4/3/2020,4/3/2020,Negative,,,,
-972,Bonface Munyao,KEN-KEM -20-4-0972,29,,1,,4/3/2020,4/3/2020,Negative,,,,
+972,Bonface Munyao,KEN-KEM -20-4-0972,29,M,1,,4/3/2020,4/3/2020,Negative,,,,
 973,Lee Maina,KEN-KEM -20-4-0973,31,M,1,,4/3/2020,4/3/2020,Negative,,,,
 974,Ruth Kinyumu Malinda,KEN-KEM -20-4-0974,58,F,1,,4/3/2020,4/3/2020,Negative,,,,
 975,Stephen Marube,KEN-KEM -20-4-0975,23,M,1,,4/3/2020,4/3/2020,Negative,,,,
@@ -990,7 +990,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1065,Norah Muthoni Irungu,KEN-KEM -20-4-1065,34,F,23,,4/3/2020,4/3/2020,Negative,,,,
 1066,David Kamau Magula,KEN-KEM -20-4-1066,46,M,23,,4/3/2020,4/3/2020,Negative,,,,
 1067,Oloo Daniel Omondi,KEN-KEM -20-4-1067,28,M,23,,4/3/2020,4/3/2020,Negative,,,,
-1068,Asha Mohammed ,KEN-KEM -20-4-1068,54,,23,,4/3/2020,4/3/2020,Negative,,,,
+1068,Asha Mohammed ,KEN-KEM -20-4-1068,54,F,23,,4/3/2020,4/3/2020,Negative,,,,
 1069,Alex Kelvin Gathumbi,KEN-KEM -20-4-1069,33,M,23,,4/3/2020,4/3/2020,Negative,,,,
 1070,Caroline Chemeli Cherisiyot,KEN-KEM -20-4-1070,44,F,23,,4/3/2020,4/3/2020,Negative,,,,
 1071,Sarah Muthoni Karago,KEN-KEM -20-4-1071,38,F,23,,4/3/2020,4/3/2020,Negative,,,,
@@ -1041,7 +1041,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1116,Elizabeth WambuiGithinji,KEN-KEM -20-4-1116,30,F,23,,4/3/2020,4/3/2020,Negative,,,,
 1117,Juliana Gurmakh Sadi,KEN-KEM -20-4-1117,31,F,23,,4/3/2020,4/3/2020,Negative,,,,
 1118,George Omolo Ayaga,KEN-KEM -20-4-1118,44,M,23,,4/3/2020,4/3/2020,Negative,,,,
-1119,Diana Kalume Kadzo,KEN-KEM -20-4-1119,31,,23,,4/3/2020,4/3/2020,Negative,,,,
+1119,Diana Kalume Kadzo,KEN-KEM -20-4-1119,31,F,23,,4/3/2020,4/3/2020,Negative,,,,
 1120,Evalyne Kerubo Bare,KEN-KEM -20-4-1120,28,F,23,,4/3/2020,4/3/2020,Negative,,,,
 1121,Regina Karuci Mburu,KEN-KEM -20-4-1121,39,F,23,,4/3/2020,4/3/2020,Negative,,,,
 1122,Linda Chepkorir Martin,KEN-KEM -20-4-1122,34,f,23,,4/3/2020,4/3/2020,Negative,,,,
@@ -1072,10 +1072,10 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1147,Jacob Mwangala Ruwa,KEN-KEM -20-4-1147,25,M,23,,4/3/2020,4/3/2020,Negative,,,,
 1148,Valji Nilkesh Rajenda,KEN-KEM -20-4-1148,22,M,23,,4/3/2020,4/3/2020,Negative,,,,
 1149,Ann Ngina Kitheka,KEN-KEM -20-4-1149,31,F,23,,4/3/2020,4/3/2020,Negative,,,,
-1150,Linet Kathambi Kimathi,KEN-KEM -20-4-1150,24,,23,,4/3/2020,4/3/2020,Negative,,,,
+1150,Linet Kathambi Kimathi,KEN-KEM -20-4-1150,24,F,23,,4/3/2020,4/3/2020,Negative,,,,
 1151,Okite Francis Okello,KEN-KEM -20-4-1151,32,M,23,,4/3/2020,4/3/2020,Negative,,,,
 1152,Teresa Mukwana Oyindi,KEN-KEM -20-4-1152,25,F,23,,4/3/2020,4/3/2020,Negative,,,,
-1153,Collins Okoth Ajunga,KEN-KEM -20-4-1153,24,,23,,4/3/2020,4/3/2020,Negative,,,,
+1153,Collins Okoth Ajunga,KEN-KEM -20-4-1153,24,M,23,,4/3/2020,4/3/2020,Negative,,,,
 1154,Mdera Evans Mambo,KEN-KEM -20-4-1154,43,M,23,,4/3/2020,4/3/2020,Negative,,,,
 1155,Anastacia Nzembi Mutuku,KEN-KEM -20-4-1155,17,F,35,,4/3/2020,4/3/2020,Negative,,,,
 1156,Collins Kipkirui,KEN-KEM -20-4-1156,23,M,36,,4/4/2020,4/5/2020,Negative,,,,
@@ -1087,7 +1087,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1162,Charles Munywoki,KEN-KEM -20-4-1162,34,M,1,,4/4/2020,4/5/2020,Negative,,,,
 1163,Jackson Mutuku,KEN-KEM -20-4-1163,32,M,1,,4/4/2020,4/5/2020,Positive,,,,
 1164,Kiruja Jason,KEN-KEM -20-4-1164,40,M,1,,4/4/2020,4/5/2020,Negative,,,,
-1165,Alex Otieno,KEN-KEM -20-4-1165,,,1,,4/4/2020,4/5/2020,Negative,,,,
+1165,Alex Otieno,KEN-KEM -20-4-1165,,M,1,,4/4/2020,4/5/2020,Negative,,,,
 1166,Lilian Wairimu Mathene,KEN-KEM -20-4-1166,50,F,1,,4/4/2020,4/5/2020,Negative,,,,
 1167,Caroline Atieno,KEN-KEM -20-4-1167,29,F,1,,4/4/2020,4/5/2020,Negative,,,,
 1168,Emanuel Bett,KEN-KEM -20-4-1168,25,M,1,,4/4/2020,4/5/2020,Negative,,,,
@@ -1099,7 +1099,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1174,Evelyne Nyonje,KEN-KEM -20-4-1174,,F,1,,4/4/2020,4/5/2020,Negative,,,,
 1175,Joyce Wambaire Mwangi,KEN-KEM -20-4-1175,22,F,1,,4/4/2020,4/5/2020,Negative,,,,
 1176,Wellington Otieno,KEN-KEM -20-4-1176,35,F,1,,4/4/2020,4/5/2020,Negative,,,,
-1177,Peter Jota,KEN-KEM -20-4-1177,,,1,,4/4/2020,4/5/2020,Positive,,,,
+1177,Peter Jota,KEN-KEM -20-4-1177,,M,1,,4/4/2020,4/5/2020,Positive,,,,
 1178,Tracy Kajaira,KEN-KEM -20-4-1178,28,F,24,,4/4/2020,4/5/2020,Negative,,,,
 1179,Lilian Kerubo Mumanyi,KEN-KEM -20-4-1179,29,F,24,,4/4/2020,4/5/2020,Negative,,,,
 1180,Hellen Muyoma Kidiavaai,KEN-KEM -20-4-1180,60,F,24,,4/4/2020,4/5/2020,Negative,,,,
@@ -1144,7 +1144,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1219,Arwa Sleen,KEN-KEM -20-4-1219,2,F,26,,4/4/2020,4/5/2020,Negative,,,,
 1220,Sheikha Abdulrahman,KEN-KEM -20-4-1220,31,M,26,,4/4/2020,4/5/2020,Negative,,,,
 1221,Ahmed Swaleh,KEN-KEM -20-4-1221,52,M,26,,4/4/2020,4/5/2020,Negative,,,,
-1222,Ibrahim Mansur,KEN-KEM -20-4-1222,5,,26,,4/4/2020,4/5/2020,Negative,,,,
+1222,Ibrahim Mansur,KEN-KEM -20-4-1222,5,M,26,,4/4/2020,4/5/2020,Negative,,,,
 1223,Mariam Swaleh,KEN-KEM -20-4-1223,43,F,26,,4/4/2020,4/5/2020,Negative,,,,
 1224,Samia Salim,KEN-KEM -20-4-1224,44,F,26,,4/4/2020,4/5/2020,Negative,,,,
 1225,Lamya Abdulrahman,KEN-KEM -20-4-1225,20,F,26,,4/4/2020,4/5/2020,Negative,,,,
@@ -1246,7 +1246,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1321,Ayalew Teshone Lwmma,KEN-KEM -20-4-1321,66,M,30,,4/4/2020,4/5/2020,Negative,,,,
 1322,Elliot Kabiro Kimani,KEN-KEM -20-4-1322,40,M,30,,4/4/2020,4/5/2020,Negative,,,,
 1323,Patrick Gitonga Muthui,KEN-KEM -20-4-1323,47,M,30,,4/4/2020,4/5/2020,Negative,,,,
-1324,Benjamin Onyango,KEN-KEM -20-4-1324,34,,30,,4/4/2020,4/5/2020,Negative,,,,
+1324,Benjamin Onyango,KEN-KEM -20-4-1324,34,M,30,,4/4/2020,4/5/2020,Negative,,,,
 1325,Bernard Ndirangu Munga,KEN-KEM -20-4-1325,43,M,30,,4/4/2020,4/5/2020,Negative,,,,
 1326,Hussein Adan Ahmed,KEN-KEM -20-4-1326,27,M,30,,4/4/2020,4/5/2020,Negative,,,,
 1327,Steve Ojiende,KEN-KEM -20-4-1327,55,M,30,,4/4/2020,4/5/2020,Negative,,,,
@@ -1270,7 +1270,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1345,Irene Kwamboka,KEN-KEM -20-4-1345,30,F,30,,4/4/2020,4/5/2020,Negative,,,,
 1346,Purity wanjoi,KEN-KEM -20-4-1346,39,F,30,,4/4/2020,4/5/2020,Negative,,,,
 1347,Maxwell Wachira,KEN-KEM -20-4-1347,34,M,30,,4/4/2020,4/5/2020,Negative,,,,
-1348,James Githinji Maina,KEN-KEM -20-4-1348,29,,30,,4/4/2020,4/5/2020,Negative,,,,
+1348,James Githinji Maina,KEN-KEM -20-4-1348,29,M,30,,4/4/2020,4/5/2020,Negative,,,,
 1349,Moses Irungu,KEN-KEM -20-4-1349,40,M,30,,4/4/2020,4/5/2020,Negative,,,,
 1350,Benson Xavier Otieno,KEN-KEM -20-4-1350,40,M,30,,4/4/2020,4/5/2020,Negative,,,,
 1351,Samson Mwangi,KEN-KEM -20-4-1351,27,M,30,,4/4/2020,4/5/2020,Negative,,,,
@@ -1319,8 +1319,8 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1394,Hosman Hussein,KEN-KEM -20-4-1394,42,M,31,,4/4/2020,4/5/2020,Negative,,,,
 1545,Jane Wambua,KEN-KEM -20-4-1545,26,F,1,,4/5/2020,4/6/2020,Negative,,,,
 1546,Ruth Mutete Mulwa,KEN-KEM -20-4-1546,32,F,1,Kibra,4/5/2020,4/6/2020,Negative,,,,
-1547,Melody Claire,KEN-KEM -20-4-1547,21,,1,,4/5/2020,4/6/2020,Negative,,,,
-1548,Julius Amdany,KEN-KEM -20-4-1548,,,1,Kajiado,4/5/2020,4/6/2020,Negative,,,,
+1547,Melody Claire,KEN-KEM -20-4-1547,21,F,1,,4/5/2020,4/6/2020,Negative,,,,
+1548,Julius Amdany,KEN-KEM -20-4-1548,,M,1,Kajiado,4/5/2020,4/6/2020,Negative,,,,
 1549,Fred Otieno-Parent,KEN-KEM -20-4-1549,1,M,1,Mathare,4/5/2020,4/6/2020,Negative,,,,
 1550,Winy Mukhaye,KEN-KEM -20-4-1550,,F,1,,4/5/2020,4/6/2020,Negative,,,,
 1551,Bernard Akola,KEN-KEM -20-4-1551,38,M,1,,4/5/2020,4/6/2020,Negative,,,,
@@ -1333,7 +1333,7 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1558,Mercy Wambui,KEN-KEM -20-4-1558,27,F,1,Lavington,4/5/2020,4/6/2020,Negative,,,,
 1559,Maxwell Ondongo,KEN-KEM -20-4-1559,35,M,1,Milimani,4/5/2020,4/6/2020,Negative,,,,
 1560,Jamlax Ojiambo,KEN-KEM -20-4-1560,53,M,1,Bahati,4/5/2020,4/6/2020,Negative,,,,
-1561,Ian Gitonga,KEN-KEM -20-4-1561,24,,1,Langata,4/5/2020,4/6/2020,Negative,,,,
+1561,Ian Gitonga,KEN-KEM -20-4-1561,24,M,1,Langata,4/5/2020,4/6/2020,Negative,,,,
 1562,Mwalimu Suleiman,KEN-KEM -20-4-1562,32,M,1,Kahawa West,4/5/2020,4/6/2020,Negative,,,,
 1563,Dossaji Shajik Hussein,KEN-KEM -20-4-1563,50,M,15,,4/5/2020,4/6/2020,Negative,,,,
 1564,B. Ogutu,KEN-KEM -20-4-1564,55,M,16,Kibra,4/5/2020,4/6/2020,Negative,,,,
@@ -1341,21 +1341,21 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1566,Chamon Said,KEN-KEM -20-4-1566,42,M,1,,4/5/2020,4/6/2020,Positive,,,,
 1567,John Mbuyamba-Repeat,KEN-KEM -20-4-1567,41,M,1,Congo,4/5/2020,4/6/2020,Negative,,,,
 1568,Benson Nyaga,KEN-KEM -20-4-1568,26,M,1,Chiromo,4/5/2020,4/6/2020,Negative,,,,
-1569,Kangai Wafo Anderson-Repeat,KEN-KEM -20-4-1569,32,,1,Cameroon,4/5/2020,4/6/2020,Positive,,,,
+1569,Kamgai Wafo Anderson-Repeat,KEN-KEM -20-4-1569,32,M,1,Cameroon,4/5/2020,4/6/2020,Positive,,,,
 1570,Jane Kibe-Repeat,KEN-KEM -20-4-1570,45,F,1,Westlands,4/5/2020,4/6/2020,Negative,,,,
 1571,Ruth Wambui-Repeat,KEN-KEM -20-4-1571,48,F,1,Kasarani,4/5/2020,4/6/2020,Negative,,,,
 1572,Briton Macharia,KEN-KEM -20-4-1572,15,M,1,,4/5/2020,4/6/2020,Negative,,,,
 1573,Adrian Manesses,KEN-KEM -20-4-1573,33,M,1,Tangaza University,4/5/2020,4/6/2020,Negative,,,,
 1574,Ezekiel Chesang-Repeat,KEN-KEM -20-4-1574,58,M,1,Mlolongo,4/5/2020,4/6/2020,Negative,,,,
 1575,Mary Chesang-Repeat,KEN-KEM -20-4-1575,50,F,1,Mlolongo,4/5/2020,4/6/2020,Negative,,,,
-1576,Margret Wanjiru,KEN-KEM -20-4-1576,24,,1,,4/5/2020,4/6/2020,Negative,,,,
-1577,Oliver Odundo,KEN-KEM -20-4-1577,46,,1,Karen,4/5/2020,4/6/2020,Negative,,,,
-1578,Mark Ndiragu,KEN-KEM -20-4-1578,39,,1,Garden estate,4/5/2020,4/6/2020,Negative,,,,
-1579,Steven Omukoko,KEN-KEM -20-4-1579,19,,1,Mumias,4/5/2020,4/6/2020,Negative,,,,
+1576,Margret Wanjiru,KEN-KEM -20-4-1576,24,F,1,,4/5/2020,4/6/2020,Negative,,,,
+1577,Oliver Odundo,KEN-KEM -20-4-1577,46,M,1,Karen,4/5/2020,4/6/2020,Negative,,,,
+1578,Mark Ndiragu,KEN-KEM -20-4-1578,39,M,1,Garden estate,4/5/2020,4/6/2020,Negative,,,,
+1579,Steven Omukoko,KEN-KEM -20-4-1579,19,M,1,Mumias,4/5/2020,4/6/2020,Negative,,,,
 1580,Abdinasir Mohammed,KEN-KEM -20-4-1580,42,M,1,South C,4/5/2020,4/6/2020,Negative,,,,
 1581,Cynthia Mbuyambu-Repeat,KEN-KEM -20-4-1581,31,F,1,Kilimani,4/5/2020,4/6/2020,Negative,,,,
 1582,Peter Mwangi,KEN-KEM -20-4-1582,42,M,1,Lucky summer,4/5/2020,4/6/2020,Negative,,,,
-1583,Lawarances Kipichi,KEN-KEM -20-4-1583,,,1,,4/5/2020,4/6/2020,Negative,,,,
+1583,Lawarances Kipichi,KEN-KEM -20-4-1583,,M,1,,4/5/2020,4/6/2020,Negative,,,,
 1584,Teresa Wambui Kahia,KEN-KEM -20-4-1584,45,F,1,Buruburu,4/5/2020,4/6/2020,Negative,,,,
 1585,Christine Mujei,KEN-KEM -20-4-1585,41,F,1,Karen,4/5/2020,4/6/2020,Positive,,,,
 1586,Jacob Kipkemoi,KEN-KEM -20-4-1586,28,M,1,Pangani,4/5/2020,4/6/2020,Negative,,,,
@@ -1403,9 +1403,9 @@ No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty o
 1628,Doreen Lando,KEN-KEM -20-4-1628,30,F,1,Rongai,4/7/2020,4/7/2020,Negative,,,28190099,
 1629,Dr. Abdullahi Yusuf Moaloni,KEN-KEM -20-4-1629,28,M,1,South B,4/7/2020,4/7/2020,Negative,,,28299365,
 1630,Ruth Nyaboke Nyansikera,KEN-KEM -20-4-1630,43,F,1,Ngong,4/7/2020,4/7/2020,Negative,,,20174791,
-1631,Gilbert Moraria,KEN-KEM -20-4-1631,64,,1,Kitengela,4/7/2020,4/7/2020,Negative,,,950992,
+1631,Gilbert Moraria,KEN-KEM -20-4-1631,64,M,1,Kitengela,4/7/2020,4/7/2020,Negative,,,950992,
 1632,Benard juma,KEN-KEM -20-4-1632,,M,1,Kovyu,4/7/2020,4/7/2020,Negative,,,27464721,
-1633,Michelle Atieno Omondi,KEN-KEM -20-4-1633,26,,1,Westlands,4/7/2020,4/7/2020,Negative,,,30323508,
+1633,Michelle Atieno Omondi,KEN-KEM -20-4-1633,26,F,1,Westlands,4/7/2020,4/7/2020,Negative,,,30323508,
 1634,Joseph Wandera,KEN-KEM -20-4-1634,42,M,1,Uthiru,4/7/2020,4/7/2020,Negative,,,22232486,
 1635,Christabel Bodi,KEN-KEM -20-4-1635,55,F,1,Athi River,4/7/2020,4/7/2020,Negative,,,4270594,
 1636,Dennis Rodman Inzobeni,KEN-KEM -20-4-1636,38,M,1,Uthiru,4/7/2020,4/7/2020,Negative,,,22432746,
