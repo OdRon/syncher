@@ -1907,5 +1907,46 @@ class Random
         	]);
         	$s->save();
 		}
+    }  
+
+    public static function kemri_data()
+    {
+		$file = public_path('kemri.csv');
+        $handle = fopen($file, "r");
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+        {
+        	if($data[0] == 'No.') continue;
+        	$name = $data[1];
+        	$test_type = 1;
+        	if(str_contains($name, ['-Repeat'])){
+        		$test_type++;
+        		$name = str_replace('-Repeat', '', $name);
+        	}
+
+        	$p = CovidPatient::where('patient_name', $name)->first();
+        	if(!$p) $p = new CovidPatient;
+        	
+        	$p->fill([
+        		'patient_name' => $name,
+        		'identifier' => $data[12] ?? $data[2],
+        		'sex' => $data[4],
+        		'quarantine_site_id' => $data[5],
+        	]);
+        	$p->save();
+
+        	$s = new CovidSample;
+        	$s->fill([
+        		'lab_id' => 15,
+        		'test_type' => $test_type,
+        		'datecollected' => date('Y-m-d', strtotime($data[7])),
+        		'datereceived' => date('Y-m-d', strtotime($data[7])),
+        		'datetested' => date('Y-m-d', strtotime($data[8])),
+        		'datedispatched' => date('Y-m-d', strtotime($data[8])),
+        		'age' => $data[3],
+        		'result' => $data[9],
+        		'patient_id' => $p->id
+        	]);
+        	$s->save();
+		}
     }    
 }

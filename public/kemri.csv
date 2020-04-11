@@ -1,0 +1,1462 @@
+No.,Patient Name,Lab ID,Age,Sex,Health facility of sample collection,Subcounty of residence,Date received,Date tested,COVID  PCR Results,Requires confirmation,Tel #,ID/Passport,Comments
+1,Brian Orinda,KEN-KEM -20-3-0001,27,M,1,Kajiado North,3/14/2020,3/14/2020,Positive,Yes,,,Tested positive on confirmation
+2,Linda Canron,KEN-KEM -20-3-0002,,F,1,Topaz - Moi Avenue,3/14/2020,3/14/2020,Positive,Yes,,,Tested positive on confirmation
+3,Mohammed Ahsin,KEN-KEM -20-3-0003,33,M,1,Nairobi,3/14/2020,3/14/2020,Negative,No,,,
+4,Akhsah Ali,KEN-KEM -20-3-0004,1,M,1,Nairobi,3/14/2020,3/14/2020,Negative,No,,,
+5,Aksah Khalid,KEN-KEM -20-3-0005,26,F,1,Nairobi,3/14/2020,3/14/2020,Negative,No,,,
+6,Rakiya Omar,KEN-KEM -20-3-0006,64,F,1,Nairobi,3/14/2020,3/14/2020,Negative,No,,,
+7,Evan Kizito,KEN-KEM -20-3-0007,25,M,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+8,Mark Kidula,KEN-KEM -20-3-0008,25,M,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+9,Ann Wambui,KEN-KEM -20-3-0009,37,F,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+10,Arnold Masaja,KEN-KEM -20-3-0010,27,M,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+11,Akal Kevin,KEN-KEM -20-3-0011,30,M,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+12,Shukuru Lanoi,KEN-KEM -20-3-0012,23,F,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+13,Daniel Kounah,KEN-KEM -20-3-0013,26,M,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+14,Jean Katanda,KEN-KEM -20-3-0014,40,F,1,Nairobi,3/14/2020,3/14/2020,Negative,No,,,
+15,Kelvin Ogamba,KEN-KEM -20-3-0015,20,M,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+16,Arnold Majanja,KEN-KEM -20-3-0016,27,M,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+17,Allan,KEN-KEM -20-3-0017,26,M,1,,3/14/2020,3/14/2020,Negative,No,,,No second name
+18,Rahid,KEN-KEM -20-3-0018,31,M,1,Pakistan,3/14/2020,3/14/2020,Negative,No,,,No second name
+19,Ranieri Portio,KEN-KEM -20-3-0019,39,M,1,Nairobi,3/14/2020,3/14/2020,Negative,No,,,
+20,Maina Samuel,KEN-KEM -20-3-0020,24,M,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+21,Albert Ogamba,KEN-KEM -20-3-0021,27,M,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+22,Joseph Ogwang,KEN-KEM -20-3-0022,24,M,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+23,Steve Ochieng,KEN-KEM -20-3-0023,27,M,1,Kajiado North,3/14/2020,3/14/2020,Negative,No,,,
+24,Baraka Njacii,KEN-KEM -20-3-0024,29,M,1,Embakasi South,3/14/2020,3/14/2020,Negative,No,,,
+25,Valentine Kemto,KEN-KEM -20-3-0025,22,F,1,,3/14/2020,3/14/2020,Negative,No,,,
+26,Fidelis Muli,KEN-KEM -20-3-0026,32,M,9,,3/14/2020,3/14/2020,Negative,No,,,
+27,Dr. Lilian Mukuria,KEN-KEM -20-3-0027,28,F,11,,3/14/2020,3/14/2020,Negative,No,,,
+28,2068225(No name give),KEN-KEM -20-3-0028,64,M,1,Austria,3/15/2020,3/15/2020,Negative,No,,,
+29,Gerald Fontaine,KEN-KEM -20-3-0029,39,M,1,United States,3/15/2020,3/15/2020,Negative,No,,,
+30,Caleb Onguti,KEN-KEM -20-3-0030,28,M,1,Kajiado North,3/15/2020,3/15/2020,Negative,No,,,
+31,Thomas Odhiambo,KEN-KEM -20-3-0031,31,M,1,Kajiado North,3/15/2020,3/15/2020,Negative,No,,,
+32,Livingstone Luseno,KEN-KEM -20-3-0032,29,M,1,Kajiado North,3/15/2020,3/15/2020,Negative,No,,,
+33,Happiness Kwamboka,KEN-KEM -20-3-0033,44,F,1,Kajiado North,3/15/2020,3/15/2020,Negative,No,,,
+34,Adriel Joy Nyaboke,KEN-KEM -20-3-0034,1,F,1,Kajiado North,3/15/2020,3/15/2020,Negative,No,,,
+35,Elias Nyandoro,KEN-KEM -20-3-0035,51,M,1,Kajiado North,3/15/2020,3/15/2020,Negative,No,,,
+36,Jeremiah Wanjohi,KEN-KEM -20-3-0036,33,M,1,Kajiado North,3/15/2020,3/15/2020,Negative,No,,,
+37,Hannah Maina,KEN-KEM -20-3-0037,33,F,1,Kiambu,3/15/2020,3/15/2020,Negative,No,,,
+38,Rachel Achieng,KEN-KEM -20-3-0038,,F,,,3/15/2020,3/15/2020,Negative,No,,,Awaiting case investigation form
+39,Moses Sitati,KEN-KEM -20-3-0039,,M,10,,3/15/2020,3/15/2020,Negative,No,,,Awaiting case investigation form
+40,Mbera Sarah Wanjiru,KEN-KEM -20-3-0040,50,F,1,,3/16/2020,3/16/2020,Negative,No,,,
+41,Paul Bongo,KEN-KEM -20-3-0041,58,M,1,Italy,3/16/2020,3/16/2020,Negative,No,,,
+42,Ivy Hamazone,KEN-KEM -20-3-0042,20,F,1,,3/16/2020,3/16/2020,Negative,No,,,
+43,Benjamin Nyaoro,KEN-KEM -20-3-0043,37,M,1,,3/16/2020,3/16/2020,Negative,No,,,
+44,Simon Kamau,KEN-KEM -20-3-0044,37,M,1,,3/16/2020,3/16/2020,Negative,No,,,
+45,Victor Opiyo Ongare,KEN-KEM -20-3-0045,24,M,1,,3/16/2020,3/16/2020,Negative,No,,,
+46,Andrew Kimani,KEN-KEM -20-3-0046,,M,1,,3/16/2020,3/16/2020,Negative,No,,,No case investigation form
+47,Christopher Kamau,KEN-KEM -20-3-0047,34,M,1,,3/16/2020,3/16/2020,Negative,No,,,No case investigation form
+48,Maria Emilia,KEN-KEM -20-3-0048,,F,1,,3/16/2020,3/16/2020,Negative,No,,,No case investigation form
+49,Lucia Anyango,KEN-KEM -20-3-0049,54,F,1,,3/16/2020,3/16/2020,Negative,No,,,No case investigation form
+50,Olivier Habyiyaremye,KEN-KEM -20-3-0050,32,M,1,,3/16/2020,3/16/2020,Negative,No,,,No case investigation form
+51,Badea Louis,KEN-KEM -20-3-0051,,M,1,,3/17/2020,3/17/2020,Negative,No,,,Travel History to India
+52,Faiz Shamir,KEN-KEM -20-3-0052,27,F,1,,3/17/2020,3/17/2020,Positive,Yes,,,Travel History to Dubai/Tested Positive on confirmation
+53,Emma Mukuhi,KEN-KEM -20-3-0053,36,F,1,,3/17/2020,3/17/2020,Negative,No,,,
+54,Shann Muturia,KEN-KEM -20-3-0054,21,F,1,,3/17/2020,3/17/2020,Negative,No,,,Travel History to Rwanda
+55,Lawrence Mwangi,KEN-KEM -20-3-0055,,M,1,,3/17/2020,3/17/2020,Negative,No,,,
+56,Mengusha Dhugas,KEN-KEM -20-3-0056,30,F,1,,3/17/2020,3/17/2020,Negative,No,,,Travel History to Rwanda
+57,Abraham Kenei,KEN-KEM -20-3-0057,,M,1,,3/17/2020,3/17/2020,Negative,No,,,Travel History to Dubai
+58,Celine Akoth,KEN-KEM -20-3-0058,,F,1,,3/17/2020,3/17/2020,Negative,No,,,Travel History to Italy
+59,Pius Muchiri,KEN-KEM -20-3-0059,42,M,10,,3/17/2020,3/17/2020,Negative,No,,,"Travel history to Germany , UAE $ Austria"
+60,Helina Wangui,KEN-KEM -20-3-0060,44,F,10,,3/17/2020,3/17/2020,Negative,No,,,
+61,David Kinoti,KEN-KEM -20-3-0061,50,M,14,Buuri,3/18/2020,3/18/2020,Negative,No,,,
+62,MIG/001/13805/20,KEN-KEM -20-3-0062,67,M,50,Migori,3/19/2020,3/19/2020,Negative,No,,,
+63,KSI/001/20,KEN-KEM -20-3-0063,26,F,12,Kitutu chache south,3/19/2020,3/19/2020,Negative,No,,,
+64,KSI/002/20,KEN-KEM -20-3-0064,53,F,12,Kitutu chache south,3/19/2020,3/19/2020,Negative,No,,,Travel history to UK (London)
+65,KSI/003/20,KEN-KEM -20-3-0065,53,M,12,Kitutu chache south,3/19/2020,3/19/2020,Negative,No,,,Travel history to UK (London)
+66,KSI/004/20,KEN-KEM -20-3-0066,30,F,12,Kisii,3/19/2020,3/19/2020,Negative,No,,,
+67,KH20JMEM,KEN-KEM -20-3-0067,,,13,,3/19/2020,3/19/2020,Negative,Yes,,,2nd sample from 1st index case
+68,Margaret Mliwa,KEN-KEM -20-3-0068,53,F,1,,3/20/2020,3/20/2020,Negative,No,,,Travel History to Jordan
+69,Paul Mbogo,KEN-KEM -20-3-0069,47,M,1,,3/20/2020,3/20/2020,Negative,No,,,
+70,Prisca Karegi,KEN-KEM -20-3-0070,47,F,1,,3/20/2020,3/20/2020,Negative,No,,,
+71,Fang Yuan,KEN-KEM -20-3-0071,29,F,1,,3/20/2020,3/20/2020,Negative,No,,,"Travel History to China, Dubai"
+72,Martin Muoki,KEN-KEM -20-3-0072,,M,1,,3/20/2020,3/20/2020,Negative,No,,,"Travel History to Qatar, Dubai"
+73,Tabitha Mbithe,KEN-KEM -20-3-0073,20,F,1,,3/20/2020,3/20/2020,Negative,No,,,
+74,Kennedy Njoroge,KEN-KEM -20-3-0074,,M,1,,3/20/2020,3/20/2020,Negative,No,,,
+75,KSI/005/2020,KEN-KEM -20-3-0075,32,M,12,Kitutu,3/20/2020,3/20/2020,Negative,No,,,Travel history to Qatar
+76,Mohamud Hassan,KEN-KEM -20-3-0076,56,M,15,,3/20/2020,3/20/2020,Negative,No,,,Travel history to Germany
+77,Weston Alicia,KEN-KEM -20-3-0077,32,F,49,Bomet Central,3/20/2020,3/21/2020,Negative,No,,,"Travel history to USA, Netherlands"
+78,Lamu 001,KEN-KEM -20-3-0078,74,M,48,Lamu West,3/20/2020,3/21/2020,Negative,No,,,Travel history to Italy
+79,Lamu 002,KEN-KEM -20-3-0079,38,F,48,Lamu West,3/20/2020,3/21/2020,Negative,No,,,Travel history to Italy
+80,Sylvia,KEN-KEM -20-3-0080,28,F,1,,3/21/2020,3/21/2020,Positive,No,,,"Only one name given, Travel History to France"
+81,Charlette Stacy Mukiri,KEN-KEM -20-3-0081,33,F,1,,3/21/2020,3/21/2020,Negative,No,,,Travel History to the UK
+82,Richard Oduor,KEN-KEM -20-3-0082,,M,1,,3/21/2020,3/21/2020,Positive,No,,,Travel History to Italy
+83,Winnie Njeri,KEN-KEM -20-3-0083,,F,1,,3/21/2020,3/21/2020,Negative,No,,,Contact with student $ American staff
+84,Margaret Wanjohi,KEN-KEM -20-3-0084,25,F,1,,3/21/2020,3/21/2020,Negative,No,,,
+85,Adrian Menesses,KEN-KEM -20-3-0085,33,M,1,USA,3/21/2020,3/21/2020,Positive,No,,,Travel history to mexico
+86,Kitui 001,KEN-KEM -20-3-0086,44,M,46,Kitui,3/21/2020,3/21/2020,Negative,No,,,
+87,Ainsley Boteju,KEN-KEM -20-3-0087,73,M,15,,3/21/2020,3/22/2020,Negative,No,,,Travel History to Egypt
+88,Ishmael Odalo Koroso,KEN-KEM -20-3-0088,61,M,15,,3/22/2020,3/22/2020,Negative,No,,,
+89,Kilifi 001,KEN-KEM -20-3-0089,,,,,3/22/2020,3/22/2020,Positive,No,,,Brought in for confirmation
+90,Kilifi 002,KEN-KEM -20-3-0090,,,,,3/22/2020,3/22/2020,Negative,No,,,Brought in for confirmation
+91,Kitui 002,KEN-KEM -20-3-0091,17,F,45,Kitui Central,3/22/2020,3/23/2020,Negative,No,,,
+92,Joseph Mberia,KEN-KEM -20-3-0092,66,M,15,,3/22/2020,3/23/2020,Negative,No,,,
+93,Nancy Muthoni,KEN-KEM -20-3-0093,56,F,15,,3/22/2020,3/23/2020,Negative,No,,,Travel History to Iran
+94,Ebby Cherono,KEN-KEM -20-3-0094,21,F,47,,3/23/2020,3/23/2020,Negative,No,,,Travel History to UK
+95,Jane Njugi,KEN-KEM -20-3-0095,57,F,1,,3/23/2020,3/23/2020,Negative,No,,,
+96,Fredrick Kuria,KEN-KEM -20-3-0096,47,M,1,,3/23/2020,3/23/2020,Negative,No,,,
+97,Dominic Oreme,KEN-KEM -20-3-0097,44,M,1,,3/23/2020,3/23/2020,Negative,No,,,
+98,Calvin Otieno,KEN-KEM -20-3-0098,25,M,1,,3/23/2020,3/23/2020,Negative,No,,,
+99,Chrispine Ojiambo,KEN-KEM -20-3-0099,45,M,1,,3/23/2020,3/23/2020,Negative,No,,,
+100,Fredrick Washibi,KEN-KEM -20-3-0100,47,M,1,,3/23/2020,3/23/2020,Negative,No,,,
+101,Winfred Kizia,KEN-KEM -20-3-0101,31,M,1,,3/23/2020,3/23/2020,Negative,No,,,
+102,Kinyanjui Mureithi,KEN-KEM -20-3-0102,33,M,1,,3/23/2020,3/23/2020,Negative,No,,,
+103,Sangawe Mkadawa,KEN-KEM -20-3-0103,39,F,1,,3/23/2020,3/23/2020,Negative,No,,,
+104,Ann Muthoni Muraya,KEN-KEM -20-3-0104,52,F,1,Lavington,3/23/2020,3/23/2020,Negative,No,,,Travel history to south africa
+105,Evelyne Ngendo,KEN-KEM -20-3-0105,28,F,1,Rongai,3/23/2020,3/23/2020,Negative,No,,,
+106,Benson Magene,KEN-KEM -20-3-0106,27,M,1,,3/23/2020,3/23/2020,Negative,,,,Positive for N1 and N2 targets
+107,Albert Kirui,KEN-KEM -20-3-0107,30,M,1,,3/23/2020,3/23/2020,Negative,,,,
+108,Simon Mburu,KEN-KEM -20-3-0108,44,M,1,,3/23/2020,3/23/2020,Negative,     O107,,,
+109,Chamou Said Comorenne,KEN-KEM -20-3-0109,42,M,1,,3/23/2020,3/23/2020,Positive,,,,Travel history to comoros
+110,Fred Oloo,KEN-KEM -20-3-0110,45,M,1,,3/23/2020,3/23/2020,Negative,,,,Positive for N1 and N2 targets
+111,Elizabeth Mwelis,KEN-KEM -20-3-0111,31,F,1,,3/23/2020,3/23/2020,Positive,,,,
+112,Diana Awuor,KEN-KEM -20-3-0112,20,F,1,,3/23/2020,3/23/2020,Negative,,,,
+113,Sarah Kimemia,KEN-KEM -20-3-0113,26,F,1,,3/23/2020,3/23/2020,Negative,,,,
+114,Kushaysha,KEN-KEM -20-3-0114,22,F,1,,3/23/2020,3/23/2020,Negative,,,,Positive  for N3 target
+115,Erick Kithuku,KEN-KEM -20-3-0115,35,M,1,,3/23/2020,3/23/2020,Negative,,,,Positive for N2 target
+116,Dr. Manduku ,KEN-KEM -20-3-0116,49,F,16,,3/23/2020,3/23/2020,Negative,,,,Positive for N2 and N3 target
+117,Mr. Wondera,KEN-KEM -20-3-0117,47,M,16,,3/23/2020,3/23/2020,Negative,,,,Positive for N2 target
+118,Hiliderlith Ogutu,KEN-KEM -20-3-0118,51,F,16,,3/23/2020,3/23/2020,Positive,,,,
+119,Amukoye,KEN-KEM -20-3-0119,60,M,16,,3/23/2020,3/23/2020,Negative,,,,Positive for N2 and N3 target
+120,Dr. Ogutu,KEN-KEM -20-3-0120,55,M,16,,3/23/2020,3/23/2020,Negative,,,,Positive for N2 target
+121,Rehema Batti Ashimosi,KEN-KEM -20-3-0121,46,M,16,,3/23/2020,3/23/2020,Negative,,,,Travel history to Tanzania
+122,Gilbert Mato,KEN-KEM -20-3-0122,36,M,1,,3/23/2020,3/23/2020,Negative,,,,Positive for N1 and N2 target
+123,Loice Wambui,KEN-KEM -20-3-0123,35,M,1,,3/23/2020,3/23/2020,Negative,,,,Positive for N2 target
+124,Kelvin Muchiri,KEN-KEM -20-3-0124,27,M,1,,3/23/2020,3/23/2020,Positive,No,,,Travel history to Zambia
+125,Kitui 003,KEN-KEM -20-3-0125,30,F,25,Kitui West,3/23/2020,3/24/2020,Negative,No,,,
+126,Kitui 004,KEN-KEM -20-3-0126,27,F,25,Kitui West,3/23/2020,3/24/2020,Negative,No,,,
+127,KSI 006,KEN-KEM -20-3-0127,38,M,12,Kisii central,3/24/2020,3/24/2020,Negative,No,,,Travel History to Germany(Berlin)
+128,KSI 007,KEN-KEM -20-3-0128,16,F,12,Kisii central,3/24/2020,3/24/2020,Negative,No,,,"Student - Travel History to USA, UK"
+129,KSI 008,KEN-KEM -20-3-0129,18,M,12,Kisii central,3/24/2020,3/24/2020,Negative,No,,,"Student - Travel History to USA, UK"
+130,KSI 009,KEN-KEM -20-3-0130,53,F,12,Kisii central,3/24/2020,3/24/2020,Negative,No,,,"Nurse - Travel History to USA, UK"
+131,KSI 010,KEN-KEM -20-3-0131,25,,12,Kisii central,3/24/2020,3/24/2020,Negative,No,,,"Teacher - Travel History to USA, UK"
+132,Elias Odungu,KEN-KEM -20-3-0132,31,M,1,,3/24/2020,3/24/2020,Negative,No,,,
+133,Nancy Njeri,KEN-KEM -20-3-0133,51,F,1,,3/24/2020,3/24/2020,Negative,No,,,Travel History to Ethiopia
+134,Dr Arogo Rita,KEN-KEM -20-3-0134,29,F,1,,3/24/2020,3/24/2020,Negative,No,,,
+135,Emma Wachira,KEN-KEM -20-3-0135,26,F,1,Thika,3/24/2020,3/24/2020,Negative,No,,,
+136,Michael Omega,KEN-KEM -20-3-0136,28,M,1,Lower Kabete,3/24/2020,3/24/2020,Negative,No,,,
+137,Enock Love,KEN-KEM -20-3-0137,,M,1,,3/24/2020,3/24/2020,Negative,No,,,
+138,Elizabeth Amolo,KEN-KEM -20-3-0138,24,F,1,,3/24/2020,3/24/2020,Negative,No,,,
+139,George Oguto,KEN-KEM -20-3-0139,46,M,1,,3/24/2020,3/24/2020,Negative,No,,,
+140,Magdalene Waihenya,KEN-KEM -20-3-0140,52,F,1,,3/24/2020,3/24/2020,Negative,No,,,
+141,Stephen Omukoko,KEN-KEM -20-3-0141,19,M,1,,3/24/2020,3/24/2020,Positive,No,,,Travel History to Switzerland
+142,Kelvin Kimtai,KEN-KEM -20-3-0142,26,M,1,,3/24/2020,3/24/2020,Negative,No,,,
+143,Daniel Muchai,KEN-KEM -20-3-0143,30,M,1,,3/24/2020,3/24/2020,Negative,,,,No sample
+144,Bortolini Franco,KEN-KEM -20-3-0144,61,M,1,,3/24/2020,3/24/2020,Negative,No,,,Travel history to Italy
+145,Sandra Wanjiku Kariuki,KEN-KEM -20-3-0145,22,F,1,,3/24/2020,3/24/2020,Negative,No,,,
+146,Roseline Mumbo,KEN-KEM -20-3-0146,46,F,1,,3/24/2020,3/24/2020,Negative,No,,,Travel history to Japan
+147,Victor Manani,KEN-KEM -20-3-0147,32,M,1,Nairobi- Ngara,3/24/2020,3/24/2020,Negative,No,,,Travel History to Lebanon
+148,Catherine Mrefu,KEN-KEM -20-3-0148,27,F,1,,3/24/2020,3/24/2020,Negative,No,,,Travel History to Uganda/Siaya
+149,Wesley Kibet,KEN-KEM -20-3-0149,42,M,16,,3/24/2020,3/24/2020,Negative,No,,,Travel history to Siaya
+150,Lucas agura,KEN-KEM -20-3-0150,58,M,16,,3/24/2020,3/24/2020,Negative,No,,,Travel history to Nairobi Siaya Kisii
+151,Pheligona Owaga,KEN-KEM -20-3-0151,43,F,16,,3/24/2020,3/24/2020,Negative,No,,,Travel History to Siaya(Ugunja)
+152,Samuel Gathere,KEN-KEM -20-3-0152,52,M,16,,3/24/2020,3/24/2020,Negative,No,,,Travel History to Siaya(Ugunja)
+153,Edmund Omondi,KEN-KEM -20-3-0153,23,M,16,,3/24/2020,3/24/2020,Negative,No,,,Travel History to Siaya(Ugunja)
+154,Edith Mwangi,KEN-KEM -20-3-0154,57,F,16,Ruiru,3/24/2020,3/24/2020,Negative,No,,,Travel History to Siaya(Ugunja)
+155,Lucas Otieno,KEN-KEM -20-3-0155,54,M,16,,3/24/2020,3/24/2020,Negative,No,,,Travel History to Siaya(Ugunja)
+156,Salome Wambui,KEN-KEM -20-3-0156,47,F,16,,3/24/2020,3/24/2020,Negative,No,,,
+157,Stephen Njau Kairu,KEN-KEM -20-3-0157,52,M,15,,3/24/2020,3/24/2020,Negative,No,,,Amboseli tour guide
+158,Correta Brandon Dominic,KEN-KEM -20-3-0158,10,M,15,,3/24/2020,3/24/2020,Negative,No,,,Recent travel-country not given
+159,Raymond Kiplimo,KEN-KEM -20-3-0159,30,M,1,,3/24/2020,3/24/2020,Negative,No,,,
+160,Dominic Kipkoech,KEN-KEM -20-3-0160,38,M,1,,3/24/2020,3/24/2020,Negative,No,,,
+161,Issac Mburu Njenga,KEN-KEM -20-3-0161,22,M,1,,3/24/2020,3/24/2020,Negative,No,,,Travel history to Dubai
+162,Bruce Matoka,KEN-KEM -20-3-0162,32,m,1,Kenyatta,3/24/2020,3/24/2020,Negative,No,,,"Travel history to Congo, Kigali"
+163,Andrew Owuor,KEN-KEM -20-3-0163,39,M,1,,3/24/2020,3/24/2020,Negative,No,,,
+164,Sarah Kanana,KEN-KEM -20-3-0164,50,F,1,,3/24/2020,3/24/2020,Negative,No,,,
+165,Faith Watiri,KEN-KEM -20-3-0165,41,F,1,,3/24/2020,3/24/2020,Negative,No,,,Travel history to Dubai
+166,Mary Mumu ,KEN-KEM -20-3-0166,45,F,1,,3/24/2020,3/24/2020,Negative,No,,,
+167,Teddy Mwangi,KEN-KEM -20-3-0167,36,M,1,,3/24/2020,3/24/2020,Negative,No,,,
+168,Hope Wangari,KEN-KEM -20-3-0168,10,F,1,,3/24/2020,3/24/2020,Negative,No,,,
+169,Faith Wangari,KEN-KEM -20-3-0169,5,F,1,,3/24/2020,3/24/2020,Negative,No,,,
+170,Alex Kaara,KEN-KEM -20-3-0170,35,M,1,,3/24/2020,3/24/2020,Negative,No,,,
+171,Philip Karanja,KEN-KEM -20-3-0171,23,M,1,,3/24/2020,3/24/2020,Negative,No,,,
+172,Stella Njoki,KEN-KEM -20-3-0172,32,F,1,,3/24/2020,3/24/2020,Negative,No,,,
+173,Susan Wangui,KEN-KEM -20-3-0173,30,F,1,,3/24/2020,3/24/2020,Negative,No,,,Travel History to Dubai
+174,Brenda Katila,KEN-KEM -20-3-0174,29,F,1,,3/24/2020,3/24/2020,Negative,No,,,Travel history to Ivory coast
+175,Caroline Tatua,KEN-KEM -20-3-0175,42,F,16,,3/24/2020,3/24/2020,Negative,No,,,Travel history to Ethiopia
+176,Loice wambui,KEN-KEM -20-3-0176,35,F,1,,3/24/2020,3/24/2020,Negative,No,,,
+177,Josephine Mwelu,KEN-KEM -20-3-0177,60,F,1,Utawala,3/25/2020,3/25/2020,Negative,No,,,Direct contact with known case
+178,Kushali Merai,KEN-KEM -20-3-0178,18,M,1,Langata,3/25/2020,3/25/2020,Negative,No,,,Travel history to Busia
+179,Kitui 005,KEN-KEM -20-3-0179,28,M,25,Kitui,3/25/2020,3/25/2020,Negative,No,,,
+180,Jane Njenga,KEN-KEM -20-3-0180,31,F,1,Kahawa West,3/25/2020,3/25/2020,Negative,No,,,
+181,Ann maurine Kathure,KEN-KEM -20-3-0181,20,F,1,Embu town,3/25/2020,3/25/2020,Negative,No,,,
+182,Amos Mureithi Njenga,KEN-KEM -20-3-0182,33,M,1,,3/25/2020,3/25/2020,Negative,No,,,Travel history to Rwanda
+183,Jadie MC Donnel,KEN-KEM -20-3-0183,39,F,15,,3/25/2020,3/25/2020,Negative,No,,,Travel History to Canada
+184,Dorothy Wambui,KEN-KEM -20-3-0184,48,F,1,,3/25/2020,3/25/2020,Negative,No,,,Travel history to Dubai
+185,Jacqueline Mathenge,KEN-KEM -20-3-0185,28,F,1,,3/25/2020,3/25/2020,Negative,No,,,
+186,Sarah Maitho,KEN-KEM -20-3-0186,25,F,1,,3/25/2020,3/25/2020,Negative,No,,,Travel History to Rwanda
+187,Emily Wakesho,KEN-KEM -20-3-0187,34,F,1,,3/25/2020,3/25/2020,Negative,No,,,
+188,Milkah Wangui,KEN-KEM -20-3-0188,42,F,1,,3/25/2020,3/25/2020,Negative,No,,,
+189,Elizabeth Wachira,KEN-KEM -20-3-0189,37,F,1,,3/25/2020,3/25/2020,Negative,No,,,
+190,Emmanuel Gikonyo,KEN-KEM -20-3-0190,30,M,1,,3/25/2020,3/25/2020,Negative,No,,,
+191,Owino Lameck,KEN-KEM -20-3-0191,24,M,1,,3/25/2020,3/25/2020,Negative,No,,,
+192,Angela Mwalimu,KEN-KEM -20-3-0192,23,F,1,,3/25/2020,3/25/2020,Negative,No,,,
+193,Eliud Omwenga,KEN-KEM -20-3-0193,27,M,1,,3/25/2020,3/25/2020,Negative,No,,,
+194,Lucy wangui,KEN-KEM -20-3-0194,31,F,1,,3/25/2020,3/25/2020,Negative,No,,,
+195,Mercy Mwangi,KEN-KEM -20-3-0195,,F,1,,3/25/2020,3/25/2020,Negative,No,,,Asthmatic
+196,Kush Cheda,KEN-KEM -20-3-0196,22,M,1,,3/25/2020,3/25/2020,Negative,No,,,Travel history to the USA
+197,Mawira Njange,KEN-KEM -20-3-0197,25,M,1,,3/25/2020,3/25/2020,Negative,No,,,Travel history to the USA
+198,Roseline Lubaha,KEN-KEM -20-3-0198,40,F,1,,3/25/2020,3/25/2020,Negative,No,,,Travel History to Rwanda
+199,Gachoka Mbui,KEN-KEM -20-3-0199,18,M,1,,3/25/2020,3/25/2020,Negative,No,,,Travel History to the USA
+200,Bruce Juma,KEN-KEM -20-3-0200,40,M,1,Githurai,3/25/2020,3/25/2020,Negative,No,,,
+201,Josephine Wanjiru Nganga,KEN-KEM -20-3-0201,32,F,1,,3/25/2020,3/25/2020,Negative,No,,,Travel History to Germany (Berlin)
+202,Benson Magena,KEN-KEM -20-3-0202,27,M,1,Githurai,3/25/2020,3/25/2020,Negative,No,,,
+203,Gibert Mato,KEN-KEM -20-3-0203,36,M,1,,3/25/2020,3/25/2020,Negative,No,,,
+204,Rose Wanjiru,KEN-KEM -20-3-0204,,,1,Githurai,3/25/2020,3/25/2020,Negative,No,,,
+205,Fred oloo,KEN-KEM -20-3-0205,40,M,1,,3/25/2020,3/25/2020,Negative,No,,,Fresh samples for repeat
+206,Eric Kithuku,KEN-KEM -20-3-0206,,M,1,Githurai,3/25/2020,3/25/2020,Negative,No,,,Fresh samples for repeat
+207,Debra Sinoi,KEN-KEM -20-3-0207,,M,44,,3/26/2020,3/26/2020,Negative,No,,,
+208,Ava Serafin Ngwalla,KEN-KEM -20-3-0208,2,F,15,,3/26/2020,3/26/2020,Negative,No,,,
+209,Kaisha Maureen,KEN-KEM -20-3-0209,33,F,15,,3/26/2020,3/26/2020,Negative,No,,,"Travel History to Geneva, Lagos"
+210,Rangi Rajendra Kumar,KEN-KEM -20-3-0210,34,F,15,,3/26/2020,3/26/2020,Negative,No,,,Travel History to India
+211,Victor Mbogo Baraka,KEN-KEM -20-3-0211,23,M,1,Karen,3/26/2020,3/26/2020,Negative,No,,,
+212,Faith Mumbe Nzomo,KEN-KEM -20-3-0212,21,F,1,Kitengela,3/26/2020,3/26/2020,Negative,No,,,
+213,Loice Wambui Ireri,KEN-KEM -20-3-0213,21,F,1,Diani,3/26/2020,3/26/2020,Negative,No,,,Travel history to Seychelles
+214,Joy Mbogo Neema,KEN-KEM -20-3-0214,18,F,1,Karen,3/26/2020,3/26/2020,Negative,No,,,Travl History to the US
+215,Stephen Njeru Mbogo,KEN-KEM -20-3-0215,53,M,1,Karen,3/26/2020,3/26/2020,Negative,No,,,
+216,Rosemary Wau Mbogo,KEN-KEM -20-3-0216,49,F,1,Karen,3/26/2020,3/26/2020,Negative,No,,,
+217,Gray Mwamuye Jilani,KEN-KEM -20-3-0217,35,F,1,Mlolongo,3/26/2020,3/26/2020,Negative,No,,,Travel History to Barcelona
+218,Maxwel Oduiri Odongo,KEN-KEM -20-3-0218,20,M,1,Njenga,3/26/2020,3/26/2020,Negative,No,,,Travel History to Tanzania
+219,Fredrick Maramba Mulindi,KEN-KEM -20-3-0219,35,M,1,Kawangware,3/26/2020,3/26/2020,Negative,No,,,
+220,Angela Wambui,KEN-KEM -20-3-0220,42,F,1,Westlands_Nairobi,3/26/2020,3/26/2020,Negative,No,,,Travel history to Afghanistan
+221,Ian Mambea Solomon,KEN-KEM -20-3-0221,24,M,1,,3/26/2020,3/26/2020,Negative,No,,,Asthmatic
+222,Lucy Kimemia,KEN-KEM -20-3-0222,50,F,1,,3/26/2020,3/26/2020,Negative,No,,,Travel History to Dubai
+223,Jackson Neikuda,KEN-KEM -20-3-0223,28,M,1,,3/26/2020,3/26/2020,Negative,No,,,
+224,Alphone Muthune Agina,KEN-KEM -20-3-0224,37,M,1,Jericho,3/26/2020,3/26/2020,Negative,No,,,Travel History to China
+225,Margaret Osilli,KEN-KEM -20-3-0225,45,F,1,,3/26/2020,3/26/2020,Negative,No,,,
+226,Moses Mbugua Waweru,KEN-KEM -20-3-0226,28,M,1,Pipeline,3/26/2020,3/26/2020,Negative,No,,,
+227,Judy Ogalo,KEN-KEM -20-3-0227,40,F,1,Buruburu,3/26/2020,3/26/2020,Negative,No,,,Travel History to London/Referred from KU
+228,Alex Oko,KEN-KEM -20-3-0228,30,M,1,,3/26/2020,3/26/2020,Negative,No,,,
+229,Benister Gisemba,KEN-KEM -20-3-0229,41,M,1,Uthiru,3/26/2020,3/26/2020,Negative,No,,,
+230,Robert Kipata,KEN-KEM -20-3-0230,37,M,1,Mombasa,3/26/2020,3/26/2020,Negative,No,,,
+231,Johm Otieno Otieno,KEN-KEM -20-3-0231,24,M,1,Kibra,3/26/2020,3/26/2020,Negative,No,,,
+232,Ahmed Hussein Denge,KEN-KEM -20-3-0232,33,M,1,Kawangware,3/26/2020,3/26/2020,Negative,No,,,
+233,Emmanuel Mwariga,KEN-KEM -20-3-0233,28,M,1,Pipeline Nairobi,3/26/2020,3/26/2020,Negative,No,,,
+234,Joshua Shukuri,KEN-KEM -20-3-0234,41,M,1,Ruai,3/26/2020,3/26/2020,Negative,No,,,Referred from Ruaka
+235,Godfrey Onyango,KEN-KEM -20-3-0235,40,M,1,Taasia- Nairobi,3/26/2020,3/26/2020,Negative,No,,,Referred from Port health
+236,John Odhiambo Juma,KEN-KEM -20-3-0236,30,M,1,Lucky Summer,3/26/2020,3/26/2020,Negative,No,,,Travel history to Dubai
+237,Anoike Christian Chisom,KEN-KEM -20-3-0237,27,M,1,Lavington,3/26/2020,3/26/2020,Negative,No,,,Travel history to Rwanda
+238,Kelvin Kimani Kinyanjui,KEN-KEM -20-3-0238,24,M,1,,3/26/2020,3/26/2020,Negative,No,,,
+239,Charles Ochieng Ngicho,KEN-KEM -20-3-0239,48,M,1,Madaraka,3/26/2020,3/26/2020,Negative,No,,,
+240,Nicholas Kivaja Andiva,KEN-KEM -20-3-0240,36,M,1,Kibra,3/26/2020,3/26/2020,Negative,No,,,
+241,Idle Ibrahim,KEN-KEM -20-3-0241,47,M,1,South B,3/26/2020,3/26/2020,Negative,No,,,
+242,Zamzam Hussein Chiku,KEN-KEM -20-3-0242,32,F,1,Parklands,3/26/2020,3/26/2020,Negative,No,,,
+243,Rehema Mtoi Uchi,KEN-KEM -20-3-0243,33,F,1,Imara Daima,3/26/2020,3/26/2020,Negative,No,,,
+244,Shadrack Kiema Kwolota,KEN-KEM -20-3-0244,25,M,1,South C,3/26/2020,3/26/2020,Negative,No,,,
+245,Ben Rogers Kwolota,KEN-KEM -20-3-0245,28,M,1,South C,3/26/2020,3/26/2020,Negative,No,,,
+246,Velma Mukoya Mwelema,KEN-KEM -20-3-0246,22,F,1,Kangemi,3/26/2020,3/26/2020,Negative,No,,,
+247,Panaito Illa,KEN-KEM -20-3-0247,55,M,1,Babadogo,3/26/2020,3/26/2020,Negative,No,,,
+248,Nelson Kamote Kamau,KEN-KEM -20-3-0248,39,M,1,Kayole,3/27/2020,3/27/2020,Negative,,,,
+249,Euet Akinyi Onyango,KEN-KEM -20-3-0249,22,F,1,Kayole,3/27/2020,3/27/2020,Negative,,,,
+250,Victor Peter Obari,KEN-KEM -20-3-0250,27,M,1,Embakasi,3/27/2020,3/27/2020,Negative,,,,
+251,Evelylyne Muthoni Kamau,KEN-KEM -20-3-0251,38,F,1,South B,3/27/2020,3/27/2020,Negative,,,,
+252,Mathew Muriuki Githinji,KEN-KEM -20-3-0252,47,F,1,Kariobangi,3/27/2020,3/27/2020,Negative,,,,
+253,Veronica Amimo Makoha,KEN-KEM -20-3-0253,34,F,1,Canaan Estate,3/27/2020,3/27/2020,Negative,,,,Travel history to Dubai
+254,Isnino Yussuf Shido,KEN-KEM -20-3-0254,37,F,1,,3/27/2020,3/27/2020,Negative,,,,
+255,Stella Chepngetich,KEN-KEM -20-3-0255,30,F,1,Utawala,3/27/2020,3/27/2020,Negative,,,,
+256,Olivia Apori Ochieng,KEN-KEM -20-3-0256,34,F,1,Imara Daima,3/27/2020,3/27/2020,Negative,,,,
+257,Aqeel Sha,KEN-KEM -20-3-0257,47,F,1,Muthaiga North,3/27/2020,3/27/2020,Negative,,,,
+258,Vincent Okoth,KEN-KEM -20-3-0258,47,M,1,Tasia,3/27/2020,3/27/2020,Negative,,,,
+259,Latavia Okillo,KEN-KEM -20-3-0259,17,F,15,,3/27/2020,3/27/2020,Negative,,,,Deceased
+260,Kitonga Kilungya,KEN-KEM -20-3-0260,50,M,1,Limuru,3/27/2020,3/27/2020,Negative,,,,
+261,Stephine Onyango Ligawa,KEN-KEM -20-3-0261,52,M,1,Kayole,3/27/2020,3/27/2020,Negative,,,,
+262,Cynthia Mbuyamba,KEN-KEM -20-3-0262,31,F,1,Kilimani,3/27/2020,3/27/2020,Positive,,,,Travel History to France
+263,John Mbuyamba,KEN-KEM -20-3-0263,42,M,1,Kilimani,3/27/2020,3/27/2020,Positive,,,,Travel History to France
+264,Eva Dondi Fredrick,KEN-KEM -20-3-0264,19,F,1,Kilimani,3/27/2020,3/27/2020,Negative,,,,Travel History to the UK
+265,Makewa Douglas,KEN-KEM -20-3-0265,58,M,1,South B,3/27/2020,3/27/2020,Negative,,,,
+266,Joseph Gitonga,KEN-KEM -20-3-0266,51,M,1,,3/27/2020,3/27/2020,Negative,,,,
+267,Julius Mustya Kitonga,KEN-KEM -20-3-0267,20,M,1,,3/27/2020,3/27/2020,Negative,,,,
+268,Yussuf Abdulahi,KEN-KEM -20-3-0268,29,M,1,,3/27/2020,3/27/2020,Negative,,,,
+269,Anthony Maina Mwai,KEN-KEM -20-3-0269,26,M,1,Umoja,3/27/2020,3/27/2020,Negative,,,,
+270,Kironce Kilunga,KEN-KEM -20-3-0270,21,,1,Limuru,3/27/2020,3/27/2020,Negative,,,,
+271,Doris Imali Otieno,KEN-KEM -20-3-0271,,,1,,3/27/2020,3/27/2020,Negative,,,,No case investigation form
+272,Kelvin Amimo,KEN-KEM -20-3-0272,,,1,,3/27/2020,3/27/2020,Negative,,,,No case investigation form
+273,Ken-KEM-20-03-0273,KEN-KEM -20-3-0273,23,M,43,,3/28/2020,3/28/2020,Negative,,,,
+274,KEN-KEM-20-03-2020,KEN-KEM -20-3-0274,48,F,16,,3/28/2020,3/28/2020,Negative,,,,
+275,Alaka Kelvin Lateef,KEN-KEM -20-3-0275,41,M,1,,3/28/2020,3/28/2020,Negative,,,,DG kilifi contact
+276,Steven Theuri,KEN-KEM -20-3-0276,,,1,,3/28/2020,3/28/2020,Negative,,,,
+277,Samuel Njenga,KEN-KEM -20-3-0277,53,M,1,,3/28/2020,3/28/2020,Negative,,,,Healthcare worker
+278,Galton Mkorori,KEN-KEM -20-3-0278,25,M,1,Taita Taveta,3/28/2020,3/28/2020,Negative,,,,Travel history to USA via London
+279,Cetric Okolla,KEN-KEM -20-3-0279,23,,1,Kasarani,3/28/2020,3/28/2020,Negative,,,,
+280,Humphrey Mugeni,KEN-KEM -20-3-0280,28,M,1,Bungoma,3/28/2020,3/28/2020,Negative,,,,Nurse
+281,Caroline Kioi,KEN-KEM -20-3-0281,47,F,1,,3/28/2020,3/28/2020,Negative,,,,Lawyer
+282,Mercy Kasifa,KEN-KEM -20-3-0282,28,F,1,Buruburu,3/28/2020,3/28/2020,Negative,,,,
+283,Omar Hatibu,KEN-KEM -20-3-0283,41,M,1,Kakamega,3/28/2020,3/28/2020,Negative,,,,
+284,Ibrahim Elwa Suleiman,KEN-KEM -20-3-0284,31,M,1,Ongata Rongai,3/28/2020,3/28/2020,Negative,,,,
+285,Wallace Ngige,KEN-KEM -20-3-0285,29,M,1,Lower kabete,3/28/2020,3/28/2020,Negative,,,,"Travel history to South Africa, Mozambique"
+286,017 M.M,KEN-KEM -20-3-0286,28,F,42,Kibwezi East,3/28/2020,3/28/2020,Negative,,,,Travel history to Tanzania
+287,Zharko Jovcheski,KEN-KEM -20-3-0287,54,M,15,,3/29/2020,3/29/2020,Negative,,,,
+288,Beatrice Wahu,KEN-KEM -20-3-0288,24,F,1,Ngong,3/29/2020,3/29/2020,Negative,,,,Travel history to Tanzania
+289,Derrick  Kariuki Wambugu,KEN-KEM -20-3-0289,37,M,1,Kinoo,3/29/2020,3/29/2020,Negative,,,,
+290,Maxwell Omondi Ouma,KEN-KEM -20-3-0290,26,M,1,Ruaraka GSU HQ,3/29/2020,3/29/2020,Negative,,,,
+291,Walter Ngotie,KEN-KEM -20-3-0291,49,M,1,Westlands,3/29/2020,3/29/2020,Negative,,,,Travel History to France
+292,Jane Kirrii,KEN-KEM -20-3-0292,,F,1,11,3/29/2020,3/29/2020,Negative,,,,Travel History to UK
+293,Judy Mugo,KEN-KEM -20-3-0293,39,F,1,,3/29/2020,3/29/2020,Negative,,,,
+294,Charles Mutembei,KEN-KEM -20-3-0294,52,M,1,Prison Compound,3/29/2020,3/29/2020,Positive,,,,
+295,Maurice Owuor,KEN-KEM -20-3-0295,31,M,1,Mamlaka,3/29/2020,3/29/2020,Negative,,,,Travel History to Tanzania
+296,Emmanuel Ngetich,KEN-KEM -20-3-0296,20,M,1,Kibra,3/29/2020,3/29/2020,Negative,,,,
+297,Jackline Amondi Onyango,KEN-KEM -20-3-0297,46,F,1,Langata,3/29/2020,3/29/2020,Positive,,,,Travel History to the UK
+298,Patrick Githinji Mugure,KEN-KEM -20-3-0298,32,F,1,Komarock,3/29/2020,3/29/2020,,,,,
+299,Kamgai Wafo Anderson,KEN-KEM -20-3-0299,32,M,1,,3/29/2020,3/29/2020,Positive,,,,Travel histoty to Cameroon
+300,Mark Munene,KEN-KEM -20-3-0300,38,M,1,Kasarani,3/29/2020,3/29/2020,Positive,,,,Travel history to Dubai
+301,Marylene Chesang,KEN-KEM -20-3-0301,50,F,1,Mlolongo,3/29/2020,3/29/2020,Positive,,,,
+302,Ezekiel Cheptumo,KEN-KEM -20-3-0302,58,M,1,Mlolongo,3/29/2020,3/29/2020,Positive,,,,
+303,Sarah Wairimu,KEN-KEM -20-3-0303,29,F,1,Kikuyu,3/29/2020,3/29/2020,Positive,,,,
+304,Ruth Wambui,KEN-KEM -20-3-0304,48,F,1,Kasarani,3/29/2020,3/29/2020,Positive,,,,
+305,Joseph Obrien Gay,KEN-KEM -20-3-0305,84,F,15,,3/29/2020,3/29/2020,Negative,,,,"Contact with Pnuemonia patient from UK, CT Scan  bilateral apretus"
+306,Winnie Wamboi Gitau,KEN-KEM -20-3-0306,24,F,17,,3/29/2020,3/29/2020,Negative,,,,Travelled from Qatar
+307,Danson Wainaina,KEN-KEM -20-3-0307,33,M,17,,3/29/2020,3/29/2020,Negative,,,,Travelled from Qatar
+308,Amos Muriithi,KEN-KEM -20-3-0308,35,M,17,,3/29/2020,3/29/2020,Negative,,,,Travelled from Dubai
+309,Michael Muriithi,KEN-KEM -20-3-0309,37,M,17,,3/29/2020,3/29/2020,Negative,,,,Travelled from UAE
+310,Michele Wanjiru Kabiru,KEN-KEM -20-3-0310,26,F,17,,3/29/2020,3/29/2020,Negative,,,,
+311,Tony Bwire,KEN-KEM -20-3-0311,24,M,17,,3/29/2020,3/29/2020,Positive,,,,Travelled from UAE
+312,Antony Mwangi,KEN-KEM -20-3-0312,28,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Dubai, UAE"
+313,Oscar Momanyi Makumba,KEN-KEM -20-3-0313,23,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Berlin, Germany"
+314,Fredrick Karanja Njoroge,KEN-KEM -20-3-0314,38,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Doha, Qatar"
+315,Jared Onyancha,KEN-KEM -20-3-0315,,M,17,,3/29/2020,3/29/2020,Positive,,,,
+316,Alex Anunda Bosire,KEN-KEM -20-3-0316,40,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Doha, Qatar"
+317,Nelson Omae,KEN-KEM -20-3-0317,27,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Dubai, UAE"
+318,Swabri Abdulkarim,KEN-KEM -20-3-0318,24,M,17,,3/29/2020,3/29/2020,Positive,,,,"Travelled from Dubai, UAE"
+319,Hassan Said Karama,KEN-KEM -20-3-0319,49,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Port Louis Mauritius, & Dubai, UAE"
+320,Shem Kombo,KEN-KEM -20-3-0320,37,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Dubai, UAE"
+321,Pius Ogendi,KEN-KEM -20-3-0321,35,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Doha, Qatar"
+322,Esther Muriuki,KEN-KEM -20-3-0322,28,F,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from London, UK"
+323,Bereta Musimbi,KEN-KEM -20-3-0323,27,F,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Dubai, UAE"
+324,Islam Abdala,KEN-KEM -20-3-0324,29,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Dubai, UAE"
+325,Patrick Ngigi,KEN-KEM -20-3-0325,24,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Dubai, UAE"
+326,Theoplus Kimutai Ruto,KEN-KEM -20-3-0326,29,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Dubai, UAE"
+327,Ann Wanjiku,KEN-KEM -20-3-0327,28,F,17,,3/29/2020,3/29/2020,Negative,,,,Travelled from Qatar
+328,Grace Idah Wanjiru,KEN-KEM -20-3-0328,28,F,17,,3/29/2020,3/29/2020,Positive,,,,"Travelled from Dubai, UAE"
+329,Nancy Wambui,KEN-KEM -20-3-0329,23,F,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Dubai, UAE"
+330,Nelius Maina,KEN-KEM -20-3-0330,29,F,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Dubai, UAE"
+331,Mercy Murage,KEN-KEM -20-3-0331,22,F,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Dubai, UAE"
+332,Kelvin Kipkoskei,KEN-KEM -20-3-0332,36,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Doha, Qatar"
+333,Esther Mwaura,KEN-KEM -20-3-0333,28,F,17,,3/29/2020,3/29/2020,Negative,,,,Travelled from Qatar
+334,Sarah Nyongesa,KEN-KEM -20-3-0334,33,F,17,,3/29/2020,3/29/2020,Negative,,,,Travelled from Qatar
+335,Kelvin Maina,KEN-KEM -20-3-0335,27,M,17,,3/29/2020,3/29/2020,Negative,,,,Travelled from Qatar
+336,Mumin Mohamed,KEN-KEM -20-3-0336,31,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from Dubai, UAE"
+337,Samuel W. Kairu,KEN-KEM -20-3-0337,,M,17,,3/29/2020,3/29/2020,Negative,,,,"Travelled from New York, USA"
+338,John Thuo Gitau,KEN-KEM -20-3-0338,48,M,17,,3/29/2020,3/29/2020,Positive,,,,"Travelled from Dubai, UAE"
+339,Daniel H.K Mburu,KEN-KEM -20-3-0339,52,M,1,Thogoto,3/30/2020,3/30/2020,Negative,,,,
+340,Anthony Wachira,KEN-KEM -20-3-0340,46,M,16,Not given,3/30/2020,3/30/2020,Negative,,,,Travel history to Puerto Rico
+341,Isaiah Njuguna,KEN-KEM -20-3-0341,36,M,1,Kinoo,3/30/2020,3/30/2020,Negative,,,,Travel History to Rwanda
+342,Meule Jin,KEN-KEM -20-3-0342,23,M,1,China,3/30/2020,3/30/2020,Negative,,,,Travel history to China
+343,Franco Nyaga,KEN-KEM -20-3-0343,40,M,1,Githurai 44,3/30/2020,3/30/2020,Negative,,,,Referral fro Kimabu level 5
+344,Bazibu Murabazi,KEN-KEM -20-3-0344,25,M,1,Langata,3/30/2020,3/30/2020,Negative,,,,
+345,Martha Akinyi,KEN-KEM -20-3-0345,45,F,1,,3/30/2020,3/30/2020,Negative,,,,Contact with a German 12-14th march 2020
+346,Miikao Yannick,KEN-KEM -20-3-0346,25,M,1,Langata,3/30/2020,3/30/2020,Negative,,,,
+347,Abdishakur Ibrahim,KEN-KEM -20-3-0347,28,M,1,South B,3/30/2020,3/30/2020,Positive,,,,"Travel history to UK, Dubai"
+348,Afsha Ruhn Saiyed,KEN-KEM -20-3-0348,24,,1,,3/30/2020,3/30/2020,Negative,,,,Referral from Nairobi South C hospital
+349,Victor Juma,KEN-KEM -20-3-0349,21,M,1,,3/30/2020,3/30/2020,Negative,,,,
+350,Catherine Brenda,KEN-KEM -20-3-0350,,F,1,,3/30/2020,3/30/2020,Negative,,,,
+351,Dr. kimtai,KEN-KEM -20-3-0351,,F,1,,3/30/2020,3/30/2020,Negative,,,,
+352,Pascalina Nthenya,KEN-KEM -20-3-0352,52,F,16,,3/30/2020,3/30/2020,Negative,,,,
+353,Nicholas Ireri,KEN-KEM -20-3-0353,56,M,16,,3/30/2020,3/30/2020,Negative,,,,
+354,Fauziya Lugago,KEN-KEM -20-3-0354,27,F,1,Roysambu,3/30/2020,3/30/2020,Negative,,,,
+355,Linah Mbuaganga,KEN-KEM -20-3-0355,29,F,1,,3/30/2020,3/30/2020,Negative,,,,
+356,Matondo Kambule,KEN-KEM -20-3-0356,52,M,1,,3/30/2020,3/30/2020,Negative,,,,Travel history to Congo
+357,Everlino Amoyio,KEN-KEM -20-3-0357,45,,1,,3/30/2020,3/30/2020,Negative,,,,
+358,Lucy Magero,KEN-KEM -20-3-0358,44,F,1,,3/30/2020,3/30/2020,Negative,,,,
+359,Edith Mukoha,KEN-KEM -20-3-0359,,,1,,3/30/2020,3/30/2020,Negative,,,,
+360,Rhoda Desire Nakibuule,KEN-KEM -20-3-0360,24,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel history to Oman
+361,Emanuel Mgandi,KEN-KEM -20-3-0361,34,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to US
+362,Crystal Mboza,KEN-KEM -20-3-0362,24,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to Doha
+363,Ann Ayieta,KEN-KEM -20-3-0363,33,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+364,Alice Nyokabi,KEN-KEM -20-3-0364,85,F,18,Kiambu,3/30/2020,3/30/2020,Negative,,,,Travel history to UK
+365,Catherine Wanjiru,KEN-KEM -20-3-0365,24,F,18,Buruburu,3/30/2020,3/30/2020,Negative,,,,Travel History to Doha
+366,Duncan Macharia,KEN-KEM -20-3-0366,46,M,18,Kahawa,3/30/2020,3/30/2020,Negative,,,,Travel history to UK
+367,Victor Momanyi,KEN-KEM -20-3-0367,40,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+368,David Nzaro Mwatete,KEN-KEM -20-3-0368,36,M,18,Mtwapa,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+369,Naomi Nduta,KEN-KEM -20-3-0369,,F,18,Buruburu,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+370,Martin Koome,KEN-KEM -20-3-0370,37,M,18,Ngong,3/30/2020,3/30/2020,Negative,,,,Travel history to Qatar
+371,Olivia Otambo,KEN-KEM -20-3-0371,39,F,18,Kisumu,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+372,Irene Akinyi,KEN-KEM -20-3-0372,29,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to Doha
+373,Janet Irene,KEN-KEM -20-3-0373,41,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to Panama
+374,Faith Mbori Mwanjala,KEN-KEM -20-3-0374,26,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel history to S.Sudan
+375,Harriet Nyanduku,KEN-KEM -20-3-0375,23,,18,,3/30/2020,3/30/2020,Negative,,,,Travel history to Finland
+376,Joyce Rehema,KEN-KEM -20-3-0376,38,F,18,Kilifi,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+377,Vincent Murimi,KEN-KEM -20-3-0377,35,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+378,Mohamed Sebe,KEN-KEM -20-3-0378,50,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+379,Isa Abdi,KEN-KEM -20-3-0379,29,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+380,John Maina Ndongo,KEN-KEM -20-3-0380,35,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel history to S.Sudan
+381,Rita Achieng,KEN-KEM -20-3-0381,,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel history to S.Sudan
+382,Susan Wanjiru Muchina,KEN-KEM -20-3-0382,27,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+383,Silvia Mwarabu,KEN-KEM -20-3-0383,35,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+384,Jesse Gatheru,KEN-KEM -20-3-0384,32,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to the US
+385,Ruth Wanjiku,KEN-KEM -20-3-0385,47,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel History to S.Sudan
+386,Marcel Mkari,KEN-KEM -20-3-0386,28,F,18,,3/30/2020,3/30/2020,Negative,,,,Travel history US
+387,Samuel Kibue,KEN-KEM -20-3-0387,47,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel history S.Sudan
+388,Tayyab Mahmood,KEN-KEM -20-3-0388,24,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel history to Pakistan
+389,Omari Bonface,KEN-KEM -20-3-0389,28,M,18,,3/30/2020,3/30/2020,Negative,,,,Travel history to S.Sudan
+390,Elizabeth Njoki,KEN-KEM -20-3-0390,27,F,18,,3/30/2020,3/30/2020,Positive,,,,Travel history to Qatar
+391,Grace Wangari,KEN-KEM -20-3-0391,23,F,18,,3/30/2020,3/30/2020,Negative,,,,USA
+392,Ahmed Arab,KEN-KEM -20-3-0392,,M,18,,3/30/2020,3/30/2020,Negative,,,,Netherlands
+393,Luka Mulindi,KEN-KEM -20-3-0393,32,M,18,,3/30/2020,3/30/2020,Negative,,,,Canada
+394,Wesley Nyandika,KEN-KEM -20-3-0394,29,M,18,,3/30/2020,3/30/2020,Negative,,,,South Sudan
+395,Wesley Tanui,KEN-KEM -20-3-0395,27,M,18,,3/30/2020,3/30/2020,Negative,,,,Finland
+396,Ali Zaib,KEN-KEM -20-3-0396,33,M,18,,3/30/2020,3/30/2020,Positive,,,,Pakistan
+397,Fofana Sekou,KEN-KEM -20-3-0397,,M,18,,3/30/2020,3/30/2020,Negative,,,,Mozambique
+398,Jackline Makena Muriithi,KEN-KEM -20-3-0398,23,F,18,,3/30/2020,3/30/2020,Negative,,,,Zambia
+399,Abdalla Ali Chizondo,KEN-KEM -20-3-0399,28,M,18,Kwale,3/30/2020,3/30/2020,Negative,,,,USA
+400,Hamet Daoud Hassan,KEN-KEM -20-3-0400,24,M,18,,3/30/2020,3/30/2020,Positive,,,,Dubai
+401,Jarred Mose,KEN-KEM -20-3-0401,28,M,18,,3/30/2020,3/30/2020,Positive,,,,Doha
+402,Perminus njoroge,KEN-KEM -20-3-0402,37,,18,,3/30/2020,3/30/2020,Negative,,,,Qatar
+403,George James Tawa,KEN-KEM -20-3-0403,32,M,18,,3/30/2020,3/30/2020,Negative,,,,USA
+404,Camara Mariama,KEN-KEM -20-3-0404,32,M,18,,3/30/2020,3/30/2020,Negative,,,,Mozambique
+405,Ruth Rock,KEN-KEM -20-3-0405,33,F,18,,3/30/2020,3/30/2020,Negative,,,,Qatar
+406,Teddy Kamau,KEN-KEM -20-3-0406,27,M,18,,3/30/2020,3/30/2020,Negative,,,,Qatar
+407,Maurine Nganga,KEN-KEM -20-3-0407,31,F,18,,3/30/2020,3/30/2020,Negative,,,,UK
+408,Mohammed Sahab,KEN-KEM -20-3-0408,44,M,18,,3/30/2020,3/30/2020,Negative,,,,Iran
+409,Michael Mungeli,KEN-KEM -20-3-0409,30,M,18,,3/30/2020,3/30/2020,Negative,,,,Dubai
+410,Christine Nekesa Nyongesa,KEN-KEM -20-3-0410,42,F,18,,3/30/2020,3/30/2020,Negative,,,,Germany
+411,Victoria Mambo,KEN-KEM -20-3-0411,28,F,18,,3/30/2020,3/30/2020,Negative,,,,USA
+412,Sarr Baboucar,KEN-KEM -20-3-0412,42,F,18,Dakar,3/30/2020,3/30/2020,Negative,,,,Seychelles
+413,Habiba Wakaria,KEN-KEM -20-3-0413,42,F,18,Mombasa,3/30/2020,3/30/2020,Negative,,,,UAE
+414,Ann Mulongo,KEN-KEM -20-3-0414,28,F,18,Kakamega,3/30/2020,3/30/2020,Negative,,,,S.Sudan
+415,Issack Ahmed Barow,KEN-KEM -20-3-0415,53,M,18,Garissa,3/30/2020,3/30/2020,Negative,,,,"USA,Paris"
+416,Simon Kariuki,KEN-KEM -20-3-0416,24,M,18,Muranga,3/30/2020,3/30/2020,Negative,,,,Qatar
+417,Paul Ayanai,KEN-KEM -20-3-0417,28,M,18,Elgeyo marakwet,3/30/2020,3/30/2020,Negative,,,,Malaysia
+418,Fredrick onyango Achola,KEN-KEM -20-3-0418,46,M,18,Kisumu,3/30/2020,3/30/2020,Negative,,,,Qatar
+419,Natahn Oirere Muturi,KEN-KEM -20-3-0419,26,M,18,Kasarani,3/30/2020,3/30/2020,Negative,,,,S.sudan
+420,Changawa William Tuva,KEN-KEM -20-3-0420,37,M,18,Malindi,3/30/2020,3/31/2020,Negative,,,,USA
+421,Erick Njoroge Mwihia,KEN-KEM -20-3-0421,29,M,18,Nakuru,3/30/2020,3/31/2020,Negative,,,,S.Sudan
+422,Khan Zanrood,KEN-KEM -20-3-0422,46,M,18,Pakistan,3/30/2020,3/31/2020,Positive,,,,"Tanzania, Pakistan"
+423,Badsah Gul,KEN-KEM -20-3-0423,50,M,18,Pakistan,3/30/2020,3/31/2020,Negative,,,,"Tanzania, Pakistan"
+424,Faizul Rehman,KEN-KEM -20-3-0424,36,M,18,Pakistan,3/30/2020,3/31/2020,Positive,,,,"Tanzania, Pakistan"
+425,Yassir Omar Kher,KEN-KEM -20-3-0425,35,M,18,Lamu,3/30/2020,3/31/2020,Negative,,,,USA
+426,Alfred Muchumi Kamau,KEN-KEM -20-3-0426,30,M,18,Kiambu,3/30/2020,3/31/2020,Positive,,,,Dubai
+427,Getrude Wakesho Momanyi,KEN-KEM -20-3-0427,22,F,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,USA
+428,Francis Mungai Kamau,KEN-KEM -20-3-0428,20,M,18,Kiambu,3/30/2020,3/31/2020,Negative,,,,Germany
+429,George Wairagu Gachoka,KEN-KEM -20-3-0429,29,M,18,,3/30/2020,3/31/2020,Negative,,,,USA
+430,Ali Hamisi,KEN-KEM -20-3-0430,28,M,18,Mombasa,3/30/2020,3/31/2020,Positive,,,,Qatar
+431,Kathyrn Kamau,KEN-KEM -20-3-0431,27,F,18,Nairobi,3/30/2020,3/31/2020,Negative,,,,Portugal
+432,Douglas Mugo,KEN-KEM -20-3-0432,,M,18,Nakuru,3/30/2020,3/31/2020,Negative,,,,Oman
+433,Elizabeth Nyakio,KEN-KEM -20-3-0433,28,F,18,Kinoo,3/30/2020,3/31/2020,Negative,,,,UK
+434,Vivian Dama,KEN-KEM -20-3-0434,,F,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,UAE
+435,Hellen Mukuhi Mwangi,KEN-KEM -20-3-0435,41,F,18,Githurai,3/30/2020,3/31/2020,Negative,,,,UK
+436,Eunice Waweru,KEN-KEM -20-3-0436,41,F,18,,3/30/2020,3/31/2020,Negative,,,,USA
+437,Charles Kairu,KEN-KEM -20-3-0437,35,M,18,Thika,3/30/2020,3/31/2020,Negative,,,,Oman
+438,Mohammed Mefalani,KEN-KEM -20-3-0438,28,M,18,,3/30/2020,3/31/2020,Negative,,,,Madagascar
+439,Mamdoya Dhemich,KEN-KEM -20-3-0439,23,M,18,,3/30/2020,3/31/2020,Negative,,,,Sudan
+440,Mohammed Yahye,KEN-KEM -20-3-0440,23,M,18,,3/30/2020,3/31/2020,Negative,,,,Sudan
+441,Perminus Waiharo,KEN-KEM -20-3-0441,29,M,18,Kikuyu,3/30/2020,3/31/2020,Negative,,,,USA
+442,Zewar Shah,KEN-KEM -20-3-0442,59,M,18,,3/30/2020,3/31/2020,Negative,,,,
+443,Adam Shah,KEN-KEM -20-3-0443,50,M,18,,3/30/2020,3/31/2020,Positive,,,,Pakistan
+444,Nadir Khan,KEN-KEM -20-3-0444,35,M,18,,3/30/2020,3/31/2020,Negative,,,,Tanzania
+445,Kahai Stagul,KEN-KEM -20-3-0445,65,M,18,,3/30/2020,3/31/2020,Positive,,,,Pakistan
+446,Ahmed Mohammed Shekwe,KEN-KEM -20-3-0446,43,M,18,Mombasa,3/30/2020,3/31/2020,Positive,,,,Dubai
+447,Audrey Nakhatama Misiko,KEN-KEM -20-3-0447,,F,18,Mamlaka road,3/30/2020,3/31/2020,Negative,,,,France
+448,Ibrahim Ngaluma,KEN-KEM -20-3-0448,,M,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,USA
+449,Abigael Cherop,KEN-KEM -20-3-0449,,F,18,Elgeyo marakwet,3/30/2020,3/31/2020,Negative,,,,Malaysia
+450,Benson Njiru Njagi,KEN-KEM -20-3-0450,,M,18,Garden estate,3/30/2020,3/31/2020,Negative,,,,S.Sudan
+451,Hubi Hussein Kuriy,KEN-KEM -20-3-0451,,M,18,Garissa,3/30/2020,3/31/2020,Negative,,,,USA
+452,Anna Iribagiza,KEN-KEM -20-3-0452,28,F,18,,3/30/2020,3/31/2020,Negative,,,,Zambia
+453,Gladys Kiptoo,KEN-KEM -20-3-0453,30,M,18,Kitale,3/30/2020,3/31/2020,Negative,,,,Malaysia
+454,Abdi Katahr Mohammed,KEN-KEM -20-3-0454,31,F,18,,3/30/2020,3/31/2020,Negative,,,,UK
+455,Milka Manyala Mutano,KEN-KEM -20-3-0455,,F,18,Tasia,3/30/2020,3/31/2020,Negative,,,,S.Sudan
+456,Alia Sammy,KEN-KEM -20-3-0456,20,,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,Qatar
+457,Christine Kaweesi Nanyondo,KEN-KEM -20-3-0457,36,,18,,3/30/2020,3/31/2020,Negative,,,,Lusaka
+458,Joram Munda Gintone,KEN-KEM -20-3-0458,,M,18,Shanzu,3/30/2020,3/31/2020,Negative,,,,USA
+459,Faith Nyambura,KEN-KEM -20-3-0459,29,F,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,USA
+460,Elvin Awuor,KEN-KEM -20-3-0460,43,M,18,Nairobi,3/30/2020,3/31/2020,Negative,,,,USA
+461,Nalukwjo Nauhaula,KEN-KEM -20-3-0461,24,F,18,Uganda,3/30/2020,3/31/2020,Negative,,,,UAE
+462,Nimo Osman,KEN-KEM -20-3-0462,18,M,18,UK,3/30/2020,3/31/2020,Negative,,,,UK
+463,Japhaeth Kioko,KEN-KEM -20-3-0463,42,M,18,Machakos,3/30/2020,3/31/2020,Positive,,,,USA
+464,Winnie Otakwa Nandwa,KEN-KEM -20-3-0464,33,F,18,Kakamega,3/30/2020,3/31/2020,Negative,,,,S.Sudan
+465,Eunice Peris Achieng,KEN-KEM -20-3-0465,,F,18,Siaya,3/30/2020,3/31/2020,Negative,,,,S.Sudan
+466,Ebby Shiejero,KEN-KEM -20-3-0466,60,,18,Kakamega,3/30/2020,3/31/2020,Negative,,,,USA
+467,Joan Akello Kiera,KEN-KEM -20-3-0467,28,F,18,Nakuru,3/30/2020,3/31/2020,Negative,,,,S.Sudan
+468,Anthony Mwambaya,KEN-KEM -20-3-0468,24,M,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,USA
+469,Sammy Chengo,KEN-KEM -20-3-0469,,,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,
+470,Kimaiyo Netty Jeruto,KEN-KEM -20-3-0470,,,18,Nairobi,3/30/2020,3/31/2020,Positive,,,,
+471,Albert Ngale Dzuya,KEN-KEM -20-3-0471,,,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,
+472,Kamgang Kalla Jaques,KEN-KEM -20-3-0472,,,18,Doula Cameroon,3/30/2020,3/31/2020,Positive,,,,
+473,Konfor Ngafei,KEN-KEM -20-3-0473,,,18,Muscat-Oman,3/30/2020,3/31/2020,Negative,,,,
+474,Samuel Gitau Kamau,KEN-KEM -20-3-0474,,,18,Kiambu,3/30/2020,3/31/2020,Negative,,,,
+475,Levis Mutethia Muchai,KEN-KEM -20-3-0475,,,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,
+476,Mufu John,KEN-KEM -20-3-0476,,,18,Doula Cameroon,3/30/2020,3/31/2020,Positive,,,,
+477,Joan Odhiambo John,KEN-KEM -20-3-0477,,,18,Homabay,3/30/2020,3/31/2020,Negative,,,,
+478,Julius Njuguna,KEN-KEM -20-3-0478,,,18,Samburu,3/30/2020,3/31/2020,Negative,,,,
+479,Amina Gerisho,KEN-KEM -20-3-0479,,,18,Dar - Tanzania,3/30/2020,3/31/2020,Negative,,,,
+480,Duncan Obiero,KEN-KEM -20-3-0480,51,M,18,Nairobi,3/30/2020,3/31/2020,Negative,,,,Travel history to germany
+481,Judith Otieno  Akoth,KEN-KEM -20-3-0481,25,F,18,Nairobi,3/30/2020,3/31/2020,Negative,,,,Travel history to USA
+482,Noor Omar,KEN-KEM -20-3-0482,30,M,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,Travel history to UAE (Dubai)
+483,Josephine Nyawira Mutugi,KEN-KEM -20-3-0483,28,F,18,Kirinyaga,3/30/2020,3/31/2020,Negative,,,,Travel history to UAE (Dubai)
+484,Abraham Rono,KEN-KEM -20-3-0484,29,M,18,Kitale,3/30/2020,3/31/2020,Negative,,,,Travel history to UK- London
+485,Lily Muindi,KEN-KEM -20-3-0485,22,F,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,Travel History to USA
+486,Richard Nganga,KEN-KEM -20-3-0486,35,M,18,Nakuru,3/30/2020,3/31/2020,Negative,,,,Travel history to South Sudan
+487,Paul Muli Mutunga,KEN-KEM -20-3-0487,38,M,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,Travel history to USA
+488,Kennedy Murage,KEN-KEM -20-3-0488,,M,18,Muranga,3/30/2020,3/31/2020,Negative,,,,Travel history to Qatar
+489,Sandra Kudhi Nzomo,KEN-KEM -20-3-0489,29,F,18,Kilifi,3/30/2020,3/31/2020,Positive,,,,Travel history to UAE (Dubai)
+490,Joseph Kariuki Kirai,KEN-KEM -20-3-0490,39,M,18,Nairobi,3/30/2020,3/31/2020,Negative,,,,Travel history to USA
+491,Joseph Samini Chengo,KEN-KEM -20-3-0491,31,M,18,Kilifi,3/30/2020,3/31/2020,Negative,,,,Travel history to USA
+492,Kizito Omari Mochere,KEN-KEM -20-3-0492,37,M,18,Nairobi,3/30/2020,3/31/2020,Negative,,,,Travel history to Ireland
+493,Kenneth Ochieng Oborah ,KEN-KEM -20-3-0493,,M,18,Mombasa,3/30/2020,3/31/2020,Negative,,,,Travel history to USa
+494,Jared Gambu,KEN-KEM -20-3-0494,35,M,18,Uasin ngishu,3/30/2020,3/31/2020,Negative,,,,Travel history to Netherlands
+495,Nancy Wambui,KEN-KEM -20-3-0495,,,18,,3/30/2020,3/31/2020,Negative,,,,
+496,Namulesa Raila,KEN-KEM -20-3-0496,26,F,18,Uganda/Kampala,3/30/2020,3/31/2020,Negative,,,,Travel history to Oman
+497,Boniface Musyoki,KEN-KEM -20-3-0497,31,M,41,Kibwezi,3/30/2020,3/31/2020,Negative,,,,
+498,,KEN-KEM -20-3-0498,,,40,,3/30/2020,3/31/2020,Negative,,,,
+499,Braton Ganko,KEN-KEM -20-3-0499,10,M,1,,3/31/2020,3/31/2020,Negative,,,,
+500,Geofrey mbugua,KEN-KEM -20-3-0500,24,M,1,Tel Aviv,3/31/2020,3/31/2020,Negative,,,,"Travel history to California, Dakar"
+501,Cyrus Panzi Omanga,KEN-KEM -20-3-0501,40,M,1,Imara Daima,3/31/2020,3/31/2020,Negative,,,,
+502,Benson Gathua,KEN-KEM -20-3-0502,39,M,1,Buruburu,3/31/2020,3/31/2020,Negative,,,,
+503,Paulo Bogo,KEN-KEM -20-3-0503,57,M,1,Westlands,3/31/2020,3/31/2020,Negative,,,,Travel history to Italy
+504,Victor Maina,KEN-KEM -20-3-0504,36,M,1,,3/31/2020,3/31/2020,Negative,,,,Travel history to switzerland
+505,Sibhira Njeri,KEN-KEM -20-3-0505,51,F,1,Kariobangi,3/31/2020,3/31/2020,Negative,,,,
+506,Jillo Said Komora,KEN-KEM -20-3-0506,40,M,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+507,John musau,KEN-KEM -20-3-0507,48,M,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+508,Thomas Katana Kahindi,KEN-KEM -20-3-0508,57,M,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+509,Sheila Chakuza,KEN-KEM -20-3-0509,32,F,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+510,Harun Kaitany,KEN-KEM -20-3-0510,32,M,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+511,Joseph Mbwika,KEN-KEM -20-3-0511,56,M,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+512,Barnice Baraza,KEN-KEM -20-3-0512,38,F,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+513,Said Kange,KEN-KEM -20-3-0513,49,M,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+514,Elizabeth Morae Mokeye,KEN-KEM -20-3-0514,33,F,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+515,James Nduati,KEN-KEM -20-3-0515,42,M,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+516,Karen 1,KEN-KEM -20-3-0516,54,F,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+517,Karen 2,KEN-KEM -20-3-0517,56,M,39,Langata,3/31/2020,3/31/2020,Negative,,,,
+518,Lydia Mbinya,KEN-KEM -20-3-0518,22,F,1,,3/31/2020,3/31/2020,Negative,,,,
+519,Meule Jin,KEN-KEM -20-3-0519,23,F,1,,3/31/2020,3/31/2020,Negative,,,,For repeat test
+520,Lilian Kwamboka,KEN-KEM -20-3-0520,,F,1,,3/31/2020,3/31/2020,Negative,,,,
+521,David Kyeng,KEN-KEM -20-3-0521,47,M,19,,3/31/2020,3/31/2020,Negative,,,,
+522,Sprindon Okwakau,KEN-KEM -20-3-0522,25,M,19,,3/31/2020,3/31/2020,Negative,,,,
+523,Grace Njuguna,KEN-KEM -20-3-0523,30,F,19,,3/31/2020,3/31/2020,Negative,,,,Australia resident
+524,Amos Njuguna,KEN-KEM -20-3-0524,35,M,19,,3/31/2020,3/31/2020,Negative,,,,
+525,Rodgers Oyuga,KEN-KEM -20-3-0525,32,M,2,,3/31/2020,3/31/2020,Negative,,,,"Doha, Qatar"
+526,Nancy Kerubo,KEN-KEM -20-3-0526,24,F,2,,3/31/2020,3/31/2020,Negative,,,,"Doha, Qatar"
+527,James Chege,KEN-KEM -20-3-0527,40,M,2,,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+528,Said Hassan,KEN-KEM -20-3-0528,27,F,2,,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+529,Kimote John,KEN-KEM -20-3-0529,45,M,2,,3/31/2020,3/31/2020,Negative,,,,"Mayanmar, Yangon"
+530,James Karanja,KEN-KEM -20-3-0530,42,M,2,,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+531,John Otinga,KEN-KEM -20-3-0531,37,M,2,,3/31/2020,3/31/2020,Negative,,,,Maldives
+532,George Muhoro,KEN-KEM -20-3-0532,35,M,2,,3/31/2020,3/31/2020,Negative,,,,"Cayman, Georgetown"
+533,Judith Obiri,KEN-KEM -20-3-0533,26,F,2,,3/31/2020,3/31/2020,Negative,,,,"Doha, Qatar"
+534,Pheliciah Mwachofi,KEN-KEM -20-3-0534,32,F,2,,3/31/2020,3/31/2020,Negative,,,,"Benin, Nigeria"
+535,Tobias Muchene,KEN-KEM -20-3-0535,37,M,2,,3/31/2020,3/31/2020,Negative,,,,"Cayman, Georgetown"
+536,Simon Kamau,KEN-KEM -20-3-0536,35,M,2,,3/31/2020,3/31/2020,Negative,,,,"Doha, Qatar"
+537,Virginia Wanjiru,KEN-KEM -20-3-0537,33,F,2,,3/31/2020,3/31/2020,Negative,,,,"Doha, Qatar"
+538,Farncis Kinuthia Njuguna,KEN-KEM -20-3-0538,28,M,2,,3/31/2020,3/31/2020,Negative,,,,"Doha, Qatar"
+539,Moses Otieno Audi,KEN-KEM -20-3-0539,33,M,2,,3/31/2020,3/31/2020,Negative,,,,"Hobart, Australia"
+540,James Kariuki Maganda,KEN-KEM -20-3-0540,48,M,2,,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+541,Jeniffer Mattey,KEN-KEM -20-3-0541,39,F,2,,3/31/2020,3/31/2020,Negative,,,,"Abu Dhabi, UAE"
+542,Enoch Morema,KEN-KEM -20-3-0542,30,M,2,,3/31/2020,3/31/2020,Negative,,,,"Doha, Qatar"
+543,Esther Njiriri,KEN-KEM -20-3-0543,22,F,2,,3/31/2020,3/31/2020,Negative,,,,"Doha, Qatar"
+544,Monicah Muruki Theuri,KEN-KEM -20-3-0544,29,F,2,,3/31/2020,3/31/2020,Negative,,,,"Doha, Qatar"
+545,Fazle Abbas,KEN-KEM -20-3-0545,22,M,2,,3/31/2020,3/31/2020,Negative,,,,"Portsmouth, England"
+546,Susan Mbote,KEN-KEM -20-3-0546,19,F,2,,3/31/2020,3/31/2020,Negative,,,,"Kansa, USA"
+547,Kennedy Oguna,KEN-KEM -20-3-0547,29,M,2,,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+548,Lydia Mbugaa,KEN-KEM -20-3-0548,32,F,2,,3/31/2020,3/31/2020,Negative,,,,"Santos, Brazil"
+549,Sandra Mugeni,KEN-KEM -20-3-0549,19,F,2,,3/31/2020,3/31/2020,Negative,,,,"Durham, UK"
+550,Ramadha Mohamed Rajab,KEN-KEM -20-3-0550,32,M,2,,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+551,Peter Mbuga Njeri,KEN-KEM -20-3-0551,43,M,2,,3/31/2020,3/31/2020,Negative,,,,"Sharja, UAE"
+552,Alex Boaz,KEN-KEM -20-3-0552,34,M,2,,3/31/2020,3/31/2020,Negative,,,,"Fremantle, Australia"
+553,Clayton Ng'ambwa,KEN-KEM -20-3-0553,36,M,2,,3/31/2020,3/31/2020,Negative,,,,"Porthouse, Mauritius"
+554,Grace Wamboi,KEN-KEM -20-3-0554,45,F,2,,3/31/2020,3/31/2020,Negative,,,,"Chtbra, Bangkok"
+555,Garry Wasike,KEN-KEM -20-3-0555,34,M,2,,3/31/2020,3/31/2020,Negative,,,,"Jersy Island, UK"
+556,Eric Mwangi Joseph,KEN-KEM -20-3-0556,30,M,2,,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+557,Rosemary Wakonyo,KEN-KEM -20-3-0557,29,F,2,Kiambu,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+558,Francis Kalawa,KEN-KEM -20-3-0558,30,M,2,Nairobi,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+559,Carolyne Murogo,KEN-KEM -20-3-0559,38,F,2,Nairobi,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+560,George Gathecha Kamau,KEN-KEM -20-3-0560,34,M,2,Kiambu,3/31/2020,3/31/2020,Negative,,,,"Abuja, Nigeria"
+561,Jackline Wangui Kiai,KEN-KEM -20-3-0561,52,F,2,Kiambu,3/31/2020,3/31/2020,Positive,,,,"Dubai, UAE"
+562,Samson Ndungu Macharia,KEN-KEM -20-3-0562,27,M,2,Nyandarua,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+563,Keddy Macharia,KEN-KEM -20-3-0563,25,M,2,Kiambu,3/31/2020,3/31/2020,Negative,,,,"Cantebury, UK"
+564,Brian Gitiha Ndhichu,KEN-KEM -20-3-0564,20,M,2,Kiambu,3/31/2020,3/31/2020,Negative,,,,"Flick-En-Flac, Mauritius"
+565,Alice Mukabi,KEN-KEM -20-3-0565,71,F,2,Kakamega,3/31/2020,3/31/2020,Positive,,,,USA
+566,Joyce Wanjaa Marema,KEN-KEM -20-3-0566,23,F,2,Muran'ga,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+567,John Kiritu Wamalwa,KEN-KEM -20-3-0567,47,M,2,Nairobi,3/31/2020,3/31/2020,Negative,,,,"Dubai, UAE"
+568,Beatrice Opar,KEN-KEM -20-3-0568,63,F,2,Kisumu,3/31/2020,3/31/2020,Negative,,,,"Dublin, Ireland"
+569,Joel Kamau,KEN-KEM -20-3-0569,30,M,2,Uasin Gishu,3/31/2020,3/31/2020,Negative,,,,"Sharja, UAE"
+570,Francis Wawana,KEN-KEM -20-3-0570,41,M,2,Kiambu,3/31/2020,3/31/2020,Negative,,,,"Sharja, UAE"
+571,Denis Mokua,KEN-KEM -20-3-0571,25,M,2,Nyamira,3/31/2020,3/31/2020,Positive,,,,"Dubai, UAE"
+572,Mercy Njoki Gicovi,KEN-KEM -20-3-0572,26,F,2,Kiambu,3/31/2020,3/31/2020,Negative,,,,France
+573,Simon Mugambi Morika,KEN-KEM -20-3-0573,44,M,2,Nairobi,3/31/2020,4/2/2020,Negative,,,,UAE
+574,Abdalla Jamal zamzam,KEN-KEM -20-3-0574,41,M,2,Kilifi,3/31/2020,4/2/2020,Negative,,,,UAE
+575,Ibrahim Mohammed Hassan,KEN-KEM -20-3-0575,34,M,2,Isiolo,3/31/2020,4/2/2020,Negative,,,,UAE
+576,Angela Wangui Kimonyi,KEN-KEM -20-3-0576,42,F,2,Nairobi,3/31/2020,4/2/2020,Negative,,,,Afganistan
+578,Gillian Achongo,KEN-KEM -20-3-0578,42,F,2,Nairobi,3/31/2020,4/2/2020,Negative,,,,UAE
+579,Valentine Ochongo,KEN-KEM -20-3-0579,27,F,2,Nairobi,3/31/2020,4/2/2020,Negative,,,,UAE
+580,Jackline Muchiri,KEN-KEM -20-3-0580,25,F,2,Nairobi,3/31/2020,4/2/2020,Negative,,,,UAE
+581,Steven Munyao,KEN-KEM -20-3-0581,30,M,2,Nairobi,3/31/2020,4/2/2020,Negative,,,,UAE
+582,Osman Abdalla,KEN-KEM -20-3-0582,52,M,2,Mandera,3/31/2020,4/2/2020,Negative,,,,UAE
+583,Peter Ndungu,KEN-KEM -20-3-0583,32,M,2,Nairobi,3/31/2020,4/2/2020,Negative,,,,UAE
+584,Judy Muthoni Kamau,KEN-KEM -20-3-0584,27,F,2,Kiambu,3/31/2020,4/2/2020,Negative,,,,UAE
+585,Ezra Chumba Tonui,KEN-KEM -20-3-0585,31,M,2,Bomet,3/31/2020,4/2/2020,Negative,,,,Australia
+586,Brigid Mogeni,KEN-KEM -20-3-0586,21,F,2,Nairobi,3/31/2020,4/2/2020,Negative,,,,UK
+587,Emma Odundo,KEN-KEM -20-3-0587,49,F,2,Siaya,3/31/2020,4/2/2020,Negative,,,,Nigeria
+588,Joseph Kamau Kibui,KEN-KEM -20-3-0588,54,M,2,Nairobi,3/31/2020,4/2/2020,Negative,,,,
+589,KTRH 589,KEN-KEM -20-3-0589,,,38,,3/31/2020,4/2/2020,Negative,,,,
+590,Muhumed Dubow,KEN-KEM -20-3-0590,35,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,USA
+591,Hindia Abubeker,KEN-KEM -20-3-0591,65,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Ethiopia
+592,Vanessa Amollo Awando,KEN-KEM -20-3-0592,20,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Canada
+593,Wess Jacques,KEN-KEM -20-3-0593,71,,4,,3/31/2020,4/2/2020,Negative,,,,Seychelles
+594,Rishabh Sanjeev,KEN-KEM -20-3-0594,21,M,4,Athi river,3/31/2020,4/2/2020,Negative,,,,Qatar
+595,Anthony Baraza Ounda,KEN-KEM -20-3-0595,46,M,4,,3/31/2020,4/2/2020,Negative,,,,Qatar
+596,Keval Shah,KEN-KEM -20-3-0596,33,M,4,,3/31/2020,4/2/2020,Negative,,,,USA
+597,Shantar Osuga,KEN-KEM -20-3-0597,37,,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Qatar
+598,Nandini Buddhdev,KEN-KEM -20-3-0598,57,F,4,Parklands Nairobi,3/31/2020,4/2/2020,Negative,,,,Zambia
+599,Joseph Mwangi Mbugua,KEN-KEM -20-3-0599,65,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Canada
+600,Kenneth Joel Olang,KEN-KEM -20-3-0600,31,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,USA
+601,Sandra Kinyanjui,KEN-KEM -20-3-0601,20,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,England
+602,Millicent Wendolove Mwangi,KEN-KEM -20-3-0602,62,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Canada
+603,Kariuki Aaron,KEN-KEM -20-3-0603,42,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Uganda
+604,Gladys Kioko,KEN-KEM -20-3-0604,31,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Thailand
+605,Pamella Angima,KEN-KEM -20-3-0605,30,F,4,Kisii,3/31/2020,4/2/2020,Negative,,,,USA
+606,Dorcas Mugenya,KEN-KEM -20-3-0606,29,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Qatar
+607,Stelvid Telles,KEN-KEM -20-3-0607,19,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Canada
+608,Lucy Ongaya Lwarence,KEN-KEM -20-3-0608,40,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,South Africa
+609,Zakayo Mutinda Wambua,KEN-KEM -20-3-0609,37,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,Uganda
+610,Amit Vithlani,KEN-KEM -20-3-0610,44,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,UK
+611,Grace Njeri Omondi,KEN-KEM -20-3-0611,50,F,4,,3/31/2020,4/2/2020,Negative,,,,Zambia
+612,Mercy Chepkemboi,KEN-KEM -20-3-0612,28,F,4,Uasingishu,3/31/2020,4/2/2020,Negative,,,,Qatar
+613,Charles Basomba,KEN-KEM -20-3-0613,38,M,4,Mombasa,3/31/2020,4/2/2020,Negative,,,,Uganda
+614,Terry Nyokabi Faith,KEN-KEM -20-3-0614,36,F,4,Kiambu,3/31/2020,4/2/2020,Negative,,,,Qatar
+615,Akeza Muhire,KEN-KEM -20-3-0615,21,,4,,3/31/2020,4/2/2020,Negative,,,,USA
+616,Julia Ekong,KEN-KEM -20-3-0616,68,F,4,,3/31/2020,4/2/2020,Negative,,,,USA
+617,Isha Riten Shah,KEN-KEM -20-3-0617,22,F,4,,3/31/2020,4/2/2020,Negative,,,,UK
+618,Robert Omondi,KEN-KEM -20-3-0618,21,M,4,,3/31/2020,4/2/2020,Negative,,,,UK
+619,Carol Okul,KEN-KEM -20-3-0619,51,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,South Sudan
+620,Fatma Abeid,KEN-KEM -20-3-0620,40,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,UAE
+621,Keval Paresh Solanki,KEN-KEM -20-3-0621,21,M,4,Kisumu,3/31/2020,4/2/2020,Negative,,,,USA
+622,Habiba Ali,KEN-KEM -20-3-0622,49,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,South Sudan
+623,Andrew Kangata,KEN-KEM -20-3-0623,18,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,USA
+624,Dennis Miheso Isigi,KEN-KEM -20-3-0624,32,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,South Sudan
+625,Amika Patel,KEN-KEM -20-3-0625,20,F,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,UK
+626,Rutvik Sureshbhai Bodkas,KEN-KEM -20-3-0626,21,M,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,UK
+627,Johnny Musyoka,KEN-KEM -20-3-0627,,M,4,,3/31/2020,4/2/2020,Negative,,,,
+628,Purvi Gosrani,KEN-KEM -20-3-0628,32,,4,Nairobi,3/31/2020,4/2/2020,Negative,,,,USA
+629,Husna Said Salim,KEN-KEM -20-3-0629,45,,4,Nairobi,3/31/2020,4/2/2020,Positive,,,,Dubai
+630,Chamon Said,KEN-KEM -20-4-0630,42,M,1,,4/1/2020,4/2/2020,Positive,,,,
+631,Maurice Njuguna,KEN-KEM -20-4-0631,41,M,1,Westlands,4/1/2020,4/2/2020,Negative,,,,UK
+633,Anthony Mahinge,KEN-KEM -20-4-0633,48,M,1,,4/1/2020,4/2/2020,Negative,,,,
+634,Kelvin Muchiri,KEN-KEM -20-4-0634,27,M,1,,4/1/2020,4/2/2020,Negative,,,,Zambia
+635,Adrian Menesses,KEN-KEM -20-4-0635,33,M,1,,4/1/2020,4/2/2020,Positive,,,,USA/Mexico
+636,Elizabeth Mwelu,KEN-KEM -20-4-0636,31,F,1,,4/1/2020,4/2/2020,Negative,,,,
+637,Steven Omukoko,KEN-KEM -20-4-0637,,M,1,,4/1/2020,4/2/2020,Positive,,,,Switzerland
+639,Abdulahi Ibrahim,KEN-KEM -20-4-0639,31,M,1,South B,4/1/2020,4/2/2020,Negative,,,,
+640,Moses Kamamia,KEN-KEM -20-4-0640,40,M,1,Kiambu,4/1/2020,4/2/2020,Negative,,,,Dubai
+641,Gilla Miracle Grace,KEN-KEM -20-4-0641,25,F,1,11,4/1/2020,4/2/2020,Negative,,,,
+642,Jeanne Marie Therese,KEN-KEM -20-4-0642,40,F,1,Seikei hotel,4/1/2020,4/2/2020,Negative,,,,Cameroon
+643,Cyrus Ng'ang'a,KEN-KEM -20-4-0643,49,M,37,Nairobi,4/1/2020,4/2/2020,Negative,,,,
+644,Naseer Safari,KEN-KEM -20-4-0644,26,M,1,Tumaini,4/1/2020,4/2/2020,Negative,,,,
+645,Henry Mamisu,KEN-KEM -20-4-0645,51,M,1,Vihiga,4/1/2020,4/2/2020,Negative,,,,
+646,Paul Anyaga,KEN-KEM -20-4-0646,32,M,1,Tena,4/1/2020,4/2/2020,Negative,,,,
+647,George Kongo,KEN-KEM -20-4-0647,32,M,1,,4/1/2020,4/2/2020,Negative,,,,
+648,Douglas Wanjala,KEN-KEM -20-4-0648,45,M,1,Bungoma,4/1/2020,4/2/2020,Negative,,,,
+649,Peter Mainga Musee,KEN-KEM -20-4-0649,33,M,1,Githurai,4/1/2020,4/2/2020,Negative,,,,
+650,Timothy Makobu Mwambiririo,KEN-KEM -20-4-0650,38,M,20,Kajiado,4/1/2020,4/2/2020,Negative,,,,Dubai
+651,Grace Maureen Waithera,KEN-KEM -20-4-0651,23,F,20,Nakuru,4/1/2020,4/2/2020,Negative,,,,Dubai
+652,Samoson Omoso,KEN-KEM -20-4-0652,30,M,20,Kisumu,4/1/2020,4/2/2020,Negative,,,,Qatar
+653,Jackline Waithera,KEN-KEM -20-4-0653,23,F,20,Kiambu,4/1/2020,4/2/2020,Negative,,,,Dubai
+654,Sheila Ogutu,KEN-KEM -20-4-0654,27,F,20,Homabay,4/1/2020,4/2/2020,Negative,,,,Dubai
+655,Tuwei Wilson,KEN-KEM -20-4-0655,30,M,20,Uasin Gishu,4/1/2020,4/2/2020,Negative,,,,USA/London
+656,Peter Chege Kamau,KEN-KEM -20-4-0656,30,M,20,Murang'a,4/1/2020,4/2/2020,Negative,,,,Dubai
+657,Wilfred Benguwi,KEN-KEM -20-4-0657,45,M,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Kabul-Afghanistan/Dubai-UAE
+658,Bernard Ochieng,KEN-KEM -20-4-0658,31,M,20,Mombasa,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
+659,Sophy Naholi,KEN-KEM -20-4-0659,36,F,20,Busia,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+660,Miriam Kamau,KEN-KEM -20-4-0660,25,F,20,Nyandarua,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+661,Jane Njeri Mwaura,KEN-KEM -20-4-0661,59,F,20,Kiambu,4/1/2020,4/2/2020,Negative,,,,Coventry-England
+662,Grace Muthoni Ndung'u,KEN-KEM -20-4-0662,43,F,20,Kiambu,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+663,Amina Amadi Bonga,KEN-KEM -20-4-0663,27,F,20,Kwale,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+664,Beryine Atieno,KEN-KEM -20-4-0664,22,F,20,Homabay,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE/AddisAbaba-Ethiopia
+665,Franklin Nganda,KEN-KEM -20-4-0665,26,M,20,Kilifi,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+666,Buyela Billy,KEN-KEM -20-4-0666,42,M,20,Bungoma,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+667,Jamila Athire,KEN-KEM -20-4-0667,,F,20,Bungoma,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+668,Herman Njoroge,KEN-KEM -20-4-0668,32,M,20,Kiambu,4/1/2020,4/2/2020,Negative,,,,Sharjah-UAE
+669,Mwangi William Kamutu,KEN-KEM -20-4-0669,34,M,20,Murang'a,4/1/2020,4/2/2020,Negative,,,,Wuhan-China
+670,Kevin Owuor Ochieng Charles,KEN-KEM -20-4-0670,30,M,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Wuhan-China
+671,Simon Mwangi,KEN-KEM -20-4-0671,38,M,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Wuhan-China
+672,Cyril Wambua Kyangoma,KEN-KEM -20-4-0672,36,M,20,Makueni,4/1/2020,4/2/2020,Negative,,,,New Orleans-USA
+673,Ndaah William,KEN-KEM -20-4-0673,47,M,20,Kilifi,4/1/2020,4/2/2020,Negative,,,,Mahe-Seychelles
+674,Jael Peter,KEN-KEM -20-4-0674,28,F,20,Uasin Gishu,4/1/2020,4/2/2020,Negative,,,,Hamburg-Germany
+675,Henry Ochanda Ber,KEN-KEM -20-4-0675,37,M,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Kabul-Afghanistan
+676,Susan Njeri,KEN-KEM -20-4-0676,25,F,20,Nakuru,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+677,Joanne Kerubo,KEN-KEM -20-4-0677,25,F,20,Nyamira,4/1/2020,4/2/2020,Negative,,,,Bububu-Zanzibar
+678,Zuena Munaka,KEN-KEM -20-4-0678,,F,20,Bungoma,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
+679,Denis Machuma,KEN-KEM -20-4-0679,31,M,20,Machakos,4/1/2020,4/2/2020,Negative,,,,Zanzibar
+680,Moses Muniu,KEN-KEM -20-4-0680,44,M,20,Kiambu,4/1/2020,4/2/2020,Negative,,,,Bangkok-Thailand/Doha-Qatar
+681,Patricia Kweri,KEN-KEM -20-4-0681,73,F,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,England
+682,Magdalene Koki,KEN-KEM -20-4-0682,61,F,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Hull-England
+683,Stella Muthoni,KEN-KEM -20-4-0683,26,F,20,Kiambu,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+684,Hesborn Taratio,KEN-KEM -20-4-0684,29,M,20,Nyamira,4/1/2020,4/2/2020,Negative,,,,Victoria-Seychelles
+685,Samuel Chege,KEN-KEM -20-4-0685,,M,20,Kiambu,4/1/2020,4/2/2020,Negative,,,,Dahira-Qatar
+686,Edward Shiuma,KEN-KEM -20-4-0686,28,M,20,Kakamega,4/1/2020,4/2/2020,Negative,,,,Juba-South Sudan
+687,Grace Okumu,KEN-KEM -20-4-0687,41,F,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Muscat-Oman
+688,Hamad Rashid,KEN-KEM -20-4-0688,26,,20,Mombasa,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
+689,Douglas Kyalo,KEN-KEM -20-4-0689,30,M,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Juba-South Sudan
+690,Elijah Kovo,KEN-KEM -20-4-0690,25,M,20,Taita Taveta,4/1/2020,4/2/2020,Negative,,,,Juba-South Sudan
+691,Hamadi Kipanda,KEN-KEM -20-4-0691,31,,20,Mombasa,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
+692,Nancy Kariuki,KEN-KEM -20-4-0692,25,F,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+693,Peter Nyamai,KEN-KEM -20-4-0693,33,M,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
+694,Jacinta Hemere,KEN-KEM -20-4-0694,34,F,20,,4/1/2020,4/2/2020,Negative,,,,Maryland-USA/AddisAbaba-Ethiopia
+695,Margaret Koigi,KEN-KEM -20-4-0695,32,F,20,Kiambu,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
+696,Erick Onyango,KEN-KEM -20-4-0696,36,M,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Lagos-Nigeria
+697,Simon Mwangi,KEN-KEM -20-4-0697,33,M,20,Nairobi,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE/AddisAbaba-Ethiopia
+698,Franklin Walali,KEN-KEM -20-4-0698,34,M,20,Machakos,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+699,Sarah Muraya,KEN-KEM -20-4-0699,35,F,20,,4/1/2020,4/2/2020,Negative,,,,Oman
+700,Mary Wangui Muthoni,KEN-KEM -20-4-0700,24,F,20,,4/1/2020,4/2/2020,Negative,,,,Athamana-Qatar
+701,Julianah Catherine Njeri,KEN-KEM -20-4-0701,36,F,20,,4/1/2020,4/2/2020,Negative,,,,Muscat-Oman/Dubai-UAE
+702,Victor Kimutai,KEN-KEM -20-4-0702,39,M,20,,4/1/2020,4/2/2020,Negative,,,,Muscat-Oman/Dubai-UAE
+703,Emiliana Wangeci Mungai,KEN-KEM -20-4-0703,25,F,20,,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
+704,Hannah Wachira,KEN-KEM -20-4-0704,32,F,20,,4/1/2020,4/2/2020,Negative,,,,Mahicha-Thailand/Doha-Qatar
+705,BrentaIvy Kabbia,KEN-KEM -20-4-0705,35,,20,,4/1/2020,4/2/2020,Negative,,,,Newcastle-England/Schipol-Netherlands
+706,Lenah Racheri Bundi,KEN-KEM -20-4-0706,33,,20,,4/1/2020,4/2/2020,Negative,,,,Basildon Essex-England
+707,Lydia Muthoni Mugambi,KEN-KEM -20-4-0707,45,F,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+708,Harriet Jerono Kosgei,KEN-KEM -20-4-0708,27,F,20,,4/1/2020,4/2/2020,Negative,,,,Kitue-Zambia/Malawi/AddisAbaba-Ethiopia
+709,Edith Wanjiku Kuria,KEN-KEM -20-4-0709,33,F,20,,4/1/2020,4/2/2020,Negative,,,,London-England
+710,Patrick Wanyumba,KEN-KEM -20-4-0710,,M,20,,4/1/2020,4/2/2020,Negative,,,,Johannesberg-South Africa
+711,Fredrick Arthur Odote,KEN-KEM -20-4-0711,32,M,20,,4/1/2020,4/2/2020,Negative,,,,Doha-Qatar
+712,Sammy Kipkosgei Rotich,KEN-KEM -20-4-0712,28,M,20,,4/1/2020,4/2/2020,Negative,,,,Ohio-USA/Paris-France
+713,Samuel Ngui Muteti,KEN-KEM -20-4-0713,,,20,,4/1/2020,4/2/2020,Negative,,,,Minneapolis-USA/AddisAbaba-Ethiopia
+714,Justin Davis Sure,KEN-KEM -20-4-0714,33,,20,,4/1/2020,4/2/2020,Negative,,,,Lusali-Qatar
+715,Lawrence Karanja Njogu,KEN-KEM -20-4-0715,35,M,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+716,Tracy Wambui Kimani,KEN-KEM -20-4-0716,,,20,,4/1/2020,4/2/2020,Negative,,,,Flick-En-Flac-Mauritius/Dubai-UAE
+717,Serah Muraguri Njambi,KEN-KEM -20-4-0717,60,F,20,,4/1/2020,4/2/2020,Negative,,,,Sydney-Australia/Doha-Qatar
+718,Teddy Wellington Okula,KEN-KEM -20-4-0718,30,M,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+719,Meshack Ondora Makori,KEN-KEM -20-4-0719,21,,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+720,Peter Kihara Ndichu,KEN-KEM -20-4-0720,26,,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+721,Kingi Kaingu Kalii,KEN-KEM -20-4-0721,41,,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+722,Joshua Obata Omala,KEN-KEM -20-4-0722,46,M,20,,4/1/2020,4/2/2020,Negative,,,,Washington-USA/AddisAbaba-Ethiopia
+723,Mary Njoki Thuo,KEN-KEM -20-4-0723,24,,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+724,Elizabeth Wangui Gichuha,KEN-KEM -20-4-0724,,F,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+725,Nicholas Irungu Gathiru,KEN-KEM -20-4-0725,28,,20,,4/1/2020,4/2/2020,Positive,,,,Dubai-UAE
+726,George Mukabalie Shihala,KEN-KEM -20-4-0726,45,M,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+727,Samuel Ngambi Kiguta,KEN-KEM -20-4-0727,35,,20,,4/1/2020,4/2/2020,Negative,,,,Miami-USA/Heathrow-England
+728,Fatuma Mohammed Ali,KEN-KEM -20-4-0728,,,20,,4/1/2020,4/2/2020,Negative,,,,Hargisa-Somali/AddisAbaba-Ethiopia
+729,Abdirizak Mohamud Jama,KEN-KEM -20-4-0729,24,,20,,4/1/2020,4/2/2020,Negative,,,,Hargisa-Somali/AddisAbaba-Ethiopia
+730,Harun Ngure Kaburia,KEN-KEM -20-4-0730,41,,20,,4/1/2020,4/2/2020,Negative,,,,Kabul-Afghanistan/Dubai-UAE
+731,Asekenye Harriet,KEN-KEM -20-4-0731,35,,20,,4/1/2020,4/2/2020,Negative,,,,Vienna-Austria/Qatar
+732,Winnie Wambui Ndiga,KEN-KEM -20-4-0732,27,,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+733,Purity Waithera,KEN-KEM -20-4-0733,34,F,20,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+734,Akeleus Elly Messo,KEN-KEM -20-4-0734,31,,20,,4/1/2020,4/2/2020,Negative,,,,Lagos-Nigeria
+735,Moni Manyange,KEN-KEM -20-4-0735,42,,20,,4/1/2020,4/2/2020,Negative,,,,Oxford-England
+736,Simon Chege,KEN-KEM -20-4-0736,32,M,21,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+737,Tabitha Muthoni,KEN-KEM -20-4-0737,30,F,21,,4/1/2020,4/2/2020,Negative,,,,Capetown-South Africa
+738,Simon kariuki,KEN-KEM -20-4-0738,30,M,21,,4/1/2020,4/2/2020,Negative,,,,Capetown-South Africa
+739,Hassan Mohamed,KEN-KEM -20-4-0739,34,M,21,,4/1/2020,4/2/2020,Negative,,,,New York-USA
+740,Viviam Kamunga,KEN-KEM -20-4-0740,29,F,21,,4/1/2020,4/2/2020,Negative,,,,Minneapolis-USA/Heathrow-England
+741,Maureen Mulieri,KEN-KEM -20-4-0741,38,F,21,,4/1/2020,4/2/2020,Negative,,,,New York-USA
+742,Eric Jidey,KEN-KEM -20-4-0742,26,M,21,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+743,Beatrice Waithera,KEN-KEM -20-4-0743,31,F,21,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+744,Khaoya Maani,KEN-KEM -20-4-0744,31,F,21,,4/1/2020,4/2/2020,Negative,,,,Capetown-South Africa
+745,Eliud Kagema,KEN-KEM -20-4-0745,28,M,21,,4/1/2020,4/2/2020,Negative,,,,Harare-Zimbabwe
+746,Thomas Mutiso,KEN-KEM -20-4-0746,31,M,21,,4/1/2020,4/2/2020,Negative,,,,Sydney-Australia
+747,Bashir Kunya,KEN-KEM -20-4-0747,33,M,21,,4/1/2020,4/2/2020,Negative,,,,Blantyre-Malawi
+748,Charles Gichuhi,KEN-KEM -20-4-0748,37,M,21,,4/1/2020,4/2/2020,Negative,,,,Gaborone-Botswana
+749,James Mutua,KEN-KEM -20-4-0749,37,M,21,,4/1/2020,4/2/2020,Negative,,,,New York-USA
+750,Robi Chacha,KEN-KEM -20-4-0750,27,M,21,,4/1/2020,4/2/2020,Negative,,,,San Francisco-USA
+751,Allan Mwangi,KEN-KEM -20-4-0751,21,M,21,,4/1/2020,4/2/2020,Negative,,,,"Leeds, Manchester City-London"
+752,Eliza Tinyari,KEN-KEM -20-4-0752,35,F,21,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+753,Nicholas Otieno,KEN-KEM -20-4-0753,37,M,21,,4/1/2020,4/2/2020,Negative,,,,Pretoria-South Africa
+754,Caroline Kamenchu,KEN-KEM -20-4-0754,31,F,21,,4/1/2020,4/2/2020,Negative,,,,Pretoria-South Africa
+755,Karen Wairimu,KEN-KEM -20-4-0755,30,F,21,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+756,Isaac Ogwal,KEN-KEM -20-4-0756,36,M,21,,4/1/2020,4/2/2020,Negative,,,,Honiara-Solomon Island
+757,Ali Salmin,KEN-KEM -20-4-0757,38,M,21,,4/1/2020,4/2/2020,Negative,,,,Blantyre-Malawi
+758,Titus Muriuki,KEN-KEM -20-4-0758,32,M,21,,4/1/2020,4/2/2020,Negative,,,,Dubai-UAE
+759,Moses Mukundi,KEN-KEM -20-4-0759,30,M,21,,4/1/2020,4/2/2020,Negative,,,,Philadelphia-USA
+760,Edward Omondi,KEN-KEM -20-4-0760,37,M,21,,4/1/2020,4/2/2020,Negative,,,,Beira-Mozambique through South Africa
+761,Calvin Magara,KEN-KEM -20-4-0761,19,M,21,,4/1/2020,4/2/2020,Negative,,,,San Francisco-USA
+762,Saleban Ahmed,KEN-KEM -20-4-0762,45,M,21,,4/1/2020,4/2/2020,Negative,,,,Lusaka-Zambia
+763,Nafula Aisha,KEN-KEM -20-4-0763,21,F,21,,4/1/2020,4/2/2020,Negative,,,,Prince George-Canada
+764,Antony Gichuki,KEN-KEM -20-4-0764,35,M,21,,4/1/2020,4/2/2020,Negative,,,,AddisAbaba-Ethiopia
+765,James Maina,KEN-KEM -20-4-0765,29,M,21,,4/1/2020,4/2/2020,Negative,,,,Sydney-Australia
+766,Arden Ari Kwe Onyango,KEN-KEM -20-4-0766,,M,21,,4/1/2020,4/2/2020,Negative,,,,Kanazawa-Japan
+767,Sheila Kageha,KEN-KEM -20-4-0767,41,F,21,,4/1/2020,4/2/2020,Negative,,,,Kanazawa-Japan
+768,Zion Barbera,KEN-KEM -20-4-0768,,M,21,,4/1/2020,4/2/2020,Negative,,,,New York-USA
+769,Sylvia Kabaki,KEN-KEM -20-4-0769,37,F,21,,4/1/2020,4/2/2020,Negative,,,,New York-USA
+770,Bernard Majani,KEN-KEM -20-4-0770,43,M,21,,4/1/2020,4/2/2020,Negative,,,,Nottingham-England
+771,Ernest Manyala,KEN-KEM -20-4-0771,53,M,21,,4/1/2020,4/2/2020,Negative,,,,Illinois-USA
+771,Dahir Mohamed,KEN-KEM -20-4-0771,42,M,21,,4/1/2020,4/2/2020,Negative,,,,Beira-Mozambique
+772,Walter Gachwandtner,KEN-KEM -20-4-0772,69,M,21,,4/1/2020,4/2/2020,Negative,,,,Capetown-South Africa
+773,Kioko Kamula,KEN-KEM -20-4-0773,50,M,21,,4/1/2020,4/2/2020,Negative,,,,Kabul-Afghanistan/Dubai-UAE
+774,Issa Hussin,KEN-KEM -20-4-0774,55,,21,,4/1/2020,4/2/2020,Negative,,,,Maputo-Mozambique
+775,Christel Gachwandtner,KEN-KEM -20-4-0775,69,F,21,,4/1/2020,4/2/2020,Negative,,,,Capetown-South Africa
+776,Rosemary Muthoni,KEN-KEM -20-4-0776,56,F,21,,4/1/2020,4/2/2020,Negative,,,,
+777,Ruth Jakhonga,KEN-KEM -20-4-0777,57,F,21,,4/1/2020,4/2/2020,Negative,,,,Free Town-Sierra Leone
+778,Margrate  Wanjiku,KEN-KEM -20-4-0778,30,f,19,Uasin Gishu,4/2/2020,4/3/2020,Negative,,,,
+779,Benson Mutua kimanyi,KEN-KEM -20-4-0779,49,M,1,Mwala,4/2/2020,4/3/2020,Negative,,,,Afganstan
+780,Samuel Omondi,KEN-KEM -20-4-0780,23,M,1,Dagoretti,4/2/2020,4/3/2020,Negative,,,,
+781,Sylvia Mulongo,KEN-KEM -20-4-0781,21,F,1,Dagoretti,4/2/2020,4/3/2020,Negative,,,,
+782,Maureen Nthaka,KEN-KEM -20-4-0782,27,F,1,Githurai,4/2/2020,4/3/2020,Negative,,,,South africa
+783,Miriam Muli,KEN-KEM -20-4-0783,31,F,1,South c,4/2/2020,4/3/2020,Negative,,,,
+784,Timonty Kidunduhu,KEN-KEM -20-4-0784,30,M,1,Umoja,4/2/2020,4/3/2020,Negative,,,,Qatar
+785,Mohamed Tarikwa,KEN-KEM -20-4-0785,47,F,1,Woodley,4/2/2020,4/3/2020,Negative,,,,
+786,Sammy Njiru,KEN-KEM -20-4-0786,45,M,16,Kiambu,4/2/2020,4/3/2020,Negative,,,,
+787,Peter Kanyacha,KEN-KEM -20-4-0787,,M,1,Dagoreti,4/2/2020,4/3/2020,Negative,,,,Dubai
+788,Kennedy Chesire,KEN-KEM -20-4-0788,31,M,1,Embakasi,4/2/2020,4/3/2020,Negative,,,,
+789,Dan Mwangi,KEN-KEM -20-4-0789,35,M,1,Langata,4/2/2020,4/3/2020,Negative,,,,
+790,Wangechi Mwangi,KEN-KEM -20-4-0790,39,F,1,Langata,4/2/2020,4/3/2020,Negative,,,,
+791,Mary Ogega,KEN-KEM -20-4-0791,32,F,1,Ngara,4/2/2020,4/3/2020,Negative,,,,
+792,Magret Nthenya,KEN-KEM -20-4-0792,38,F ,1,Embakasi,4/2/2020,4/3/2020,Negative,,,,
+793,Nyule Karabu,KEN-KEM -20-4-0793,39,,1,Pipeline,4/2/2020,4/3/2020,Negative,,,,
+794,Jonstone Kamau ,KEN-KEM -20-4-0794,57,M,1,Kawagware,4/2/2020,4/3/2020,Negative,,,,
+795,Phylis Ayangi,KEN-KEM -20-4-0795,38,F,1,Uthiru,4/2/2020,4/3/2020,Negative,,,,
+796,Esther Wambui,KEN-KEM -20-4-0796,32,F,1,Kabiria,4/2/2020,4/3/2020,Negative,,,,
+797,Collins Kibe,KEN-KEM -20-4-0797,21,M,1,Runda,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+798,Kelvin Otieno,KEN-KEM -20-4-0798,40,M,1,Uthiru,4/2/2020,4/3/2020,Negative,,,,
+799,Edwin Chebon   ,KEN-KEM -20-4-0799,,,1,Upper Hill,4/2/2020,4/3/2020,Negative,,,,
+800,Fredrick Mangisi,KEN-KEM -20-4-0800,32,M,1,Kibra,4/2/2020,4/3/2020,Negative,,,,
+801,Meyan Dianrra,KEN-KEM -20-4-0801,49,F,22,,4/2/2020,4/3/2020,Negative,,,,"Mogadishu, Somlia"
+802,Hellena De Oliveira,KEN-KEM -20-4-0802,19,F,22,,4/2/2020,4/3/2020,Negative,,,,Cananda
+803,Josephine Ndao,KEN-KEM -20-4-0803,34,F,22,,4/2/2020,4/3/2020,Negative,,,,"USA, Newyork"
+804,Rhea Prabal,KEN-KEM -20-4-0804,21,F,22,,4/2/2020,4/3/2020,Negative,,,,
+805,Shoji Hisashi,KEN-KEM -20-4-0805,,,22,Lavington,4/2/2020,4/3/2020,Negative,,,,Japan
+806,Amadou Djamil Fall,KEN-KEM -20-4-0806,19,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+807,Teresa Wajiri Muhiu,KEN-KEM -20-4-0807,,,22,Runda,4/2/2020,4/3/2020,Negative,,,,"United Kingdom, London"
+808,Sophie Machio,KEN-KEM -20-4-0808,56,F,22,,4/2/2020,4/3/2020,Negative,,,,Unites State of America
+809,Eric Kinyoti  ,KEN-KEM -20-4-0809,31,M,22,Kinoo,4/2/2020,4/3/2020,Negative,,,,"Somalia, Mogadishu"
+810,Atuhaire Ambala,KEN-KEM -20-4-0810,,,22,,4/2/2020,4/3/2020,Negative,,,,Thailand
+811,Cespedes Garcia Jesus,KEN-KEM -20-4-0811,61,M,22,,4/2/2020,4/3/2020,Negative,,,,
+812,Sancia Wanjiru Njoroge,KEN-KEM -20-4-0812,20,F,22,,4/2/2020,4/3/2020,Negative,,,,Sydney
+813,Peta Meyer,KEN-KEM -20-4-0813,66,M,22,,4/2/2020,4/3/2020,Negative,,,,Singaphore
+814,Edwin Njoroge Gikubu ,KEN-KEM -20-4-0814,45,M,22,,4/2/2020,4/3/2020,Negative,,,,Tanzania
+815,Vishal Shah,KEN-KEM -20-4-0815,33,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+816,Wekesa Nalunyu Julius,KEN-KEM -20-4-0816,59,M,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+817,Soehardjono Sastrowihardjo,KEN-KEM -20-4-0817,65,M,22,,4/2/2020,4/3/2020,Negative,,,,Japan
+818,Sakina Datoo,KEN-KEM -20-4-0818,20,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+819,Joe Carvalho,KEN-KEM -20-4-0819,69,M,22,,4/2/2020,4/3/2020,Negative,,,,
+820,Gitau Ivy Waithera,KEN-KEM -20-4-0820,26,F,22,,4/2/2020,4/3/2020,Negative,,,,
+821,Collins Odero Sijenyi,KEN-KEM -20-4-0821,45,M,22,,4/2/2020,4/3/2020,Negative,,,,
+822,Robert JNR Mwangi,KEN-KEM -20-4-0822,20,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+823,Nyagak War,KEN-KEM -20-4-0823,25,F,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+824,Joseph Goi,KEN-KEM -20-4-0824,17,M,22,,4/2/2020,4/3/2020,Negative,,,,"South Sudan, Juba"
+825,Paul Wendo Topp,KEN-KEM -20-4-0825,1.5,M,22,,4/2/2020,4/3/2020,Negative,,,,"Nigeria, Lagos"
+826,Hanif Gilani,KEN-KEM -20-4-0826,36,M,22,,4/2/2020,4/3/2020,Negative,,,,Unites State of America
+827,Jumni Jumni,KEN-KEM -20-4-0827,47,,22,,4/2/2020,4/3/2020,Negative,,,,"Indonesia, Qatar"
+828,Maureen Kavere Mwole,KEN-KEM -20-4-0828,29,F,22,,4/2/2020,4/3/2020,Negative,,,,Unites State of America
+829,Kan Nazir Jinna,KEN-KEM -20-4-0829,18,M ,22,,4/2/2020,4/3/2020,Negative,,,,Unites State of America
+830,Chris Gitau,KEN-KEM -20-4-0830,49,M,22,,4/2/2020,4/3/2020,Negative,,,,South africa
+831,Zachary Ndungu,KEN-KEM -20-4-0831,55,M,22,,4/2/2020,4/3/2020,Negative,,,,South africa
+832,Mutwasim Samra,KEN-KEM -20-4-0832,58,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+833,Peter Muriuki,KEN-KEM -20-4-0833,50,M,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+834,Danson Gatuhi Wakairu,KEN-KEM -20-4-0834,27,M,22,,4/2/2020,4/3/2020,Negative,,,,Spain
+835,Ezatullah Majeed,KEN-KEM -20-4-0835,51,M,22,,4/2/2020,4/3/2020,Negative,,,,Afganistan
+836,Anam Charles Kodjo,KEN-KEM -20-4-0836,24,M,22,,4/2/2020,4/3/2020,Negative,,,,Holland
+837,Oumar Syila,KEN-KEM -20-4-0837,50,M,22,,4/2/2020,4/3/2020,Negative,,,,Senegal
+838,Bernard Koiyaki Kijabe,KEN-KEM -20-4-0838,21,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+839,Eunice Muthoni Smith,KEN-KEM -20-4-0839,52,F,22,,4/2/2020,4/3/2020,Negative,,,,Mozambique
+840,Alice Komu,KEN-KEM -20-4-0840,40,F,22,,4/2/2020,4/3/2020,Negative,,,,South africa
+841,Maureen Were,KEN-KEM -20-4-0841,49,F,22,,4/2/2020,4/3/2020,Negative,,,,Tanzania
+842,Lilian Kamadi Richa,KEN-KEM -20-4-0842,27,F,22,,4/2/2020,4/3/2020,Negative,,,,Unites State of America
+843,Maria Chika,KEN-KEM -20-4-0843,57,F,22,,4/2/2020,4/3/2020,Negative,,,,Tanzania
+844,Bernard Ogwang,KEN-KEM -20-4-0844,45,M,22,,4/2/2020,4/3/2020,Negative,,,,Tanzania
+845,Dipesh Galani,KEN-KEM -20-4-0845,46,M,22,,4/2/2020,4/3/2020,Negative,,,,Sydney
+846,Aka Shah,KEN-KEM -20-4-0846,60,F,22,,4/2/2020,4/3/2020,Negative,,,,Newzeland
+847,June Wakairu,KEN-KEM -20-4-0847,25,F,22,,4/2/2020,4/3/2020,Negative,,,,Unites State of America
+848,Evelyne Adero,KEN-KEM -20-4-0848,52,F,22,,4/2/2020,4/3/2020,Negative,,,,Afganistan
+849,David Murathe,KEN-KEM -20-4-0849,63,M,22,,4/2/2020,4/3/2020,Negative,,,,Kenya
+850,Mssony Gathoni Rusagara,KEN-KEM -20-4-0850,22,F,22,,4/2/2020,4/3/2020,Negative,,,,Unites State of America
+851,Abhisheik Kansara,KEN-KEM -20-4-0851,21,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+852,Stephen Owino,KEN-KEM -20-4-0852,30,M,22,,4/2/2020,4/3/2020,Negative,,,,Uganda
+853,John kamau,KEN-KEM -20-4-0853,33,M,22,,4/2/2020,4/3/2020,Negative,,,,Kasulu Tanzania
+854,KORN Sowanasai,KEN-KEM -20-4-0854,53,M,22,,4/2/2020,4/3/2020,Negative,,,,Thailand
+855,Sonkyo im,KEN-KEM -20-4-0855,37,F,22,,4/2/2020,4/3/2020,Negative,,,,USA
+856,Jonathan Green,KEN-KEM -20-4-0856,37,M,22,,4/2/2020,4/3/2020,Negative,,,,USA
+857,Kelvin Kigen Chemirmir,KEN-KEM -20-4-0857,35,F,22,,4/2/2020,4/3/2020,Negative,,,,USA
+858,Paul Ratinoi Kuntai,KEN-KEM -20-4-0858,22,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+859,Makena Micheni,KEN-KEM -20-4-0859,26,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+860,Lorraine Mandwa Awori,KEN-KEM -20-4-0860,20,F,22,,4/2/2020,4/3/2020,Negative,,,,USA
+861,Assumpta,KEN-KEM -20-4-0861,30,F,22,,4/2/2020,4/3/2020,Negative,,,,"Pemba, Mozambique"
+862,Ian Njage Macharia,KEN-KEM -20-4-0862,30,M,22,,4/2/2020,4/3/2020,Negative,,,,"Capetown, South Africa"
+863,Francis Kibe Kihu,KEN-KEM -20-4-0863,37,M,22,,4/2/2020,4/3/2020,Negative,,,,USA
+864,Caroline Pache,KEN-KEM -20-4-0864,35,F,22,,4/2/2020,4/3/2020,Negative,,,,German
+865,George Nyagaya,KEN-KEM -20-4-0865,18,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+866,Jeremy Kagata Ngumwa,KEN-KEM -20-4-0866,20,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+867,Callan Kirkcaloy,KEN-KEM -20-4-0867,20,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+868,Ms Jemimah Gathure,KEN-KEM -20-4-0868,37,F,22,,4/2/2020,4/3/2020,Negative,,,,USA
+869,Joyce Yamina Sir Sida,KEN-KEM -20-4-0869,58,F,22,,4/2/2020,4/3/2020,Negative,,,,Afghanstan
+870,Anette Adera,KEN-KEM -20-4-0870,52,F,22,,4/2/2020,4/3/2020,Negative,,,,Afghanstan
+871,Geofrey Hobbs,KEN-KEM -20-4-0871,57,M,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+872,Theresia Sastromihhrdjo,KEN-KEM -20-4-0872,,F,22,,4/2/2020,4/3/2020,Negative,,,,Japan
+873,Willbroad Gachoka,KEN-KEM -20-4-0873,47,M,22,,4/2/2020,4/3/2020,Negative,,,,
+874,Madzia Kravos,KEN-KEM -20-4-0874,23,F,22,,4/2/2020,4/3/2020,Negative,,,,USA
+875,mMohammed Abbas Datoo,KEN-KEM -20-4-0875,21,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+876,Ms. Rono Marilyn Chepkumi,KEN-KEM -20-4-0876,33,F,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+877,Cara Oldenburg,KEN-KEM -20-4-0877,26,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+878,Oliver Ouma,KEN-KEM -20-4-0878,37,M,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+879,Ivy Kanana Muthomi,KEN-KEM -20-4-0879,20,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+880,Bernadete Wambui,KEN-KEM -20-4-0880,35,F,22,,4/2/2020,4/3/2020,Negative,,,,Canada
+881,Ms. Chantel Mariotte,KEN-KEM -20-4-0881,70,F,22,,4/2/2020,4/3/2020,Negative,,,,France
+882,Luke Tuach Gatdet,KEN-KEM -20-4-0882,35,M,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+883,Nyapieth Mach,KEN-KEM -20-4-0883,36,F,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+884,Ms Vinod Pokar,KEN-KEM -20-4-0884,23,M,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+885,Lisa Njeri,KEN-KEM -20-4-0885,4,F,22,,4/2/2020,4/3/2020,Negative,,,,Nigeria
+886,Erica Kamau,KEN-KEM -20-4-0886,18,F,22,,4/2/2020,4/3/2020,Negative,,,,Sudan
+887,Tabitha Icuga,KEN-KEM -20-4-0887,35,F,22,,4/2/2020,4/3/2020,Negative,,,,Nigeria
+888,Bruce Ntatenza,KEN-KEM -20-4-0888,38,M,22,,4/2/2020,4/3/2020,Negative,,,,USA
+889,Felix Atara Otieno,KEN-KEM -20-4-0889,27,M,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+890,Resia Gichuhiya,KEN-KEM -20-4-0890,26,F,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+891,Toshikatso Noda,KEN-KEM -20-4-0891,59,M,22,,4/2/2020,4/3/2020,Negative,,,,Italy
+892,Akash Amrit,KEN-KEM -20-4-0892,23,M,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+893,Aaron Miyethani,KEN-KEM -20-4-0893,20,M,22,,4/2/2020,4/3/2020,Negative,,,,USA
+894,Kosena Kuntai,KEN-KEM -20-4-0894,22,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+895,Alex Limo,KEN-KEM -20-4-0895,19,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+896,Ahmed Mohamed Ibrahim,KEN-KEM -20-4-0896,40,M,22,,4/2/2020,4/3/2020,Negative,,,,Somalia
+897,Johnson Njoroge Kamau,KEN-KEM -20-4-0897,44,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+898,Yusra Khalid,KEN-KEM -20-4-0898,27,F,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+899,Venessa Njeri Njoroge,KEN-KEM -20-4-0899,26,F,22,,4/2/2020,4/3/2020,Negative,,,,USA
+900,Nyambura Mungai,KEN-KEM -20-4-0900,23,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+901,David Mwakitele,KEN-KEM -20-4-0901,33,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+902,Sonya Suri,KEN-KEM -20-4-0902,28,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+903,Kevin Barret,KEN-KEM -20-4-0903,27,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+904,Bernard Mugweru,KEN-KEM -20-4-0904,21,M,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+905,Jaral Ehsani,KEN-KEM -20-4-0905,19,m,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+906,Prafull Shah,KEN-KEM -20-4-0906,65,M,22,,4/2/2020,4/3/2020,Negative,,,,Swaziland 
+907,Virgima Njagi,KEN-KEM -20-4-0907,22,F,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+908,Mwendia Linda,KEN-KEM -20-4-0908,23,F,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+909,Oming Roselyne Kyeke,KEN-KEM -20-4-0909,61,F,22,,4/2/2020,4/3/2020,Negative,,,,Afghastan
+910,Jackline Chemtai Some,KEN-KEM -20-4-0910,25,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+911,Fred Njue,KEN-KEM -20-4-0911,44,M,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+912,Muchemi Margret,KEN-KEM -20-4-0912,27,F,22,,4/2/2020,4/3/2020,Negative,,,,
+913,Shilen Shah,KEN-KEM -20-4-0913,23,M,22,,4/2/2020,4/3/2020,Negative,,,,USA
+914,Peter Mwangi Karimi,KEN-KEM -20-4-0914,30,M,22,,4/2/2020,4/3/2020,Negative,,,,
+915,Charles Omwenga Onyari,KEN-KEM -20-4-0915,54,M,22,,4/2/2020,4/3/2020,Negative,,,,
+916,Luhila Donovan Grynn,KEN-KEM -20-4-0916,63,M,22,,4/2/2020,4/3/2020,Negative,,,,
+917,Philip Kiprotich Keter,KEN-KEM -20-4-0917,37,M,22,,4/2/2020,4/3/2020,Negative,,,,South Africa
+918,Charles Fredrick Lugukha,KEN-KEM -20-4-0918,53,M,22,,4/2/2020,4/3/2020,Negative,,,,
+919,Hon. Mary Choat,KEN-KEM -20-4-0919,34,F,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+920,Martha Nyamai,KEN-KEM -20-4-0920,39,F,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+921,James Wagumbe Kinyua,KEN-KEM -20-4-0921,40,M,22,,4/2/2020,4/3/2020,Negative,,,,
+922,Ashwath Raman,KEN-KEM -20-4-0922,22,M,22,,4/2/2020,4/3/2020,Negative,,,,
+923,Talissa Moi ,KEN-KEM -20-4-0923,26,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+924,Nyauyal Gatjiek,KEN-KEM -20-4-0924,36,,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+925,Nyathwok Nyayual,KEN-KEM -20-4-0925,26,F,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+926,Maria Cunningham,KEN-KEM -20-4-0926,59,F,22,,4/2/2020,4/3/2020,Negative,,,,Ireland
+927,Yasha Yasha,KEN-KEM -20-4-0927,18,M,22,,4/2/2020,4/3/2020,Negative,,,,USA
+928,Mukubesah P. Jani,KEN-KEM -20-4-0928,52,M,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+929,Ibrahim Njuguna,KEN-KEM -20-4-0929,45,M,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+930,Chrisantus Odhiambo,KEN-KEM -20-4-0930,36,M,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+931,Bhavita Sanjay Mandavia,KEN-KEM -20-4-0931,19,F,22,,4/2/2020,4/3/2020,Negative,,,,USA
+932,Mohammed Axhassan Ali Obedi,KEN-KEM -20-4-0932,42,M,22,,4/2/2020,4/3/2020,Negative,,,,Sudan
+933,Luis  Chuba Ruzinge,KEN-KEM -20-4-0933,49,M,22,,4/2/2020,4/3/2020,Negative,,,,Somalia
+934,Jesse Ngare,KEN-KEM -20-4-0934,67,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+935,Lorna Salome Komu,KEN-KEM -20-4-0935,34,F,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+936,Mohamed Arbaz,KEN-KEM -20-4-0936,21,M,22,,4/2/2020,4/3/2020,Negative,,,,
+937,Shairoz Jinnah,KEN-KEM -20-4-0937,27,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+938,Kaycia Nazir Jinnah,KEN-KEM -20-4-0938,22,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+939,Vivianne Yeda,KEN-KEM -20-4-0939,56,F,22,,4/2/2020,4/3/2020,Negative,,,,Sudan
+940,Benjamin Ihenacho,KEN-KEM -20-4-0940,19,M,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+941,Suleinman Pal,KEN-KEM -20-4-0941,19,M,22,,4/2/2020,4/3/2020,Negative,,,,South Sudan
+942,Frida Mwere,KEN-KEM -20-4-0942,54,,22,,4/2/2020,4/3/2020,Negative,,,,Angola
+943,Binti Kambuni,KEN-KEM -20-4-0943,31,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+944,Edward Achola,KEN-KEM -20-4-0944,48,Mm,22,,4/2/2020,4/3/2020,Negative,,,,USA
+945,Aaria Harania,KEN-KEM -20-4-0945,19,F,22,,4/2/2020,4/3/2020,Negative,,,,Newyork
+946,Reina Benta,KEN-KEM -20-4-0946,20,F,22,,4/2/2020,4/3/2020,Negative,,,,United Kingdom
+947,Dimbu,KEN-KEM -20-4-0947,52,M,16,,4/3/2020,4/3/2020,Negative,,,,
+948,Kitui-008,KEN-KEM -20-4-0948,28,M,25,,4/3/2020,4/3/2020,Negative,,,,
+949,Alex Wachira,KEN-KEM -20-4-0949,32,M,1,,4/3/2020,4/3/2020,Negative,,,,
+950,Irene Makena,KEN-KEM -20-4-0950,30,F,1,,4/3/2020,4/3/2020,Negative,,,,
+951,Dennis Mathenge,KEN-KEM -20-4-0951,39,M,1,,4/3/2020,4/3/2020,Negative,,,,
+952,Alpha Nyarera,KEN-KEM -20-4-0952,28,M,1,,4/3/2020,4/3/2020,Negative,,,,
+953,Ismael Juma,KEN-KEM -20-4-0953,61,M,1,,4/3/2020,4/3/2020,Negative,,,,
+954,Wachira Washika,KEN-KEM -20-4-0954,40,,1,,4/3/2020,4/3/2020,Negative,,,,
+955,Gaylord Ochieng,KEN-KEM -20-4-0955,22,,1,,4/3/2020,4/3/2020,Negative,,,,
+956,Kaunda Elishama,KEN-KEM -20-4-0956,28,,1,,4/3/2020,4/3/2020,Negative,,,,
+957,Maureen Rose Wanjiru,KEN-KEM -20-4-0957,30,F,1,,4/3/2020,4/3/2020,Negative,,,,
+958,John Githu ,KEN-KEM -20-4-0958,30,M,1,,4/3/2020,4/3/2020,Negative,,,,
+959,Sharom Utungi,KEN-KEM -20-4-0959,5,,1,,4/3/2020,4/3/2020,Negative,,,,
+960,Samuel Otieno,KEN-KEM -20-4-0960,23,,1,,4/3/2020,4/3/2020,Negative,,,,
+961,Fredrick Odhiambo,KEN-KEM -20-4-0961,26,M,1,,4/3/2020,4/3/2020,Negative,,,,
+962,Winnie Kamau,KEN-KEM -20-4-0962,37,,1,,4/3/2020,4/3/2020,Negative,,,,
+963,Patrick Gitonga,KEN-KEM -20-4-0963,45,,1,,4/3/2020,4/3/2020,Negative,,,,
+964,Fredah Kagwira Kibiti,KEN-KEM -20-4-0964,43,,1,,4/3/2020,4/3/2020,Negative,,,,
+965,Carolyne Karimi,KEN-KEM -20-4-0965,39,F,1,,4/3/2020,4/3/2020,Negative,,,,
+966,Bibiana Khainga,KEN-KEM -20-4-0966,28,F,1,,4/3/2020,4/3/2020,Negative,,,,
+967,Isaac Andeche,KEN-KEM -20-4-0967,47,,1,,4/3/2020,4/3/2020,Negative,,,,
+968,Taya Ogada,KEN-KEM -20-4-0968,18,F,1,,4/3/2020,4/3/2020,Negative,,,,
+969,Emily Kakenya,KEN-KEM -20-4-0969,37,,1,,4/3/2020,4/3/2020,Negative,,,,
+970,Stephen Odeny,KEN-KEM -20-4-0970,33,M,1,,4/3/2020,4/3/2020,Negative,,,,
+971,Dematria Mugeni,KEN-KEM -20-4-0971,19,F,1,,4/3/2020,4/3/2020,Negative,,,,
+972,Bonface Munyao,KEN-KEM -20-4-0972,29,,1,,4/3/2020,4/3/2020,Negative,,,,
+973,Lee Maina,KEN-KEM -20-4-0973,31,M,1,,4/3/2020,4/3/2020,Negative,,,,
+974,Ruth Kinyumu Malinda,KEN-KEM -20-4-0974,58,F,1,,4/3/2020,4/3/2020,Negative,,,,
+975,Stephen Marube,KEN-KEM -20-4-0975,23,M,1,,4/3/2020,4/3/2020,Negative,,,,
+976,Mauline Mideva,KEN-KEM -20-4-0976,32,F,1,,4/3/2020,4/3/2020,Negative,,,,
+977,Dr. Karige Hellen,KEN-KEM -20-4-0977,26,F,1,,4/3/2020,4/3/2020,Negative,,,,
+978,Lynet Outa,KEN-KEM -20-4-0978,,F,1,,4/3/2020,4/3/2020,Negative,,,,
+1053,Wilfred Wangari Wainaina,KEN-KEM -20-4-1053,29,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1054,Lydia Igandu Gacheru,KEN-KEM -20-4-1054,30,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1055,Joyce Wairimu Kinyua,KEN-KEM -20-4-1055,27,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1056,Edwin Kipyegon,KEN-KEM -20-4-1056,31,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1057,Patrick Kipsambu Chemirmir,KEN-KEM -20-4-1057,47,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1058,Oscar Joe Githuku Heho,KEN-KEM -20-4-1058,41,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1059,Miriam Mumbi Kirau,KEN-KEM -20-4-1059,31,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1060,Merrice Kanana Kaaria,KEN-KEM -20-4-1060,40,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1061,Kamau Rachel Nyambura,KEN-KEM -20-4-1061,39,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1062,Peter Murrithi Maranga,KEN-KEM -20-4-1062,64,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1063,Lyadi Omurembe Lyadi,KEN-KEM -20-4-1063,35,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1064,Pamela Cheboi,KEN-KEM -20-4-1064,40,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1065,Norah Muthoni Irungu,KEN-KEM -20-4-1065,34,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1066,David Kamau Magula,KEN-KEM -20-4-1066,46,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1067,Oloo Daniel Omondi,KEN-KEM -20-4-1067,28,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1068,Asha Mohammed ,KEN-KEM -20-4-1068,54,,23,,4/3/2020,4/3/2020,Negative,,,,
+1069,Alex Kelvin Gathumbi,KEN-KEM -20-4-1069,33,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1070,Caroline Chemeli Cherisiyot,KEN-KEM -20-4-1070,44,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1071,Sarah Muthoni Karago,KEN-KEM -20-4-1071,38,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1072,Sharon Omondi Sally,KEN-KEM -20-4-1072,29,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1073,Gabriel Muuo Mboya,KEN-KEM -20-4-1073,23,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1074,Mercy Magret Wanjiku Waiyaki,KEN-KEM -20-4-1074,37,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1075,Firoze George Bocide,KEN-KEM -20-4-1075,43,M,23,,4/3/2020,4/3/2020,Positive,,,,
+1076,Monica Achieng Yotam,KEN-KEM -20-4-1076,43,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1077,Irene Chepkorir,KEN-KEM -20-4-1077,24,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1078,John Omusa Makeni,KEN-KEM -20-4-1078,29,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1079,Onesmus Gugu Njoroge,KEN-KEM -20-4-1079,43,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1080,Ben Muga Wameyo,KEN-KEM -20-4-1080,41,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1081,Timothy Bosire Rusugu,KEN-KEM -20-4-1081,29,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1082,Joseph Mumo John,KEN-KEM -20-4-1082,31,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1083,Tonny Njoroge Lugalia,KEN-KEM -20-4-1083,28,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1084,Stephen Lauvet Mulangi,KEN-KEM -20-4-1084,23,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1085,Graham Hyslop Onyango Omondi,KEN-KEM -20-4-1085,,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1086,Daniel Mweni Mramba,KEN-KEM -20-4-1086,52,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1087,Jane Mutheu Kitheka,KEN-KEM -20-4-1087,36,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1088,Isaac Muema Mutua,KEN-KEM -20-4-1088,37,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1089,Irene Nyamai Muia,KEN-KEM -20-4-1089,34,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1090,Constant Okoth Oteri Owino,KEN-KEM -20-4-1090,63,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1091,Doris Njeri Nganga,KEN-KEM -20-4-1091,27,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1092,Melvin Kipkemboi Rono,KEN-KEM -20-4-1092,31,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1093,Ian Kiprop Menjo,KEN-KEM -20-4-1093,29,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1094,John Ngugi Mungai,KEN-KEM -20-4-1094,24,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1095,Olivia Daniella Gitonga,KEN-KEM -20-4-1095,23,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1096,Risper Chebet Anduro,KEN-KEM -20-4-1096,38,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1097,Flavian Thuo Kibunyi,KEN-KEM -20-4-1097,21,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1098,Oscar Salim Mulangi,KEN-KEM -20-4-1098,43,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1099,Daniel Opande ,KEN-KEM -20-4-1099,30,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1100,Jacob Arome Chiringa,KEN-KEM -20-4-1100,41,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1101,Mercy Mbugua,KEN-KEM -20-4-1101,42,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1102,Annette Owino Awour,KEN-KEM -20-4-1102,24,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1103,Ibrahim Nsangou Odipo,KEN-KEM -20-4-1103,32,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1104,Martin Munene Mwaniki,KEN-KEM -20-4-1104,29,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1105,Victoria Adhiambo Sure,KEN-KEM -20-4-1105,30,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1106,Evalyne Ngirirey,KEN-KEM -20-4-1106,29,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1107,Kevin Cronchey,KEN-KEM -20-4-1107,53,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1108,Joseph Njuguna Muiruri,KEN-KEM -20-4-1108,38,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1109,Vincent Maoga Nyandigisi,KEN-KEM -20-4-1109,33,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1110,Catherine Wema Nchana,KEN-KEM -20-4-1110,47,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1111,Hinal Sumaria,KEN-KEM -20-4-1111,31,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1112,Faith Wanjiku Gitau,KEN-KEM -20-4-1112,41,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1113,Rodney Adembesa Salama,KEN-KEM -20-4-1113,30,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1114,Pancras Oteyo Odero,KEN-KEM -20-4-1114,32,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1115,Francis Mayora Oyogo,KEN-KEM -20-4-1115,36,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1116,Elizabeth WambuiGithinji,KEN-KEM -20-4-1116,30,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1117,Juliana Gurmakh Sadi,KEN-KEM -20-4-1117,31,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1118,George Omolo Ayaga,KEN-KEM -20-4-1118,44,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1119,Diana Kalume Kadzo,KEN-KEM -20-4-1119,31,,23,,4/3/2020,4/3/2020,Negative,,,,
+1120,Evalyne Kerubo Bare,KEN-KEM -20-4-1120,28,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1121,Regina Karuci Mburu,KEN-KEM -20-4-1121,39,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1122,Linda Chepkorir Martin,KEN-KEM -20-4-1122,34,f,23,,4/3/2020,4/3/2020,Negative,,,,
+1123,Jullu Jullu Thaddaues,KEN-KEM -20-4-1123,42,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1124,Grace Njeri Njunge,KEN-KEM -20-4-1124,32,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1125,Lucy Kiman Njeri,KEN-KEM -20-4-1125,26,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1126,Doris Atambo Nyanchama,KEN-KEM -20-4-1126,29,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1127,Rachael Wanjiru Warui,KEN-KEM -20-4-1127,29,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1128,Jenniffer Nyambura Mnangi,KEN-KEM -20-4-1128,25,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1129,Phillip Wavinya,KEN-KEM -20-4-1129,30,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1130,Job Jack Okongo,KEN-KEM -20-4-1130,22,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1131,Titus Chumba Kiptoo,KEN-KEM -20-4-1131,30,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1132,Ayabei Beatrice Jepchumba,KEN-KEM -20-4-1132,29,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1133,Maxwel Odero Oduor,KEN-KEM -20-4-1133,30,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1134,Milka Wairimu Ndore,KEN-KEM -20-4-1134,39,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1135,Lydia Cheruto Menjo,KEN-KEM -20-4-1135,30,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1136,Ruth Mueni Maweu,KEN-KEM -20-4-1136,45,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1137,Michael chege Mwangi,KEN-KEM -20-4-1137,30,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1138,Dennis Ochieng Chiaga,KEN-KEM -20-4-1138,32,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1139,George Njoroge Gikonyo,KEN-KEM -20-4-1139,28,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1140,Erick Juma Ochieng,KEN-KEM -20-4-1140,31,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1141,Daniel Maina Mbogo,KEN-KEM -20-4-1141,39,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1142,Lovie Biating,KEN-KEM -20-4-1142,23,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1143,Jan Kirundi Gitahi,KEN-KEM -20-4-1143,30,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1144,Evans Omondi Oloo,KEN-KEM -20-4-1144,43,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1145,Said Abdalla Khamala,KEN-KEM -20-4-1145,39,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1146,Festo Micah Mwaizangu,KEN-KEM -20-4-1146,42,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1147,Jacob Mwangala Ruwa,KEN-KEM -20-4-1147,25,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1148,Valji Nilkesh Rajenda,KEN-KEM -20-4-1148,22,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1149,Ann Ngina Kitheka,KEN-KEM -20-4-1149,31,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1150,Linet Kathambi Kimathi,KEN-KEM -20-4-1150,24,,23,,4/3/2020,4/3/2020,Negative,,,,
+1151,Okite Francis Okello,KEN-KEM -20-4-1151,32,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1152,Teresa Mukwana Oyindi,KEN-KEM -20-4-1152,25,F,23,,4/3/2020,4/3/2020,Negative,,,,
+1153,Collins Okoth Ajunga,KEN-KEM -20-4-1153,24,,23,,4/3/2020,4/3/2020,Negative,,,,
+1154,Mdera Evans Mambo,KEN-KEM -20-4-1154,43,M,23,,4/3/2020,4/3/2020,Negative,,,,
+1155,Anastacia Nzembi Mutuku,KEN-KEM -20-4-1155,17,F,35,,4/3/2020,4/3/2020,Negative,,,,
+1156,Collins Kipkirui,KEN-KEM -20-4-1156,23,M,36,,4/4/2020,4/5/2020,Negative,,,,
+1157,Mawn Singh Manuinder,KEN-KEM -20-4-1157,34,M,15,,4/4/2020,4/5/2020,Negative,,,,
+1158,Raphael Ngundi,KEN-KEM -20-4-1158,,M,1,,4/4/2020,4/5/2020,Negative,,,,
+1159,Elizabeth Mwelu,KEN-KEM -20-4-1159,31,F,1,,4/4/2020,4/5/2020,Negative,,,,
+1160,Kelvin Muchiri,KEN-KEM -20-4-1160,27,M,1,,4/4/2020,4/5/2020,Negative,,,,
+1161,Mark Edwin Karimi,KEN-KEM -20-4-1161,29,M,1,,4/4/2020,4/5/2020,Negative,,,,
+1162,Charles Munywoki,KEN-KEM -20-4-1162,34,M,1,,4/4/2020,4/5/2020,Negative,,,,
+1163,Jackson Mutuku,KEN-KEM -20-4-1163,32,M,1,,4/4/2020,4/5/2020,Positive,,,,
+1164,Kiruja Jason,KEN-KEM -20-4-1164,40,M,1,,4/4/2020,4/5/2020,Negative,,,,
+1165,Alex Otieno,KEN-KEM -20-4-1165,,,1,,4/4/2020,4/5/2020,Negative,,,,
+1166,Lilian Wairimu Mathene,KEN-KEM -20-4-1166,50,F,1,,4/4/2020,4/5/2020,Negative,,,,
+1167,Caroline Atieno,KEN-KEM -20-4-1167,29,F,1,,4/4/2020,4/5/2020,Negative,,,,
+1168,Emanuel Bett,KEN-KEM -20-4-1168,25,M,1,,4/4/2020,4/5/2020,Negative,,,,
+1169,Cephas Magaji,KEN-KEM -20-4-1169,33,M,1,,4/4/2020,4/5/2020,Negative,,,,
+1170,Abel Ondari,KEN-KEM -20-4-1170,46,M,1,,4/4/2020,4/5/2020,Negative,,,,
+1171,Robert Ongwara,KEN-KEM -20-4-1171,,M,1,,4/4/2020,4/5/2020,Negative,,,,
+1172,Dr. Gatama George,KEN-KEM -20-4-1172,28,M,1,,4/4/2020,4/5/2020,Negative,,,,
+1173,Franeis Imbuli,KEN-KEM -20-4-1173,37,F,1,,4/4/2020,4/5/2020,Negative,,,,
+1174,Evelyne Nyonje,KEN-KEM -20-4-1174,,F,1,,4/4/2020,4/5/2020,Negative,,,,
+1175,Joyce Wambaire Mwangi,KEN-KEM -20-4-1175,22,F,1,,4/4/2020,4/5/2020,Negative,,,,
+1176,Wellington Otieno,KEN-KEM -20-4-1176,35,F,1,,4/4/2020,4/5/2020,Negative,,,,
+1177,Peter Jota,KEN-KEM -20-4-1177,,,1,,4/4/2020,4/5/2020,Positive,,,,
+1178,Tracy Kajaira,KEN-KEM -20-4-1178,28,F,24,,4/4/2020,4/5/2020,Negative,,,,
+1179,Lilian Kerubo Mumanyi,KEN-KEM -20-4-1179,29,F,24,,4/4/2020,4/5/2020,Negative,,,,
+1180,Hellen Muyoma Kidiavaai,KEN-KEM -20-4-1180,60,F,24,,4/4/2020,4/5/2020,Negative,,,,
+1181,Amos Mwangi,KEN-KEM -20-4-1181,23,M,24,,4/4/2020,4/5/2020,Positive,,,,
+1182,Ndirangu Kariuki,KEN-KEM -20-4-1182,41,M,24,,4/4/2020,4/5/2020,Negative,,,,
+1183,Daniel Nzau Kaloki,KEN-KEM -20-4-1183,41,M,24,,4/4/2020,4/5/2020,Negative,,,,
+1184,Peter Miseda,KEN-KEM -20-4-1184,46,M,24,,4/4/2020,4/5/2020,Negative,,,,
+1185,Calvin Odira,KEN-KEM -20-4-1185,33,M,24,,4/4/2020,4/5/2020,Negative,,,,
+1186,William Muchiri,KEN-KEM -20-4-1186,34,M,24,,4/4/2020,4/5/2020,Negative,,,,
+1187,Philliys Omwange,KEN-KEM -20-4-1187,38,F,24,,4/4/2020,4/5/2020,Negative,,,,
+1188,Dennis James Karanja,KEN-KEM -20-4-1188,29,M,24,,4/4/2020,4/5/2020,Negative,,,,
+1189,Mary Gathoni Njoroge,KEN-KEM -20-4-1189,23,F,24,,4/4/2020,4/5/2020,Negative,,,,
+1190,Evalyne Nekesa Masika,KEN-KEM -20-4-1190,27,F,24,,4/4/2020,4/5/2020,Negative,,,,
+1191,Faith Gathoni Gichuru,KEN-KEM -20-4-1191,33,F,24,,4/4/2020,4/5/2020,Negative,,,,
+1192,Bertrand Mussoko,KEN-KEM -20-4-1192,30,M,24,,4/4/2020,4/5/2020,Positive,,,,
+1193,Fredrick Ogembo,KEN-KEM -20-4-1193,38,M,24,,4/4/2020,4/5/2020,Negative,,,,
+1194,Alex Mwangi,KEN-KEM -20-4-1194,27,M,24,,4/4/2020,4/5/2020,Negative,,,,
+1195,Dr. Silas Agutu,KEN-KEM -20-4-1195,50,M,24,,4/4/2020,4/5/2020,Positive,,,,
+1196,Hannah Muvuiti Muthoni,KEN-KEM -20-4-1196,31,F,24,,4/4/2020,4/5/2020,Negative,,,,
+1197,James Waurogue,KEN-KEM -20-4-1197,71,M,25,,4/4/2020,4/5/2020,Positive,,,,
+1198,Pascalia Kasyoki Mwendwa,KEN-KEM -20-4-1198,23,F,25,,4/4/2020,4/5/2020,Negative,,,,
+1199,Kitui-011,KEN-KEM -20-4-1199,25,M,25,,4/4/2020,4/5/2020,Negative,,,,
+1200,Kitui-012,KEN-KEM -20-4-1200,26,M,25,,4/4/2020,4/5/2020,Negative,,,,
+1201,Kitui-013,KEN-KEM -20-4-1201,28,M,25,,4/4/2020,4/5/2020,Negative,,,,
+1202,Kitui-014,KEN-KEM -20-4-1202,24,F,25,,4/4/2020,4/5/2020,Negative,,,,
+1203,Kitui-015,KEN-KEM -20-4-1203,32,M,25,,4/4/2020,4/5/2020,Negative,,,,
+1204,Abdul Hakin,KEN-KEM -20-4-1204,33,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1205,Lubner Omar,KEN-KEM -20-4-1205,32,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1206,Faiza Mohamed,KEN-KEM -20-4-1206,40,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1207,Fatuma Aliswaleh,KEN-KEM -20-4-1207,31,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1208,Riziki Said,KEN-KEM -20-4-1208,78,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1209,Basra Ahmed,KEN-KEM -20-4-1209,34,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1210,Samira Karama,KEN-KEM -20-4-1210,53,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1211,Abdul Samir,KEN-KEM -20-4-1211,21,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1212,Rayan Abdul,KEN-KEM -20-4-1212,24,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1213,Mariam Nasir,KEN-KEM -20-4-1213,28,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1214,Amina Mohamed,KEN-KEM -20-4-1214,53,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1215,Sleen Nassir,KEN-KEM -20-4-1215,30,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1216,Amina Sleen,KEN-KEM -20-4-1216,4,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1217,Alyne Mansur,KEN-KEM -20-4-1217,22,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1218,Inat Hussein,KEN-KEM -20-4-1218,65,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1219,Arwa Sleen,KEN-KEM -20-4-1219,2,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1220,Sheikha Abdulrahman,KEN-KEM -20-4-1220,31,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1221,Ahmed Swaleh,KEN-KEM -20-4-1221,52,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1222,Ibrahim Mansur,KEN-KEM -20-4-1222,5,,26,,4/4/2020,4/5/2020,Negative,,,,
+1223,Mariam Swaleh,KEN-KEM -20-4-1223,43,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1224,Samia Salim,KEN-KEM -20-4-1224,44,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1225,Lamya Abdulrahman,KEN-KEM -20-4-1225,20,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1226,Leila Ahmed,KEN-KEM -20-4-1226,20,F,26,,4/4/2020,4/5/2020,Positive,,,,
+1227,Salma Salir,KEN-KEM -20-4-1227,48,F,26,,4/4/2020,4/5/2020,Negative,,,,
+1228,Gitahi Joseph,KEN-KEM -20-4-1228,35,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1229,Ruphas Kanyari,KEN-KEM -20-4-1229,41,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1230,Charles Mutuku,KEN-KEM -20-4-1230,51,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1231,Afred Mwau,KEN-KEM -20-4-1231,43,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1232,Solomon Odero,KEN-KEM -20-4-1232,33,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1233,James Mutuku,KEN-KEM -20-4-1233,42,M,26,,4/4/2020,4/5/2020,Negative,,,,
+1234,Hoshil Shah,KEN-KEM -20-4-1234,22,,27,,4/4/2020,4/5/2020,Negative,,,,
+1235,Shah Keya,KEN-KEM -20-4-1235,21,F,27,,4/4/2020,4/5/2020,Negative,,,,
+1236,Fredah Murugu,KEN-KEM -20-4-1236,56,F,27,,4/4/2020,4/5/2020,Negative,,,,
+1237,Murugesan Karthik,KEN-KEM -20-4-1237,21,F,27,,4/4/2020,4/5/2020,Negative,,,,
+1238,Jamvi Pubari,KEN-KEM -20-4-1238,19,F,27,,4/4/2020,4/5/2020,Negative,,,,
+1239,Mursal Haji Ali,KEN-KEM -20-4-1239,30,M,27,,4/4/2020,4/5/2020,Negative,,,,
+1240,Reeya Pobari,KEN-KEM -20-4-1240,21,F,27,,4/4/2020,4/5/2020,Negative,,,,
+1241,Maimuna Jelle,KEN-KEM -20-4-1241,25,F,27,,4/4/2020,4/5/2020,Negative,,,,
+1242,Hasa Hayath,KEN-KEM -20-4-1242,27,F,27,,4/4/2020,4/5/2020,Negative,,,,
+1243,Gitari Flora,KEN-KEM -20-4-1243,53,F,27,,4/4/2020,4/5/2020,Negative,,,,
+1244,Grace Maina,KEN-KEM -20-4-1244,40,F,27,,4/4/2020,4/5/2020,Negative,,,,
+1245,Jeremiah Roberts,KEN-KEM -20-4-1245,71,M,27,,4/4/2020,4/5/2020,Negative,,,,
+1246,Hilda Nkatha,KEN-KEM -20-4-1246,34,F,27,,4/4/2020,4/5/2020,Negative,,,,
+1247,Janet Awuor,KEN-KEM -20-4-1247,33,F,27,,4/4/2020,4/5/2020,Negative,,,,
+1248,Careb Ambuka,KEN-KEM -20-4-1248,26,M,27,,4/4/2020,4/5/2020,Negative,,,,
+1249,Evans Machayo,KEN-KEM -20-4-1249,43,M,27,,4/4/2020,4/5/2020,Negative,,,,
+1250,Mutua Kithendu,KEN-KEM -20-4-1250,47,M,27,,4/4/2020,4/5/2020,Negative,,,,
+1251,Bonface Ombaba Osano,KEN-KEM -20-4-1251,43,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1252,Tracy Njoki Wanjaki,KEN-KEM -20-4-1252,19,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1253,Douglas Onyango Otiende,KEN-KEM -20-4-1253,54,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1254,George Andiego Otieno,KEN-KEM -20-4-1254,37,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1255,Rita Ogalo Atieno,KEN-KEM -20-4-1255,19,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1256,Mariliza Njenga,KEN-KEM -20-4-1256,26,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1257,Wilfred Matana Lusala,KEN-KEM -20-4-1257,32,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1258,Zachary Muigai Maina,KEN-KEM -20-4-1258,35,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1259,Phyllis Wambui Mathenge,KEN-KEM -20-4-1259,41,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1260,Liu Tao,KEN-KEM -20-4-1260,48,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1261,Arthur Ogosi Onyango,KEN-KEM -20-4-1261,45,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1262,Mark Matunga Ogutu,KEN-KEM -20-4-1262,46,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1263,Lenox Mwanjala,KEN-KEM -20-4-1263,39,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1264,Margaret Wasonga,KEN-KEM -20-4-1264,33,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1265,Joyce Caroline Gichuru,KEN-KEM -20-4-1265,53,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1266,Sam Lengete Pertet,KEN-KEM -20-4-1266,45,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1267,Augustine Kongo Oyoyo,KEN-KEM -20-4-1267,59,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1268,Sheilah Cherono,KEN-KEM -20-4-1268,32,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1269,Hillary Ngetich,KEN-KEM -20-4-1269,34,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1270,Ruth Wangu Okaiso,KEN-KEM -20-4-1270,28,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1271,George Wamai Mumenya,KEN-KEM -20-4-1271,71,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1272,Kaider Fitzwanga,KEN-KEM -20-4-1272,40,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1273,Robert Kipkorir Komen,KEN-KEM -20-4-1273,45,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1274,Kenny Matampash,KEN-KEM -20-4-1274,53,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1275,Abubakar Ayub Omar,KEN-KEM -20-4-1275,27,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1276,Hezron Korir,KEN-KEM -20-4-1276,44,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1277,Faith Nyaboke,KEN-KEM -20-4-1277,34,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1278,Gladys Sitati,KEN-KEM -20-4-1278,50,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1279,Naftaly Wambugu,KEN-KEM -20-4-1279,34,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1280,Arminia Modupe,KEN-KEM -20-4-1280,58,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1281,Kajam Patel,KEN-KEM -20-4-1281,22,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1282,Adano Godana,KEN-KEM -20-4-1282,35,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1283,Lilian Kerubo,KEN-KEM -20-4-1283,36,F,29,,4/4/2020,4/5/2020,Negative,,,,
+1284,John Kamau,KEN-KEM -20-4-1284,52,M,29,,4/4/2020,4/5/2020,Negative,,,,
+1285,Eliud Opande,KEN-KEM -20-4-1285,72,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1286,Phoebe Opande,KEN-KEM -20-4-1286,63,F,28,,4/4/2020,4/5/2020,Negative,,,,
+1287,Guled  Ali Hussen,KEN-KEM -20-4-1287,75,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1288,Morris Munene,KEN-KEM -20-4-1288,35,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1289,Michael Wanyoike,KEN-KEM -20-4-1289,38,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1290,Zuhura Munyao,KEN-KEM -20-4-1290,22,F,28,,4/4/2020,4/5/2020,Negative,,,,
+1291,Hamsa Hasan,KEN-KEM -20-4-1291,1,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1292,Musdalif Abdilizak,KEN-KEM -20-4-1292,1,F,28,,4/4/2020,4/5/2020,Negative,,,,
+1293,Dahabo Edwin,KEN-KEM -20-4-1293,25,F,28,,4/4/2020,4/5/2020,Negative,,,,
+1294,Jamal Ragen,KEN-KEM -20-4-1294,44,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1295,Peter Kenga,KEN-KEM -20-4-1295,30,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1296,Cheryl Onyango,KEN-KEM -20-4-1296,28,F,28,,4/4/2020,4/5/2020,Negative,,,,
+1297,Maurice Okumu,KEN-KEM -20-4-1297,41,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1298,Idris Hassan,KEN-KEM -20-4-1298,39,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1299,Said Ahmed,KEN-KEM -20-4-1299,39,Male,28,,4/4/2020,4/5/2020,Negative,,,,
+1300,Yunus Said,KEN-KEM -20-4-1300,29,M,28,Westlands,4/4/2020,4/5/2020,Negative,,,,
+1301,Zablon Mungai,KEN-KEM -20-4-1301,30,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1302,Linda Nelson Kiora,KEN-KEM -20-4-1302,69,F,28,,4/4/2020,4/5/2020,Negative,,,,
+1303,Moses Chege,KEN-KEM -20-4-1303,25,F,28,,4/4/2020,4/5/2020,Negative,,,,
+1304,Mercy Kimotho,KEN-KEM -20-4-1304,40,F,28,Westlands,4/4/2020,4/5/2020,Negative,,,,
+1305,Greg Andare,KEN-KEM -20-4-1305,29,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1306,Dennis Orimba,KEN-KEM -20-4-1306,34,M,28,Westlands,4/4/2020,4/5/2020,Negative,,,,
+1307,Kelvin Omondi,KEN-KEM -20-4-1307,26,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1308,Mwenyi Haji Mwinyi,KEN-KEM -20-4-1308,31,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1309,Furaha Mlewa,KEN-KEM -20-4-1309,43,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1310,Eileen Kerubo,KEN-KEM -20-4-1310,45,F,28,,4/4/2020,4/5/2020,Negative,,,,
+1311,Paula Kidakwa,KEN-KEM -20-4-1311,34,F,28,,4/4/2020,4/5/2020,Negative,,,,
+1312,Martin Mungai,KEN-KEM -20-4-1312,48,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1313,Kennedy Ouma,KEN-KEM -20-4-1313,45,M,28,,4/4/2020,4/5/2020,Negative,,,,
+1314,Tereza Mumbi,KEN-KEM -20-4-1314,32,F,28,Westlands,4/4/2020,4/5/2020,Negative,,,,
+1315,Tereza Wanjiru,KEN-KEM -20-4-1315,28,F,28,Westlands,4/4/2020,4/5/2020,Negative,,,,
+1316,Mary Karimi Mugambi,KEN-KEM -20-4-1316,46,F,28,,4/4/2020,4/5/2020,Negative,,,,
+1317,Zipporah Nduta Mburu,KEN-KEM -20-4-1317,37,F,1,,4/4/2020,4/5/2020,Negative,,,,
+1318,Winefrey Wangari ,KEN-KEM -20-4-1318,60,F,1,,4/4/2020,4/5/2020,Negative,,,,
+1319,Carolyne Atieno,KEN-KEM -20-4-1319,29,F,1,,4/4/2020,4/5/2020,Negative,,,,
+1320,Stephen Otieno,KEN-KEM -20-4-1320,35,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1321,Ayalew Teshone Lwmma,KEN-KEM -20-4-1321,66,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1322,Elliot Kabiro Kimani,KEN-KEM -20-4-1322,40,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1323,Patrick Gitonga Muthui,KEN-KEM -20-4-1323,47,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1324,Benjamin Onyango,KEN-KEM -20-4-1324,34,,30,,4/4/2020,4/5/2020,Negative,,,,
+1325,Bernard Ndirangu Munga,KEN-KEM -20-4-1325,43,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1326,Hussein Adan Ahmed,KEN-KEM -20-4-1326,27,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1327,Steve Ojiende,KEN-KEM -20-4-1327,55,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1328,Martin Mwangi,KEN-KEM -20-4-1328,29,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1329,Hassan Aden Ahmed,KEN-KEM -20-4-1329,27,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1330,Nhendrik Chris,KEN-KEM -20-4-1330,54,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1331,Fancy Chepkorir,KEN-KEM -20-4-1331,33,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1332,Natasha Madelaine Gitau,KEN-KEM -20-4-1332,23,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1333,Francis Maina Mwangi,KEN-KEM -20-4-1333,32,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1334,Anthony Wachira,KEN-KEM -20-4-1334,42,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1335,Peter Kinuthia,KEN-KEM -20-4-1335,52,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1336,Bernard Asuza,KEN-KEM -20-4-1336,43,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1337,Gabriel Kamaru Karogo,KEN-KEM -20-4-1337,42,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1338,Peter Chege,KEN-KEM -20-4-1338,29,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1339,Wendy Noel Omar,KEN-KEM -20-4-1339,28,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1340,Frackline Oseme Okisai,KEN-KEM -20-4-1340,35,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1341,Danson Kibera,KEN-KEM -20-4-1341,36,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1342,Charles Mwangi Karanja,KEN-KEM -20-4-1342,34,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1343,Harrison Kiarie,KEN-KEM -20-4-1343,36,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1344,Maurice Ouko Ouma,KEN-KEM -20-4-1344,25,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1345,Irene Kwamboka,KEN-KEM -20-4-1345,30,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1346,Purity wanjoi,KEN-KEM -20-4-1346,39,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1347,Maxwell Wachira,KEN-KEM -20-4-1347,34,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1348,James Githinji Maina,KEN-KEM -20-4-1348,29,,30,,4/4/2020,4/5/2020,Negative,,,,
+1349,Moses Irungu,KEN-KEM -20-4-1349,40,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1350,Benson Xavier Otieno,KEN-KEM -20-4-1350,40,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1351,Samson Mwangi,KEN-KEM -20-4-1351,27,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1352,Simon Kuria,KEN-KEM -20-4-1352,29,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1353,Jamila Wafula,KEN-KEM -20-4-1353,24,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1354,Jacinta Wayongo,KEN-KEM -20-4-1354,26,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1355,Dorine Kendi Karani,KEN-KEM -20-4-1355,25,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1356,Erick Opagal,KEN-KEM -20-4-1356,41,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1357,Kevin Kasango,KEN-KEM -20-4-1357,39,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1358,Alex Ndiema,KEN-KEM -20-4-1358,34,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1359,Stephen Musyoki Munyao,KEN-KEM -20-4-1359,46,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1360,Sylvia Nyambura,KEN-KEM -20-4-1360,27,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1361,Fatuma Ahmed Ali,KEN-KEM -20-4-1361,32,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1362,Erick Khalwale,KEN-KEM -20-4-1362,29,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1363,Steve Moseti Moriasi,KEN-KEM -20-4-1363,36,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1364,Damary Alembi,KEN-KEM -20-4-1364,51,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1365,Ali Billow,KEN-KEM -20-4-1365,24,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1366,Elizabeth Qabale,KEN-KEM -20-4-1366,28,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1367,Alfred Majimbo,KEN-KEM -20-4-1367,55,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1368,David Mbisi Kithikii,KEN-KEM -20-4-1368,27,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1369,Jason Kinyua Ireri,KEN-KEM -20-4-1369,33,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1370,Daniel Macharia Gachugu,KEN-KEM -20-4-1370,24,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1371,James Muthusi,KEN-KEM -20-4-1371,34,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1372,Julius Amdany,KEN-KEM -20-4-1372,27,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1373,Fatuma Kassim,KEN-KEM -20-4-1373,40,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1374,Nassor Ali,KEN-KEM -20-4-1374,32,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1375,Eva Wairimu Mwangi,KEN-KEM -20-4-1375,39,F,30,,4/4/2020,4/5/2020,Negative,,,,
+1376,Stephen Guyo,KEN-KEM -20-4-1376,33,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1377,Eric W. Njeru,KEN-KEM -20-4-1377,32,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1378,Moses Barkwang,KEN-KEM -20-4-1378,35,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1379,Francis Muma,KEN-KEM -20-4-1379,45,M,30,,4/4/2020,4/5/2020,Negative,,,,
+1380,Nancy Mathenge,KEN-KEM -20-4-1380,27,F,31,,4/4/2020,4/5/2020,Negative,,,,
+1381,Edna Mundua,KEN-KEM -20-4-1381,1,F,31,,4/4/2020,4/5/2020,Negative,,,,
+1382,Derrick Owino,KEN-KEM -20-4-1382,33,M,31,,4/4/2020,4/5/2020,Negative,,,,
+1383,Erick Gicheni,KEN-KEM -20-4-1383,41,M,31,,4/4/2020,4/5/2020,Negative,,,,
+1384,Mercy Gathoni,KEN-KEM -20-4-1384,35,F,31,,4/4/2020,4/5/2020,Negative,,,,
+1385,Kelvin Bett,KEN-KEM -20-4-1385,36,M,31,,4/4/2020,4/5/2020,Negative,,,,
+1386,Hawa Ali,KEN-KEM -20-4-1386,40,F,31,,4/4/2020,4/5/2020,Negative,,,,
+1387,Elizabeth Lawson,KEN-KEM -20-4-1387,66,F,31,,4/4/2020,4/5/2020,Negative,,,,
+1388,Michael Dennis,KEN-KEM -20-4-1388,29,M,31,,4/4/2020,4/5/2020,Negative,,,,
+1389,Godfrey Ochieng,KEN-KEM -20-4-1389,43,M,31,,4/4/2020,4/5/2020,Negative,,,,
+1390,Dawoodia Juni,KEN-KEM -20-4-1390,20,,31,,4/4/2020,4/5/2020,Negative,,,,
+1391,Farid Mugo,KEN-KEM -20-4-1391,27,F,31,,4/4/2020,4/5/2020,Negative,,,,
+1392,Damaris Sira,KEN-KEM -20-4-1392,25,F,31,,4/4/2020,4/5/2020,Negative,,,,
+1393,Anthony Githu,KEN-KEM -20-4-1393,30,M,31,,4/4/2020,4/5/2020,Negative,,,,
+1394,Hosman Hussein,KEN-KEM -20-4-1394,42,M,31,,4/4/2020,4/5/2020,Negative,,,,
+1545,Jane Wambua,KEN-KEM -20-4-1545,26,F,1,,4/5/2020,4/6/2020,Negative,,,,
+1546,Ruth Mutete Mulwa,KEN-KEM -20-4-1546,32,F,1,Kibra,4/5/2020,4/6/2020,Negative,,,,
+1547,Melody Claire,KEN-KEM -20-4-1547,21,,1,,4/5/2020,4/6/2020,Negative,,,,
+1548,Julius Amdany,KEN-KEM -20-4-1548,,,1,Kajiado,4/5/2020,4/6/2020,Negative,,,,
+1549,Fred Otieno-Parent,KEN-KEM -20-4-1549,1,M,1,Mathare,4/5/2020,4/6/2020,Negative,,,,
+1550,Winy Mukhaye,KEN-KEM -20-4-1550,,F,1,,4/5/2020,4/6/2020,Negative,,,,
+1551,Bernard Akola,KEN-KEM -20-4-1551,38,M,1,,4/5/2020,4/6/2020,Negative,,,,
+1552,Julius Okeyo,KEN-KEM -20-4-1552,24,M,1,,4/5/2020,4/6/2020,Negative,,,,
+1553,Geofrey Sumba,KEN-KEM -20-4-1553,40,M,1,,4/5/2020,4/6/2020,Positive,,,,
+1554,Purity Kareithi,KEN-KEM -20-4-1554,35,F,1,Tharaka Nithi,4/5/2020,4/6/2020,Negative,,,,
+1555,Mark Bouviere,KEN-KEM -20-4-1555,,M,1,Denmark,4/5/2020,4/6/2020,Negative,,,,
+1556,Ouma Wilson,KEN-KEM -20-4-1556,,M,1,Kibra,4/5/2020,4/6/2020,Negative,,,,
+1557,Benta Kerubo,KEN-KEM -20-4-1557,24,F,1,Umoja,4/5/2020,4/6/2020,Negative,,,,
+1558,Mercy Wambui,KEN-KEM -20-4-1558,27,F,1,Lavington,4/5/2020,4/6/2020,Negative,,,,
+1559,Maxwell Ondongo,KEN-KEM -20-4-1559,35,M,1,Milimani,4/5/2020,4/6/2020,Negative,,,,
+1560,Jamlax Ojiambo,KEN-KEM -20-4-1560,53,M,1,Bahati,4/5/2020,4/6/2020,Negative,,,,
+1561,Ian Gitonga,KEN-KEM -20-4-1561,24,,1,Langata,4/5/2020,4/6/2020,Negative,,,,
+1562,Mwalimu Suleiman,KEN-KEM -20-4-1562,32,M,1,Kahawa West,4/5/2020,4/6/2020,Negative,,,,
+1563,Dossaji Shajik Hussein,KEN-KEM -20-4-1563,50,M,15,,4/5/2020,4/6/2020,Negative,,,,
+1564,B. Ogutu,KEN-KEM -20-4-1564,55,M,16,Kibra,4/5/2020,4/6/2020,Negative,,,,
+1565,Hilderlith Ogutu,KEN-KEM -20-4-1565,,F,16,Kibra,4/5/2020,4/6/2020,Negative,,,,
+1566,Chamon Said,KEN-KEM -20-4-1566,42,M,1,,4/5/2020,4/6/2020,Positive,,,,
+1567,John Mbuyamba-Repeat,KEN-KEM -20-4-1567,41,M,1,Congo,4/5/2020,4/6/2020,Negative,,,,
+1568,Benson Nyaga,KEN-KEM -20-4-1568,26,M,1,Chiromo,4/5/2020,4/6/2020,Negative,,,,
+1569,Kangai Wafo Anderson-Repeat,KEN-KEM -20-4-1569,32,,1,Cameroon,4/5/2020,4/6/2020,Positive,,,,
+1570,Jane Kibe-Repeat,KEN-KEM -20-4-1570,45,F,1,Westlands,4/5/2020,4/6/2020,Negative,,,,
+1571,Ruth Wambui-Repeat,KEN-KEM -20-4-1571,48,F,1,Kasarani,4/5/2020,4/6/2020,Negative,,,,
+1572,Briton Macharia,KEN-KEM -20-4-1572,15,M,1,,4/5/2020,4/6/2020,Negative,,,,
+1573,Adrian Manesses,KEN-KEM -20-4-1573,33,M,1,Tangaza University,4/5/2020,4/6/2020,Negative,,,,
+1574,Ezekiel Chesang-Repeat,KEN-KEM -20-4-1574,58,M,1,Mlolongo,4/5/2020,4/6/2020,Negative,,,,
+1575,Mary Chesang-Repeat,KEN-KEM -20-4-1575,50,F,1,Mlolongo,4/5/2020,4/6/2020,Negative,,,,
+1576,Margret Wanjiru,KEN-KEM -20-4-1576,24,,1,,4/5/2020,4/6/2020,Negative,,,,
+1577,Oliver Odundo,KEN-KEM -20-4-1577,46,,1,Karen,4/5/2020,4/6/2020,Negative,,,,
+1578,Mark Ndiragu,KEN-KEM -20-4-1578,39,,1,Garden estate,4/5/2020,4/6/2020,Negative,,,,
+1579,Steven Omukoko,KEN-KEM -20-4-1579,19,,1,Mumias,4/5/2020,4/6/2020,Negative,,,,
+1580,Abdinasir Mohammed,KEN-KEM -20-4-1580,42,M,1,South C,4/5/2020,4/6/2020,Negative,,,,
+1581,Cynthia Mbuyambu-Repeat,KEN-KEM -20-4-1581,31,F,1,Kilimani,4/5/2020,4/6/2020,Negative,,,,
+1582,Peter Mwangi,KEN-KEM -20-4-1582,42,M,1,Lucky summer,4/5/2020,4/6/2020,Negative,,,,
+1583,Lawarances Kipichi,KEN-KEM -20-4-1583,,,1,,4/5/2020,4/6/2020,Negative,,,,
+1584,Teresa Wambui Kahia,KEN-KEM -20-4-1584,45,F,1,Buruburu,4/5/2020,4/6/2020,Negative,,,,
+1585,Christine Mujei,KEN-KEM -20-4-1585,41,F,1,Karen,4/5/2020,4/6/2020,Positive,,,,
+1586,Jacob Kipkemoi,KEN-KEM -20-4-1586,28,M,1,Pangani,4/5/2020,4/6/2020,Negative,,,,
+1587,Caroline Nduku Ndinda,KEN-KEM -20-4-1587,35,F,1,Umoja,4/5/2020,4/6/2020,Negative,,,,
+1588,Tabitha Wanjiru,KEN-KEM -20-4-1588,26,F,1,Embakasi,4/5/2020,4/6/2020,Negative,,,,
+1589,Munyu Felistas,KEN-KEM -20-4-1589,23,F,1,Kibra,4/5/2020,4/6/2020,Negative,,,,
+1590,Sarah Wairimu Mwangi,KEN-KEM -20-4-1590,,F,1,Kikuyu,4/5/2020,4/6/2020,Negative,,,,
+1591,Ibrahim Abshakur,KEN-KEM -20-4-1591,28,M,1,Nairobi,4/5/2020,4/6/2020,Negative,,,,
+1592,Asaph Change,KEN-KEM -20-4-1592,40,M,1,,4/5/2020,4/6/2020,Negative,,,,
+1593,Jackline Omondi,KEN-KEM -20-4-1593,46,F,1,,4/5/2020,4/6/2020,Negative,,,,
+1594,Catherine Wangari,KEN-KEM -20-4-1594,47,F,1,Ng'ong Road,4/5/2020,4/6/2020,Negative,,,,
+1595,Nicholas Maanzo,KEN-KEM -20-4-1595,59,M,1,,4/5/2020,4/6/2020,Negative,,,,
+1596,Elizabeth Oirene,KEN-KEM -20-4-1596,45,F,1,Imara Daima,4/5/2020,4/6/2020,Negative,,,,
+1597,Asman Araka,KEN-KEM -20-4-1597,34,M,1,Embakasi,4/5/2020,4/6/2020,Negative,,,,
+1598,Charles Mutembei,KEN-KEM -20-4-1598,52,M,1,Juja,4/5/2020,4/6/2020,Positive,,,,
+1599,Daniel Safari,KEN-KEM -20-4-1599,27,M,1,Embakasi,4/5/2020,4/6/2020,Positive,,,,
+1600,Alex Njuguna,KEN-KEM -20-4-1600,5,M,1,Eastleigh,4/5/2020,4/6/2020,Positive,,,,
+1601,Henry Munene,KEN-KEM -20-4-1601,33,M,1,Mathare,4/5/2020,4/6/2020,Negative,,,,
+1602,Dominic Muindi Muteti,KEN-KEM -20-4-1602,22,M,34,Kibwezi West,4/5/2020,4/6/2020,Negative,,,,
+1603,Bernard Maina,KEN-KEM -20-4-1603,32,M,15,,4/7/2020,4/7/2020,Negative,,,25548351,
+1604,Millicent Kerubo Maranga,KEN-KEM -20-4-1604,27,F,33,Mlolongo,4/7/2020,4/7/2020,Negative,,717597382,,Qatar-UAE
+1605,Gloria Toywa,KEN-KEM -20-4-1605,30,F,33,,4/7/2020,4/7/2020,Negative,,728045212,,Qatar-UAE
+1606,Faith Rukaria,KEN-KEM -20-4-1606,28,F,33,,4/7/2020,4/7/2020,Negative,,716617265,,Qatar-UAE
+1607,Nobert Odhiambo Oduor,KEN-KEM -20-4-1607,48,M,33,Lucky Summer,4/7/2020,4/7/2020,Negative,,725926175,,
+1608,Stephen Theuri,KEN-KEM -20-4-1608,23,M,1,Ruaka,4/7/2020,4/7/2020,Negative,,,33646449,Turkey
+1609,Mark Kabira,KEN-KEM -20-4-1609,35,M,1,Kasarani,4/7/2020,4/7/2020,Negative,,,2071338,Dubai-UAE
+1610,Samuel Githioni,KEN-KEM -20-4-1610,29,M,1,Gachie,4/7/2020,4/7/2020,Negative,,,28402579,
+1611,James Kamau,KEN-KEM -20-4-1611,26,M,1,Karen,4/7/2020,4/7/2020,Negative,,,31044428,
+1612,Blessing Onyango,KEN-KEM -20-4-1612,9,F,1,Karen,4/7/2020,4/7/2020,Negative,,,,
+1613,Pamela Atieno,KEN-KEM -20-4-1613,52,F,1,Kayole,4/7/2020,4/7/2020,Negative,,,9010840,Dubai-UAE
+1614,Benson Mwove,KEN-KEM -20-4-1614,30,M,1,Kangemi,4/7/2020,4/7/2020,Negative,,,29077782,
+1615,Cyrus Thiongo,KEN-KEM -20-4-1615,42,M,1,Rongai,4/7/2020,4/7/2020,Negative,,,21977352,
+1616,Beyla Onyango,KEN-KEM -20-4-1616,8,F,1,Karen,4/7/2020,4/7/2020,Negative,,,,
+1617,Linda Mwavaka,KEN-KEM -20-4-1617,33,F,1,Karen,4/7/2020,4/7/2020,Negative,,,30134698,
+1618,Aubrey Otieno,KEN-KEM -20-4-1618,30,M,1,Ngumo,4/7/2020,4/7/2020,Negative,,,27221304,Tanzania
+1619,Zachary Masinde,KEN-KEM -20-4-1619,59,M,1,NYS HQ-Nairobi,4/7/2020,4/7/2020,Negative,,,1944004,Germany
+1620,Gaby Kisos,KEN-KEM -20-4-1620,10,,1,Karen,4/7/2020,4/7/2020,Negative,,,,
+1621,Domitila Ogaro,KEN-KEM -20-4-1621,49,F,1,South C,4/7/2020,4/7/2020,Negative,,,11063823,
+1622,Nelly Pato Dindi,KEN-KEM -20-4-1622,38,F,1,Embakasi,4/7/2020,4/7/2020,Negative,,,22505144,
+1623,Jane Achieng Masinde,KEN-KEM -20-4-1623,56,F,1,NYS HQ-Nairobi,4/7/2020,4/7/2020,Negative,,,4810551,Germany
+1624,Dancan Omondi,KEN-KEM -20-4-1624,29,M,1,Kasarani,4/7/2020,4/7/2020,Negative,,,28373237,
+1625,Paul Musyoki,KEN-KEM -20-4-1625,32,M,1,Kiambu,4/7/2020,4/7/2020,Negative,,,29015561,
+1626,Richard Oduor,KEN-KEM -20-4-1626,38,M,1,Utawala,4/7/2020,4/7/2020,Negative,,,2068276,Rome-Italy
+1627,Faiza Shamir,KEN-KEM -20-4-1627,27,M,1,Burundi,4/7/2020,4/7/2020,Negative,,,OP0090531,
+1628,Doreen Lando,KEN-KEM -20-4-1628,30,F,1,Rongai,4/7/2020,4/7/2020,Negative,,,28190099,
+1629,Dr. Abdullahi Yusuf Moaloni,KEN-KEM -20-4-1629,28,M,1,South B,4/7/2020,4/7/2020,Negative,,,28299365,
+1630,Ruth Nyaboke Nyansikera,KEN-KEM -20-4-1630,43,F,1,Ngong,4/7/2020,4/7/2020,Negative,,,20174791,
+1631,Gilbert Moraria,KEN-KEM -20-4-1631,64,,1,Kitengela,4/7/2020,4/7/2020,Negative,,,950992,
+1632,Benard juma,KEN-KEM -20-4-1632,,M,1,Kovyu,4/7/2020,4/7/2020,Negative,,,27464721,
+1633,Michelle Atieno Omondi,KEN-KEM -20-4-1633,26,,1,Westlands,4/7/2020,4/7/2020,Negative,,,30323508,
+1634,Joseph Wandera,KEN-KEM -20-4-1634,42,M,1,Uthiru,4/7/2020,4/7/2020,Negative,,,22232486,
+1635,Christabel Bodi,KEN-KEM -20-4-1635,55,F,1,Athi River,4/7/2020,4/7/2020,Negative,,,4270594,
+1636,Dennis Rodman Inzobeni,KEN-KEM -20-4-1636,38,M,1,Uthiru,4/7/2020,4/7/2020,Negative,,,22432746,
+1637,Gail Kisos,KEN-KEM -20-4-1637,12,F,1,Karen,4/7/2020,4/7/2020,Negative,,,,
+1638,301 (No form),KEN-KEM -20-4-1638,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1639,302 (No form),KEN-KEM -20-4-1639,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1640,303 (No form),KEN-KEM -20-4-1640,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1641,304 (No form),KEN-KEM -20-4-1641,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1642,305 (No form),KEN-KEM -20-4-1642,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1643,306 (No form),KEN-KEM -20-4-1643,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1644,307 (No form),KEN-KEM -20-4-1644,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1645,308 (No form),KEN-KEM -20-4-1645,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1646,309 (No form),KEN-KEM -20-4-1646,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1647,310 (No form),KEN-KEM -20-4-1647,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1648,311 (No form),KEN-KEM -20-4-1648,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1649,312 (No form),KEN-KEM -20-4-1649,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1650,313 (No form),KEN-KEM -20-4-1650,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1651,314 (No form),KEN-KEM -20-4-1651,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1652,315 (No form),KEN-KEM -20-4-1652,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1653,316 (No form),KEN-KEM -20-4-1653,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1654,317 (No form),KEN-KEM -20-4-1654,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1655,318 (No form),KEN-KEM -20-4-1655,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1656,319 (No form),KEN-KEM -20-4-1656,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1657,320 (No form),KEN-KEM -20-4-1657,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1658,321 (No form),KEN-KEM -20-4-1658,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1659,322 (No form),KEN-KEM -20-4-1659,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1660,323 (No form),KEN-KEM -20-4-1660,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1661,324 (No form),KEN-KEM -20-4-1661,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1662,401 (No form),KEN-KEM -20-4-1662,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1663,402 (No form),KEN-KEM -20-4-1663,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1664,403 (No form),KEN-KEM -20-4-1664,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1665,404 (No form),KEN-KEM -20-4-1665,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1666,405 (No form),KEN-KEM -20-4-1666,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1667,406 (No form),KEN-KEM -20-4-1667,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1668,407 (No form),KEN-KEM -20-4-1668,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1669,408 (No form),KEN-KEM -20-4-1669,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1670,409 (No form),KEN-KEM -20-4-1670,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1671,410 (No form),KEN-KEM -20-4-1671,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1672,411 (No form),KEN-KEM -20-4-1672,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1673,412 (No form),KEN-KEM -20-4-1673,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1674,413 (No form),KEN-KEM -20-4-1674,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1675,414 (No form),KEN-KEM -20-4-1675,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1676,415 (No form),KEN-KEM -20-4-1676,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1677,416 (No form),KEN-KEM -20-4-1677,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1678,417 (No form),KEN-KEM -20-4-1678,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1679,418 (No form),KEN-KEM -20-4-1679,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1680,419 (No form),KEN-KEM -20-4-1680,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1681,420 (No form),KEN-KEM -20-4-1681,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1682,421 (No form),KEN-KEM -20-4-1682,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1683,422 (No form),KEN-KEM -20-4-1683,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1684,423 (No form),KEN-KEM -20-4-1684,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1685,424 (No form),KEN-KEM -20-4-1685,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1686,425 (No form),KEN-KEM -20-4-1686,,,32,,4/7/2020,4/7/2020,Negative,,,,
+1687,426 (No form),KEN-KEM -20-4-1687,,,32,,4/7/2020,4/7/2020,Negative,,,,

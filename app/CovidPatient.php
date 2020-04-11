@@ -44,8 +44,9 @@ class CovidPatient extends BaseModel
         if(is_numeric($value)) $this->attributes['sex'] = $value;
         else{
             if(str_contains($value, ['F', 'f'])) $this->attributes['sex'] = 2;
+            else if(str_contains($value, ['M', 'm'])) $this->attributes['sex'] = 1;
             else{
-                $this->attributes['sex'] = 1;
+                $this->attributes['sex'] = 3;
             }
         }
     }
