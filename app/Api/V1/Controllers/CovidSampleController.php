@@ -55,7 +55,7 @@ class CovidSampleController extends Controller
         $sample->datesynched = date('Y-m-d');
         $sample->save();
         // $sample_data[0] = ['original_id' => $s->id, 'national_id' => $sample->id];
-        $sample_data[$s->id] = $sample->id;
+        $sample_data['sample_' . $s->id] = $sample->id;
 
         foreach ($children as $key => $child) {
 
@@ -68,7 +68,7 @@ class CovidSampleController extends Controller
             $child_sample->datesynched = date('Y-m-d');
             $child_sample->save();
             // $sample_data[] = ['original_id' => $child->id, 'national_id' => $child_sample->id];
-            $sample_data[$child->id] = $child_sample->id;
+            $sample_data['sample_' . $child->id] = $child_sample->id;
         }
 
         return response()->json([
