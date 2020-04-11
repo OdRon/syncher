@@ -1871,5 +1871,41 @@ class Random
         	]);
         	$s->save();
 		}
+    }  
+
+    public static function linelist3()
+    {
+		$file = public_path('nic.csv');
+        $handle = fopen($file, "r");
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+        {
+        	if($data[1] == 'LOGIN_DATE') continue;
+
+        	$p = CovidPatient::where('patient_name', $data[5])->first();
+        	if(!$p) $p = new CovidPatient;
+        	
+        	$p->fill([
+        		'identifier' => $data[3],
+        		'sex' => $data[9],
+        		'county' => $data[4],
+        		'patient_name' => $data[5],
+        	]);
+        	$p->save();
+
+        	$s = new CovidSample;
+        	$s->fill([
+        		'lab_id' => 11,
+        		'temperature' => $data[15],
+        		'datecollected' => date('Y-m-d', strtotime($data[7])),
+        		'datereceived' => date('Y-m-d', strtotime($data[17])),
+        		'datetested' => date('Y-m-d', strtotime($data[2])),
+        		'datedispatched' => date('Y-m-d', strtotime($data[2])),
+        		'test_type' => $data[6],
+        		'age' => $data[8],
+        		'result' => $data[10],
+        		'patient_id' => $p->id
+        	]);
+        	$s->save();
+		}
     }    
 }
