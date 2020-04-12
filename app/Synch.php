@@ -314,6 +314,50 @@ class Synch
 		}
 	}
 
+	public function synch_nhrl_covid()
+	{
+		$client = new Client(['base_uri' => 'https://cmms.nphl.go.ke/covid/']);
+		$samples = CovidSampleView::where(['lab_id' => 7])->whereNull('receivedstatus')->get();
+
+		$testing_reasons = DB::table('covid.covid_test_types')->get();
+		$covid_sample_types = DB::table('covid.covid_sample_types')->get();
+
+		foreach ($samples as $key => $sample) {
+
+			$response = $client->request('post', 'ws/rest/v1/shr/labresults', [
+				// 'debug' => true,
+				// 'auth' => [env('CIF_USERNAME'), env('CIF_PASSWORD')],
+				'http_errors' => false,
+				'verify' => false,
+				'headers' => [
+					'Accept' => 'application/json',
+				],
+				'json' => [
+					'SOURCE_ID' => '',
+					'SOURCE_KEY' => '',
+					'SAMPLE_ID' => $sample->id,
+					'PATIENT_ID' => $sample->patient_id,
+					'DATE_COLLECTED' => $sample->datecollected,
+					'COUNTY' => $sample->county,
+					'SUB_COUNTY' => $sample->subcounty,
+					'PATIENT_NAMES' => $sample->patient_name,
+					'GENDER' => $sample->gender,
+					'AGE' => $sample->age,
+					'AGE_UNIT' => '',
+					'SUBMITTED_BY' => $sample->quarantine_site,
+					'TESTING_REASON' => $sample->get_prop_name($testing_reasons, 'test_type'),
+					'SAMPLE_TYPE' => $sample->get_prop_name($covid_sample_types, 'sample_type'),
+					'TEMPERATURE' => $sample->temperature,
+					'SYMPTOMS' => $sample->symptoms,
+					'TRAVEL_FROM' => ''
+				],
+			]);
+			$body = $response->getBody();
+			dd($body);
+		}
+
+	}
+
 	private static function send_update($model, $lab, $site_entry=false)
 	{
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
