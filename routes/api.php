@@ -99,6 +99,7 @@ $api->version('v1', function (Router $api) {
             $api->group(['prefix' => 'update'], function(Router $api) {
 
                 $api->post('covid_samples', 'CovidSampleController@update_samples');
+                $api->post('covid_patients', 'CovidSampleController@update_patients');
 
                 $api->post('worksheets', 'EidController@update_worksheets');
                 $api->post('mothers', 'EidController@update_mothers');
