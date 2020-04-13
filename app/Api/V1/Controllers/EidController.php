@@ -180,7 +180,6 @@ class EidController extends Controller
             $batch->original_batch_id = $value->id;            
             $temp = $value;
             unset($temp->sample);
-            unset($temp->id);            
             $batch->fill(get_object_vars($temp));
             unset($batch->national_batch_id);
             unset($batch->tat5);
@@ -218,7 +217,7 @@ class EidController extends Controller
                 if(!$sample) $sample = new Sample;
                 
                 $sample->fill(get_object_vars($value2));
-                $sample->original_sample_id = $sample->id;
+                $sample->original_sample_id = $value2->id;
                 $sample->patient_id = $value2->patient->national_patient_id;
 
                 if(!$sample->patient_id){
@@ -227,7 +226,6 @@ class EidController extends Controller
                         'sample' => $value2,
                     ], 400);
                 }
-                unset($sample->id);
                 unset($sample->patient);
                 unset($sample->national_sample_id);
                 unset($sample->sample_received_by);
@@ -278,8 +276,7 @@ class EidController extends Controller
             $worksheet = Worksheet::where(['original_worksheet_id' => $value->id, 'lab_id' => $value->lab_id])->first();
             if(!$worksheet) $worksheet = new Worksheet;
             $worksheet->fill(get_object_vars($value));
-            $worksheet->original_worksheet_id = $worksheet->id;
-            unset($worksheet->id);
+            $worksheet->original_worksheet_id = $value->id;
             unset($worksheet->national_worksheet_id);
             $worksheet->save();
             $worksheets_array[] = ['original_id' => $worksheet->original_worksheet_id, 'national_worksheet_id' => $worksheet->id ];
