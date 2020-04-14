@@ -85,11 +85,11 @@ $api->version('v1', function (Router $api) {
 
                 $api->post('patients', 'EidController@patients');
                 $api->post('batches', 'EidController@batches');
-                // $api->post('worksheets', 'EidController@worksheets');
+                $api->post('worksheets', 'EidController@worksheets');
 
                 $api->post('viralpatients', 'VlController@patients');
                 $api->post('viralbatches', 'VlController@batches');
-                // $api->post('viralworksheets', 'VlController@worksheets');
+                $api->post('viralworksheets', 'VlController@worksheets');
 
                 $api->post('allocations', 'AllocationsController@create');
                 $api->post('deliveries', 'DeliveriesController@create');
