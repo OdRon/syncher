@@ -1948,5 +1948,43 @@ class Random
         	]);
         	$s->save();
 		}
+    }  
+
+
+
+    public static function kemri_cdc_data()
+    {
+		$file = public_path('kemri_cdc.csv');
+        $handle = fopen($file, "r");
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+        {
+        	if($data[0] == 'No.') continue;
+        	$name = $data[6];
+
+        	$p = CovidPatient::where('patient_name', $name)->first();
+        	if(!$p) $p = new CovidPatient;
+        	
+        	$p->fill([
+        		'patient_name' => $name,
+        		'identifier' => $data[3],
+        		'sex' => $data[10],
+        		'quarantine_site_id' => $data[8],
+        	]);
+        	$p->save();
+
+        	$s = new CovidSample;
+        	$s->fill([
+        		'lab_id' => 16,
+        		'test_type' => $data[5],
+        		'datecollected' => date('Y-m-d', strtotime($data[19])),
+        		'datereceived' => date('Y-m-d', strtotime($data[19])),
+        		'datetested' => date('Y-m-d', strtotime($data[20])),
+        		'datedispatched' => date('Y-m-d', strtotime($data[20])),
+        		'age' => $data[9],
+        		'result' => $data[21],
+        		'patient_id' => $p->id
+        	]);
+        	$s->save();
+		}
     }    
 }
