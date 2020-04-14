@@ -59,6 +59,17 @@ class CovidSample extends BaseModel
             $value = strtolower($value);
             if(str_contains($value, ['neg'])) $this->attributes['result'] = 1;
             else if(str_contains($value, ['pos'])) $this->attributes['result'] = 2;
+            else if(str_contains($value, ['fail'])) $this->attributes['result'] = 5;
+        }
+    }
+
+    public function setReceivedstatusAttribute($value)
+    {
+        if(is_numeric($value)) $this->attributes['receivedstatus'] = $value;
+        else{
+            $value = strtolower($value);
+            if(str_contains($value, ['rej'])) $this->attributes['receivedstatus'] = 2;
+            else if(str_contains($value, ['acc'])) $this->attributes['receivedstatus'] = 1;
         }
     }
 

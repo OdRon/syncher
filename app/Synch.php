@@ -324,17 +324,15 @@ class Synch
 
 		foreach ($samples as $key => $sample) {
 
-			$response = $client->request('post', 'ws/rest/v1/shr/labresults', [
-				// 'debug' => true,
-				// 'auth' => [env('CIF_USERNAME'), env('CIF_PASSWORD')],
+			$response = $client->request('post', '', [
 				'http_errors' => false,
 				'verify' => false,
 				'headers' => [
 					'Accept' => 'application/json',
 				],
 				'json' => [
-					'SOURCE_ID' => '',
-					'SOURCE_KEY' => '',
+					'SOURCE_ID' => env('NHRL_SOURCE_ID'),
+					'SOURCE_KEY' => env('NHRL_SOURCE_KEY'),
 					'SAMPLE_ID' => $sample->id,
 					'PATIENT_ID' => $sample->patient_id,
 					'DATE_COLLECTED' => $sample->datecollected,

@@ -52,6 +52,7 @@ $api->version('v1', function (Router $api) {
 
         $api->group(['prefix' => 'covid'], function(Router $api) {
             $api->post('save_multiple', 'CovidController@save_multiple');
+            $api->post('results/{id}', 'CovidController@results');
         });
         
         $api->resource('covid', 'CovidController');

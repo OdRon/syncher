@@ -248,5 +248,26 @@ class CovidController extends Controller
         ], 201);
     }
 
+
+    public function results(BlankRequest $request, $id)
+    {
+        $apikey = $request->headers->get('apikey');
+        $actual_key = env('COVID_NHRL_KEY');
+        if($actual_key != $apikey) abort(401);
+
+        $covidSample = CovidSample::findOrFail($id);
+        if($covidSample->lab_id != 7) abort(403);
+
+        $covidSample->result = $request->input('result');
+        $covidSample->receivedstatus = $request->input('received_status');
+        $covidSample->datetested = $request->input('date_tested');
+        $covidSample->save();
+
+        return response()->json([
+          'status' => 'ok',
+        ], 200);
+
+    }
+
 }
 
