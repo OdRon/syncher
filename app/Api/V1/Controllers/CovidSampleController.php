@@ -171,9 +171,9 @@ class CovidSampleController extends Controller
             $update_data = get_object_vars($value);
 
             if($input == 'samples'){
-                // $original_patient = $value->patient;
-                // $update_data['patient_id'] = $original_patient->national_patient_id;
-                // unset($update_data['patient']);
+                $original_patient = $value->patient;
+                $update_data['patient_id'] = $original_patient->national_patient_id;
+                unset($update_data['patient']);
             }
 
             $updating_model->fill($update_data);
