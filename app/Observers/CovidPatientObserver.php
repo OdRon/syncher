@@ -8,6 +8,7 @@ use DB;
 
 class CovidPatientObserver
 {
+    
     /**
      * Handle the covid patient "created" event.
      *
