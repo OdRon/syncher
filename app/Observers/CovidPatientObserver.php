@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\CovidPatient;
-use App\Facility;
+use App\ViewFacility;
 use DB;
 
 class CovidPatientObserver
