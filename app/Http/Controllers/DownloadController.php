@@ -9,6 +9,11 @@ class DownloadController extends Controller
 {
 	
 
+    public function covid(){
+        $path = public_path('downloads/COVID-19_LRF_RB.pdf');
+        return response()->download($path, 'Covid-19 LRF.pdf');
+    }
+
 	public function user_guide(){
     	$path = public_path('downloads/PartnerLoginUserGuide.pdf');
     	return response()->download($path);
