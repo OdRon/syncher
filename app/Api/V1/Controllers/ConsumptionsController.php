@@ -155,12 +155,36 @@ class ConsumptionsController extends Controller
 
 	public function getCovidConsumptions(Request $request)
 	{
-		return response()->json([
-						'consumptions' => CovidConsumption::with(['details.kit'])
+		$consumptions = CovidConsumption::with(['lab', 'details.kit'])
 												->when($request, function ($query) use ($request){
 													if ($request->has('start_of_week'))
 														return $query->whereDate('start_of_week', $request->input('start_of_week'));
-												})->get()
+												})->get();
+		$data = [];													
+		foreach ($consumptions as $key => $consumption) {
+			$data[$key] = [
+					'lab' => $consumption->lab->labdesc,
+					'start_of_week' => $consumption->start_of_week,
+					'end_of_week' => $consumption->end_of_week,
+					'week' => $consumption->week
+				];
+			foreach ($consumption->details as $key => $detail) {
+				$data[$key]['details'][] = [
+								'material_no' => $detail->kit->material_no,
+								'product_description' => $detail->kit->product_description,
+								'begining_balance' => $detail->begining_balance,
+								'received' => $detail->received,
+								'used' => $detail->kits_used,
+								'positive' => $detail->positive,
+								'negative' => $detail->negative,
+								'wastage' => $detail->wastage,
+								'ending' => $detail->ending,
+								'requested' => $detail->requested,
+							];
+			}
+		}
+		return response()->json([
+						'consumptions' => $data
 					], 200);
 	}
 
