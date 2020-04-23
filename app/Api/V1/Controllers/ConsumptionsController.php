@@ -5,6 +5,7 @@ namespace App\Api\V1\Controllers;
 use App\Http\Controllers\Controller;
 use App\Api\V1\Requests\BlankRequest;
 use App\Api\V1\Requests\CommodityRequest;
+use App\Api\V1\Requests\CovidConsumptionRequest;
 
 use App\Consumption;
 use App\ConsumptionDetail;
@@ -153,7 +154,7 @@ class ConsumptionsController extends Controller
 		return response()->json($consumptions_array);
 	}
 
-	public function getCovidConsumptions(Request $request)
+	public function getCovidConsumptions(CovidConsumptionRequest $request)
 	{
 		$consumptions = CovidConsumption::with(['lab', 'details.kit'])
 												->when($request, function ($query) use ($request){
