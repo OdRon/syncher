@@ -145,7 +145,8 @@ class ConsumptionsController extends Controller
 				DB::rollback();
 				return response()->json([
 						'error' => true,
-						'message' => $e
+						'message' => 'Insert failed',
+						'code' => 500
 					], 500);
 			}
 		}
