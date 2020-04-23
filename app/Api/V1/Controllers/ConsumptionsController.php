@@ -120,7 +120,7 @@ class ConsumptionsController extends Controller
 				$db_consumption = new CovidConsumption;
 				$consumptions_data = get_object_vars($consumption);
 				$db_consumption->fill($consumptions_data);
-				$db_consumption->original_id = $db_consumption->id;
+				$db_consumption->original_id = $consumption->id;
 				$db_consumption->synced = 1;
 				$db_consumption->datesynced = date('Y-m-d');
 				unset($db_consumption->id);
