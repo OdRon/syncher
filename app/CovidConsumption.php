@@ -15,4 +15,9 @@ class CovidConsumption extends BaseModel
     {
         return $query->where(['start_of_week' => $start_of_week]);
     }
+
+    public function lab()
+    {
+    	return $this->belongsTo(Lab::class, 'lab_id', 'id');
+    }
 }
