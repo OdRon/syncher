@@ -107,7 +107,7 @@ class ConsumptionsController extends Controller
 		$consumptions = json_decode($request->input('consumptions'));
 		$consumptions_array = [];
 		foreach ($consumptions as $key => $consumption) {
-			// $existing = CovidConsumption::existing($consumption->start_of_week)->first();
+			$existing = CovidConsumption::existing($consumption->start_of_week)->first();
 			// if ($existing){
 			// 	$consumptions_array[] = ['original_id' => $consumption->id, 'national_id' => $existing->id ];
 			// 	continue;
