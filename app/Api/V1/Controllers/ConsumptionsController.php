@@ -125,6 +125,7 @@ class ConsumptionsController extends Controller
 				$db_consumption->datesynced = date('Y-m-d');
 				unset($db_consumption->id);
 				unset($db_consumption->details);
+				return response()->json($db_consumption);
 				$db_consumption->save();
 				$consumptions_array[] = ['original_id' => $db_consumption->original_id, 'national_id' => $db_consumption->id ];
 
