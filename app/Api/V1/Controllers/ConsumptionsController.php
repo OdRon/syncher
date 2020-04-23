@@ -121,7 +121,7 @@ class ConsumptionsController extends Controller
 				$consumptions_data = get_object_vars($consumption);
 				$db_consumption->fill($consumptions_data);
 				$db_consumption->original_id = $db_consumption->id;
-				$db_consumption->sync = 1;
+				$db_consumption->synced = 1;
 				$db_consumption->datesynced = date('Y-m-d');
 				unset($db_consumption->id);
 				unset($db_consumption->details);
@@ -135,7 +135,7 @@ class ConsumptionsController extends Controller
 					$detail_data = get_object_vars($detail);
 					$db_detail->kit_id = $kit->id;
 					$db_detail->original_id = $detail_data->id;
-					$db_detail->sync = 1;
+					$db_detail->synced = 1;
 					$db_detail->datesynced = date('Y-m-d');
 					unset($db_detail->id);
 					$db_detail->save();
