@@ -99,7 +99,7 @@ class ConsumptionsController extends Controller
 		return response()->json($response);
 	}
 
-	public function api_create_covid(BlankRequest $request)
+	public function create_covid(BlankRequest $request)
 	{
 		return response()->json($request->all());
 	}

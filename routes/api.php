@@ -45,7 +45,6 @@ $api->version('v1', function (Router $api) {
         $api->post('recency', 'PullController@recency');
 
         $api->post('consumption', 'ConsumptionsController@api_create');
-        $api->post('covidconsumption', 'ConsumptionsController@api_create');
 
         $api->post('shortcode', 'ShortCodeController@shortcode');
 
@@ -95,7 +94,7 @@ $api->version('v1', function (Router $api) {
                 $api->post('allocations', 'AllocationsController@create');
                 $api->post('deliveries', 'DeliveriesController@create');
                 $api->post('consumptions', 'ConsumptionsController@create');
-
+                $api->post('covidconsumption', 'ConsumptionsController@create_covid');
             });
 
             $api->group(['prefix' => 'update'], function(Router $api) {
