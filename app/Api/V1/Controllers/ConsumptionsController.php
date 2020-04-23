@@ -134,7 +134,7 @@ class ConsumptionsController extends Controller
 					$db_detail = new CovidConsumptionDetail;
 					$detail_data = get_object_vars($detail);
 					$db_detail->kit_id = $kit->id;
-					$db_detail->original_id = $detail_data->id;
+					$db_detail->original_id = $detail->id;
 					$db_detail->synced = 1;
 					$db_detail->datesynced = date('Y-m-d');
 					unset($db_detail->id);
