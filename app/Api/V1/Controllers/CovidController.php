@@ -96,7 +96,7 @@ class CovidController extends Controller
         $p->save();
 
         $s = new CovidSample;
-        $s->fill($request->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', ]));
+        $s->fill($request->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', 'result']));
         $s->patient_id = $p->id;
         $s->cif_sample_id = $request->input('specimen_id');
         $s->save();
@@ -136,24 +136,13 @@ class CovidController extends Controller
         ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Facility  $facility
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(BlankRequest $request, $id)
     {
         
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Facility  $facility
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Facility $facility)
     {
         //
@@ -249,6 +238,8 @@ class CovidController extends Controller
     }
 
 
+
+
     public function results(BlankRequest $request, $id)
     {
         $apikey = $request->headers->get('apikey');
@@ -267,6 +258,75 @@ class CovidController extends Controller
           'status' => 'ok',
         ], 200);
 
+    }
+
+    
+    /**
+     * Post complete results.
+     *
+     * @Post("/nhrl")
+     * @Request({
+     *      "case_id": "int, case number", 
+     *      "identifier_type": "int, identifier type", 
+     *      "identifier": "string, actual identifier, National ID... ", 
+     *      "patient_name": "string", 
+     *      "justification": "int, reason for the test, refer to ref tables", 
+     *      "facility": "string, MFL Code or DHIS Code of the facility if any", 
+     *      "county": "string", 
+     *      "subcounty": "string", 
+     *      "ward": "string", 
+     *      "residence": "string", 
+     *      "sex": "string, M for male, F for female", 
+     *      "health_status": "int, health status", 
+     *      "residence": "string", 
+     *      "date_symptoms": "date", 
+     *      "date_admission": "date", 
+     *      "date_isolation": "date", 
+     *      "date_death": "date", 
+     *      
+     *      "lab_id": "int, refer to ref tables, 7 NHRL, 11 NIC", 
+     *      "test_type": "int, refer to ref tables", 
+     *      "occupation": "string", 
+     *      "temperature": "int, temp in Celcius", 
+     *      "sample_type": "int, refer to ref tables", 
+     *      "symptoms": "array of integers, refer to ref tables", 
+     *      "observed_signs": "array of integers, refer to ref tables", 
+     *      "underlying_conditions": "array of integers, refer to ref tables", 
+     *      "datecollected": "date",  
+     *      "datereceived": "date",  
+     *      "datetested": "date",  
+     *      "datedispatched": "date",  
+     *      "receivedstatus": "int, refer to ref tables", 
+     *      "result": "int, refer to ref tables",
+     * }, headers={ "apikey": "secret key" })
+     * @Response(201)
+     */
+    public function nhrl(BlankRequest $request)
+    {
+        $apikey = $request->headers->get('apikey');
+        $actual_key = env('COVID_NHRL_KEY');
+        if($actual_key != $apikey) abort(401);
+
+        $lab_id = $request->input('lab_id');
+        if(!in_array($lab_id, [7,11])) abort(400);
+
+        $p = new CovidPatient;
+        $p->fill($request->only(['case_id', 'nationality', 'identifier_type_id', 'identifier', 'patient_name', 'justification', 'county', 'subcounty', 'ward', 'residence', 'dob', 'sex', 'occupation', 'health_status', 'date_symptoms', 'date_admission', 'date_isolation', 'date_death']));
+        $p->nhrl_patient_id = $request->input('patient_id');
+        $p->facility_id = Facility::locate($request->input('facility'))->first()->id ?? null;
+        $p->save();
+
+        $s = new CovidSample;
+        $s->fill($request->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', 'datecollected', 'datereceived', 'datetested', 'datedispatched', 'receivedstatus', 'result']));
+        $s->patient_id = $p->id;
+        $s->nhrl_sample_id = $request->input('specimen_id');
+        $s->save();
+
+        return response()->json([
+          'status' => 'ok',
+          'patient' => $p,
+          'sample' => $s,
+        ], 201);
     }
 
 }
