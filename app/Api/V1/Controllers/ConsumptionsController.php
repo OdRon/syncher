@@ -113,9 +113,9 @@ class ConsumptionsController extends Controller
 				continue;
 			}
 
-			DB::beginTransaction();
-			try
-			{
+			// DB::beginTransaction();
+			// try
+			// {
 				// Inserting the covid consumptions
 				$db_consumption = new CovidConsumption;
 				$consumptions_data = get_object_vars($consumption);
@@ -139,16 +139,16 @@ class ConsumptionsController extends Controller
 					unset($db_detail->id);
 					$db_detail->save();
 				}
-				DB::commit();				
+				// DB::commit();				
 				$consumptions_array[] = ['original_id' => $db_consumption->original_id, 'national_id' => $db_consumption->id ];
-			} catch (\Exception $e) {
-				DB::rollback();
-				return response()->json([
-						'error' => true,
-						'message' => 'Insert failed',
-						'code' => 500
-					], 500);
-			}
+			// } catch (\Exception $e) {
+			// 	DB::rollback();
+			// 	return response()->json([
+			// 			'error' => true,
+			// 			'message' => 'Insert failed',
+			// 			'code' => 500
+			// 		], 500);
+			// }
 		}
 		return response()->json($consumptions_array);
 	}
