@@ -10,14 +10,26 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Auth;
 
+/**
+ * @Resource("Login")
+ */
 class LoginController extends Controller
 {
     /**
-     * Log the user in
+     * Login as a user.
      *
-     * @param LoginRequest $request
-     * @param JWTAuth $JWTAuth
-     * @return \Illuminate\Http\JsonResponse
+     * Middleware Guest
+     *
+     * Use the token to authorise your other requests
+     *
+     * Pass the token in a header
+     *
+     * Authorization: bearer {token}
+     *
+     * @Post("/auth/login")
+     * @Request({"email": "email", "password": "string"})
+     * @Response(200, body={"status": "ok", "token": "token", "expires_in": "ttl in minutes"})
+     *
      */
     public function login(LoginRequest $request, JWTAuth $JWTAuth)
     {
@@ -34,6 +46,9 @@ class LoginController extends Controller
         } catch (JWTException $e) {
             throw new HttpException(500);
         }
+
+        $u = \App\User::where('email', $request->input('email'))->first();
+        if(!in_array($u->user_type_id, [10, 100])) throw new AccessDeniedHttpException();
 
         return response()
             ->json([

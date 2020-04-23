@@ -61,6 +61,9 @@
                     <hr />
                     <li><a href="{{ url('lab/consumption') }}">Consumption Reports List</a></li>
                     <hr />
+                @elseif(in_array(Auth::user()->user_type_id, [16]))
+                    <li><a href="{{ url('reports/VL') }}">VL Results/Reports</a></li>
+                    <hr />
                 @else
                     <li><a href="{{ url('reports/EID') }}">EID Results/Reports</a></li>
                     <hr />
@@ -68,7 +71,7 @@
                     <hr />
                 @endif
             @endif
-            @if(!in_array(Auth::user()->user_type_id, [2, 6, 7, 14, 15]))
+            @if(!in_array(Auth::user()->user_type_id, [2, 6, 7, 14, 15, 16]))
                 <li><a href="{{ url('hei/validate') }}">HEI Patient Follow Up</a></li>
                 <hr />
                 <li><a href="{{ url('#') }}">HEI Validation Guide</a></li>
@@ -85,7 +88,7 @@
                     <li><a href="#">User Guide</a></li>
                     <hr />
                 @endif
-                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 8 || Auth::user()->user_type_id == 10)
+                @if(in_array(Auth::user()->user_type_id, [3,8,10]))
                     <li>
                         <a href="http://lab-2.test.nascop.org/download/eid_req">EID Requisition Form</a>
                     </li>
@@ -104,7 +107,7 @@
                     <a href="{{ url('email') }}">View Emails</a>
                 </li>                
             @endif 
-            @if(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7)
+            @if(in_array(Auth::user()->user_type_id, [2,6,7]))
                 <li><a href="https://eid.nascop.org">EID Summaries</a></li>
                 <hr />
                 <li><a href="https://viralload.nascop.org">VL Summaries</a></li>
@@ -115,9 +118,9 @@
                 <li><a href="{{ url('user/passwordReset') }}">Change Password</a></li>
                 <hr />
             @endif
-            @if(!in_array(Auth::user()->user_type_id, [6, 7, 2, 14, 15]))
+            @if(!in_array(Auth::user()->user_type_id, [6, 7, 2, 14, 15,16]))
                 @if(Auth::user()->user_type_id != 8)
-                <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
+                    <li><a href="#"><select class="form-control" id="sidebar_facility_search"></select></a></li>
                 @endif
                 <li><a href="#"><select class="form-control" id="sidebar_batch_search"></select></a></li>
                 <li><a href="#"><select class="form-control" id="sidebar_patient_search"></select></a></li>

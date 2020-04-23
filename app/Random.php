@@ -1829,4 +1829,162 @@ class Random
 		echo "==> Mailing excel";
 		Mail::to(['bakasajoshua09@gmail.com', 'joshua.bakasa@dataposit.co.ke'])->send(new TestMail($data));
     }
+
+    public static function linelist2()
+    {
+		$file = public_path('nic-data.csv');
+        $handle = fopen($file, "r");
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+        {
+        	if($data[0] == 'LOGIN_DATE') continue;
+
+        	$res = $data[8];
+        	$result = 1;
+        	if($res == 'POS') $result = 2;
+        	$p = null;
+
+        	if($data[5] > 1) $p = CovidPatient::where('patient_name', $data[4])->first();
+        	if(!$p) $p = new CovidPatient;
+        	
+        	$p->fill([
+        		'identifier' => $data[2],
+        		'sex' => $data[7],
+        		'county' => $data[3],
+        		'patient_name' => $data[4],
+        	]);
+
+        	if($data[5] > 1 && $result == 1) $p->date_recovered = date('Y-m-d', strtotime($data[1]));
+        	$p->save();
+
+        	$s = new CovidSample;
+        	$s->fill([
+        		'lab_id' => 11,
+        		'temperature' => $data[13],
+        		'datecollected' => date('Y-m-d', strtotime($data[14])),
+        		'datereceived' => date('Y-m-d', strtotime($data[15])),
+        		'datetested' => date('Y-m-d', strtotime($data[1])),
+        		'datedispatched' => date('Y-m-d', strtotime($data[1])),
+        		'test_type' => $data[5],
+        		'age' => $data[6],
+        		'result' => $result,
+        		'patient_id' => $p->id
+        	]);
+        	$s->save();
+		}
+    }  
+
+    public static function linelist3()
+    {
+		$file = public_path('nic.csv');
+        $handle = fopen($file, "r");
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+        {
+        	if($data[1] == 'LOGIN_DATE') continue;
+
+        	$p = CovidPatient::where('patient_name', $data[5])->first();
+        	if(!$p) $p = new CovidPatient;
+        	
+        	$p->fill([
+        		'identifier' => $data[3],
+        		'sex' => $data[9],
+        		'county' => $data[4],
+        		'patient_name' => $data[5],
+        	]);
+        	$p->save();
+
+        	$s = new CovidSample;
+        	$s->fill([
+        		'lab_id' => 11,
+        		'temperature' => $data[15],
+        		'datecollected' => date('Y-m-d', strtotime($data[7])),
+        		'datereceived' => date('Y-m-d', strtotime($data[17])),
+        		'datetested' => date('Y-m-d', strtotime($data[2])),
+        		'datedispatched' => date('Y-m-d', strtotime($data[2])),
+        		'test_type' => $data[6],
+        		'age' => $data[8],
+        		'result' => $data[10],
+        		'patient_id' => $p->id
+        	]);
+        	$s->save();
+		}
+    }  
+
+    public static function kemri_data()
+    {
+		$file = public_path('kemri.csv');
+        $handle = fopen($file, "r");
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+        {
+        	if($data[0] == 'No.') continue;
+        	$name = $data[1];
+        	$test_type = 1;
+        	if(str_contains($name, ['-Repeat'])){
+        		$test_type++;
+        		$name = str_replace('-Repeat', '', $name);
+        	}
+
+        	$p = CovidPatient::where('patient_name', $name)->first();
+        	if(!$p) $p = new CovidPatient;
+        	
+        	$p->fill([
+        		'patient_name' => $name,
+        		'identifier' => $data[12] ?? $data[2],
+        		'sex' => $data[4],
+        		'quarantine_site_id' => $data[5],
+        	]);
+        	$p->save();
+
+        	$s = new CovidSample;
+        	$s->fill([
+        		'lab_id' => 15,
+        		'test_type' => $test_type,
+        		'datecollected' => date('Y-m-d', strtotime($data[7])),
+        		'datereceived' => date('Y-m-d', strtotime($data[7])),
+        		'datetested' => date('Y-m-d', strtotime($data[8])),
+        		'datedispatched' => date('Y-m-d', strtotime($data[8])),
+        		'age' => $data[3],
+        		'result' => $data[9],
+        		'patient_id' => $p->id
+        	]);
+        	$s->save();
+		}
+    }  
+
+
+
+    public static function kemri_cdc_data()
+    {
+		$file = public_path('kemri_cdc.csv');
+        $handle = fopen($file, "r");
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+        {
+        	if($data[0] == 'No.') continue;
+        	$name = $data[6];
+
+        	$p = CovidPatient::where('patient_name', $name)->first();
+        	if(!$p) $p = new CovidPatient;
+        	
+        	$p->fill([
+        		'patient_name' => $name,
+        		'identifier' => $data[3],
+        		'sex' => $data[10],
+        		'quarantine_site_id' => $data[8],
+        	]);
+        	$p->save();
+
+        	$s = new CovidSample;
+        	$s->fill([
+        		'lab_id' => 16,
+        		'test_type' => $data[5],
+        		'datecollected' => date('Y-m-d', strtotime($data[19])),
+        		'datereceived' => date('Y-m-d', strtotime($data[19])),
+        		'datetested' => date('Y-m-d', strtotime($data[20])),
+        		'datedispatched' => date('Y-m-d', strtotime($data[20])),
+        		'age' => $data[9],
+        		'result' => $data[21],
+        		'patient_id' => $p->id
+        	]);
+        	$s->save();
+		}
+    }    
 }

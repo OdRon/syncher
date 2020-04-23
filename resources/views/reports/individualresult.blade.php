@@ -111,6 +111,13 @@
 					</span>
 				</td>
 			</tr>
+			@if($sample->recency_number)
+				<tr>
+					<td colspan="9" class="style4 style1 comment">
+						<strong>Recency Number:</strong> &nbsp; {{ $sample->recency_number  }}
+					</td>					
+				</tr>
+			@endif
 			<tr>
 				<td colspan="2" class="style4 style1 comment"><strong> 
 					DOB & Age @if($testingSys == 'EID') (Months) @elseif($testingSys == 'VL') (Years) @endif

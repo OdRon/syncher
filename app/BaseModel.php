@@ -14,7 +14,7 @@ class BaseModel extends Model
     // protected $keepRevisionOf = [];
     protected $dontKeepRevisionOf = ['synched', 'datesynched', 'created_at', 'updated_at'];
     
-    protected $guarded = [];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'national_sample_id', 'national_patient_id', 'national_batch_id'];
 
 
 
@@ -59,5 +59,15 @@ class BaseModel extends Model
         }else{
             $this->delete();
         }        
+    }
+    
+
+    public function get_prop_name($coll, $attr, $attr2='name')
+    {
+        if(!$this->$attr) return '';
+        foreach ($coll as $value) {
+            if($value->id == $this->$attr) return $value->$attr2;
+        }
+        return '';
     }
 }

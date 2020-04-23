@@ -4,6 +4,7 @@ namespace App\Api\V1\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Api\V1\Requests\PullRequest;
+use App\Api\V1\Requests\BlankRequest;
 
 use DB;
 use \App\Partner;
@@ -155,6 +156,63 @@ class PullController extends Controller
         $result = DB::table('view_facilitys')->selectRaw(" county, subcounty, partner, view_facilitys.name AS `facility`, facilitycode AS `facility_code`")->where(['partner_id' => $p->id])->get();
 
         return $result;
+    }
+
+
+    public function recency(BlankRequest $request)
+    {
+        if($request->headers->get('apikey') != env('RECENCY_KEY')) throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Unauthorized');
+
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $date_dispatched_start = $request->input('date_dispatched_start');
+        $date_dispatched_end = $request->input('date_dispatched_end');
+        $recency_number = $request->input('recency_number');
+        $facilities = $request->input('facility_code');
+        $ids = $request->input('ids'); 
+
+        $class = ViralsampleCompleteView::class;
+        $table = 'viralsample_complete_view';
+
+        if($recency_number){
+            $recency_number = str_replace(' ', '', $recency_number);
+            $recency_number = explode(',', $recency_number);
+        }
+        if($ids){
+            $ids = str_replace(' ', '', $ids);
+            $ids = explode(',', $ids);
+        }
+        if($facilities){
+            $facilities = str_replace(' ', '', $facilities);
+            $facilities = explode(',', $facilities);
+        }
+
+        $sql = "{$table}.id AS `system_id`, original_batch_id AS `batch`, patient AS `ccc_number`, labs.name AS `lab_tested_in`, county, subcounty, partner, view_facilitys.name AS `facility`, facilitycode AS `facility_code`, gender_description AS `gender`, dob, age, sampletype_name as `sample_type`, datecollected as `date_collected`, justification_name as `justification`, datereceived as `date_received`, datetested as `date_tested`, datedispatched as `date_dispatched`, initiation_date as `art_initiation_date`, receivedstatus_name AS `received_status`, rejected_name as `rejected_reason`, prophylaxis_name as `regimen`, regimenline as `regimen_line`, pmtct_name as `pmtct`, result, recency_number   ";
+ 
+        $result = $class::selectRaw($sql)
+            ->join('view_facilitys', 'view_facilitys.id', '=', "{$table}.facility_id")
+            ->join('labs', 'labs.id', '=', "{$table}.lab_id")
+            ->when($facilities, function($query) use($facilities){
+                return $query->whereIn('facilitycode', $facilities);
+            })
+            ->when($recency_number, function($query) use($recency_number){
+                return $query->whereIn('patient', $recency_number);
+            })
+            ->when($ids, function($query) use($ids){
+                return $query->whereIn('original_sample_id', $ids);
+            })
+            ->when(($start_date && $end_date), function($query) use($start_date, $end_date){
+                return $query->whereBetween('datecollected', [$start_date, $end_date]);
+            })
+            ->when(($date_dispatched_start && $date_dispatched_end), function($query) use($date_dispatched_start, $date_dispatched_end){
+                return $query->whereBetween('datedispatched', [$date_dispatched_start, $date_dispatched_end]);
+            })
+            ->where(['repeatt' => 0, 'justification' => 12])          
+            ->orderBy('datecollected', 'desc')
+            ->paginate(50);
+
+        return $result;
+        
     }
 
 }

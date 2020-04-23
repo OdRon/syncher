@@ -239,6 +239,123 @@ class Synch
 		}
 	}
 
+	public static function synch_covid()
+	{
+		$labs = Lab::all();
+		$samples = CovidSample::where(['synched' => 0])->whereNull('original_sample_id')->whereNull('receivedstatus')->with(['patient'])->get();
+		foreach ($samples as $key => $sample) {
+			$lab = $labs->where('id', $sample->lab_id)->first();
+			if(!$lab || in_array($lab->id, [7,10]) || !$lab->base_url) continue;
+			// $lab = $labs->where('id', 1)->first();
+
+			$client = new Client(['base_uri' => $lab->base_url]);
+			// dd(self::get_token($lab));
+			$response = $client->request('post', 'covid_sample', [
+				'http_errors' => false,
+				'verify' => false,
+				'headers' => [
+					'Accept' => 'application/json',
+					'Authorization' => 'Bearer ' . self::get_token($lab),
+				],
+				'json' => [
+					'sample' => $sample->toJson(),
+				],
+			]);
+
+			$body = json_decode($response->getBody());
+			if($response->getStatusCode() < 400){
+				$sample->patient->original_patient_id = $body->patient->id;
+				$sample->patient->save();
+
+				$sample->original_sample_id = $body->sample->id;
+				$sample->save();
+			}else{
+				dd($body);
+			}
+		}
+	}
+
+	public static function synch_cif()
+	{
+		$client = new Client(['base_uri' => 'https://eoc.nascop.org:8084/openmrs/']);
+
+		while (true) {
+			$samples = CovidSample::where('synched', '!=', 1)->where('repeatt', 0)->whereNotNull('cif_sample_id')->whereNotNull('receivedstatus')->with(['patient'])->limit(20)->get();
+			$data = [];
+			if(!$samples->count()) break;
+
+			foreach ($samples as $key => $sample) {
+				$data[] = [
+					'patient_id' => (int) $sample->patient->cif_patient_id,
+					'specimen_id' => (int) $sample->cif_sample_id,
+					'result' => (int) $sample->result,
+					'receivedstatus' => (int) $sample->receivedstatus,
+					'rejectedreason' => '',
+				];
+			}
+
+			$response = $client->request('post', 'ws/rest/v1/shr/labresults', [
+				// 'debug' => true,
+				'auth' => [env('CIF_USERNAME'), env('CIF_PASSWORD')],
+				'http_errors' => false,
+				'verify' => false,
+				'headers' => [
+					'Accept' => 'application/json',
+				],
+				'json' => $data,
+			]);
+
+			if($response->getStatusCode() < 400){
+				$ids = $samples->pluck('id')->flatten()->toArray();
+				CovidSample::whereIn('id', $ids)->update(['synched' => 1, 'datesynched' => date('Y-m-d')]);
+			}else{
+				break;
+			}
+		}
+	}
+
+	public function synch_nhrl_covid()
+	{
+		$client = new Client(['base_uri' => 'https://cmms.nphl.go.ke/covid/']);
+		$samples = CovidSampleView::where(['lab_id' => 7])->whereNull('receivedstatus')->get();
+
+		$testing_reasons = DB::table('covid.covid_test_types')->get();
+		$covid_sample_types = DB::table('covid.covid_sample_types')->get();
+
+		foreach ($samples as $key => $sample) {
+
+			$response = $client->request('post', '', [
+				'http_errors' => false,
+				'verify' => false,
+				'headers' => [
+					'Accept' => 'application/json',
+				],
+				'json' => [
+					'SOURCE_ID' => env('NHRL_SOURCE_ID'),
+					'SOURCE_KEY' => env('NHRL_SOURCE_KEY'),
+					'SAMPLE_ID' => $sample->id,
+					'PATIENT_ID' => $sample->patient_id,
+					'DATE_COLLECTED' => $sample->datecollected,
+					'COUNTY' => $sample->county,
+					'SUB_COUNTY' => $sample->subcounty,
+					'PATIENT_NAMES' => $sample->patient_name,
+					'GENDER' => $sample->gender,
+					'AGE' => $sample->age,
+					'AGE_UNIT' => '',
+					'SUBMITTED_BY' => $sample->quarantine_site,
+					'TESTING_REASON' => $sample->get_prop_name($testing_reasons, 'test_type'),
+					'SAMPLE_TYPE' => $sample->get_prop_name($covid_sample_types, 'sample_type'),
+					'TEMPERATURE' => $sample->temperature,
+					'SYMPTOMS' => $sample->symptoms,
+					'TRAVEL_FROM' => ''
+				],
+			]);
+			$body = $response->getBody();
+			dd($body);
+		}
+
+	}
+
 	private static function send_update($model, $lab, $site_entry=false)
 	{
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];

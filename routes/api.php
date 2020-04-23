@@ -42,6 +42,8 @@ $api->version('v1', function (Router $api) {
         $api->get('pull/facilities', 'PullController@facilities');
         $api->post('pull/vl', 'PullController@vl');
 
+        $api->post('recency', 'PullController@recency');
+
         $api->post('consumption', 'ConsumptionsController@api_create');
         $api->post('covidconsumption', 'ConsumptionsController@api_create');
 
@@ -49,10 +51,21 @@ $api->version('v1', function (Router $api) {
 
         $api->get('resources', 'RandomController@resources');
 
+        $api->group(['prefix' => 'covid'], function(Router $api) {
+            $api->post('save_multiple', 'CovidController@save_multiple');
+            $api->post('results/{id}', 'CovidController@results');
+        });
+        
+        $api->resource('covid', 'CovidController');
+
         $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
 
             $api->resource('facility', 'FacilityController');
             $api->post('lablogs', 'LablogController@lablogs');
+
+
+            $api->resource('covid_sample', 'CovidSampleController');
+
 
             // Route group that matches records between national and lab
             $api->group(['prefix' => 'synch'], function(Router $api) {
@@ -87,6 +100,9 @@ $api->version('v1', function (Router $api) {
 
             $api->group(['prefix' => 'update'], function(Router $api) {
 
+                $api->post('covid_samples', 'CovidSampleController@update_samples');
+                $api->post('covid_patients', 'CovidSampleController@update_patients');
+
                 $api->post('worksheets', 'EidController@update_worksheets');
                 $api->post('mothers', 'EidController@update_mothers');
                 $api->post('patients', 'EidController@update_patients');
@@ -119,8 +135,6 @@ $api->version('v1', function (Router $api) {
             $api->post('transfer', 'TransferController@transfer');
 
         });
-
-
 
     });
 });

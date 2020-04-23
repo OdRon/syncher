@@ -39,6 +39,8 @@ class ReportController extends Controller
 
         if ($usertype == 9) 
             $testtype = 'support';
+
+        if($testtype == 'EID' && $usertype == 16) abort(403);
         
         $facilitys = (object)[];
         $countys = (object)[];
@@ -46,7 +48,7 @@ class ReportController extends Controller
         $partners = (object)[];
         $labs = (object)[];
         
-        if ($usertype == 9 || $usertype == 10) 
+        if (in_array($usertype, [9,10,16])) 
             $labs = Lab::get();
 
         if ($usertype != 9) {
@@ -79,12 +81,12 @@ class ReportController extends Controller
                                                 if (!($usertype == 10 || $usertype == 2))
                                                     return $query->where('partner_id', '=', auth()->user()->level);
                                             })->groupBy('county_id')->orderBy('county', 'asc')->get();
-                if ($usertype == 6 || $usertype == 10)
+                if (in_array($usertype, [6,10,16]))
                     $countys = DB::table('countys')->select('id as county_id', 'name as county')->orderBy('name', 'asc')->get();
                 if ($usertype==7 && auth()->user()->level==85)
                     $countys = ViewFacility::where('partner_id5', '=', auth()->user()->level)->groupBy('county_id')->orderBy('county', 'asc')->get();
 
-                if ($usertype == 2 || $usertype == 10)
+                if (in_array($usertype, [2,10,16]))
                     $partners = Partner::orderBy('name', 'desc')->get();
 
                 $subcountys = ViewFacility::when($usertype, function($query) use ($usertype){
@@ -750,6 +752,12 @@ class ReportController extends Controller
                 
                 $title .= "vl TEST OUTCOMES FOR ";
                 $briefTitle .= "vl TEST OUTCOMES ";
+            }else if ($request->indicatortype == 100) {
+                $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Reasons for Repeat', 'Regimen', 'Result', 'Recency Number'];
+                $selectStr .= ", $table.receivedstatus_name as receivedstatus, $table.reason_for_repeat, $table.prophylaxis_name as regimen, $table.result, recency_number";
+                
+                $title .= "vl RECENCY TEST OUTCOMES FOR ";
+                $briefTitle .= "vl RECENCY TEST OUTCOMES ";
             } else if ($request->indicatortype == 5) {
                 $excelColumns = ['System ID', 'Batch','Patient CCC No', 'Lab Tested In', 'County', 'Sub-County', 'Partner', 'Facilty', 'Facility Code', 'Gender', 'DOB', 'Age', 'Sample Type', 'Date Collected', 'Justification', 'Date Received', 'Date Tested', 'Date Dispatched', 'ART Initiation Date', 'Received Status', 'Rejected Reason', 'Lab Comment'];
                 $selectStr .= ", $table.receivedstatus_name as receivedstatus, viralrejectedreasons.name as rejectedreason, $table.labcomment";
@@ -789,12 +797,13 @@ class ReportController extends Controller
             if (!($request->indicatortype == 9)) {
                 $model = $model->where('repeatt', '=', 0);
             }
-            if (($request->indicatortype == 2 || $request->indicatortype == 4 || $request->indicatortype == 5 || $request->indicatortype == 6) && $request->input('category') != 'poc') 
+            if (in_array($request->indicatortype, [2,4,5,6,100]) && $request->input('category') != 'poc') 
                 $model = $model->leftJoin('labs as lab', 'lab.id', '=', "$table.lab_id");
-            else if (($request->indicatortype == 2 || $request->indicatortype == 4 || $request->indicatortype == 5 || $request->indicatortype == 6) && $request->input('category') == 'poc')
+            else if (in_array($request->indicatortype, [2,4,5,6,100]) && $request->input('category') == 'poc')
                 $model = $model->leftJoin('view_facilitys as lab', 'lab.id', '=', "$table.lab_id");
 
-            if ($request->indicatortype == 2 || $request->indicatortype == 5)
+            if($request->indicatortype == 100) $model = $model->where("$table.justification", "=", 12);
+            if (in_array($request->indicatortype, [2,5]))
                 $model = $model->leftJoin('viralrejectedreasons', 'viralrejectedreasons.id', '=', "$table.rejectedreason");
             if ($request->indicatortype == 2 || $request->indicatortype == 4 || $request->indicatortype == 6)
                 $model = $model->leftJoin('viralpmtcttype', 'viralpmtcttype.id', '=', "$table.pmtct")

@@ -63,7 +63,7 @@
                         {{ Form::open(['url'=>'/reports', 'method' => 'post', 'class'=>'form-horizontal', 'id' => 'reports_form']) }}
                         <input type="hidden" name="testtype" value="{{ $testtype }}">
                         <div class="form-group">
-                            @if(!(Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 2))
+                            @if(!in_array(Auth::user()->user_type_id, [2,6]))
                             <div class="row">
                                 <label class="col-sm-3 control-label">
                                     <input type="radio" name="category" class="i-checks" value="overall" required>Overall
@@ -71,13 +71,15 @@
                                 <div class="col-sm-9">
                                     @if(Auth::user()->user_type_id == 9)
                                         << By County / Partner / Lab >>
+                                    @elseif(Auth::user()->user_type_id == 16)
+                                        << National >>
                                     @else
                                         << For all Sites Under {{ $user->name ?? '' }} >>
                                     @endif
                                 </div>
                             </div>
                             @endif
-                            @if(Auth::user()->user_type_id == 9 || Auth::user()->user_type_id == 10)
+                            @if(in_array(Auth::user()->user_type_id, [9,10,16]))
                                 <div class="row">
                                     <label class="col-sm-3 control-label">
                                         <input type="radio" name="category" value="lab" class="i-checks" required>Select Lab
@@ -95,7 +97,7 @@
                                 </div>
                             @endif
                             @if(Auth::user()->user_type_id != 9)
-                                @if(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 10)
+                                @if(in_array(Auth::user()->user_type_id, [2,10,16]))
                                     <div class="row">
                                         <label class="col-sm-3 control-label">
                                             <input type="radio" name="category" value="partner" class="i-checks" required>Select Partner
@@ -338,7 +340,7 @@
                                 @endif
                             </div>
                         </div> 
-                        @if($testtype == 'VL' && (Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 10))
+                        @if($testtype == 'VL' && in_array(Auth::user()->user_type_id, [3,10]))
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Select Age Group</label>
                             <div class="col-sm-9">
@@ -360,20 +362,20 @@
                                 @if($testtype == 'EID')
                                 <label> <input type="radio" name="indicatortype" value="1" class="i-checks" required> All Outcomes (+/-) </label>
                                 <label> <input type="radio" name="indicatortype" value="2" class="i-checks" required> + Outcomes </label>
-                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 7))
+                                @if(!in_array(Auth::user()->user_type_id, [2,6,7]))
                                 <label> <input type="radio" name="indicatortype" value="3" class="i-checks" required> + Outcomes for Follow Up </label>
                                 @endif
-                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 10)
+                                @if(in_array(Auth::user()->user_type_id, [3,10]))
                                     <label> <input type="radio" name="indicatortype" value="4" class="i-checks" required> - Outcomes </label>
                                 @endif
                                 <label> <input type="radio" name="indicatortype" value="5" class="i-checks" required> Rejected Samples </label>
-                                @if(!(Auth::user()->user_type_id == 2 || Auth::user()->user_type_id == 7))
+                                @if(!in_array(Auth::user()->user_type_id, [2,7]))
                                 <label> <input type="radio" name="indicatortype" value="6" class="i-checks" required> Patients <= 2M </label>
                                     @if(!(Auth::user()->user_type_id == 6))
                                     <label> <input type="radio" name="indicatortype" value="7" class="i-checks" required> High + Burden Sites </label>
                                     @endif
                                 @endif
-                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 10)
+                                @if(in_array(Auth::user()->user_type_id, [3,6,10]))
                                     @if(Auth::user()->user_type_id != 2)
                                         <!-- <label> <input type="radio" name="indicatortype" value="8" class="i-checks"> RHT Testing </label> -->
                                         <label> <input type="radio" name="indicatortype" value="9" class="i-checks" required> Dormant Sites ( Not Sent Samples) </label>
@@ -381,16 +383,21 @@
                                     @endif
                                 @endif
                             @elseif($testtype == 'VL')
-                                <label><input type="radio" name="indicatortype" value="2" class="i-checks" required>Detailed</label>
-                                <label><input type="radio" name="indicatortype" value="5" class="i-checks" required>Rejected</label>
-                                @if(Auth::user()->user_type_id == 3 || Auth::user()->user_type_id == 6 || Auth::user()->user_type_id == 10)
-                                    <label><input type="radio" name="indicatortype" value="4" class="i-checks" required>Non Suppressed ( > 1000 cp/ml)</label>
-                                    <label><input type="radio" name="indicatortype" value="6" class="i-checks" required>Pregnant & Lactating</label>
-                                    <label><input type="radio" name="indicatortype" value="9" class="i-checks" required>Dormant Sites ( Not Sent Samples)</label>
-                                    <label><input type="radio" name="indicatortype" value="10" class="i-checks" required>Site Entry Samples</label>
-                                @endif
-                                @if(Auth::user()->user_type_id == 10)
-                                    <label><input type="radio" name="indicatortype" value="17" class="i-checks" required>Test Outcomes</label>
+                                @if(Auth::user()->user_type_id == 16)
+                                    <label><input type="radio" name="indicatortype" value="100" class="i-checks" required>Recency</label>
+                                @else
+                                    <label><input type="radio" name="indicatortype" value="2" class="i-checks" required>Detailed</label>
+                                    <label><input type="radio" name="indicatortype" value="100" class="i-checks" required>Recency</label>
+                                    <label><input type="radio" name="indicatortype" value="5" class="i-checks" required>Rejected</label>
+                                    @if(in_array(Auth::user()->user_type_id, [3,6,10]))
+                                        <label><input type="radio" name="indicatortype" value="4" class="i-checks" required>Non Suppressed ( > 1000 cp/ml)</label>
+                                        <label><input type="radio" name="indicatortype" value="6" class="i-checks" required>Pregnant & Lactating</label>
+                                        <label><input type="radio" name="indicatortype" value="9" class="i-checks" required>Dormant Sites ( Not Sent Samples)</label>
+                                        <label><input type="radio" name="indicatortype" value="10" class="i-checks" required>Site Entry Samples</label>
+                                    @endif
+                                    @if(Auth::user()->user_type_id == 10)
+                                        <label><input type="radio" name="indicatortype" value="17" class="i-checks" required>Test Outcomes</label>
+                                    @endif
                                 @endif
                             @elseif($testtype == 'support' || Auth::user()->user_type_id == 10)
                                 {{--

@@ -37,6 +37,17 @@ Artisan::command('clean:no-dob {type}', function ($type) {
     \App\Synch::correct_no_dob($type);
 })->describe('Fix no dobs using data from the lab.');
 
+
+
+Artisan::command('report', function () {
+    $str = '';
+    $str .= $this->call('report:hei-partner');
+    $str .= $this->call('report:hei-county');
+    $str .= $this->call('report:suppression-partner');
+    $str .= $this->call('report:suppression-county');
+    $this->info($str);
+})->describe('Send hei follow up and suppression reports to partners and counties.');
+
 Artisan::command('report:hei-partner {contact_id?}', function ($contact_id=null) {
     $str = \App\Report::eid_partner($contact_id);
     $this->info($str);
@@ -58,7 +69,7 @@ Artisan::command('report:suppression-county {contact_id?}', function ($contact_i
 })->describe('Send suppression follow up report for counties.');
 
 
-Artisan::command('delete-pdfs', function(){
+Artisan::command('delete:pdfs', function(){
     $str = \App\Report::delete_folder(storage_path('app/hei'));
     $str = \App\Report::delete_folder(storage_path('app/suppression'));
     $this->info($str);
@@ -144,6 +155,16 @@ Artisan::command('synch:allocations', function(){
     $str = \App\Synch::synch_allocations();
     $this->info($str);
 })->describe('Synch Allocations');
+
+Artisan::command('synch:covid', function(){
+    $str = \App\Synch::synch_covid();
+    $this->info($str);
+})->describe('Synch Covid');
+
+Artisan::command('synch:cif', function(){
+    $str = \App\Synch::synch_cif();
+    $this->info($str);
+})->describe('Synch back to CIF');
 
 Artisan::command('send:negatives2018', function(){
     $str = \App\Random::negatives_report();
