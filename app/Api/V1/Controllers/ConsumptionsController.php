@@ -133,6 +133,7 @@ class ConsumptionsController extends Controller
 					$kit = CovidKit::where('material_no', $detail->kit->material_no)->first();
 					$db_detail = new CovidConsumptionDetail;
 					$detail_data = get_object_vars($detail);
+					$db_detail->consumption_id = $db_consumption->id;
 					$db_detail->kit_id = $kit->id;
 					$db_detail->original_id = $detail->id;
 					$db_detail->synced = 1;
@@ -162,15 +163,15 @@ class ConsumptionsController extends Controller
 														return $query->whereDate('start_of_week', $request->input('start_of_week'));
 												})->get();
 		$data = [];													
-		foreach ($consumptions as $key => $consumption) {
-			$data[$key] = [
+		foreach ($consumptions as $conskey => $consumption) {
+			$data[$conskey] = [
 					'lab' => $consumption->lab->labdesc,
 					'start_of_week' => $consumption->start_of_week,
 					'end_of_week' => $consumption->end_of_week,
 					'week' => $consumption->week
 				];
 			foreach ($consumption->details as $key => $detail) {
-				$data[$key]['details'][] = [
+				$data[$conskey]['details'][] = [
 								'material_no' => $detail->kit->material_no,
 								'product_description' => $detail->kit->product_description,
 								'begining_balance' => $detail->begining_balance,
