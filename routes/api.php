@@ -43,6 +43,7 @@ $api->version('v1', function (Router $api) {
         $api->post('pull/vl', 'PullController@vl');
 
         $api->post('consumption', 'ConsumptionsController@api_create');
+        $api->post('covidconsumption', 'ConsumptionsController@api_create');
 
         $api->post('shortcode', 'ShortCodeController@shortcode');
 

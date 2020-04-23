@@ -99,6 +99,11 @@ class ConsumptionsController extends Controller
 		return response()->json($response);
 	}
 
+	public function api_create_covid(BlankRequest $request)
+	{
+		return response()->json($request->all());
+	}
+
 	private function saveAPIConsumption($machine, $testtype, $request) {
 		$response = false;
 		$date = explode(" ", $request->month_end_date);
