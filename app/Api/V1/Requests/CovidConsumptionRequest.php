@@ -15,6 +15,7 @@ class CovidConsumptionRequest extends FormRequest
 
     public function authorize()
     {
+        dd($this->headers->get('apikey'));
     	$apikey = $this->headers->get('apikey');
         $actual_key = env('COVID_KEY');
         if($apikey != $actual_key || !$actual_key) return false;
