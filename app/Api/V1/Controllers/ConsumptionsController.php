@@ -129,7 +129,7 @@ class ConsumptionsController extends Controller
 
 				// Inserting the covid details
 				foreach ($consumption->details as $key => $detail) {
-					$kit = CovidKit::where('materail_no', $detail->kit->materail_no)->first();
+					$kit = CovidKit::where('material_no', $detail->kit->material_no)->first();
 					$db_detail = new CovidConsumptionDetail;
 					$detail_data = get_object_vars($detail);
 					$db_detail->kit_id = $kit->id;
