@@ -153,6 +153,17 @@ class ConsumptionsController extends Controller
 		return response()->json($consumptions_array);
 	}
 
+	public function getCovidConsumptions(Request $request)
+	{
+		return response()->json([
+						'consumptions' => CovidConsumption::with(['details.kit'])
+												->when($request, function ($query) use ($request){
+													if ($request->has('start_of_week'))
+														return $query->whereDate('start_of_week', $request->input('start_of_week'));
+												})->get()
+					], 200);
+	}
+
 	private function saveAPIConsumption($machine, $testtype, $request) {
 		$response = false;
 		$date = explode(" ", $request->month_end_date);
