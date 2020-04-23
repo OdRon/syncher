@@ -126,7 +126,6 @@ class ConsumptionsController extends Controller
 				unset($db_consumption->id);
 				unset($db_consumption->details);
 				$db_consumption->save();
-				$consumptions_array[] = ['original_id' => $db_consumption->original_id, 'national_id' => $db_consumption->id ];
 
 				// Inserting the covid details
 				foreach ($consumption->details as $key => $detail) {
@@ -140,7 +139,8 @@ class ConsumptionsController extends Controller
 					unset($db_detail->id);
 					$db_detail->save();
 				}
-
+				DB::commit();				
+				$consumptions_array[] = ['original_id' => $db_consumption->original_id, 'national_id' => $db_consumption->id ];
 			} catch (\Exception $e) {
 				DB::rollback();
 				return response()->json([
