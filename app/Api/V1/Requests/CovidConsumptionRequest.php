@@ -15,9 +15,10 @@ class CovidConsumptionRequest extends FormRequest
 
     public function authorize()
     {
-        print_r($this->headers->get('apikey'));die();
-    	$apikey = $this->headers->get('apikey');
+        $apikey = $this->headers->get('apikey');
         $actual_key = env('COVID_KEY');
+        print_r($actual_key);
+        print_r($this->headers->get('apikey'));die();
         if($apikey != $actual_key || !$actual_key) return false;
         else{
             return true;
