@@ -10,4 +10,9 @@ class CovidConsumption extends BaseModel
     {
     	return $this->hasMany(CovidConsumptionDetail::class, 'consumption_id', 'id');
     }
+
+    public function scopeExisting($query, $start_of_week,)
+    {
+        return $query->where(['start_of_week' => $start_of_week]);
+    }
 }
