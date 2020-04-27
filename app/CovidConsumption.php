@@ -20,4 +20,16 @@ class CovidConsumption extends BaseModel
     {
     	return $this->belongsTo(Lab::class, 'lab_id', 'id');
     }
+
+    public function synchComplete()
+    {
+        foreach ($this->details as $key => $detail) {
+            $detail->synced = 1;
+            $detail->datesynced = date('Y-m-d');
+            $detail->save();
+        }
+        $this->synced = 1;
+        $this->datesynced = date('Y-m-d');
+        $this->save();
+    }
 }
