@@ -264,7 +264,12 @@
                                                     <select class="form-control" id="month" name="month" style="width: 100%;">
                                                         <option selected="true" disabled="true">Select a Month</option>
                                                         @for ($i = 1; $i <= 12; $i++)
-                                                            <option value="{{ $i }}">{{ date("F", mktime(null, null, null, $i)) }}</option>
+                                                        @php
+                                                            $dateObj   = \DateTime::createFromFormat('!m', $i);
+                                                            $monthName = $dateObj->format('F'); // March
+                                                        @endphp
+                                                            {{-- <option value="{{ $i }}">{{ date("F", mktime(null, null, null, $i)) }}</option> --}}
+                                                            <option value="{{ $i }}">{{ $monthName }}</option>
                                                         @endfor
                                                     </select>
                                                 </td>

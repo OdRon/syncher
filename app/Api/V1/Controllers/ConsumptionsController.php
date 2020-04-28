@@ -5,10 +5,14 @@ namespace App\Api\V1\Controllers;
 use App\Http\Controllers\Controller;
 use App\Api\V1\Requests\BlankRequest;
 use App\Api\V1\Requests\CommodityRequest;
+use App\Api\V1\Requests\CovidConsumptionRequest;
 
 use App\Consumption;
 use App\ConsumptionDetail;
 use App\ConsumptionDetailBreakdown;
+use App\CovidConsumption;
+use App\CovidConsumptionDetail;
+use App\CovidKit;
 use App\Kits;
 use DB;
 /**
@@ -97,6 +101,93 @@ class ConsumptionsController extends Controller
 				'status' => 201,
 			];
 		return response()->json($response);
+	}
+
+	public function create_covid(BlankRequest $request)
+	{
+		$consumptions = json_decode($request->input('consumptions'));
+		$consumptions_array = [];
+		foreach ($consumptions as $key => $consumption) {
+			$existing = CovidConsumption::existing($consumption->start_of_week)->first();
+			if ($existing){
+				$consumptions_array[] = ['original_id' => $consumption->id, 'national_id' => $existing->id ];
+				continue;
+			}
+
+			DB::beginTransaction();
+			try
+			{
+				// Inserting the covid consumptions
+				$db_consumption = new CovidConsumption;
+				$consumptions_data = get_object_vars($consumption);
+				$db_consumption->fill($consumptions_data);
+				$db_consumption->original_id = $consumption->id;
+				$db_consumption->synced = 1;
+				$db_consumption->datesynced = date('Y-m-d');
+				unset($db_consumption->id);
+				unset($db_consumption->details);
+				$db_consumption->save();
+
+				// Inserting the covid details
+				foreach ($consumption->details as $key => $detail) {
+					$kit = CovidKit::where('material_no', $detail->kit->material_no)->first();
+					$db_detail = new CovidConsumptionDetail;
+					$detail_data = get_object_vars($detail);
+					$db_detail->consumption_id = $db_consumption->id;
+					$db_detail->kit_id = $kit->id;
+					$db_detail->original_id = $detail->id;
+					$db_detail->synced = 1;
+					$db_detail->datesynced = date('Y-m-d');
+					unset($db_detail->id);
+					$db_detail->save();
+				}
+				DB::commit();				
+				$consumptions_array[] = ['original_id' => $db_consumption->original_id, 'national_id' => $db_consumption->id ];
+			} catch (\Exception $e) {
+				DB::rollback();
+				return response()->json([
+						'error' => true,
+						'message' => 'Insert failed',
+						'code' => 500
+					], 500);
+			}
+		}
+		return response()->json($consumptions_array);
+	}
+
+	public function getCovidConsumptions(CovidConsumptionRequest $request)
+	{
+		$consumptions = CovidConsumption::with(['lab', 'details.kit'])
+												->when($request, function ($query) use ($request){
+													if ($request->has('start_of_week'))
+														return $query->whereDate('start_of_week', $request->input('start_of_week'));
+												})->get();
+		$data = [];													
+		foreach ($consumptions as $conskey => $consumption) {
+			$data[$conskey] = [
+					'lab' => $consumption->lab->labdesc,
+					'start_of_week' => $consumption->start_of_week,
+					'end_of_week' => $consumption->end_of_week,
+					'week' => $consumption->week
+				];
+			foreach ($consumption->details as $key => $detail) {
+				$data[$conskey]['details'][] = [
+								'material_no' => $detail->kit->material_no,
+								'product_description' => $detail->kit->product_description,
+								'begining_balance' => $detail->begining_balance,
+								'received' => $detail->received,
+								'used' => $detail->kits_used,
+								'positive' => $detail->positive,
+								'negative' => $detail->negative,
+								'wastage' => $detail->wastage,
+								'ending' => $detail->ending,
+								'requested' => $detail->requested,
+							];
+			}
+		}
+		return response()->json([
+						'consumptions' => $data
+					], 200);
 	}
 
 	private function saveAPIConsumption($machine, $testtype, $request) {

@@ -50,6 +50,8 @@ $api->version('v1', function (Router $api) {
 
         $api->get('resources', 'RandomController@resources');
 
+        $api->get('covidconsumption', 'ConsumptionsController@getCovidConsumptions');
+
         $api->group(['prefix' => 'covid'], function(Router $api) {
             $api->post('nhrl', 'CovidController@nhrl');
 
@@ -96,7 +98,7 @@ $api->version('v1', function (Router $api) {
                 $api->post('allocations', 'AllocationsController@create');
                 $api->post('deliveries', 'DeliveriesController@create');
                 $api->post('consumptions', 'ConsumptionsController@create');
-
+                $api->post('covidconsumption', 'ConsumptionsController@create_covid');
             });
 
             $api->group(['prefix' => 'update'], function(Router $api) {
