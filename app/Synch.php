@@ -278,7 +278,8 @@ class Synch
 
 	public static function synch_cif()
 	{
-		$client = new Client(['base_uri' => 'https://eoc.nascop.org:8084/openmrs/']);
+		// $client = new Client(['base_uri' => 'https://eoc.nascop.org:8084/openmrs/']);
+		$client = new Client(['base_uri' => 'https://data.kenyahmis.org:7001/openmrs/']);
 
 		while (true) {
 			$samples = CovidSample::where('synched', '!=', 1)->where('repeatt', 0)->whereNotNull('cif_sample_id')->whereNotNull('receivedstatus')->with(['patient'])->limit(20)->get();
