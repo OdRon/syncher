@@ -306,8 +306,6 @@ class Synch
 				],
 				'json' => $data,
 			]);
-			
-			dd($response->getBody());
 
 			if($response->getStatusCode() < 400){
 				$ids = $samples->pluck('id')->flatten()->toArray();
