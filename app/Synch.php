@@ -305,11 +305,14 @@ class Synch
 				],
 				'json' => $data,
 			]);
+			
+			dd($response->getBody());
 
 			if($response->getStatusCode() < 400){
 				$ids = $samples->pluck('id')->flatten()->toArray();
 				CovidSample::whereIn('id', $ids)->update(['synched' => 1, 'datesynched' => date('Y-m-d')]);
 			}else{
+				dd($response->getBody());
 				break;
 			}
 		}
