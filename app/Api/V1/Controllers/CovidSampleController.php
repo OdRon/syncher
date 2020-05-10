@@ -127,6 +127,20 @@ class CovidSampleController extends Controller
         //
     }
 
+    public function nic_samples(){        
+        // $samples = CovidSample::where(['synched' => 0, 'lab_id' => 11])->whereNull('original_sample_id')->whereNull('receivedstatus')->with(['patient'])->get();
+        $samples = CovidSample::whereNotNull('cif_sample_id')->with(['patient'])->get();
+        return $samples;
+    }
+
+    public function nic(BlankRequest $request){
+        CovidSample::where(['synched' => 0, 'lab_id' => 11])->whereNull('original_sample_id')->whereNull('receivedstatus')->whereIn('lab_id', $request->input('samples'))->update(['lab_id' => $request->input('lab_id')]);
+
+        return response()->json([
+            'status' => 'ok',
+        ], 200);        
+    }
+
 
     public function update_samples(BlankRequest $request){
         return $this->update_dash($request, CovidSample::class, 'samples', 'national_sample_id', 'original_sample_id');

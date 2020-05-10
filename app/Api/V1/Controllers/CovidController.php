@@ -99,7 +99,7 @@ class CovidController extends Controller
         $s->fill($request->only(['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', 'result', 'datecollected']));
         $s->patient_id = $p->id;
         $s->cif_sample_id = $request->input('specimen_id');
-        $s->lab_id = 7;
+        // $s->lab_id = 7;
         $s->save();
 
         return response()->json([
@@ -224,7 +224,7 @@ class CovidController extends Controller
             $s->fill(array_only($row_array, ['lab_id', 'test_type', 'health_status', 'symptoms', 'temperature', 'observed_signs', 'underlying_conditions', 'datecollected', ]));
             $s->patient_id = $p->id;
             $s->cif_sample_id = $row_array['specimen_id'] ?? null;
-            $s->lab_id = 7;
+            // $s->lab_id = 7;
             $s->save();
 
             $samples[] = $s;
