@@ -66,7 +66,10 @@ $api->version('v1', function (Router $api) {
             $api->resource('facility', 'FacilityController');
             $api->post('lablogs', 'LablogController@lablogs');
 
-
+            $api->group(['prefix' => 'covid'], function(Router $api) {
+                $api->get('cif', 'CovidSampleController@cif_samples');
+                $api->post('cif', 'CovidSampleController@cif');
+            });   
             $api->resource('covid_sample', 'CovidSampleController');
 
 
