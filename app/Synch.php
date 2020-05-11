@@ -142,7 +142,7 @@ class Synch
 		$sample_class = $classes['sample_class'];
 		$sampleview_class = $classes['sampleview_class'];
 
-		\App\Common::save_tat($sampleview_class, $sample_class);
+		Common::save_tat($sampleview_class, $sample_class);
 
 		$data = ['synched' => 1, 'datesynched' => date('Y-m-d')];
 
@@ -159,6 +159,47 @@ class Synch
 		foreach ($samples as $samples) {
 			foreach ($labs as $lab) {
 				if(self::send_update($sample, $lab)) break;
+			}
+		}
+	}
+
+	public static function synch_poc($type)
+	{
+        ini_set("memory_limit", "-1");
+		$classes = self::$synch_arrays[$type];
+
+		$samples = GenexpertTest::active()->get();
+
+		$labs = Lab::where('id', '<', 10)->get();
+
+		foreach ($samples as $samples) {
+			foreach ($labs as $lab) {		
+
+				$client = new Client(['base_uri' => $lab->base_url]);
+				// dd(self::get_token($lab));
+				$response = $client->request('put', $url, [
+					'http_errors' => false,
+					'verify' => false,
+					'headers' => [
+						'Accept' => 'application/json',
+						'Authorization' => 'Bearer ' . self::get_token($lab),
+					],
+					'json' => [
+						'patient' => $sample->sampleId,
+						'datetested' => $sample->dateuploaded,
+						'result' => $sample->resultId,
+					],
+				]);
+				
+				$body = json_decode($response->getBody());
+				
+				if($response->getStatusCode() < 400)
+				{
+					$sample->fill(['updated' => true]);
+					$sample->save();
+					break;
+				}
+
 			}
 		}
 	}
