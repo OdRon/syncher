@@ -25,6 +25,7 @@ class TransferController extends BaseController
 
         $pre = '';
         if($type == 'vl') $pre = 'viral';
+        else if($type == 'covid') $pre = 'covid_';
         $url = $pre . 'sample/transfer';
         
         $client = new Client(['base_uri' => $lab->base_url]);
