@@ -285,9 +285,9 @@ class Synch
 		$labs = Lab::all();
 		$samples = CovidSample::where(['synched' => 0])->whereNull('original_sample_id')->whereNull('receivedstatus')->with(['patient'])->get();
 		foreach ($samples as $key => $sample) {
-			// $lab = $labs->where('id', $sample->lab_id)->first();
-			// if(!$lab || in_array($lab->id, [7, 8, 10]) || !$lab->base_url) continue;
-			$lab = $labs->where('id', 7)->first();
+			$lab = $labs->where('id', $sample->lab_id)->first();
+			if(!$lab || in_array($lab->id, [7, 8, 10]) || !$lab->base_url) continue;
+			// $lab = $labs->where('id', 7)->first();
 
 			$client = new Client(['base_uri' => $lab->base_url]);
 			// dd(self::get_token($lab));
