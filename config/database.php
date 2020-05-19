@@ -99,7 +99,7 @@ return [
         'covid' => [
             'driver' => 'mysql',
             'host' => env('COVID_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
+            'port' => env('COVID_PORT', '3306'),
             'database' => env('COVID_DATABASE', 'forge'),
             'username' => env('COVID_USERNAME', 'forge'),
             'password' => env('COVID_PASSWORD', ''),
