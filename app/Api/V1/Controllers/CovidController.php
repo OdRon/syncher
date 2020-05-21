@@ -129,7 +129,8 @@ class CovidController extends Controller
         $actual_key = env('COVID_KEY');
         if($actual_key != $apikey) abort(401);
 
-        $s = CovidSample::findOrFail($id);
+        // $s = CovidSample::findOrFail($id);
+        $s = CovidSample::where(['cif_sample_id' => $id])->firstOrFail();
         $s->load(['patient']);
 
         return response()->json([
